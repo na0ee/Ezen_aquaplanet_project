@@ -1,11 +1,415 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>aqua planet</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>aqua planet</title>
+
+  <!-- Pretendard (국문) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@latest/dist/web/static/pretendard.css" />
+  <!-- Poppins + EB Garamond (영문) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,500&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Three.js importmap (ES module) -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
 </head>
 <body>
-    
+
+  <!-- ================================================
+       GNB — 고정 네비게이션 바
+  ================================================ -->
+  <header id="gnb" class="gnb">
+    <div class="gnb__inner">
+      <!-- 왼쪽 메뉴 -->
+      <nav class="gnb__nav" aria-label="메인 메뉴">
+        <a href="#sec-program" class="gnb__link" data-nav="program">Program</a>
+        <a href="#sec-crew"    class="gnb__link" data-nav="crew">Ocean friends</a>
+        <a href="#sec-intro"   class="gnb__link gnb__link--active" data-nav="about">About us</a>
+      </nav>
+
+      <!-- 중앙 로고 -->
+      <a href="#sec-logo" class="gnb__logo-wrap" aria-label="Aqua Planet 홈">
+        <div class="gnb__logo" aria-hidden="true"></div>
+      </a>
+
+      <!-- 오른쪽 티켓 버튼 -->
+      <button class="gnb__ticket btn-pill" type="button" aria-label="티켓 예매">
+        Ticket
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M5 12H19M13 6L19 12L13 18" stroke="white" stroke-width="1.5"
+                stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <section id="sec-logo" class="section section--logo" aria-label="Aqua Planet logo">
+      <div class="section__bg section__bg--logo" aria-hidden="true"></div>
+      <a class="logo-scroll" href="#sec-intro" aria-label="Intro section으로 이동">
+        <span>Enter</span>
+      </a>
+    </section>
+
+    <!-- ================================================
+         SECTION 01 · Hero / Intro
+    ================================================ -->
+    <section id="sec-intro" class="section section--hero" aria-label="히어로">
+      <div class="section__bg section__bg--hero" aria-hidden="true"></div>
+
+      <div class="hero">
+        <div class="hero__text reveal">
+          <span class="hero__eyebrow">Welcome to</span>
+          <h1 class="hero__title">aqua planet</h1>
+          <p class="hero__sub">웅장한 바다와 해양과학이 만나는 곳</p>
+        </div>
+      </div>
+
+      <!-- 스크롤 유도 인디케이터 -->
+      <div class="scroll-indicator" aria-hidden="true">
+        <div class="scroll-indicator__line"></div>
+        <button class="scroll-indicator__text" id="dive-trigger" type="button" aria-label="해저 탐험 시작">Let's Explore</button>
+      </div>
+    </section>
+
+    <!-- ================================================
+         SECTION 02 · Our Crew — 스크롤 드리븐 단일 섹션
+         배경 고정 · 스크롤로 생물 전환 · GLB 준비 완료 시 Three.js 마운트
+    ================================================ -->
+    <section id="sec-crew" class="section section--crew-scroll" aria-label="Our Crew">
+
+      <div class="crew-sticky">
+        <div class="crew-bg" aria-hidden="true"></div>
+
+        <!-- Our Crew 헤더 -->
+        <div class="crew-header">
+          <h2 class="crew-header__title">
+            <span class="t-en">Our </span><em class="t-serif">Crew</em>
+          </h2>
+          <p class="crew-header__sub">아쿠아플라넷의 다양한 해양생물을 만나보세요</p>
+        </div>
+
+        <!-- 메인 레이아웃 -->
+        <div class="crew-main">
+
+          <!-- 3D GLB 마운트 포인트 -->
+          <div class="crew-canvas-wrap" id="crew-canvas" aria-hidden="true">
+            <!-- Three.js renderer가 canvas를 append, placeholder는 로딩 중 폴백 -->
+            <div class="crew-canvas__placeholder" id="crew-placeholder" data-creature="walrus">
+              <div class="crew-canvas__glow"></div>
+              <div class="crew-canvas__shape"></div>
+            </div>
+          </div>
+
+          <!-- 생물 정보 패널 -->
+          <div class="crew-info-wrap">
+
+            <article class="crew-panel is-active glass-card" data-index="0">
+              <header class="creature-info__head">
+                <h3 class="creature-info__name">Walrus</h3>
+                <span class="creature-info__name-kr">: 바다코끼리</span>
+              </header>
+              <dl class="creature-info__meta">
+                <div><dt>Name</dt><dd>: 메리, 바랴</dd></div>
+                <div><dt>Location</dt><dd>: 아쿠아플라넷 일산</dd></div>
+              </dl>
+              <p class="creature-info__desc">
+                마스코트 바다코끼리 자매, 메리와 바랴<br>
+                행복한 수중 라이프를 즐기고 있다
+              </p>
+              <button class="btn-cta btn-cta--outline" type="button">더 알아보기</button>
+            </article>
+
+            <article class="crew-panel glass-card" data-index="1">
+              <header class="creature-info__head">
+                <h3 class="creature-info__name">Beluga</h3>
+                <span class="creature-info__name-kr">: 벨루가</span>
+              </header>
+              <dl class="creature-info__meta">
+                <div><dt>Name</dt><dd>: 루비</dd></div>
+                <div><dt>Location</dt><dd>: 아쿠아플라넷 여수</dd></div>
+              </dl>
+              <p class="creature-info__desc">벨루가 마스코트, 루비</p>
+              <button class="btn-cta btn-cta--outline" type="button">더 알아보기</button>
+            </article>
+
+            <article class="crew-panel glass-card" data-index="2">
+              <header class="creature-info__head">
+                <h3 class="creature-info__name">Sand Tiger Shark</h3>
+                <span class="creature-info__name-kr">: 샌드타이거상어</span>
+              </header>
+              <dl class="creature-info__meta">
+                <div><dt>Name</dt><dd>: 샌드타이거상어</dd></div>
+                <div><dt>Location</dt><dd>: 전국 아쿠아플라넷</dd></div>
+              </dl>
+              <p class="creature-info__desc">메인 수조의 주인공, </p>
+              <button class="btn-cta btn-cta--outline" type="button">더 알아보기</button>
+            </article>
+
+            <article class="crew-panel glass-card" data-index="3">
+              <header class="creature-info__head">
+                <h3 class="creature-info__name">Sea Turtle</h3>
+                <span class="creature-info__name-kr">: 바다거북</span>
+              </header>
+              <dl class="creature-info__meta">
+                <div><dt>Name</dt><dd>: 초록이</dd></div>
+                <div><dt>Location</dt><dd>: 아쿠아플라넷 코엑스</dd></div>
+              </dl>
+              <p class="creature-info__desc">
+                바다를 유유히 헤엄치는 바다거북, 초록이<br>
+                아쿠아플라넷의 오랜 친구
+              </p>
+              <button class="btn-cta btn-cta--outline" type="button">더 알아보기</button>
+            </article>
+
+          </div>
+        </div>
+
+        <!-- 진행 점 -->
+        <div class="crew-dots" role="tablist" aria-label="생물 선택">
+          <button class="crew-dot is-active" data-index="0" role="tab" aria-label="바다코끼리"></button>
+          <button class="crew-dot"           data-index="1" role="tab" aria-label="벨루가"></button>
+          <button class="crew-dot"           data-index="2" role="tab" aria-label="고래상어"></button>
+          <button class="crew-dot"           data-index="3" role="tab" aria-label="바다거북"></button>
+        </div>
+
+        <!-- 스크롤 힌트 -->
+        <div class="crew-scroll-hint" aria-hidden="true">
+          <span>scroll</span>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M7 2v10M3 8l4 4 4-4" stroke="currentColor" stroke-width="1.2"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================================================
+         SECTION 05 · Today's Program
+         그리드: 비대칭 2×2 (532/612 → 612/532 교차)
+    ================================================ -->
+    <section id="sec-program" class="section section--program" aria-label="오늘의 프로그램">
+      <div class="section__bg section__bg--program" aria-hidden="true"></div>
+      <div class="container">
+
+        <div class="section-title section-title--center program-seq-title">
+          <h2 class="section-title__main">
+            <span class="t-en">Today's </span><em class="t-serif">Program</em>
+          </h2>
+          <p class="section-title__sub">아쿠아플라넷의 다양한 프로그램을 만나보세요.</p>
+        </div>
+
+        <!-- flex-wrap으로 비대칭 2열 구현: Row1(532+612) / Row2(612+532) -->
+        <div class="program-grid program-seq-content">
+
+          <article class="program-card glass-card" style="--card-w:532px;--card-h:400px;"
+                   data-program="dolphin">
+            <div class="program-card__img program-card__img--1"></div>
+            <div class="program-card__gradient"></div>
+            <p class="program-card__caption">국내 유일! 바다코끼리 자매 메리&바랴 생태설명회</p>
+          </article>
+
+          <article class="program-card glass-card" style="--card-w:612px;--card-h:400px;"
+                   data-program="ballet">
+            <div class="program-card__img program-card__img--2"></div>
+            <div class="program-card__gradient"></div>
+            <p class="program-card__caption">최초 수중 퍼포먼스 아이돌 ‘시크릿 에이전트 뉴이브'</p>
+          </article>
+
+          <!-- Row 2: 612 먼저 → 532 순 (폭 교차) -->
+          <article class="program-card glass-card" style="--card-w:612px;--card-h:400px;"
+                   data-program="marine">
+            <div class="program-card__img program-card__img--3"></div>
+            <div class="program-card__gradient"></div>
+            <p class="program-card__caption">오션라이프 만찬- 대형 메인 수조 피딩</p>
+          </article>
+
+          <article class="program-card glass-card" style="--card-w:532px;--card-h:400px;"
+                   data-program="touch">
+            <div class="program-card__img program-card__img--4"></div>
+            <div class="program-card__gradient"></div>
+            <p class="program-card__caption">해녀의 이야기를 담은 아쿠아플라넷 제주 대표 공연</p>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================
+         SECTION 06 · Explore the Sea — 지점 지도
+    ================================================ -->
+    <section id="sec-location" class="section section--location" aria-label="지점 안내">
+      <div class="section__bg section__bg--location" aria-hidden="true"></div>
+
+      <div class="container">
+        <div class="section-title section-title--center reveal">
+          <h2 class="section-title__main">
+            <span class="t-en">Explore </span><em class="t-serif">the Sea</em>
+          </h2>
+          <p class="section-title__sub">드넓은 대양을 품은 아름다운 행성</p>
+        </div>
+      </div>
+
+      <!-- 지도 + 마커 -->
+      <div class="location-map-wrap">
+        <div class="location-map reveal">
+          <!-- 한국 지도 SVG (단순화 플레이스홀더 — 실제 SVG paths로 교체 예정) -->
+          <svg class="korea-map" viewBox="0 0 475 650" xmlns="http://www.w3.org/2000/svg"
+               aria-hidden="true" focusable="false">
+            <g fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.35)" stroke-width="0.8"
+               stroke-linejoin="round">
+              <!-- TODO: 실제 행정구역 SVG paths 교체 — node IDs: 835:218~234 -->
+              <ellipse cx="242" cy="200" rx="205" ry="175"/>
+              <ellipse cx="235" cy="380" rx="175" ry="145"/>
+              <ellipse cx="215" cy="490" rx="155" ry="90"/>
+              <ellipse cx="245" cy="605" rx="70" ry="42"/>
+            </g>
+          </svg>
+
+          <!-- 지점 마커 (위치: --mx / --my CSS 변수) -->
+          <button class="map-marker" data-branch="일산"
+                  style="--mx:47%;--my:26%" type="button" aria-label="아쿠아플라넷 일산">
+            <span class="map-marker__dot"></span>
+            <span class="map-marker__label">일산</span>
+          </button>
+
+          <button class="map-marker" data-branch="코엑스"
+                  style="--mx:55%;--my:34%" type="button" aria-label="아쿠아플라넷 코엑스">
+            <span class="map-marker__dot"></span>
+            <span class="map-marker__label">코엑스</span>
+          </button>
+
+          <button class="map-marker" data-branch="여수"
+                  style="--mx:44%;--my:73%" type="button" aria-label="아쿠아플라넷 여수">
+            <span class="map-marker__dot"></span>
+            <span class="map-marker__label">여수</span>
+          </button>
+
+          <button class="map-marker" data-branch="제주"
+                  style="--mx:47%;--my:91%" type="button" aria-label="아쿠아플라넷 제주">
+            <span class="map-marker__dot"></span>
+            <span class="map-marker__label">제주</span>
+          </button>
+        </div>
+
+        <!-- 좌우 데코 이미지 (실제 이미지로 교체 예정) -->
+        <div class="location-deco location-deco--right" aria-hidden="true"></div>
+        <div class="location-deco location-deco--left"  aria-hidden="true"></div>
+      </div>
+
+    </section>
+
+    <!-- ================================================
+         SECTION 07 · Book Now — 예매
+         그리드: 비대칭 2×2 (630/514 → 514/630 교차)
+    ================================================ -->
+    <section id="sec-booking" class="section section--booking" aria-label="예매">
+      <div class="section__bg section__bg--booking" aria-hidden="true"></div>
+      <div class="container">
+
+        <div class="section-title section-title--center reveal">
+          <h2 class="section-title__main">
+            <span class="t-en">Book </span><em class="t-serif">now</em>
+          </h2>
+          <p class="section-title__sub">전국 4개지역에서 아쿠아플라넷을 만나보실 수 있습니다.</p>
+        </div>
+
+        <!-- flex-wrap 비대칭 그리드: Row1(630+514) / Row2(514+630) -->
+        <div class="booking-grid reveal reveal--delay-1">
+
+          <article class="booking-card glass-card" style="--bw:630px;" data-branch="일산">
+            <div class="booking-card__img booking-card__img--ilsan"></div>
+            <div class="booking-card__gradient"></div>
+            <div class="booking-card__foot">
+              <p class="booking-card__name">아쿠아플라넷 일산</p>
+              <button class="btn-cta btn-cta--white" type="button">예매하기</button>
+            </div>
+          </article>
+
+          <article class="booking-card glass-card" style="--bw:514px;" data-branch="코엑스">
+            <div class="booking-card__img booking-card__img--seoul"></div>
+            <div class="booking-card__gradient"></div>
+            <div class="booking-card__foot">
+              <p class="booking-card__name">아쿠아플라넷 코엑스</p>
+              <button class="btn-cta btn-cta--white" type="button">예매하기</button>
+            </div>
+          </article>
+
+          <!-- Row 2: 514 먼저 → 630 순 -->
+          <article class="booking-card glass-card" style="--bw:514px;" data-branch="여수">
+            <div class="booking-card__img booking-card__img--yeosu"></div>
+            <div class="booking-card__gradient"></div>
+            <div class="booking-card__foot">
+              <p class="booking-card__name">아쿠아플라넷 여수</p>
+              <button class="btn-cta btn-cta--white" type="button">예매하기</button>
+            </div>
+          </article>
+
+          <article class="booking-card glass-card" style="--bw:630px;" data-branch="제주">
+            <div class="booking-card__img booking-card__img--jeju"></div>
+            <div class="booking-card__gradient"></div>
+            <div class="booking-card__foot">
+              <p class="booking-card__name">아쿠아플라넷 제주</p>
+              <button class="btn-cta btn-cta--white" type="button">예매하기</button>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================================================
+       FOOTER
+  ================================================ -->
+  <footer id="footer" class="footer">
+    <div class="footer__inner">
+      <div class="footer__logo" aria-label="Aqua Planet" role="img">
+        <!-- TODO: 실제 로고 이미지 삽입 -->
+      </div>
+      <p class="footer__copy">© 2024 Aqua Planet. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- 잠수 전환 오버레이 (레거시 — 사용 안 함) -->
+  <div class="dive-overlay" id="dive-overlay" aria-hidden="true">
+    <div class="dive-rays" id="dive-rays"></div>
+  </div>
+
+  <!-- SVG 변위 필터 — dive warp 전용 -->
+  <svg class="dive-svg-filter" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <filter id="dive-warp" x="-20%" y="-20%" width="140%" height="140%"
+              color-interpolation-filters="sRGB">
+        <feTurbulence id="dive-turbulence" type="turbulence" baseFrequency="0.004 0.007"
+                      numOctaves="2" seed="8" result="noise"/>
+        <feDisplacementMap id="dive-disp-map"
+                           in="SourceGraphic" in2="noise"
+                           scale="0"
+                           xChannelSelector="R" yChannelSelector="G"/>
+      </filter>
+    </defs>
+  </svg>
+
+  <!-- 비네트 오버레이 -->
+  <div class="dive-vignette" id="dive-vignette" aria-hidden="true"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="main.js"></script>
+  <script src="crew3d.js" type="module"></script>
 </body>
 </html>
