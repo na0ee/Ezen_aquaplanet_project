@@ -56,8 +56,21 @@ function initGnb() {
     'sec-booking':  'about',
   };
 
+  let lastScrollY = window.scrollY;
+
   function onScroll() {
-    gnb.classList.toggle('is-scrolled', window.scrollY > SCROLL_THRESHOLD);
+    const currentY = window.scrollY;
+    const scrolledDown = currentY > lastScrollY;
+
+    gnb.classList.toggle('is-scrolled', currentY > SCROLL_THRESHOLD);
+
+    if (currentY > SCROLL_THRESHOLD) {
+      gnb.classList.toggle('is-hidden', scrolledDown);
+    } else {
+      gnb.classList.remove('is-hidden');
+    }
+
+    lastScrollY = currentY;
 
     let activeNav = 'about';
     sections.forEach(sec => {
@@ -347,74 +360,13 @@ function initCrewScroll() {
   const crewTitle   = section.querySelector('.crew-header__title');
   const crewSub     = section.querySelector('.crew-header__sub');
   const sticky      = section.querySelector('.crew-sticky');
-  const programGrid = document.querySelector('#sec-program .program-grid');
 
   if (!section || !panels.length) return;
-
-  const programPreview = programGrid?.cloneNode(true);
-  if (programPreview && sticky) {
-    programPreview.className = 'program-grid crew-program-preview';
-    sticky.appendChild(programPreview);
-  }
 
   const creatures  = ['walrus', 'beluga', 'whaleshark', 'turtle'];
   const totalPanels = panels.length;
   let currentIndex  = -1;
   let tailHidden    = false;
-
-  function playPreviewCardWave() {
-    if (!programPreview) return;
-    section.classList.add('is-program-cards-visible');
-
-    const dispMap = document.getElementById('dive-disp-map');
-    const turbEl  = document.getElementById('dive-turbulence');
-    if (!dispMap || !turbEl || typeof gsap === 'undefined') return;
-
-    programPreview.style.filter = 'url(#dive-warp)';
-
-    let rafId;
-    const t0 = performance.now();
-    (function tickPreviewWave() {
-      const t = (performance.now() - t0) / 1000;
-      const bfx = (0.006 + Math.sin(t * 2.4) * 0.002).toFixed(5);
-      const bfy = (0.010 + Math.cos(t * 1.9) * 0.003).toFixed(5);
-      turbEl.setAttribute('baseFrequency', `${bfx} ${bfy}`);
-      rafId = requestAnimationFrame(tickPreviewWave);
-    })();
-
-    gsap.fromTo(
-      dispMap,
-      { attr: { scale: 28 } },
-      {
-        attr: { scale: 0 },
-        duration: 1.15,
-        ease: 'expo.out',
-        onComplete() {
-          cancelAnimationFrame(rafId);
-          turbEl.setAttribute('baseFrequency', '0.004 0.007');
-          dispMap.setAttribute('scale', '0');
-          programPreview.style.filter = '';
-        },
-      }
-    );
-  }
-
-  function setProgramPreviewTitle(active) {
-    section.classList.toggle('is-program-preview', active);
-    if (!crewTitle || !crewSub) return;
-
-    if (active) {
-      crewTitle.innerHTML = "<span class=\"t-en\">Today's </span><em class=\"t-serif\">Program</em>";
-      crewSub.textContent = 'Aqua Planet daily programs';
-    } else {
-      crewTitle.innerHTML = '<span class="t-en">Our </span><em class="t-serif">Crew</em>';
-      crewSub.textContent = 'Aqua Planet ocean friends';
-    }
-  }
-
-  function setProgramPreviewCards(active) {
-    section.classList.toggle('is-program-cards-visible', active);
-  }
 
   function setActive(idx) {
     if (idx === currentIndex) return;
@@ -440,8 +392,6 @@ function initCrewScroll() {
 
     if (scrolled < 0) {
       tailHidden = false;
-      setProgramPreviewTitle(false);
-      setProgramPreviewCards(false);
       document.dispatchEvent(new CustomEvent('crew-tail-visibility', { detail: { hidden: false } }));
       setActive(0);
       return;
@@ -458,8 +408,6 @@ function initCrewScroll() {
 
     if (tailHidden) {
       tailHidden = false;
-      setProgramPreviewTitle(false);
-      setProgramPreviewCards(false);
       document.dispatchEvent(new CustomEvent('crew-tail-visibility', { detail: { hidden: false } }));
     }
 
@@ -482,11 +430,6 @@ function initCrewScroll() {
     });
   });
 
-  document.addEventListener('crew-tail-exit-complete', () => {
-    if (!tailHidden) return;
-    setProgramPreviewTitle(true);
-    playPreviewCardWave();
-  });
 }
 
 

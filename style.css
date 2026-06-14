@@ -74,11 +74,16 @@
 html {
   scroll-behavior: smooth;
   font-size: 16px;
+  background-color: #22BBFF;
 }
 
 body {
   font-family: var(--font-kr);
-  background-color: var(--bg-base);
+  background-color: #22BBFF;
+  background-image: url('assets/images/contentBg.png');
+  background-position: top center;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
   color: var(--color-text);
   color: var(--clr-text);
   -webkit-font-smoothing: antialiased;
@@ -114,12 +119,40 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   position: absolute;
   inset: 0;
   z-index: 0;
-  background: linear-gradient(160deg, var(--bg-base) 0%, var(--bg-mid) 60%, var(--bg-base) 100%);
-  /* TODO: 각 섹션별 background-image 교체 */
+  background: none;
 }
 
-/* 배경 위에 콘텐츠 올리기 (.crew-sticky, .scroll-indicator, .logo-scroll는 제외) */
-.section > *:not(.section__bg):not(.crew-sticky):not(.scroll-indicator):not(.logo-scroll) { position: relative; z-index: 1; }
+/* 배경 위에 콘텐츠 올리기 (.crew-sticky, .scroll-indicator, .logo-scroll, .section__video-bg는 제외) */
+.section > *:not(.section__bg):not(.section__video-bg):not(.crew-sticky):not(.scroll-indicator):not(.logo-scroll) { position: relative; z-index: 1; }
+
+/* 비디오 배경 공통 */
+.section__video-bg,
+.footer__video-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* 로고/푸터 영상 — 꽉 채우기 */
+.section__video-bg,
+.footer__video-bg {
+  object-fit: cover;
+}
+
+/* 로고 영상 하단 페이드 → body 배경 이미지와 자연스럽게 연결 */
+.section__video-bg {
+  mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+}
+
+/* 푸터 영상 상단 페이드 → body 배경 이미지에서 자연스럽게 진입 */
+.footer__video-bg {
+  mask-image: linear-gradient(to top, black 70%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to top, black 70%, transparent 100%);
+}
 
 
 /* -------------------------------------------------------------
@@ -261,14 +294,20 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   top: 0; left: 0; right: 0;
   z-index: 1000;
   padding: 24px 32px;
-  transition: background var(--tr-base), backdrop-filter var(--tr-base);
+  transition: background var(--tr-base), backdrop-filter var(--tr-base), transform 0.35s ease, opacity 0.35s ease;
 }
 
-/* 스크롤 시 반투명 배경 */
+.gnb.is-hidden {
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* 스크롤 시 상단→투명 그라디언트 */
 .gnb.is-scrolled {
-  background: rgba(7, 21, 37, 0.82);
-  backdrop-filter:         blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: linear-gradient(to bottom, rgba(34, 187, 255, 0.55) 0%, transparent 100%);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 .gnb__inner {
@@ -325,31 +364,11 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
    8. LOGO / HERO SECTION
    ------------------------------------------------------------- */
 .section--logo {
+  aspect-ratio: 16 / 9;
   min-height: 100vh;
   isolation: isolate;
 }
 
-.section--logo .section__bg {
-  overflow: hidden;
-  background: #b8dcf0;
-}
-
-.section--logo .section__bg::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-}
-
-.section--logo .section__bg::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(circle at 50% 42%, rgba(0,116,200,0.16), transparent 28%),
-    radial-gradient(circle at 50% 38%, rgba(255,255,255,0.34), transparent 38%),
-    linear-gradient(180deg, rgba(237,251,255,0.5) 0%, rgba(151,225,255,0.18) 58%, rgba(0,130,225,0.08) 100%);
-  pointer-events: none;
-}
 
 .logo-scroll {
   position: absolute;
@@ -361,7 +380,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   font-size: 14px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: rgba(30, 80, 120, 0.85);
+  color: rgba(255, 255, 255, 0.75);
   transition: color var(--tr-base), transform var(--tr-base);
 }
 
@@ -370,9 +389,12 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   transform: translateX(-50%) translateY(-2px);
 }
 
+.content-bg-wrap {
+  /* 배경은 body로 통합 */
+}
+
 .section--hero .section__bg {
-  /* TODO: background-image: url('img/hero-bg.jpg'); background-size: cover; background-position: center; */
-  background: linear-gradient(175deg, #030d1c 0%, #071e3a 45%, #050f22 100%);
+  background: none;
 }
 
 .hero {
@@ -486,7 +508,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   position: absolute;
   inset: 0;
   z-index: 2;
-  background: linear-gradient(175deg, #060e1e 0%, #0b1b31 50%, #060e1e 100%);
+  background: none;
 }
 
 /* Our Crew 헤더: 캔버스(z:5) 위 */
@@ -521,34 +543,6 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   transform: translateY(-2px) scale(1.02);
 }
 
-.crew-program-preview {
-  position: absolute;
-  top: 220px;
-  left: 50%;
-  z-index: 12;
-  transform: translateX(-50%);
-  opacity: 0;
-  pointer-events: none;
-}
-
-.crew-program-preview .program-card {
-  opacity: 0;
-  transform: translateY(34px) scale(0.985);
-  transform-origin: 50% 70%;
-}
-
-.section--crew-scroll.is-program-cards-visible .crew-program-preview {
-  opacity: 1;
-}
-
-.section--crew-scroll.is-program-cards-visible .crew-program-preview .program-card {
-  animation: programWaveIn 0.95s cubic-bezier(0.16, 0.84, 0.28, 1) forwards;
-}
-
-.section--crew-scroll.is-program-cards-visible .crew-program-preview .program-card:nth-child(1) { animation-delay: 0.00s; }
-.section--crew-scroll.is-program-cards-visible .crew-program-preview .program-card:nth-child(2) { animation-delay: 0.10s; }
-.section--crew-scroll.is-program-cards-visible .crew-program-preview .program-card:nth-child(3) { animation-delay: 0.20s; }
-.section--crew-scroll.is-program-cards-visible .crew-program-preview .program-card:nth-child(4) { animation-delay: 0.30s; }
 
 .crew-header__sub {
   font-family: var(--font-kr);
@@ -818,7 +812,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 
 .section--program .section__bg {
-  background: linear-gradient(180deg, #071525 0%, #050d1a 100%);
+  background: none;
 }
 
 .section--program .program-seq-title {
@@ -901,36 +895,94 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .program-card__img {
   position: absolute;
   inset: 0;
-  background: var(--clr-glass-10);
   background-size: cover;
   background-position: center;
-  /* TODO:
-     .program-card__img--1 { background-image: url('img/program/dolphin.jpg'); }
-     .program-card__img--2 { background-image: url('img/program/ballet.jpg'); }
-     .program-card__img--3 { background-image: url('img/program/marine.jpg'); }
-     .program-card__img--4 { background-image: url('img/program/touch.jpg'); }
-  */
 }
-.program-card__img--1 { background-color: rgba(20,80,120,0.6); }
-.program-card__img--2 { background-color: rgba(10,60,100,0.6); }
-.program-card__img--3 { background-color: rgba(15,70,110,0.6); }
-.program-card__img--4 { background-color: rgba(8,55,95,0.6); }
+.program-card__img--1 { background-image: url('assets/images/Frame%20136.png'); }
+.program-card__img--2 { background-image: url('assets/images/Frame%20139.png'); }
+.program-card__img--3 { background-image: url('assets/images/Frame%20138.png'); }
+.program-card__img--4 { background-image: url('assets/images/Frame%20140.png'); }
 
 .program-card__gradient {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, rgba(0,0,0,0) 40%, var(--clr-overlay-56) 100%);
+  background: linear-gradient(to top, #000000 0%, transparent 55%);
+}
+
+/* 카드 하단 콘텐츠 래퍼 */
+.program-card__body {
+  position: absolute;
+  bottom: 0;
+  left: 0; right: 0;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .program-card__caption {
-  position: absolute;
-  bottom: 24px;
-  left: 0; right: 0;
   text-align: center;
   font-family: var(--font-kr);
   font-size: var(--fs-caption);
   letter-spacing: 0;
   color: var(--clr-text);
+  transition: transform var(--tr-base);
+  transform: translateY(0);
+}
+
+/* 호버 시 어두워지는 추가 그라데이션 레이어 */
+.program-card__hover-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.85) 65%);
+  opacity: 0;
+  transition: opacity var(--tr-base);
+}
+
+/* 호버 정보 영역 */
+.program-card__hover-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.3s ease 0.05s, transform 0.3s ease 0.05s;
+}
+
+.program-card__desc {
+  font-family: var(--font-kr);
+  font-size: 12px;
+  font-weight: 300;
+  color: #f2f2f2;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.program-card__meta {
+  display: flex;
+  gap: 16px;
+  font-family: var(--font-kr);
+  font-size: 10px;
+  color: #ffffff;
+  letter-spacing: -0.2px;
+  line-height: 1;
+}
+
+.program-card__meta-labels {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+
+.program-card__meta-values {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
 }
 
 
@@ -938,7 +990,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
    11. LOCATION SECTION
    ------------------------------------------------------------- */
 .section--location .section__bg {
-  background: linear-gradient(180deg, #060e1c 0%, #0a1828 100%);
+  background: none;
 }
 
 .section--location .container {
@@ -1029,7 +1081,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
    12. BOOKING SECTION
    ------------------------------------------------------------- */
 .section--booking .section__bg {
-  background: linear-gradient(180deg, #060c19 0%, #091525 100%);
+  background: none;
 }
 
 .section--booking .container {
@@ -1102,14 +1154,17 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
    ------------------------------------------------------------- */
 .footer {
   position: relative;
-  background: #040c18;
-  min-height: 200px;
+  background: transparent;
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 
 .footer__inner {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1157,14 +1212,13 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
        sec.program_hover / sec.location_hover 참조
    ------------------------------------------------------------- */
 
-/* 프로그램 카드 hover: 캡션 슬라이드업 */
-.program-card .program-card__caption {
-  transform: translateY(8px);
-  transition: transform var(--tr-base), color var(--tr-base);
+/* 프로그램 카드 hover */
+.program-card:hover .program-card__hover-gradient {
+  opacity: 1;
 }
-.program-card:hover .program-card__caption {
+.program-card:hover .program-card__hover-info {
+  opacity: 1;
   transform: translateY(0);
-  color: var(--clr-primary);
 }
 
 /* 예매 카드 hover: 버튼 밝기 */
