@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initBookingBgVideo();
   initGlassBubbles();
   initMapMarkers();
+  initTopBtn();
   initCustomCursor();
   initCursorWave();
 });
