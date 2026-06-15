@@ -74,11 +74,16 @@
 html {
   scroll-behavior: smooth;
   font-size: 16px;
+  background-color: #22BBFF;
 }
 
 body {
   font-family: var(--font-kr);
-  background-color: var(--bg-base);
+  background-color: #22BBFF;
+  background-image: url('assets/images/contentBg.png');
+  background-position: top center;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
   color: var(--color-text);
   color: var(--clr-text);
   -webkit-font-smoothing: antialiased;
@@ -114,12 +119,40 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   position: absolute;
   inset: 0;
   z-index: 0;
-  background: linear-gradient(160deg, var(--bg-base) 0%, var(--bg-mid) 60%, var(--bg-base) 100%);
-  /* TODO: 각 섹션별 background-image 교체 */
+  background: none;
 }
 
-/* 배경 위에 콘텐츠 올리기 (.crew-sticky, .scroll-indicator, .logo-scroll는 제외) */
-.section > *:not(.section__bg):not(.crew-sticky):not(.scroll-indicator):not(.logo-scroll) { position: relative; z-index: 1; }
+/* 배경 위에 콘텐츠 올리기 (.crew-sticky, .scroll-indicator, .logo-scroll, .section__video-bg는 제외) */
+.section > *:not(.section__bg):not(.section__video-bg):not(.crew-sticky):not(.scroll-indicator):not(.logo-scroll) { position: relative; z-index: 1; }
+
+/* 비디오 배경 공통 */
+.section__video-bg,
+.footer__video-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* 로고/푸터 영상 — 꽉 채우기 */
+.section__video-bg,
+.footer__video-bg {
+  object-fit: cover;
+}
+
+/* 로고 영상 하단 페이드 → body 배경 이미지와 자연스럽게 연결 */
+.section__video-bg {
+  mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+}
+
+/* 푸터 영상 상단 페이드 → body 배경 이미지에서 자연스럽게 진입 */
+.footer__video-bg {
+  mask-image: linear-gradient(to top, black 70%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to top, black 70%, transparent 100%);
+}
 
 
 /* -------------------------------------------------------------
@@ -230,6 +263,17 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   color: var(--clr-primary);
 }
 
+.btn-cta--fill-white {
+  background: #fff;
+  border: 1.5px solid #fff;
+  color: var(--clr-primary);
+}
+.btn-cta--fill-white:hover {
+  background: var(--clr-primary);
+  border-color: var(--clr-primary);
+  color: #fff;
+}
+
 /* Nav pill 버튼 (H54 / radius 100px) */
 .btn-pill {
   display: inline-flex;
@@ -261,14 +305,20 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   top: 0; left: 0; right: 0;
   z-index: 1000;
   padding: 24px 32px;
-  transition: background var(--tr-base), backdrop-filter var(--tr-base);
+  transition: background var(--tr-base), backdrop-filter var(--tr-base), transform 0.35s ease, opacity 0.35s ease;
 }
 
-/* 스크롤 시 반투명 배경 */
+.gnb.is-hidden {
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* 스크롤 시 상단→투명 그라디언트 */
 .gnb.is-scrolled {
-  background: rgba(7, 21, 37, 0.82);
-  backdrop-filter:         blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: linear-gradient(to bottom, rgba(34, 187, 255, 0.55) 0%, transparent 100%);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 .gnb__inner {
@@ -325,31 +375,11 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
    8. LOGO / HERO SECTION
    ------------------------------------------------------------- */
 .section--logo {
+  aspect-ratio: 16 / 9;
   min-height: 100vh;
   isolation: isolate;
 }
 
-.section--logo .section__bg {
-  overflow: hidden;
-  background: #b8dcf0;
-}
-
-.section--logo .section__bg::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-}
-
-.section--logo .section__bg::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(circle at 50% 42%, rgba(0,116,200,0.16), transparent 28%),
-    radial-gradient(circle at 50% 38%, rgba(255,255,255,0.34), transparent 38%),
-    linear-gradient(180deg, rgba(237,251,255,0.5) 0%, rgba(151,225,255,0.18) 58%, rgba(0,130,225,0.08) 100%);
-  pointer-events: none;
-}
 
 .logo-scroll {
   position: absolute;
@@ -361,7 +391,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   font-size: 14px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: rgba(30, 80, 120, 0.85);
+  color: rgba(255, 255, 255, 0.75);
   transition: color var(--tr-base), transform var(--tr-base);
 }
 
@@ -370,9 +400,9 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   transform: translateX(-50%) translateY(-2px);
 }
 
+
 .section--hero .section__bg {
-  /* TODO: background-image: url('img/hero-bg.jpg'); background-size: cover; background-position: center; */
-  background: linear-gradient(175deg, #030d1c 0%, #071e3a 45%, #050f22 100%);
+  background: none;
 }
 
 .hero {
@@ -445,7 +475,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   font-family: var(--font-kr);
   font-size: var(--fs-body);
   letter-spacing: var(--ls-normal);
-  color: var(--clr-text-muted);
+  color: var(--clr-text);
   background: none;
   border: none;
   padding: 0;
@@ -466,10 +496,11 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
 /* 섹션 컨테이너: 생물 4종 × 100vh + 퇴장 고정 구간 100vh + 여백 100vh */
 .section--crew-scroll {
-  height: 600vh;
+  height: 450vh;
   min-height: unset;
   display: block;
   overflow: visible;
+  margin-bottom: 160px;
 }
 
 /* 스티키 뷰포트 — z-index 제거: 자식들이 루트 스택에 직접 참여해야
@@ -486,7 +517,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   position: absolute;
   inset: 0;
   z-index: 2;
-  background: linear-gradient(175deg, #060e1e 0%, #0b1b31 50%, #060e1e 100%);
+  background: none;
 }
 
 /* Our Crew 헤더: 캔버스(z:5) 위 */
@@ -521,34 +552,6 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   transform: translateY(-2px) scale(1.02);
 }
 
-.crew-program-preview {
-  position: absolute;
-  top: 220px;
-  left: 50%;
-  z-index: 12;
-  transform: translateX(-50%);
-  opacity: 0;
-  pointer-events: none;
-}
-
-.crew-program-preview .program-card {
-  opacity: 0;
-  transform: translateY(34px) scale(0.985);
-  transform-origin: 50% 70%;
-}
-
-.section--crew-scroll.is-program-cards-visible .crew-program-preview {
-  opacity: 1;
-}
-
-.section--crew-scroll.is-program-cards-visible .crew-program-preview .program-card {
-  animation: programWaveIn 0.95s cubic-bezier(0.16, 0.84, 0.28, 1) forwards;
-}
-
-.section--crew-scroll.is-program-cards-visible .crew-program-preview .program-card:nth-child(1) { animation-delay: 0.00s; }
-.section--crew-scroll.is-program-cards-visible .crew-program-preview .program-card:nth-child(2) { animation-delay: 0.10s; }
-.section--crew-scroll.is-program-cards-visible .crew-program-preview .program-card:nth-child(3) { animation-delay: 0.20s; }
-.section--crew-scroll.is-program-cards-visible .crew-program-preview .program-card:nth-child(4) { animation-delay: 0.30s; }
 
 .crew-header__sub {
   font-family: var(--font-kr);
@@ -569,6 +572,11 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   width: var(--container-w);
   max-width: calc(100% - 64px);
   z-index: 10;
+}
+
+.section--crew-scroll.is-content-visible .crew-dots,
+.section--crew-scroll.is-content-visible .crew-rotate-hint {
+  opacity: 1;
 }
 
 /* 3D GLB 마운트 포인트 */
@@ -647,17 +655,17 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   50%      { opacity: 1;   transform: scale(1.35); }
 }
 
-/* 인포 패널 래퍼 */
+/* 인포 패널 래퍼 — 카드(380px) + 버튼 영역(52px) */
 .crew-info-wrap {
   flex: 1;
   position: relative;
-  height: 380px;
+  height: 270px;
   transition: opacity 0.24s ease, transform 0.24s ease;
 }
 
 .section--crew-scroll.is-creature-moving .crew-info-wrap,
 .section--crew-scroll.is-creature-moving .crew-dots,
-.section--crew-scroll.is-creature-moving .crew-scroll-hint {
+.section--crew-scroll.is-creature-moving .crew-rotate-hint {
   opacity: 0;
   transform: translateY(8px);
   pointer-events: none;
@@ -666,16 +674,19 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 /* 각 생물 패널 — 페이드 + 슬라이드 전환 */
 .crew-panel {
   position: absolute;
-  inset: 0;
-  padding: 36px 48px;
+  top: 0; left: 0;
+  width: 350px;
+  height: 203px;
+  padding: 36px 76px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   overflow: hidden;
+  border-width: 1px;
   background: linear-gradient(
     201deg,
     rgba(255,255,255,0.00)  1.6%,
-    rgba(255,255,255,0.08) 50.0%,
+    rgba(255,255,255,0.20) 50.0%,
     rgba(255,255,255,0.00) 98.4%
   );
   opacity: 0;
@@ -695,6 +706,21 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   transform: translateY(-28px);
 }
 
+/* 카드 밖 하단 버튼 */
+.crew-panel-btn {
+  position: absolute;
+  top: 219px; /* 카드(203px) + 여백(16px) */
+  left: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.55s ease;
+}
+
+.crew-panel.is-active + .crew-panel-btn {
+  opacity: 1;
+  pointer-events: auto;
+}
+
 /* 진행 점 */
 .crew-dots {
   position: absolute;
@@ -704,6 +730,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   display: flex;
   gap: 12px;
   z-index: 10;
+  opacity: 0;
   transition: opacity 0.24s ease, transform 0.24s ease;
 }
 
@@ -723,22 +750,29 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   transform: scale(1.5);
 }
 
-/* 스크롤 힌트 */
-.crew-scroll-hint {
+/* 회전 힌트 */
+.crew-rotate-hint {
   position: absolute;
-  bottom: 38px;
-  right: 48px;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 6px;
-  font-family: var(--font-en);
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  gap: 5px;
   color: var(--clr-text-muted);
   z-index: 10;
+  opacity: 0;
+  pointer-events: none;
   animation: hintBlink 2.2s ease-in-out infinite;
-  transition: opacity 0.24s ease, transform 0.24s ease;
+  transition: opacity 0.24s ease;
+}
+
+.crew-rotate-hint span {
+  font-family: var(--font-en);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 @keyframes hintBlink {
@@ -762,8 +796,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .creature-info__head {
   display: flex;
   align-items: baseline;
-  gap: 12px;
-  margin-bottom: 24px;
+  gap: 14px;
+  margin-bottom: 26px;
 }
 
 .creature-info__name {
@@ -777,17 +811,18 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
 .creature-info__name-kr {
   font-family: var(--font-kr);
-  font-size: var(--fs-body);
+  font-size: var(--fs-caption);
   letter-spacing: var(--ls-normal);
-  color: var(--clr-text-muted);
+  color: var(--clr-text);
 }
 
 /* dl 목록 */
 .creature-info__meta {
   list-style: none;
-  margin-bottom: 16px;
+  padding-left: 6px;
+  margin-bottom: 8px;
 }
-.creature-info__meta > div { margin-bottom: 4px; }
+.creature-info__meta > div { margin-bottom: 0; }
 .creature-info__meta dt,
 .creature-info__meta dd {
   display: inline;
@@ -803,9 +838,9 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   font-family: var(--font-kr);
   font-size: var(--fs-body);
   letter-spacing: var(--ls-normal);
-  color: var(--clr-text-muted);
+  color: var(--clr-text);
   line-height: 1.4;
-  margin-bottom: 24px;
+  padding-left: 6px;
 }
 
 
@@ -814,11 +849,11 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
    ------------------------------------------------------------- */
 .section--program {
   min-height: auto;
-  padding: var(--title-top) 0 80px;
+  padding: 160px 0 160px;
 }
 
 .section--program .section__bg {
-  background: linear-gradient(180deg, #071525 0%, #050d1a 100%);
+  background: none;
 }
 
 .section--program .program-seq-title {
@@ -901,36 +936,95 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .program-card__img {
   position: absolute;
   inset: 0;
-  background: var(--clr-glass-10);
   background-size: cover;
   background-position: center;
-  /* TODO:
-     .program-card__img--1 { background-image: url('img/program/dolphin.jpg'); }
-     .program-card__img--2 { background-image: url('img/program/ballet.jpg'); }
-     .program-card__img--3 { background-image: url('img/program/marine.jpg'); }
-     .program-card__img--4 { background-image: url('img/program/touch.jpg'); }
-  */
 }
-.program-card__img--1 { background-color: rgba(20,80,120,0.6); }
-.program-card__img--2 { background-color: rgba(10,60,100,0.6); }
-.program-card__img--3 { background-color: rgba(15,70,110,0.6); }
-.program-card__img--4 { background-color: rgba(8,55,95,0.6); }
+.program-card__img--1 { background-image: url('assets/images/Frame%20136.png'); }
+.program-card__img--2 { background-image: url('assets/images/Frame%20139.png'); }
+.program-card__img--3 { background-image: url('assets/images/Frame%20138.png'); }
+.program-card__img--4 { background-image: url('assets/images/Frame%20140.png'); }
 
 .program-card__gradient {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, rgba(0,0,0,0) 40%, var(--clr-overlay-56) 100%);
+  background: linear-gradient(to top, #000000 0%, transparent 55%);
+}
+
+/* 카드 하단 콘텐츠 래퍼 */
+.program-card__body {
+  position: absolute;
+  bottom: 0;
+  left: 0; right: 0;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .program-card__caption {
-  position: absolute;
-  bottom: 24px;
-  left: 0; right: 0;
   text-align: center;
   font-family: var(--font-kr);
   font-size: var(--fs-caption);
   letter-spacing: 0;
   color: var(--clr-text);
+  transition: transform var(--tr-base);
+  transform: translateY(0);
+}
+
+/* 호버 시 어두워지는 추가 그라데이션 레이어 */
+.program-card__hover-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.85) 65%);
+  opacity: 0;
+  transition: opacity var(--tr-base);
+}
+
+/* 호버 정보 영역 */
+.program-card__hover-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: opacity 0.35s ease 0.05s, max-height 0.4s ease;
+}
+
+.program-card__desc {
+  font-family: var(--font-kr);
+  font-size: 12px;
+  font-weight: 300;
+  color: #f2f2f2;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.program-card__meta {
+  display: flex;
+  gap: 16px;
+  font-family: var(--font-kr);
+  font-size: 10px;
+  color: #ffffff;
+  letter-spacing: -0.2px;
+  line-height: 1;
+}
+
+.program-card__meta-labels {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+
+.program-card__meta-values {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
 }
 
 
@@ -938,11 +1032,12 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
    11. LOCATION SECTION
    ------------------------------------------------------------- */
 .section--location .section__bg {
-  background: linear-gradient(180deg, #060e1c 0%, #0a1828 100%);
+  background: none;
 }
 
 .section--location .container {
   padding-top: var(--title-top);
+  padding-bottom: 136px;
 }
 
 .location-map-wrap {
@@ -952,6 +1047,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   align-items: center;
   width: 100%;
   height: 670px;
+  gap: 0;
 }
 
 .location-map {
@@ -959,12 +1055,19 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   width: 640px;
   height: 660px;
   flex-shrink: 0;
-  z-index: 1;
+  z-index: 2;
+  transition: transform 0.42s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.location-map-wrap.is-hovering .location-map,
+.location-map-wrap:focus-within .location-map {
+  transform: translateX(clamp(-490px, -25vw, -320px));
 }
 
 .korea-map {
   width: 100%;
   height: 100%;
+  object-fit: contain;
 }
 
 /* 지점 마커 */
@@ -973,37 +1076,189 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   left: var(--mx);
   top:  var(--my);
   transform: translate(-50%, -50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
+  display: block;
+  width: 36px;
+  height: 36px;
   background: none;
   border: none;
   cursor: pointer;
-  padding: 4px;
+  padding: 0;
+  border-radius: 50%;
+  z-index: 3;
 }
 
 .map-marker__dot {
+  position: absolute;
+  left: 50%;
+  top: 50%;
   display: block;
   width: 11px; height: 11px;
+  transform: translate(-50%, -50%);
   border-radius: 50%;
-  background: var(--clr-primary);
-  border: 2px solid #fff;
+  background: rgb(254 255 188);
+  border: 0;
+  box-shadow: 0 0 4px 9px rgb(254 255 188 / 49%);
   transition: transform var(--tr-base), box-shadow var(--tr-base);
 }
-.map-marker:hover .map-marker__dot {
-  transform: scale(1.6);
-  box-shadow: 0 0 14px var(--clr-primary);
+.map-marker:hover .map-marker__dot,
+.map-marker:focus-visible .map-marker__dot,
+.map-marker.is-active .map-marker__dot {
+  transform: translate(-50%, -50%) scale(1.6);
+  box-shadow: 0 0 4px 9px rgb(254 255 188 / 49%);
 }
 
 .map-marker__label {
+  position: absolute;
+  top: 17px;
+  left: 50%;
+  transform: translateX(-50%);
   font-family: var(--font-kr);
   font-size: 12px;
   color: var(--clr-text-muted);
   white-space: nowrap;
   transition: color var(--tr-base);
 }
-.map-marker:hover .map-marker__label { color: var(--clr-text); }
+.map-marker:hover .map-marker__label,
+.map-marker:focus-visible .map-marker__label,
+.map-marker.is-active .map-marker__label { color: var(--clr-text); }
+
+.location-hover-card {
+  position: absolute;
+  left: calc(50% - 165px);
+  top: 50%;
+  z-index: 1;
+  width: min(904px, calc(100vw - 830px));
+  min-width: 640px;
+  min-height: 394px;
+  padding: 12px;
+  opacity: 0;
+  transform: translate(32px, -50%);
+  pointer-events: none;
+  transition: opacity 0.28s ease, transform 0.28s ease;
+  background:
+    linear-gradient(201deg, rgba(255,255,255,0) 1.6%, rgba(255,255,255,0.20) 50%, rgba(255,255,255,0) 98.4%);
+  border-width: 1px;
+  overflow: visible;
+}
+
+.location-indicator {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  pointer-events: none;
+  overflow: visible;
+  transition: opacity 0.2s ease;
+}
+
+.location-indicator__line {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.68);
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.location-indicator__end {
+  fill: rgba(255, 255, 255, 0.78);
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.45));
+}
+
+.location-map-wrap.is-hovering .location-indicator,
+.location-map-wrap:focus-within .location-indicator {
+  opacity: 1;
+}
+
+.location-map-wrap.is-hovering .location-hover-card,
+.location-map-wrap:focus-within .location-hover-card {
+  opacity: 1;
+  transform: translate(0, -50%);
+  pointer-events: auto;
+}
+
+.location-hover-card__body {
+  display: flex;
+  align-items: stretch;
+  gap: 24px;
+  min-height: 370px;
+}
+
+.location-hover-card__copy {
+  width: 290px;
+  padding: 6px 0 0 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 0;
+}
+
+.location-hover-card__title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--clr-text);
+  white-space: nowrap;
+}
+
+.location-hover-card__logo {
+  font-family: var(--font-en);
+  font-size: 32px;
+  font-weight: 500;
+  letter-spacing: -0.04em;
+}
+
+.location-hover-card__branch {
+  font-family: var(--font-kr);
+  font-size: 32px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+.location-hover-card__meta {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+  line-height: 1.35;
+  letter-spacing: 0;
+  color: var(--clr-text);
+}
+
+.location-hover-card__desc {
+  margin-top: 24px;
+  font-size: 16px;
+  line-height: 1.45;
+  letter-spacing: 0;
+  color: #f2f2f2;
+}
+
+.location-hover-card__btn {
+  width: fit-content;
+}
+
+.location-hover-card__image {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  min-height: 370px;
+  border-radius: 12px;
+  border: 1px dashed rgba(255,255,255,0.5);
+  background: #dfe9ef;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.location-hover-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
 
 /* 좌우 데코 이미지 */
 .location-deco {
@@ -1011,17 +1266,18 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   border-radius: var(--radius-image);
   background: rgba(255,255,255,0.04);
   border: 1px solid rgba(255,255,255,0.06);
-  /* TODO: background-image 교체 */
+  background-size: cover;
+  background-position: center;
 }
 .location-deco--right {
   right: 0; top: -20px;
   width: 610px; height: 523px;
-  /* TODO: background-image: url('img/location-right.jpg'); */
+  background-image: url("assets/images/Frame 138.png");
 }
 .location-deco--left {
   left: 0; bottom: -40px;
   width: 550px; height: 450px;
-  /* TODO: background-image: url('img/location-left.jpg'); */
+  background-image: url("assets/images/Frame 136.png");
 }
 
 
@@ -1029,7 +1285,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
    12. BOOKING SECTION
    ------------------------------------------------------------- */
 .section--booking .section__bg {
-  background: linear-gradient(180deg, #060c19 0%, #091525 100%);
+  background: none;
 }
 
 .section--booking .container {
@@ -1062,17 +1318,11 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   inset: 0;
   background-size: cover;
   background-position: center;
-  /* TODO:
-     .booking-card__img--ilsan  { background-image: url('img/booking/ilsan.jpg'); }
-     .booking-card__img--seoul  { background-image: url('img/booking/seoul.jpg'); }
-     .booking-card__img--yeosu  { background-image: url('img/booking/yeosu.jpg'); }
-     .booking-card__img--jeju   { background-image: url('img/booking/jeju.jpg'); }
-  */
 }
-.booking-card__img--ilsan  { background-color: #0b2f4f; }
-.booking-card__img--seoul  { background-color: #0a2545; }
-.booking-card__img--yeosu  { background-color: #082038; }
-.booking-card__img--jeju   { background-color: #0a2840; }
+.booking-card__img--ilsan  { background-image: url("assets/images/Frame 19.png"); }
+.booking-card__img--seoul  { background-image: url("assets/images/Frame 20.png"); }
+.booking-card__img--yeosu  { background-image: url("assets/images/Frame 22.png"); }
+.booking-card__img--jeju   { background-image: url("assets/images/Frame 21.png"); }
 
 .booking-card__gradient {
   position: absolute;
@@ -1102,14 +1352,17 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
    ------------------------------------------------------------- */
 .footer {
   position: relative;
-  background: #040c18;
-  min-height: 200px;
+  background: transparent;
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 
 .footer__inner {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1157,14 +1410,13 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
        sec.program_hover / sec.location_hover 참조
    ------------------------------------------------------------- */
 
-/* 프로그램 카드 hover: 캡션 슬라이드업 */
-.program-card .program-card__caption {
-  transform: translateY(8px);
-  transition: transform var(--tr-base), color var(--tr-base);
+/* 프로그램 카드 hover */
+.program-card:hover .program-card__hover-gradient {
+  opacity: 1;
 }
-.program-card:hover .program-card__caption {
-  transform: translateY(0);
-  color: var(--clr-primary);
+.program-card:hover .program-card__hover-info {
+  opacity: 1;
+  max-height: 300px;
 }
 
 /* 예매 카드 hover: 버튼 밝기 */
@@ -1270,4 +1522,88 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   pointer-events: none;
   opacity: 0;
   background: radial-gradient(circle, transparent 20%, #02001f 100%);
+}
+
+
+/* =============================================================
+   17. SECTION ENTER / EXIT SEQUENCES
+   ============================================================= */
+
+/* --- Crew section — title entry / exit --- */
+.section--crew-scroll.is-crew-exiting .crew-header {
+  opacity: 0;
+  transition: opacity 0.38s ease;
+}
+.section--crew-scroll.is-crew-exiting .crew-main {
+  opacity: 0;
+  transition: opacity 0.38s ease;
+}
+.section--crew-scroll.is-crew-exiting .crew-dots {
+  opacity: 0;
+  transition: opacity 0.38s ease;
+}
+
+/* --- Program section exit --- */
+.section--program.is-exiting .program-seq-title {
+  opacity: 0;
+  transform: translateY(-24px);
+  transition: opacity 0.38s ease, transform 0.38s ease;
+}
+.section--program.is-exiting .program-seq-content .program-card {
+  animation: none !important;
+  opacity: 0 !important;
+  transform: translateY(-18px) scale(1) !important;
+  transition: opacity 0.32s ease, transform 0.32s ease !important;
+}
+
+/* --- Location section sequence --- */
+.section--location .location-seq-title {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.48s ease, transform 0.48s ease;
+}
+.section--location.is-title-visible .location-seq-title {
+  opacity: 1;
+  transform: translateY(0);
+}
+.section--location .location-seq-content {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.55s ease 0.22s, transform 0.55s ease 0.22s;
+}
+.section--location.is-content-visible .location-seq-content {
+  opacity: 1;
+  transform: translateY(0);
+}
+.section--location.is-exiting .location-seq-title,
+.section--location.is-exiting .location-seq-content {
+  opacity: 0;
+  transform: translateY(-24px);
+  transition: opacity 0.38s ease, transform 0.38s ease;
+}
+
+/* --- Booking section sequence --- */
+.section--booking .booking-seq-title {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.48s ease, transform 0.48s ease;
+}
+.section--booking.is-title-visible .booking-seq-title {
+  opacity: 1;
+  transform: translateY(0);
+}
+.section--booking .booking-seq-content {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.55s ease 0.22s, transform 0.55s ease 0.22s;
+}
+.section--booking.is-content-visible .booking-seq-content {
+  opacity: 1;
+  transform: translateY(0);
+}
+.section--booking.is-exiting .booking-seq-title,
+.section--booking.is-exiting .booking-seq-content {
+  opacity: 0;
+  transform: translateY(-24px);
+  transition: opacity 0.38s ease, transform 0.38s ease;
 }
