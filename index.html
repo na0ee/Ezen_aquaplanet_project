@@ -40,7 +40,7 @@
 
       <!-- 중앙 로고 -->
       <a href="#sec-logo" class="gnb__logo-wrap" aria-label="Aqua Planet 홈">
-        <div class="gnb__logo" aria-hidden="true"></div>
+        <img class="gnb__logo" src="assets/images/headerLogo.png" alt="" aria-hidden="true">
       </a>
 
       <!-- 오른쪽 티켓 버튼 -->
@@ -60,9 +60,7 @@
       <video class="section__video-bg" autoplay muted loop playsinline aria-hidden="true">
         <source src="assets/images/first.mp4" type="video/mp4">
       </video>
-      <a class="logo-scroll" href="#sec-intro" aria-label="Intro section으로 이동">
-        <span>Enter</span>
-      </a>
+
     </section>
 
     <!-- ================================================
@@ -79,7 +77,7 @@
       <div class="hero">
         <div class="hero__text reveal">
           <span class="hero__eyebrow">Welcome to</span>
-          <h1 class="hero__title">aqua planet</h1>
+          <h1 class="hero__title"> aqua planet</h1>
           <p class="hero__sub">웅장한 바다와 해양과학이 만나는 곳</p>
         </div>
       </div>
@@ -105,7 +103,7 @@
           <h2 class="crew-header__title">
             <span class="t-en">Our </span><em class="t-serif">Crew</em>
           </h2>
-          <p class="crew-header__sub">아쿠아플라넷의 다양한 해양생물을 만나보세요</p>
+          <p class="crew-header__sub">아쿠아플라넷의 다양한 해양 생물을 만나보세요</p>
         </div>
 
         <!-- 메인 레이아웃 -->
@@ -138,12 +136,12 @@
                 <span class="creature-info__name-kr">: 바다코끼리</span>
               </header>
               <dl class="creature-info__meta">
-                <div><dt>Name</dt><dd>: 메리, 바랴</dd></div>
+                <div><dt>Name</dt><dd>: 메리, 바롱</dd></div>
                 <div><dt>Location</dt><dd>: 아쿠아플라넷 일산</dd></div>
               </dl>
               <p class="creature-info__desc">
-                마스코트 바다코끼리 자매, 메리와 바랴<br>
-                행복한 수중 라이프를 즐기고 있다
+                마스코트 바다코끼리 자매, 메리와 바롱<br>
+                평화로운 수중 라이프를 즐기고 있어요
               </p>
             </article>
             <a href="#sec-booking" class="crew-panel-btn btn-cta btn-cta--fill-white" data-index="0">보러가기</a>
@@ -184,7 +182,7 @@
                 <div><dt>Location</dt><dd>: 아쿠아플라넷 코엑스</dd></div>
               </dl>
               <p class="creature-info__desc">
-                바다를 유유히 헤엄치는 바다거북, 초록이<br>
+                바다를 자유롭게 헤엄치는 바다거북, 초록이<br>
                 아쿠아플라넷의 오랜 친구
               </p>
             </article>
@@ -197,7 +195,7 @@
         <div class="crew-dots" role="tablist" aria-label="생물 선택">
           <button class="crew-dot is-active" data-index="0" role="tab" aria-label="바다코끼리"></button>
           <button class="crew-dot"           data-index="1" role="tab" aria-label="벨루가"></button>
-          <button class="crew-dot"           data-index="2" role="tab" aria-label="고래상어"></button>
+          <button class="crew-dot"           data-index="2" role="tab" aria-label="샌드타이거상어"></button>
           <button class="crew-dot"           data-index="3" role="tab" aria-label="바다거북"></button>
         </div>
 
@@ -211,6 +209,7 @@
     ================================================ -->
     <section id="sec-program" class="section section--program" aria-label="오늘의 프로그램">
       <div class="section__bg section__bg--program" aria-hidden="true"></div>
+      <div class="section-seq-sticky">
       <div class="container">
 
         <div class="section-title section-title--center program-seq-title">
@@ -310,6 +309,7 @@
 
         </div>
       </div>
+      </div>
     </section>
 
     <!-- ================================================
@@ -317,6 +317,7 @@
     ================================================ -->
     <section id="sec-location" class="section section--location" aria-label="지점 안내">
       <div class="section__bg section__bg--location" aria-hidden="true"></div>
+      <div class="section-seq-sticky">
 
       <div class="container">
         <div class="section-title section-title--center location-seq-title">
@@ -384,6 +385,7 @@
         </article>
       </div>
 
+      </div>
     </section>
 
     <!-- ================================================
@@ -392,6 +394,7 @@
     ================================================ -->
     <section id="sec-booking" class="section section--booking" aria-label="예매">
       <div class="section__bg section__bg--booking" aria-hidden="true"></div>
+      <div class="section-seq-sticky">
       <div class="container">
 
         <div class="section-title section-title--center booking-seq-title">
@@ -443,6 +446,7 @@
 
         </div>
       </div>
+      </div>
     </section>
 
     </div><!-- /.content-bg-wrap -->
@@ -486,6 +490,17 @@
 
   <!-- 비네트 오버레이 -->
   <div class="dive-vignette" id="dive-vignette" aria-hidden="true"></div>
+
+  <!-- Top Button -->
+  <button id="top-btn" class="top-btn" aria-label="맨 위로 이동" type="button">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+      <path d="M10 16V4M4 10L10 4L16 10" stroke="currentColor" stroke-width="1.6"
+            stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+
+  <!-- 커스텀 커서 -->
+  <div id="custom-cursor" aria-hidden="true"></div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="main.js"></script>

@@ -14,10 +14,10 @@ import { GLTFLoader }    from 'three/addons/loaders/GLTFLoader.js';
    rotY:  기본 회전각 (rad)
 --------------------------------------------------------------- */
 const CREATURES = [
-  { key: 'walrus',  src: 'assets/models/walrus_animated.glb',     scale: 0.9, y: -0.3, rotY:  0.2 },
-  { key: 'beluga',  src: 'assets/models/whiteWhale_animated.glb',  scale: 1.0, y:  0.0, rotY: -0.2 },
-  { key: 'shark',   src: 'assets/models/Shark_animated.glb',       scale: 1.1, y:  0.0, rotY:  0.1 },
-  { key: 'turtle',  src: 'assets/models/turtle_animated.glb',      scale: 0.9, y: -0.2, rotY:  0.3 },
+  { key: 'walrus',  src: 'assets/models/walrus_animated.glb',     scale: 0.78, y: -0.3, rotY:  0.2 },
+  { key: 'beluga',  src: 'assets/models/whiteWhale_animated.glb',  scale: 0.84, y:  0.0, rotY: -0.2 },
+  { key: 'shark',   src: 'assets/models/Shark_animated.glb',       scale: 0.92, y:  0.0, rotY:  0.1 },
+  { key: 'turtle',  src: 'assets/models/turtle_animated.glb',      scale: 0.78, y: -0.2, rotY:  0.3 },
 ];
 
 /* 진입 곡선: 브라우저 창 밖에서 헤엄쳐 들어옴
@@ -28,14 +28,14 @@ const ENTRY_FWD = new THREE.CatmullRomCurve3([
   new THREE.Vector3( 10,  0.45, -0.6),
   new THREE.Vector3(  3, -0.15,  0.35),
   new THREE.Vector3( -1.1, 0.1,  -0.1),
-  new THREE.Vector3( -2.5, 0.0,  0),
+  new THREE.Vector3( -1.62, 0.42,  0),
 ]);
 const ENTRY_BWD = new THREE.CatmullRomCurve3([
   new THREE.Vector3(-18, -0.7,  0.9),
   new THREE.Vector3(-12,  0.45, -0.7),
   new THREE.Vector3( -7, -0.15,  0.35),
   new THREE.Vector3( -4,  0.1,  -0.1),
-  new THREE.Vector3( -2.5, 0.0,  0),
+  new THREE.Vector3( -1.62, 0.42,  0),
 ]);
 /* 퇴장: 반대 방향 창 밖으로 */
 const EXIT_FWD = new THREE.Vector3(-18, -0.4, 0.3);
@@ -98,6 +98,7 @@ let crewContentTimer = null;
 
 let exitZoneActive = false;
 let prevExcess = 0;
+let crewWaveExiting = false;
 
 /* 캔버스를 crew-sticky 가시 영역으로 clip.
    퇴장 구간: 다운 스크롤 → translateY로 위로 올라가게, 업 스크롤 → 즉시 숨김 */
@@ -111,6 +112,12 @@ function clampCanvasToSticky() {
   const excess       = Math.max(0, scrolled - totalPanelCount * vh);
   const scrollingDown = excess > prevExcess;
   prevExcess = excess;
+
+  if (crewWaveExiting) {
+    if (excess > 0) exitZoneActive = true;
+    crewCanvas.style.clipPath = 'none';
+    return;
+  }
 
   if (excess > 0) {
     exitZoneActive = true;
@@ -135,7 +142,7 @@ function clampCanvasToSticky() {
     crewCanvas.style.transform = '';
     if (crewInView) {
       crewCanvas.style.transition = 'opacity 0.6s ease';
-      crewCanvas.style.opacity    = '1';
+      crewCanvas.style.opacity    = crewWaveExiting ? '0' : '1';
     }
   }
 
@@ -311,7 +318,7 @@ CREATURES.forEach((cfg, idx) => {
       const box    = new THREE.Box3().setFromObject(mesh);
       const size   = box.getSize(new THREE.Vector3());
       const maxDim = Math.max(size.x, size.y, size.z);
-      const s      = (4.0 / maxDim) * cfg.scale;  /* 현재 대비 1.5× */
+      const s      = (3.22 / maxDim) * cfg.scale;
       mesh.scale.setScalar(s);
 
       /* 중심 정렬 */
@@ -622,4 +629,41 @@ document.addEventListener('crew-tail-visibility', (e) => {
     crewCanvas.style.opacity = '1';
     scheduleCreatureEntry();
   }
+});
+
+document.addEventListener('crew-wave-exit', () => {
+  crewWaveExiting = true;
+  clearTimeout(crewEntryTimer);
+  clearTimeout(crewContentTimer);
+  disableControls();
+
+  const active = entryModel ?? exitModel ?? (currentIdx >= 0 ? models[currentIdx]?.pivot : null);
+  if (active) {
+    active.visible = true;
+    exitStartPos.copy(active.position);
+    exitEndPos.copy(active.position).add(new THREE.Vector3(0, 1.35, 0));
+    exitStartRotY = active.rotation.y;
+    exitStartRotX = active.rotation.x;
+    exitModel = active;
+    exitT = 0;
+    exitActive = true;
+    hideCanvasAfterExit = false;
+  }
+
+  crewCanvas.style.transition = 'opacity 0.3s ease';
+  crewCanvas.style.opacity   = '0';
+  crewCanvas.style.transform = '';
+  crewCanvas.style.filter    = '';
+  crewCanvas.style.clipPath  = 'none';
+});
+
+document.addEventListener('crew-wave-exit-reset', () => {
+  crewWaveExiting = false;
+  crewCanvas.style.filter = '';
+  crewCanvas.style.transform = '';
+  if (crewInView) {
+    crewCanvas.style.transition = 'opacity 0.6s ease';
+    crewCanvas.style.opacity = '1';
+  }
+  clampCanvasToSticky();
 });
