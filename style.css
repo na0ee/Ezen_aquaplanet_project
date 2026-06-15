@@ -123,7 +123,126 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 
 /* 배경 위에 콘텐츠 올리기 (.crew-sticky, .scroll-indicator, .section__video-bg는 제외) */
-.section > *:not(.section__bg):not(.section__video-bg):not(.crew-sticky):not(.scroll-indicator) { position: relative; z-index: 1; }
+.section > *:not(.section__bg):not(.section__video-bg):not(.crew-sticky):not(.scroll-indicator):not(.bubble-layer) { position: relative; z-index: 1; }
+
+/* Crew ~ Booking 사이드 glass bubble 배경 */
+.bubble-section-wrapper {
+  position: relative;
+  overflow: visible;
+  isolation: isolate;
+}
+
+.bubble-section-wrapper > .section {
+  position: relative;
+  z-index: 2;
+}
+
+.bubble-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.bubble-side {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: clamp(72px, calc((100vw - min(var(--container-w), calc(100vw - 64px))) / 2 + 28px), 360px);
+  pointer-events: none;
+}
+
+.bubble-side--left {
+  left: 0;
+}
+
+.bubble-side--right {
+  right: 0;
+}
+
+.glass-bubble {
+  position: absolute;
+  top: var(--bubble-y);
+  left: var(--bubble-x);
+  width: var(--bubble-size);
+  height: var(--bubble-size);
+  border-radius: 50%;
+  opacity: var(--bubble-opacity);
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 31% 25%, rgba(255,255,255,0.88) 0 8%, rgba(255,255,255,0.22) 9%, transparent 24%),
+    radial-gradient(circle at 68% 72%, rgba(112,218,255,0.20) 0 13%, transparent 35%),
+    radial-gradient(circle at 48% 50%, rgba(255,255,255,0.10), rgba(255,255,255,0.025) 58%, rgba(255,255,255,0.12) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.48);
+  box-shadow:
+    inset 0 0 10px rgba(255, 255, 255, 0.28),
+    inset -8px -10px 18px rgba(34, 178, 234, 0.08),
+    0 0 16px rgba(183, 239, 255, 0.13);
+  backdrop-filter: blur(2px) saturate(1.25);
+  -webkit-backdrop-filter: blur(2px) saturate(1.25);
+  filter: blur(0.1px);
+  animation:
+    glassBubbleRise var(--bubble-duration) linear var(--bubble-delay) infinite,
+    glassBubbleSway var(--bubble-sway-duration) ease-in-out var(--bubble-delay) infinite alternate;
+  will-change: transform, opacity;
+}
+
+.glass-bubble::before,
+.glass-bubble::after {
+  content: '';
+  position: absolute;
+  pointer-events: none;
+  border-radius: 50%;
+}
+
+.glass-bubble::before {
+  inset: 13% 17% 42% 22%;
+  border-top: 1px solid rgba(255,255,255,0.72);
+  transform: rotate(-24deg);
+  filter: blur(0.25px);
+}
+
+.glass-bubble::after {
+  right: 18%;
+  bottom: 18%;
+  width: 28%;
+  height: 28%;
+  background: radial-gradient(circle, rgba(255,255,255,0.22), transparent 70%);
+}
+
+@keyframes glassBubbleRise {
+  0% {
+    transform: translate3d(0, 80px, 0) scale(0.86);
+    opacity: 0;
+  }
+  12% {
+    opacity: var(--bubble-opacity);
+  }
+  78% {
+    opacity: var(--bubble-opacity);
+  }
+  100% {
+    transform: translate3d(var(--bubble-drift), -118vh, 0) scale(1.08);
+    opacity: 0;
+  }
+}
+
+@keyframes glassBubbleSway {
+  0% {
+    margin-left: calc(var(--bubble-sway) * -1);
+  }
+  100% {
+    margin-left: var(--bubble-sway);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glass-bubble {
+    animation: none;
+    opacity: 0.12;
+  }
+}
 
 /* 비디오 배경 공통 */
 .section__video-bg,
@@ -142,10 +261,10 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   object-fit: cover;
 }
 
-/* 로고 영상 하단 페이드 → body 배경 이미지와 자연스럽게 연결 */
+/* 로고 영상 하단 절반 투명 처리 */
 .section__video-bg {
-  mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
 }
 
 /* 푸터 영상 상단 페이드 → body 배경 이미지에서 자연스럽게 진입 */
@@ -182,38 +301,61 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     0 0 28px rgba(34, 178, 234, 0.15);
 }
 
-/* 글래스 엣지 + 코너 반사 하이라이트 */
-.program-card::before,
-.booking-card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: var(--radius-card);
-  background:
-    /* 상단 엣지 빛 반사 */
-    linear-gradient(to bottom,  rgba(255,255,255,0.30) 0px, transparent 12px),
-    /* 좌측 엣지 빛 반사 */
-    linear-gradient(to right,   rgba(255,255,255,0.18) 0px, transparent 12px),
-    /* 하단 엣지 투영 */
-    linear-gradient(to top,     rgba(34,178,234,0.14)  0px, transparent 12px),
-    /* 우측 엣지 투영 */
-    linear-gradient(to left,    rgba(34,178,234,0.08)  0px, transparent 12px),
-    /* 좌상단 코너 강한 반사 */
-    radial-gradient(ellipse 120px 120px at 0% 0%,    rgba(255,255,255,0.20) 0%, transparent 65%),
-    /* 우상단 코너 */
-    radial-gradient(ellipse 90px 90px  at 100% 0%,   rgba(255,255,255,0.12) 0%, transparent 65%),
-    /* 좌하단 코너 */
-    radial-gradient(ellipse 80px 80px  at 0% 100%,   rgba(34,178,234,0.10)  0%, transparent 65%),
-    /* 우하단 코너 */
-    radial-gradient(ellipse 80px 80px  at 100% 100%, rgba(34,178,234,0.07)  0%, transparent 65%);
-  pointer-events: none;
-  z-index: 3;
-}
 
 
 /* -------------------------------------------------------------
    5. TYPOGRAPHY COMPONENTS
    ------------------------------------------------------------- */
+
+.program-card::before,
+.booking-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: 2.5px;
+  border-radius: inherit;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(255,255,255,0.96) 0 8%, transparent 24%),
+    radial-gradient(circle at 100% 0%, rgba(255,255,255,0.88) 0 7%, transparent 24%),
+    radial-gradient(circle at 0% 100%, rgba(255,255,255,0.72) 0 7%, transparent 25%),
+    radial-gradient(circle at 100% 100%, rgba(255,255,255,0.62) 0 6%, transparent 24%),
+    linear-gradient(115deg,
+      rgba(255,255,255,0.72) 0%,
+      rgba(255,255,255,0.10) 18%,
+      rgba(255,255,255,0.18) 34%,
+      rgba(161,225,255,0.08) 50%,
+      rgba(255,255,255,0.15) 66%,
+      rgba(255,255,255,0.48) 84%,
+      rgba(255,255,255,0.16) 100%
+    );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  opacity: 0.78;
+  pointer-events: none;
+  z-index: 5;
+  transition: opacity var(--tr-base), filter var(--tr-base);
+}
+
+.program-card::after,
+.booking-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,0.34), rgba(255,255,255,0.06) 34%, transparent 68%),
+    radial-gradient(ellipse 70% 42% at 16% 0%, rgba(255,255,255,0.20), transparent 72%);
+  opacity: 0.46;
+  pointer-events: none;
+  z-index: 3;
+  transition: opacity var(--tr-base), transform var(--tr-base);
+}
 
 /* --- Section Title --- */
 .section-title {
@@ -418,6 +560,14 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   aspect-ratio: 16 / 9;
   min-height: 100vh;
   isolation: isolate;
+  overflow: hidden;
+}
+
+.section--logo .section__video-bg {
+  top: 0;
+  bottom: auto;
+  height: 50%;
+  object-position: center bottom;
 }
 
 
@@ -473,7 +623,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 /* 스크롤 인디케이터 */
 .scroll-indicator {
   position: absolute;
-  bottom: 130px;
+  bottom: 190px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 2;
@@ -516,11 +666,12 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
 /* 섹션 컨테이너: 생물 4종 × 100vh + 퇴장 고정 구간 100vh + 여백 100vh */
 .section--crew-scroll {
-  height: 450vh;
+  /* 4 panels * 100vh + fixed exit/scroll-out buffer */
+  height: 500vh;
   min-height: unset;
   display: block;
   overflow: visible;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 }
 
 /* 스티키 뷰포트 — z-index 제거: 자식들이 루트 스택에 직접 참여해야
@@ -588,7 +739,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   transform: translate(-48%, -44%);
   display: flex;
   align-items: center;
-  gap: clamp(48px, 6vw, 92px);
+  gap: clamp(60px, 6.5vw, 108px);
   width: var(--container-w);
   max-width: calc(100% - 64px);
   z-index: 10;
@@ -683,7 +834,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   max-width: 100%;
   margin-left: clamp(12px, 1.4vw, 22px);
   min-height: 286px;
-  transition: opacity 0.24s ease, transform 0.24s ease;
+  transition: opacity 0.22s ease, transform 0.22s ease;
 }
 
 .section--crew-scroll.is-creature-moving .crew-info-wrap,
@@ -716,7 +867,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   );
   opacity: 0;
   transform: translateY(28px);
-  transition: opacity 0.55s ease, transform 0.55s ease;
+  transition: opacity 0.48s ease, transform 0.48s ease;
   pointer-events: none;
 }
 
@@ -782,8 +933,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 /* 회전 힌트 */
 .crew-rotate-hint {
   position: absolute;
-  bottom: 8px;
-  left: max(28px, calc(50% - 460px));
+  top: 260px;
+  right: calc(100% + 65px);
   transform: none;
   display: flex;
   flex-direction: column;
@@ -927,6 +1078,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   }
 
   .crew-rotate-hint {
+    top: auto;
+    right: auto;
     bottom: 4px;
     left: 50%;
     transform: translateX(-50%);
@@ -957,7 +1110,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
    10. PROGRAM SECTION
    ------------------------------------------------------------- */
 .section--program {
-  height: 125vh;
+  height: 112.5vh;
   min-height: unset;
   display: block;
   overflow: visible;
@@ -969,6 +1122,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .section--booking {
   --seq-title-y: 46vh;
   --seq-content-y: 52vh;
+  --seq-title-opacity: 0;
+  --seq-content-opacity: 0;
 }
 
 .section--program .section__bg {
@@ -992,16 +1147,16 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 
 .section--program .program-seq-title {
-  opacity: 0;
+  opacity: var(--seq-title-opacity);
   margin-top: 190px;
   transform: translateY(var(--seq-title-y));
-  transition: opacity 0.9s ease;
+  transition: none;
 }
 
 .section--program .program-seq-content {
-  opacity: 0;
+  opacity: var(--seq-content-opacity);
   transform: translateY(var(--seq-content-y));
-  transition: opacity 0.24s ease;
+  transition: none;
 }
 
 .section--program .program-seq-content .program-card {
@@ -1011,11 +1166,11 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 
 .section--program.is-title-visible .program-seq-title {
-  opacity: 1;
+  opacity: var(--seq-title-opacity);
 }
 
 .section--program.is-content-visible .program-seq-content {
-  opacity: 1;
+  opacity: var(--seq-content-opacity);
 }
 
 .program-seq-content.is-wave-entering .program-card {
@@ -1060,11 +1215,25 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   overflow: hidden;
   flex-shrink: 0;
   cursor: pointer;
-  transition: transform var(--tr-base), box-shadow var(--tr-base);
+  border: 0;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.10);
+  backdrop-filter: blur(18px) saturate(1.28);
+  -webkit-backdrop-filter: blur(18px) saturate(1.28);
+  box-shadow: none;
+  isolation: isolate;
+  transition:
+    transform var(--tr-base),
+    background var(--tr-base),
+    backdrop-filter var(--tr-base),
+    -webkit-backdrop-filter var(--tr-base);
 }
 .program-card:hover {
-  transform: scale(1.018);
-  box-shadow: 0 8px 40px rgba(34,178,234,0.15);
+  transform: translateY(-8px);
+  background: rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(20px) saturate(1.34);
+  -webkit-backdrop-filter: blur(20px) saturate(1.34);
+  box-shadow: none;
   z-index: 2;
 }
 
@@ -1073,7 +1242,55 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   inset: 0;
   background-size: cover;
   background-position: center;
+  filter: brightness(1.08) contrast(1.04) saturate(1.08);
+  transform: scale(1);
+  transition: transform 0.45s ease, filter var(--tr-base);
+  z-index: 0;
 }
+
+.program-card__img::before,
+.booking-card__img::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(1.4px) saturate(1.08);
+  -webkit-backdrop-filter: blur(1.4px) saturate(1.08);
+  opacity: 0.48;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.program-card__img::after,
+.booking-card__img::after {
+  content: '';
+  position: absolute;
+  inset: -18% -24%;
+  background: linear-gradient(
+    var(--glass-shine-angle, 120deg),
+    transparent 0%,
+    rgba(255,255,255,0.00) 21%,
+    rgba(255,255,255,0.24) 36%,
+    rgba(255,255,255,0.08) 49%,
+    transparent 66%
+  );
+  opacity: var(--glass-shine-opacity, 0.42);
+  transform: translateX(var(--glass-shine-x, 0px)) translateY(var(--glass-shine-y, 0px));
+  transition: opacity 0.7s ease, transform 0.7s ease;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.program-card:nth-child(1) { --glass-shine-angle: 120deg; --glass-shine-x: -34px; --glass-shine-y: -18px; --glass-shine-opacity: 0.46; }
+.program-card:nth-child(2) { --glass-shine-angle: 132deg; --glass-shine-x: 42px; --glass-shine-y: -28px; --glass-shine-opacity: 0.38; }
+.program-card:nth-child(3) { --glass-shine-angle: 112deg; --glass-shine-x: 10px; --glass-shine-y: 8px; --glass-shine-opacity: 0.34; }
+.program-card:nth-child(4) { --glass-shine-angle: 126deg; --glass-shine-x: -8px; --glass-shine-y: -10px; --glass-shine-opacity: 0.50; }
+
+.booking-card:nth-child(1) { --glass-shine-angle: 118deg; --glass-shine-x: -38px; --glass-shine-y: -20px; --glass-shine-opacity: 0.44; }
+.booking-card:nth-child(2) { --glass-shine-angle: 134deg; --glass-shine-x: 46px; --glass-shine-y: -24px; --glass-shine-opacity: 0.40; }
+.booking-card:nth-child(3) { --glass-shine-angle: 110deg; --glass-shine-x: 6px; --glass-shine-y: 10px; --glass-shine-opacity: 0.35; }
+.booking-card:nth-child(4) { --glass-shine-angle: 124deg; --glass-shine-x: -18px; --glass-shine-y: -12px; --glass-shine-opacity: 0.48; }
+
 .program-card__img--1 { background-image: url('assets/images/image%20136.png'); }
 .program-card__img--2 { background-image: url('assets/images/image%20139.png'); }
 .program-card__img--3 { background-image: url('assets/images/image%20138.png'); }
@@ -1082,7 +1299,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .program-card__gradient {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, #000000 0%, transparent 55%);
+  background: linear-gradient(to top, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.12) 28%, transparent 62%);
+  z-index: 1;
 }
 
 /* 카드 하단 콘텐츠 래퍼 */
@@ -1103,6 +1321,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   font-size: var(--fs-caption);
   letter-spacing: 0;
   color: var(--clr-text);
+  text-shadow: 0 1px 10px rgba(0, 28, 70, 0.28);
   transition: transform var(--tr-base);
   transform: translateY(0);
 }
@@ -1111,9 +1330,10 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .program-card__hover-gradient {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.85) 65%);
+  background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.42) 48%, rgba(0,0,0,0.85) 100%);
   opacity: 0;
   transition: opacity var(--tr-base);
+  z-index: 2;
 }
 
 /* 호버 정보 영역 */
@@ -1168,7 +1388,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
    11. LOCATION SECTION
    ------------------------------------------------------------- */
 .section--location {
-  height: 125vh;
+  height: 112.5vh;
   min-height: unset;
   display: block;
   overflow: visible;
@@ -1191,9 +1411,9 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   width: 100%;
   height: 670px;
   gap: 0;
-  opacity: 0;
+  opacity: var(--seq-content-opacity);
   transform: translateY(var(--seq-content-y));
-  transition: opacity 0.24s ease;
+  transition: none;
 }
 
 .location-map {
@@ -1416,8 +1636,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
 .location-hover-card__image {
   position: relative;
-  flex: 0 0 clamp(280px, 53%, 500px);
-  max-width: calc(100% - 350px);
+  flex: 0 0 clamp(240px, 44%, 380px);
+  max-width: 380px;
   margin-left: auto;
   margin-right: 6px;
   min-width: 0;
@@ -1463,7 +1683,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
    12. BOOKING SECTION
    ------------------------------------------------------------- */
 .section--booking {
-  height: 125vh;
+  height: 112.5vh;
   min-height: unset;
   display: block;
   overflow: visible;
@@ -1473,33 +1693,74 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   background: none;
 }
 
+.section--booking .section-seq-sticky {
+  overflow: hidden;
+  isolation: isolate;
+}
+
 .section--booking .container {
+  position: relative;
+  z-index: 2;
   padding-top: 0;
   padding-bottom: 0;
 }
 
+.booking-bg-video {
+  position: absolute;
+  z-index: 0;
+  top: 50%;
+  left: 50%;
+  width: 100vw;
+  height: 100vh;
+  opacity: 0.24;
+  mix-blend-mode: normal;
+  object-fit: contain;
+  pointer-events: none;
+  filter: saturate(1.12) contrast(1.06);
+  transform: translate3d(-50%, -50%, 0) scale(1.08);
+}
+
 /* flex-wrap 비대칭 2×2 그리드 */
 .booking-grid {
+  position: relative;
+  left: 50%;
   display: flex;
   flex-wrap: wrap;
-  gap: var(--card-gap);
-  width: var(--container-w);
+  gap: 17.93px;
+  width: 1300px;
   margin-top: var(--sec-gap);
   opacity: 0;
-  transform: translateY(var(--seq-content-y));
+  transform: translate(-50%, var(--seq-content-y));
   transition: opacity 0.24s ease;
 }
 
 .booking-card {
   position: relative;
   width:  var(--bw);
-  height: 280px;
+  height: 313.79px;
   overflow: hidden;
   flex-shrink: 0;
   cursor: pointer;
-  transition: transform var(--tr-base);
+  border: 0;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.10);
+  backdrop-filter: blur(18px) saturate(1.28);
+  -webkit-backdrop-filter: blur(18px) saturate(1.28);
+  box-shadow: none;
+  isolation: isolate;
+  transition:
+    transform var(--tr-base),
+    background var(--tr-base),
+    backdrop-filter var(--tr-base),
+    -webkit-backdrop-filter var(--tr-base);
 }
-.booking-card:hover { transform: scale(1.012); }
+.booking-card:hover {
+  transform: translateY(-8px);
+  background: rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(20px) saturate(1.34);
+  -webkit-backdrop-filter: blur(20px) saturate(1.34);
+  box-shadow: none;
+}
 
 .booking-seq-content.is-wave-entering .booking-card {
   animation: seqCardWave 0.9s cubic-bezier(0.16, 0.84, 0.28, 1) both;
@@ -1515,6 +1776,10 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   inset: 0;
   background-size: cover;
   background-position: center;
+  filter: brightness(1.08) contrast(1.04) saturate(1.08);
+  transform: scale(1);
+  transition: transform 0.45s ease, filter var(--tr-base);
+  z-index: 0;
 }
 .booking-card__img--ilsan  { background-image: url("assets/images/Frame 19.png"); }
 .booking-card__img--seoul  { background-image: url("assets/images/Frame 20.png"); }
@@ -1524,7 +1789,10 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .booking-card__gradient {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, rgba(0,0,0,0) 25%, var(--clr-overlay-70) 100%);
+  background:
+    linear-gradient(to bottom, rgba(0,0,0,0.04) 0%, rgba(0,0,0,0.06) 48%, rgba(0,0,0,0.30) 100%),
+    linear-gradient(to top, rgba(0,0,0,0.14) 0%, transparent 42%);
+  z-index: 1;
 }
 
 .booking-card__foot {
@@ -1542,6 +1810,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   font-size: var(--fs-body);
   letter-spacing: var(--ls-normal);
   color: var(--clr-text);
+  text-shadow: 0 1px 10px rgba(0, 28, 70, 0.30);
 }
 
 
@@ -1612,6 +1881,32 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .program-card:hover .program-card__hover-gradient {
   opacity: 1;
 }
+.program-card:hover::before,
+.booking-card:hover::before {
+  opacity: 1;
+  filter: brightness(1.18);
+}
+.program-card:hover::after,
+.booking-card:hover::after {
+  opacity: 0.62;
+  transform: translate3d(-1px, -1px, 0);
+}
+.program-card:hover .program-card__img,
+.booking-card:hover .booking-card__img {
+  transform: scale(1.025);
+  filter: brightness(1.12) contrast(1.05) saturate(1.1);
+}
+.program-card:hover .program-card__img::before,
+.booking-card:hover .booking-card__img::before {
+  opacity: 0.56;
+}
+.program-card:hover .program-card__img::after,
+.booking-card:hover .booking-card__img::after {
+  opacity: calc(var(--glass-shine-opacity, 0.42) + 0.10);
+  transform:
+    translateX(calc(var(--glass-shine-x, 0px) + 20px))
+    translateY(var(--glass-shine-y, 0px));
+}
 .program-card:hover .program-card__hover-info {
   opacity: 1;
   max-height: 300px;
@@ -1619,11 +1914,29 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
 /* 예매 카드 hover: 버튼 밝기 */
 .booking-card .btn-cta--white {
-  opacity: 0.7;
-  transition: opacity var(--tr-base), background var(--tr-base), color var(--tr-base);
+  opacity: 0.88;
+  color: var(--clr-text);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1.5px solid rgba(255, 255, 255, 0.42);
+  backdrop-filter: blur(12px) saturate(1.25);
+  -webkit-backdrop-filter: blur(12px) saturate(1.25);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.22),
+    0 3px 12px rgba(0, 32, 80, 0.08);
+  transition:
+    opacity var(--tr-base),
+    background var(--tr-base),
+    color var(--tr-base),
+    border-color var(--tr-base),
+    transform var(--tr-base);
 }
-.booking-card:hover .btn-cta--white {
+.booking-card:hover .btn-cta--white,
+.booking-card .btn-cta--white:hover {
   opacity: 1;
+  color: var(--clr-text);
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.72);
+  transform: translateY(-1px);
 }
 
 
@@ -1829,136 +2142,61 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
 /* --- Program section exit --- */
 .section--program.is-exiting .program-seq-title {
-  opacity: 0;
-  transition: opacity 0.24s ease;
+  opacity: var(--seq-title-opacity);
+  transition: none;
 }
 .section--program.is-exiting .program-seq-content {
-  opacity: 0;
-  transition: opacity 0.24s ease;
+  opacity: var(--seq-content-opacity);
+  transition: none;
 }
 
 /* --- Location section sequence --- */
 .section--location .location-seq-title {
-  opacity: 0;
+  opacity: var(--seq-title-opacity);
   margin-top: 190px;
   margin-bottom: 40px;
   transform: translateY(var(--seq-title-y));
-  transition: opacity 0.9s ease;
+  transition: none;
 }
 .section--location.is-title-visible .location-seq-title {
-  opacity: 1;
+  opacity: var(--seq-title-opacity);
 }
 .section--location .location-seq-content {
-  opacity: 0;
+  opacity: var(--seq-content-opacity);
   transform: translateY(var(--seq-content-y));
-  transition: opacity 0.24s ease;
+  transition: none;
 }
 .section--location.is-content-visible .location-seq-content {
-  opacity: 1;
+  opacity: var(--seq-content-opacity);
 }
 .section--location.is-exiting .location-seq-title,
 .section--location.is-exiting .location-seq-content {
-  opacity: 0;
-  transition: opacity 0.24s ease;
+  transition: none;
 }
 
 /* --- Booking section sequence --- */
 .section--booking .booking-seq-title {
-  opacity: 0;
+  opacity: var(--seq-title-opacity);
   margin-top: 190px;
   transform: translateY(var(--seq-title-y));
-  transition: opacity 0.9s ease;
+  transition: none;
 }
 .section--booking.is-title-visible .booking-seq-title {
-  opacity: 1;
+  opacity: var(--seq-title-opacity);
 }
 .section--booking .booking-seq-content {
-  opacity: 0;
-  transform: translateY(var(--seq-content-y));
-  transition: opacity 0.24s ease;
+  opacity: var(--seq-content-opacity);
+  transform: translate(-50%, var(--seq-content-y));
+  transition: none;
 }
 .section--booking.is-content-visible .booking-seq-content {
-  opacity: 1;
+  opacity: var(--seq-content-opacity);
 }
 .section--booking.is-exiting .booking-seq-title,
 .section--booking.is-exiting .booking-seq-content {
-  opacity: 0;
-  transition: opacity 0.24s ease;
+  transition: none;
 }
 
-
-/* -------------------------------------------------------------
-   18. TOP BUTTON
-   ------------------------------------------------------------- */
-.top-btn {
-  position: fixed;
-  bottom: 185px;
-  right: 255px;
-  z-index: 998;
-  width: 94px;
-  height: 94px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-
-  /* 기본(흰색 채움) 스타일 — 비디오 배경 & 푸터 구간 */
-  background: #FFFFFF;
-  border: none;
-  color: #071525;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
-
-  /* 숨김 상태 */
-  opacity: 0;
-  transform: translateY(16px);
-  pointer-events: none;
-
-  transition:
-    opacity           0.35s ease,
-    transform         0.35s ease,
-    background        0.35s ease,
-    border-color      0.35s ease,
-    color             0.35s ease,
-    backdrop-filter   0.35s ease,
-    -webkit-backdrop-filter 0.35s ease,
-    box-shadow        0.35s ease;
-}
-
-.top-btn svg {
-  width: 38px;
-  height: 38px;
-}
-
-.top-btn--visible {
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
-}
-
-.top-btn:hover {
-  background: rgba(255, 255, 255, 0.88);
-  box-shadow: 0 6px 28px rgba(0, 0, 0, 0.32);
-}
-
-/* 글래스모피즘 — 콘텐츠 섹션 구간 */
-.top-btn--glass {
-  background: rgba(255, 255, 255, 0.12);
-  border: 1.5px solid rgba(255, 255, 255, 0.28);
-  color: #FFFFFF;
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
-  box-shadow:
-    0 4px 24px rgba(0, 0, 0, 0.18),
-    inset 0 1px 0 rgba(255, 255, 255, 0.22);
-}
-
-.top-btn--glass:hover {
-  background: rgba(255, 255, 255, 0.22);
-  border-color: rgba(255, 255, 255, 0.45);
-}
 
 
 /* -------------------------------------------------------------
@@ -1998,4 +2236,97 @@ html, body, * { cursor: none !important; }
   height: 24px;
   background: rgba(255, 255, 255, 0.2);
   border-color: rgba(255, 255, 255, 1);
+}
+
+
+/* -------------------------------------------------------------
+   20. GNB DROPDOWN — About us 호버 드롭다운
+   ------------------------------------------------------------- */
+.gnb__nav-item {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.gnb__nav-item > .gnb__link {
+  cursor: default;
+}
+
+/* 드롭다운 패널 */
+.gnb__dropdown {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-6px);
+  padding-top: 14px; /* 트리거와의 시각적 간격 — hover 영역 유지 */
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  width: 159px;
+  /* 기본: 숨김 */
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.22s ease, transform 0.22s ease;
+  z-index: 1001;
+}
+
+/* 실제 패널 시각 스타일을 내부 래퍼에 적용 */
+.gnb__dropdown::after {
+  content: '';
+  position: absolute;
+  inset: 14px 0 0 0;
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 14px;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* About us 호버 시 드롭다운 표시 */
+.gnb__nav-item:hover .gnb__dropdown {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* 드롭다운 자체에 호버해도 유지 */
+.gnb__dropdown:hover {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+
+.gnb__dropdown-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  border-radius: 12px;
+  font-family: var(--font-en);
+  font-size: var(--fs-body);
+  letter-spacing: var(--ls-tight);
+  color: var(--clr-text-muted);
+  transition: color var(--tr-base);
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.gnb__dropdown-item:hover {
+  color: var(--clr-text);
+}
+
+.gnb__dropdown-item--active {
+  background: #ffffff;
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 18px;
+  letter-spacing: -0.72px;
+  color: var(--clr-primary) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .booking-bg-video {
+    transform: translate3d(-50%, -50%, 0) scale(1.08);
+  }
 }
