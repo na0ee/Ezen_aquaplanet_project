@@ -118,6 +118,15 @@
               <div class="crew-canvas__glow"></div>
               <div class="crew-canvas__shape"></div>
             </div>
+            <div class="crew-rotate-hint" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                <path d="M4 14C4 8.477 8.477 4 14 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+                <path d="M11.5 1.5L14 4l-2.5 2.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M24 14C24 19.523 19.523 24 14 24" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+                <path d="M16.5 26.5L14 24l2.5-2.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span>drag</span>
+            </div>
           </div>
 
           <!-- 생물 정보 패널 -->
@@ -136,8 +145,8 @@
                 마스코트 바다코끼리 자매, 메리와 바랴<br>
                 행복한 수중 라이프를 즐기고 있다
               </p>
-              <button class="btn-cta btn-cta--outline" type="button">더 알아보기</button>
             </article>
+            <a href="#sec-booking" class="crew-panel-btn btn-cta btn-cta--fill-white" data-index="0">보러가기</a>
 
             <article class="crew-panel glass-card" data-index="1">
               <header class="creature-info__head">
@@ -148,9 +157,9 @@
                 <div><dt>Name</dt><dd>: 루비</dd></div>
                 <div><dt>Location</dt><dd>: 아쿠아플라넷 여수</dd></div>
               </dl>
-              <p class="creature-info__desc">벨루가 마스코트, 루비</p>
-              <button class="btn-cta btn-cta--outline" type="button">더 알아보기</button>
+              <p class="creature-info__desc">벨루가 마스코트</p>
             </article>
+            <a href="#sec-booking" class="crew-panel-btn btn-cta btn-cta--fill-white" data-index="1">보러가기</a>
 
             <article class="crew-panel glass-card" data-index="2">
               <header class="creature-info__head">
@@ -161,9 +170,9 @@
                 <div><dt>Name</dt><dd>: 샌드타이거상어</dd></div>
                 <div><dt>Location</dt><dd>: 전국 아쿠아플라넷</dd></div>
               </dl>
-              <p class="creature-info__desc">메인 수조의 주인공, </p>
-              <button class="btn-cta btn-cta--outline" type="button">더 알아보기</button>
+              <p class="creature-info__desc">메인 수조의 주인공</p>
             </article>
+            <a href="#sec-booking" class="crew-panel-btn btn-cta btn-cta--fill-white" data-index="2">보러가기</a>
 
             <article class="crew-panel glass-card" data-index="3">
               <header class="creature-info__head">
@@ -178,8 +187,8 @@
                 바다를 유유히 헤엄치는 바다거북, 초록이<br>
                 아쿠아플라넷의 오랜 친구
               </p>
-              <button class="btn-cta btn-cta--outline" type="button">더 알아보기</button>
             </article>
+            <a href="#sec-booking" class="crew-panel-btn btn-cta btn-cta--fill-white" data-index="3">보러가기</a>
 
           </div>
         </div>
@@ -192,14 +201,6 @@
           <button class="crew-dot"           data-index="3" role="tab" aria-label="바다거북"></button>
         </div>
 
-        <!-- 스크롤 힌트 -->
-        <div class="crew-scroll-hint" aria-hidden="true">
-          <span>scroll</span>
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <path d="M7 2v10M3 8l4 4 4-4" stroke="currentColor" stroke-width="1.2"
-                  stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
 
       </div>
     </section>
@@ -318,7 +319,7 @@
       <div class="section__bg section__bg--location" aria-hidden="true"></div>
 
       <div class="container">
-        <div class="section-title section-title--center reveal">
+        <div class="section-title section-title--center location-seq-title">
           <h2 class="section-title__main">
             <span class="t-en">Explore </span><em class="t-serif">the Sea</em>
           </h2>
@@ -327,24 +328,13 @@
       </div>
 
       <!-- 지도 + 마커 -->
-      <div class="location-map-wrap">
-        <div class="location-map reveal">
-          <!-- 한국 지도 SVG (단순화 플레이스홀더 — 실제 SVG paths로 교체 예정) -->
-          <svg class="korea-map" viewBox="0 0 475 650" xmlns="http://www.w3.org/2000/svg"
-               aria-hidden="true" focusable="false">
-            <g fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.35)" stroke-width="0.8"
-               stroke-linejoin="round">
-              <!-- TODO: 실제 행정구역 SVG paths 교체 — node IDs: 835:218~234 -->
-              <ellipse cx="242" cy="200" rx="205" ry="175"/>
-              <ellipse cx="235" cy="380" rx="175" ry="145"/>
-              <ellipse cx="215" cy="490" rx="155" ry="90"/>
-              <ellipse cx="245" cy="605" rx="70" ry="42"/>
-            </g>
-          </svg>
+      <div class="location-map-wrap location-seq-content">
+        <div class="location-map">
+          <img class="korea-map" src="assets/images/map.png" alt="한국 지도">
 
           <!-- 지점 마커 (위치: --mx / --my CSS 변수) -->
           <button class="map-marker" data-branch="일산"
-                  style="--mx:47%;--my:26%" type="button" aria-label="아쿠아플라넷 일산">
+                  style="--mx:46%;--my:27%" type="button" aria-label="아쿠아플라넷 일산">
             <span class="map-marker__dot"></span>
             <span class="map-marker__label">일산</span>
           </button>
@@ -362,15 +352,36 @@
           </button>
 
           <button class="map-marker" data-branch="제주"
-                  style="--mx:47%;--my:91%" type="button" aria-label="아쿠아플라넷 제주">
+                  style="--mx:32%;--my:94%" type="button" aria-label="아쿠아플라넷 제주">
             <span class="map-marker__dot"></span>
             <span class="map-marker__label">제주</span>
           </button>
         </div>
 
-        <!-- 좌우 데코 이미지 (실제 이미지로 교체 예정) -->
-        <div class="location-deco location-deco--right" aria-hidden="true"></div>
-        <div class="location-deco location-deco--left"  aria-hidden="true"></div>
+        <svg class="location-indicator" aria-hidden="true" focusable="false">
+          <polyline class="location-indicator__line" points=""></polyline>
+          <circle class="location-indicator__end" cx="0" cy="0" r="4.5"></circle>
+        </svg>
+
+        <article class="location-hover-card glass-card" aria-live="polite">
+          <div class="location-hover-card__body">
+            <div class="location-hover-card__copy">
+              <div class="location-hover-card__title">
+                <span class="location-hover-card__logo">aqua planet</span>
+                <span class="location-hover-card__branch">위치 정보</span>
+              </div>
+              <div class="location-hover-card__meta">
+                <p>위치 정보</p>
+                <p>위치 정보</p>
+              </div>
+              <p class="location-hover-card__desc">위치 정보</p>
+              <a href="#sec-booking" class="location-hover-card__btn btn-cta btn-cta--primary">예매하기</a>
+            </div>
+            <div class="location-hover-card__image" aria-label="지점 사진">
+              <img class="location-hover-card__img" src="" alt="">
+            </div>
+          </div>
+        </article>
       </div>
 
     </section>
@@ -383,7 +394,7 @@
       <div class="section__bg section__bg--booking" aria-hidden="true"></div>
       <div class="container">
 
-        <div class="section-title section-title--center reveal">
+        <div class="section-title section-title--center booking-seq-title">
           <h2 class="section-title__main">
             <span class="t-en">Book </span><em class="t-serif">now</em>
           </h2>
@@ -391,7 +402,7 @@
         </div>
 
         <!-- flex-wrap 비대칭 그리드: Row1(630+514) / Row2(514+630) -->
-        <div class="booking-grid reveal reveal--delay-1">
+        <div class="booking-grid booking-seq-content">
 
           <article class="booking-card glass-card" style="--bw:630px;" data-branch="일산">
             <div class="booking-card__img booking-card__img--ilsan"></div>

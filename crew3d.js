@@ -89,9 +89,63 @@ Object.assign(crewCanvas.style, {
 document.body.appendChild(crewCanvas);
 
 /* 크루 섹션 뷰포트 진입 시 표시, 이탈 시 페이드 아웃 */
-const crewSection = document.getElementById('sec-crew');
+const crewSection      = document.getElementById('sec-crew');
+const crewSticky       = crewSection?.querySelector('.crew-sticky');
+const totalPanelCount  = crewSection?.querySelectorAll('.crew-panel').length || 4;
 let crewInView = false;
 let crewEntryTimer = null;
+let crewContentTimer = null;
+
+let exitZoneActive = false;
+let prevExcess = 0;
+
+/* 캔버스를 crew-sticky 가시 영역으로 clip.
+   퇴장 구간: 다운 스크롤 → translateY로 위로 올라가게, 업 스크롤 → 즉시 숨김 */
+function clampCanvasToSticky() {
+  if (!crewSticky || !crewSection) return;
+  const sr   = crewSticky.getBoundingClientRect();
+  const secR = crewSection.getBoundingClientRect();
+  const vh   = window.innerHeight;
+
+  const scrolled     = -secR.top;
+  const excess       = Math.max(0, scrolled - totalPanelCount * vh);
+  const scrollingDown = excess > prevExcess;
+  prevExcess = excess;
+
+  if (excess > 0) {
+    exitZoneActive = true;
+    crewCanvas.style.transition = 'none';
+    if (scrollingDown) {
+      /* 다운 스크롤: GLB 위로 올라가게 */
+      crewCanvas.style.opacity   = '1';
+      crewCanvas.style.transform = `translateY(-${excess}px)`;
+      crewCanvas.style.clipPath  = 'none';
+    } else {
+      /* 업 스크롤: 즉시 숨김 */
+      crewCanvas.style.opacity   = '0';
+      crewCanvas.style.transform = '';
+      crewCanvas.style.clipPath  = 'inset(0px 0px 100vh 0px)';
+    }
+    return;
+  }
+
+  if (exitZoneActive) {
+    exitZoneActive = false;
+    prevExcess = 0;
+    crewCanvas.style.transform = '';
+    if (crewInView) {
+      crewCanvas.style.transition = 'opacity 0.6s ease';
+      crewCanvas.style.opacity    = '1';
+    }
+  }
+
+  /* sticky 가시 영역 클립 */
+  const visTop = Math.max(0, sr.top);
+  const visBtm = Math.min(vh, sr.bottom);
+  crewCanvas.style.clipPath = (visBtm > visTop)
+    ? `inset(${visTop}px 0px ${vh - visBtm}px 0px)`
+    : 'inset(0px 0px 100vh 0px)';
+}
 
 function setCrewInfoVisible(visible) {
   crewSection?.classList.toggle('is-creature-moving', !visible);
@@ -320,15 +374,29 @@ let exitActive   = false;
 let hideCanvasAfterExit = false;
 
 function enterCrewSection() {
+  /* 이전에 canvas가 visible 상태였더라도 즉시 숨겨서 GLB가 타이틀보다 먼저 보이지 않도록 */
+  crewCanvas.style.transition = 'none';
+  crewCanvas.style.opacity    = '0';
+
   setCrewInfoVisible(false);
   setCrewTitleVisible(true);
-  crewCanvas.style.opacity = '1';
   hideCanvasAfterExit = false;
-  scheduleCreatureEntry();
+  clearTimeout(crewContentTimer);
+  crewContentTimer = setTimeout(() => {
+    if (!crewInView) return;
+    crewCanvas.style.transition = 'opacity 0.6s ease';
+    crewCanvas.style.opacity    = '1';
+    crewSection?.classList.add('is-content-visible');
+    scheduleCreatureEntry();
+  }, 700);
 }
 
 function leaveCrewSection() {
+  clearTimeout(crewContentTimer);
+  /* exit zone 다운 스크롤 중: translateY가 GLB를 위로 밀어내므로 수영 애니메이션 불필요 */
+  if (exitZoneActive) return;
   clearTimeout(crewEntryTimer);
+  crewSection?.classList.remove('is-content-visible');
   setCrewTitleVisible(false);
   if (loadedN !== CREATURES.length) {
     crewCanvas.style.opacity = '0';
@@ -518,6 +586,7 @@ const clock = new THREE.Clock();
     camera.position.z = 8.0 + Math.sin(clock.elapsedTime * 0.22) * 0.12 * cameraBobFade;
   }
 
+  clampCanvasToSticky();
   renderer.render(scene, camera);
 }());
 
@@ -528,6 +597,7 @@ window.addEventListener('resize', () => {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
+  clampCanvasToSticky();
 });
 
 /* ---------------------------------------------------------------
