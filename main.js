@@ -12,6 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initIntroScrollGate();
   initCrewScroll();
   initProgramSequence();
+  initLocationSequence();
+  initBookingSequence();
   initMapMarkers();
 });
 
@@ -56,8 +58,21 @@ function initGnb() {
     'sec-booking':  'about',
   };
 
+  let lastScrollY = window.scrollY;
+
   function onScroll() {
-    gnb.classList.toggle('is-scrolled', window.scrollY > SCROLL_THRESHOLD);
+    const currentY = window.scrollY;
+    const scrolledDown = currentY > lastScrollY;
+
+    gnb.classList.toggle('is-scrolled', currentY > SCROLL_THRESHOLD);
+
+    if (currentY > SCROLL_THRESHOLD) {
+      gnb.classList.toggle('is-hidden', scrolledDown);
+    } else {
+      gnb.classList.remove('is-hidden');
+    }
+
+    lastScrollY = currentY;
 
     let activeNav = 'about';
     sections.forEach(sec => {
@@ -83,10 +98,13 @@ function initGnb() {
 function initScrollIndicator() {
   const indicator = document.querySelector('.scroll-indicator');
   const trigger   = document.getElementById('dive-trigger');
+  const intro     = document.getElementById('sec-intro');
   if (!indicator) return;
 
   window.addEventListener('scroll', () => {
-    const progress = Math.min(window.scrollY / 150, 1);
+    const introTop     = intro ? window.scrollY + intro.getBoundingClientRect().top : 0;
+    const scrolledIn   = Math.max(0, window.scrollY - introTop);
+    const progress     = Math.min(scrolledIn / 150, 1);
     indicator.style.opacity   = String(1 - progress);
     indicator.style.transform = `translateX(-50%) translateY(${progress * 20}px)`;
   }, { passive: true });
@@ -117,18 +135,10 @@ function initLogoScrollGate() {
   function triggerLogoToIntro() {
     if (gateOpen) return;
     gateOpen = true;
-
-    if (typeof gsap === 'undefined') {
-      intro.scrollIntoView({ behavior: 'smooth' });
-      return;
-    }
-
-    useSectionTransition({
-      from:   logo,
-      to:     intro,
-      onPeak: () => intro.scrollIntoView({ behavior: 'auto' }),
-      onDone: () => { /* gateOpen 유지 — 재트리거 방지 */ },
-    });
+    intro.scrollIntoView({ behavior: 'smooth' });
+    setTimeout(() => {
+      intro.querySelectorAll('.reveal').forEach(el => el.classList.add('is-visible'));
+    }, 400);
   }
 
   /* 마우스 휠: 아래 스크롤 3회 카운트 */
@@ -227,7 +237,9 @@ function initIntroScrollGate() {
   }
 
   window.addEventListener('wheel', (e) => {
-    if (e.deltaY > 0 && shouldBlockDown()) e.preventDefault();
+    if (e.deltaY > 0 && shouldBlockDown()) {
+      e.preventDefault();
+    }
   }, { passive: false });
 
   window.addEventListener('touchstart', (e) => {
@@ -236,12 +248,16 @@ function initIntroScrollGate() {
 
   window.addEventListener('touchmove', (e) => {
     const y = e.touches[0]?.clientY ?? touchStartY;
-    if (touchStartY - y > 0 && shouldBlockDown()) e.preventDefault();
+    if (touchStartY - y > 30 && shouldBlockDown()) {
+      e.preventDefault();
+    }
   }, { passive: false });
 
   window.addEventListener('keydown', (e) => {
     const downKeys = ['ArrowDown', 'PageDown', ' ', 'End'];
-    if (downKeys.includes(e.key) && shouldBlockDown()) e.preventDefault();
+    if (downKeys.includes(e.key) && shouldBlockDown()) {
+      e.preventDefault();
+    }
   });
 
   window.addEventListener('scroll', () => {
@@ -347,77 +363,53 @@ function initCrewScroll() {
   const crewTitle   = section.querySelector('.crew-header__title');
   const crewSub     = section.querySelector('.crew-header__sub');
   const sticky      = section.querySelector('.crew-sticky');
-  const programGrid = document.querySelector('#sec-program .program-grid');
 
   if (!section || !panels.length) return;
-
-  const programPreview = programGrid?.cloneNode(true);
-  if (programPreview && sticky) {
-    programPreview.className = 'program-grid crew-program-preview';
-    sticky.appendChild(programPreview);
-  }
 
   const creatures  = ['walrus', 'beluga', 'whaleshark', 'turtle'];
   const totalPanels = panels.length;
   let currentIndex  = -1;
   let tailHidden    = false;
 
-  function playPreviewCardWave() {
-    if (!programPreview) return;
-    section.classList.add('is-program-cards-visible');
-
+  function playCrewCardWave() {
+    const wrap    = document.querySelector('.crew-info-wrap');
     const dispMap = document.getElementById('dive-disp-map');
     const turbEl  = document.getElementById('dive-turbulence');
-    if (!dispMap || !turbEl || typeof gsap === 'undefined') return;
 
-    programPreview.style.filter = 'url(#dive-warp)';
+    if (!wrap || !dispMap || !turbEl || typeof gsap === 'undefined') return;
+
+    wrap.style.filter = 'url(#dive-warp)';
 
     let rafId;
     const t0 = performance.now();
-    (function tickPreviewWave() {
-      const t = (performance.now() - t0) / 1000;
-      const bfx = (0.006 + Math.sin(t * 2.4) * 0.002).toFixed(5);
-      const bfy = (0.010 + Math.cos(t * 1.9) * 0.003).toFixed(5);
+    (function tickCrewWave() {
+      const t   = (performance.now() - t0) / 1000;
+      const bfx = (0.005 + Math.sin(t * 2.2) * 0.0015).toFixed(5);
+      const bfy = (0.009 + Math.cos(t * 1.8) * 0.0022).toFixed(5);
       turbEl.setAttribute('baseFrequency', `${bfx} ${bfy}`);
-      rafId = requestAnimationFrame(tickPreviewWave);
+      rafId = requestAnimationFrame(tickCrewWave);
     })();
 
     gsap.fromTo(
       dispMap,
-      { attr: { scale: 28 } },
+      { attr: { scale: 22 } },
       {
         attr: { scale: 0 },
-        duration: 1.15,
+        duration: 0.85,
         ease: 'expo.out',
         onComplete() {
           cancelAnimationFrame(rafId);
           turbEl.setAttribute('baseFrequency', '0.004 0.007');
           dispMap.setAttribute('scale', '0');
-          programPreview.style.filter = '';
+          wrap.style.filter = '';
         },
       }
     );
   }
 
-  function setProgramPreviewTitle(active) {
-    section.classList.toggle('is-program-preview', active);
-    if (!crewTitle || !crewSub) return;
-
-    if (active) {
-      crewTitle.innerHTML = "<span class=\"t-en\">Today's </span><em class=\"t-serif\">Program</em>";
-      crewSub.textContent = 'Aqua Planet daily programs';
-    } else {
-      crewTitle.innerHTML = '<span class="t-en">Our </span><em class="t-serif">Crew</em>';
-      crewSub.textContent = 'Aqua Planet ocean friends';
-    }
-  }
-
-  function setProgramPreviewCards(active) {
-    section.classList.toggle('is-program-cards-visible', active);
-  }
-
   function setActive(idx) {
     if (idx === currentIndex) return;
+    const prevIndex = currentIndex;
     currentIndex = idx;
 
     panels.forEach((p, i) => {
@@ -432,16 +424,18 @@ function initCrewScroll() {
 
     /* Three.js crew3d.js에 전달 */
     document.dispatchEvent(new CustomEvent('crew-switch', { detail: { idx } }));
+
+    /* 카드 전환 파동 효과 (첫 번째 진입 제외) */
+    if (prevIndex >= 0) playCrewCardWave();
   }
 
   function onScroll() {
     const rect    = section.getBoundingClientRect();
     const scrolled = -rect.top; /* 섹션 상단으로부터 스크롤된 px */
 
-    if (scrolled < 0) {
+    if (scrolled < -10) {
+      section.classList.remove('is-title-visible', 'is-crew-exiting', 'is-content-visible');
       tailHidden = false;
-      setProgramPreviewTitle(false);
-      setProgramPreviewCards(false);
       document.dispatchEvent(new CustomEvent('crew-tail-visibility', { detail: { hidden: false } }));
       setActive(0);
       return;
@@ -453,13 +447,14 @@ function initCrewScroll() {
         tailHidden = true;
         document.dispatchEvent(new CustomEvent('crew-tail-visibility', { detail: { hidden: true } }));
       }
+      section.classList.add('is-crew-exiting');
       return;
     }
 
+    section.classList.remove('is-crew-exiting');
+
     if (tailHidden) {
       tailHidden = false;
-      setProgramPreviewTitle(false);
-      setProgramPreviewCards(false);
       document.dispatchEvent(new CustomEvent('crew-tail-visibility', { detail: { hidden: false } }));
     }
 
@@ -482,11 +477,6 @@ function initCrewScroll() {
     });
   });
 
-  document.addEventListener('crew-tail-exit-complete', () => {
-    if (!tailHidden) return;
-    setProgramPreviewTitle(true);
-    playPreviewCardWave();
-  });
 }
 
 
@@ -496,6 +486,8 @@ function initCrewScroll() {
 function initProgramSequence() {
   const section = document.getElementById('sec-program');
   if (!section) return;
+
+  let state = 'hidden';
 
   function playProgramCardWave() {
     const content = section.querySelector('.program-seq-content');
@@ -510,7 +502,7 @@ function initProgramSequence() {
     let rafId;
     const t0 = performance.now();
     (function tickProgramWave() {
-      const t = (performance.now() - t0) / 1000;
+      const t   = (performance.now() - t0) / 1000;
       const bfx = (0.006 + Math.sin(t * 2.4) * 0.002).toFixed(5);
       const bfy = (0.010 + Math.cos(t * 1.9) * 0.003).toFixed(5);
       turbEl.setAttribute('baseFrequency', `${bfx} ${bfy}`);
@@ -534,21 +526,117 @@ function initProgramSequence() {
     );
   }
 
-  const observer = new IntersectionObserver(
-    ([entry]) => {
-      if (!entry.isIntersecting) return;
-      section.classList.add('is-title-visible');
+  function enter() {
+    if (state === 'visible') return;
+    state = 'visible';
+    section.classList.remove('is-exiting');
+    section.classList.add('is-title-visible');
+    setTimeout(() => {
+      if (state === 'visible') playProgramCardWave();
+    }, 200);
+  }
 
-      window.setTimeout(() => {
-        playProgramCardWave();
-      }, 420);
+  function exit() {
+    if (state !== 'visible') return;
+    state = 'exiting';
+    section.classList.add('is-exiting');
+    setTimeout(() => {
+      section.classList.remove('is-title-visible', 'is-content-visible', 'is-exiting');
+      state = 'hidden';
+    }, 420);
+  }
 
-      observer.unobserve(section);
-    },
-    { threshold: 0.22 }
-  );
+  function onScroll() {
+    const rect = section.getBoundingClientRect();
+    const vh   = window.innerHeight;
+    if (rect.top < vh * 0.88 && rect.bottom > vh * 0.2) enter();
+    else if (rect.bottom < vh * 0.2) exit();
+  }
 
-  observer.observe(section);
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+}
+
+
+/* =============================================================
+   6-B. LOCATION SECTION SEQUENCE
+   ============================================================= */
+function initLocationSequence() {
+  const section = document.getElementById('sec-location');
+  if (!section) return;
+
+  let state = 'hidden';
+
+  function enter() {
+    if (state === 'visible') return;
+    state = 'visible';
+    section.classList.remove('is-exiting');
+    section.classList.add('is-title-visible');
+    setTimeout(() => {
+      if (state === 'visible') section.classList.add('is-content-visible');
+    }, 320);
+  }
+
+  function exit() {
+    if (state !== 'visible') return;
+    state = 'exiting';
+    section.classList.add('is-exiting');
+    setTimeout(() => {
+      section.classList.remove('is-title-visible', 'is-content-visible', 'is-exiting');
+      state = 'hidden';
+    }, 420);
+  }
+
+  function onScroll() {
+    const rect = section.getBoundingClientRect();
+    const vh   = window.innerHeight;
+    if (rect.top < vh * 0.72 && rect.bottom > vh * 0.2) enter();
+    else if (rect.bottom < vh * 0.2) exit();
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+}
+
+
+/* =============================================================
+   6-C. BOOKING SECTION SEQUENCE
+   ============================================================= */
+function initBookingSequence() {
+  const section = document.getElementById('sec-booking');
+  if (!section) return;
+
+  let state = 'hidden';
+
+  function enter() {
+    if (state === 'visible') return;
+    state = 'visible';
+    section.classList.remove('is-exiting');
+    section.classList.add('is-title-visible');
+    setTimeout(() => {
+      if (state === 'visible') section.classList.add('is-content-visible');
+    }, 320);
+  }
+
+  function exit() {
+    if (state !== 'visible') return;
+    state = 'exiting';
+    section.classList.add('is-exiting');
+    setTimeout(() => {
+      section.classList.remove('is-title-visible', 'is-content-visible', 'is-exiting');
+      state = 'hidden';
+    }, 420);
+  }
+
+  function onScroll() {
+    const rect = section.getBoundingClientRect();
+    const vh   = window.innerHeight;
+    if (rect.top < vh * 0.72 && rect.bottom > vh * 0.2) enter();
+    else if (rect.bottom < vh * 0.2) exit();
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
 }
 
 
@@ -558,20 +646,94 @@ function initProgramSequence() {
 function initMapMarkers() {
   const markers = document.querySelectorAll('.map-marker');
   if (!markers.length) return;
+  const mapWrap = document.querySelector('.location-map-wrap');
+  const hoverCard = document.querySelector('.location-hover-card');
+  const indicator = document.querySelector('.location-indicator');
+  const indicatorLine = document.querySelector('.location-indicator__line');
+  const indicatorEnd = document.querySelector('.location-indicator__end');
+  let activeMarker = null;
+  let indicatorTimer = null;
+  let indicatorRaf = null;
 
   const branchInfo = {
-    '일산':  { name: '아쿠아플라넷 일산',  href: '#sec-booking' },
-    '코엑스': { name: '아쿠아플라넷 코엑스', href: '#sec-booking' },
-    '여수':  { name: '아쿠아플라넷 여수',  href: '#sec-booking' },
-    '제주':  { name: '아쿠아플라넷 제주',  href: '#sec-booking' },
+    '일산':  { name: '아쿠아플라넷 일산',  img: 'assets/images/Frame 19.png', href: '#sec-booking' },
+    '코엑스': { name: '아쿠아플라넷 코엑스', img: 'assets/images/Frame 20.png', href: '#sec-booking' },
+    '여수':  { name: '아쿠아플라넷 여수',  img: 'assets/images/Frame 22.png', href: '#sec-booking' },
+    '제주':  { name: '아쿠아플라넷 제주',  img: 'assets/images/Frame 21.png', href: '#sec-booking' },
   };
 
+  const cardImg = hoverCard?.querySelector('.location-hover-card__img');
+
+  function updateIndicator(marker) {
+    if (!mapWrap || !hoverCard || !indicator || !indicatorLine || !indicatorEnd || !marker) return;
+
+    const wrapRect = mapWrap.getBoundingClientRect();
+    const markerRect = marker.getBoundingClientRect();
+    const cardRect = hoverCard.getBoundingClientRect();
+
+    const startX = markerRect.left + markerRect.width / 2 - wrapRect.left;
+    const startY = markerRect.top + markerRect.height / 2 - wrapRect.top;
+    const endX = cardRect.left - wrapRect.left;
+    const endY = cardRect.top + Math.min(168, cardRect.height * 0.43) - wrapRect.top;
+    const bendX = startX + Math.max(72, (endX - startX) * 0.48);
+
+    indicator.setAttribute('viewBox', `0 0 ${wrapRect.width} ${wrapRect.height}`);
+    indicatorLine.setAttribute(
+      'points',
+      `${startX.toFixed(1)},${startY.toFixed(1)} ${bendX.toFixed(1)},${startY.toFixed(1)} ${bendX.toFixed(1)},${endY.toFixed(1)} ${endX.toFixed(1)},${endY.toFixed(1)}`
+    );
+    indicatorEnd.setAttribute('cx', endX.toFixed(1));
+    indicatorEnd.setAttribute('cy', endY.toFixed(1));
+  }
+
+  function activate(marker) {
+    activeMarker = marker;
+    markers.forEach(m => m.classList.toggle('is-active', m === marker));
+    mapWrap?.classList.add('is-hovering');
+
+    const info = branchInfo[marker.dataset.branch];
+    if (cardImg && info) {
+      cardImg.src = info.img;
+      cardImg.alt = info.name;
+    }
+    window.clearTimeout(indicatorTimer);
+    window.cancelAnimationFrame(indicatorRaf);
+
+    const startedAt = performance.now();
+    function trackIndicator(now) {
+      updateIndicator(marker);
+      if (activeMarker === marker && now - startedAt < 460) {
+        indicatorRaf = window.requestAnimationFrame(trackIndicator);
+      }
+    }
+    indicatorRaf = window.requestAnimationFrame(trackIndicator);
+    indicatorTimer = window.setTimeout(() => updateIndicator(marker), 480);
+  }
+
+  function deactivate() {
+    activeMarker = null;
+    window.clearTimeout(indicatorTimer);
+    window.cancelAnimationFrame(indicatorRaf);
+    markers.forEach(m => m.classList.remove('is-active'));
+    mapWrap?.classList.remove('is-hovering');
+  }
+
+  mapWrap?.addEventListener('pointerleave', deactivate);
+  window.addEventListener('resize', () => {
+    if (activeMarker) updateIndicator(activeMarker);
+  });
+
   markers.forEach(marker => {
+    marker.addEventListener('pointerenter', () => activate(marker));
+    marker.addEventListener('focus', () => activate(marker));
+    marker.addEventListener('blur', () => {
+      if (!mapWrap?.matches(':focus-within')) deactivate();
+    });
+
     marker.addEventListener('click', () => {
       const info = branchInfo[marker.dataset.branch];
       if (!info) return;
-      markers.forEach(m => m.classList.remove('is-active'));
-      marker.classList.add('is-active');
+      activate(marker);
       console.log(`[지도] ${info.name} 선택`);
     });
   });
