@@ -15,6 +15,9 @@ document.addEventListener('DOMContentLoaded', () => {
   initLocationSequence();
   initBookingSequence();
   initMapMarkers();
+  initTopBtn();
+  initCustomCursor();
+  initCursorWave();
 });
 
 
@@ -120,7 +123,6 @@ function initScrollIndicator() {
 function initLogoScrollGate() {
   const logo     = document.getElementById('sec-logo');
   const intro    = document.getElementById('sec-intro');
-  const enterBtn = document.querySelector('.logo-scroll');
   if (!logo || !intro) return;
 
   let scrollCount   = 0;
@@ -189,15 +191,6 @@ function initLogoScrollGate() {
       }
     }
   });
-
-  /* Enter 버튼 클릭 → 즉시 전환 */
-  if (enterBtn) {
-    enterBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      e.stopImmediatePropagation();
-      triggerLogoToIntro();
-    });
-  }
 
   /* 페이지 최상단으로 돌아오면 리셋 */
   window.addEventListener('scroll', () => {
@@ -370,6 +363,7 @@ function initCrewScroll() {
   const totalPanels = panels.length;
   let currentIndex  = -1;
   let tailHidden    = false;
+  let exitWavePlayed = false;
 
   function playCrewCardWave() {
     const wrap    = document.querySelector('.crew-info-wrap');
@@ -407,6 +401,41 @@ function initCrewScroll() {
     );
   }
 
+  function playCrewExitWave() {
+    const dispMap = document.getElementById('dive-disp-map');
+    const turbEl  = document.getElementById('dive-turbulence');
+
+    if (!sticky || !dispMap || !turbEl || typeof gsap === 'undefined') return;
+
+    sticky.style.filter = 'url(#dive-warp)';
+
+    let rafId;
+    const t0 = performance.now();
+    (function tickCrewExitWave() {
+      const t   = (performance.now() - t0) / 1000;
+      const bfx = (0.007 + Math.sin(t * 2.9) * 0.0028).toFixed(5);
+      const bfy = (0.012 + Math.cos(t * 2.1) * 0.0032).toFixed(5);
+      turbEl.setAttribute('baseFrequency', `${bfx} ${bfy}`);
+      rafId = requestAnimationFrame(tickCrewExitWave);
+    })();
+
+    gsap.fromTo(
+      dispMap,
+      { attr: { scale: 38 } },
+      {
+        attr: { scale: 0 },
+        duration: 1.05,
+        ease: 'expo.out',
+        onComplete() {
+          cancelAnimationFrame(rafId);
+          turbEl.setAttribute('baseFrequency', '0.004 0.007');
+          dispMap.setAttribute('scale', '0');
+          sticky.style.filter = '';
+        },
+      }
+    );
+  }
+
   function setActive(idx) {
     if (idx === currentIndex) return;
     const prevIndex = currentIndex;
@@ -434,8 +463,12 @@ function initCrewScroll() {
     const scrolled = -rect.top; /* 섹션 상단으로부터 스크롤된 px */
 
     if (scrolled < -10) {
-      section.classList.remove('is-title-visible', 'is-crew-exiting', 'is-content-visible');
+      if (exitWavePlayed) {
+        document.dispatchEvent(new CustomEvent('crew-wave-exit-reset'));
+      }
+      section.classList.remove('is-title-visible', 'is-crew-exiting', 'is-content-visible', 'is-crew-wave-exiting');
       tailHidden = false;
+      exitWavePlayed = false;
       document.dispatchEvent(new CustomEvent('crew-tail-visibility', { detail: { hidden: false } }));
       setActive(0);
       return;
@@ -448,10 +481,20 @@ function initCrewScroll() {
         document.dispatchEvent(new CustomEvent('crew-tail-visibility', { detail: { hidden: true } }));
       }
       section.classList.add('is-crew-exiting');
+      if (!exitWavePlayed) {
+        exitWavePlayed = true;
+        section.classList.add('is-crew-wave-exiting');
+        document.dispatchEvent(new CustomEvent('crew-wave-exit'));
+        playCrewExitWave();
+      }
       return;
     }
 
-    section.classList.remove('is-crew-exiting');
+    if (exitWavePlayed) {
+      document.dispatchEvent(new CustomEvent('crew-wave-exit-reset'));
+    }
+    section.classList.remove('is-crew-exiting', 'is-crew-wave-exiting');
+    exitWavePlayed = false;
 
     if (tailHidden) {
       tailHidden = false;
@@ -484,77 +527,7 @@ function initCrewScroll() {
    6. PROGRAM SECTION SEQUENCE
    ============================================================= */
 function initProgramSequence() {
-  const section = document.getElementById('sec-program');
-  if (!section) return;
-
-  let state = 'hidden';
-
-  function playProgramCardWave() {
-    const content = section.querySelector('.program-seq-content');
-    const dispMap = document.getElementById('dive-disp-map');
-    const turbEl  = document.getElementById('dive-turbulence');
-
-    section.classList.add('is-content-visible');
-    if (!content || !dispMap || !turbEl || typeof gsap === 'undefined') return;
-
-    content.style.filter = 'url(#dive-warp)';
-
-    let rafId;
-    const t0 = performance.now();
-    (function tickProgramWave() {
-      const t   = (performance.now() - t0) / 1000;
-      const bfx = (0.006 + Math.sin(t * 2.4) * 0.002).toFixed(5);
-      const bfy = (0.010 + Math.cos(t * 1.9) * 0.003).toFixed(5);
-      turbEl.setAttribute('baseFrequency', `${bfx} ${bfy}`);
-      rafId = requestAnimationFrame(tickProgramWave);
-    })();
-
-    gsap.fromTo(
-      dispMap,
-      { attr: { scale: 28 } },
-      {
-        attr: { scale: 0 },
-        duration: 1.15,
-        ease: 'expo.out',
-        onComplete() {
-          cancelAnimationFrame(rafId);
-          turbEl.setAttribute('baseFrequency', '0.004 0.007');
-          dispMap.setAttribute('scale', '0');
-          content.style.filter = '';
-        },
-      }
-    );
-  }
-
-  function enter() {
-    if (state === 'visible') return;
-    state = 'visible';
-    section.classList.remove('is-exiting');
-    section.classList.add('is-title-visible');
-    setTimeout(() => {
-      if (state === 'visible') playProgramCardWave();
-    }, 200);
-  }
-
-  function exit() {
-    if (state !== 'visible') return;
-    state = 'exiting';
-    section.classList.add('is-exiting');
-    setTimeout(() => {
-      section.classList.remove('is-title-visible', 'is-content-visible', 'is-exiting');
-      state = 'hidden';
-    }, 420);
-  }
-
-  function onScroll() {
-    const rect = section.getBoundingClientRect();
-    const vh   = window.innerHeight;
-    if (rect.top < vh * 0.88 && rect.bottom > vh * 0.2) enter();
-    else if (rect.bottom < vh * 0.2) exit();
-  }
-
-  window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
+  initStickySequenceSection('sec-program');
 }
 
 
@@ -562,40 +535,7 @@ function initProgramSequence() {
    6-B. LOCATION SECTION SEQUENCE
    ============================================================= */
 function initLocationSequence() {
-  const section = document.getElementById('sec-location');
-  if (!section) return;
-
-  let state = 'hidden';
-
-  function enter() {
-    if (state === 'visible') return;
-    state = 'visible';
-    section.classList.remove('is-exiting');
-    section.classList.add('is-title-visible');
-    setTimeout(() => {
-      if (state === 'visible') section.classList.add('is-content-visible');
-    }, 320);
-  }
-
-  function exit() {
-    if (state !== 'visible') return;
-    state = 'exiting';
-    section.classList.add('is-exiting');
-    setTimeout(() => {
-      section.classList.remove('is-title-visible', 'is-content-visible', 'is-exiting');
-      state = 'hidden';
-    }, 420);
-  }
-
-  function onScroll() {
-    const rect = section.getBoundingClientRect();
-    const vh   = window.innerHeight;
-    if (rect.top < vh * 0.72 && rect.bottom > vh * 0.2) enter();
-    else if (rect.bottom < vh * 0.2) exit();
-  }
-
-  window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
+  initStickySequenceSection('sec-location');
 }
 
 
@@ -603,40 +543,94 @@ function initLocationSequence() {
    6-C. BOOKING SECTION SEQUENCE
    ============================================================= */
 function initBookingSequence() {
-  const section = document.getElementById('sec-booking');
+  initStickySequenceSection('sec-booking');
+}
+
+function initStickySequenceSection(sectionId) {
+  const section = document.getElementById(sectionId);
   if (!section) return;
+  let contentWasVisible = false;
 
-  let state = 'hidden';
-
-  function enter() {
-    if (state === 'visible') return;
-    state = 'visible';
-    section.classList.remove('is-exiting');
-    section.classList.add('is-title-visible');
-    setTimeout(() => {
-      if (state === 'visible') section.classList.add('is-content-visible');
-    }, 320);
-  }
-
-  function exit() {
-    if (state !== 'visible') return;
-    state = 'exiting';
-    section.classList.add('is-exiting');
-    setTimeout(() => {
-      section.classList.remove('is-title-visible', 'is-content-visible', 'is-exiting');
-      state = 'hidden';
-    }, 420);
+  function clamp01(value) {
+    return Math.min(Math.max(value, 0), 1);
   }
 
   function onScroll() {
     const rect = section.getBoundingClientRect();
     const vh   = window.innerHeight;
-    if (rect.top < vh * 0.72 && rect.bottom > vh * 0.2) enter();
-    else if (rect.bottom < vh * 0.2) exit();
+    const progress = clamp01(-rect.top / vh);
+    const titleY = (1 - progress) * 46;
+    const contentY = (1 - progress) * 52;
+    const isInRange = rect.top < vh && rect.bottom > 0;
+    const isPast = rect.bottom <= 0;
+
+    section.style.setProperty('--seq-title-y', `${titleY.toFixed(2)}vh`);
+    section.style.setProperty('--seq-content-y', `${contentY.toFixed(2)}vh`);
+
+    if (!isInRange && !isPast) {
+      section.classList.remove('is-title-visible', 'is-content-visible', 'is-exiting');
+      contentWasVisible = false;
+      return;
+    }
+
+    const titleVisible = progress > 0.02 && !isPast;
+    const contentVisible = progress > 0.18 && !isPast;
+    const exiting = progress >= 0.98 || isPast;
+
+    section.classList.toggle('is-title-visible', titleVisible);
+    section.classList.toggle('is-content-visible', contentVisible);
+    section.classList.toggle('is-exiting', progress >= 0.98 || isPast);
+
+    if (contentVisible && !contentWasVisible && !exiting) {
+      playSequenceWave(section);
+    }
+    contentWasVisible = contentVisible && !exiting;
   }
 
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
+}
+
+function playSequenceWave(section) {
+  const content = section.querySelector('.program-seq-content, .location-seq-content, .booking-seq-content');
+  const dispMap = document.getElementById('dive-disp-map');
+  const turbEl  = document.getElementById('dive-turbulence');
+  if (!content) return;
+
+  content.classList.remove('is-wave-entering');
+  void content.offsetWidth;
+  content.classList.add('is-wave-entering');
+  window.setTimeout(() => content.classList.remove('is-wave-entering'), 1100);
+
+  if (!dispMap || !turbEl || typeof gsap === 'undefined') return;
+
+  content.style.filter = 'url(#dive-warp)';
+
+  let rafId;
+  const t0 = performance.now();
+  (function tickSequenceWave() {
+    const t   = (performance.now() - t0) / 1000;
+    const bfx = (0.006 + Math.sin(t * 2.35) * 0.0022).toFixed(5);
+    const bfy = (0.010 + Math.cos(t * 1.85) * 0.0028).toFixed(5);
+    turbEl.setAttribute('baseFrequency', `${bfx} ${bfy}`);
+    rafId = requestAnimationFrame(tickSequenceWave);
+  })();
+
+  gsap.fromTo(
+    dispMap,
+    { attr: { scale: 30 } },
+    {
+      attr: { scale: 0 },
+      duration: 1.05,
+      ease: 'expo.out',
+      onComplete() {
+        cancelAnimationFrame(rafId);
+        turbEl.setAttribute('baseFrequency', '0.004 0.007');
+        dispMap.setAttribute('scale', '0');
+        content.style.filter = '';
+      },
+    }
+  );
 }
 
 
@@ -741,6 +735,38 @@ function initMapMarkers() {
 
 
 /* =============================================================
+   9. TOP BUTTON
+   ============================================================= */
+function initTopBtn() {
+  const btn         = document.getElementById('top-btn');
+  const contentWrap = document.querySelector('.content-bg-wrap');
+  if (!btn) return;
+
+  function update() {
+    const winH = window.innerHeight;
+
+    // 뷰포트 절반 이상 스크롤하면 버튼 표시
+    btn.classList.toggle('top-btn--visible', window.scrollY > winH * 0.5);
+
+    // 버튼 위치(우하단)가 콘텐츠 섹션 구간에 있으면 글래스, 아니면 흰색
+    if (contentWrap) {
+      const rect      = contentWrap.getBoundingClientRect();
+      const btnY      = winH - 60; // 버튼 중심의 뷰포트 Y
+      const inContent = rect.top <= btnY && rect.bottom >= btnY;
+      btn.classList.toggle('top-btn--glass', inContent);
+    }
+  }
+
+  window.addEventListener('scroll', update, { passive: true });
+  update();
+
+  btn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+}
+
+
+/* =============================================================
    7. 예매 / 프로그램 카드 클릭
    ============================================================= */
 document.addEventListener('click', e => {
@@ -760,7 +786,7 @@ document.addEventListener('click', e => {
 /* =============================================================
    8. GNB 네비 — 부드러운 스크롤
    ============================================================= */
-document.querySelectorAll('a[href^="#"]:not(.logo-scroll)').forEach(link => {
+document.querySelectorAll('a[href^="#"]').forEach(link => {
   link.addEventListener('click', e => {
     const target = document.getElementById(link.getAttribute('href').slice(1));
     if (!target) return;
@@ -768,3 +794,189 @@ document.querySelectorAll('a[href^="#"]:not(.logo-scroll)').forEach(link => {
     target.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 });
+
+
+/* =============================================================
+   10. CUSTOM CURSOR — 흰색 원형 커서
+   ============================================================= */
+function initCustomCursor() {
+  if (window.matchMedia('(hover: none)').matches) return;
+
+  const el = document.getElementById('custom-cursor');
+  if (!el) return;
+
+  const HALF = 17;
+  let tx = -200, ty = -200;
+  let cx = tx,   cy = ty;
+  let firstMove = false;
+
+  window.addEventListener('mousemove', e => {
+    tx = e.clientX;
+    ty = e.clientY;
+    if (!firstMove) {
+      firstMove = true;
+      cx = tx; cy = ty;        // 첫 이동 시 즉시 스냅
+      el.style.opacity = '1';
+    }
+  }, { passive: true });
+
+  document.addEventListener('mouseleave', () => { el.style.opacity = '0'; });
+  document.addEventListener('mouseenter', () => { if (firstMove) el.style.opacity = '1'; });
+  document.addEventListener('mousedown',  () => el.classList.add('is-clicking'));
+  document.addEventListener('mouseup',    () => el.classList.remove('is-clicking'));
+
+  document.addEventListener('mouseover', e => {
+    const over = e.target.closest('a, button, [role="button"], .map-marker, .program-card, .booking-card');
+    el.classList.toggle('is-hovering', !!over);
+  });
+
+  (function loop() {
+    cx += (tx - cx) * 0.13;
+    cy += (ty - cy) * 0.13;
+    el.style.transform = `translate(${(cx - HALF).toFixed(1)}px,${(cy - HALF).toFixed(1)}px)`;
+    requestAnimationFrame(loop);
+  })();
+}
+
+
+/* =============================================================
+   11. CURSOR WAVE — 잔잔한 수면 수평 반사 흔들림
+   ============================================================= */
+function initCursorWave() {
+  if (window.matchMedia('(hover: none)').matches) return;
+
+  const canvas = document.createElement('canvas');
+  canvas.setAttribute('aria-hidden', 'true');
+  Object.assign(canvas.style, {
+    position:      'fixed',
+    inset:         '0',
+    width:         '100%',
+    height:        '100%',
+    pointerEvents: 'none',
+    zIndex:        '9996',
+    mixBlendMode:  'screen',
+  });
+  document.body.appendChild(canvas);
+
+  const ctx = canvas.getContext('2d');
+
+  // 작은 셀 = 커서 주변 좁은 영역에 집중
+  const SCALE         = 9;
+  // 높은 감쇠 = 파동이 빠르게 사라져 멀리 퍼지지 않음
+  const DAMP          = 0.92;
+  // 짧은 간격 = 커서 따라 자연스럽게 이어지는 물결
+  const DIST_INTERVAL = 16;
+  // 좁은 타원: 커서 주변만 수평으로 일렁이게
+  const RX = 4, RY = 1;
+  const FORCE = 60;
+
+  let W, H, bW, bH, cur, prv, offscreen, offCtx, imgData;
+  let running = true;
+
+  function resize() {
+    W  = window.innerWidth;
+    H  = window.innerHeight;
+    bW = Math.ceil(W / SCALE) + 2;
+    bH = Math.ceil(H / SCALE) + 2;
+    canvas.width  = W;
+    canvas.height = H;
+    cur      = new Float32Array(bW * bH);
+    prv      = new Float32Array(bW * bH);
+    offscreen        = document.createElement('canvas');
+    offscreen.width  = bW;
+    offscreen.height = bH;
+    offCtx   = offscreen.getContext('2d');
+    imgData  = offCtx.createImageData(bW, bH);
+  }
+
+  resize();
+  window.addEventListener('resize', resize, { passive: true });
+
+  let mx = 0, my = 0, pmx = 0, pmy = 0, distAccum = 0;
+  window.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; }, { passive: true });
+
+  document.addEventListener('visibilitychange', () => {
+    running = !document.hidden;
+    if (running) tick();
+  });
+
+  function disturb(cx, cy) {
+    // 수평으로 긴 타원형 교란 — 반사 이미지가 옆으로 흔들리는 모양
+    for (let dy = -RY; dy <= RY; dy++) {
+      for (let dx = -RX; dx <= RX; dx++) {
+        const d = Math.hypot(dx / RX, dy / RY); // 타원 거리
+        if (d > 1) continue;
+        const nx = cx + dx, ny = cy + dy;
+        if (nx < 1 || nx >= bW - 1 || ny < 1 || ny >= bH - 1) continue;
+        cur[ny * bW + nx] += FORCE * (1 - d);
+      }
+    }
+  }
+
+  function tick() {
+    if (!running) return;
+    requestAnimationFrame(tick);
+
+    const spd = Math.hypot(mx - pmx, my - pmy);
+    if (spd > 0.5) {
+      distAccum += spd;
+      pmx = mx; pmy = my;
+      if (distAccum >= DIST_INTERVAL) {
+        disturb(Math.round(mx / SCALE), Math.round(my / SCALE));
+        distAccum = 0;
+      }
+    }
+
+    // 파동 방정식
+    const nxt = prv;
+    for (let y = 1; y < bH - 1; y++) {
+      for (let x = 1; x < bW - 1; x++) {
+        const i = y * bW + x;
+        nxt[i] = ((cur[i-1] + cur[i+1] + cur[i-bW] + cur[i+bW]) / 2 - nxt[i]) * DAMP;
+      }
+    }
+    prv = cur;
+    cur = nxt;
+
+    // 렌더링 — X방향 기울기(수평 반사)에 가중치 집중, 은빛 수면 색상
+    const px = imgData.data;
+    px.fill(0);
+
+    for (let y = 1; y < bH - 1; y++) {
+      for (let x = 1; x < bW - 1; x++) {
+        const i = y * bW + x;
+        const v = cur[i];
+        if (Math.abs(v) < 1.5) continue;
+
+        // 수평 방향 기울기에 85% 집중 → 옆으로 흔들리는 반사 느낌
+        const lx    = cur[i - 1] - cur[i + 1];
+        const ly    = cur[i - bW] - cur[i + bW];
+        const shine = lx * 0.85 + ly * 0.15;
+        if (shine <= 0) continue;
+
+        const amp   = Math.min(Math.abs(v) / 48, 1);
+        const alpha = Math.min(shine * amp * 1.0, 1) * 90; // 은은한 밝기
+        if (alpha < 2) continue;
+
+        const t    = Math.min(shine * amp * 0.5, 1);
+        const pidx = (y * bW + x) * 4;
+        // 수면 반사광: 연한 하늘빛 흰색
+        px[pidx]     = Math.round(190 + t * 65);
+        px[pidx + 1] = Math.round(220 + t * 35);
+        px[pidx + 2] = Math.round(245 + t * 10);
+        px[pidx + 3] = alpha;
+      }
+    }
+
+    offCtx.putImageData(imgData, 0, 0);
+    ctx.clearRect(0, 0, W, H);
+    ctx.save();
+    ctx.filter = 'blur(7px)'; // 수면 반사처럼 부드럽게
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+    ctx.drawImage(offscreen, 0, 0, W, H);
+    ctx.restore();
+  }
+
+  tick();
+}
