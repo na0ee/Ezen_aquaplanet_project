@@ -13,15 +13,6 @@
   <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,500&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="style.css" />
-
-  <!-- ogl importmap (LightRays WebGL) -->
-  <script type="importmap">
-  {
-    "imports": {
-      "ogl": "https://cdn.jsdelivr.net/npm/ogl@1.0.11/+esm"
-    }
-  }
-  </script>
 </head>
 <body>
 
@@ -57,23 +48,13 @@
     <main class="ticket-main">
       <section class="ticket" aria-label="티켓 예매">
 
-        <!-- 상단 빛줄기 (god rays) — React Bits LightRays(WebGL) 바닐라 포팅 -->
-        <div class="light-rays-container ticket__lightrays"
-             data-light-rays
-             data-rays-origin="top-center"
-             data-rays-color="#ffffff"
-             data-rays-speed="1.4"
-             data-light-spread="0.3"
-             data-ray-length="2.4"
-             data-follow-mouse="false"
-             data-mouse-influence="0"
-             data-noise-amount="0.04"
-             data-distortion="0"
-             data-pulsating="false"
-             data-intensity="2.6"
-             data-sweep-speed="0.6"
-             data-sweep-amount="0.5"
-             aria-hidden="true"></div>
+        <!-- 상단 빛줄기 — 4개 빔이 왼→오 순서대로 밝아졌다 사라짐 (CSS) -->
+        <div class="ticket__beams" aria-hidden="true">
+          <i class="ticket__beam ticket__beam--1"></i>
+          <i class="ticket__beam ticket__beam--2"></i>
+          <i class="ticket__beam ticket__beam--3"></i>
+          <i class="ticket__beam ticket__beam--4"></i>
+        </div>
 
         <h1 class="ticket__title">Ticket</h1>
         <p class="ticket__sub">다양한 할인정보를 확인하고 예매하세요</p>
@@ -163,7 +144,5 @@
     </footer>
 
   </div><!-- /.ticket-page -->
-
-  <script src="lightrays.js" type="module"></script>
 </body>
 </html>

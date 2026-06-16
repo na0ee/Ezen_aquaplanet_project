@@ -2462,32 +2462,58 @@ body.ticket-open { overflow: hidden; }
       #1690cd 100%);
 }
 
-/* --- 상단 빛줄기 (god rays) — React Bits LightRays (WebGL) --- */
-/* 컴포넌트 기본 컨테이너 (원본 LightRays.css) */
-.light-rays-container {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  pointer-events: none;
-  z-index: 3;
-  overflow: hidden;
-}
-
-/* 티켓 페이지 배치 — 상단 중앙, 콘텐츠(타이틀 z2·버블 z1) 뒤(z0) */
-.ticket__lightrays {
+/* --- 상단 빛줄기 — 4개 빔이 순서대로(왼→오) 밝아졌다 사라짐 (CSS) --- */
+.ticket__beams {
   position: absolute;
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: min(80vw, 960px);
-  height: min(72vh, 780px);
+  width: min(90vw, 1100px);
+  height: min(78vh, 820px);
   z-index: 0;
-  opacity: 1;
-  /* screen 합성: 검은색(0)은 배경에 영향 없음 → 까만 네모 사라지고 흰 빛만 더해짐 */
+  pointer-events: none;
+  /* screen 합성 → 빛만 더해지고 검은 박스/경계 없음 */
   mix-blend-mode: screen;
-  /* 가장자리 페이드 → 컨테이너 사각 경계가 보이지 않도록 (빛은 상단 중앙에서 시작) */
-  -webkit-mask-image: radial-gradient(ellipse 75% 90% at 50% 0%, #000 50%, transparent 100%);
-  mask-image: radial-gradient(ellipse 75% 90% at 50% 0%, #000 50%, transparent 100%);
+  /* 가장자리 페이드로 사각 경계 제거 */
+  -webkit-mask-image: radial-gradient(ellipse 82% 95% at 50% 0%, #000 45%, transparent 100%);
+  mask-image: radial-gradient(ellipse 82% 95% at 50% 0%, #000 45%, transparent 100%);
+}
+
+/* 한 줄기(빔) — 상단 중앙 한 점에서 시작해 부채꼴로 회전 */
+.ticket__beam {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: clamp(64px, 9vw, 140px);
+  height: 100%;
+  transform-origin: top center;
+  background: linear-gradient(to bottom,
+              rgba(255, 255, 255, 0.95) 0%,
+              rgba(255, 255, 255, 0.45) 28%,
+              rgba(255, 255, 255, 0) 76%);
+  /* 위는 가늘고 아래로 퍼지는 빛줄기 */
+  -webkit-clip-path: polygon(42% 0%, 58% 0%, 100% 100%, 0% 100%);
+  clip-path: polygon(42% 0%, 58% 0%, 100% 100%, 0% 100%);
+  filter: blur(7px);
+  opacity: 0;
+  animation: ticket-beam-pulse 4s ease-in-out infinite;
+}
+
+/* 4개 빔: 각도 부채꼴 + 순차 지연(1초 간격)으로 왼→오 차례로 점등 */
+.ticket__beam--1 { transform: translateX(-50%) rotate(-27deg); animation-delay: 0s; }
+.ticket__beam--2 { transform: translateX(-50%) rotate(-9deg);  animation-delay: 1s; }
+.ticket__beam--3 { transform: translateX(-50%) rotate(9deg);   animation-delay: 2s; }
+.ticket__beam--4 { transform: translateX(-50%) rotate(27deg);  animation-delay: 3s; }
+
+@keyframes ticket-beam-pulse {
+  0%   { opacity: 0; }
+  12%  { opacity: 1; }   /* 빠르게 밝아짐 */
+  34%  { opacity: 0; }   /* 사라짐 */
+  100% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ticket__beam { animation: none; opacity: 0.45; }
 }
 
 /* --- 타이틀 --- */
