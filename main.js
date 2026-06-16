@@ -20,7 +20,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initTopBtn();
   initCustomCursor();
   initCursorWave();
-  initTicketModal();
 });
 
 
@@ -1069,32 +1068,3 @@ function initCursorWave() {
 }
 
 
-/* =============================================================
-   TICKET MODAL — 네비 Ticket 버튼 → 예매 페이지 오버레이
-   ============================================================= */
-function initTicketModal() {
-  const page = document.querySelector('.ticket-page');
-  if (!page) return;
-
-  // 메인 헤더(#gnb)의 Ticket 버튼만 "열기"로 동작
-  const openers = document.querySelectorAll('#gnb .gnb__ticket');
-  // 오버레이 내부의 닫기 트리거(닫기 버튼/네비 링크/로고)
-  const closers = page.querySelectorAll('[data-ticket-close]');
-
-  const open = () => {
-    page.classList.add('is-open');
-    document.body.classList.add('ticket-open');
-    page.scrollTop = 0;
-  };
-  const close = () => {
-    page.classList.remove('is-open');
-    document.body.classList.remove('ticket-open');
-  };
-
-  openers.forEach(btn => btn.addEventListener('click', (e) => { e.preventDefault(); open(); }));
-  closers.forEach(el => el.addEventListener('click', close));
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && page.classList.contains('is-open')) close();
-  });
-}

@@ -50,14 +50,14 @@
         <img class="gnb__logo" src="assets/images/headerLogo.png" alt="" aria-hidden="true">
       </a>
 
-      <!-- 오른쪽 티켓 버튼 -->
-      <button class="gnb__ticket btn-pill" type="button" aria-label="티켓 예매">
+      <!-- 오른쪽 티켓 버튼 → 예매 페이지로 이동 -->
+      <a class="gnb__ticket btn-pill" href="ticket.html" aria-label="티켓 예매">
         Ticket
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path d="M5 12H19M13 6L19 12L13 18" stroke="white" stroke-width="1.5"
                 stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-      </button>
+      </a>
     </div>
   </header>
 
@@ -493,143 +493,6 @@
       <p class="footer__copy">© 2024 Aqua Planet. All rights reserved.</p>
     </div>
   </footer>
-
-
-  <!-- ================================================================
-       ████████████████████████  예매 페이지  ████████████████████████
-       (Ticket Page — Figma node 1284:127 구현)
-       · GNB / FOOTER 는 위 메인과 동일한 .gnb / .footer 스타일 재사용
-       · 단일 파일 목업이므로 이 페이지의 .gnb 는 페이지 상단에 absolute 배치
-  ================================================================ -->
-  <div class="ticket-page">
-
-    <!-- GNB — 메인과 동일 (재사용). 우측 버튼만 닫기(Close)로 교체 -->
-    <header class="gnb">
-      <div class="gnb__inner">
-        <nav class="gnb__nav" aria-label="메인 메뉴">
-          <a href="#sec-program" class="gnb__link" data-nav="program" data-ticket-close>Program</a>
-          <a href="#sec-crew"    class="gnb__link" data-nav="crew" data-ticket-close>Ocean friends</a>
-          <a href="#sec-intro"   class="gnb__link" data-nav="about" data-ticket-close>About us</a>
-        </nav>
-        <a href="#sec-logo" class="gnb__logo-wrap" aria-label="Aqua Planet 홈" data-ticket-close>
-          <img class="gnb__logo" src="assets/images/headerLogo.png" alt="" aria-hidden="true">
-        </a>
-        <button class="gnb__ticket btn-pill" type="button" aria-label="예매 닫기" data-ticket-close>
-          Close
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M6 6L18 18M18 6L6 18" stroke="white" stroke-width="1.5"
-                  stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
-      </div>
-    </header>
-
-    <main class="ticket-main">
-      <section class="ticket" aria-label="티켓 예매">
-
-        <!-- 상단 빛줄기 (god rays) -->
-        <div class="ticket__rays" aria-hidden="true">
-          <img class="ticket__ray ticket__ray--1" src="assets/images/ticket-ray1.png" alt="">
-          <img class="ticket__ray ticket__ray--2" src="assets/images/ticket-ray2.png" alt="">
-          <img class="ticket__ray ticket__ray--3" src="assets/images/ticket-ray3.png" alt="">
-        </div>
-
-        <h1 class="ticket__title">Ticket</h1>
-        <p class="ticket__sub">다양한 할인정보를 확인하고 예매하세요</p>
-
-        <!-- 떠다니는 장식 거품 -->
-        <div class="ticket__decor" aria-hidden="true">
-          <span class="deco-bubble" style="--x:10%;  --y:22%; --s:80px;  --d:7s;"></span>
-          <span class="deco-bubble" style="--x:13%; --y:18%; --s:25px;  --d:9s;"></span>
-          <span class="deco-bubble" style="--x:20%; --y:26%; --s:150px;  --d:8s;"></span>
-          <span class="deco-bubble" style="--x:5%;  --y:74%; --s:70px;  --d:11s;"></span>
-          <span class="deco-bubble" style="--x:18%; --y:33%; --s:20px;  --d:6.5s;"></span>
-          <span class="deco-bubble" style="--x:32%; --y:20%; --s:20px;  --d:6.5s;"></span>
-          <span class="deco-bubble" style="--x:36%; --y:18%; --s:50px;  --d:6.5s;"></span>
-          <span class="deco-bubble" style="--x:12%; --y:48%; --s:30px;  --d:6.5s;"></span>
-          <span class="deco-bubble" style="--x:8%; --y:45%; --s:50px;  --d:6.5s;"></span>
-          <span class="deco-bubble" style="--x:33%; --y:78%; --s:100px;  --d:10s;"></span>
-          <span class="deco-bubble" style="--x:38%; --y:73%; --s:30px;  --d:10s;"></span>
-          <span class="deco-bubble" style="--x:35%; --y:68%; --s:45px;  --d:10s;"></span>
-          <span class="deco-bubble" style="--x:50%; --y:60%; --s:20px;  --d:10s;"></span>
-          <span class="deco-bubble" style="--x:38%; --y:63%; --s:20px;  --d:10s;"></span>
-
-
-
-
-          <span class="deco-bubble" style="--x:50%; --y:52%; --s:100px; --d:12s;"></span>
-          <span class="deco-bubble" style="--x:55%; --y:32%; --s:20px; --d:12s;"></span>
-          <span class="deco-bubble" style="--x:58%; --y:28%; --s:50px; --d:12s;"></span>
-          <span class="deco-bubble" style="--x:60%; --y:35%; --s:20px; --d:12s;"></span>
-          <span class="deco-bubble" style="--x:90%; --y:34%; --s:20px;  --d:8.5s;"></span>
-          <span class="deco-bubble" style="--x:49%; --y:72%; --s:50px;  --d:7.5s;"></span>
-          <span class="deco-bubble" style="--x:68%; --y:20%; --s:130px;  --d:9s;"></span>
-          <span class="deco-bubble" style="--x:88%; --y:23%; --s:55px;  --d:7.5s;"></span>
-          <span class="deco-bubble" style="--x:88%; --y:48%; --s:15px;  --d:7.5s;"></span>
-          <span class="deco-bubble" style="--x:88%; --y:52%; --s:100px;  --d:10.5s;"></span>
-          <span class="deco-bubble" style="--x:80%; --y:60%; --s:60px;  --d:10.5s;"></span>
-          <span class="deco-bubble" style="--x:84%; --y:60%; --s:25px;  --d:7.5s;"></span>
-          <span class="deco-bubble" style="--x:84%; --y:60%; --s:35px;  --d:10.5s;"></span>
-          <span class="deco-bubble" style="--x:75%; --y:82%; --s:44px;  --d:7s;"></span>
-          <span class="deco-bubble" style="--x:25%; --y:42%; --s:40px;  --d:8s;"></span>
-          <span class="deco-bubble" style="--x:92%; --y:18%; --s:30px;  --d:9.5s;"></span>
-          <span class="deco-bubble" style="--x:51%; --y:79%; --s:15px;  --d:7.5s;"></span>
-
-
-          
-        </div>
-
-        <!-- 지점 버블 4곳 -->
-        <div class="wrap">
-          <a class="ticket-spot ticket-spot--ilsan" href="#sec-booking" aria-label="아쿠아플라넷 일산 예매">
-            <span class="ticket-spot__inner" style="--float:8s">
-              <img class="ticket-spot__bubble" src="assets/images/ticket-bubble.png" alt="" aria-hidden="true">
-              <img class="ticket-spot__animal" src="assets/images/ticket-ilsan.png" alt="바다코끼리">
-              <span class="ticket-spot__label">Ilsan</span>
-            </span>
-          </a>
-
-          <a class="ticket-spot ticket-spot--yeosu" href="#sec-booking" aria-label="아쿠아플라넷 여수 예매">
-            <span class="ticket-spot__inner" style="--float:9.5s">
-              <img class="ticket-spot__bubble" src="assets/images/ticket-bubble.png" alt="" aria-hidden="true">
-              <img class="ticket-spot__animal" src="assets/images/ticket-yeosu.png" alt="벨루가">
-              <span class="ticket-spot__label">Yeosu</span>
-            </span>
-          </a>
-
-          <a class="ticket-spot ticket-spot--jeju" href="#sec-booking" aria-label="아쿠아플라넷 제주 예매">
-            <span class="ticket-spot__inner" style="--float:7s">
-              <img class="ticket-spot__bubble" src="assets/images/ticket-bubble.png" alt="" aria-hidden="true">
-              <img class="ticket-spot__animal" src="assets/images/ticket-jeju.png" alt="고래상어">
-              <span class="ticket-spot__label">Jeju</span>
-            </span>
-          </a>
-
-          <a class="ticket-spot ticket-spot--gwanggyo" href="#sec-booking" aria-label="아쿠아플라넷 광교 예매">
-            <span class="ticket-spot__inner" style="--float:10.5s">
-              <img class="ticket-spot__bubble" src="assets/images/ticket-bubble.png" alt="" aria-hidden="true">
-              <img class="ticket-spot__animal" src="assets/images/ticket-gwanggyo.png" alt="펭귄">
-              <span class="ticket-spot__label">Gwanggyo</span>
-            </span>
-          </a>
-        </div><!-- /.wrap -->
-
-      </section>
-    </main>
-
-    <!-- FOOTER — 메인과 동일 (재사용) -->
-    <footer class="footer">
-      <video class="footer__video-bg" autoplay muted loop playsinline aria-hidden="true">
-        <source src="assets/images/KakaoTalk_Video_2026-06-13-21-54-21.mp4" type="video/mp4">
-      </video>
-      <div class="footer__inner">
-        <div class="footer__logo" aria-label="Aqua Planet" role="img"></div>
-        <p class="footer__copy">© 2024 Aqua Planet. All rights reserved.</p>
-      </div>
-    </footer>
-
-  </div><!-- /.ticket-page -->
-
 
   <!-- 잠수 전환 오버레이 (레거시 — 사용 안 함) -->
   <div class="dive-overlay" id="dive-overlay" aria-hidden="true">
