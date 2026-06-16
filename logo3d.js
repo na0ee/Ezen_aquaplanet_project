@@ -841,9 +841,13 @@ async function initLogo3D() {
   } else {
     gsap.context(() => {
       measure();
+      const isTicketPage = document.querySelector('.ticket-page') !== null;
+      const scrollerEl = isTicketPage ? '.ticket-page' : window;
+
       gsap.timeline({
         scrollTrigger: {
           trigger: '#sec-logo',
+          scroller: scrollerEl,
           start: 'top top',
           end: 'bottom top',
           scrub: 0.5,
@@ -859,7 +863,7 @@ async function initLogo3D() {
       }).to(wrap, { x: () => end.dx, y: () => end.dy, scale: () => end.scale, ease: 'none', duration: 1 }, 0);
 
       /* --- footer 역방향 트랜지션: 헤더(작은 조립) → 흩어졌다 → footer 중앙(큰 조립) --- */
-      const footerEl = document.getElementById('footer');
+      const footerEl = document.querySelector('.ticket-scroll-below__logo-placeholder') || document.getElementById('footer');
       if (footerEl) {
         // transform 없는 wrap 의 화면상 중앙 (fixed 라 스크롤 무관, resize 시 갱신)
         let wrapCx0 = 0, wrapCy0 = 0;
@@ -873,7 +877,8 @@ async function initLogo3D() {
         }
         measureWrapCenter();
         ScrollTrigger.create({
-          trigger: '#footer',
+          trigger: footerEl,
+          scroller: scrollerEl,
           start: 'top center',     // footer 상단이 뷰 중앙에 올 때 시작 (그 전엔 헤더 유지)
           end: 'bottom bottom',    // footer 하단이 뷰 하단에 닿을 때 끝
           scrub: 0.5,
@@ -881,6 +886,7 @@ async function initLogo3D() {
           onRefreshInit: measureWrapCenter,
           onUpdate: (self) => {
             footerProg = self.progress;
+            footerActive = self.progress > 0;
             // footer 의 실시간 화면 중앙으로 향하는 이동량
             const f = footerEl.getBoundingClientRect();
             const fdx = (f.left + f.width / 2) - wrapCx0;
@@ -894,7 +900,6 @@ async function initLogo3D() {
             requestRender();
           },
           onToggle: (self) => {
-            footerActive = self.isActive;
             document.body.classList.toggle('is-logo-transition', self.isActive);
             requestRender();
           },
