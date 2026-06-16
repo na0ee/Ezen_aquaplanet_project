@@ -2482,7 +2482,12 @@ body.ticket-open { overflow: hidden; }
   width: min(80vw, 960px);
   height: min(72vh, 780px);
   z-index: 0;
-  opacity: 0.9;
+  opacity: 1;
+  /* screen 합성: 검은색(0)은 배경에 영향 없음 → 까만 네모 사라지고 흰 빛만 더해짐 */
+  mix-blend-mode: screen;
+  /* 가장자리 페이드 → 컨테이너 사각 경계가 보이지 않도록 (빛은 상단 중앙에서 시작) */
+  -webkit-mask-image: radial-gradient(ellipse 75% 90% at 50% 0%, #000 50%, transparent 100%);
+  mask-image: radial-gradient(ellipse 75% 90% at 50% 0%, #000 50%, transparent 100%);
 }
 
 /* --- 타이틀 --- */

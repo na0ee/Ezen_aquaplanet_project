@@ -67,6 +67,9 @@ uniform vec2  mousePos;
 uniform float mouseInfluence;
 uniform float noiseAmount;
 uniform float distortion;
+uniform float intensity;
+uniform float sweepSpeed;
+uniform float sweepAmount;
 
 varying vec2 vUv;
 
@@ -110,6 +113,14 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     finalRayDir = normalize(mix(rayDir, mouseDirection, mouseInfluence));
   }
 
+  // 좌우 스윕 — 밝은 줄기가 왼쪽 → 오른쪽으로 왕복하며 쓸고 지나감
+  if (sweepAmount != 0.0) {
+    float ang = sin(iTime * sweepSpeed) * sweepAmount;
+    float cs = cos(ang);
+    float sn = sin(ang);
+    finalRayDir = normalize(mat2(cs, -sn, sn, cs) * finalRayDir);
+  }
+
   vec4 rays1 = vec4(1.0) *
                rayStrength(rayPos, finalRayDir, coord, 36.2214, 21.11349,
                            1.5 * raysSpeed);
@@ -125,7 +136,7 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     strength *= (1.0 - noiseAmount + noiseAmount * n);
   }
 
-  strength = clamp(strength, 0.0, 1.0);
+  strength = clamp(strength * intensity, 0.0, 1.0);
 
   // 흰색(raysColor) 광선 — 어둡게 하지 않고, 굴곡은 불투명도(alpha)로만 표현
   vec3 col = raysColor;
@@ -162,6 +173,9 @@ export function initLightRays(container, options = {}) {
     mouseInfluence: 0.1,
     noiseAmount: 0.0,
     distortion: 0.0,
+    intensity: 1.0,
+    sweepSpeed: 0.0,
+    sweepAmount: 0.0,
     ...options
   };
 
@@ -180,6 +194,7 @@ export function initLightRays(container, options = {}) {
 
     renderer = new Renderer({ dpr: Math.min(window.devicePixelRatio, 2), alpha: true });
     const gl = renderer.gl;
+    gl.clearColor(0, 0, 0, 0); // 투명 클리어 — 빈 영역에 검은 박스가 보이지 않도록
     gl.canvas.style.width = '100%';
     gl.canvas.style.height = '100%';
 
@@ -201,7 +216,10 @@ export function initLightRays(container, options = {}) {
       mousePos: { value: [0.5, 0.5] },
       mouseInfluence: { value: opts.mouseInfluence },
       noiseAmount: { value: opts.noiseAmount },
-      distortion: { value: opts.distortion }
+      distortion: { value: opts.distortion },
+      intensity: { value: opts.intensity },
+      sweepSpeed: { value: opts.sweepSpeed },
+      sweepAmount: { value: opts.sweepAmount }
     };
 
     const geometry = new Triangle(gl);
@@ -324,7 +342,10 @@ function autoInit() {
       followMouse: bool(d.followMouse, true),
       mouseInfluence: num(d.mouseInfluence, 0.1),
       noiseAmount: num(d.noiseAmount, 0.0),
-      distortion: num(d.distortion, 0.0)
+      distortion: num(d.distortion, 0.0),
+      intensity: num(d.intensity, 1.0),
+      sweepSpeed: num(d.sweepSpeed, 0.0),
+      sweepAmount: num(d.sweepAmount, 0.0)
     });
   });
 }
