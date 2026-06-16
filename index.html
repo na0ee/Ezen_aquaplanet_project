@@ -27,7 +27,7 @@
 <body>
 
   <!-- ================================================
-       GNB — 고정 네비게이션 바
+      GNB — 고정 네비게이션 바
   ================================================ -->
   <header id="gnb" class="gnb">
     <div class="gnb__inner">
@@ -65,18 +65,19 @@
 
     <section id="sec-logo" class="section section--logo" aria-label="Aqua Planet logo">
       <video class="section__video-bg" autoplay muted loop playsinline aria-hidden="true">
-        <source src="assets/images/first.mov" type="video/mp4">
+        <source src="assets/images/first_web.webm" type="video/webm">
+        <source src="assets/images/first_web.mp4" type="video/mp4">
       </video>
 
     </section>
 
     <!-- ================================================
-         CONTENT BG WRAP — intro ~ booking 공통 배경
+        CONTENT BG WRAP — intro ~ booking 공통 배경
     ================================================ -->
     <div class="content-bg-wrap">
 
     <!-- ================================================
-         SECTION 01 · Hero / Intro
+        SECTION 01 · Hero / Intro
     ================================================ -->
     <section id="sec-intro" class="section section--hero" aria-label="히어로">
       <div class="section__bg section__bg--hero" aria-hidden="true"></div>
@@ -107,8 +108,8 @@
       </div>
 
     <!-- ================================================
-         SECTION 02 · Our Crew — 스크롤 드리븐 단일 섹션
-         배경 고정 · 스크롤로 생물 전환 · GLB 준비 완료 시 Three.js 마운트
+        SECTION 02 · Our Crew — 스크롤 드리븐 단일 섹션
+        배경 고정 · 스크롤로 생물 전환 · GLB 준비 완료 시 Three.js 마운트
     ================================================ -->
     <section id="sec-crew" class="section section--crew-scroll" aria-label="Our Crew">
 
@@ -218,8 +219,8 @@
     </section>
 
     <!-- ================================================
-         SECTION 05 · Today's Program
-         그리드: 비대칭 2×2 (532/612 → 612/532 교차)
+         ECTION 05 · Today's Program
+        그리드: 비대칭 2×2 (532/612 → 612/532 교차)
     ================================================ -->
     <section id="sec-program" class="section section--program" aria-label="오늘의 프로그램">
       <div class="section__bg section__bg--program" aria-hidden="true"></div>
@@ -237,7 +238,7 @@
         <div class="program-grid program-seq-content">
 
           <article class="program-card glass-card" style="--card-w:532px;--card-h:400px;"
-                   data-program="dolphin">
+                  data-program="dolphin">
             <div class="program-card__img program-card__img--1"></div>
             <div class="program-card__gradient"></div>
             <div class="program-card__hover-gradient"></div>
@@ -258,7 +259,7 @@
           </article>
 
           <article class="program-card glass-card" style="--card-w:612px;--card-h:400px;"
-                   data-program="ballet">
+                  data-program="ballet">
             <div class="program-card__img program-card__img--2"></div>
             <div class="program-card__gradient"></div>
             <div class="program-card__hover-gradient"></div>
@@ -280,7 +281,7 @@
 
           <!-- Row 2: 612 먼저 → 532 순 (폭 교차) -->
           <article class="program-card glass-card" style="--card-w:612px;--card-h:400px;"
-                   data-program="marine">
+                  data-program="marine">
             <div class="program-card__img program-card__img--3"></div>
             <div class="program-card__gradient"></div>
             <div class="program-card__hover-gradient"></div>
@@ -301,7 +302,7 @@
           </article>
 
           <article class="program-card glass-card" style="--card-w:532px;--card-h:400px;"
-                   data-program="touch">
+                  data-program="touch">
             <div class="program-card__img program-card__img--4"></div>
             <div class="program-card__gradient"></div>
             <div class="program-card__hover-gradient"></div>
@@ -327,7 +328,7 @@
     </section>
 
     <!-- ================================================
-         SECTION 06 · Explore the Sea — 지점 지도
+        SECTION 06 · Explore the Sea — 지점 지도
     ================================================ -->
     <section id="sec-location" class="section section--location" aria-label="지점 안내">
       <div class="section__bg section__bg--location" aria-hidden="true"></div>
@@ -403,8 +404,8 @@
     </section>
 
     <!-- ================================================
-         SECTION 07 · Book Now — 예매
-         그리드: 비대칭 2×2 (630/514 → 514/630 교차)
+        SECTION 07 · Book Now — 예매
+        그리드: 비대칭 2×2 (630/514 → 514/630 교차)
     ================================================ -->
     <section id="sec-booking" class="section section--booking" aria-label="예매">
       <div class="section__bg section__bg--booking" aria-hidden="true"></div>
@@ -474,7 +475,7 @@
   </main>
 
   <!-- ================================================
-       FOOTER
+      FOOTER
   ================================================ -->
   <footer id="footer" class="footer">
     <video class="footer__video-bg" autoplay muted loop playsinline aria-hidden="true">
@@ -501,9 +502,9 @@
         <feTurbulence id="dive-turbulence" type="turbulence" baseFrequency="0.004 0.007"
                       numOctaves="2" seed="8" result="noise"/>
         <feDisplacementMap id="dive-disp-map"
-                           in="SourceGraphic" in2="noise"
-                           scale="0"
-                           xChannelSelector="R" yChannelSelector="G"/>
+                          in="SourceGraphic" in2="noise"
+                          scale="0"
+                          xChannelSelector="R" yChannelSelector="G"/>
       </filter>
     </defs>
   </svg>
