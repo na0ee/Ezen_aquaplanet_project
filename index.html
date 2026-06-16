@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
@@ -35,7 +35,14 @@
       <nav class="gnb__nav" aria-label="메인 메뉴">
         <a href="#sec-program" class="gnb__link" data-nav="program">Program</a>
         <a href="#sec-crew"    class="gnb__link" data-nav="crew">Ocean friends</a>
-        <a href="#sec-intro"   class="gnb__link gnb__link--active" data-nav="about">About us</a>
+        <div class="gnb__nav-item" data-nav="about">
+          <span class="gnb__link">About us</span>
+          <div class="gnb__dropdown">
+            <a href="#" class="gnb__dropdown-item">Business</a>
+            <a href="#" class="gnb__dropdown-item">Marin Lab</a>
+            <a href="location.html" class="gnb__dropdown-item gnb__dropdown-item--active">Location</a>
+          </div>
+        </div>
       </nav>
 
       <!-- 중앙 로고 -->
@@ -63,7 +70,7 @@
 
     <section id="sec-logo" class="section section--logo" aria-label="Aqua Planet logo">
       <video class="section__video-bg" autoplay muted loop playsinline aria-hidden="true">
-        <source src="assets/images/first.mp4" type="video/mp4">
+        <source src="assets/images/first.mov" type="video/mp4">
       </video>
 
     </section>
@@ -78,6 +85,10 @@
     ================================================ -->
     <section id="sec-intro" class="section section--hero" aria-label="히어로">
       <div class="section__bg section__bg--hero" aria-hidden="true"></div>
+      <div class="bubble-layer bubble-layer--hero" data-bubble-root aria-hidden="true">
+        <div class="bubble-side bubble-side--left" data-bubble-side="left"></div>
+        <div class="bubble-side bubble-side--right" data-bubble-side="right"></div>
+      </div>
 
       <div class="hero">
         <div class="hero__text reveal">
@@ -93,6 +104,12 @@
         <button class="scroll-indicator__text" id="dive-trigger" type="button" aria-label="해저 탐험 시작">Let's Explore</button>
       </div>
     </section>
+
+    <div class="bubble-section-wrapper" data-bubble-root>
+      <div class="bubble-layer" id="bubble-layer" aria-hidden="true">
+        <div class="bubble-side bubble-side--left" data-bubble-side="left"></div>
+        <div class="bubble-side bubble-side--right" data-bubble-side="right"></div>
+      </div>
 
     <!-- ================================================
          SECTION 02 · Our Crew — 스크롤 드리븐 단일 섹션
@@ -121,6 +138,10 @@
               <div class="crew-canvas__glow"></div>
               <div class="crew-canvas__shape"></div>
             </div>
+          </div>
+
+          <!-- 생물 정보 패널 -->
+          <div class="crew-info-wrap">
             <div class="crew-rotate-hint" aria-hidden="true">
               <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
                 <path d="M4 14C4 8.477 8.477 4 14 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
@@ -130,10 +151,6 @@
               </svg>
               <span>drag</span>
             </div>
-          </div>
-
-          <!-- 생물 정보 패널 -->
-          <div class="crew-info-wrap">
 
             <article class="crew-panel is-active glass-card" data-index="0">
               <header class="creature-info__head">
@@ -141,12 +158,11 @@
                 <span class="creature-info__name-kr">: 바다코끼리</span>
               </header>
               <dl class="creature-info__meta">
-                <div><dt>Name</dt><dd>: 메리, 바롱</dd></div>
+                <div><dt>Name</dt><dd>: 메리, 바랴</dd></div>
                 <div><dt>Location</dt><dd>: 아쿠아플라넷 일산</dd></div>
               </dl>
               <p class="creature-info__desc">
-                마스코트 바다코끼리 자매, 메리와 바롱<br>
-                평화로운 수중 라이프를 즐기고 있어요
+                국내 유일 바다코끼리 자매, 메리와 바랴
               </p>
             </article>
             <a href="#sec-booking" class="crew-panel-btn btn-cta btn-cta--fill-white" data-index="0">보러가기</a>
@@ -160,34 +176,32 @@
                 <div><dt>Name</dt><dd>: 루비</dd></div>
                 <div><dt>Location</dt><dd>: 아쿠아플라넷 여수</dd></div>
               </dl>
-              <p class="creature-info__desc">벨루가 마스코트</p>
+              <p class="creature-info__desc">국내에 소수만 남아 있는 희귀한 흰고래</p>
             </article>
             <a href="#sec-booking" class="crew-panel-btn btn-cta btn-cta--fill-white" data-index="1">보러가기</a>
 
             <article class="crew-panel glass-card" data-index="2">
               <header class="creature-info__head">
                 <h3 class="creature-info__name">Sand Tiger Shark</h3>
-                <span class="creature-info__name-kr">: 샌드타이거상어</span>
+                <span class="creature-info__name-kr">: 모래뱀상어</span>
               </header>
               <dl class="creature-info__meta">
-                <div><dt>Name</dt><dd>: 샌드타이거상어</dd></div>
-                <div><dt>Location</dt><dd>: 전국 아쿠아플라넷</dd></div>
+                <div><dt>Location</dt><dd>: 아쿠아플라넷 일산, 제주</dd></div>
               </dl>
-              <p class="creature-info__desc">메인 수조의 주인공</p>
+              <p class="creature-info__desc">메인수조를 대표하는 대형 상어</p>
             </article>
             <a href="#sec-booking" class="crew-panel-btn btn-cta btn-cta--fill-white" data-index="2">보러가기</a>
 
             <article class="crew-panel glass-card" data-index="3">
               <header class="creature-info__head">
-                <h3 class="creature-info__name">Sea Turtle</h3>
-                <span class="creature-info__name-kr">: 바다거북</span>
+                <h3 class="creature-info__name">Green Sea Turtle</h3>
+                <span class="creature-info__name-kr">: 푸른바다거북</span>
               </header>
               <dl class="creature-info__meta">
-                <div><dt>Name</dt><dd>: 초록이</dd></div>
-                <div><dt>Location</dt><dd>: 아쿠아플라넷 코엑스</dd></div>
+                <div><dt>Location</dt><dd>: 아쿠아플라넷 여수</dd></div>
               </dl>
               <p class="creature-info__desc">
-                바다를 자유롭게 헤엄치는 바다거북, 초록이<br>
+                국내 최초 인공번식 성공으로 이어진 바다거북 종보전의 상징<br>
                 아쿠아플라넷의 오랜 친구
               </p>
             </article>
@@ -256,13 +270,13 @@
             <div class="program-card__body">
               <p class="program-card__caption">최초 수중 퍼포먼스 아이돌 ‘시크릿 에이전트 뉴이브’</p>
               <div class="program-card__hover-info">
-                <p class="program-card__desc">반가운 마스코트 바다코끼리 자매, 메리와 바랴의 행복한 수중 라이프를 보고 들을 수 있는 국내 유일한 이곳! 아쿠아플라넷 일산에서 메리와 바랴를 만나보세요!</p>
+                <p class="program-card__desc">세계 최초 수중 퍼포먼스 아이돌 ‘뉴이브’ 수중 아이돌 퍼포먼스가 홀로그램과 함께 화려한 공연으로 펼쳐집니다 K-pop 아이돌이 되어 지구를 지키려는 최정상 걸그룹 ‘뉴이브‘ 여수에서 만나보세요! </p>
                 <div class="program-card__meta">
                   <div class="program-card__meta-labels">
                     <span>진행시간</span><span>소요시간</span><span>관람장소</span><span>유의사항</span>
                   </div>
                   <div class="program-card__meta-values">
-                    <span>13:00~15:00</span><span>약 08분</span><span>아쿠아플라넷 일산 3F 더 아쿠아 오션 아레나</span><span>※ 생태설명회는 내부 사정 및 생물 상태에 따라 변동 또는 취소될 수 있습니다.</span>
+                    <span>10:20~16:20</span><span>약 13분</span><span>아쿠아플라넷 여수 2F 오션라이프</span><span>※ 내부 사정에 따라 공연 내용은 변경 될 수 있습니다.</span>
                   </div>
                 </div>
               </div>
@@ -278,13 +292,13 @@
             <div class="program-card__body">
               <p class="program-card__caption">오션라이프 만찬- 대형 메인 수조 피딩</p>
               <div class="program-card__hover-info">
-                <p class="program-card__desc">반가운 마스코트 바다코끼리 자매, 메리와 바랴의 행복한 수중 라이프를 보고 들을 수 있는 국내 유일한 이곳! 아쿠아플라넷 일산에서 메리와 바랴를 만나보세요!</p>
+                <p class="program-card__desc">약 60여종 3000여 마리가 함께 생활하고 있는 대형 메인수조! 크기와 모양이 각기 다른 이 친구들은 밥을 어떻게 먹을까요?!</p>
                 <div class="program-card__meta">
                   <div class="program-card__meta-labels">
                     <span>진행시간</span><span>소요시간</span><span>관람장소</span><span>유의사항</span>
                   </div>
                   <div class="program-card__meta-values">
-                    <span>13:00~15:00</span><span>약 08분</span><span>아쿠아플라넷 일산 3F 더 아쿠아 오션 아레나</span><span>※ 생태설명회는 내부 사정 및 생물 상태에 따라 변동 또는 취소될 수 있습니다.</span>
+                    <span>11:40~14:40</span><span>약 10분</span><span>아쿠아플라넷 여수 2F 오션라이프 메인수조</span><span>※ 본 프로그램은 내부 사정에 의해, 변경/ 취소될 수 있습니다.</span>
                   </div>
                 </div>
               </div>
@@ -299,13 +313,13 @@
             <div class="program-card__body">
               <p class="program-card__caption">해녀의 이야기를 담은 아쿠아플라넷 제주 대표 공연</p>
               <div class="program-card__hover-info">
-                <p class="program-card__desc">반가운 마스코트 바다코끼리 자매, 메리와 바랴의 행복한 수중 라이프를 보고 들을 수 있는 국내 유일한 이곳! 아쿠아플라넷 일산에서 메리와 바랴를 만나보세요!</p>
+                <p class="program-card__desc">아쿠아마린쇼 (해녀, 망사리의 모험) 아찔하게 펼쳐지는 다이나믹 수중 퍼포먼스를 즐겨보세요!</p>
                 <div class="program-card__meta">
                   <div class="program-card__meta-labels">
                     <span>진행시간</span><span>소요시간</span><span>관람장소</span><span>유의사항</span>
                   </div>
                   <div class="program-card__meta-values">
-                    <span>13:00~15:00</span><span>약 08분</span><span>아쿠아플라넷 일산 3F 더 아쿠아 오션 아레나</span><span>※ 생태설명회는 내부 사정 및 생물 상태에 따라 변동 또는 취소될 수 있습니다.</span>
+                    <span>13:00~15:00</span><span>약 50분</span><span>아쿠아플라넷 제주 B1F 오션 아레나 공연장</span><span>※ 내부 사정에 따라 공연 시간이 변동될 수 있습니다.</span>
                   </div>
                 </div>
               </div>
@@ -348,7 +362,7 @@
           <button class="map-marker" data-branch="코엑스"
                   style="--mx:55%;--my:34%" type="button" aria-label="아쿠아플라넷 코엑스">
             <span class="map-marker__dot"></span>
-            <span class="map-marker__label">코엑스</span>
+            <span class="map-marker__label">광교</span>
           </button>
 
           <button class="map-marker" data-branch="여수"
@@ -400,6 +414,10 @@
     <section id="sec-booking" class="section section--booking" aria-label="예매">
       <div class="section__bg section__bg--booking" aria-hidden="true"></div>
       <div class="section-seq-sticky">
+        <video class="booking-bg-video" autoplay muted loop playsinline aria-hidden="true" data-playback-rate="2.1">
+          <source src="assets/images/KakaoTalk_20260615_173315321_alpha.webm" type="video/webm">
+          <source src="assets/images/KakaoTalk_20260615_173315321.mp4" type="video/mp4">
+        </video>
       <div class="container">
 
         <div class="section-title section-title--center booking-seq-title">
@@ -412,40 +430,40 @@
         <!-- flex-wrap 비대칭 그리드: Row1(630+514) / Row2(514+630) -->
         <div class="booking-grid booking-seq-content">
 
-          <article class="booking-card glass-card" style="--bw:630px;" data-branch="일산">
+          <article class="booking-card glass-card" style="--bw:706.03px;" data-branch="일산">
             <div class="booking-card__img booking-card__img--ilsan"></div>
             <div class="booking-card__gradient"></div>
             <div class="booking-card__foot">
               <p class="booking-card__name">아쿠아플라넷 일산</p>
-              <button class="btn-cta btn-cta--white" type="button">예매하기</button>
+              <button class="btn-cta btn-cta--fill-white" type="button">예매하기</button>
             </div>
           </article>
 
-          <article class="booking-card glass-card" style="--bw:514px;" data-branch="코엑스">
+          <article class="booking-card glass-card" style="--bw:576.03px;" data-branch="코엑스">
             <div class="booking-card__img booking-card__img--seoul"></div>
             <div class="booking-card__gradient"></div>
             <div class="booking-card__foot">
-              <p class="booking-card__name">아쿠아플라넷 코엑스</p>
-              <button class="btn-cta btn-cta--white" type="button">예매하기</button>
+              <p class="booking-card__name">아쿠아플라넷 광교</p>
+              <button class="btn-cta btn-cta--fill-white" type="button">예매하기</button>
             </div>
           </article>
 
           <!-- Row 2: 514 먼저 → 630 순 -->
-          <article class="booking-card glass-card" style="--bw:514px;" data-branch="여수">
+          <article class="booking-card glass-card" style="--bw:576.03px;" data-branch="여수">
             <div class="booking-card__img booking-card__img--yeosu"></div>
             <div class="booking-card__gradient"></div>
             <div class="booking-card__foot">
               <p class="booking-card__name">아쿠아플라넷 여수</p>
-              <button class="btn-cta btn-cta--white" type="button">예매하기</button>
+              <button class="btn-cta btn-cta--fill-white" type="button">예매하기</button>
             </div>
           </article>
 
-          <article class="booking-card glass-card" style="--bw:630px;" data-branch="제주">
+          <article class="booking-card glass-card" style="--bw:706.03px;" data-branch="제주">
             <div class="booking-card__img booking-card__img--jeju"></div>
             <div class="booking-card__gradient"></div>
             <div class="booking-card__foot">
               <p class="booking-card__name">아쿠아플라넷 제주</p>
-              <button class="btn-cta btn-cta--white" type="button">예매하기</button>
+              <button class="btn-cta btn-cta--fill-white" type="button">예매하기</button>
             </div>
           </article>
 
@@ -453,6 +471,8 @@
       </div>
       </div>
     </section>
+
+    </div><!-- /.bubble-section-wrapper -->
 
     </div><!-- /.content-bg-wrap -->
 

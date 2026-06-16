@@ -1,0 +1,151 @@
+{
+  "$meta": {
+    "name": "Aqua Planet Design System",
+    "version": "1.0.0",
+    "extractedDate": "2026-06-11",
+    "source": "local/reperence.md",
+    "figmaFileKey": "21hipFHORIVPs0iSUFxfvk",
+    "figmaPage": "08-design-system-registration",
+    "basis": "기준 레퍼런스에서 실측한 확정값만 포함. Caption/Card 자간은 -2% 유지(사용자 결정).",
+    "units": {
+      "fontSize": "px",
+      "lineHeight": "multiplier (1 = 100%); 'normal' = 폰트 기본/auto",
+      "letterSpacing": "em (px 환산값 병기)",
+      "spacing/radius": "px"
+    }
+  },
+
+  "font": {
+    "families": {
+      "en": { "name": "Poppins", "role": "영문 디스플레이/UI", "weights": [300, 400, 500] },
+      "serif": { "name": "EB Garamond", "role": "세리프 이탤릭 강조", "weights": [400, 500], "styles": ["Regular", "Medium", "Medium Italic"] },
+      "kr": { "name": "Pretendard", "role": "국문 본문/UI", "weights": [400, 500] }
+    },
+    "loading": {
+      "method": "HTML/CSS link",
+      "links": [
+        "https://cdn.jsdelivr.net/gh/orioncactus/pretendard@latest/dist/web/static/pretendard.css",
+        "https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,500&family=Poppins:wght@300;400;500&display=swap"
+      ],
+      "cssVars": {
+        "--font-en": "\"Poppins\", sans-serif",
+        "--font-serif": "\"EB Garamond\", serif",
+        "--font-kr": "\"Pretendard\", sans-serif"
+      }
+    }
+  },
+
+  "typography": {
+    "Display/Hero Title": {
+      "fontFamily": "Poppins", "fontWeight": 500, "fontStyle": "normal",
+      "fontSize": 128, "lineHeight": 1.4, "letterSpacing": "-0.02em", "letterSpacingPx": -2.56
+    },
+    "Heading/Section Title - EN": {
+      "fontFamily": "Poppins", "fontWeight": 300, "fontStyle": "normal",
+      "fontSize": 42, "lineHeight": "normal", "letterSpacing": "-0.04em", "letterSpacingPx": -1.68
+    },
+    "Heading/Section Title - Serif Italic": {
+      "fontFamily": "EB Garamond", "fontWeight": 500, "fontStyle": "italic",
+      "fontSize": 48, "lineHeight": "normal", "letterSpacing": "-0.04em", "letterSpacingPx": -1.92
+    },
+    "Heading/Card Name": {
+      "fontFamily": "EB Garamond", "fontWeight": 500, "fontStyle": "normal",
+      "fontSize": 48, "lineHeight": 1.4, "letterSpacing": "-0.02em", "letterSpacingPx": -0.96
+    },
+    "Label/Hero Eyebrow": {
+      "fontFamily": "EB Garamond", "fontWeight": 500, "fontStyle": "italic",
+      "fontSize": 32, "lineHeight": 1.4, "letterSpacing": "-0.02em", "letterSpacingPx": -0.64
+    },
+    "Nav/Default": {
+      "fontFamily": "Poppins", "fontWeight": 400, "fontStyle": "normal",
+      "fontSize": 24, "lineHeight": "normal", "letterSpacing": "-0.04em", "letterSpacingPx": -0.96
+    },
+    "Nav/Active": {
+      "fontFamily": "EB Garamond", "fontWeight": 400, "fontStyle": "normal",
+      "fontSize": 26, "lineHeight": "normal", "letterSpacing": "-0.04em", "letterSpacingPx": -1.04
+    },
+    "Body/Default": {
+      "fontFamily": "Pretendard", "fontWeight": 400, "fontStyle": "normal",
+      "fontSize": 16, "lineHeight": 1.4, "letterSpacing": "-0.02em", "letterSpacingPx": -0.32
+    },
+    "Caption/Card": {
+      "fontFamily": "Pretendard", "fontWeight": 400, "fontStyle": "normal",
+      "fontSize": 20, "lineHeight": "normal", "letterSpacing": "-0.02em", "letterSpacingPx": -0.40,
+      "_note": "자간 -2% 유지(사용자 결정). 레퍼런스 원본은 자간 0이었음."
+    },
+    "Label/Button": {
+      "fontFamily": "Pretendard", "fontWeight": 500, "fontStyle": "normal",
+      "fontSize": 16, "lineHeight": 1.2, "letterSpacing": "-0.02em", "letterSpacingPx": -0.32
+    },
+    "Label/Section-Sub": {
+      "fontFamily": "Pretendard", "fontWeight": 400, "fontStyle": "normal",
+      "fontSize": 18, "lineHeight": "normal", "letterSpacing": "-0.02em", "letterSpacingPx": -0.36
+    },
+    "Label/Hero/sub": {
+      "fontFamily": "Pretendard", "fontWeight": 500, "fontStyle": "normal",
+      "fontSize": 32, "lineHeight": 1.4, "letterSpacing": "-0.02em", "letterSpacingPx": -0.64
+    }
+  },
+
+  "color": {
+    "Brand/Primary": { "hex": "#22B2EA", "rgba": "rgba(34,178,234,1)" },
+    "Background/Base": { "hex": "#FFFFFF", "rgba": "rgba(255,255,255,1)" },
+    "Text/OnDark": { "hex": "#FFFFFF", "rgba": "rgba(255,255,255,1)" },
+    "Text/OnDark-Muted-50": { "hex": "#FFFFFF", "opacity": 0.5, "rgba": "rgba(255,255,255,0.5)" },
+    "Surface/Glass-Subtle-02": { "hex": "#FFFFFF", "opacity": 0.02, "rgba": "rgba(255,255,255,0.02)" },
+    "Surface/Glass-10": { "hex": "#FFFFFF", "opacity": 0.1, "rgba": "rgba(255,255,255,0.1)" },
+    "Surface/Glass-Strong-34": { "hex": "#FFFFFF", "opacity": 0.34, "rgba": "rgba(255,255,255,0.34)" },
+    "Border/Glass-10": { "hex": "#FFFFFF", "opacity": 0.1, "rgba": "rgba(255,255,255,0.1)" },
+    "Overlay/Black-56": { "hex": "#000000", "opacity": 0.56, "rgba": "rgba(0,0,0,0.56)" },
+    "Overlay/Black-70": { "hex": "#000000", "opacity": 0.7, "rgba": "rgba(0,0,0,0.7)" }
+  },
+
+  "token": {
+    "collection": "aqua-tokens",
+    "layout": {
+      "container/width": 1160,
+      "layout/section-height": 1080,
+      "layout/title-top": 160,
+      "layout/section-gap": 80,
+      "grid/gutter-side": 380,
+      "grid/card-gap": 16
+    },
+    "spacing": {
+      "card/padding-image": 24,
+      "card/padding-cta": 16,
+      "card/padding-info-x": 76,
+      "card/padding-info-y": 36
+    },
+    "radius": {
+      "radius/card-14": 14,
+      "radius/card-16": 16,
+      "radius/button-cta": 24,
+      "radius/button-pill": 100
+    },
+    "effect": {
+      "effect/glass-blur": 15,
+      "effect/border-width": 2
+    },
+    "imageRatio": {
+      "image/ratio-4-3": "4:3 (532x400)",
+      "image/ratio-3-2": "3:2 (612x400)"
+    }
+  },
+
+  "component": {
+    "button": {
+      "cta": { "height": 32, "paddingX": 16, "paddingY": 6, "radius": 24, "textStyle": "Label/Button", "variants": ["white", "primary-solid", "primary-outline"] },
+      "navPill": { "height": 54, "paddingX": 22, "radius": 100, "textStyle": "Nav/Default" }
+    },
+    "card": {
+      "glass": { "radius": 14, "blur": 15, "border": "Border/Glass-10", "borderWidth": 2, "padding": { "image": 24, "cta": 16, "info": [76, 36] } },
+      "image": { "radius": 16, "fit": "cover", "bottomGradient": "linear-gradient(to bottom, rgba(0,0,0,0) → Overlay/Black-56)" }
+    }
+  },
+
+  "pending": {
+    "color.Accent": "레퍼런스에 #22B2EA 외 별도 강조색 근거 없음 → 미등록",
+    "interaction.hover": "호버/전환 수치 미정(아직 안 정함)",
+    "breakpoint.mobile": "모바일 미제작 결정 → 브레이크포인트 토큰 없음"
+  }
+}

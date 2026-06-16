@@ -95,10 +95,47 @@ const totalPanelCount  = crewSection?.querySelectorAll('.crew-panel').length || 
 let crewInView = false;
 let crewEntryTimer = null;
 let crewContentTimer = null;
+let crewInfoVisible = true;
+let forceCrewEntryUntil = 0;
 
 let exitZoneActive = false;
 let prevExcess = 0;
 let crewWaveExiting = false;
+
+function getCrewScrollState() {
+  if (!crewSection) {
+    return { scrolled: 0, exitStart: 0, inPanelRange: false };
+  }
+
+  const secR = crewSection.getBoundingClientRect();
+  const scrolled = -secR.top;
+  const exitStart = totalPanelCount * window.innerHeight;
+
+  return {
+    scrolled,
+    exitStart,
+    inPanelRange: scrolled >= 0 && scrolled < exitStart,
+  };
+}
+
+function hideCrewCanvas() {
+  clearTimeout(crewEntryTimer);
+  clearTimeout(crewContentTimer);
+  crewCanvas.style.opacity = '0';
+  crewCanvas.style.transform = '';
+  crewCanvas.style.clipPath = 'inset(0px 0px 100vh 0px)';
+  models.forEach((model) => {
+    if (model?.pivot) model.pivot.visible = false;
+  });
+  entryActive = false;
+  entryModel = null;
+  exitActive = false;
+  exitModel = null;
+  currentIdx = -1;
+  currentSettled = false;
+  disableControls();
+  setCrewInfoVisible(false);
+}
 
 /* 캔버스를 crew-sticky 가시 영역으로 clip.
    퇴장 구간: 다운 스크롤 → translateY로 위로 올라가게, 업 스크롤 → 즉시 숨김 */
@@ -110,8 +147,13 @@ function clampCanvasToSticky() {
 
   const scrolled     = -secR.top;
   const excess       = Math.max(0, scrolled - totalPanelCount * vh);
-  const scrollingDown = excess > prevExcess;
   prevExcess = excess;
+  const forceEntry = performance.now() < forceCrewEntryUntil;
+
+  if (forceEntry && scrolled < 0) {
+    crewCanvas.style.clipPath = 'none';
+    return;
+  }
 
   if (crewWaveExiting) {
     if (excess > 0) exitZoneActive = true;
@@ -122,17 +164,9 @@ function clampCanvasToSticky() {
   if (excess > 0) {
     exitZoneActive = true;
     crewCanvas.style.transition = 'none';
-    if (scrollingDown) {
-      /* 다운 스크롤: GLB 위로 올라가게 */
-      crewCanvas.style.opacity   = '1';
-      crewCanvas.style.transform = `translateY(-${excess}px)`;
-      crewCanvas.style.clipPath  = 'none';
-    } else {
-      /* 업 스크롤: 즉시 숨김 */
-      crewCanvas.style.opacity   = '0';
-      crewCanvas.style.transform = '';
-      crewCanvas.style.clipPath  = 'inset(0px 0px 100vh 0px)';
-    }
+    crewCanvas.style.opacity   = '0';
+    crewCanvas.style.transform = '';
+    crewCanvas.style.clipPath  = 'inset(0px 0px 100vh 0px)';
     return;
   }
 
@@ -155,16 +189,27 @@ function clampCanvasToSticky() {
 }
 
 function setCrewInfoVisible(visible) {
+  const wasVisible = crewInfoVisible;
+  crewInfoVisible = visible;
   crewSection?.classList.toggle('is-creature-moving', !visible);
+  if (visible && !wasVisible) {
+    document.dispatchEvent(new CustomEvent('crew-card-reenter'));
+  }
 }
 
 function setCrewTitleVisible(visible) {
   crewSection?.classList.toggle('is-title-visible', visible);
 }
 
-function scheduleCreatureEntry() {
+function scheduleCreatureEntry(immediate = false) {
   clearTimeout(crewEntryTimer);
   if (loadedN !== CREATURES.length || !crewInView) return;
+
+  if (immediate) {
+    showCreature(pendingIdx >= 0 ? pendingIdx : 0, true);
+    return;
+  }
+
   crewEntryTimer = setTimeout(() => {
     if (!crewInView) return;
     showCreature(pendingIdx >= 0 ? pendingIdx : 0);
@@ -175,6 +220,11 @@ setCrewInfoVisible(false);
 setCrewTitleVisible(false);
 if (crewSection) {
   new IntersectionObserver(([e]) => {
+    /* force-enter 기간 중 지연된 leave 콜백은 crewInView도 건드리지 않음 */
+    if (!e.isIntersecting && performance.now() < forceCrewEntryUntil) {
+      syncControls();
+      return;
+    }
     crewInView = e.isIntersecting;
     if (crewInView) {
       enterCrewSection();
@@ -359,7 +409,7 @@ function onAllLoaded() {
 
   /* 로드 전 스크롤된 인덱스가 있으면 그 위치로, 없으면 0번 */
   if (crewInView) {
-    scheduleCreatureEntry();
+    scheduleCreatureEntry(true);
   }
 }
 
@@ -381,25 +431,21 @@ let exitActive   = false;
 let hideCanvasAfterExit = false;
 
 function enterCrewSection() {
-  /* 이전에 canvas가 visible 상태였더라도 즉시 숨겨서 GLB가 타이틀보다 먼저 보이지 않도록 */
-  crewCanvas.style.transition = 'none';
-  crewCanvas.style.opacity    = '0';
+  crewCanvas.style.transition = 'opacity 0.35s ease';
+  crewCanvas.style.opacity    = '1';
 
-  setCrewInfoVisible(false);
+  setCrewInfoVisible(true);
   setCrewTitleVisible(true);
   hideCanvasAfterExit = false;
   clearTimeout(crewContentTimer);
-  crewContentTimer = setTimeout(() => {
-    if (!crewInView) return;
-    crewCanvas.style.transition = 'opacity 0.6s ease';
-    crewCanvas.style.opacity    = '1';
-    crewSection?.classList.add('is-content-visible');
-    scheduleCreatureEntry();
-  }, 700);
+  crewSection?.classList.add('is-content-visible');
+  scheduleCreatureEntry(true);
 }
 
 function leaveCrewSection() {
   clearTimeout(crewContentTimer);
+  /* force-enter 기간 중 IO의 지연 leave 콜백 무시 */
+  if (performance.now() < forceCrewEntryUntil) return;
   /* exit zone 다운 스크롤 중: translateY가 GLB를 위로 밀어내므로 수영 애니메이션 불필요 */
   if (exitZoneActive) return;
   clearTimeout(crewEntryTimer);
@@ -452,7 +498,29 @@ function startSectionExit(leavingDown = true) {
 }
 
 function showCreature(idx, immediate = false) {
-  if (idx === currentIdx) return;
+  const { inPanelRange, scrolled } = getCrewScrollState();
+  const forceEntry = performance.now() < forceCrewEntryUntil;
+  if (!forceEntry && !inPanelRange && scrolled < -10) {
+    pendingIdx = idx;
+    hideCrewCanvas();
+    return;
+  }
+
+  if (idx === currentIdx) {
+    crewCanvas.style.opacity = '1';
+    setCrewInfoVisible(true);
+    if (models[idx]?.pivot) {
+      models[idx].pivot.visible = true;
+      if (immediate && !currentSettled) {
+        const settled = ENTRY_FWD.getPoint(1);
+        models[idx].pivot.position.copy(settled);
+        models[idx].pivot.rotation.set(SETTLED_ROT_X, SETTLED_ROT_Y, 0);
+        currentSettled = true;
+        enableControls();
+      }
+    }
+    return;
+  }
 
   hideCanvasAfterExit = false;
   crewCanvas.style.opacity = '1';
@@ -497,7 +565,10 @@ function showCreature(idx, immediate = false) {
   }
 
   currentIdx = idx;
-  if (!models[idx]) return;
+  if (!models[idx]) {
+    setCrewInfoVisible(true);
+    return;
+  }
 
   const curve = forward ? ENTRY_FWD : ENTRY_BWD;
   const m = models[idx].pivot;
@@ -551,6 +622,9 @@ const clock = new THREE.Clock();
     entryModel.rotation.y = (1 - rotT) * ENTRY_SIDE_ROT * rotSign + rotT * SETTLED_ROT_Y + swim * 0.1 * swimFade * rotSign;
     entryModel.rotation.x = Math.sin(entryT * Math.PI * 2.2) * ENTRY_PITCH * swimFade + settle * SETTLED_ROT_X;
     entryModel.rotation.z = -swim * ENTRY_ROLL * rotSign * swimFade;
+    if (entryT >= 0.48) {
+      setCrewInfoVisible(true);
+    }
     if (entryT >= 1) {
       entryModel.rotation.set(SETTLED_ROT_X, SETTLED_ROT_Y, 0);
       entryActive = false;
@@ -581,6 +655,25 @@ const clock = new THREE.Clock();
         document.dispatchEvent(new CustomEvent('crew-tail-exit-complete'));
       }
     }
+  }
+
+  const crewState = getCrewScrollState();
+  const forceEntryNow = performance.now() < forceCrewEntryUntil;
+  if (!crewState.inPanelRange && !entryActive && !exitActive && !crewWaveExiting && !forceEntryNow) {
+    if (crewCanvas.style.opacity !== '0' || currentIdx >= 0) {
+      hideCrewCanvas();
+    }
+  }
+
+  if (
+    crewInView &&
+    loadedN === CREATURES.length &&
+    currentIdx < 0 &&
+    !entryActive &&
+    !exitActive &&
+    crewState.inPanelRange
+  ) {
+    showCreature(pendingIdx >= 0 ? pendingIdx : 0, forceEntryNow);
   }
 
   if (controlsActive && currentSettled) {
@@ -615,19 +708,30 @@ document.addEventListener('crew-switch', (e) => {
   if (!crewInView) return;
 
   if (loadedN === CREATURES.length) {
-    showCreature(e.detail.idx);
+    showCreature(e.detail.idx, Boolean(e.detail.immediate));
   }
 });
 
+document.addEventListener('crew-force-enter', () => {
+  forceCrewEntryUntil = performance.now() + 1200;
+  crewInView = true;
+  enterCrewSection();
+});
+
 document.addEventListener('crew-tail-visibility', (e) => {
+  /* force-enter 기간(1200ms) 중에는 어떤 숨김 동작도 차단 */
+  if (performance.now() < forceCrewEntryUntil) return;
+
   if (e.detail.hidden) {
     startSectionExit(true);
     return;
   }
 
-  if (crewInView) {
+  if (crewInView && getCrewScrollState().inPanelRange) {
     crewCanvas.style.opacity = '1';
     scheduleCreatureEntry();
+  } else {
+    hideCrewCanvas();
   }
 });
 
@@ -661,9 +765,11 @@ document.addEventListener('crew-wave-exit-reset', () => {
   crewWaveExiting = false;
   crewCanvas.style.filter = '';
   crewCanvas.style.transform = '';
-  if (crewInView) {
+  if (crewInView && getCrewScrollState().inPanelRange) {
     crewCanvas.style.transition = 'opacity 0.6s ease';
     crewCanvas.style.opacity = '1';
+  } else {
+    hideCrewCanvas();
   }
   clampCanvasToSticky();
 });
