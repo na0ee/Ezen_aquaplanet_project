@@ -872,31 +872,53 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
 
 
 /* =============================================================
-   10. CUSTOM CURSOR — 흰색 원형 커서
+   10. TOP BUTTON — 맨 위로 이동 버튼
+   ============================================================= */
+function initTopBtn() {
+  const btn = document.getElementById('top-btn');
+  if (!btn) return;
+
+  const THRESHOLD = 400;
+
+  function update() {
+    btn.classList.toggle('is-visible', window.scrollY > THRESHOLD);
+  }
+
+  window.addEventListener('scroll', update, { passive: true });
+  update();
+
+  btn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+}
+
+
+/* =============================================================
+   11. CUSTOM CURSOR — 흰색 원형 커서
    ============================================================= */
 function initCustomCursor() {
-  if (window.matchMedia('(hover: none)').matches) return;
-
   const el = document.getElementById('custom-cursor');
   if (!el) return;
 
   const HALF = 17;
   let tx = -200, ty = -200;
-  let cx = tx,   cy = ty;
-  let firstMove = false;
+  let cx = tx, cy = ty;
+  let snapped = false;
+
+  // 즉시 보이게 (마우스 이동 전엔 화면 밖 위치에 있으므로 안 보임)
+  el.style.opacity = '1';
 
   window.addEventListener('mousemove', e => {
     tx = e.clientX;
     ty = e.clientY;
-    if (!firstMove) {
-      firstMove = true;
-      cx = tx; cy = ty;        // 첫 이동 시 즉시 스냅
-      el.style.opacity = '1';
+    if (!snapped) {
+      snapped = true;
+      cx = tx; cy = ty;
     }
   }, { passive: true });
 
   document.addEventListener('mouseleave', () => { el.style.opacity = '0'; });
-  document.addEventListener('mouseenter', () => { if (firstMove) el.style.opacity = '1'; });
+  document.addEventListener('mouseenter', () => { el.style.opacity = '1'; });
   document.addEventListener('mousedown',  () => el.classList.add('is-clicking'));
   document.addEventListener('mouseup',    () => el.classList.remove('is-clicking'));
 
@@ -918,7 +940,6 @@ function initCustomCursor() {
    11. CURSOR WAVE — 잔잔한 수면 수평 반사 흔들림
    ============================================================= */
 function initCursorWave() {
-  if (window.matchMedia('(hover: none)').matches) return;
 
   const canvas = document.createElement('canvas');
   canvas.setAttribute('aria-hidden', 'true');
@@ -929,7 +950,6 @@ function initCursorWave() {
     height:        '100%',
     pointerEvents: 'none',
     zIndex:        '9996',
-    mixBlendMode:  'screen',
   });
   document.body.appendChild(canvas);
 
@@ -1022,7 +1042,7 @@ function initCursorWave() {
         if (shine <= 0) continue;
 
         const amp   = Math.min(Math.abs(v) / 48, 1);
-        const alpha = Math.min(shine * amp * 1.0, 1) * 90;
+        const alpha = Math.min(shine * amp * 1.0, 1) * 160;
         if (alpha < 2) continue;
 
         const t    = Math.min(shine * amp * 0.5, 1);
