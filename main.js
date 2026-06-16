@@ -69,7 +69,9 @@ function initGnb() {
 
     gnb.classList.toggle('is-scrolled', currentY > SCROLL_THRESHOLD);
 
-    if (currentY > SCROLL_THRESHOLD) {
+    // 로고 트랜지션 중에는 헤더 슬롯이 안정적이도록 GNB를 숨기지 않음
+    const inLogoTransition = document.body.classList.contains('is-logo-transition');
+    if (currentY > SCROLL_THRESHOLD && !inLogoTransition) {
       gnb.classList.toggle('is-hidden', scrolledDown);
     } else {
       gnb.classList.remove('is-hidden');
@@ -117,79 +119,22 @@ function initScrollIndicator() {
 
 
 /* =============================================================
-   3-B. 로고 섹션 스크롤 게이트
-        스크롤 3회 또는 Enter 버튼 클릭 → 물결 전환으로 sec-intro 이동
+   3-B. 로고 섹션 — Enter 버튼
+        스크롤 트랜지션(logo3d.js)이 안무·축소를 담당하므로
+        여기서는 Enter 클릭 시 트랜지션 끝(sec-intro)으로 부드럽게 이동만 처리.
    ============================================================= */
 function initLogoScrollGate() {
-  const logo     = document.getElementById('sec-logo');
   const intro    = document.getElementById('sec-intro');
-  if (!logo || !intro) return;
+  const enterBtn = document.querySelector('.logo-scroll');
+  if (!intro || !enterBtn) return;
 
-  let scrollCount   = 0;
-  let lastScrollTime = 0;
-  let gateOpen      = false;
-
-  /* intro 상단이 뷰포트 하단 아래에 있으면 로고 섹션에 있는 것 */
-  function isAtLogo() {
-    return intro.getBoundingClientRect().top > window.innerHeight * 0.4;
-  }
-
-  function triggerLogoToIntro() {
-    if (gateOpen) return;
-    gateOpen = true;
+  enterBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopImmediatePropagation();
     intro.scrollIntoView({ behavior: 'smooth' });
     setTimeout(() => {
       intro.querySelectorAll('.reveal').forEach(el => el.classList.add('is-visible'));
     }, 400);
-  }
-
-  /* 마우스 휠: 아래 스크롤 3회 카운트 */
-  window.addEventListener('wheel', (e) => {
-    if (!isAtLogo() || gateOpen) return;
-    if (e.deltaY > 0) {
-      e.preventDefault();
-      const now = Date.now();
-      if (now - lastScrollTime > 420) {
-        lastScrollTime = now;
-        scrollCount++;
-        if (scrollCount >= 3) triggerLogoToIntro();
-      }
-    }
-  }, { passive: false });
-
-  /* 터치 스와이프 */
-  let touchStartY = 0;
-  window.addEventListener('touchstart', (e) => {
-    touchStartY = e.touches[0]?.clientY ?? 0;
-  }, { passive: true });
-
-  window.addEventListener('touchmove', (e) => {
-    if (!isAtLogo() || gateOpen) return;
-    const dy = touchStartY - (e.touches[0]?.clientY ?? touchStartY);
-    if (dy > 50) {
-      e.preventDefault();
-      const now = Date.now();
-      if (now - lastScrollTime > 420) {
-        lastScrollTime = now;
-        scrollCount++;
-        touchStartY = e.touches[0]?.clientY ?? touchStartY;
-        if (scrollCount >= 3) triggerLogoToIntro();
-      }
-    }
-  }, { passive: false });
-
-  /* 키보드 아래 방향키 */
-  window.addEventListener('keydown', (e) => {
-    const downKeys = ['ArrowDown', 'PageDown', ' ', 'End'];
-    if (downKeys.includes(e.key) && isAtLogo() && !gateOpen) {
-      e.preventDefault();
-      const now = Date.now();
-      if (now - lastScrollTime > 300) {
-        lastScrollTime = now;
-        scrollCount++;
-        if (scrollCount >= 3) triggerLogoToIntro();
-      }
-    }
   });
 
   /* 페이지 최상단으로 돌아오면 리셋 */
