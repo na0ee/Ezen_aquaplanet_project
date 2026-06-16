@@ -117,24 +117,25 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
                rayStrength(rayPos, finalRayDir, coord, 22.3991, 18.0234,
                            1.1 * raysSpeed);
 
-  fragColor = rays1 * 0.5 + rays2 * 0.4;
+  // 광선 세기(스칼라) — rays1/rays2 는 rgb=alpha 동일하므로 .a 사용
+  float strength = rays1.a * 0.5 + rays2.a * 0.4;
 
   if (noiseAmount > 0.0) {
     float n = noise(coord * 0.01 + iTime * 0.1);
-    fragColor.rgb *= (1.0 - noiseAmount + noiseAmount * n);
+    strength *= (1.0 - noiseAmount + noiseAmount * n);
   }
 
-  float brightness = 1.0 - (coord.y / iResolution.y);
-  fragColor.x *= 0.1 + brightness * 0.8;
-  fragColor.y *= 0.3 + brightness * 0.6;
-  fragColor.z *= 0.5 + brightness * 0.5;
+  strength = clamp(strength, 0.0, 1.0);
 
+  // 흰색(raysColor) 광선 — 어둡게 하지 않고, 굴곡은 불투명도(alpha)로만 표현
+  vec3 col = raysColor;
   if (saturation != 1.0) {
-    float gray = dot(fragColor.rgb, vec3(0.299, 0.587, 0.114));
-    fragColor.rgb = mix(vec3(gray), fragColor.rgb, saturation);
+    float gray = dot(col, vec3(0.299, 0.587, 0.114));
+    col = mix(vec3(gray), col, saturation);
   }
 
-  fragColor.rgb *= raysColor;
+  // premultiplied alpha → 투명 캔버스가 페이지 위에 자연스럽게 합성됨
+  fragColor = vec4(col * strength, strength);
 }
 
 void main() {
