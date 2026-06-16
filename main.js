@@ -14,6 +14,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initProgramSequence();
   initLocationSequence();
   initBookingSequence();
+  initBookingBgVideo();
+  initGlassBubbles();
   initMapMarkers();
   initTopBtn();
   initCustomCursor();
@@ -23,33 +25,71 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 /* =============================================================
-   TICKET MODAL — 네비 Ticket 버튼 → 예매 페이지 오버레이
+   0-B. HERO / CREW ~ BOOKING GLASS BUBBLES
    ============================================================= */
-function initTicketModal() {
-  const page = document.querySelector('.ticket-page');
-  if (!page) return;
+function initGlassBubbles() {
+  const roots = document.querySelectorAll('[data-bubble-root]');
+  if (!roots.length) return;
 
-  // 메인 헤더(#gnb)의 Ticket 버튼만 "열기"로 동작
-  const openers = document.querySelectorAll('#gnb .gnb__ticket');
-  // 오버레이 내부의 닫기 트리거(닫기 버튼/네비 링크/로고)
-  const closers = page.querySelectorAll('[data-ticket-close]');
+  const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let resizeTimer = null;
 
-  const open = () => {
-    page.classList.add('is-open');
-    document.body.classList.add('ticket-open');
-    page.scrollTop = 0;
-  };
-  const close = () => {
-    page.classList.remove('is-open');
-    document.body.classList.remove('ticket-open');
-  };
+  function random(min, max) {
+    return Math.random() * (max - min) + min;
+  }
 
-  openers.forEach(btn => btn.addEventListener('click', (e) => { e.preventDefault(); open(); }));
-  closers.forEach(el => el.addEventListener('click', close));
+  function buildBubbles() {
+    roots.forEach(root => root.querySelectorAll('[data-bubble-side]').forEach(side => side.replaceChildren()));
 
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && page.classList.contains('is-open')) close();
-  });
+    if (motionQuery.matches) return;
+
+    roots.forEach(root => {
+      const sides = root.querySelectorAll('[data-bubble-side]');
+      const rootHeight = Math.max(root.offsetHeight, window.innerHeight);
+      const bubblesPerSide = Math.min(30, Math.max(16, Math.round(rootHeight / 260)));
+
+      sides.forEach(side => {
+        const sideWidth = Math.max(side.clientWidth, 72);
+
+        for (let i = 0; i < bubblesPerSide; i += 1) {
+          const bubble = document.createElement('span');
+          const size = random(14, 54);
+          const maxX = Math.max(4, sideWidth - size - 8);
+          const y = random(0, rootHeight + window.innerHeight * 0.35);
+          const duration = random(15, 30);
+          const delay = random(-duration, 4);
+          const drift = random(-34, 34);
+
+          bubble.className = 'glass-bubble';
+          bubble.style.setProperty('--bubble-size', `${size.toFixed(1)}px`);
+          bubble.style.setProperty('--bubble-x', `${random(4, maxX).toFixed(1)}px`);
+          bubble.style.setProperty('--bubble-y', `${y.toFixed(1)}px`);
+          bubble.style.setProperty('--bubble-duration', `${duration.toFixed(2)}s`);
+          bubble.style.setProperty('--bubble-delay', `${delay.toFixed(2)}s`);
+          bubble.style.setProperty('--bubble-drift', `${drift.toFixed(1)}px`);
+          bubble.style.setProperty('--bubble-sway', `${random(6, 22).toFixed(1)}px`);
+          bubble.style.setProperty('--bubble-sway-duration', `${random(3.8, 7.8).toFixed(2)}s`);
+          bubble.style.setProperty('--bubble-opacity', `${random(0.16, 0.42).toFixed(2)}`);
+
+          side.appendChild(bubble);
+        }
+      });
+    });
+  }
+
+  function scheduleBuild() {
+    window.clearTimeout(resizeTimer);
+    resizeTimer = window.setTimeout(buildBubbles, 120);
+  }
+
+  buildBubbles();
+  window.addEventListener('resize', scheduleBuild, { passive: true });
+
+  if (typeof motionQuery.addEventListener === 'function') {
+    motionQuery.addEventListener('change', buildBubbles);
+  } else if (typeof motionQuery.addListener === 'function') {
+    motionQuery.addListener(buildBubbles);
+  }
 }
 
 
@@ -101,7 +141,9 @@ function initGnb() {
 
     gnb.classList.toggle('is-scrolled', currentY > SCROLL_THRESHOLD);
 
-    if (currentY > SCROLL_THRESHOLD) {
+    // 로고 트랜지션 중에는 헤더 슬롯이 안정적이도록 GNB를 숨기지 않음
+    const inLogoTransition = document.body.classList.contains('is-logo-transition');
+    if (currentY > SCROLL_THRESHOLD && !inLogoTransition) {
       gnb.classList.toggle('is-hidden', scrolledDown);
     } else {
       gnb.classList.remove('is-hidden');
@@ -149,79 +191,22 @@ function initScrollIndicator() {
 
 
 /* =============================================================
-   3-B. 로고 섹션 스크롤 게이트
-        스크롤 3회 또는 Enter 버튼 클릭 → 물결 전환으로 sec-intro 이동
+   3-B. 로고 섹션 — Enter 버튼
+        스크롤 트랜지션(logo3d.js)이 안무·축소를 담당하므로
+        여기서는 Enter 클릭 시 트랜지션 끝(sec-intro)으로 부드럽게 이동만 처리.
    ============================================================= */
 function initLogoScrollGate() {
-  const logo     = document.getElementById('sec-logo');
   const intro    = document.getElementById('sec-intro');
-  if (!logo || !intro) return;
+  const enterBtn = document.querySelector('.logo-scroll');
+  if (!intro || !enterBtn) return;
 
-  let scrollCount   = 0;
-  let lastScrollTime = 0;
-  let gateOpen      = false;
-
-  /* intro 상단이 뷰포트 하단 아래에 있으면 로고 섹션에 있는 것 */
-  function isAtLogo() {
-    return intro.getBoundingClientRect().top > window.innerHeight * 0.4;
-  }
-
-  function triggerLogoToIntro() {
-    if (gateOpen) return;
-    gateOpen = true;
+  enterBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopImmediatePropagation();
     intro.scrollIntoView({ behavior: 'smooth' });
     setTimeout(() => {
       intro.querySelectorAll('.reveal').forEach(el => el.classList.add('is-visible'));
     }, 400);
-  }
-
-  /* 마우스 휠: 아래 스크롤 3회 카운트 */
-  window.addEventListener('wheel', (e) => {
-    if (!isAtLogo() || gateOpen) return;
-    if (e.deltaY > 0) {
-      e.preventDefault();
-      const now = Date.now();
-      if (now - lastScrollTime > 420) {
-        lastScrollTime = now;
-        scrollCount++;
-        if (scrollCount >= 3) triggerLogoToIntro();
-      }
-    }
-  }, { passive: false });
-
-  /* 터치 스와이프 */
-  let touchStartY = 0;
-  window.addEventListener('touchstart', (e) => {
-    touchStartY = e.touches[0]?.clientY ?? 0;
-  }, { passive: true });
-
-  window.addEventListener('touchmove', (e) => {
-    if (!isAtLogo() || gateOpen) return;
-    const dy = touchStartY - (e.touches[0]?.clientY ?? touchStartY);
-    if (dy > 50) {
-      e.preventDefault();
-      const now = Date.now();
-      if (now - lastScrollTime > 420) {
-        lastScrollTime = now;
-        scrollCount++;
-        touchStartY = e.touches[0]?.clientY ?? touchStartY;
-        if (scrollCount >= 3) triggerLogoToIntro();
-      }
-    }
-  }, { passive: false });
-
-  /* 키보드 아래 방향키 */
-  window.addEventListener('keydown', (e) => {
-    const downKeys = ['ArrowDown', 'PageDown', ' ', 'End'];
-    if (downKeys.includes(e.key) && isAtLogo() && !gateOpen) {
-      e.preventDefault();
-      const now = Date.now();
-      if (now - lastScrollTime > 300) {
-        lastScrollTime = now;
-        scrollCount++;
-        if (scrollCount >= 3) triggerLogoToIntro();
-      }
-    }
   });
 
   /* 페이지 최상단으로 돌아오면 리셋 */
@@ -359,6 +344,9 @@ function triggerDive() {
 
   if (typeof gsap === 'undefined') {
     document.getElementById('sec-crew')?.scrollIntoView({ behavior: 'smooth' });
+    setTimeout(() => {
+      document.dispatchEvent(new CustomEvent('crew-force-enter'));
+    }, 450);
     diveActive = false;
     return;
   }
@@ -371,7 +359,24 @@ function triggerDive() {
   useSectionTransition({
     from:   fromEl,
     to:     toEl,
-    onPeak: () => document.getElementById('sec-crew')?.scrollIntoView({ behavior: 'auto' }),
+    onPeak: () => {
+      const crewEl = document.getElementById('sec-crew');
+      if (crewEl) {
+        const top = Math.round(crewEl.getBoundingClientRect().top + window.scrollY);
+        /* CSS scroll-behavior:smooth를 우회해 즉시 이동 (behavior:'instant' 우선, 미지원 시 폴백) */
+        const html = document.documentElement;
+        html.style.scrollBehavior = 'auto';
+        document.body.style.scrollBehavior = 'auto';
+        try {
+          window.scrollTo({ top, behavior: 'instant' });
+        } catch (_) {
+          window.scrollTo(0, top);
+        }
+        html.style.scrollBehavior = '';
+        document.body.style.scrollBehavior = '';
+      }
+      document.dispatchEvent(new CustomEvent('crew-force-enter'));
+    },
     onDone: () => { diveActive = false; },
   });
 }
@@ -382,20 +387,22 @@ function triggerDive() {
    ============================================================= */
 function initCrewScroll() {
   const section     = document.getElementById('sec-crew');
+  if (!section) return;
+
   const panels      = document.querySelectorAll('.crew-panel');
   const dots        = document.querySelectorAll('.crew-dot');
   const placeholder = document.getElementById('crew-placeholder');
-  const crewTitle   = section.querySelector('.crew-header__title');
-  const crewSub     = section.querySelector('.crew-header__sub');
   const sticky      = section.querySelector('.crew-sticky');
 
-  if (!section || !panels.length) return;
+  if (!panels.length || !sticky) return;
 
   const creatures  = ['walrus', 'beluga', 'whaleshark', 'turtle'];
   const totalPanels = panels.length;
   let currentIndex  = -1;
   let tailHidden    = false;
   let exitWavePlayed = false;
+  let lastCrewCardWaveAt = 0;
+  let crewCardWaveTl = null;
 
   function playCrewCardWave() {
     const wrap    = document.querySelector('.crew-info-wrap');
@@ -403,34 +410,28 @@ function initCrewScroll() {
     const turbEl  = document.getElementById('dive-turbulence');
 
     if (!wrap || !dispMap || !turbEl || typeof gsap === 'undefined') return;
+    const now = performance.now();
+    if (now - lastCrewCardWaveAt < 260) return;
+    lastCrewCardWaveAt = now;
 
     wrap.style.filter = 'url(#dive-warp)';
+    turbEl.setAttribute('baseFrequency', '0.0038 0.0068');
+    dispMap.setAttribute('scale', '0');
 
-    let rafId;
-    const t0 = performance.now();
-    (function tickCrewWave() {
-      const t   = (performance.now() - t0) / 1000;
-      const bfx = (0.005 + Math.sin(t * 2.2) * 0.0015).toFixed(5);
-      const bfy = (0.009 + Math.cos(t * 1.8) * 0.0022).toFixed(5);
-      turbEl.setAttribute('baseFrequency', `${bfx} ${bfy}`);
-      rafId = requestAnimationFrame(tickCrewWave);
-    })();
+    crewCardWaveTl?.kill();
+    crewCardWaveTl = gsap.timeline({
+      defaults: { overwrite: 'auto' },
+      onComplete() {
+        turbEl.setAttribute('baseFrequency', '0.004 0.007');
+        dispMap.setAttribute('scale', '0');
+        wrap.style.filter = '';
+        crewCardWaveTl = null;
+      },
+    });
 
-    gsap.fromTo(
-      dispMap,
-      { attr: { scale: 22 } },
-      {
-        attr: { scale: 0 },
-        duration: 0.85,
-        ease: 'expo.out',
-        onComplete() {
-          cancelAnimationFrame(rafId);
-          turbEl.setAttribute('baseFrequency', '0.004 0.007');
-          dispMap.setAttribute('scale', '0');
-          wrap.style.filter = '';
-        },
-      }
-    );
+    crewCardWaveTl
+      .to(dispMap, { attr: { scale: 34 }, duration: 0.18, ease: 'sine.out' })
+      .to(dispMap, { attr: { scale: 0 }, duration: 0.86, ease: 'power3.out' });
   }
 
   function playCrewExitWave() {
@@ -468,8 +469,8 @@ function initCrewScroll() {
     );
   }
 
-  function setActive(idx) {
-    if (idx === currentIndex) return;
+  function setActive(idx, force = false) {
+    if (idx === currentIndex && !force) return;
     const prevIndex = currentIndex;
     currentIndex = idx;
 
@@ -484,15 +485,16 @@ function initCrewScroll() {
     if (placeholder) placeholder.dataset.creature = creatures[idx] ?? '';
 
     /* Three.js crew3d.js에 전달 */
-    document.dispatchEvent(new CustomEvent('crew-switch', { detail: { idx } }));
+    document.dispatchEvent(new CustomEvent('crew-switch', { detail: { idx, immediate: force } }));
 
-    /* 카드 전환 파동 효과 (첫 번째 진입 제외) */
-    if (prevIndex >= 0) playCrewCardWave();
+    if (force || (prevIndex >= 0 && prevIndex !== idx)) playCrewCardWave();
   }
 
   function onScroll() {
     const rect    = section.getBoundingClientRect();
     const scrolled = -rect.top; /* 섹션 상단으로부터 스크롤된 px */
+    const panelHeight = window.innerHeight;
+    const exitStart = totalPanels * panelHeight;
 
     if (scrolled < -10) {
       if (exitWavePlayed) {
@@ -506,7 +508,7 @@ function initCrewScroll() {
       return;
     }
 
-    const pastLastPanel = scrolled >= totalPanels * window.innerHeight;
+    const pastLastPanel = scrolled >= exitStart;
     if (pastLastPanel) {
       if (!tailHidden) {
         tailHidden = true;
@@ -534,14 +536,25 @@ function initCrewScroll() {
     }
 
     /* 각 패널은 100vh(= innerHeight)씩 차지 */
+    const wasContentVisible = section.classList.contains('is-content-visible');
+    section.classList.add('is-title-visible', 'is-content-visible');
+
     const idx = Math.min(
-      Math.floor(scrolled / window.innerHeight),
+      Math.floor(scrolled / panelHeight),
       totalPanels - 1
     );
-    setActive(Math.max(idx, 0));
+    setActive(Math.max(idx, 0), !wasContentVisible);
   }
 
   window.addEventListener('scroll', onScroll, { passive: true });
+  document.addEventListener('crew-force-enter', () => {
+    section.classList.remove('is-crew-exiting', 'is-crew-wave-exiting');
+    section.classList.add('is-title-visible', 'is-content-visible');
+    tailHidden = false;
+    exitWavePlayed = false;
+    setActive(0, true);
+  });
+  document.addEventListener('crew-card-reenter', playCrewCardWave);
   setActive(0);
 
   /* 점 클릭 → 해당 패널 위치로 스크롤 */
@@ -578,45 +591,69 @@ function initBookingSequence() {
   initStickySequenceSection('sec-booking');
 }
 
+function initBookingBgVideo() {
+  document.querySelectorAll('.booking-bg-video').forEach(video => {
+    const rate = Number(video.dataset.playbackRate || 1);
+    if (Number.isFinite(rate) && rate > 0) {
+      video.playbackRate = rate;
+      video.defaultPlaybackRate = rate;
+    }
+  });
+}
+
 function initStickySequenceSection(sectionId) {
   const section = document.getElementById(sectionId);
   if (!section) return;
   let contentWasVisible = false;
+  let lastProgress = 0;
 
   function clamp01(value) {
     return Math.min(Math.max(value, 0), 1);
   }
 
+  function smoothstep(edge0, edge1, value) {
+    const t = clamp01((value - edge0) / (edge1 - edge0));
+    return t * t * (3 - 2 * t);
+  }
+
   function onScroll() {
     const rect = section.getBoundingClientRect();
     const vh   = window.innerHeight;
-    const progress = clamp01(-rect.top / vh);
+    const progress = clamp01((vh - rect.top) / vh);
+    const exitProgress = clamp01((vh * 0.18 - rect.bottom) / (vh * 0.18));
     const titleY = (1 - progress) * 46;
     const contentY = (1 - progress) * 52;
     const isInRange = rect.top < vh && rect.bottom > 0;
     const isPast = rect.bottom <= 0;
+    const titleOpacity = smoothstep(0.06, 0.24, progress) * (1 - exitProgress);
+    const contentOpacity = smoothstep(0.22, 0.42, progress) * (1 - exitProgress);
+    const scrollingDown = progress >= lastProgress;
 
     section.style.setProperty('--seq-title-y', `${titleY.toFixed(2)}vh`);
     section.style.setProperty('--seq-content-y', `${contentY.toFixed(2)}vh`);
+    section.style.setProperty('--seq-title-opacity', titleOpacity.toFixed(3));
+    section.style.setProperty('--seq-content-opacity', contentOpacity.toFixed(3));
 
     if (!isInRange && !isPast) {
       section.classList.remove('is-title-visible', 'is-content-visible', 'is-exiting');
       contentWasVisible = false;
+      lastProgress = progress;
       return;
     }
 
-    const titleVisible = progress > 0.02 && !isPast;
-    const contentVisible = progress > 0.18 && !isPast;
-    const exiting = progress >= 0.98 || isPast;
+    const titleVisible = titleOpacity > 0.01 && !isPast;
+    const contentVisible = contentOpacity > 0.01 && !isPast;
+    const exiting = exitProgress > 0 || isPast;
 
     section.classList.toggle('is-title-visible', titleVisible);
     section.classList.toggle('is-content-visible', contentVisible);
-    section.classList.toggle('is-exiting', progress >= 0.98 || isPast);
+    section.classList.toggle('is-exiting', exiting);
 
-    if (contentVisible && !contentWasVisible && !exiting) {
+    if (contentVisible && !contentWasVisible && !exiting && scrollingDown) {
       playSequenceWave(section);
     }
     contentWasVisible = contentVisible && !exiting;
+    lastProgress = progress;
   }
 
   window.addEventListener('scroll', onScroll, { passive: true });
@@ -682,10 +719,38 @@ function initMapMarkers() {
   let indicatorRaf = null;
 
   const branchInfo = {
-    '일산':  { name: '아쿠아플라넷 일산',  img: 'assets/images/Frame 19.png', href: '#sec-booking' },
-    '코엑스': { name: '아쿠아플라넷 코엑스', img: 'assets/images/Frame 20.png', href: '#sec-booking' },
-    '여수':  { name: '아쿠아플라넷 여수',  img: 'assets/images/Frame 22.png', href: '#sec-booking' },
-    '제주':  { name: '아쿠아플라넷 제주',  img: 'assets/images/Frame 21.png', href: '#sec-booking' },
+    '일산':  {
+      name: '아쿠아플라넷 일산',
+      img: 'assets/images/Frame 19.png',
+      href: '#sec-booking',
+      address: '경기도 고양시 일산서구 한류월드로 282',
+      tel: 'TEL. 1833-7001',
+      desc: '해양문화의 가치와 생태계 보존을 대중에게 널리 알리는 아쿠아플라넷 일산.',
+    },
+    '코엑스': {
+      name: '아쿠아플라넷 광교',
+      img: 'assets/images/Frame 20.png',
+      href: '#sec-booking',
+      address: '경기도 수원시 영통구 광교호수공원로 300 포레나 광교 B1F',
+      tel: 'TEL. 1833-7001',
+      desc: '도심 속에서 바다를 보고, 만지고, 느낄 수 있는 경기 남부의 해양문화공간, 아쿠아플라넷 광교.',
+    },
+    '여수':  {
+      name: '아쿠아플라넷 여수',
+      img: 'assets/images/Frame 22.png',
+      href: '#sec-booking',
+      address: '전라남도 여수시 오동도로 61-11',
+      tel: 'TEL. 1833-7001',
+      desc: '인간과 자연이 공생하는 해양문화의 가치를 전하는 남해의 대표 해양문화공간, 아쿠아플라넷 여수.',
+    },
+    '제주':  {
+      name: '아쿠아플라넷 제주',
+      img: 'assets/images/Frame 21.png',
+      href: '#sec-booking',
+      address: '제주특별자치도 서귀포시 성산읍 섭지코지로 95',
+      tel: 'TEL. 1833-7001',
+      desc: '제주의 바다와 해양 생태를 가까이에서 만나는 국내 최대 규모의 아쿠아리움, 아쿠아플라넷 제주.',
+    },
   };
 
   const cardImg = hoverCard?.querySelector('.location-hover-card__img');
@@ -718,9 +783,18 @@ function initMapMarkers() {
     mapWrap?.classList.add('is-hovering');
 
     const info = branchInfo[marker.dataset.branch];
-    if (cardImg && info) {
-      cardImg.src = info.img;
-      cardImg.alt = info.name;
+    if (info) {
+      if (cardImg) {
+        cardImg.src = info.img;
+        cardImg.alt = info.name;
+      }
+      const branchEl = hoverCard?.querySelector('.location-hover-card__branch');
+      const metaPs   = hoverCard?.querySelectorAll('.location-hover-card__meta p');
+      const descEl   = hoverCard?.querySelector('.location-hover-card__desc');
+      if (branchEl) branchEl.textContent = info.name;
+      if (metaPs?.[0]) metaPs[0].textContent = info.address;
+      if (metaPs?.[1]) metaPs[1].textContent = info.tel;
+      if (descEl) descEl.textContent = info.desc;
     }
     window.clearTimeout(indicatorTimer);
     window.cancelAnimationFrame(indicatorRaf);
@@ -766,36 +840,6 @@ function initMapMarkers() {
 }
 
 
-/* =============================================================
-   9. TOP BUTTON
-   ============================================================= */
-function initTopBtn() {
-  const btn         = document.getElementById('top-btn');
-  const contentWrap = document.querySelector('.content-bg-wrap');
-  if (!btn) return;
-
-  function update() {
-    const winH = window.innerHeight;
-
-    // 뷰포트 절반 이상 스크롤하면 버튼 표시
-    btn.classList.toggle('top-btn--visible', window.scrollY > winH * 0.5);
-
-    // 버튼 위치(우하단)가 콘텐츠 섹션 구간에 있으면 글래스, 아니면 흰색
-    if (contentWrap) {
-      const rect      = contentWrap.getBoundingClientRect();
-      const btnY      = winH - 60; // 버튼 중심의 뷰포트 Y
-      const inContent = rect.top <= btnY && rect.bottom >= btnY;
-      btn.classList.toggle('top-btn--glass', inContent);
-    }
-  }
-
-  window.addEventListener('scroll', update, { passive: true });
-  update();
-
-  btn.addEventListener('click', () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
-}
 
 
 /* =============================================================
@@ -829,31 +873,53 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
 
 
 /* =============================================================
-   10. CUSTOM CURSOR — 흰색 원형 커서
+   10. TOP BUTTON — 맨 위로 이동 버튼
+   ============================================================= */
+function initTopBtn() {
+  const btn = document.getElementById('top-btn');
+  if (!btn) return;
+
+  const THRESHOLD = 400;
+
+  function update() {
+    btn.classList.toggle('is-visible', window.scrollY > THRESHOLD);
+  }
+
+  window.addEventListener('scroll', update, { passive: true });
+  update();
+
+  btn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+}
+
+
+/* =============================================================
+   11. CUSTOM CURSOR — 흰색 원형 커서
    ============================================================= */
 function initCustomCursor() {
-  if (window.matchMedia('(hover: none)').matches) return;
-
   const el = document.getElementById('custom-cursor');
   if (!el) return;
 
   const HALF = 17;
   let tx = -200, ty = -200;
-  let cx = tx,   cy = ty;
-  let firstMove = false;
+  let cx = tx, cy = ty;
+  let snapped = false;
+
+  // 즉시 보이게 (마우스 이동 전엔 화면 밖 위치에 있으므로 안 보임)
+  el.style.opacity = '1';
 
   window.addEventListener('mousemove', e => {
     tx = e.clientX;
     ty = e.clientY;
-    if (!firstMove) {
-      firstMove = true;
-      cx = tx; cy = ty;        // 첫 이동 시 즉시 스냅
-      el.style.opacity = '1';
+    if (!snapped) {
+      snapped = true;
+      cx = tx; cy = ty;
     }
   }, { passive: true });
 
   document.addEventListener('mouseleave', () => { el.style.opacity = '0'; });
-  document.addEventListener('mouseenter', () => { if (firstMove) el.style.opacity = '1'; });
+  document.addEventListener('mouseenter', () => { el.style.opacity = '1'; });
   document.addEventListener('mousedown',  () => el.classList.add('is-clicking'));
   document.addEventListener('mouseup',    () => el.classList.remove('is-clicking'));
 
@@ -863,8 +929,8 @@ function initCustomCursor() {
   });
 
   (function loop() {
-    cx += (tx - cx) * 0.13;
-    cy += (ty - cy) * 0.13;
+    cx += (tx - cx) * 0.2;
+    cy += (ty - cy) * 0.2;
     el.style.transform = `translate(${(cx - HALF).toFixed(1)}px,${(cy - HALF).toFixed(1)}px)`;
     requestAnimationFrame(loop);
   })();
@@ -875,7 +941,6 @@ function initCustomCursor() {
    11. CURSOR WAVE — 잔잔한 수면 수평 반사 흔들림
    ============================================================= */
 function initCursorWave() {
-  if (window.matchMedia('(hover: none)').matches) return;
 
   const canvas = document.createElement('canvas');
   canvas.setAttribute('aria-hidden', 'true');
@@ -886,19 +951,14 @@ function initCursorWave() {
     height:        '100%',
     pointerEvents: 'none',
     zIndex:        '9996',
-    mixBlendMode:  'screen',
   });
   document.body.appendChild(canvas);
 
   const ctx = canvas.getContext('2d');
 
-  // 작은 셀 = 커서 주변 좁은 영역에 집중
   const SCALE         = 9;
-  // 높은 감쇠 = 파동이 빠르게 사라져 멀리 퍼지지 않음
   const DAMP          = 0.92;
-  // 짧은 간격 = 커서 따라 자연스럽게 이어지는 물결
   const DIST_INTERVAL = 16;
-  // 좁은 타원: 커서 주변만 수평으로 일렁이게
   const RX = 4, RY = 1;
   const FORCE = 60;
 
@@ -933,10 +993,9 @@ function initCursorWave() {
   });
 
   function disturb(cx, cy) {
-    // 수평으로 긴 타원형 교란 — 반사 이미지가 옆으로 흔들리는 모양
     for (let dy = -RY; dy <= RY; dy++) {
       for (let dx = -RX; dx <= RX; dx++) {
-        const d = Math.hypot(dx / RX, dy / RY); // 타원 거리
+        const d = Math.hypot(dx / RX, dy / RY);
         if (d > 1) continue;
         const nx = cx + dx, ny = cy + dy;
         if (nx < 1 || nx >= bW - 1 || ny < 1 || ny >= bH - 1) continue;
@@ -959,7 +1018,6 @@ function initCursorWave() {
       }
     }
 
-    // 파동 방정식
     const nxt = prv;
     for (let y = 1; y < bH - 1; y++) {
       for (let x = 1; x < bW - 1; x++) {
@@ -970,7 +1028,6 @@ function initCursorWave() {
     prv = cur;
     cur = nxt;
 
-    // 렌더링 — X방향 기울기(수평 반사)에 가중치 집중, 은빛 수면 색상
     const px = imgData.data;
     px.fill(0);
 
@@ -980,19 +1037,17 @@ function initCursorWave() {
         const v = cur[i];
         if (Math.abs(v) < 1.5) continue;
 
-        // 수평 방향 기울기에 85% 집중 → 옆으로 흔들리는 반사 느낌
         const lx    = cur[i - 1] - cur[i + 1];
         const ly    = cur[i - bW] - cur[i + bW];
         const shine = lx * 0.85 + ly * 0.15;
         if (shine <= 0) continue;
 
         const amp   = Math.min(Math.abs(v) / 48, 1);
-        const alpha = Math.min(shine * amp * 1.0, 1) * 90; // 은은한 밝기
+        const alpha = Math.min(shine * amp * 1.0, 1) * 160;
         if (alpha < 2) continue;
 
         const t    = Math.min(shine * amp * 0.5, 1);
         const pidx = (y * bW + x) * 4;
-        // 수면 반사광: 연한 하늘빛 흰색
         px[pidx]     = Math.round(190 + t * 65);
         px[pidx + 1] = Math.round(220 + t * 35);
         px[pidx + 2] = Math.round(245 + t * 10);
@@ -1003,7 +1058,7 @@ function initCursorWave() {
     offCtx.putImageData(imgData, 0, 0);
     ctx.clearRect(0, 0, W, H);
     ctx.save();
-    ctx.filter = 'blur(7px)'; // 수면 반사처럼 부드럽게
+    ctx.filter = 'blur(7px)';
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = 'high';
     ctx.drawImage(offscreen, 0, 0, W, H);
@@ -1011,4 +1066,35 @@ function initCursorWave() {
   }
 
   tick();
+}
+
+
+/* =============================================================
+   TICKET MODAL — 네비 Ticket 버튼 → 예매 페이지 오버레이
+   ============================================================= */
+function initTicketModal() {
+  const page = document.querySelector('.ticket-page');
+  if (!page) return;
+
+  // 메인 헤더(#gnb)의 Ticket 버튼만 "열기"로 동작
+  const openers = document.querySelectorAll('#gnb .gnb__ticket');
+  // 오버레이 내부의 닫기 트리거(닫기 버튼/네비 링크/로고)
+  const closers = page.querySelectorAll('[data-ticket-close]');
+
+  const open = () => {
+    page.classList.add('is-open');
+    document.body.classList.add('ticket-open');
+    page.scrollTop = 0;
+  };
+  const close = () => {
+    page.classList.remove('is-open');
+    document.body.classList.remove('ticket-open');
+  };
+
+  openers.forEach(btn => btn.addEventListener('click', (e) => { e.preventDefault(); open(); }));
+  closers.forEach(el => el.addEventListener('click', close));
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && page.classList.contains('is-open')) close();
+  });
 }
