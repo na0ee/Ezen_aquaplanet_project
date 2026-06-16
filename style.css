@@ -8,9 +8,9 @@
    ------------------------------------------------------------- */
 :root {
   /* 3D 로고 비율 — fullLogo.glb 레퍼런스 기준: 심볼 폭 ≈ 텍스트 폭의 0.61 */
-  --logo3d-size:   min(62vmin, 580px);   /* 심볼 캔버스 */
-  --logo3d-text-w: min(77vmin, 720px);   /* 글자 캔버스 가로 */
-  --logo3d-text-h: min(18vmin, 168px);   /* 글자 캔버스 세로 */
+  --logo3d-size:   min(82vmin, 800px);   /* 심볼 캔버스 (더 키움) */
+  --logo3d-text-w: min(90vmin, 860px);   /* 글자 캔버스 가로 */
+  --logo3d-text-h: min(21vmin, 196px);   /* 글자 캔버스 세로 */
 
   /* Fonts */
   --font-en:    "Poppins", sans-serif;
@@ -562,7 +562,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 /* ---- 3D 로고 캔버스 래퍼 — 화면 중앙 고정, 내부 심볼만 스크롤로 이동 ---- */
 .logo3d-wrap {
   position: fixed;
-  top: 33%; left: 50%;
+  top: 39%; left: 50%;
   width: var(--logo3d-size);
   height: var(--logo3d-size);
   margin-left: calc(var(--logo3d-size) / -2);
@@ -574,7 +574,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 /* ---- 'aqua planet' 글자 캔버스 — 위치/크기 고정, 페이드만 (GSAP transform 없음) ---- */
 .logo3d-text {
   position: fixed;
-  top: 61%; left: 50%;
+  top: 77%; left: 50%;
   width: var(--logo3d-text-w);
   height: var(--logo3d-text-h);
   margin-left: calc(var(--logo3d-text-w) / -2);
@@ -585,6 +585,42 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 .logo3d-wrap canvas,
 .logo3d-text canvas { display: block; width: 100% !important; height: 100% !important; }
+
+/* ---- 로고 뒤로 헤엄쳐 지나가는 물고기 떼 (비디오 위 z:0, 로고 캔버스 z:1490 아래) ---- */
+.fish-drift {
+  position: absolute;
+  pointer-events: none;
+  z-index: 100;
+  background: url('assets/images/fish.png') no-repeat center center;
+  background-size: contain;
+  will-change: transform;
+}
+.fish-drift--1 {
+  top: 18%;
+  width: 42vmin; height: 30vmin;
+  opacity: 0.9;
+  animation: fishDrift1 30s linear infinite;
+}
+.fish-drift--2 {
+  top: 52%;
+  width: 28vmin; height: 20vmin;
+  opacity: 0.65;          /* 더 멀리 있는 떼 — 작고 흐리게 */
+  animation: fishDrift2 46s linear infinite -14s;
+}
+/* 왼쪽 밖 → 오른쪽 밖으로 가로지르며 위아래 살짝 출렁 */
+@keyframes fishDrift1 {
+  0%   { transform: translateX(-50vw) translateY(0); }
+  50%  { transform: translateX(40vw)  translateY(-3vh); }
+  100% { transform: translateX(140vw) translateY(0); }
+}
+@keyframes fishDrift2 {
+  0%   { transform: translateX(140vw) translateY(0) scaleX(-1); }   /* 반대 방향 */
+  50%  { transform: translateX(40vw)  translateY(3vh) scaleX(-1); }
+  100% { transform: translateX(-50vw) translateY(0) scaleX(-1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fish-drift { animation: none; }
+}
 
 
 /* -------------------------------------------------------------
