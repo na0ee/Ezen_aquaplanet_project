@@ -1999,3 +1999,213 @@ html, body, * { cursor: none !important; }
   background: rgba(255, 255, 255, 0.2);
   border-color: rgba(255, 255, 255, 1);
 }
+
+
+/* =============================================================
+   =============================================================
+   ████████████████  예매 페이지 (Ticket Page)  ████████████████
+   Figma node 1284:127 구현 — 디자인 토큰/.gnb/.footer/.btn-pill 재사용
+   =============================================================
+   ============================================================= */
+
+/* 페이지 래퍼 — 메인 네비의 Ticket 버튼 클릭 시 나타나는 전체화면 오버레이.
+   평소 숨김(.is-open 으로 표시). 내부 GNB는 오버레이 상단에 absolute 고정,
+   나머지 .gnb / .footer 스타일은 그대로 상속 */
+.ticket-page {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;          /* 메인 GNB(1000) 위 */
+  overflow-y: auto;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.45s ease, visibility 0.45s ease;
+}
+.ticket-page.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+.ticket-page .gnb { position: absolute; }
+
+/* 오버레이 열림 동안 뒤 본문 스크롤 잠금 */
+body.ticket-open { overflow: hidden; }
+
+.ticket-main { position: relative; }
+
+/* --- 메인 무대 --- */
+.ticket {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  /* 상단이 밝은 청록 → 아래로 깊어지는 바다 (Figma 배경) */
+  background:
+    radial-gradient(130% 90% at 50% -15%,
+      #7fe0ff 0%,
+      #36c0f2 38%,
+      #22b2ea 62%,
+      #1690cd 100%);
+}
+
+/* --- 상단 빛줄기 (god rays) --- */
+.ticket__rays {
+  position: absolute;
+  top: -6%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(72vw, 1080px);
+  aspect-ratio: 1 / 1;
+  pointer-events: none;
+  opacity: 0.45;
+  z-index: 0;
+}
+.ticket__ray {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 62%;
+  height: auto;
+  transform-origin: top center;
+}
+.ticket__ray--1 { transform: translateX(-50%); }
+.ticket__ray--2 { transform: translateX(-50%) rotate(-9.58deg); }
+.ticket__ray--3 { transform: translateX(-50%) rotate(15.91deg); }
+
+/* --- 타이틀 --- */
+.ticket__title {
+  position: absolute;
+  top: clamp(108px, 13vh, 150px);
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 48px;
+  letter-spacing: var(--ls-tight);
+  color: var(--clr-text);
+  text-shadow: 0 4px 18px rgba(0, 60, 100, 0.25);
+  z-index: 2;
+}
+
+/* --- 타이틀 하단 서브카피 --- */
+.ticket__sub {
+  position: absolute;
+  top: calc(clamp(108px, 13vh, 150px) + 62px);
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-kr);
+  font-weight: 400;
+  font-size: 22px;
+  letter-spacing: var(--ls-normal);
+  color: var(--clr-text);
+  text-shadow: 0 2px 10px rgba(0, 60, 100, 0.22);
+  white-space: nowrap;
+  z-index: 2;
+}
+
+/* --- 떠다니는 장식 거품 --- */
+.ticket__decor { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.deco-bubble {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: var(--s, 40px);
+  height: var(--s, 40px);
+  background: url("assets/images/ticket-bubble.png") center / contain no-repeat;
+  opacity: 0.7;
+  animation: ticket-float var(--d, 8s) ease-in-out infinite;
+}
+
+/* --- 지점 버블 (일산/여수/제주/광교) --- */
+/* 지점 버블 묶음 — 80% 폭으로 항상 수평 중앙정렬, 버블 배치 기준 컨텍스트 */
+.ticket .wrap {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+}
+
+.ticket-spot {
+  position: absolute;
+  display: block;
+  width: clamp(240px, 30vw, 560px);
+  aspect-ratio: 587 / 522;
+  z-index: 1;
+  transition: transform var(--tr-slow);
+}
+.ticket-spot:hover { transform: translateY(-12px) scale(1.035); }
+
+/* 내부 래퍼 — 둥실 떠다니는 애니메이션 (hover 변형과 분리) */
+.ticket-spot__inner {
+  position: absolute;
+  inset: 0;
+  display: block;
+  animation: ticket-float var(--float, 8s) ease-in-out infinite;
+}
+
+.ticket-spot__bubble {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 85%;
+  height: 85%;
+  transform: translate(-50%, -50%);   /* spot 중심 기준으로 확대 → 동물과 중심 일치 */
+  object-fit: contain;
+  pointer-events: none;
+  filter: drop-shadow(0 10px 34px rgba(0, 70, 120, 0.18));
+}
+
+.ticket-spot__animal {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 100%;
+  height: auto;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  filter: drop-shadow(0 6px 14px rgba(0, 40, 70, 0.22));
+}
+
+.ticket-spot__label {
+  position: absolute;
+  left: 50%;
+  top: 44%;
+  transform: translateX(-50%);
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 32px;
+  letter-spacing: var(--ls-tight);
+  color: var(--clr-text);
+  text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* 지점별 위치 (Figma 1920 프레임 기준 비율 환산) */
+.ticket-spot--ilsan    { left: -2%;  top: 46%; }
+.ticket-spot--yeosu    { left: 26%; top: 23%; }
+.ticket-spot--jeju     { left: 50%; top: 55%; }
+.ticket-spot--gwanggyo { left: 65%; top: 23%; }
+
+/* 지점별 동물 크기/회전 — 모두 버블 정중앙(translate -50%,-50%)에 배치 */
+.ticket-spot--ilsan    .ticket-spot__animal { width: 67%; transform: translate(-52%, -38%) rotate(18deg); }
+.ticket-spot--yeosu    .ticket-spot__animal { width: 77%; transform: translate(-50%, -50%) scaleX(-1); }
+.ticket-spot--jeju     .ticket-spot__animal { width: 55%; transform: translate(-50%, -50%); }
+.ticket-spot--gwanggyo .ticket-spot__animal { width: 72%; transform: translate(-50%, -50%); }
+
+/* 지점별 라벨 — 동물 위(버블 상단)로 올려 겹치지 않게 */
+.ticket-spot--ilsan    .ticket-spot__label { top: 35%; left: 47%;}
+.ticket-spot--yeosu    .ticket-spot__label { top: 30%; }
+.ticket-spot--jeju     .ticket-spot__label { top: 37%; left: 62%;}
+.ticket-spot--gwanggyo .ticket-spot__label { top: 35%; left: 70%;}
+
+@keyframes ticket-float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-14px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ticket-spot__inner, .deco-bubble { animation: none; }
+}
