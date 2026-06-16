@@ -1332,7 +1332,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .booking-card:nth-child(4) { --glass-shine-angle: 124deg; --glass-shine-x: -18px; --glass-shine-y: -12px; --glass-shine-opacity: 0.48; }
 
 .program-card__img--1 { background-image: url('assets/images/image%20136.png'); }
-.program-card__img--2 { background-image: url('assets/images/image%20139.png'); }
+.program-card__img--2 { background-image: url('assets/images/Frame%20139.png'); }
 .program-card__img--3 { background-image: url('assets/images/image%20138.png'); }
 .program-card__img--4 { background-image: url('assets/images/image%20140.png'); }
 
