@@ -32,9 +32,11 @@ if (gsap && ScrollTrigger) gsap.registerPlugin(ScrollTrigger);
 --------------------------------------------------------------- */
 const SYMBOL_SRC    = 'assets/models/new_logo_symbol.glb';
 const TEXT_SRC      = 'assets/models/logoTxt_ani.glb';
+const REFRACT_VIDEO_SRC = 'assets/images/logo_map.mp4';
 const SCATTER_PAD   = 1.52;   // 코드 scatter/swim까지 보이도록 카메라 여백 확보
-const TEXT_PADDING  = 1.12;   // 유리 두께/하이라이트가 잘리지 않도록 내부 카메라 여백 확보
+const TEXT_PADDING  = 1.02;   // 유리 두께/하이라이트가 잘리지 않도록 내부 카메라 여백 확보
 const TEXT_FADE   = [0.4, 0.8];     // 이 progress 구간에서 글자 페이드아웃
+const HEADER_DOCK_PROGRESS = 0.985;  // 3D 심볼이 헤더 슬롯에 사실상 도착한 지점
 const LOGO_TINT   = 0xbfe9ff;       // 유리 살짝 아쿠아 틴트 (vivid 프리셋 글자색)
 const ABBERATION  = 1.2;            // air.inc식 색수차 림 강도 (0=없음, 0.3~1.2 권장)
 
@@ -71,18 +73,43 @@ const GLASS_PRESETS = {
   glass: {
     envMode: 'aurora',                                                          // 반사용 환경맵(흰 하늘)
     refract: true,                                                           // ★ 스크린스페이스 굴절 on
-    refractAmt: 0.09,                                                        // 굴절 왜곡 강도 — 너무 높으면 모서리가 크리스탈처럼 쪼개짐
+    refractAmt: 0.1,                                                        // 굴절 왜곡 강도 — 너무 높으면 모서리가 크리스탈처럼 쪼개짐
     refractMix: 0.92,                                                       // 배경 굴절 비중 (1.0=배경만, 낮을수록 유리색↑)
     waveAmt: 0.012,                                                         // 시간 기반 일렁임 — 메시 무관 부드러운 sine 출렁임 (움직임 강조)
+    shadow: 0.75,                                                           // 내부 흡수 그림자 — 평면 GLB에서도 확실히 보이게 강하게
+    shadowColor: 0x006fbe,                                                   // 깊은 청색 코어 그림자
+    coreDarken: 0.46,                                                        // 중앙/겹침부 어둡게 눌러 입체감 보강
+    bandDarken: 0.6,                                                        // 화면 좌표 기반 곡면 그림자 밴드
+    rimDarkColor: 0x0b72c8,                                                   // 림 그라디언트 시작색
+    rimWhitePoint: 0.76,                                                      // 높을수록 흰 림 영역이 얇아짐
+    mapContrast: 2.2,                                                        // 매핑 비디오 대비
+    mapSaturation: 1.24,                                                      // 매핑 비디오 채도
+    mapBrightness: -0.08,                                                     // 매핑 비디오 밝기 오프셋
     // opacity 낮춰 더 투명하게 — 뒤 배경이 비치고 굴절 배경이 겹쳐 맑은 유리감.
-    symbol: { color: 0xffffff, iridescence: 0.3, sheen: 0.0, envMapIntensity: 1.2, emissive: 0.0, opacity: 0.6},
-    text:   { color: 0xeef8ff, iridescence: 0.4, emissive: 0.12, opacity: 0.2 },   // 글자는 반사 모드
+    symbol: { color: 0xffffff, iridescence: 0.3, sheen: 0.0, envMapIntensity: 1.2, emissive: 0.0, opacity: 0.4},
+    text:   { color: 0xffffff, iridescence: 0.3, emissive: 0.0, opacity: 0.2},
     rimGain: 0.5, edge: 0.6, lumAlpha: 0.06,                                 // lumAlpha 낮춰 내부 투과 유지
   },
 };
 const STYLE = GLASS_PRESETS[GLASS_STYLE];
 /* 굴절 모드용 공유 상태 — VideoTexture + 매 프레임 갱신할 셰이더 목록 */
-const REFRACT = { tex: null, shaders: [], videoAspect: 16 / 9, refractAmt: STYLE.refractAmt ?? 0.07, refractMix: STYLE.refractMix ?? 0.9, waveAmt: STYLE.waveAmt ?? 0.0 };
+const REFRACT = {
+  tex: null,
+  shaders: [],
+  videoAspect: 16 / 9,
+  refractAmt: STYLE.refractAmt ?? 0.07,
+  refractMix: STYLE.refractMix ?? 0.9,
+  waveAmt: STYLE.waveAmt ?? 0.0,
+  shadow: STYLE.shadow ?? 0.0,
+  shadowColor: new THREE.Color(STYLE.shadowColor ?? 0x1687d9),
+  coreDarken: STYLE.coreDarken ?? 0.0,
+  bandDarken: STYLE.bandDarken ?? 0.0,
+  rimDarkColor: new THREE.Color(STYLE.rimDarkColor ?? 0x004f9e),
+  rimWhitePoint: STYLE.rimWhitePoint ?? 0.9,
+  mapContrast: STYLE.mapContrast ?? 1.0,
+  mapSaturation: STYLE.mapSaturation ?? 1.0,
+  mapBrightness: STYLE.mapBrightness ?? 0.0,
+};
 const FLOAT_AMPLITUDE = 0.03;        // 생물별 위아래 둥둥 범위
 const FLOAT_SPEED = 0.85;            // 기본 둥둥 속도
 const FLOAT_OFFSET_STEP = 0.7;       // 생물별 파동 시간차
@@ -96,7 +123,7 @@ const SWIM_DEPTH = 0.08;              // 헤엄칠 때 앞뒤 깊이 변화
 const SWIM_PITCH = 0.28;              // 헤엄칠 때 고개 드는 회전
 const SWIM_YAW = 0.34;                // 헤엄칠 때 좌우 방향 전환
 const SWIM_ROLL = 0.18;               // 헤엄칠 때 몸통 롤링
-const SYMBOL_COMPACT = 1.0;           // 생물 조밀도 (1=원본 배치, <1=무리 중심으로 모임)
+const SYMBOL_COMPACT = 0.95;           // 생물 조밀도 (1=원본 배치, <1=무리 중심으로 모임)
 
 /* ---------------------------------------------------------------
    GPU 티어 감지 — detect-gpu 우선, 실패 시 휴리스틱 fallback
@@ -142,9 +169,8 @@ function profileFor({ tier, isMobile }) {
    ② sheen>0 이면 표면 노멀 방향으로 색조가 변하는 무지개 시트(비누방울막).
       평면적 메시(심볼 생물 컷아웃)는 가장자리 fresnel 이 1px 뿐이라 림이 거의
       안 보인다 → 표면 전체에 노멀 기반 무지개를 깔아 미세 곡률을 따라 색이 흐르게 한다. */
-function applyChromaticRim(mat, strength = ABBERATION, sheen = 0.0, rimGain = STYLE.rimGain, edge = STYLE.edge, lumAlpha = STYLE.lumAlpha, allowRefract = true) {
-  // 굴절은 심볼 캔버스만 (글자는 별도 캔버스/위치라 화면 매핑이 달라 제외).
-  const useRefract = !!STYLE.refract && allowRefract;
+function applyChromaticRim(mat, strength = ABBERATION, sheen = 0.0, rimGain = STYLE.rimGain, edge = STYLE.edge, lumAlpha = STYLE.lumAlpha, refractTarget = 'symbol') {
+  const useRefract = !!STYLE.refract && !!refractTarget;
   mat.onBeforeCompile = (shader) => {
     shader.uniforms.uAbberation = { value: strength };
     shader.uniforms.uSheen = { value: sheen };
@@ -164,8 +190,17 @@ function applyChromaticRim(mat, strength = ABBERATION, sheen = 0.0, rimGain = ST
       shader.uniforms.uRefractMix = { value: REFRACT.refractMix };
       shader.uniforms.uTime       = { value: 0 };
       shader.uniforms.uWaveAmt    = { value: REFRACT.waveAmt };
+      shader.uniforms.uShadow     = { value: REFRACT.shadow };
+      shader.uniforms.uShadowColor= { value: REFRACT.shadowColor };
+      shader.uniforms.uCoreDarken = { value: REFRACT.coreDarken };
+      shader.uniforms.uBandDarken = { value: REFRACT.bandDarken };
+      shader.uniforms.uRimDarkColor = { value: REFRACT.rimDarkColor };
+      shader.uniforms.uRimWhitePoint = { value: REFRACT.rimWhitePoint };
+      shader.uniforms.uMapContrast = { value: REFRACT.mapContrast };
+      shader.uniforms.uMapSaturation = { value: REFRACT.mapSaturation };
+      shader.uniforms.uMapBrightness = { value: REFRACT.mapBrightness };
       shader.uniforms.uFooterLift = { value: 0 };   // footer 트랜지션 시 어두운 배경 보정 밝기
-      REFRACT.shaders.push(shader);
+      REFRACT.shaders.push({ shader, target: refractTarget });
     }
 
     let header = `uniform float uAbberation;
@@ -184,6 +219,15 @@ function applyChromaticRim(mat, strength = ABBERATION, sheen = 0.0, rimGain = ST
          uniform float uRefractMix;
          uniform float uTime;
          uniform float uWaveAmt;
+         uniform float uShadow;
+         uniform vec3 uShadowColor;
+         uniform float uCoreDarken;
+         uniform float uBandDarken;
+         uniform vec3 uRimDarkColor;
+         uniform float uRimWhitePoint;
+         uniform float uMapContrast;
+         uniform float uMapSaturation;
+         uniform float uMapBrightness;
          uniform float uFooterLift;`;
 
     // 굴절 코드: 화면좌표 → 비디오 cover UV → 노멀 왜곡 → 배경 샘플로 베이스 교체.
@@ -201,7 +245,24 @@ function applyChromaticRim(mat, strength = ABBERATION, sheen = 0.0, rimGain = ST
                            cos(_uv.x * 14.0 + uTime * 1.1)) * uWaveAmt;
          vec2 _refr = _uv + nrm.xy * uRefractAmt + _wave;      // 노멀 굴절 + 시간 일렁임
          vec3 _bg = texture2D(uRefractTex, _refr).rgb;
+         float _bgLum0 = dot(_bg, vec3(0.299, 0.587, 0.114));
+         _bg = mix(vec3(_bgLum0), _bg, uMapSaturation);
+         _bg = (_bg - 0.5) * uMapContrast + 0.5 + uMapBrightness;
+         _bg = clamp(_bg, 0.0, 1.0);
          outgoingLight = mix(outgoingLight, _bg, uRefractMix); // 배경 굴절을 유리 베이스로
+         float _inner = smoothstep(0.18, 0.82, 1.0 - abs(nrm.z));
+         float _lower = smoothstep(0.18, 0.86, _px.y);
+         float _side = smoothstep(0.15, 0.82, abs(nrm.x));
+         float _mapLum = dot(_bg, vec3(0.299, 0.587, 0.114));
+         float _mappedShade = smoothstep(0.30, 0.82, 1.0 - _mapLum);
+         float _bandA = smoothstep(0.54, 0.78, sin((_uv.x * 4.2 + _uv.y * 6.8) * 3.14159) * 0.5 + 0.5);
+         float _bandB = smoothstep(0.58, 0.82, cos((_screen.x * 3.1 - _screen.y * 4.8) * 3.14159) * 0.5 + 0.5);
+         float _screenPocket = smoothstep(0.18, 0.74, _px.y) * smoothstep(0.22, 0.72, 1.0 - abs(_px.x - 0.5) * 2.0);
+         float _bandRaw = _bandA * 0.42 + _bandB * 0.30 + _screenPocket * 0.34;
+         float _bandShade = pow(clamp(_bandRaw, 0.0, 1.0), 2.2) * uBandDarken;
+         float _glassShadow = clamp((_inner * 0.28 + _side * 0.12 + _lower * 0.14 + _mappedShade * 0.34) * uShadow + _bandShade, 0.0, 0.92);
+         outgoingLight = mix(outgoingLight, uShadowColor, _glassShadow);
+         outgoingLight *= 1.0 - clamp((_inner * 0.55 + _bandShade) * uCoreDarken, 0.0, 0.82);
          outgoingLight += vec3(1.0) * uFooterLift;             // footer 어두운 배경 보정 밝기
     ` : '';
 
@@ -225,9 +286,14 @@ function applyChromaticRim(mat, strength = ABBERATION, sheen = 0.0, rimGain = ST
            vec3 sheenCol = 0.5 + 0.5 * cos(6.28318 * (band * 1.5 + vec3(0.0, 0.33, 0.67)));
            outgoingLight += (sheenCol - 0.5) * uSheen * 2.0;
          }
-         // ③ air.inc식 밝은 외곽 테두리 — 가장자리에서 흰색을 강하게 가산.
-         float edgeF = pow(1.0 - dotNV, 3.5);
-         outgoingLight += vec3(1.0) * edgeF * uEdge;
+         // ③ 어두운 블루가 안쪽까지 넓게 번지고, 흰색은 최외곽에만 남는 림 그라디언트.
+         float rimBase = 1.0 - dotNV;
+         float rimWide = pow(rimBase, 1.1);
+         float rimSharp = pow(rimBase, 5.0);
+         float rimWhite = smoothstep(uRimWhitePoint, 1.0, rimSharp);
+         vec3 rimColor = mix(uRimDarkColor, vec3(1.0), rimWhite);
+         outgoingLight += rimColor * rimWide * uEdge * 0.72;
+         float edgeF = max(rimSharp, rimWide * 0.32);
          #include <opaque_fragment>
          // 밝기-알파 연동: 밝은 곳=불투명, 어두운 내부=투명(배경 비침).
          float _lum = max(max(gl_FragColor.r, gl_FragColor.g), gl_FragColor.b);
@@ -235,7 +301,7 @@ function applyChromaticRim(mat, strength = ABBERATION, sheen = 0.0, rimGain = ST
       );
   };
   // 셰이더 캐시 충돌 방지 (조합별로 구분)
-  mat.customProgramCacheKey = () => 'chromaticRim_' + strength + '_' + sheen + '_' + rimGain + '_' + edge + '_' + lumAlpha + '_' + useRefract;
+  mat.customProgramCacheKey = () => 'chromaticRim_' + strength + '_' + sheen + '_' + rimGain + '_' + edge + '_' + lumAlpha + '_' + useRefract + '_' + refractTarget;
 }
 
 /* 심볼 전용 유리 재질 — 굴절 대신 반사/클리어코트로 안정적인 유리감.
@@ -272,7 +338,7 @@ function makeSymbolGlass(profile) {
   return mat;
 }
 
-/* 글자 유리 재질 (단독 캔버스: 굴절 없이 reflective 방식) */
+/* 글자 유리 재질 */
 function makeGlass(profile, { doubleSide = false } = {}) {
   const side = doubleSide ? THREE.DoubleSide : THREE.FrontSide;
   const mat = new THREE.MeshPhysicalMaterial({
@@ -297,8 +363,7 @@ function makeGlass(profile, { doubleSide = false } = {}) {
     iridescenceIOR: 1.3,
     iridescenceThicknessRange: [120, 420],
   });
-  // 글자는 굴절 제외(allowRefract=false) — 별도 캔버스라 화면 매핑이 심볼과 다름.
-  applyChromaticRim(mat, ABBERATION, 0.0, STYLE.rimGain, STYLE.edge, STYLE.lumAlpha, false);
+  applyChromaticRim(mat, ABBERATION, 0.0, STYLE.rimGain, STYLE.edge, STYLE.lumAlpha, 'text');
   return mat;
 }
 
@@ -632,15 +697,23 @@ async function initLogo3D() {
 
   const progress = { v: reduceMotion ? 1 : 0 };  // 스크롤 단일 소스
 
-  // 굴절 모드: 배경 비디오를 VideoTexture 로 받아 셰이더 굴절에 사용 (GLB 로드 전에 준비).
+  // 굴절 모드: 전용 매핑 비디오를 VideoTexture 로 받아 셰이더 굴절에 사용 (GLB 로드 전에 준비).
   if (STYLE.refract) {
-    const videoEl = hero.querySelector('video');
+    const videoEl = document.createElement('video');
+    videoEl.src = REFRACT_VIDEO_SRC;
+    videoEl.muted = true;
+    videoEl.loop = true;
+    videoEl.playsInline = true;
+    videoEl.preload = 'auto';
+    videoEl.autoplay = true;
+    videoEl.setAttribute('aria-hidden', 'true');
     if (videoEl) {
       REFRACT.tex = new THREE.VideoTexture(videoEl);
       REFRACT.tex.colorSpace = THREE.SRGBColorSpace;
       const setVA = () => { if (videoEl.videoWidth) REFRACT.videoAspect = videoEl.videoWidth / videoEl.videoHeight; };
       setVA();
       videoEl.addEventListener('loadedmetadata', setVA);
+      videoEl.play().catch((e) => console.warn('[logo3d] 매핑 비디오 재생 실패:', e));
     }
   }
 
@@ -670,6 +743,33 @@ async function initLogo3D() {
   let footerActive = false;      // footer ScrollTrigger 활성 여부
   let needsRender = true;
   const requestRender = () => { needsRender = true; };
+  let textRenderer = null, textScene = null, textCamera = null, textSize = null;
+  let logoDocked = false;
+  let dockHideTimer = null;
+
+  function setLogoDocked(docked) {
+    if (logoDocked === docked) return;
+    logoDocked = docked;
+    window.clearTimeout(dockHideTimer);
+    document.body.classList.toggle('is-logo-at-header', docked);
+
+    if (docked) {
+      wrap.classList.add('is-logo-docking');
+      dockHideTimer = window.setTimeout(() => {
+        if (logoDocked) wrap.style.display = 'none';
+      }, 160);
+    } else {
+      wrap.style.display = '';
+      // display 복귀 직후 transition 이 다시 먹도록 한 프레임 강제 갱신.
+      void wrap.offsetWidth;
+      wrap.classList.remove('is-logo-docking');
+      requestRender();
+    }
+  }
+
+  function syncLogoDockState() {
+    setLogoDocked(!footerActive && progress.v >= HEADER_DOCK_PROGRESS);
+  }
 
   let symSize = null;
   let symPad  = 1.6;   // 로드 전 임시값, 로드 후 SCATTER_PAD 로 교체
@@ -712,14 +812,18 @@ async function initLogo3D() {
     requestRender();
   }).catch((e) => console.warn('[logo3d] 심볼 로드 실패:', e));
 
-  // 굴절 모드: 매 프레임 캔버스의 화면상 위치(GSAP transform 포함)를 셰이더에 전달.
-  const _tmpRect = () => wrap.getBoundingClientRect();
+  // 굴절 모드: 매 프레임 각 캔버스의 화면상 위치(GSAP transform 포함)를 셰이더에 전달.
   function updateRefractUniforms() {
     if (!STYLE.refract || !REFRACT.tex || !REFRACT.shaders.length) return;
-    const r = _tmpRect();
     const vw = window.innerWidth, vh = window.innerHeight;
-    const cpx = renderer.domElement.width, cpy = renderer.domElement.height;
-    for (const sh of REFRACT.shaders) {
+    for (const entry of REFRACT.shaders) {
+      const sh = entry.shader;
+      const isText = entry.target === 'text';
+      const el = isText ? textEl : wrap;
+      const activeRenderer = isText ? textRenderer : renderer;
+      if (!el || !activeRenderer) continue;
+      const r = el.getBoundingClientRect();
+      const cpx = activeRenderer.domElement.width, cpy = activeRenderer.domElement.height;
       sh.uniforms.uRefractTex.value = REFRACT.tex;
       sh.uniforms.uRectMin.value.set(r.left, r.top);
       sh.uniforms.uRectSize.value.set(r.width, r.height);
@@ -745,6 +849,9 @@ async function initLogo3D() {
     if (shouldFloat) applyFloatAnimation(floatAnim, elapsed, animP);
     updateRefractUniforms();
     renderer.render(scene, camera);
+    if (STYLE.refract && textRenderer && textScene && textCamera) {
+      textRenderer.render(textScene, textCamera);
+    }
     if (!active && !footerActive && !shouldFloat && !STYLE.refract) needsRender = false;
   }
   tick();
@@ -752,14 +859,13 @@ async function initLogo3D() {
   /* =============================================================
      ② 글자 캔버스 (.logo3d-text) — 위치/크기 고정, 정적 1회 렌더 + 페이드
   ============================================================= */
-  let textRenderer = null, textScene = null, textCamera = null, textSize = null;
   function syncTextBoxToHeroTitle() {
     const title = document.querySelector('.hero__title');
     if (!textEl || !title) return;
     const rect = title.getBoundingClientRect();
     if (rect.width <= 0 || rect.height <= 0) return;
-    textEl.style.setProperty('--logo3d-text-w', `${Math.ceil(rect.width * 1.42)}px`);
-    textEl.style.setProperty('--logo3d-text-h', `${Math.ceil(rect.height * 1.36)}px`);
+    textEl.style.setProperty('--logo3d-text-w', `${Math.ceil(rect.width * 1.58)}px`);
+    textEl.style.setProperty('--logo3d-text-h', `${Math.ceil(rect.height * 1.52)}px`);
   }
   function renderTextOnce() { if (textRenderer) textRenderer.render(textScene, textCamera); }
   function sizeTextRenderer() {
@@ -819,11 +925,14 @@ async function initLogo3D() {
   ============================================================= */
   let end = { dx: 0, dy: 0, scale: 1 };
   function measure() {
+    const prevDisplay = wrap.style.display;
     const prev = wrap.style.transform;
+    if (prevDisplay === 'none') wrap.style.display = '';
     wrap.style.transform = 'none';
     const l = wrap.getBoundingClientRect();
     const s = slot.getBoundingClientRect();
     wrap.style.transform = prev;
+    wrap.style.display = prevDisplay;
     end = {
       dx: (s.left + s.width / 2) - (l.left + l.width / 2),
       dy: (s.top + s.height / 2) - (l.top + l.height / 2),
@@ -837,6 +946,7 @@ async function initLogo3D() {
     if (gsap) gsap.set(wrap, { x: end.dx, y: end.dy, scale: end.scale });
     progress.v = 1;
     applyTextFade();
+    syncLogoDockState();
     requestRender();
   } else {
     gsap.context(() => {
@@ -853,10 +963,16 @@ async function initLogo3D() {
           scrub: 0.5,
           invalidateOnRefresh: true,
           onRefreshInit: measure,
-          onUpdate: (self) => { progress.v = self.progress; applyTextFade(); requestRender(); },
+          onUpdate: (self) => {
+            progress.v = self.progress;
+            applyTextFade();
+            syncLogoDockState();
+            requestRender();
+          },
           onToggle: (self) => {
             active = self.isActive;
             document.body.classList.toggle('is-logo-transition', self.isActive);
+            syncLogoDockState();
             requestRender();
           },
         },
@@ -868,10 +984,13 @@ async function initLogo3D() {
         // transform 없는 wrap 의 화면상 중앙 (fixed 라 스크롤 무관, resize 시 갱신)
         let wrapCx0 = 0, wrapCy0 = 0;
         function measureWrapCenter() {
+          const prevDisplay = wrap.style.display;
           const prev = wrap.style.transform;
+          if (prevDisplay === 'none') wrap.style.display = '';
           wrap.style.transform = 'none';
           const l = wrap.getBoundingClientRect();
           wrap.style.transform = prev;
+          wrap.style.display = prevDisplay;
           wrapCx0 = l.left + l.width / 2;
           wrapCy0 = l.top + l.height / 2;
         }
@@ -901,6 +1020,7 @@ async function initLogo3D() {
           },
           onToggle: (self) => {
             document.body.classList.toggle('is-logo-transition', self.isActive);
+            syncLogoDockState();
             requestRender();
           },
         });

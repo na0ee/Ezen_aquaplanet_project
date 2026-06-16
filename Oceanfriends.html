@@ -1,0 +1,1948 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ocean Friends — aqua planet</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@latest/dist/web/static/pretendard.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,500&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    /* ── 기본 ── */
+    body.oceanfriends-page {
+      background: #ffffff;
+      color: #111;
+      background-image: none;
+    }
+
+    .oceanfriends-page .gnb {
+      position: absolute;
+    }
+
+    .oceanfriends-page .gnb__link[data-nav="crew"] {
+      font-family: var(--font-serif);
+      font-size: var(--fs-nav-active);
+      color: #ffffff;
+    }
+
+    /* ── 메인 레이아웃 ── */
+    .of-main {
+      overflow: hidden;
+      background:
+        linear-gradient(180deg, #22b8ee 0%, #a9e7f5 31%, #ffffff 42%, #ffffff 70%, #bcefff 89%, #22b8ee 100%);
+    }
+
+    .of-container {
+      width: min(1320px, calc(100% - 64px));
+      margin-inline: auto;
+    }
+
+    /* ── 히어로 ── */
+    .of-hero {
+      position: relative;
+      min-height: 760px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #ffffff;
+      padding: 120px 24px 140px;
+    }
+
+    .of-hero::before,
+    .of-hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .of-hero::before {
+      width: 620px;
+      height: 620px;
+      left: 7%;
+      top: 18%;
+      background: radial-gradient(circle, rgba(255,255,255,0.24), transparent 62%);
+      filter: blur(10px);
+    }
+
+    .of-hero::after {
+      width: 760px;
+      height: 760px;
+      right: -10%;
+      bottom: -22%;
+      background: radial-gradient(circle, rgba(255,255,255,0.18), transparent 64%);
+      filter: blur(12px);
+    }
+
+    .of-hero__content {
+      position: relative;
+      z-index: 1;
+      transform: translateY(18px);
+    }
+
+    .of-eyebrow {
+      display: block;
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-weight: 500;
+      font-size: clamp(18px, 2vw, 32px);
+      margin-bottom: -8px;
+    }
+
+    .of-title {
+      margin: 0;
+      font-family: var(--font-en);
+      font-weight: 300;
+      font-size: clamp(56px, 8.6vw, 128px);
+      line-height: 1.12;
+      color: #ffffff;
+    }
+
+    .of-title em {
+      font-family: var(--font-serif);
+      font-weight: 500;
+      font-style: italic;
+    }
+
+    .of-hero__lead {
+      margin: 18px auto 0;
+      max-width: 760px;
+      font-family: var(--font-kr);
+      font-size: clamp(15px, 1.25vw, 22px);
+      font-weight: 400;
+      line-height: 1.75;
+      color: rgba(255,255,255,0.86);
+    }
+
+    .of-scroll {
+      position: absolute;
+      left: 50%;
+      bottom: 54px;
+      transform: translateX(-50%);
+      display: grid;
+      justify-items: center;
+      gap: 18px;
+      color: rgba(255,255,255,0.86);
+    }
+
+    .of-scroll__line {
+      width: 1px;
+      height: 116px;
+      background: linear-gradient(180deg, transparent, rgba(255,255,255,0.75));
+    }
+
+    .of-scroll__text {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 18px;
+    }
+
+    /* ── 섹션 공통 ── */
+    .of-section-head {
+      text-align: center;
+      margin-bottom: 84px;
+    }
+
+    .of-section-title {
+      margin: 0;
+      font-size: 0;
+      color: #111;
+    }
+
+    .of-section-title span {
+      font-family: var(--font-en);
+      font-size: clamp(30px, 3.1vw, 42px);
+      font-weight: 300;
+    }
+
+    .of-section-title em {
+      font-family: var(--font-serif);
+      font-size: clamp(34px, 3.5vw, 48px);
+      font-weight: 500;
+      font-style: italic;
+    }
+
+    .of-section-sub {
+      margin-top: 10px;
+      font-family: var(--font-kr);
+      font-size: 16px;
+      color: rgba(0,0,0,0.62);
+    }
+
+    /* ── 시그니처 섹션 ── */
+    .of-signature {
+      padding: 88px 0 140px;
+    }
+
+    /* ── 종 카드 (grid 기본) ── */
+    .of-species {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(126px, 1fr));
+      gap: 12px;
+      width: min(1480px, calc(100% - 24px));
+      margin: 0 auto;
+    }
+
+    .of-species-card {
+      position: relative;
+      min-height: 360px;
+      border-radius: 8px;
+      overflow: hidden;
+      color: #ffffff;
+      isolation: isolate;
+      background: linear-gradient(180deg, #c9f1fb, #0a75a6);
+      box-shadow: 0 18px 40px rgba(0, 79, 126, 0.18);
+    }
+
+    .of-species-card img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: var(--img-x, 50%) var(--img-y, 50%);
+      transition: transform 0.7s ease;
+    }
+
+    .of-species-card:nth-child(1) { --img-x: 54%; --img-y: 42%; }
+    .of-species-card:nth-child(2) { --img-x: 50%; --img-y: 50%; }
+    .of-species-card:nth-child(3) { --img-x: 50%; --img-y: 44%; }
+    .of-species-card:nth-child(4) { --img-x: 55%; --img-y: 50%; }
+    .of-species-card:nth-child(5) { --img-x: 58%; --img-y: 48%; }
+    .of-species-card:nth-child(6) { --img-x: 50%; --img-y: 48%; }
+    .of-species-card:nth-child(7) { --img-x: 52%; --img-y: 48%; }
+
+    .of-species-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background: linear-gradient(180deg, rgba(0,0,0,0.08) 35%, rgba(0,0,0,0.68) 100%);
+    }
+
+    .of-species-card:hover img {
+      transform: scale(1.06);
+    }
+
+    .of-species-card__num,
+    .of-species-card__text {
+      position: absolute;
+      z-index: 2;
+    }
+
+    .of-species-card__num {
+      top: 14px;
+      left: 14px;
+      font-family: var(--font-en);
+      font-size: 13px;
+      color: rgba(255,255,255,0.78);
+    }
+
+    .of-species-card__text {
+      left: 16px;
+      right: 16px;
+      bottom: 18px;
+    }
+
+    .of-species-card__text strong {
+      display: block;
+      font-family: var(--font-serif);
+      font-size: 22px;
+      font-weight: 500;
+      line-height: 1;
+      color: #fff;
+      text-shadow: 0 1px 6px rgba(0,0,0,0.45);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .of-species-card__text span {
+      display: block;
+      margin-top: 7px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.7);
+    }
+
+    /* ── 페이저 ── */
+    .of-pager {
+      margin: 54px auto 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .of-pager button {
+      display: flex;
+      width: max-content;
+      height: 18px;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: rgba(26,26,26,0.50);
+      font-family: "Pretendard Variable", var(--font-kr);
+      font-size: 15px;
+      font-style: normal;
+      font-weight: 400;
+      letter-spacing: 0;
+      line-height: 140%;
+      cursor: pointer;
+    }
+
+    .of-pager button:hover,
+    .of-pager button:focus-visible {
+      color: rgba(26,26,26,0.72);
+      outline: none;
+    }
+
+    .of-pager__more {
+      color: rgba(26,26,26,0.50);
+      font-family: "Pretendard Variable", var(--font-kr);
+      font-size: 15px;
+    }
+
+    .of-pager__arrow {
+      font-size: 14px;
+      color: #22b2ea;
+    }
+
+    /* ── 디테일 섹션 ── */
+    .of-detail {
+      padding: 72px 0 260px;
+      background: #ffffff;
+    }
+
+    .of-filter {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: min(1060px, calc(100% - 48px));
+      margin: -42px auto 64px;
+    }
+
+    .of-filter__chips {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px;
+      border-radius: 12px;
+      background: rgba(235, 238, 240, 0.88);
+    }
+
+    .of-search {
+      position: absolute;
+      right: 0;
+    }
+
+    .of-search {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      height: 38px;
+      padding: 0 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(34, 178, 234, 0.22);
+      background: #ffffff;
+      box-shadow: 0 4px 14px rgba(34, 178, 234, 0.08);
+    }
+
+    .of-search svg {
+      flex-shrink: 0;
+      color: #22b2ea;
+    }
+
+    .of-search input {
+      border: none;
+      outline: none;
+      background: transparent;
+      font-family: var(--font-kr);
+      font-size: 13px;
+      color: rgba(20, 32, 42, 0.6);
+      width: 100px;
+    }
+
+    .of-search input::placeholder {
+      color: rgba(20, 32, 42, 0.34);
+    }
+
+    .of-chip {
+      min-width: 74px;
+      height: 30px;
+      padding: 0 16px;
+      border-radius: 9px;
+      border: 0;
+      background: transparent;
+      color: rgba(20, 32, 42, 0.34);
+      font-family: var(--font-en);
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: 0;
+      cursor: pointer;
+      transition: color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .of-chip.is-active {
+      background: #ffffff;
+      color: #22b2ea;
+    }
+
+    .of-chip:hover,
+    .of-chip:focus-visible {
+      color: #22b2ea;
+      background: rgba(255,255,255,0.52);
+      outline: none;
+    }
+
+    .of-detail-list {
+      display: grid;
+      gap: 88px;
+      width: min(1060px, calc(100% - 48px));
+      margin: 0 auto;
+    }
+
+    .of-detail-card {
+      display: grid;
+      grid-template-columns: minmax(340px, 1.15fr) minmax(280px, 1fr);
+      align-items: center;
+      gap: 64px;
+    }
+
+    .of-detail-card:nth-child(even) {
+      grid-template-columns: minmax(280px, 1fr) minmax(340px, 1.15fr);
+    }
+
+    .of-detail-card:nth-child(even) .of-detail-card__media {
+      order: 2;
+    }
+
+    .of-detail-card__media {
+      aspect-ratio: 4 / 3;
+      border-radius: 14px;
+      overflow: hidden;
+      background: #d8f4fb;
+      box-shadow: 0 8px 32px rgba(34, 100, 154, 0.10);
+    }
+
+    .of-detail-card__media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .of-detail-card__meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .of-badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 22px;
+      padding: 0 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(34,178,234,0.28);
+      font-size: 11px;
+      color: #22b2ea;
+      background: #ffffff;
+    }
+
+    .of-badge--fill {
+      color: #ffffff;
+      background: #22b2ea;
+      border-color: #22b2ea;
+    }
+
+    .of-detail-card h3 {
+      margin: 0;
+      font-family: var(--font-kr);
+      font-size: clamp(24px, 2vw, 34px);
+      font-weight: 600;
+      color: #111;
+      line-height: 1.25;
+    }
+
+    .of-detail-card i {
+      display: block;
+      margin-top: 6px;
+      font-family: var(--font-serif);
+      font-size: 18px;
+      color: rgba(0,0,0,0.66);
+    }
+
+    .of-detail-card p {
+      margin: 24px 0 18px;
+      font-family: var(--font-kr);
+      font-size: 15px;
+      line-height: 1.8;
+      color: rgba(0,0,0,0.64);
+    }
+
+    .of-more {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 30px;
+      padding: 0 16px;
+      border-radius: 999px;
+      background: #22b2ea;
+      border: 1px solid #22b2ea;
+      color: #ffffff;
+      font-size: 12px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .of-more:hover {
+      background: #22b2ea;
+      color: #ffffff;
+    }
+
+    /* ── 브랜드 섹션 ── */
+    .of-brand {
+      min-height: 900px;
+      display: flex;
+      align-items: end;
+      justify-content: center;
+      padding: 120px 24px 70px;
+      background:
+        radial-gradient(circle at 50% 18%, rgba(255,255,255,0.68) 0 6%, transparent 23%),
+        linear-gradient(180deg, #ffffff 0%, #d9f7ff 20%, #52cdf2 68%, #22b8ee 100%);
+      text-align: center;
+      color: #ffffff;
+    }
+
+    .of-brand__inner {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+
+    .of-brand__mark {
+      width: min(420px, 55vw);
+      opacity: 0.55;
+      margin-top: 20px;
+    }
+
+    .of-brand__text {
+      width: min(320px, 55vw);
+      margin-top: -12px;
+      margin-bottom: 60px;
+    }
+
+    .of-meet {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      padding: 48px 80px;
+      border-top: 1px solid rgba(255,255,255,0.22);
+      gap: 24px;
+    }
+
+    .of-meet > div {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      text-align: left;
+    }
+
+    .of-meet h2 {
+      margin: 0;
+      font-family: var(--font-en);
+      font-size: clamp(24px, 2.6vw, 38px);
+      font-weight: 300;
+      color: #fff;
+    }
+
+    .of-meet h2 em {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-weight: 500;
+    }
+
+    .of-meet p {
+      margin: 0;
+      font-family: var(--font-kr);
+      font-size: 15px;
+      color: rgba(255,255,255,0.72);
+    }
+
+    .of-footer-note {
+      display: flex;
+      gap: 24px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.54);
+      font-family: var(--font-en);
+      padding: 20px 80px;
+      width: 100%;
+      border-top: 1px solid rgba(255,255,255,0.12);
+      box-sizing: border-box;
+    }
+
+    /* ── 흰색 배경 위 파란 커서 ── */
+    #custom-cursor.is-over-light {
+      border-color: rgba(34, 178, 234, 0.9);
+    }
+    #custom-cursor.is-over-light.is-hovering {
+      border-color: rgba(34, 178, 234, 1);
+      background: rgba(34, 178, 234, 0.08);
+    }
+    #custom-cursor.is-over-light.is-clicking {
+      background: rgba(34, 178, 234, 0.2);
+      border-color: rgba(34, 178, 234, 1);
+    }
+
+    /* ── 1100px 이하 grid 조정 ── */
+    @media (max-width: 1100px) {
+      .of-species.is-carousel-ready {
+        grid-template-columns: repeat(4, minmax(150px, 1fr));
+      }
+
+      .of-species-card {
+        min-height: 300px;
+      }
+    }
+
+    /* ── 3D 캐러셀 (데스크톱) ── */
+    @media (min-width: 761px) {
+      .of-species {
+        --gallery-glow-x: 50%;
+        --gallery-glow-y: 50%;
+        --gallery-glow-opacity: 0.20;
+        position: relative;
+        display: block;
+        width: min(1520px, calc(100% - 48px));
+        height: clamp(580px, 46vw, 660px);
+        margin: 0 auto;
+        perspective: 2200px;
+        perspective-origin: 50% 50%;
+        transform-style: preserve-3d;
+        isolation: isolate;
+        overflow: visible;
+        outline: none;
+        touch-action: pan-y;
+        user-select: none;
+      }
+
+      .of-species.is-carousel-ready::before,
+      .of-species.is-carousel-ready::after {
+        content: "";
+        position: absolute;
+        pointer-events: none;
+        border-radius: 999px;
+      }
+
+      .of-species.is-carousel-ready::before {
+        inset: -12% -2% -18%;
+        z-index: 0;
+        background:
+          radial-gradient(circle at var(--gallery-glow-x) var(--gallery-glow-y), rgba(143, 183, 232, var(--gallery-glow-opacity)), transparent 40%),
+          radial-gradient(circle at 50% 60%, rgba(184, 211, 244, 0.32), transparent 50%),
+          linear-gradient(180deg, rgba(219, 238, 255, 0.14), rgba(143, 183, 232, 0.12));
+        filter: blur(40px);
+        transition: background 0.7s ease, opacity 0.7s ease;
+      }
+
+      .of-species.is-carousel-ready::after {
+        inset: 6% 8%;
+        z-index: 1;
+        background:
+          linear-gradient(112deg, transparent 0 28%, rgba(255,255,255,0.16) 43%, transparent 58% 100%),
+          repeating-linear-gradient(105deg, rgba(255,255,255,0.08) 0 1px, transparent 1px 18px);
+        mix-blend-mode: screen;
+        opacity: 0.20;
+        animation: ofSpeciesWaterLight 8s ease-in-out infinite alternate;
+      }
+
+      .of-species.is-carousel-ready .of-species-card {
+        --x: 0px;
+        --z: 0px;
+        --rot: 0deg;
+        --scale: 1;
+        --card-opacity: 1;
+        --card-brightness: 1;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        z-index: var(--card-z, 1);
+        width: clamp(260px, 22vw, 360px);
+        height: 460px;
+        min-height: 0;
+        transform:
+          translate3d(calc(-50% + var(--x)), -50%, var(--z))
+          rotateY(var(--rot))
+          scale(var(--scale));
+        transform-style: preserve-3d;
+        opacity: var(--card-opacity);
+        filter: brightness(var(--card-brightness)) saturate(1.02);
+        box-shadow: 0 20px 60px rgba(44, 93, 141, 0.18);
+        transition:
+          transform 0.72s cubic-bezier(0.22, 1, 0.36, 1),
+          opacity 0.52s ease,
+          filter 0.52s ease,
+          box-shadow 0.52s ease;
+        will-change: transform, opacity;
+      }
+
+      .of-species.is-carousel-ready .of-species-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 2;
+        pointer-events: none;
+        background:
+          linear-gradient(115deg, transparent 0 25%, rgba(255,255,255,0.22) 41%, transparent 57% 100%),
+          repeating-linear-gradient(98deg, rgba(255,255,255,0.075) 0 1px, transparent 1px 17px);
+        mix-blend-mode: screen;
+        opacity: 0.22;
+        transform: translateX(-28%) skewX(-6deg);
+        animation: ofSpeciesCardRipple 7.5s ease-in-out infinite;
+      }
+
+      .of-species.is-carousel-ready .of-species-card::after {
+        z-index: 3;
+        background:
+          radial-gradient(circle at 50% 0%, rgba(219, 238, 255, 0.18), transparent 34%),
+          linear-gradient(180deg, rgba(0,0,0,0.04) 30%, rgba(0,0,0,0.70) 100%);
+      }
+
+      .of-species.is-carousel-ready .of-species-card img {
+        transform: scale(1.01);
+      }
+
+      .of-species.is-carousel-ready .of-species-card:hover img,
+      .of-species.is-carousel-ready .of-species-card.is-active:hover img {
+        transform: scale(1.065);
+      }
+
+      .of-species.is-carousel-ready .of-species-card.is-active {
+        --card-brightness: 1.04;
+        box-shadow:
+          0 24px 72px rgba(68, 117, 166, 0.26),
+          0 0 36px rgba(184, 211, 244, 0.20);
+      }
+
+      .of-species.is-carousel-ready .of-species-card.is-active::before {
+        opacity: 0.34;
+      }
+
+      .of-species.is-carousel-ready .of-species-card__num,
+      .of-species.is-carousel-ready .of-species-card__text {
+        z-index: 4;
+      }
+
+      .of-pager {
+        position: relative;
+        z-index: 4;
+        align-items: center;
+      }
+
+      @keyframes ofSpeciesWaterLight {
+        0%   { transform: translate3d(-20px,  9px, -80px) rotate(-1deg); opacity: 0.18; }
+        100% { transform: translate3d( 20px, -8px, -80px) rotate( 1deg); opacity: 0.34; }
+      }
+
+      @keyframes ofSpeciesCardRipple {
+        0%   { transform: translateX(-42%) skewX(-6deg); opacity: 0.14; }
+        52%  { opacity: 0.32; }
+        100% { transform: translateX( 40%) skewX(-6deg); opacity: 0.18; }
+      }
+    }
+
+    /* ── 모션 감소 ── */
+    @media (prefers-reduced-motion: reduce) {
+      .of-species::after,
+      .of-species-card::before {
+        animation: none;
+      }
+      .of-species-card,
+      .of-pager button {
+        transition-duration: 0.01ms;
+      }
+    }
+
+    /* ── 모바일 ── */
+    @media (max-width: 760px) {
+      .oceanfriends-page .gnb {
+        padding-inline: 18px;
+      }
+
+      .oceanfriends-page .gnb__nav {
+        gap: 16px;
+      }
+
+      .oceanfriends-page .gnb__link {
+        font-size: 15px;
+      }
+
+      .oceanfriends-page .gnb__logo {
+        width: 44px;
+      }
+
+      .oceanfriends-page .gnb__ticket {
+        height: 40px;
+        padding-inline: 14px;
+        font-size: 13px;
+      }
+
+      .of-container {
+        width: min(100% - 32px, 1320px);
+      }
+
+      .of-hero {
+        min-height: 680px;
+        padding-top: 112px;
+      }
+
+      .of-title {
+        font-size: clamp(46px, 15vw, 72px);
+      }
+
+      .of-hero__lead {
+        max-width: 320px;
+      }
+
+      .of-signature {
+        padding: 64px 0 96px;
+      }
+
+      .of-section-head {
+        margin-bottom: 44px;
+      }
+
+      .of-species {
+        display: flex;
+        width: calc(100% - 24px);
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        padding-bottom: 12px;
+      }
+
+      .of-species-card {
+        min-width: 210px;
+        min-height: 310px;
+        scroll-snap-align: center;
+      }
+
+      .of-detail {
+        padding-bottom: 160px;
+      }
+
+      .of-filter {
+        flex-wrap: wrap;
+        margin-top: -24px;
+        width: calc(100% - 32px);
+      }
+
+      .of-detail-card,
+      .of-detail-card:nth-child(even) {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+
+      .of-detail-card:nth-child(even) .of-detail-card__media {
+        order: 0;
+      }
+
+      .of-detail-list {
+        gap: 68px;
+      }
+
+      .of-brand {
+        min-height: 760px;
+        padding-bottom: 44px;
+      }
+
+      .of-meet,
+      .of-footer-note {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+
+<body class="oceanfriends-page">
+
+  <header id="gnb" class="gnb">
+    <div class="gnb__inner">
+      <!-- 왼쪽 메뉴 -->
+      <nav class="gnb__nav" aria-label="메인 메뉴">
+        <a href="index.html#sec-program" class="gnb__link" data-nav="program">Program</a>
+        <a href="Oceanfriends.html" class="gnb__link gnb__link--active" data-nav="crew">Ocean Friends</a>
+        <div class="gnb__nav-item" data-nav="about">
+          <span class="gnb__link">About us</span>
+          <div class="gnb__dropdown">
+            <a href="#" class="gnb__dropdown-item">Business</a>
+            <a href="#" class="gnb__dropdown-item">Marin Lab</a>
+            <a href="location.html" class="gnb__dropdown-item">Location</a>
+          </div>
+        </div>
+      </nav>
+
+      <!-- 중앙 로고 -->
+      <a href="index.html" class="gnb__logo-wrap" aria-label="Aqua Planet 홈">
+        <img class="gnb__logo" src="assets/images/headerLogo.png" alt="" aria-hidden="true">
+      </a>
+
+      <!-- 오른쪽 티켓 버튼 -->
+      <button class="gnb__ticket btn-pill" type="button" aria-label="티켓 예매" onclick="location.href='ticket.html'">
+        Ticket
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M7 17L17 7M17 7H7M17 7V17" stroke="white" stroke-width="1.5"
+                stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <main class="of-main">
+
+    <!-- 히어로 -->
+    <section class="of-hero" aria-label="Ocean Friends 소개">
+      <div class="of-hero__content">
+        <span class="of-eyebrow">Welcome</span>
+        <h1 class="of-title">Meet Our <em>Ocean Friends</em></h1>
+        <p class="of-hero__lead">
+          아쿠아플라넷의 다양한 해양생물들을 만나보세요<br>
+          바닷속 친구들의 생태와 유전, 흥미로운 이야기를 통해 더욱 깊이 있는 경험을 제공합니다
+        </p>
+      </div>
+      <a class="of-scroll" href="#signature" aria-label="대표 생물 바로가기">
+        <span class="of-scroll__line"></span>
+        <span class="of-scroll__text">Let's Explore</span>
+      </a>
+    </section>
+
+    <!-- 시그니처 생물 캐러셀 -->
+    <section id="signature" class="of-signature" aria-label="시그니처 생물">
+      <div class="of-section-head">
+        <h2 class="of-section-title"><span>Signature </span><em>Species</em></h2>
+        <p class="of-section-sub">아쿠아플라넷의 대표 생물을 소개합니다</p>
+      </div>
+
+      <div class="of-species" aria-label="생물 카드 목록">
+        <article class="of-species-card">
+          <img src="assets/images/strip · Beluga.png" alt="벨루가">
+          <span class="of-species-card__num">01</span>
+          <div class="of-species-card__text"><strong>Beluga</strong><span>white whale</span></div>
+        </article>
+        <article class="of-species-card">
+          <img src="assets/images/strip · Walrus.png" alt="바다코끼리">
+          <span class="of-species-card__num">02</span>
+          <div class="of-species-card__text"><strong>Walrus</strong><span>marine mammal</span></div>
+        </article>
+        <article class="of-species-card">
+          <img src="assets/images/strip · Penguin.png" alt="펭귄">
+          <span class="of-species-card__num">03</span>
+          <div class="of-species-card__text"><strong>Penguin</strong><span>flightless bird</span></div>
+        </article>
+        <article class="of-species-card">
+          <img src="assets/images/strip · Shark.png" alt="상어">
+          <span class="of-species-card__num">04</span>
+          <div class="of-species-card__text"><strong>Shark</strong><span>sand tiger shark</span></div>
+        </article>
+        <article class="of-species-card">
+          <img src="assets/images/strip · Ray.png" alt="가오리">
+          <span class="of-species-card__num">05</span>
+          <div class="of-species-card__text"><strong>Ray</strong><span>manta ray</span></div>
+        </article>
+        <article class="of-species-card">
+          <img src="assets/images/strip · Otter.png" alt="수달">
+          <span class="of-species-card__num">06</span>
+          <div class="of-species-card__text"><strong>Otter</strong><span>small-clawed otter</span></div>
+        </article>
+        <article class="of-species-card">
+          <img src="assets/images/strip · Sea Turtle.png" alt="바다거북">
+          <span class="of-species-card__num">07</span>
+          <div class="of-species-card__text"><strong>Sea Turtle</strong><span>green turtle</span></div>
+        </article>
+      </div>
+      <div class="of-pager" aria-label="생물 상세 소개 더 보기"></div>
+    </section>
+
+    <!-- 생물 상세 -->
+    <section class="of-detail" aria-label="생물 상세 소개">
+      <div class="of-section-head">
+        <h2 class="of-section-title"><span>Creature </span><em>Detail</em></h2>
+        <p class="of-section-sub">선택한 생물의 서식 층, 학명, 분류와 이야기를 자세히 소개합니다</p>
+      </div>
+
+      <div class="of-filter" aria-label="생물 필터">
+        <div class="of-filter__chips">
+          <button class="of-chip is-active" type="button">Jeju</button>
+          <button class="of-chip" type="button">Yeosu</button>
+          <button class="of-chip" type="button">Ilsan</button>
+          <button class="of-chip" type="button">Gwanggyo</button>
+        </div>
+        <div class="of-search">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <circle cx="6.5" cy="6.5" r="5" stroke="currentColor" stroke-width="1.6"/>
+            <path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+          <input type="text" placeholder="검색하기" aria-label="생물 검색">
+        </div>
+      </div>
+
+      <div class="of-detail-list">
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/jeju/08_부채제비활치.jpg" alt="부채제비활치">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">2F · 아쿠아리움</span>
+              <span class="of-badge of-badge--fill">해수연골어류</span>
+            </div>
+            <h3>부채제비활치</h3>
+            <i>Platax orbicularis</i>
+            <p>옆으로 납작한 몸이 마치 부채를 활짝 펼친 것 같아요. 은빛 비늘 위 흑갈색 줄무늬가 인상적인 물고기랍니다.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/jeju/39_참물범 (Harbor seal).jpg" alt="참물범">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">2F · 아쿠아리움</span>
+              <span class="of-badge of-badge--fill">포유류</span>
+            </div>
+            <h3>참물범</h3>
+            <i>Phoca vitulina</i>
+            <p>동글동글 동자승과 같은 머리를 가진 귀여운 참물범이에요. 온 몸에 거친 털이 빽빽하게 나 있고, 참깨를 흩뿌린 듯 반점이 많아요.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/jeju/13_아프리칸펭귄.jpg" alt="아프리칸펭귄">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">2F · 아쿠아리움</span>
+              <span class="of-badge of-badge--fill">조류</span>
+            </div>
+            <h3>아프리칸펭귄</h3>
+            <i>Spheniscus demersus</i>
+            <p>아담한 키에 뒤뚱뒤뚱 걷는 모습이 사랑스럽죠? 울음소리가 당나귀와 비슷해 '자카스펭귄'이라고 부르기도 해요. 가슴 아래 찍힌 점들은 펭귄마다 모두 달라요.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/jeju/05_바이칼물범.jpg" alt="바이칼물범">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">1F · 아쿠아리움</span>
+              <span class="of-badge of-badge--fill">포유류</span>
+            </div>
+            <h3>바이칼물범</h3>
+            <i>Pusa sibirica</i>
+            <p>강아지를 닮은 순한 얼굴과 아담한 체구를 가진 귀여운 물범입니다. 주로 물고기를 잡아 먹고, 한 번 잠수하면 20분 정도 물 속에서 머무를 수 있어요.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/jeju/33_샌드타이거샤크.jpg" alt="샌드타이거샤크">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">1F · 아쿠아리움</span>
+              <span class="of-badge of-badge--fill">해수연골어류</span>
+            </div>
+            <h3>샌드타이거샤크</h3>
+            <i>Sand Tiger Shark</i>
+            <p>입안 가득 날카로운 이빨이 무시무시하게 돋아나 있어요. 이빨이 입 안쪽을 향해 휘어져 있어서 한 번 물은 먹잇감은 절대로 놓치지 않아요.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/jeju/01_골든트레벌리.jpg" alt="골든트레벌리">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">1F · 아쿠아리움</span>
+              <span class="of-badge of-badge--fill">해수경골어류</span>
+            </div>
+            <h3>골든트레벌리</h3>
+            <i>Caranx sexfasciatus</i>
+            <p>반짝이는 황금색 몸이 특징인 대형 물고기예요. 매우 빠른 속도로 헤엄치며, 먹이를 사냥할 때는 대단히 공격적이에요.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/jeju/16_퍼큘라클라운피쉬.jpg" alt="퍼큘라클라운피쉬">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">1F · 아쿠아리움</span>
+              <span class="of-badge of-badge--fill">해수경골어류</span>
+            </div>
+            <h3>퍼큘라클라운피쉬</h3>
+            <i>Amphiprion percula</i>
+            <p>주황색 몸에 하얀 줄무늬가 있는 물고기로, 아네모네와 공생 관계를 유지해요. 아네모네는 클라운피쉬에게 음식물 조각을 나눠주고, 클라운피쉬는 기생충을 제거해줘요.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/jeju/04_물총고기.jpg" alt="물총고기">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">B1F · 아쿠아리움</span>
+              <span class="of-badge of-badge--fill">해수경골어류</span>
+            </div>
+            <h3>물총고기</h3>
+            <i>Toxotes chatareus</i>
+            <p>정확한 물총으로 먹이를 사냥하는 놀라운 능력을 가지고 있어요. 물 위의 곤충을 맞춘 후, 떨어진 곤충을 먹이로 삼지요.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/jeju/14_얼룩매가오리.jpg" alt="얼룩매가오리">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">B1F · 아쿠아리움</span>
+              <span class="of-badge of-badge--fill">해수연골어류</span>
+            </div>
+            <h3>얼룩매가오리</h3>
+            <i>Aetobatus narinari</i>
+            <p>하얀색 배에 검은 반점이 있고, 검은색 등 부분에 흰 점들이 있는 아름다운 가오리예요. 우아한 날개 모양의 지느러미로 헤엄을 쳐요.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/jeju/30_보름달물해파리 (Moon jelly).jpg" alt="보름달물해파리">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">B1F · 아쿠아리움</span>
+              <span class="of-badge of-badge--fill">무척추동물</span>
+            </div>
+            <h3>보름달물해파리</h3>
+            <i>Aurelia aurita</i>
+            <p>무색 투명한 우산 모양의 몸에 특징적인 무늬가 있어요. 느리게 부유하면서 바다의 플랑크톤을 먹어요.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/jeju/35_우파루파 (Axolotls).jpg" alt="우파루파">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">1F · 아쿠아리움</span>
+              <span class="of-badge of-badge--fill">양서파충류</span>
+            </div>
+            <h3>우파루파</h3>
+            <i>Ambystoma mexicanum</i>
+            <p>핑크빛 몸에 외부 아가미가 있는 양서류 중 특이한 모습을 하고 있어요. 아기처럼 웃는 표정을 하고 있다고 해서 '마일 물고기'라고도 불린답니다.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/jeju/18_플라워혼.jpg" alt="플라워혼">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">1F · 아쿠아리움</span>
+              <span class="of-badge of-badge--fill">해수경골어류</span>
+            </div>
+            <h3>플라워혼</h3>
+            <i>Vieja × Amphilophus</i>
+            <p>빨간색과 노란색, 파란색이 화려하게 섞여 있는 물고기에요. 이마에 크고 불룩한 혹이 있으며, 매우 공격적인 성격을 가지고 있어요.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/jeju/17_푸른바다거북.jpg" alt="푸른바다거북">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">1F · 아쿠아리움</span>
+              <span class="of-badge of-badge--fill">양서파충류</span>
+            </div>
+            <h3>푸른바다거북</h3>
+            <i>Chelonia mydas</i>
+            <p>올리브색의 등갑과 하얀색의 배갑을 가진 대형 바다거북이에요. 초식 식성으로 바다풀을 주로 먹으며, 수천 km를 이동하는 철새 같은 거북이에요.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/jeju/03_디스커스.jpg" alt="디스커스">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">2F · 아쿠아리움</span>
+              <span class="of-badge of-badge--fill">해수경골어류</span>
+            </div>
+            <h3>디스커스</h3>
+            <i>Symphysodon</i>
+            <p>원판 모양의 몸과 화려한 무늬가 특징인 담수 물고기에요. 부모 물고기가 새끼에게 자신의 몸을 따라먹을 수 있도록 해주는 독특한 육아 방식을 가지고 있어요.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/jeju/21_흑점꺼끌복.jpg" alt="흑점꺼끌복">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">1F · 아쿠아리움</span>
+              <span class="of-badge of-badge--fill">해수경골어류</span>
+            </div>
+            <h3>흑점꺼끌복</h3>
+            <i>Arothron nigropunctatus</i>
+            <p>노란색 몸에 검은 점이 가득 있는 복어예요. 위험을 느끼면 물을 빨아들여 풍선처럼 부풀어 오르지요. 몸에는 독이 있어요.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/jeju/37_작은발톱수달 (Asian small-clawed otter).jpg" alt="작은발톱수달">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">1F · 아쿠아리움</span>
+              <span class="of-badge of-badge--fill">포유류</span>
+            </div>
+            <h3>작은발톱수달</h3>
+            <i>Aonyx cinereus</i>
+            <p>세상에서 가장 작은 수달이에요. 까만 콧등과 흰 입 주위가 있고, 물고기 사냥을 아주 잘한답니다. 귀여운 외모와 사랑스러운 움직임이 매력적이에요.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/jeju/10_빅벨리드해마.jpg" alt="빅벨리드해마">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">1F · 아쿠아리움</span>
+              <span class="of-badge of-badge--fill">해수경골어류</span>
+            </div>
+            <h3>빅벨리드해마</h3>
+            <i>Hippocampus abdominalis</i>
+            <p>배 부분이 크게 불룩한 해마 종류예요. 수컷이 암컷의 알을 자신의 육낭에 보관했다가 새끼를 낳아요.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/jeju/07_베일드카멜레온.jpg" alt="베일드카멜레온">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">2F · 아쿠아리움</span>
+              <span class="of-badge of-badge--fill">양서파충류</span>
+            </div>
+            <h3>베일드카멜레온</h3>
+            <i>Chamaeleo calyptratus</i>
+            <p>머리 위에 큰 프릴 같은 주머니가 있어 신기해요. 제각각 움직이는 눈과 말이 감긴 꼬리가 특징이에요. 몸 색깔을 자유롭게 바꿀 수 있답니다.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/jeju/26_등꼬리치.jpg" alt="등꼬리치">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">1F · 아쿠아리움</span>
+              <span class="of-badge of-badge--fill">해수경골어류</span>
+            </div>
+            <h3>등꼬리치</h3>
+            <i>Aulonocara</i>
+            <p>파란색과 주황색이 아름답게 섞여 있는 물고기에요. 종류가 다양하며, 각각 독특한 색깔을 가지고 있답니다.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/jeju/40_철갑상어.jpg" alt="철갑상어">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">1F · 아쿠아리움</span>
+              <span class="of-badge of-badge--fill">해수경골어류</span>
+            </div>
+            <h3>철갑상어</h3>
+            <i>Acipenser baerii</i>
+            <p>몸이 갑옷처럼 딱딱한 판으로 덮여 있는 고기 물고기예요. 매우 오래전부터 존재했던 원시 물고기이며, 알(캐비어)이 매우 귀중해요.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/jeju/20_흉상어.jpg" alt="흉상어">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">1F · 아쿠아리움</span>
+              <span class="of-badge of-badge--fill">해수연골어류</span>
+            </div>
+            <h3>흉상어</h3>
+            <i>Carcharhinus leucas</i>
+            <p>회색 등과 흰색 배를 가진 대형 상어예요. 담수에도 적응할 수 있는 드문 상어 종류로, 강 위쪽까지 올라가 사냥해요.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/jeju/09_블랙백나비고기.jpg" alt="블랙백나비고기">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">2F · 아쿠아리움</span>
+              <span class="of-badge of-badge--fill">해수경골어류</span>
+            </div>
+            <h3>블랙백나비고기</h3>
+            <i>Platax pinnatus</i>
+            <p>까만색 몸에 빨간 줄무늬가 있는 어린 물고기가 성장하면 색깔이 많이 바뀐답니다.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/jeju/34_스톤피쉬 (Stone fish).jpg" alt="스톤피쉬">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">1F · 아쿠아리움</span>
+              <span class="of-badge of-badge--fill">해수경골어류</span>
+            </div>
+            <h3>스톤피쉬</h3>
+            <i>Synanceia verrucosa</i>
+            <p>돌 모양으로 위장하고 있는 독이 있는 물고기예요. 세계에서 가장 독성이 강한 물고기로 알려져 있으며, 가시에 독이 있어요.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/jeju/28_백설공주시클리드.jpg" alt="아이스블루시클리드">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">1F · 아쿠아리움</span>
+              <span class="of-badge of-badge--fill">해수경골어류</span>
+            </div>
+            <h3>아이스블루시클리드</h3>
+            <i>Sciaenochromis fryeri</i>
+            <p>밝은 파란색의 아름다운 담수 물고기예요. 수컷은 몸 크기가 더 크고 색깔이 더 화려해요.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/jeju/23_고스트 스콜피온피쉬.jpg" alt="고스트스콜피온피쉬">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">1F · 아쿠아리움</span>
+              <span class="of-badge of-badge--fill">해수경골어류</span>
+            </div>
+            <h3>고스트스콜피온피쉬</h3>
+            <i>Inimicus didactylus</i>
+            <p>혼탁한 바다 밑바닥에 숨어 있으면서 먹이를 잡는 희귀한 물고기에요. 등지느러미에 독이 있어요.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/jeju/06_범돔.jpg" alt="알비노무지개송어">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">1F · 아쿠아리움</span>
+              <span class="of-badge of-badge--fill">해수경골어류</span>
+            </div>
+            <h3>알비노무지개송어</h3>
+            <i>Oncorhynchus mykiss</i>
+            <p>흰색 몸에 분홍색이 돌아 있는 송어의 특이한 변종이에요. 일반적인 송어와 비슷한 습성을 가지고 있어요.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/jeju/15_자이언트모레이.jpg" alt="자이언트모레이">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">1F · 아쿠아리움</span>
+              <span class="of-badge of-badge--fill">해수경골어류</span>
+            </div>
+            <h3>자이언트모레이</h3>
+            <i>Gymnothorax javanicus</i>
+            <p>뱀처럼 생긴 대형 뱀장어로, 몸길이가 3m까지 자라는 거대한 물고기예요. 입이 매우 크고 이빨이 날카로워요.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/jeju/36_자이언트그루퍼 (Giant Grouper).jpg" alt="자이언트그루퍼">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">B1F · 아쿠아리움</span>
+              <span class="of-badge of-badge--fill">해수경골어류</span>
+            </div>
+            <h3>자이언트그루퍼</h3>
+            <i>Epinephelus lanceolatus</i>
+            <p>세계에서 가장 큰 바위고기로, 몸길이가 2.5m까지 자라요. 어두운 갈색 몸과 흐릿한 반점이 특징이에요.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/jeju/25_대문어.jpg" alt="대문어">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">2F · 아쿠아리움</span>
+              <span class="of-badge of-badge--fill">무척추동물</span>
+            </div>
+            <h3>대문어</h3>
+            <i>Enteroctopus dofleini</i>
+            <p>세계에서 가장 큰 문어 종류예요. 매우 지능이 높고 호기심이 많으며, 스트레스를 받으면 색깔을 빠르게 바꾼답니다.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/jeju/24_다람쥐.jpg" alt="다람쥐">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">1F · 아쿠아리움</span>
+              <span class="of-badge of-badge--fill">포유류</span>
+            </div>
+            <h3>다람쥐</h3>
+            <i>Sciurus</i>
+            <p>푹신한 꼬리를 가진 작은 포유류예요. 민첩한 움직임과 귀여운 생김새가 특징이에요.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/jeju/12_성대.jpg" alt="철갑둥어">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">1F · 아쿠아리움</span>
+              <span class="of-badge of-badge--fill">해수경골어류</span>
+            </div>
+            <h3>철갑둥어</h3>
+            <i>Megalops atlanticus</i>
+            <p>큰 비늘로 덮여 있고 은색 몸이 특징인 거대한 담수 및 해수 물고기예요. 점프력이 뛰어나요.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/jeju/29_뱀목거북 (Eastern snake-necked turtle).jpg" alt="뱀목거북">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">2F · 아쿠아리움</span>
+              <span class="of-badge of-badge--fill">양서파충류</span>
+            </div>
+            <h3>뱀목거북</h3>
+            <i>Chelodina oblonga</i>
+            <p>긴 목이 특징인 담수 거북이에요. 목을 크게 구부려 먹이를 잡아요.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/jeju/41_큰돌고래 (Common bottlenose dolphin).jpg" alt="큰돌고래">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">B1F · 아쿠아리움</span>
+              <span class="of-badge of-badge--fill">포유류</span>
+            </div>
+            <h3>큰돌고래</h3>
+            <i>Tursiops truncatus</i>
+            <p>매우 지능이 높은 해양 포유류로, 사회적이고 친화적인 성격을 가지고 있어요. 음파 탐지로 먹이를 찾아요.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/jeju/11_뿔닭새우.png" alt="뿔닭새우">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">1F · 아쿠아리움</span>
+              <span class="of-badge of-badge--fill">무척추동물</span>
+            </div>
+            <h3>뿔닭새우</h3>
+            <i>Stenopus hispidus</i>
+            <p>흰색 몸에 빨간 줄무늬가 있는 아름다운 새우예요. 큰 집게발로 작은 물고기와 기생충을 제거해줘요.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/jeju/19_훔볼트 펭귄.jpg" alt="훔볼트 펭귄">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">2F · 아쿠아리움</span>
+              <span class="of-badge of-badge--fill">조류</span>
+            </div>
+            <h3>훔볼트 펭귄</h3>
+            <i>Spheniscus humboldti</i>
+            <p>남미 해안에 사는 펭귄으로, 몸길이는 약 65cm예요. 수영을 매우 잘하며, 시간당 9km의 속도로 헤엄칠 수 있어요.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/jeju/38_점쏠베감펭 (Red lionfish).jpg" alt="점쏠배감펭">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">1F · 아쿠아리움</span>
+              <span class="of-badge of-badge--fill">해수경골어류</span>
+            </div>
+            <h3>점쏠배감펭</h3>
+            <i>Pterois volitans</i>
+            <p>화려한 줄무늬와 독이 있는 지느러미 가시가 특징인 물고기예요. 아름다운 외모와 달리 강한 독침을 가지고 있어요.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/jeju/27_캘리포니아바다사자.jpg" alt="캘리포니아바다사자">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">B1F · 아쿠아리움</span>
+              <span class="of-badge of-badge--fill">포유류</span>
+            </div>
+            <h3>캘리포니아바다사자</h3>
+            <i>Zalophus californianus</i>
+            <p>부드러운 갈색 모피와 귀여운 얼굴을 가진 해양 포유류예요. 매우 지능이 높고 상호작용을 잘해요. 큰 지느러미 발로 물 위에 올라가 움직여요.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/jeju/02_동수구리.jpg" alt="동수구리">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">B1F · 아쿠아리움</span>
+              <span class="of-badge of-badge--fill">포유류</span>
+            </div>
+            <h3>동수구리</h3>
+            <i>Enhydra lutris</i>
+            <p>가장 작은 바다 포유류로, 매우 두꺼운 모피로 몸을 따뜻하게 유지해요. 돌로 조개를 까서 먹는 도구 사용 능력이 있어요.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/jeju/42_파쿠 (Pacu).jpg" alt="블라인드케이브피쉬">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">1F · 아쿠아리움</span>
+              <span class="of-badge of-badge--fill">해수경골어류</span>
+            </div>
+            <h3>블라인드케이브피쉬</h3>
+            <i>Astyanax mexicanus</i>
+            <p>동굴에만 사는 흰색 담수 물고기로, 눈이 전혀 없어요. 음파 탐지로 주변을 감지해요.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/jeju/22_가든일 (Garden eel).jpg" alt="가든일">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">1F · 아쿠아리움</span>
+              <span class="of-badge of-badge--fill">해수경골어류</span>
+            </div>
+            <h3>가든일</h3>
+            <i>Hyphessobrycon</i>
+            <p>작은 담수 물고기로, 화려한 색깔을 가지고 있어요. 떼를 지어 헤엄치는 모습이 아름다워요.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/jeju/43_흑가오리.jpg" alt="흑가오리">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">B1F · 아쿠아리움</span>
+              <span class="of-badge of-badge--fill">해수연골어류</span>
+            </div>
+            <h3>흑가오리</h3>
+            <i>Dasyatis matsubarai</i>
+            <p>검은색 등과 하얀색 배를 가진 우아한 가오리예요. 꼬리에 독이 있는 가시가 있어 주의가 필요해요.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- 브랜드 -->
+    <section class="of-brand" aria-label="아쿠아플라넷 브랜드 소개">
+      <div class="of-brand__inner">
+        <img class="of-brand__mark" src="assets/images/headerLogo.png" alt="" aria-hidden="true">
+        <img class="of-brand__text" src="assets/images/logo_vector.png" alt="aqua planet">
+        <div class="of-meet">
+          <div>
+            <h2>Meet them <em>in person</em></h2>
+            <p>아쿠아플라넷에서 바닷속 생태를 가까이 만나보세요</p>
+          </div>
+          <a class="btn-cta" href="ticket.html">Book a Ticket</a>
+        </div>
+        <div class="of-footer-note">
+          <span>© 2024 Aqua Planet. All rights reserved.</span>
+          <span>Program · Ocean Friends · Location</span>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <div id="custom-cursor" aria-hidden="true"></div>
+
+  <script>
+    /* ── GNB: 업스크롤 시에만 표시 ── */
+    (function () {
+      const gnb = document.getElementById('gnb');
+      if (!gnb) return;
+      const THRESHOLD = 80;
+      let lastY = window.scrollY;
+      window.addEventListener('scroll', function () {
+        const y = window.scrollY;
+        gnb.classList.toggle('is-scrolled', y > THRESHOLD);
+        if (y > THRESHOLD) {
+          gnb.classList.toggle('is-hidden', y > lastY);
+        } else {
+          gnb.classList.remove('is-hidden');
+        }
+        lastY = y;
+      }, { passive: true });
+    })();
+
+    /* ── 커스텀 커서 ── */
+    (function () {
+      if (window.matchMedia('(hover: none)').matches) return;
+      const el = document.getElementById('custom-cursor');
+      if (!el) return;
+      const HALF = 17;
+      const LIGHT_SELS = '.of-detail, .of-filter, .of-detail-card';
+      let tx = -200, ty = -200, cx = -200, cy = -200, firstMove = false;
+      window.addEventListener('mousemove', function (e) {
+        tx = e.clientX; ty = e.clientY;
+        if (!firstMove) { firstMove = true; cx = tx; cy = ty; el.style.opacity = '1'; }
+        const hit = document.elementFromPoint(e.clientX, e.clientY);
+        el.classList.toggle('is-over-light', !!(hit && hit.closest(LIGHT_SELS)));
+      }, { passive: true });
+      document.addEventListener('mouseleave', function () { el.style.opacity = '0'; });
+      document.addEventListener('mouseenter', function () { if (firstMove) el.style.opacity = '1'; });
+      document.addEventListener('mousedown',  function () { el.classList.add('is-clicking'); });
+      document.addEventListener('mouseup',    function () { el.classList.remove('is-clicking'); });
+      document.addEventListener('mouseover', function (e) {
+        const over = e.target.closest('a, button, [role="button"]');
+        el.classList.toggle('is-hovering', !!over);
+      });
+      (function loop() {
+        cx += (tx - cx) * 0.2;
+        cy += (ty - cy) * 0.2;
+        el.style.transform = 'translate(' + (cx - HALF).toFixed(1) + 'px,' + (cy - HALF).toFixed(1) + 'px)';
+        requestAnimationFrame(loop);
+      })();
+    })();
+  </script>
+
+  <!-- 필터 칩 활성화 -->
+  <script>
+    (function () {
+      const chips = document.querySelectorAll('.of-filter__chips .of-chip');
+      chips.forEach(function (chip) {
+        chip.addEventListener('click', function () {
+          chips.forEach(function (c) { c.classList.remove('is-active'); });
+          chip.classList.add('is-active');
+        });
+      });
+    })();
+  </script>
+
+  <!-- 3D 캐러셀 -->
+  <script>
+    (function () {
+      const carousel = document.querySelector('#signature .of-species');
+      const pager    = document.querySelector('#signature .of-pager');
+      if (!carousel || !pager) return;
+
+      const cards = Array.from(carousel.querySelectorAll('.of-species-card'));
+      if (!cards.length) return;
+
+      const desktopQuery      = window.matchMedia('(min-width: 761px)');
+      const reduceMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+      const startIndex   = 0; // Beluga 시작
+      const dragThreshold = 44;
+      let activeIndex = startIndex;
+      let isEnabled   = false;
+      let isDragging  = false;
+      let dragStartX  = 0;
+      let wheelLocked = false;
+
+      function shortestOffset(index) {
+        let offset = index - activeIndex;
+        const half = cards.length / 2;
+        if (offset >  half) offset -= cards.length;
+        if (offset < -half) offset += cards.length;
+        return offset;
+      }
+
+      function clampIndex(index) {
+        return (index + cards.length) % cards.length;
+      }
+
+      function getPose(offset) {
+        const abs  = Math.abs(offset);
+        const sign = Math.sign(offset);
+        const slot = Math.min(abs, 3);
+
+        const distance = [0,   480,  860, 1200][slot] || 1400;
+        const depth    = [80,   20,  -40,  -80][slot] || -100;
+        const scale    = [1.02, 0.92, 0.85, 0.76][slot] || 0.68;
+        const opacity  = [1,    1,    0.82, 0.55][slot] || 0.28;
+        const rotate   = [0,    3,    6,    8][slot]    || 9;
+
+        return {
+          x:      `${sign * distance}px`,
+          z:      `${depth}px`,
+          rot:    `${sign * -rotate}deg`,
+          scale:  String(scale),
+          opacity: String(opacity),
+          zIndex: String(100 - slot)
+        };
+      }
+
+      function render() {
+        cards.forEach((card, index) => {
+          const offset   = shortestOffset(index);
+          const pose     = getPose(offset);
+          const isActive = index === activeIndex;
+
+          card.style.setProperty('--x',            pose.x);
+          card.style.setProperty('--z',            pose.z);
+          card.style.setProperty('--rot',          pose.rot);
+          card.style.setProperty('--scale',        pose.scale);
+          card.style.setProperty('--card-opacity', pose.opacity);
+          card.style.setProperty('--card-z',       pose.zIndex);
+          card.classList.toggle('is-active', isActive);
+          card.setAttribute('aria-current', isActive ? 'true' : 'false');
+        });
+
+        const progress = cards.length <= 1 ? 0.5 : activeIndex / (cards.length - 1);
+        carousel.style.setProperty('--gallery-glow-x',       `${26 + progress * 48}%`);
+        carousel.style.setProperty('--gallery-glow-y',       activeIndex % 2 ? '43%' : '56%');
+        carousel.style.setProperty('--gallery-glow-opacity', `${0.19 + (activeIndex % 3) * 0.025}`);
+      }
+
+      function goTo(index) { activeIndex = clampIndex(index); render(); }
+      function goNext()    { goTo(activeIndex + 1); }
+      function goPrev()    { goTo(activeIndex - 1); }
+
+      function buildPager() {
+        pager.replaceChildren();
+        const btn      = document.createElement('button');
+        btn.type       = 'button';
+        const moreText = document.createElement('span');
+        moreText.className   = 'of-pager__more';
+        moreText.textContent = 'more';
+        const arrow    = document.createElement('span');
+        arrow.className   = 'of-pager__arrow';
+        arrow.setAttribute('aria-hidden', 'true');
+        arrow.textContent = '↓';
+        btn.append(moreText, arrow);
+        btn.setAttribute('aria-label', '생물 상세 소개 더 보기');
+        btn.addEventListener('click', () => {
+          document.querySelector('.of-detail')?.scrollIntoView({
+            behavior: reduceMotionQuery.matches ? 'auto' : 'smooth',
+            block: 'start'
+          });
+        });
+        pager.appendChild(btn);
+      }
+
+      function enable() {
+        if (isEnabled) return;
+        isEnabled = true;
+        carousel.classList.add('is-carousel-ready');
+        carousel.setAttribute('tabindex', '0');
+        carousel.setAttribute('role', 'region');
+        carousel.setAttribute('aria-roledescription', '3D gallery carousel');
+
+        cards.forEach((card) => {
+          card.setAttribute('tabindex', '0');
+          card.addEventListener('click',  onCardClick);
+          card.addEventListener('focus',  onCardFocus);
+        });
+
+        render();
+      }
+
+      function disable() {
+        if (!isEnabled) return;
+        isEnabled  = false;
+        isDragging = false;
+        carousel.classList.remove('is-carousel-ready', 'is-dragging');
+        carousel.removeAttribute('tabindex');
+        carousel.removeAttribute('role');
+        carousel.removeAttribute('aria-roledescription');
+        carousel.style.removeProperty('--gallery-glow-x');
+        carousel.style.removeProperty('--gallery-glow-y');
+        carousel.style.removeProperty('--gallery-glow-opacity');
+
+        cards.forEach((card) => {
+          card.classList.remove('is-active');
+          card.removeAttribute('tabindex');
+          card.removeAttribute('aria-current');
+          ['--x','--z','--rot','--scale','--card-opacity','--card-z'].forEach(p => card.style.removeProperty(p));
+          card.removeEventListener('click', onCardClick);
+          card.removeEventListener('focus', onCardFocus);
+        });
+      }
+
+      function syncMode() {
+        if (desktopQuery.matches) enable();
+        else disable();
+      }
+
+      function onCardClick(e) {
+        if (!isEnabled) return;
+        const index = cards.indexOf(e.currentTarget);
+        if (index >= 0) goTo(index);
+      }
+
+      function onCardFocus(e) {
+        if (!isEnabled) return;
+        const index = cards.indexOf(e.currentTarget);
+        if (index >= 0) goTo(index);
+      }
+
+      function onPointerDown(e) {
+        if (!isEnabled || e.button !== 0) return;
+        isDragging = true;
+        dragStartX = e.clientX;
+        carousel.classList.add('is-dragging');
+        carousel.setPointerCapture?.(e.pointerId);
+      }
+
+      function onPointerUp(e) {
+        if (!isEnabled || !isDragging) return;
+        const deltaX = e.clientX - dragStartX;
+        isDragging = false;
+        carousel.classList.remove('is-dragging');
+        if (Math.abs(deltaX) > dragThreshold) {
+          deltaX < 0 ? goNext() : goPrev();
+        }
+      }
+
+      function onWheel(e) {
+        if (!isEnabled || wheelLocked) return;
+        e.preventDefault();
+        wheelLocked = true;
+        e.deltaX > 0 || e.deltaY > 0 ? goNext() : goPrev();
+        setTimeout(() => { wheelLocked = false; }, 600);
+      }
+
+      function onKeyDown(e) {
+        if (!isEnabled) return;
+        if (e.key === 'ArrowRight') { e.preventDefault(); goNext(); }
+        if (e.key === 'ArrowLeft')  { e.preventDefault(); goPrev(); }
+      }
+
+      buildPager();
+      syncMode();
+      desktopQuery.addEventListener('change', syncMode);
+
+      carousel.addEventListener('pointerdown', onPointerDown);
+      carousel.addEventListener('pointerup',   onPointerUp);
+      carousel.addEventListener('wheel',       onWheel, { passive: false });
+      carousel.addEventListener('keydown',     onKeyDown);
+    })();
+  </script>
+
+</body>
+</html>
