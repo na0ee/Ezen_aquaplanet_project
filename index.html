@@ -14,12 +14,13 @@
 
   <link rel="stylesheet" href="style.css" />
 
-  <!-- Three.js importmap (ES module) -->
+  <!-- Three.js / ogl importmap (ES module) -->
   <script type="importmap">
   {
     "imports": {
       "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
-      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/",
+      "ogl": "https://cdn.jsdelivr.net/npm/ogl@1.0.11/+esm"
     }
   }
   </script>
@@ -527,12 +528,19 @@
     <main class="ticket-main">
       <section class="ticket" aria-label="티켓 예매">
 
-        <!-- 상단 빛줄기 (god rays) -->
-        <div class="ticket__rays" aria-hidden="true">
-          <img class="ticket__ray ticket__ray--1" src="assets/images/ticket-ray1.png" alt="">
-          <img class="ticket__ray ticket__ray--2" src="assets/images/ticket-ray2.png" alt="">
-          <img class="ticket__ray ticket__ray--3" src="assets/images/ticket-ray3.png" alt="">
-        </div>
+        <!-- 상단 빛줄기 (god rays) — React Bits LightRays(WebGL) 바닐라 포팅 -->
+        <div class="light-rays-container ticket__lightrays"
+             data-light-rays
+             data-rays-origin="top-center"
+             data-rays-color="#bfefff"
+             data-rays-speed="1.2"
+             data-light-spread="0.8"
+             data-ray-length="1.2"
+             data-follow-mouse="true"
+             data-mouse-influence="0.1"
+             data-noise-amount="0.1"
+             data-distortion="0.05"
+             aria-hidden="true"></div>
 
         <h1 class="ticket__title">Ticket</h1>
         <p class="ticket__sub">다양한 할인정보를 확인하고 예매하세요</p>
@@ -669,6 +677,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="main.js"></script>
   <script src="crew3d.js" type="module"></script>
+  <script src="lightrays.js" type="module"></script>
   <script src="logo3d.js?v=20260616-09" type="module"></script>
 </body>
 </html>
