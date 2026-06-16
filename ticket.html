@@ -71,9 +71,12 @@
           <span class="deco-bubble" style="--x:25%; --y:38%; --s:40px;  --d:8s;"></span>
         </div>
 
+        <!-- 지점 버블 + 예매 패널을 함께 중앙 정렬하는 무대 -->
+        <div class="ticket-stage">
+
         <!-- 지점 버블 4곳 -->
         <div class="wrap">
-          <a class="ticket-spot ticket-spot--ilsan" href="index.html#sec-booking" data-price="27,000₩" aria-label="아쿠아플라넷 일산 예매">
+          <a class="ticket-spot ticket-spot--ilsan" href="index.html#sec-booking" data-price="25,000₩" aria-label="아쿠아플라넷 일산 예매">
             <span class="ticket-spot__inner" style="--float:8s">
               <img class="ticket-spot__bubble" src="assets/images/ticket-bubble.png" alt="" aria-hidden="true">
               <img class="ticket-spot__animal" src="assets/images/ticket-ilsan.png" alt="바다코끼리">
@@ -81,7 +84,7 @@
             </span>
           </a>
 
-          <a class="ticket-spot ticket-spot--yeosu" href="index.html#sec-booking" data-price="26,000₩" aria-label="아쿠아플라넷 여수 예매">
+          <a class="ticket-spot ticket-spot--yeosu" href="index.html#sec-booking" data-price="31,000₩" aria-label="아쿠아플라넷 여수 예매">
             <span class="ticket-spot__inner" style="--float:9.5s">
               <img class="ticket-spot__bubble" src="assets/images/ticket-bubble.png" alt="" aria-hidden="true">
               <img class="ticket-spot__animal" src="assets/images/ticket-yeosu.png" alt="벨루가">
@@ -89,7 +92,7 @@
             </span>
           </a>
 
-          <a class="ticket-spot ticket-spot--jeju" href="index.html#sec-booking" data-price="24,000₩" aria-label="아쿠아플라넷 제주 예매">
+          <a class="ticket-spot ticket-spot--jeju" href="index.html#sec-booking" data-price="37,600₩" aria-label="아쿠아플라넷 제주 예매">
             <span class="ticket-spot__inner" style="--float:7s">
               <img class="ticket-spot__bubble" src="assets/images/ticket-bubble.png" alt="" aria-hidden="true">
               <img class="ticket-spot__animal" src="assets/images/ticket-jeju.png" alt="고래상어">
@@ -97,7 +100,7 @@
             </span>
           </a>
 
-          <a class="ticket-spot ticket-spot--gwanggyo" href="index.html#sec-booking" data-price="25,000₩" aria-label="아쿠아플라넷 광교 예매">
+          <a class="ticket-spot ticket-spot--gwanggyo" href="index.html#sec-booking" data-price="24,000₩" aria-label="아쿠아플라넷 광교 예매">
             <span class="ticket-spot__inner" style="--float:10.5s">
               <img class="ticket-spot__bubble" src="assets/images/ticket-bubble.png" alt="" aria-hidden="true">
               <img class="ticket-spot__animal" src="assets/images/ticket-gwanggyo.png" alt="펭귄">
@@ -111,43 +114,89 @@
           <p class="ticket-booking__price">Price <span>|&nbsp;<strong data-price-target>24,000₩</strong></span></p>
 
           <div class="ticket-booking__panel">
-            <h2 class="ticket-booking__title">Discount</h2>
+            <h2 class="ticket-booking__title">Discont</h2>
 
             <details class="ticket-discount">
-              <summary>문화누리카드 온라인 구매 할인</summary>
-              <div class="ticket-discount__body">문화누리카드로 온라인 결제 시 할인이 적용됩니다.</div>
+              <summary>연간이용권</summary>
+              <div class="ticket-discount__body">
+                <div class="ticket-discount__row">
+                  <span class="ticket-discount__name">성인</span>
+                  <span class="ticket-discount__val">99,000원</span>
+                </div>
+                <div class="ticket-discount__row">
+                  <span class="ticket-discount__name">청소년</span>
+                  <span class="ticket-discount__val">79,000원</span>
+                </div>
+                <div class="ticket-discount__row">
+                  <span class="ticket-discount__name">어린이</span>
+                  <span class="ticket-discount__val">69,000원</span>
+                </div>
+              </div>
             </details>
             <details class="ticket-discount">
               <summary>제휴·멤버십 할인</summary>
-              <div class="ticket-discount__body">제휴 카드 및 멤버십 회원 대상 할인입니다.</div>
+              <div class="ticket-discount__body">
+                <div class="ticket-discount__row">
+                  <span class="ticket-discount__name">통신사 멤버십</span>
+                  <span class="ticket-discount__val">본인 30%</span>
+                </div>
+                <div class="ticket-discount__row">
+                  <span class="ticket-discount__name">제휴 카드</span>
+                  <span class="ticket-discount__val">본인 20%</span>
+                </div>
+                <div class="ticket-discount__row">
+                  <span class="ticket-discount__name">멤버십 회원</span>
+                  <span class="ticket-discount__val">본인 15%</span>
+                </div>
+              </div>
             </details>
             <details class="ticket-discount">
               <summary>우대할인</summary>
-              <div class="ticket-discount__body">경로·장애인·국가유공자 등 우대 할인입니다.</div>
+              <div class="ticket-discount__body">
+                <div class="ticket-discount__row">
+                  <span class="ticket-discount__name">경로(만 65세 이상)</span>
+                  <span class="ticket-discount__val">30%</span>
+                </div>
+                <div class="ticket-discount__row">
+                  <span class="ticket-discount__name">장애인</span>
+                  <span class="ticket-discount__val">50%</span>
+                </div>
+                <div class="ticket-discount__row">
+                  <span class="ticket-discount__name">국가유공자</span>
+                  <span class="ticket-discount__val">50%</span>
+                </div>
+              </div>
             </details>
             <details class="ticket-discount">
-              <summary>국가 기관·관공서</summary>
-              <div class="ticket-discount__body">국가 기관 및 관공서 단체 할인입니다.</div>
+              <summary>프로모션</summary>
+              <div class="ticket-discount__body">
+                <div class="ticket-discount__row is-active">
+                  <span class="ticket-discount__name">지역민할인</span>
+                  <span class="ticket-discount__val">고양·파주40% | 인천·김포·부천30%</span>
+                </div>
+                <div class="ticket-discount__row">
+                  <span class="ticket-discount__name">세계헌혈자의 날 프로모션</span>
+                  <span class="ticket-discount__val">본인포함4인 40%</span>
+                </div>
+                <div class="ticket-discount__row">
+                  <span class="ticket-discount__name">현충일 호국보훈 프로모션</span>
+                  <span class="ticket-discount__val">본인포함4인 40%</span>
+                </div>
+                <div class="ticket-discount__row">
+                  <span class="ticket-discount__name">학생 할인</span>
+                  <span class="ticket-discount__val">본인포함4인 35%</span>
+                </div>
+              </div>
             </details>
 
             <button class="ticket-booking__btn" type="button">예매하기</button>
           </div>
         </aside>
 
+        </div><!-- /.ticket-stage -->
+
       </section>
     </main>
-
-<!-----------------------------------티켓구매페이지 - 지점 선택 -------------------------------------------->
-    <section class="select">
-      <div class="wrapSelect">
-
-      </div>
-    </section>
-
-
-
-
-
 
     <!-- FOOTER — 메인과 동일 (재사용) -->
     <footer class="footer">
@@ -161,6 +210,9 @@
     </footer>
 
   </div><!-- /.ticket-page -->
+
+  <!-- 커스텀 커서 (index.html 과 동일) -->
+  <div id="custom-cursor" aria-hidden="true"></div>
 
   <script type="module" src="./ticket.js"></script>
 </body>
