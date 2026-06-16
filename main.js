@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initBookingBgVideo();
   initGlassBubbles();
   initCrewFishMatte();
+  initProgramDolphinMatte();
   initMapMarkers();
   initTopBtn();
   initCustomCursor();
@@ -536,10 +537,14 @@ function initIntroScrollGate() {
 function initCrewFishMatte() {
   const video = document.getElementById('crew-fish-source');
   const canvas = document.getElementById('crew-fish-bg');
+  const smallCanvas = document.getElementById('crew-fish-bg-small');
+  const topCanvas = document.getElementById('crew-fish-bg-top');
   if (!video || !canvas) return;
 
   const ctx = canvas.getContext('2d', { willReadFrequently: true });
   if (!ctx) return;
+  const smallCtx = smallCanvas ? smallCanvas.getContext('2d') : null;
+  const topCtx = topCanvas ? topCanvas.getContext('2d') : null;
 
   const processWidth = 420;
   let processHeight = 236;
@@ -560,10 +565,130 @@ function initCrewFishMatte() {
     processHeight = Math.max(1, Math.round(processWidth * (vh / vw)));
     canvas.width = processWidth;
     canvas.height = processHeight;
+    if (smallCanvas) {
+      smallCanvas.width = processWidth;
+      smallCanvas.height = processHeight;
+    }
+    if (topCanvas) {
+      topCanvas.width = processWidth;
+      topCanvas.height = processHeight;
+    }
   }
 
   function sampleBackground(data, width, height) {
     const box = Math.max(6, Math.round(Math.min(width, height) * 0.055));
+    const points = [
+      [0, 0],
+      [width - box, 0],
+      [0, height - box],
+      [width - box, height - box]
+    ];
+    let r = 0, g = 0, b = 0, count = 0;
+
+    points.forEach(([sx, sy]) => {
+      for (let y = sy; y < sy + box; y += 1) {
+        for (let x = sx; x < sx + box; x += 1) {
+          const i = (y * width + x) * 4;
+          r += data[i];
+          g += data[i + 1];
+          b += data[i + 2];
+          count += 1;
+        }
+      }
+    });
+
+    return {
+      r: r / count,
+      g: g / count,
+      b: b / count
+    };
+  }
+
+  function matteFrame() {
+    if (!running) return;
+    requestAnimationFrame(matteFrame);
+
+    if (video.readyState < 2 || !video.videoWidth) return;
+    if (
+      canvas.width !== processWidth ||
+      (smallCanvas && smallCanvas.width !== processWidth) ||
+      (topCanvas && topCanvas.width !== processWidth)
+    ) resizeCanvas();
+
+    let frame;
+    try {
+      ctx.drawImage(video, 0, 0, processWidth, processHeight);
+      frame = ctx.getImageData(0, 0, processWidth, processHeight);
+    } catch (err) {
+      running = false;
+      console.warn('[crew fish] 영상 누끼 처리 중단:', err);
+      return;
+    }
+
+    const data = frame.data;
+    const bg = sampleBackground(data, processWidth, processHeight);
+
+    for (let i = 0; i < data.length; i += 4) {
+      const r = data[i];
+      const g = data[i + 1];
+      const b = data[i + 2];
+      const dist = Math.hypot(r - bg.r, g - bg.g, b - bg.b);
+      const luma = r * 0.2126 + g * 0.7152 + b * 0.0722;
+      const alpha = smoothstep(30, 112, dist) * smoothstep(10, 34, luma);
+
+      data[i + 3] = Math.round(255 * alpha);
+    }
+
+    ctx.putImageData(frame, 0, 0);
+    if (smallCtx) smallCtx.putImageData(frame, 0, 0);
+    if (topCtx) topCtx.putImageData(frame, 0, 0);
+  }
+
+  video.addEventListener('loadedmetadata', resizeCanvas, { once: true });
+  video.play().catch(() => {});
+
+  document.addEventListener('visibilitychange', () => {
+    running = !document.hidden;
+    if (running) matteFrame();
+  });
+
+  matteFrame();
+}
+
+/* =============================================================
+   0-D. PROGRAM DOLPHIN VIDEO MATTE
+   ============================================================= */
+function initProgramDolphinMatte() {
+  const video = document.getElementById('program-dolphin-source');
+  const canvas = document.getElementById('program-dolphin-bg');
+  if (!video || !canvas) return;
+
+  const ctx = canvas.getContext('2d', { willReadFrequently: true });
+  if (!ctx) return;
+
+  const processWidth = 720;
+  let processHeight = 405;
+  let running = true;
+
+  function clamp01(value) {
+    return Math.max(0, Math.min(1, value));
+  }
+
+  function smoothstep(edge0, edge1, value) {
+    const t = clamp01((value - edge0) / (edge1 - edge0));
+    return t * t * (3 - 2 * t);
+  }
+
+  function resizeCanvas() {
+    const vw = video.videoWidth || 1280;
+    const vh = video.videoHeight || 720;
+    processHeight = Math.max(1, Math.round(processWidth * (vh / vw)));
+    canvas.width = processWidth;
+    canvas.height = processHeight;
+  }
+
+  function sampleBackground(data, width, height) {
+    const box = Math.max(8, Math.round(Math.min(width, height) * 0.065));
     const points = [
       [0, 0],
       [width - box, 0],
@@ -604,7 +729,7 @@ function initCrewFishMatte() {
       frame = ctx.getImageData(0, 0, processWidth, processHeight);
     } catch (err) {
       running = false;
-      console.warn('[crew fish] 영상 누끼 처리 중단:', err);
+      console.warn('[program dolphin] video matte stopped:', err);
       return;
     }
 
@@ -617,7 +742,10 @@ function initCrewFishMatte() {
       const b = data[i + 2];
       const dist = Math.hypot(r - bg.r, g - bg.g, b - bg.b);
       const luma = r * 0.2126 + g * 0.7152 + b * 0.0722;
-      const alpha = smoothstep(30, 112, dist) * smoothstep(10, 34, luma);
+      const blueDelta = Math.max(0, b - Math.max(r, g));
+      const matte = smoothstep(24, 104, dist) * smoothstep(12, 38, luma);
+      const waterSuppression = 1 - smoothstep(20, 70, blueDelta) * (1 - matte);
+      const alpha = clamp01(matte * waterSuppression);
 
       data[i + 3] = Math.round(255 * alpha);
     }
@@ -960,6 +1088,24 @@ function initLocationSequence() {
    ============================================================= */
 function initBookingSequence() {
   initStickySequenceSection('sec-booking');
+
+  const section = document.getElementById('sec-booking');
+  if (!section) return;
+
+  const restartBookingVideos = () => {
+    section.querySelectorAll('.booking-bg-video').forEach(video => {
+      video.style.setProperty('--booking-video-loop-opacity', '1');
+      video.style.animation = 'none';
+      void video.offsetWidth;
+      video.style.animation = '';
+    });
+  };
+
+  const observer = new IntersectionObserver(([entry]) => {
+    if (entry.isIntersecting) restartBookingVideos();
+  }, { threshold: 0.16 });
+
+  observer.observe(section);
 }
 
 function initBookingBgVideo() {
@@ -969,6 +1115,39 @@ function initBookingBgVideo() {
       video.playbackRate = rate;
       video.defaultPlaybackRate = rate;
     }
+
+    const restartMotion = () => {
+      video.style.setProperty('--booking-video-loop-opacity', '1');
+      video.style.animation = 'none';
+      try {
+        video.currentTime = 0;
+      } catch (_) {}
+      void video.offsetWidth;
+      video.style.animation = '';
+    };
+
+    const section = video.closest('.section--booking');
+    if (section) {
+      const observer = new IntersectionObserver(([entry]) => {
+        if (entry.isIntersecting) restartMotion();
+      }, { threshold: 0.16 });
+
+      observer.observe(section);
+    }
+
+    const fadeSeconds = Number(video.dataset.loopFadeSeconds || 0.9);
+    const updateLoopFade = () => {
+      const duration = video.duration;
+      if (Number.isFinite(duration) && duration > 0 && fadeSeconds > 0) {
+        const edgeDistance = Math.min(video.currentTime, Math.max(duration - video.currentTime, 0));
+        const rawOpacity = Math.min(Math.max(edgeDistance / fadeSeconds, 0), 1);
+        const easedOpacity = rawOpacity * rawOpacity * (3 - 2 * rawOpacity);
+        video.style.setProperty('--booking-video-loop-opacity', easedOpacity.toFixed(3));
+      }
+      requestAnimationFrame(updateLoopFade);
+    };
+
+    updateLoopFade();
   });
 }
 
