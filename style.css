@@ -7,6 +7,11 @@
    1. DESIGN TOKENS (CSS Custom Properties)
    ------------------------------------------------------------- */
 :root {
+  /* 3D 로고 비율 — fullLogo.glb 레퍼런스 기준: 심볼 폭 ≈ 텍스트 폭의 0.61 */
+  --logo3d-size:   min(62vmin, 580px);   /* 심볼 캔버스 */
+  --logo3d-text-w: min(77vmin, 720px);   /* 글자 캔버스 가로 */
+  --logo3d-text-h: min(18vmin, 168px);   /* 글자 캔버스 세로 */
+
   /* Fonts */
   --font-en:    "Poppins", sans-serif;
   --font-serif: "EB Garamond", serif;
@@ -547,19 +552,49 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   transform: translate(-50%, -50%);
 }
 
+/* 3D 심볼 로고가 와서 안착하는 '빈 슬롯' — 보이지 않지만 크기/위치는 차지. */
 .gnb__logo {
   width: 60px;
   height: auto;
   object-fit: contain;
 }
 
+/* ---- 3D 로고 캔버스 래퍼 — 화면 중앙 고정, 내부 심볼만 스크롤로 이동 ---- */
+.logo3d-wrap {
+  position: fixed;
+  top: 33%; left: 50%;
+  width: var(--logo3d-size);
+  height: var(--logo3d-size);
+  margin-left: calc(var(--logo3d-size) / -2);
+  margin-top:  calc(var(--logo3d-size) / -2);
+  transform-origin: center center;   /* 가운데 기준 축소 */
+  pointer-events: none;
+  z-index: 1500;                     /* gnb(1000) 위 → 헤더에 가려지지 않고 안착 */
+}
+/* ---- 'aqua planet' 글자 캔버스 — 위치/크기 고정, 페이드만 (GSAP transform 없음) ---- */
+.logo3d-text {
+  position: fixed;
+  top: 61%; left: 50%;
+  width: var(--logo3d-text-w);
+  height: var(--logo3d-text-h);
+  margin-left: calc(var(--logo3d-text-w) / -2);
+  margin-top:  calc(var(--logo3d-text-h) / -2);
+  pointer-events: none;
+  z-index: 1490;
+  will-change: opacity;
+}
+.logo3d-wrap canvas,
+.logo3d-text canvas { display: block; width: 100% !important; height: 100% !important; }
+
 
 /* -------------------------------------------------------------
    8. LOGO / HERO SECTION
    ------------------------------------------------------------- */
+/* 로고 섹션 = 스크롤 트랜지션 길이 (스크럽 거리 확보).
+   이 구간을 스크롤하는 동안 3D 로고가 흩어졌다 모이며 헤더로 안착한다. */
 .section--logo {
-  aspect-ratio: 16 / 9;
-  min-height: 100vh;
+  min-height: 150vh;
+  min-height: 150svh;   /* iOS 주소창 변동 대응 */
   isolation: isolate;
   overflow: hidden;
 }
@@ -568,6 +603,11 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   inset: 0;
   height: 100%;
   object-position: center top;
+}
+/* 비디오 배경은 첫 화면(100vh)에만 고정 노출, 이후 스크롤로 자연 이탈 */
+.section--logo .section__video-bg {
+  height: 100vh;
+  height: 100svh;
 }
 
 

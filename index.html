@@ -61,6 +61,11 @@
     </div>
   </header>
 
+  <!-- 3D 심볼 로고 캔버스 — 화면 중앙 고정, 스크롤 시 헤더 슬롯으로 이동/축소 (logo3d.js) -->
+  <div class="logo3d-wrap" aria-hidden="true"></div>
+  <!-- 'aqua planet' 글자 캔버스 — 위치/크기 고정, 트랜지션 중 페이드아웃만 (logo3d.js) -->
+  <div class="logo3d-text" aria-hidden="true"></div>
+
   <main id="main">
 
     <section id="sec-logo" class="section section--logo" aria-label="Aqua Planet logo">
@@ -524,7 +529,9 @@
   <div id="custom-cursor" aria-hidden="true"></div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="main.js"></script>
   <script src="crew3d.js" type="module"></script>
+  <script src="logo3d.js?v=20260616-09" type="module"></script>
 </body>
 </html>
