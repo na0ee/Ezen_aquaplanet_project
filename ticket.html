@@ -11,17 +11,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,500&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet" />
-
   <link rel="stylesheet" href="style.css" />
-
-  <!-- ogl importmap (LightRays WebGL) -->
-  <script type="importmap">
-  {
-    "imports": {
-      "ogl": "https://cdn.jsdelivr.net/npm/ogl@1.0.11/+esm"
-    }
-  }
-  </script>
+  
 </head>
 <body>
 
@@ -53,69 +44,36 @@
         </a>
       </div>
     </header>
-
+<!--------------------------------------- 티켓구매페이지 - 지점별 ---------------------------------------------->
     <main class="ticket-main">
       <section class="ticket" aria-label="티켓 예매">
 
-        <!-- 상단 빛줄기 (god rays) — React Bits LightRays(WebGL) 바닐라 포팅 -->
-        <div class="light-rays-container ticket__lightrays"
-             data-light-rays
-             data-rays-origin="top-center"
-             data-rays-color="#ffffff"
-             data-rays-speed="1.4"
-             data-light-spread="0.3"
-             data-ray-length="2.4"
-             data-follow-mouse="false"
-             data-mouse-influence="0"
-             data-noise-amount="0.04"
-             data-distortion="0"
-             data-pulsating="false"
-             data-intensity="2.6"
-             data-sweep-speed="0.6"
-             data-sweep-amount="0.5"
-             aria-hidden="true"></div>
+        <div  id="light-rays"></div>
 
         <h1 class="ticket__title">Ticket</h1>
         <p class="ticket__sub">다양한 할인정보를 확인하고 예매하세요</p>
 
         <!-- 떠다니는 장식 거품 -->
         <div class="ticket__decor" aria-hidden="true">
-          <span class="deco-bubble" style="--x:10%;  --y:22%; --s:80px;  --d:7s;"></span>
-          <span class="deco-bubble" style="--x:13%; --y:18%; --s:25px;  --d:9s;"></span>
-          <span class="deco-bubble" style="--x:20%; --y:26%; --s:150px;  --d:8s;"></span>
-          <span class="deco-bubble" style="--x:5%;  --y:74%; --s:70px;  --d:11s;"></span>
-          <span class="deco-bubble" style="--x:18%; --y:33%; --s:20px;  --d:6.5s;"></span>
-          <span class="deco-bubble" style="--x:32%; --y:20%; --s:20px;  --d:6.5s;"></span>
+          <span class="deco-bubble" style="--x:10%;  --y:22%; --s:65px;  --d:7s;"></span>
+          <span class="deco-bubble" style="--x:13%; --y:18%; --s:20px;  --d:9s;"></span>
+          <span class="deco-bubble" style="--x:20%; --y:26%; --s:120px;  --d:8s;"></span>
+          <span class="deco-bubble" style="--x:10%;  --y:75%; --s:25px;  --d:11s;"></span>
           <span class="deco-bubble" style="--x:36%; --y:18%; --s:50px;  --d:6.5s;"></span>
-          <span class="deco-bubble" style="--x:12%; --y:48%; --s:30px;  --d:6.5s;"></span>
-          <span class="deco-bubble" style="--x:8%; --y:45%; --s:50px;  --d:6.5s;"></span>
-          <span class="deco-bubble" style="--x:33%; --y:78%; --s:100px;  --d:10s;"></span>
-          <span class="deco-bubble" style="--x:38%; --y:73%; --s:30px;  --d:10s;"></span>
-          <span class="deco-bubble" style="--x:35%; --y:68%; --s:45px;  --d:10s;"></span>
-          <span class="deco-bubble" style="--x:50%; --y:60%; --s:20px;  --d:10s;"></span>
-          <span class="deco-bubble" style="--x:38%; --y:63%; --s:20px;  --d:10s;"></span>
+          <span class="deco-bubble" style="--x:33%; --y:75%; --s:80px;  --d:10s;"></span>
           <span class="deco-bubble" style="--x:50%; --y:52%; --s:100px; --d:12s;"></span>
-          <span class="deco-bubble" style="--x:55%; --y:32%; --s:20px; --d:12s;"></span>
-          <span class="deco-bubble" style="--x:58%; --y:28%; --s:50px; --d:12s;"></span>
-          <span class="deco-bubble" style="--x:60%; --y:35%; --s:20px; --d:12s;"></span>
-          <span class="deco-bubble" style="--x:90%; --y:34%; --s:20px;  --d:8.5s;"></span>
           <span class="deco-bubble" style="--x:49%; --y:72%; --s:50px;  --d:7.5s;"></span>
-          <span class="deco-bubble" style="--x:68%; --y:20%; --s:130px;  --d:9s;"></span>
+          <span class="deco-bubble" style="--x:63%; --y:26%; --s:130px;  --d:9s;"></span>
           <span class="deco-bubble" style="--x:88%; --y:23%; --s:55px;  --d:7.5s;"></span>
-          <span class="deco-bubble" style="--x:88%; --y:48%; --s:15px;  --d:7.5s;"></span>
           <span class="deco-bubble" style="--x:88%; --y:52%; --s:100px;  --d:10.5s;"></span>
-          <span class="deco-bubble" style="--x:80%; --y:60%; --s:60px;  --d:10.5s;"></span>
-          <span class="deco-bubble" style="--x:84%; --y:60%; --s:25px;  --d:7.5s;"></span>
           <span class="deco-bubble" style="--x:84%; --y:60%; --s:35px;  --d:10.5s;"></span>
-          <span class="deco-bubble" style="--x:75%; --y:82%; --s:44px;  --d:7s;"></span>
-          <span class="deco-bubble" style="--x:25%; --y:42%; --s:40px;  --d:8s;"></span>
-          <span class="deco-bubble" style="--x:92%; --y:18%; --s:30px;  --d:9.5s;"></span>
-          <span class="deco-bubble" style="--x:51%; --y:79%; --s:15px;  --d:7.5s;"></span>
+          <span class="deco-bubble" style="--x:75%; --y:82%; --s:110px;  --d:7s;"></span>
+          <span class="deco-bubble" style="--x:25%; --y:38%; --s:40px;  --d:8s;"></span>
         </div>
 
         <!-- 지점 버블 4곳 -->
         <div class="wrap">
-          <a class="ticket-spot ticket-spot--ilsan" href="index.html#sec-booking" aria-label="아쿠아플라넷 일산 예매">
+          <a class="ticket-spot ticket-spot--ilsan" href="index.html#sec-booking" data-price="27,000₩" aria-label="아쿠아플라넷 일산 예매">
             <span class="ticket-spot__inner" style="--float:8s">
               <img class="ticket-spot__bubble" src="assets/images/ticket-bubble.png" alt="" aria-hidden="true">
               <img class="ticket-spot__animal" src="assets/images/ticket-ilsan.png" alt="바다코끼리">
@@ -123,7 +81,7 @@
             </span>
           </a>
 
-          <a class="ticket-spot ticket-spot--yeosu" href="index.html#sec-booking" aria-label="아쿠아플라넷 여수 예매">
+          <a class="ticket-spot ticket-spot--yeosu" href="index.html#sec-booking" data-price="26,000₩" aria-label="아쿠아플라넷 여수 예매">
             <span class="ticket-spot__inner" style="--float:9.5s">
               <img class="ticket-spot__bubble" src="assets/images/ticket-bubble.png" alt="" aria-hidden="true">
               <img class="ticket-spot__animal" src="assets/images/ticket-yeosu.png" alt="벨루가">
@@ -131,7 +89,7 @@
             </span>
           </a>
 
-          <a class="ticket-spot ticket-spot--jeju" href="index.html#sec-booking" aria-label="아쿠아플라넷 제주 예매">
+          <a class="ticket-spot ticket-spot--jeju" href="index.html#sec-booking" data-price="24,000₩" aria-label="아쿠아플라넷 제주 예매">
             <span class="ticket-spot__inner" style="--float:7s">
               <img class="ticket-spot__bubble" src="assets/images/ticket-bubble.png" alt="" aria-hidden="true">
               <img class="ticket-spot__animal" src="assets/images/ticket-jeju.png" alt="고래상어">
@@ -139,17 +97,57 @@
             </span>
           </a>
 
-          <a class="ticket-spot ticket-spot--gwanggyo" href="index.html#sec-booking" aria-label="아쿠아플라넷 광교 예매">
+          <a class="ticket-spot ticket-spot--gwanggyo" href="index.html#sec-booking" data-price="25,000₩" aria-label="아쿠아플라넷 광교 예매">
             <span class="ticket-spot__inner" style="--float:10.5s">
               <img class="ticket-spot__bubble" src="assets/images/ticket-bubble.png" alt="" aria-hidden="true">
               <img class="ticket-spot__animal" src="assets/images/ticket-gwanggyo.png" alt="펭귄">
               <span class="ticket-spot__label">Gwanggyo</span>
             </span>
           </a>
-        </div><!-- /.wrap -->
+        </div>
+
+        <!-- 지점 선택 시 나타나는 가격 / 할인 패널 -->
+        <aside class="ticket-booking" aria-hidden="true">
+          <p class="ticket-booking__price">Price <span>|&nbsp;<strong data-price-target>24,000₩</strong></span></p>
+
+          <div class="ticket-booking__panel">
+            <h2 class="ticket-booking__title">Discount</h2>
+
+            <details class="ticket-discount">
+              <summary>문화누리카드 온라인 구매 할인</summary>
+              <div class="ticket-discount__body">문화누리카드로 온라인 결제 시 할인이 적용됩니다.</div>
+            </details>
+            <details class="ticket-discount">
+              <summary>제휴·멤버십 할인</summary>
+              <div class="ticket-discount__body">제휴 카드 및 멤버십 회원 대상 할인입니다.</div>
+            </details>
+            <details class="ticket-discount">
+              <summary>우대할인</summary>
+              <div class="ticket-discount__body">경로·장애인·국가유공자 등 우대 할인입니다.</div>
+            </details>
+            <details class="ticket-discount">
+              <summary>국가 기관·관공서</summary>
+              <div class="ticket-discount__body">국가 기관 및 관공서 단체 할인입니다.</div>
+            </details>
+
+            <button class="ticket-booking__btn" type="button">예매하기</button>
+          </div>
+        </aside>
 
       </section>
     </main>
+
+<!-----------------------------------티켓구매페이지 - 지점 선택 -------------------------------------------->
+    <section class="select">
+      <div class="wrapSelect">
+
+      </div>
+    </section>
+
+
+
+
+
 
     <!-- FOOTER — 메인과 동일 (재사용) -->
     <footer class="footer">
@@ -164,6 +162,6 @@
 
   </div><!-- /.ticket-page -->
 
-  <script src="lightrays.js" type="module"></script>
+  <script type="module" src="./ticket.js"></script>
 </body>
 </html>
