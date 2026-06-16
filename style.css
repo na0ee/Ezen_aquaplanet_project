@@ -2457,6 +2457,29 @@ body.ticket-open { overflow: hidden; }
   background: #22B2EA;
 }
 
+/* 하단 흰색 그라데이션 —
+   · 초기(버블 선택 전) : 완전 투명 → 단색 배경만 보임
+   · 버블 터진 뒤(is-selected) : 스크롤 모션과 함께 서서히 페이드인 */
+.ticket::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 14%;
+  min-height: 90px;
+  background: linear-gradient(to bottom, transparent 0%, #ffffff 100%);
+  z-index: 9;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.9s ease 0.2s;   /* 버블 터짐 직후 0.2s 딜레이 후 등장 */
+}
+
+/* 지점 선택 후 하단 흰색 그라데이션 페이드인 */
+.ticket.is-selected::after {
+  opacity: 1;
+}
+
 #light-rays{
     width:100%;
     height:600px;
@@ -2467,9 +2490,18 @@ body.ticket-open { overflow: hidden; }
     overflow:hidden;
     z-index:1;
     opacity:0.8;
+    /* Mac/Safari 등에서 WebGL alpha 합성 오류로 흰색으로 보이지 않도록
+       컨테이너 배경을 #22B2EA로 고정. 실제 빛 이펙트만 위에 합성됨 */
+    background: #22B2EA;
     /* 하단 경계선이 보이지 않도록 아래로 갈수록 부드럽게 사라지게 마스킹 */
     -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 55%, transparent 100%);
             mask-image: linear-gradient(to bottom, #000 0%, #000 55%, transparent 100%);
+}
+
+/* WebGL 캔버스는 빛 이펙트만 오버레이 — 배경이 흰색으로 새어나오지 않도록 screen 합성 */
+#light-rays canvas {
+    display: block;
+    mix-blend-mode: screen;
 }
 
 
@@ -2506,7 +2538,7 @@ body.ticket-open { overflow: hidden; }
 }
 
 /* --- 떠다니는 장식 거품 --- */
-.ticket__decor { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.ticket__decor { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
 .deco-bubble {
   position: absolute;
   left: var(--x);
@@ -2644,6 +2676,18 @@ body.ticket-open { overflow: hidden; }
   animation: ticket-bubble-burst 0.6s ease-out forwards;
 }
 
+/* 지점 선택 시 스테이지 스크롤-다운 효과
+   · 콘텐츠가 위에서 아래로 흘러내리듯 등장 */
+@keyframes stage-scroll-reveal {
+  0%   { transform: translateY(-36px); opacity: 0;   }
+  40%  { opacity: 1; }
+  100% { transform: translateY(0);    opacity: 1;   }
+}
+
+.ticket-stage.scroll-reveal {
+  animation: stage-scroll-reveal 1s cubic-bezier(.22, .61, .36, 1) both;
+}
+
 /* 선택되지 않은 지점: 윗줄로 올라가며 축소 */
 .ticket.is-selected .ticket-spot.is-top {
   top: 4% !important;
@@ -2761,10 +2805,10 @@ body.ticket-open { overflow: hidden; }
 
 /* 할인 드롭다운 — 흰색 0.8, radius 3px, 12px 텍스트 */
 .ticket-discount {
+  position: relative;                 /* 펼침 목록(absolute)의 기준 */
   background: rgba(255, 255, 255, 0.8);
   border-radius: 3px;
   margin-bottom: 18px;
-  overflow: hidden;
 }
 .ticket-discount > summary {
   list-style: none;
@@ -2793,10 +2837,17 @@ body.ticket-open { overflow: hidden; }
   flex: none;
 }
 .ticket-discount[open] > summary::after { transform: rotate(-135deg); margin-top: 2px; }
-/* 클릭 시 아래로 펼쳐지는 드롭다운 목록 */
+/* 클릭 시 아래로 펼쳐지는 드롭다운 목록 — absolute 로 아래 항목들을 덮음 */
 .ticket-discount__body {
+  position: absolute;
+  top: calc(100% + 5px);
+  left: 0;
+  right: 0;
+  z-index: 20;
+  background: #fff;
+  border-radius: 6px;
   padding: 4px 0 6px;
-  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 12px 28px rgba(0, 40, 70, 0.22);
 }
 .ticket-discount[open] > .ticket-discount__body {
   animation: ticket-dropdown 0.22s ease-out;
@@ -2822,12 +2873,13 @@ body.ticket-open { overflow: hidden; }
 }
 .ticket-discount__name {
   color: #2b2b2b;
-  white-space: nowrap;
+  word-break: keep-all;   /* 한글 단어 단위 줄바꿈 (긴 항목명 대응) */
 }
 .ticket-discount__val {
   color: #5b6671;
   white-space: nowrap;
   flex: none;
+  text-align: right;
 }
 .ticket-discount__row.is-active .ticket-discount__name,
 .ticket-discount__row.is-active .ticket-discount__val { color: #fff; }

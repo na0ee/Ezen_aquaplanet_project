@@ -116,78 +116,8 @@
           <div class="ticket-booking__panel">
             <h2 class="ticket-booking__title">Discont</h2>
 
-            <details class="ticket-discount">
-              <summary>연간이용권</summary>
-              <div class="ticket-discount__body">
-                <div class="ticket-discount__row">
-                  <span class="ticket-discount__name">성인</span>
-                  <span class="ticket-discount__val">99,000원</span>
-                </div>
-                <div class="ticket-discount__row">
-                  <span class="ticket-discount__name">청소년</span>
-                  <span class="ticket-discount__val">79,000원</span>
-                </div>
-                <div class="ticket-discount__row">
-                  <span class="ticket-discount__name">어린이</span>
-                  <span class="ticket-discount__val">69,000원</span>
-                </div>
-              </div>
-            </details>
-            <details class="ticket-discount">
-              <summary>제휴·멤버십 할인</summary>
-              <div class="ticket-discount__body">
-                <div class="ticket-discount__row">
-                  <span class="ticket-discount__name">통신사 멤버십</span>
-                  <span class="ticket-discount__val">본인 30%</span>
-                </div>
-                <div class="ticket-discount__row">
-                  <span class="ticket-discount__name">제휴 카드</span>
-                  <span class="ticket-discount__val">본인 20%</span>
-                </div>
-                <div class="ticket-discount__row">
-                  <span class="ticket-discount__name">멤버십 회원</span>
-                  <span class="ticket-discount__val">본인 15%</span>
-                </div>
-              </div>
-            </details>
-            <details class="ticket-discount">
-              <summary>우대할인</summary>
-              <div class="ticket-discount__body">
-                <div class="ticket-discount__row">
-                  <span class="ticket-discount__name">경로(만 65세 이상)</span>
-                  <span class="ticket-discount__val">30%</span>
-                </div>
-                <div class="ticket-discount__row">
-                  <span class="ticket-discount__name">장애인</span>
-                  <span class="ticket-discount__val">50%</span>
-                </div>
-                <div class="ticket-discount__row">
-                  <span class="ticket-discount__name">국가유공자</span>
-                  <span class="ticket-discount__val">50%</span>
-                </div>
-              </div>
-            </details>
-            <details class="ticket-discount">
-              <summary>프로모션</summary>
-              <div class="ticket-discount__body">
-                <div class="ticket-discount__row is-active">
-                  <span class="ticket-discount__name">지역민할인</span>
-                  <span class="ticket-discount__val">고양·파주40% | 인천·김포·부천30%</span>
-                </div>
-                <div class="ticket-discount__row">
-                  <span class="ticket-discount__name">세계헌혈자의 날 프로모션</span>
-                  <span class="ticket-discount__val">본인포함4인 40%</span>
-                </div>
-                <div class="ticket-discount__row">
-                  <span class="ticket-discount__name">현충일 호국보훈 프로모션</span>
-                  <span class="ticket-discount__val">본인포함4인 40%</span>
-                </div>
-                <div class="ticket-discount__row">
-                  <span class="ticket-discount__name">학생 할인</span>
-                  <span class="ticket-discount__val">본인포함4인 35%</span>
-                </div>
-              </div>
-            </details>
+            <!-- 할인 아코디언 — 선택한 지점에 따라 ticket.js 가 내용을 채움 -->
+            <div class="ticket-discount-list"></div>
 
             <button class="ticket-booking__btn" type="button">예매하기</button>
           </div>
@@ -197,6 +127,16 @@
 
       </section>
     </main>
+
+    <!-- =========================================================
+         스크롤 다운 구역 — 흰색 → #22B2EA 그라데이션
+         (티켓 섹션 하단 흰색 그라데이션과 자연스럽게 이어짐)
+         로고 영역은 추후 main 페이지 업데이트 시 추가 예정
+    ========================================================== -->
+    <section class="ticket-scroll-below" aria-label="하단 영역">
+      <!-- 로고: 추후 추가 -->
+      <div class="ticket-scroll-below__logo-placeholder" aria-hidden="true"></div>
+    </section>
 
     <!-- FOOTER — 메인과 동일 (재사용) -->
     <footer class="footer">
