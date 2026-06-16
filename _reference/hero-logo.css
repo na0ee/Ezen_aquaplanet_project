@@ -1,0 +1,61 @@
+:root {
+  --logo-size: min(60vmin, 560px);   /* 히어로 심볼 크기 */
+  --header-logo-size: 48px;          /* 헤더 로고 크기 (최종 안착 크기) */
+  --header-height: 64px;
+}
+
+/* ---- 헤더: 상단 고정 (슬롯 좌표 안정용) ---- */
+.site-header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--header-height);
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  z-index: 10;
+}
+/* 심볼이 와서 안착할 '빈 자리'. 보이지 않지만 크기/위치는 차지 */
+.header-logo-slot {
+  width: var(--header-logo-size);
+  height: var(--header-logo-size);
+}
+
+/* ---- 심볼 캔버스 래퍼: 화면 중앙 고정 (transform은 GSAP이 소유) ---- */
+.symbol-wrap {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: var(--logo-size);
+  height: var(--logo-size);
+  /* transform 대신 margin으로 중앙 정렬 → GSAP이 x/y/scale 자유롭게 사용 */
+  margin-left: calc(var(--logo-size) / -2);
+  margin-top: calc(var(--logo-size) / -2);
+  transform-origin: center center;   /* 가운데 기준 축소 */
+  pointer-events: none;
+  z-index: 20;                        /* 헤더 위에 안착 */
+}
+.symbol-wrap canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* ---- 글자: 심볼 아래, 화면 고정 ---- */
+.wordmark {
+  position: fixed;
+  top: calc(50% + var(--logo-size) / 2);
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+  z-index: 15;
+}
+.wordmark img {
+  display: block;
+  width: min(50vmin, 460px);
+  height: auto;
+}
+
+/* ---- 스크롤 거리 = 트랜지션 길이 ---- */
+#hero {
+  height: 150vh;     /* 100vh ~ 200vh 로 '스크롤 한 번' 느낌 조절 */
+  height: 150dvh;    /* iOS 주소창 변동 대응 (dvh 지원 시 우선 적용) */
+}
