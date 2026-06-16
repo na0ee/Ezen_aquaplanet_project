@@ -8,7 +8,7 @@
    ------------------------------------------------------------- */
 :root {
   /* 3D 로고 비율 — fullLogo.glb 레퍼런스 기준: 심볼 폭 ≈ 텍스트 폭의 0.61 */
-  --logo3d-size:   min(82vmin, 800px);   /* 심볼 캔버스 (더 키움) */
+  --logo3d-size:   min(130vmin, 1040px);   /* 심볼 캔버스 (더 키움) */
   --logo3d-text-w: min(90vmin, 860px);   /* 글자 캔버스 가로 */
   --logo3d-text-h: min(21vmin, 196px);   /* 글자 캔버스 세로 */
 
@@ -563,12 +563,18 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   width: 60px;
   height: auto;
   object-fit: contain;
+  opacity: 0;
+  transition: opacity 0.16s ease;
+}
+
+body.is-logo-at-header .gnb__logo {
+  opacity: 1;
 }
 
 /* ---- 3D 로고 캔버스 래퍼 — 화면 중앙 고정, 내부 심볼만 스크롤로 이동 ---- */
 .logo3d-wrap {
   position: fixed;
-  top: 39%; left: 50%;
+  top: 40%; left: 50%;
   width: var(--logo3d-size);
   height: var(--logo3d-size);
   margin-left: calc(var(--logo3d-size) / -2);
@@ -576,11 +582,19 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   transform-origin: center center;   /* 가운데 기준 축소 */
   pointer-events: none;
   z-index: 1500;                     /* gnb(1000) 위 → 헤더에 가려지지 않고 안착 */
+  opacity: 1;
+  filter: none;
+  transition: opacity 0.14s ease, filter 0.12s ease;
+}
+
+.logo3d-wrap.is-logo-docking {
+  opacity: 0;
+  filter: brightness(0) invert(1);
 }
 /* ---- 'aqua planet' 글자 캔버스 — 위치/크기 고정, 페이드만 (GSAP transform 없음) ---- */
 .logo3d-text {
   position: fixed;
-  top: 77%; left: 50%;
+  top: 80%; left: 50%;
   width: var(--logo3d-text-w);
   height: var(--logo3d-text-h);
   margin-left: calc(var(--logo3d-text-w) / -2);
