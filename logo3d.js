@@ -32,25 +32,98 @@ if (gsap && ScrollTrigger) gsap.registerPlugin(ScrollTrigger);
 --------------------------------------------------------------- */
 const SYMBOL_SRC    = 'assets/models/new_logo_symbol.glb';
 const TEXT_SRC      = 'assets/models/logoTxt_ani.glb';
+const REFRACT_VIDEO_SRC = 'assets/images/logo_map.mp4';
 const SCATTER_PAD   = 1.52;   // 코드 scatter/swim까지 보이도록 카메라 여백 확보
-const TEXT_PADDING  = 1.12;   // 유리 두께/하이라이트가 잘리지 않도록 내부 카메라 여백 확보
+const TEXT_PADDING  = 1.02;   // 유리 두께/하이라이트가 잘리지 않도록 내부 카메라 여백 확보
 const TEXT_FADE   = [0.4, 0.8];     // 이 progress 구간에서 글자 페이드아웃
-const LOGO_TINT   = 0xbfe9ff;       // 유리 살짝 아쿠아 틴트
+const HEADER_DOCK_PROGRESS = 0.985;  // 3D 심볼이 헤더 슬롯에 사실상 도착한 지점
+const LOGO_TINT   = 0xbfe9ff;       // 유리 살짝 아쿠아 틴트 (vivid 프리셋 글자색)
 const ABBERATION  = 1.2;            // air.inc식 색수차 림 강도 (0=없음, 0.3~1.2 권장)
-const IRIDESCENCE = 0.8;            // 박막 간섭 무지개 세기 (0~1)
-const FLOAT_AMPLITUDE = 0.08;        // 생물별 위아래 둥둥 범위
+
+/* ---------------------------------------------------------------
+   유리 룩 프리셋 — 한 줄(GLASS_STYLE)로 전환. 비교/되돌리기 쉽게.
+     'vivid' : 처음 버전 — 무지개 화려 (비비드 오로라 환경맵 + 강한 iridescence/sheen)
+     'clean' : 클린 버전 — 화이트-실버 (밝은 하늘 환경, air.inc 레퍼런스)
+     'ice'   : 얼음 버전 — 아이스 블루 쿨 (차가운 블루 환경)
+--------------------------------------------------------------- */
+const GLASS_STYLE = 'glass';   // ← 'vivid' | 'clean' | 'ice' | 'glass'(굴절) 전환
+const GLASS_PRESETS = {
+  // ① 처음 버전 — 무지개 화려
+  vivid: {
+    envMode: 'aurora',                                                       // 비비드 무지개 환경맵
+    symbol: { color: 0xeaf7ff, iridescence: 1.0,  sheen: 0.4,  envMapIntensity: 2.0, emissive: 0.24, opacity: 0.28 },
+    text:   { color: LOGO_TINT, iridescence: 0.8, emissive: 0.10, opacity: 0.18 },
+    rimGain: 1.3, edge: 1.2, lumAlpha: 0.04,
+  },
+  // ② 클린 버전 — 화이트-실버
+  clean: {
+    envMode: 'sky',                                                          // 흰색~연한 하늘 환경맵
+    symbol: { color: 0xeaf7ff, iridescence: 0.45, sheen: 0.15, envMapIntensity: 1.6, emissive: 0.13, opacity: 0.28 },
+    text:   { color: 0xeef8ff, iridescence: 0.4, emissive: 0.11, opacity: 0.18 },
+    rimGain: 0.9, edge: 1.2, lumAlpha: 0.02,                                 // 클린은 밝은 흰 테두리 강조
+  },
+  // ③ 얼음 버전 — 아이스 블루 쿨
+  ice: {
+    envMode: 'ice',                                                          // 차가운 블루 환경맵
+    symbol: { color: 0xcfe6ff, iridescence: 0.55, sheen: 0.2,  envMapIntensity: 1.9, emissive: 0.12, opacity: 0.28 },
+    text:   { color: 0xd6ecff, iridescence: 0.5, emissive: 0.10, opacity: 0.18 },
+    rimGain: 1.0, edge: 0.8, lumAlpha: 0.20,
+  },
+  // ④ 굴절 유리 — 배경 비디오를 스크린스페이스로 굴절 (air.inc 정석에 가장 근접)
+  glass: {
+    envMode: 'aurora',                                                          // 반사용 환경맵(흰 하늘)
+    refract: true,                                                           // ★ 스크린스페이스 굴절 on
+    refractAmt: 0.1,                                                        // 굴절 왜곡 강도 — 너무 높으면 모서리가 크리스탈처럼 쪼개짐
+    refractMix: 0.92,                                                       // 배경 굴절 비중 (1.0=배경만, 낮을수록 유리색↑)
+    waveAmt: 0.012,                                                         // 시간 기반 일렁임 — 메시 무관 부드러운 sine 출렁임 (움직임 강조)
+    shadow: 0.75,                                                           // 내부 흡수 그림자 — 평면 GLB에서도 확실히 보이게 강하게
+    shadowColor: 0x006fbe,                                                   // 깊은 청색 코어 그림자
+    coreDarken: 0.46,                                                        // 중앙/겹침부 어둡게 눌러 입체감 보강
+    bandDarken: 0.6,                                                        // 화면 좌표 기반 곡면 그림자 밴드
+    rimDarkColor: 0x0b72c8,                                                   // 림 그라디언트 시작색
+    rimWhitePoint: 0.76,                                                      // 높을수록 흰 림 영역이 얇아짐
+    mapContrast: 2.2,                                                        // 매핑 비디오 대비
+    mapSaturation: 1.24,                                                      // 매핑 비디오 채도
+    mapBrightness: -0.08,                                                     // 매핑 비디오 밝기 오프셋
+    // opacity 낮춰 더 투명하게 — 뒤 배경이 비치고 굴절 배경이 겹쳐 맑은 유리감.
+    symbol: { color: 0xffffff, iridescence: 0.3, sheen: 0.0, envMapIntensity: 1.2, emissive: 0.0, opacity: 0.4},
+    text:   { color: 0xffffff, iridescence: 0.3, emissive: 0.0, opacity: 0.2},
+    rimGain: 0.5, edge: 0.6, lumAlpha: 0.06,                                 // lumAlpha 낮춰 내부 투과 유지
+  },
+};
+const STYLE = GLASS_PRESETS[GLASS_STYLE];
+/* 굴절 모드용 공유 상태 — VideoTexture + 매 프레임 갱신할 셰이더 목록 */
+const REFRACT = {
+  tex: null,
+  shaders: [],
+  videoAspect: 16 / 9,
+  refractAmt: STYLE.refractAmt ?? 0.07,
+  refractMix: STYLE.refractMix ?? 0.9,
+  waveAmt: STYLE.waveAmt ?? 0.0,
+  shadow: STYLE.shadow ?? 0.0,
+  shadowColor: new THREE.Color(STYLE.shadowColor ?? 0x1687d9),
+  coreDarken: STYLE.coreDarken ?? 0.0,
+  bandDarken: STYLE.bandDarken ?? 0.0,
+  rimDarkColor: new THREE.Color(STYLE.rimDarkColor ?? 0x004f9e),
+  rimWhitePoint: STYLE.rimWhitePoint ?? 0.9,
+  mapContrast: STYLE.mapContrast ?? 1.0,
+  mapSaturation: STYLE.mapSaturation ?? 1.0,
+  mapBrightness: STYLE.mapBrightness ?? 0.0,
+};
+const FLOAT_AMPLITUDE = 0.03;        // 생물별 위아래 둥둥 범위
 const FLOAT_SPEED = 0.85;            // 기본 둥둥 속도
 const FLOAT_OFFSET_STEP = 0.7;       // 생물별 파동 시간차
 const FLOAT_ROTATION_Z = 0.04;       // 미세 회전 범위
 const CODE_SCATTER_STRENGTH = 0.52;  // 스크롤 중간에서 바깥으로 퍼지는 정도
 const CODE_SCATTER_Z = 0.16;         // 앞뒤 깊이감
 const CODE_SCATTER_ROT = 0.22;       // 흩어질 때 추가 회전
-const SWIM_SWAY_X = 0.14;             // 헤엄칠 때 좌우 물살 이동
+const SWIM_SWAY_X = 0.3;             // 헤엄칠 때 좌우 물살 이동
 const SWIM_SWAY_Y = 0.07;             // 헤엄칠 때 위아래 추진감
 const SWIM_DEPTH = 0.08;              // 헤엄칠 때 앞뒤 깊이 변화
 const SWIM_PITCH = 0.28;              // 헤엄칠 때 고개 드는 회전
 const SWIM_YAW = 0.34;                // 헤엄칠 때 좌우 방향 전환
 const SWIM_ROLL = 0.18;               // 헤엄칠 때 몸통 롤링
+const SYMBOL_COMPACT = 0.95;           // 생물 조밀도 (1=원본 배치, <1=무리 중심으로 모임)
 
 /* ---------------------------------------------------------------
    GPU 티어 감지 — detect-gpu 우선, 실패 시 휴리스틱 fallback
@@ -96,41 +169,139 @@ function profileFor({ tier, isMobile }) {
    ② sheen>0 이면 표면 노멀 방향으로 색조가 변하는 무지개 시트(비누방울막).
       평면적 메시(심볼 생물 컷아웃)는 가장자리 fresnel 이 1px 뿐이라 림이 거의
       안 보인다 → 표면 전체에 노멀 기반 무지개를 깔아 미세 곡률을 따라 색이 흐르게 한다. */
-function applyChromaticRim(mat, strength = ABBERATION, sheen = 0.0) {
+function applyChromaticRim(mat, strength = ABBERATION, sheen = 0.0, rimGain = STYLE.rimGain, edge = STYLE.edge, lumAlpha = STYLE.lumAlpha, refractTarget = 'symbol') {
+  const useRefract = !!STYLE.refract && !!refractTarget;
   mat.onBeforeCompile = (shader) => {
     shader.uniforms.uAbberation = { value: strength };
     shader.uniforms.uSheen = { value: sheen };
-    shader.fragmentShader = shader.fragmentShader
-      .replace(
-        'void main() {',
-        `uniform float uAbberation;
+    shader.uniforms.uRimGain = { value: rimGain };
+    shader.uniforms.uEdge = { value: edge };
+    shader.uniforms.uLumAlpha = { value: lumAlpha };
+
+    // 굴절 모드: 비디오 텍스처 + 화면 매핑 uniform. 매 프레임 tick 에서 갱신.
+    if (useRefract) {
+      shader.uniforms.uRefractTex = { value: REFRACT.tex };
+      shader.uniforms.uRectMin    = { value: new THREE.Vector2(0, 0) };
+      shader.uniforms.uRectSize   = { value: new THREE.Vector2(1, 1) };
+      shader.uniforms.uViewport   = { value: new THREE.Vector2(1, 1) };
+      shader.uniforms.uCanvasPx   = { value: new THREE.Vector2(1, 1) };
+      shader.uniforms.uVideoAspect= { value: 16 / 9 };
+      shader.uniforms.uRefractAmt = { value: REFRACT.refractAmt };
+      shader.uniforms.uRefractMix = { value: REFRACT.refractMix };
+      shader.uniforms.uTime       = { value: 0 };
+      shader.uniforms.uWaveAmt    = { value: REFRACT.waveAmt };
+      shader.uniforms.uShadow     = { value: REFRACT.shadow };
+      shader.uniforms.uShadowColor= { value: REFRACT.shadowColor };
+      shader.uniforms.uCoreDarken = { value: REFRACT.coreDarken };
+      shader.uniforms.uBandDarken = { value: REFRACT.bandDarken };
+      shader.uniforms.uRimDarkColor = { value: REFRACT.rimDarkColor };
+      shader.uniforms.uRimWhitePoint = { value: REFRACT.rimWhitePoint };
+      shader.uniforms.uMapContrast = { value: REFRACT.mapContrast };
+      shader.uniforms.uMapSaturation = { value: REFRACT.mapSaturation };
+      shader.uniforms.uMapBrightness = { value: REFRACT.mapBrightness };
+      shader.uniforms.uFooterLift = { value: 0 };   // footer 트랜지션 시 어두운 배경 보정 밝기
+      REFRACT.shaders.push({ shader, target: refractTarget });
+    }
+
+    let header = `uniform float uAbberation;
          uniform float uSheen;
-         void main() {`
-      )
+         uniform float uRimGain;
+         uniform float uEdge;
+         uniform float uLumAlpha;`;
+    if (useRefract) header += `
+         uniform sampler2D uRefractTex;
+         uniform vec2 uRectMin;
+         uniform vec2 uRectSize;
+         uniform vec2 uViewport;
+         uniform vec2 uCanvasPx;
+         uniform float uVideoAspect;
+         uniform float uRefractAmt;
+         uniform float uRefractMix;
+         uniform float uTime;
+         uniform float uWaveAmt;
+         uniform float uShadow;
+         uniform vec3 uShadowColor;
+         uniform float uCoreDarken;
+         uniform float uBandDarken;
+         uniform vec3 uRimDarkColor;
+         uniform float uRimWhitePoint;
+         uniform float uMapContrast;
+         uniform float uMapSaturation;
+         uniform float uMapBrightness;
+         uniform float uFooterLift;`;
+
+    // 굴절 코드: 화면좌표 → 비디오 cover UV → 노멀 왜곡 → 배경 샘플로 베이스 교체.
+    const refractCode = useRefract ? `
+         vec2 _px = gl_FragCoord.xy / uCanvasPx;
+         _px.y = 1.0 - _px.y;                                  // gl_FragCoord 는 y-up → 화면 y-down 보정
+         // 화면 위(0)→비디오 텍스처 v=1 이므로 v 반전 (이게 빠지면 배경이 상하 뒤집혀 어긋난다).
+         vec2 _screen = (uRectMin + _px * uRectSize) / uViewport;
+         vec2 _uv = vec2(_screen.x, 1.0 - _screen.y);
+         float _sa = uViewport.x / uViewport.y;                // cover: 비디오 비율을 화면에 맞춤
+         if (_sa > uVideoAspect) { float s = uVideoAspect / _sa; _uv.y = (_uv.y - 0.5) * s + 0.5; }
+         else                    { float s = _sa / uVideoAspect; _uv.x = (_uv.x - 0.5) * s + 0.5; }
+         // 시간 기반 sine 일렁임 — 메시 모서리와 무관한 부드러운 출렁임(움직임 강조, 각짐 없음)
+         vec2 _wave = vec2(sin(_uv.y * 14.0 + uTime * 1.4),
+                           cos(_uv.x * 14.0 + uTime * 1.1)) * uWaveAmt;
+         vec2 _refr = _uv + nrm.xy * uRefractAmt + _wave;      // 노멀 굴절 + 시간 일렁임
+         vec3 _bg = texture2D(uRefractTex, _refr).rgb;
+         float _bgLum0 = dot(_bg, vec3(0.299, 0.587, 0.114));
+         _bg = mix(vec3(_bgLum0), _bg, uMapSaturation);
+         _bg = (_bg - 0.5) * uMapContrast + 0.5 + uMapBrightness;
+         _bg = clamp(_bg, 0.0, 1.0);
+         outgoingLight = mix(outgoingLight, _bg, uRefractMix); // 배경 굴절을 유리 베이스로
+         float _inner = smoothstep(0.18, 0.82, 1.0 - abs(nrm.z));
+         float _lower = smoothstep(0.18, 0.86, _px.y);
+         float _side = smoothstep(0.15, 0.82, abs(nrm.x));
+         float _mapLum = dot(_bg, vec3(0.299, 0.587, 0.114));
+         float _mappedShade = smoothstep(0.30, 0.82, 1.0 - _mapLum);
+         float _bandA = smoothstep(0.54, 0.78, sin((_uv.x * 4.2 + _uv.y * 6.8) * 3.14159) * 0.5 + 0.5);
+         float _bandB = smoothstep(0.58, 0.82, cos((_screen.x * 3.1 - _screen.y * 4.8) * 3.14159) * 0.5 + 0.5);
+         float _screenPocket = smoothstep(0.18, 0.74, _px.y) * smoothstep(0.22, 0.72, 1.0 - abs(_px.x - 0.5) * 2.0);
+         float _bandRaw = _bandA * 0.42 + _bandB * 0.30 + _screenPocket * 0.34;
+         float _bandShade = pow(clamp(_bandRaw, 0.0, 1.0), 2.2) * uBandDarken;
+         float _glassShadow = clamp((_inner * 0.28 + _side * 0.12 + _lower * 0.14 + _mappedShade * 0.34) * uShadow + _bandShade, 0.0, 0.92);
+         outgoingLight = mix(outgoingLight, uShadowColor, _glassShadow);
+         outgoingLight *= 1.0 - clamp((_inner * 0.55 + _bandShade) * uCoreDarken, 0.0, 0.82);
+         outgoingLight += vec3(1.0) * uFooterLift;             // footer 어두운 배경 보정 밝기
+    ` : '';
+
+    shader.fragmentShader = shader.fragmentShader
+      .replace('void main() {', header + `
+         void main() {`)
       .replace(
         '#include <opaque_fragment>',
         `// fresnel: 시선과 노멀의 각도차가 클수록(가장자리) 1에 가까움.
-         // 지수 5.0 은 1px 림만 빛나 거의 안 보였다 → 2.5 로 낮춰 림을 넓힌다.
          vec3 nrm = normalize(normal);
          float dotNV = clamp(dot(nrm, normalize(vViewPosition)), 0.0, 1.0);
+         ${refractCode}
          float fresnel = pow(1.0 - dotNV, 2.5);
-         // 단순 RGB 가산은 틴트색에 묻힌다 → fresnel 을 hue(색상환)에 매핑해
-         // 가장자리를 빨강→초록→파랑 으로 분광시키는 진짜 프리즘 무지개 림.
+         // fresnel 을 hue(색상환)에 매핑해 가장자리를 프리즘 무지개로 분광.
          float hue = fresnel * uAbberation;
          vec3 rainbow = 0.5 + 0.5 * cos(6.28318 * (hue + vec3(0.0, 0.33, 0.67)));
-         outgoingLight += rainbow * fresnel * uAbberation * 1.3;
+         outgoingLight += rainbow * fresnel * uAbberation * uRimGain;
          // ② 표면 무지개 시트 — 노멀 x/y 방향을 색상환에 매핑.
-         //    (sheenCol-0.5) 로 밝기는 중립 유지, 색조만 시프트시켜 비누방울막처럼.
          if (uSheen > 0.001) {
            float band = nrm.x * 0.6 + nrm.y * 0.4;
            vec3 sheenCol = 0.5 + 0.5 * cos(6.28318 * (band * 1.5 + vec3(0.0, 0.33, 0.67)));
            outgoingLight += (sheenCol - 0.5) * uSheen * 2.0;
          }
-         #include <opaque_fragment>`
+         // ③ 어두운 블루가 안쪽까지 넓게 번지고, 흰색은 최외곽에만 남는 림 그라디언트.
+         float rimBase = 1.0 - dotNV;
+         float rimWide = pow(rimBase, 1.1);
+         float rimSharp = pow(rimBase, 5.0);
+         float rimWhite = smoothstep(uRimWhitePoint, 1.0, rimSharp);
+         vec3 rimColor = mix(uRimDarkColor, vec3(1.0), rimWhite);
+         outgoingLight += rimColor * rimWide * uEdge * 0.72;
+         float edgeF = max(rimSharp, rimWide * 0.32);
+         #include <opaque_fragment>
+         // 밝기-알파 연동: 밝은 곳=불투명, 어두운 내부=투명(배경 비침).
+         float _lum = max(max(gl_FragColor.r, gl_FragColor.g), gl_FragColor.b);
+         gl_FragColor.a = clamp(gl_FragColor.a + _lum * uLumAlpha + edgeF * uEdge * 0.9, 0.0, 1.0);`
       );
   };
-  // 셰이더 캐시 충돌 방지 (strength + sheen 조합별로 구분)
-  mat.customProgramCacheKey = () => 'chromaticRim_' + strength + '_' + sheen;
+  // 셰이더 캐시 충돌 방지 (조합별로 구분)
+  mat.customProgramCacheKey = () => 'chromaticRim_' + strength + '_' + sheen + '_' + rimGain + '_' + edge + '_' + lumAlpha + '_' + useRefract + '_' + refractTarget;
 }
 
 /* 심볼 전용 유리 재질 — 굴절 대신 반사/클리어코트로 안정적인 유리감.
@@ -139,52 +310,60 @@ function makeSymbolGlass(profile) {
   const mat = new THREE.MeshPhysicalMaterial({
     // 회색기 제거: 짙은 하늘 틴트(LOGO_TINT) 대신 거의 흰 유리로 두고
     // 색은 iridescence/색수차가 만들게 → 채도 높은 무지개가 주도한다.
-    color: new THREE.Color(0xeaf7ff),
+    // 프리셋별 심볼 유리 틴트 (clean/vivid=거의 흰색, ice=아이스 블루)
+    color: new THREE.Color(STYLE.symbol.color),
+    // 밝은 배경 위에서 평면 메시 반사가 약해 유리가 어두운 청회색으로 가라앉는다.
+    // 약한 자가발광으로 베이스 밝기를 끌어올려 유리가 배경 위로 떠 보이게 한다.
+    emissive: new THREE.Color(STYLE.symbol.color),
+    emissiveIntensity: STYLE.symbol.emissive,
     metalness: 0.02,
     roughness: profile.level === 'high' ? 0.04 : 0.08,
     clearcoat: 1,
     clearcoatRoughness: 0.04,
     ior: 1.52,
     transparent: true,
-    // air.inc 처럼 거의 물/공기 같은 투명 유리. 무지개색은 outgoingLight 가산이라
-    // alpha 와 무관하게 유지되므로 투명도를 올려도 색은 안 사라진다.
-    opacity: 0.42,
-    // 톤매핑을 껐으므로 envMapIntensity 는 2.0 으로 (과밝 클리핑 방지하며 반사 유지).
-    envMapIntensity: 2.0,
+    // base opacity (프리셋별). 반사 모드는 낮게(배경 비침), 굴절 모드는 높게(굴절 배경 그림).
+    opacity: STYLE.symbol.opacity,
+    // 톤매핑을 껐으므로 envMapIntensity 로 반사 강도 제어 (프리셋별).
+    envMapIntensity: STYLE.symbol.envMapIntensity,
     side: THREE.FrontSide,
     depthWrite: false,
-    // 박막 간섭 무지개 — 심볼은 최대 강도, 두께 범위를 넓혀 색조 변화를 풍부하게.
-    iridescence: 1.0,
+    // 박막 간섭 무지개 — 프리셋별 강도 (clean=절제, vivid=최대).
+    iridescence: STYLE.symbol.iridescence,
     iridescenceIOR: 1.4,
     iridescenceThicknessRange: [100, 800],
   });
-  // 심볼: 색수차 1.5배 + 표면 무지개 시트(sheen 0.4) — 평면 메시도 색이 흐르게.
-  applyChromaticRim(mat, ABBERATION * 1.5, 0.4);
+  // 심볼: 색수차 1.5배 + 표면 무지개 시트(프리셋별 sheen) — 평면 메시도 색이 흐르게.
+  applyChromaticRim(mat, ABBERATION * 1.5, STYLE.symbol.sheen);
   return mat;
 }
 
-/* 글자 유리 재질 (단독 캔버스: 굴절 없이 reflective 방식) */
+/* 글자 유리 재질 */
 function makeGlass(profile, { doubleSide = false } = {}) {
   const side = doubleSide ? THREE.DoubleSide : THREE.FrontSide;
   const mat = new THREE.MeshPhysicalMaterial({
-    color: new THREE.Color(LOGO_TINT),
+    // 프리셋별 글자색 (clean=화이트, vivid=아쿠아 틴트)
+    color: new THREE.Color(STYLE.text.color),
+    // 밝은 배경 위에서 어두워지지 않게 약한 자가발광으로 베이스 밝기 보강
+    emissive: new THREE.Color(STYLE.text.color),
+    emissiveIntensity: STYLE.text.emissive,
     metalness: 0,
     roughness: profile.level === 'high' ? 0.06 : 0.10,
     clearcoat: 1,
     clearcoatRoughness: 0.06,
     ior: 1.4,
     transparent: true,
-    // air.inc 처럼 배경이 비치는 투명 유리로 (0.4 → 0.28)
-    opacity: 0.28,
+    // base opacity (프리셋별)
+    opacity: STYLE.text.opacity,
     side,
     depthWrite: false,
     envMapIntensity: 1.3,
-    // 박막 간섭 무지개 (transmission/envMap 없이 동작)
-    iridescence: IRIDESCENCE,
+    // 박막 간섭 무지개 (transmission/envMap 없이 동작) — 프리셋별 강도
+    iridescence: STYLE.text.iridescence,
     iridescenceIOR: 1.3,
     iridescenceThicknessRange: [120, 420],
   });
-  applyChromaticRim(mat);
+  applyChromaticRim(mat, ABBERATION, 0.0, STYLE.rimGain, STYLE.edge, STYLE.lumAlpha, 'text');
   return mat;
 }
 
@@ -208,12 +387,84 @@ function makeAuroraEnv(renderer) {
     ctx.fillRect(0, 0, c.width, c.height);
 
     // 수직 광량 그라디언트 (위=천장광, 아래=바닥) → 입체 반사.
-    // 흰색 오버레이가 색을 씻어내므로 알파를 줄여 채도를 보존한다.
+    // 흰색 비중을 높여 반사가 밝고 화이트하게(회색기 제거). 하단 어둠도 옅게.
     const v = ctx.createLinearGradient(0, 0, 0, c.height);
-    v.addColorStop(0.00, 'rgba(255,255,255,0.40)');
-    v.addColorStop(0.45, 'rgba(255,255,255,0.0)');
-    v.addColorStop(1.00, 'rgba(20,40,70,0.50)');
+    v.addColorStop(0.00, 'rgba(255,255,255,0.62)');
+    v.addColorStop(0.45, 'rgba(255,255,255,0.12)');
+    v.addColorStop(1.00, 'rgba(40,70,110,0.32)');
     ctx.fillStyle = v;
+    ctx.fillRect(0, 0, c.width, c.height);
+
+    const tex = new THREE.CanvasTexture(c);
+    tex.mapping = THREE.EquirectangularReflectionMapping;
+    tex.colorSpace = THREE.SRGBColorSpace;
+
+    const pmrem = new THREE.PMREMGenerator(renderer);
+    const env = pmrem.fromEquirectangular(tex).texture;
+    tex.dispose();
+    pmrem.dispose();
+    return env;
+}
+
+/* 클린 스카이 환경맵 — 밝은 수면/하늘 배경용. 무지개 색띠 없이 흰색~연한 쿨톤만
+   둬서 반사가 화이트-실버로 채워진다(회색이 아니라 맑은 흰 유리). air.inc 레퍼런스. */
+function makeCleanSkyEnv(renderer) {
+    const c = document.createElement('canvas');
+    c.width = 1024; c.height = 512;
+    const ctx = c.getContext('2d');
+
+    // 수직 그라디언트: 상단 밝은 흰 천장광 → 하단 연한 쿨 블루. (수평 색띠 없음)
+    const v = ctx.createLinearGradient(0, 0, 0, c.height);
+    v.addColorStop(0.00, '#ffffff');   // 천장광 (밝은 하늘)
+    v.addColorStop(0.45, '#eaf4ff');   // 연한 하늘
+    v.addColorStop(0.75, '#dcecff');   // 수면 쿨톤
+    v.addColorStop(1.00, '#c2d8ee');   // 바닥 약간 짙은 쿨
+    ctx.fillStyle = v;
+    ctx.fillRect(0, 0, c.width, c.height);
+
+    // 가로로 아주 미세한 쿨 변화만(실버 반사 느낌) — 채도는 거의 0
+    const h = ctx.createLinearGradient(0, 0, c.width, 0);
+    h.addColorStop(0.00, 'rgba(210,230,255,0.0)');
+    h.addColorStop(0.50, 'rgba(255,255,255,0.18)');
+    h.addColorStop(1.00, 'rgba(210,230,255,0.0)');
+    ctx.fillStyle = h;
+    ctx.fillRect(0, 0, c.width, c.height);
+
+    const tex = new THREE.CanvasTexture(c);
+    tex.mapping = THREE.EquirectangularReflectionMapping;
+    tex.colorSpace = THREE.SRGBColorSpace;
+
+    const pmrem = new THREE.PMREMGenerator(renderer);
+    const env = pmrem.fromEquirectangular(tex).texture;
+    tex.dispose();
+    pmrem.dispose();
+    return env;
+}
+
+/* 얼음 환경맵 — 차가운 아이스 블루. 흰색 천장광 → 시안/얼음 블루 → 진한 쿨 블루.
+   clean 보다 블루를 강하게 둬서 반사가 푸른 얼음처럼 보인다. */
+function makeIceEnv(renderer) {
+    const c = document.createElement('canvas');
+    c.width = 1024; c.height = 512;
+    const ctx = c.getContext('2d');
+
+    // 수직 그라디언트: 차가운 블루 위주
+    const v = ctx.createLinearGradient(0, 0, 0, c.height);
+    v.addColorStop(0.00, '#ffffff');   // 천장광 (밝은 빙면)
+    v.addColorStop(0.38, '#d4f0ff');   // 연한 아이스
+    v.addColorStop(0.68, '#9fd4f5');   // 아이스 블루
+    v.addColorStop(1.00, '#5d9fd6');   // 깊은 쿨 블루
+    ctx.fillStyle = v;
+    ctx.fillRect(0, 0, c.width, c.height);
+
+    // 가로로 차가운 시안 하이라이트 띠 (얼음 반짝임)
+    const h = ctx.createLinearGradient(0, 0, c.width, 0);
+    h.addColorStop(0.00, 'rgba(180,225,255,0.0)');
+    h.addColorStop(0.30, 'rgba(225,248,255,0.30)');
+    h.addColorStop(0.55, 'rgba(160,215,250,0.10)');
+    h.addColorStop(0.80, 'rgba(225,248,255,0.30)');
+    h.addColorStop(1.00, 'rgba(180,225,255,0.0)');
+    ctx.fillStyle = h;
     ctx.fillRect(0, 0, c.width, c.height);
 
     const tex = new THREE.CanvasTexture(c);
@@ -229,16 +480,21 @@ function makeAuroraEnv(renderer) {
 
 /* 공통 조명 + 환경맵 세팅 */
 function setupSceneEnv(scene, renderer) {
-    scene.environment = makeAuroraEnv(renderer);
+    // 프리셋별 환경맵 선택 (sky=흰 하늘, aurora=비비드 무지개, ice=아이스 블루)
+    scene.environment =
+        STYLE.envMode === 'aurora' ? makeAuroraEnv(renderer)
+      : STYLE.envMode === 'ice'    ? makeIceEnv(renderer)
+      : makeCleanSkyEnv(renderer);
 
-    // envMap 이 ambient 역할을 하므로 AmbientLight 는 낮춰 효과가 묻히지 않게 한다.
-    scene.add(new THREE.AmbientLight(0xffffff, 0.25));
+    // AmbientLight 가 낮으면 그늘이 어두운 회색이 된다 → 밝은 흰색으로 올려 회색기 제거.
+    scene.add(new THREE.AmbientLight(0xffffff, 0.55));
 
     const key = new THREE.DirectionalLight(0xffffff, 1.6);
     key.position.set(3, 5, 4);
     scene.add(key);
 
-    const rim = new THREE.DirectionalLight(0x66ccff, 0.8);
+    // rim 을 시안(0x66ccff)으로 두면 유리에 푸른 회색기가 낀다 → 흰색 fill 로 그늘을 채운다.
+    const rim = new THREE.DirectionalLight(0xffffff, 1.0);
     rim.position.set(-4, 1, -3);
     scene.add(rim);
 }
@@ -267,8 +523,15 @@ function seededRandom(index, salt = 0) {
   return x - Math.floor(x);
 }
 
-/* GLB 안 mesh 전부를 코드 기반으로 둥둥 움직이게 하는 데이터 구성 */
-function createFloatAnimation(root) {
+/* GLB 안 mesh 전부를 코드 기반으로 둥둥 움직이게 하는 데이터 구성.
+   compact<1 이면 각 생물의 base 위치를 무리 중심(centroid)으로 당겨 조밀하게 모은다. */
+function createFloatAnimation(root, compact = 1) {
+  // 생물 무리 중심 — base 위치를 이 기준으로 압축
+  const centroid = new THREE.Vector3();
+  let count = 0;
+  root.traverse((o) => { if (o.isMesh) { centroid.add(o.position); count += 1; } });
+  if (count) centroid.divideScalar(count);
+
   const meshes = [];
   const baseX = [];
   const baseY = [];
@@ -308,9 +571,10 @@ function createFloatAnimation(root) {
     const swimStrength = 0.65 + seededRandom(index, 10) * 0.7;
 
     meshes.push(object);
-    baseX.push(object.position.x);
-    baseY.push(object.position.y);
-    baseZ.push(object.position.z);
+    // 무리 중심 기준으로 compact 만큼 당겨 조밀화 (compact=1 이면 원본 그대로)
+    baseX.push(centroid.x + (object.position.x - centroid.x) * compact);
+    baseY.push(centroid.y + (object.position.y - centroid.y) * compact);
+    baseZ.push(centroid.z + (object.position.z - centroid.z) * compact);
     baseRotX.push(object.rotation.x);
     baseRotY.push(object.rotation.y);
     baseRotZ.push(object.rotation.z);
@@ -433,6 +697,26 @@ async function initLogo3D() {
 
   const progress = { v: reduceMotion ? 1 : 0 };  // 스크롤 단일 소스
 
+  // 굴절 모드: 전용 매핑 비디오를 VideoTexture 로 받아 셰이더 굴절에 사용 (GLB 로드 전에 준비).
+  if (STYLE.refract) {
+    const videoEl = document.createElement('video');
+    videoEl.src = REFRACT_VIDEO_SRC;
+    videoEl.muted = true;
+    videoEl.loop = true;
+    videoEl.playsInline = true;
+    videoEl.preload = 'auto';
+    videoEl.autoplay = true;
+    videoEl.setAttribute('aria-hidden', 'true');
+    if (videoEl) {
+      REFRACT.tex = new THREE.VideoTexture(videoEl);
+      REFRACT.tex.colorSpace = THREE.SRGBColorSpace;
+      const setVA = () => { if (videoEl.videoWidth) REFRACT.videoAspect = videoEl.videoWidth / videoEl.videoHeight; };
+      setVA();
+      videoEl.addEventListener('loadedmetadata', setVA);
+      videoEl.play().catch((e) => console.warn('[logo3d] 매핑 비디오 재생 실패:', e));
+    }
+  }
+
   /* =============================================================
      ① 심볼 캔버스 (.logo3d-wrap) — 헤더로 이동/축소
   ============================================================= */
@@ -455,8 +739,37 @@ async function initLogo3D() {
   let duration = 0;
   let floatAnim = null;
   let active = false;            // ScrollTrigger 활성(스크럽 구간)
+  let footerProg = 0;            // footer 역방향 트랜지션 진행도 (0=헤더, 1=footer중앙 조립)
+  let footerActive = false;      // footer ScrollTrigger 활성 여부
   let needsRender = true;
   const requestRender = () => { needsRender = true; };
+  let textRenderer = null, textScene = null, textCamera = null, textSize = null;
+  let logoDocked = false;
+  let dockHideTimer = null;
+
+  function setLogoDocked(docked) {
+    if (logoDocked === docked) return;
+    logoDocked = docked;
+    window.clearTimeout(dockHideTimer);
+    document.body.classList.toggle('is-logo-at-header', docked);
+
+    if (docked) {
+      wrap.classList.add('is-logo-docking');
+      dockHideTimer = window.setTimeout(() => {
+        if (logoDocked) wrap.style.display = 'none';
+      }, 160);
+    } else {
+      wrap.style.display = '';
+      // display 복귀 직후 transition 이 다시 먹도록 한 프레임 강제 갱신.
+      void wrap.offsetWidth;
+      wrap.classList.remove('is-logo-docking');
+      requestRender();
+    }
+  }
+
+  function syncLogoDockState() {
+    setLogoDocked(!footerActive && progress.v >= HEADER_DOCK_PROGRESS);
+  }
 
   let symSize = null;
   let symPad  = 1.6;   // 로드 전 임시값, 로드 후 SCATTER_PAD 로 교체
@@ -471,9 +784,15 @@ async function initLogo3D() {
   loader.loadAsync(SYMBOL_SRC).then((gltf) => {
     const symbol = gltf.scene;
     symGroup.add(symbol);
-    symbol.traverse((o) => { if (o.isMesh) o.material = makeSymbolGlass(profile); });
+    symbol.traverse((o) => {
+      if (!o.isMesh) return;
+      o.material = makeSymbolGlass(profile);
+      // 저폴리(simplify된) 메시의 각진 면 노멀을 평균내 매끄럽게 → 굴절이 크리스탈처럼
+      // 쪼개지지 않고 부드럽게 흐른다.
+      o.geometry.computeVertexNormals();
+    });
     centerModel(symbol, symGroup, { flipY: false });
-    floatAnim = createFloatAnimation(symbol);
+    floatAnim = createFloatAnimation(symbol, SYMBOL_COMPACT);
 
     // 먼저 mixer 세팅
     mixer = new THREE.AnimationMixer(symbol);
@@ -493,30 +812,60 @@ async function initLogo3D() {
     requestRender();
   }).catch((e) => console.warn('[logo3d] 심볼 로드 실패:', e));
 
+  // 굴절 모드: 매 프레임 각 캔버스의 화면상 위치(GSAP transform 포함)를 셰이더에 전달.
+  function updateRefractUniforms() {
+    if (!STYLE.refract || !REFRACT.tex || !REFRACT.shaders.length) return;
+    const vw = window.innerWidth, vh = window.innerHeight;
+    for (const entry of REFRACT.shaders) {
+      const sh = entry.shader;
+      const isText = entry.target === 'text';
+      const el = isText ? textEl : wrap;
+      const activeRenderer = isText ? textRenderer : renderer;
+      if (!el || !activeRenderer) continue;
+      const r = el.getBoundingClientRect();
+      const cpx = activeRenderer.domElement.width, cpy = activeRenderer.domElement.height;
+      sh.uniforms.uRefractTex.value = REFRACT.tex;
+      sh.uniforms.uRectMin.value.set(r.left, r.top);
+      sh.uniforms.uRectSize.value.set(r.width, r.height);
+      sh.uniforms.uViewport.value.set(vw, vh);
+      sh.uniforms.uCanvasPx.value.set(cpx, cpy);
+      sh.uniforms.uVideoAspect.value = REFRACT.videoAspect;
+      sh.uniforms.uTime.value = performance.now() * 0.001;
+      // footer 트랜지션이 진행될수록 밝기 보강 (어두운 footer 배경/심해 굴절 보정)
+      sh.uniforms.uFooterLift.value = footerActive ? footerProg * 0.28 : 0.1;
+    }
+  }
+
   function tick() {
     requestAnimationFrame(tick);
-    const shouldFloat = !reduceMotion && progress.v < 0.98 && floatAnim;
-    if (!active && !needsRender && !shouldFloat) return;   // idle → GL 작업 없음
+    // footer 활성이면 그 progress, 아니면 첫 화면 progress 로 안무 구동
+    const animP = footerActive ? footerProg : progress.v;
+    const shouldFloat = !reduceMotion && animP < 0.98 && floatAnim;
+    // 굴절 모드는 비디오 프레임이 계속 바뀌므로 idle 최적화를 건너뛰고 항상 렌더.
+    if (!active && !footerActive && !needsRender && !shouldFloat && !STYLE.refract) return;
 
     const elapsed = performance.now() * 0.001;
-    if (mixer && duration > 0) mixer.setTime(progress.v * duration);
-    if (shouldFloat) applyFloatAnimation(floatAnim, elapsed, progress.v);
+    if (mixer && duration > 0) mixer.setTime(animP * duration);
+    if (shouldFloat) applyFloatAnimation(floatAnim, elapsed, animP);
+    updateRefractUniforms();
     renderer.render(scene, camera);
-    if (!active && !shouldFloat) needsRender = false;      // 비활성: 마지막 프레임 한 번만
+    if (STYLE.refract && textRenderer && textScene && textCamera) {
+      textRenderer.render(textScene, textCamera);
+    }
+    if (!active && !footerActive && !shouldFloat && !STYLE.refract) needsRender = false;
   }
   tick();
 
   /* =============================================================
      ② 글자 캔버스 (.logo3d-text) — 위치/크기 고정, 정적 1회 렌더 + 페이드
   ============================================================= */
-  let textRenderer = null, textScene = null, textCamera = null, textSize = null;
   function syncTextBoxToHeroTitle() {
     const title = document.querySelector('.hero__title');
     if (!textEl || !title) return;
     const rect = title.getBoundingClientRect();
     if (rect.width <= 0 || rect.height <= 0) return;
-    textEl.style.setProperty('--logo3d-text-w', `${Math.ceil(rect.width * 1.14)}px`);
-    textEl.style.setProperty('--logo3d-text-h', `${Math.ceil(rect.height * 1.08)}px`);
+    textEl.style.setProperty('--logo3d-text-w', `${Math.ceil(rect.width * 1.58)}px`);
+    textEl.style.setProperty('--logo3d-text-h', `${Math.ceil(rect.height * 1.52)}px`);
   }
   function renderTextOnce() { if (textRenderer) textRenderer.render(textScene, textCamera); }
   function sizeTextRenderer() {
@@ -546,7 +895,8 @@ async function initLogo3D() {
     textEl.appendChild(textRenderer.domElement);
 
     textScene = new THREE.Scene();
-    textCamera = new THREE.PerspectiveCamera(35, 1, 0.1, 100);
+    // 낮은 fov(망원) — 와이드한 글자의 양 끝 원근 왜곡(옆면 보임·휘어짐)을 줄여 평평하게.
+    textCamera = new THREE.PerspectiveCamera(18, 1, 0.1, 100);
     setupSceneEnv(textScene, textRenderer);
     const txtGroup = new THREE.Group();
     textScene.add(txtGroup);
@@ -575,11 +925,14 @@ async function initLogo3D() {
   ============================================================= */
   let end = { dx: 0, dy: 0, scale: 1 };
   function measure() {
+    const prevDisplay = wrap.style.display;
     const prev = wrap.style.transform;
+    if (prevDisplay === 'none') wrap.style.display = '';
     wrap.style.transform = 'none';
     const l = wrap.getBoundingClientRect();
     const s = slot.getBoundingClientRect();
     wrap.style.transform = prev;
+    wrap.style.display = prevDisplay;
     end = {
       dx: (s.left + s.width / 2) - (l.left + l.width / 2),
       dy: (s.top + s.height / 2) - (l.top + l.height / 2),
@@ -593,6 +946,7 @@ async function initLogo3D() {
     if (gsap) gsap.set(wrap, { x: end.dx, y: end.dy, scale: end.scale });
     progress.v = 1;
     applyTextFade();
+    syncLogoDockState();
     requestRender();
   } else {
     gsap.context(() => {
@@ -605,14 +959,68 @@ async function initLogo3D() {
           scrub: 0.5,
           invalidateOnRefresh: true,
           onRefreshInit: measure,
-          onUpdate: (self) => { progress.v = self.progress; applyTextFade(); requestRender(); },
+          onUpdate: (self) => {
+            progress.v = self.progress;
+            applyTextFade();
+            syncLogoDockState();
+            requestRender();
+          },
           onToggle: (self) => {
             active = self.isActive;
             document.body.classList.toggle('is-logo-transition', self.isActive);
+            syncLogoDockState();
             requestRender();
           },
         },
       }).to(wrap, { x: () => end.dx, y: () => end.dy, scale: () => end.scale, ease: 'none', duration: 1 }, 0);
+
+      /* --- footer 역방향 트랜지션: 헤더(작은 조립) → 흩어졌다 → footer 중앙(큰 조립) --- */
+      const footerEl = document.getElementById('footer');
+      if (footerEl) {
+        // transform 없는 wrap 의 화면상 중앙 (fixed 라 스크롤 무관, resize 시 갱신)
+        let wrapCx0 = 0, wrapCy0 = 0;
+        function measureWrapCenter() {
+          const prevDisplay = wrap.style.display;
+          const prev = wrap.style.transform;
+          if (prevDisplay === 'none') wrap.style.display = '';
+          wrap.style.transform = 'none';
+          const l = wrap.getBoundingClientRect();
+          wrap.style.transform = prev;
+          wrap.style.display = prevDisplay;
+          wrapCx0 = l.left + l.width / 2;
+          wrapCy0 = l.top + l.height / 2;
+        }
+        measureWrapCenter();
+        ScrollTrigger.create({
+          trigger: '#footer',
+          start: 'top center',     // footer 상단이 뷰 중앙에 올 때 시작 (그 전엔 헤더 유지)
+          end: 'bottom bottom',    // footer 하단이 뷰 하단에 닿을 때 끝
+          scrub: 0.5,
+          invalidateOnRefresh: true,
+          onRefreshInit: measureWrapCenter,
+          onUpdate: (self) => {
+            footerProg = self.progress;
+            syncLogoDockState();
+            // footer 의 실시간 화면 중앙으로 향하는 이동량
+            const f = footerEl.getBoundingClientRect();
+            const fdx = (f.left + f.width / 2) - wrapCx0;
+            const fdy = (f.top + f.height / 2) - wrapCy0;
+            // 헤더(end) → footer중앙 으로 보간. scale 은 헤더(작은) → 1(원본 크게).
+            const p = footerProg;
+            const tx = end.dx + (fdx - end.dx) * p;
+            const ty = end.dy + (fdy - end.dy) * p;
+            const ts = end.scale + (1 - end.scale) * p;
+            gsap.set(wrap, { x: tx, y: ty, scale: ts });
+            requestRender();
+          },
+          onToggle: (self) => {
+            footerActive = self.isActive;
+            document.body.classList.toggle('is-logo-transition', self.isActive);
+            syncLogoDockState();
+            requestRender();
+          },
+        });
+      }
     });
   }
 
