@@ -2453,68 +2453,25 @@ body.ticket-open { overflow: hidden; }
   position: relative;
   min-height: 100vh;
   overflow: hidden;
-  /* 상단이 밝은 청록 → 아래로 깊어지는 바다 (Figma 배경) */
-  background:
-    radial-gradient(130% 90% at 50% -15%,
-      #7fe0ff 0%,
-      #36c0f2 38%,
-      #22b2ea 62%,
-      #1690cd 100%);
+  /* 단색 바다 배경 */
+  background: #22B2EA;
 }
 
-/* --- 상단 빛줄기 — 4개 빔이 순서대로(왼→오) 밝아졌다 사라짐 (CSS) --- */
-.ticket__beams {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: min(90vw, 1100px);
-  height: min(78vh, 820px);
-  z-index: 0;
-  pointer-events: none;
-  /* screen 합성 → 빛만 더해지고 검은 박스/경계 없음 */
-  mix-blend-mode: screen;
-  /* 가장자리 페이드로 사각 경계 제거 */
-  -webkit-mask-image: radial-gradient(ellipse 82% 95% at 50% 0%, #000 45%, transparent 100%);
-  mask-image: radial-gradient(ellipse 82% 95% at 50% 0%, #000 45%, transparent 100%);
+#light-rays{
+    width:100%;
+    height:600px;
+    position:absolute;
+    top:0;
+    left:0;
+    pointer-events:none;
+    overflow:hidden;
+    z-index:1;
+    opacity:0.8;
+    /* 하단 경계선이 보이지 않도록 아래로 갈수록 부드럽게 사라지게 마스킹 */
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 55%, transparent 100%);
+            mask-image: linear-gradient(to bottom, #000 0%, #000 55%, transparent 100%);
 }
 
-/* 한 줄기(빔) — 상단 중앙 한 점에서 시작해 부채꼴로 회전 */
-.ticket__beam {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  width: clamp(64px, 9vw, 140px);
-  height: 100%;
-  transform-origin: top center;
-  background: linear-gradient(to bottom,
-              rgba(255, 255, 255, 0.95) 0%,
-              rgba(255, 255, 255, 0.45) 28%,
-              rgba(255, 255, 255, 0) 76%);
-  /* 위는 가늘고 아래로 퍼지는 빛줄기 */
-  -webkit-clip-path: polygon(42% 0%, 58% 0%, 100% 100%, 0% 100%);
-  clip-path: polygon(42% 0%, 58% 0%, 100% 100%, 0% 100%);
-  filter: blur(7px);
-  opacity: 0;
-  animation: ticket-beam-pulse 4s ease-in-out infinite;
-}
-
-/* 4개 빔: 각도 부채꼴 + 순차 지연(1초 간격)으로 왼→오 차례로 점등 */
-.ticket__beam--1 { transform: translateX(-50%) rotate(-27deg); animation-delay: 0s; }
-.ticket__beam--2 { transform: translateX(-50%) rotate(-9deg);  animation-delay: 1s; }
-.ticket__beam--3 { transform: translateX(-50%) rotate(9deg);   animation-delay: 2s; }
-.ticket__beam--4 { transform: translateX(-50%) rotate(27deg);  animation-delay: 3s; }
-
-@keyframes ticket-beam-pulse {
-  0%   { opacity: 0; }
-  12%  { opacity: 1; }   /* 빠르게 밝아짐 */
-  34%  { opacity: 0; }   /* 사라짐 */
-  100% { opacity: 0; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .ticket__beam { animation: none; opacity: 0.45; }
-}
 
 /* --- 타이틀 --- */
 .ticket__title {
@@ -2577,7 +2534,10 @@ body.ticket-open { overflow: hidden; }
   width: clamp(240px, 30vw, 560px);
   aspect-ratio: 587 / 522;
   z-index: 1;
-  transition: transform var(--tr-slow);
+  transition: transform 0.8s cubic-bezier(.22,.61,.36,1),
+              top 0.8s cubic-bezier(.22,.61,.36,1),
+              left 0.8s cubic-bezier(.22,.61,.36,1),
+              opacity 0.5s ease;
 }
 .ticket-spot:hover { transform: translateY(-12px) scale(1.035); }
 
@@ -2653,4 +2613,142 @@ body.ticket-open { overflow: hidden; }
 
 @media (prefers-reduced-motion: reduce) {
   .ticket-spot__inner, .deco-bubble { animation: none; }
+}
+
+/* ============================================================
+   지점 선택(예매) 모드
+   · 클릭한 spot → 버블이 터지며 아래로 내려감
+   · 나머지 spot → 위로 올라가며 작아짐
+   · 우측에 가격 / 할인 패널 등장
+   ============================================================ */
+
+/* 선택된 지점: 살짝 커지며 아래쪽 왼편으로 이동 */
+.ticket.is-selected .ticket-spot.is-selected {
+  left: 6% !important;
+  top: 50% !important;
+  transform: scale(1.12);
+  z-index: 3;
+}
+/* 버블 터짐 — 부풀었다가 사라짐 */
+.ticket.is-selected .ticket-spot.is-selected .ticket-spot__bubble {
+  animation: ticket-bubble-burst 0.6s ease-out forwards;
+}
+
+/* 선택되지 않은 지점: 윗줄로 올라가며 축소 */
+.ticket.is-selected .ticket-spot.is-top {
+  top: 4% !important;
+  transform: scale(0.5);
+  opacity: 0.92;
+}
+.ticket.is-selected .ticket-spot.is-top.slot-0 { left: -2% !important; }
+.ticket.is-selected .ticket-spot.is-top.slot-1 { left: 26% !important; }
+.ticket.is-selected .ticket-spot.is-top.slot-2 { left: 56% !important; }
+
+@keyframes ticket-bubble-burst {
+  0%   { transform: translate(-50%, -50%) scale(1);    opacity: 1; }
+  45%  { transform: translate(-50%, -50%) scale(1.28); opacity: 0.85; }
+  100% { transform: translate(-50%, -50%) scale(1.7);  opacity: 0; }
+}
+
+/* --- 가격 / 할인 패널 --- */
+.ticket-booking {
+  position: absolute;
+  top: 36%;
+  right: 7%;
+  width: min(440px, 34vw);
+  z-index: 4;
+  opacity: 0;
+  transform: translateY(24px);
+  pointer-events: none;
+  transition: opacity 0.6s ease 0.35s, transform 0.6s ease 0.35s;
+}
+.ticket.is-selected .ticket-booking {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.ticket-booking__price {
+  font-family: var(--font-serif);
+  font-size: 30px;
+  color: var(--clr-text);
+  margin: 0 0 18px 6px;
+  text-shadow: 0 2px 10px rgba(0, 60, 100, 0.22);
+}
+.ticket-booking__price span { font-size: 22px; }
+.ticket-booking__price strong { font-weight: 500; }
+
+.ticket-booking__panel {
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 30px 28px;
+  box-shadow: 0 18px 50px rgba(0, 70, 120, 0.18);
+}
+.ticket-booking__title {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 26px;
+  color: var(--clr-text);
+  margin: 0 0 20px;
+}
+
+.ticket-discount {
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 12px;
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+.ticket-discount > summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--font-kr);
+  font-size: 15px;
+  color: #2b2b2b;
+}
+.ticket-discount > summary::-webkit-details-marker { display: none; }
+.ticket-discount > summary::after {
+  content: "";
+  width: 9px;
+  height: 9px;
+  border-right: 2px solid #6b7785;
+  border-bottom: 2px solid #6b7785;
+  transform: rotate(45deg);
+  transition: transform 0.25s ease;
+  margin-left: 12px;
+  flex: none;
+}
+.ticket-discount[open] > summary::after { transform: rotate(-135deg); }
+.ticket-discount__body {
+  padding: 2px 18px 16px;
+  font-family: var(--font-kr);
+  font-size: 14px;
+  line-height: 1.5;
+  color: #5b6671;
+}
+
+.ticket-booking__btn {
+  display: block;
+  margin: 22px auto 0;
+  padding: 11px 30px;
+  border: none;
+  border-radius: 999px;
+  background: #2aa9e0;
+  color: #fff;
+  font-family: var(--font-kr);
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+.ticket-booking__btn:hover { background: #1f93c6; transform: translateY(-2px); }
+
+@media (prefers-reduced-motion: reduce) {
+  .ticket-spot, .ticket-booking { transition: none; }
+  .ticket.is-selected .ticket-spot.is-selected .ticket-spot__bubble { animation: none; opacity: 0; }
 }
