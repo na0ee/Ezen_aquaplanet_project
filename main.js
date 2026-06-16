@@ -9,18 +9,177 @@ document.addEventListener('DOMContentLoaded', () => {
   initGnb();
   initScrollIndicator();
   initLogoScrollGate();
+  initIntroReveal();
   initIntroScrollGate();
+  initSmoothScroll();
+  initSectionScrollAnim();
   initCrewScroll();
-  initProgramSequence();
-  initLocationSequence();
-  initBookingSequence();
   initBookingBgVideo();
   initGlassBubbles();
+  initCrewFishMatte();
   initMapMarkers();
   initTopBtn();
   initCustomCursor();
   initCursorWave();
 });
+
+
+/* =============================================================
+   0-A. SMOOTH SCROLL — 부드럽고 느린 휠 스크롤 (크루 섹션 이후 활성화)
+   ============================================================= */
+function initSmoothScroll() {
+  let targetY = window.scrollY;
+  let currentY = window.scrollY;
+  let rafId = null;
+  let isSelf = false;
+
+  const ease = 0.08;        /* 낮을수록 느리고 부드러움 (0.08 ≈ 0.5초에 90% 도달) */
+  const speedScale = 0.80;  /* 휠 delta 감속 비율 */
+
+  function clamp(v) {
+    return Math.max(0, Math.min(document.documentElement.scrollHeight - window.innerHeight, v));
+  }
+
+  function tick() {
+    const diff = targetY - currentY;
+    if (Math.abs(diff) < 0.4) {
+      currentY = targetY;
+      isSelf = true;
+      window.scrollTo(0, currentY);
+      isSelf = false;
+      rafId = null;
+      return;
+    }
+    currentY += diff * ease;
+    isSelf = true;
+    window.scrollTo(0, Math.round(currentY));
+    isSelf = false;
+    rafId = requestAnimationFrame(tick);
+  }
+
+  window.addEventListener('wheel', (e) => {
+    if (!crewScrollUnlocked) return;
+    if (diveActive) return;
+
+    e.preventDefault();
+    targetY = clamp(targetY + e.deltaY * speedScale);
+
+    /* 외부(앵커 클릭 등)에 의해 위치가 크게 바뀐 경우 currentY 보정 */
+    if (Math.abs(currentY - window.scrollY) > 80) {
+      currentY = window.scrollY;
+    }
+
+    if (!rafId) rafId = requestAnimationFrame(tick);
+  }, { passive: false });
+
+  /* 앵커 링크 · scrollIntoView 등 외부 스크롤 발생 시 target 동기화 */
+  window.addEventListener('scroll', () => {
+    if (isSelf) return;
+    if (rafId) return;
+    targetY = window.scrollY;
+    currentY = window.scrollY;
+  }, { passive: true });
+}
+
+
+/* =============================================================
+   0-A-2. SECTION SCROLL ANIMATION — 타이틀 고정 + 콘텐츠 페이드인 (스냅 없음)
+   ============================================================= */
+function initSectionScrollAnim() {
+  const configs = [
+    { id: 'sec-program',  rippleSelector: '.program-seq-content',  ripple: true  },
+    { id: 'sec-location', rippleSelector: '.location-seq-content', ripple: true  },
+    { id: 'sec-booking',  rippleSelector: null,                    ripple: false },
+  ];
+
+  const items = configs.map(cfg => {
+    const section = document.getElementById(cfg.id);
+    return section ? { section, cfg, contentWasVisible: false } : null;
+  }).filter(Boolean);
+
+  if (!items.length) return;
+
+  function clamp01(v) { return Math.min(Math.max(v, 0), 1); }
+  function smoothstep(e0, e1, v) {
+    const t = clamp01((v - e0) / (e1 - e0));
+    return t * t * (3 - 2 * t);
+  }
+
+  function onScroll() {
+    const vh = window.innerHeight;
+
+    items.forEach(item => {
+      const { section, cfg } = item;
+      const rect = section.getBoundingClientRect();
+      const scrollSpan = vh + Math.max(0, rect.height - vh);
+      const progress = clamp01((vh - rect.top) / scrollSpan);
+
+      const nextOverlapExit = 1 - smoothstep(vh * 0.58, vh * 0.82, rect.bottom);
+      const bottomExit = clamp01((vh * 0.18 - rect.bottom) / (vh * 0.18));
+      const exitProgress = Math.max(nextOverlapExit, bottomExit);
+
+      const titleProgress = smoothstep(0.34, 0.44, progress);
+      const contentEnterProgress = smoothstep(0.52, 0.68, progress);
+      const contentExitLift = smoothstep(0.86, 1, progress);
+      const contentLeaveProgress = Math.max(exitProgress, contentExitLift);
+      const contentY = (1 - contentEnterProgress) * 52 - contentExitLift * 32;
+      const isPast = rect.bottom <= 0;
+
+      const titleOpacity = titleProgress * (1 - contentLeaveProgress);
+      const contentOpacity = contentEnterProgress * (1 - contentLeaveProgress);
+
+      section.style.setProperty('--seq-content-y', `${contentY.toFixed(2)}vh`);
+      section.style.setProperty('--seq-title-opacity', titleOpacity.toFixed(3));
+      section.style.setProperty('--seq-content-opacity', contentOpacity.toFixed(3));
+
+      section.classList.toggle('is-title-visible',   titleOpacity   > 0.01 && !isPast);
+      section.classList.toggle('is-content-visible', contentOpacity > 0.01 && !isPast);
+
+      if (cfg.ripple && contentOpacity > 0.3 && !item.contentWasVisible) {
+        const el = section.querySelector(cfg.rippleSelector);
+        if (el) triggerContentRipple(el);
+      }
+      item.contentWasVisible = contentOpacity > 0.3;
+    });
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+}
+
+function triggerContentRipple(el) {
+  const dispMap = document.getElementById('dive-disp-map');
+  const turbEl  = document.getElementById('dive-turbulence');
+  if (!dispMap || !turbEl || typeof gsap === 'undefined') return;
+
+  el.style.filter = 'url(#dive-warp)';
+
+  let rafId;
+  const t0 = performance.now();
+  (function tickRipple() {
+    const t   = (performance.now() - t0) / 1000;
+    const bfx = (0.005 + Math.sin(t * 3.2) * 0.0018).toFixed(5);
+    const bfy = (0.009 + Math.cos(t * 2.7) * 0.0022).toFixed(5);
+    turbEl.setAttribute('baseFrequency', `${bfx} ${bfy}`);
+    rafId = requestAnimationFrame(tickRipple);
+  })();
+
+  gsap.killTweensOf(dispMap);
+  dispMap.setAttribute('scale', '0');
+
+  gsap.timeline({
+    onComplete() {
+      cancelAnimationFrame(rafId);
+      turbEl.setAttribute('baseFrequency', '0.004 0.007');
+      dispMap.setAttribute('scale', '0');
+      el.style.filter = '';
+    },
+  })
+    .to(dispMap, { attr: { scale: 18 }, duration: 0.22, ease: 'sine.out'   })
+    .to(dispMap, { attr: { scale:  6 }, duration: 0.26, ease: 'sine.inOut' })
+    .to(dispMap, { attr: { scale: 12 }, duration: 0.22, ease: 'sine.inOut' })
+    .to(dispMap, { attr: { scale:  0 }, duration: 0.55, ease: 'power2.out' });
+}
 
 
 /* =============================================================
@@ -120,6 +279,7 @@ function initReveal() {
    ============================================================= */
 function initGnb() {
   const gnb      = document.getElementById('gnb');
+  const logo     = document.getElementById('sec-logo');
   const navLinks = document.querySelectorAll('.gnb__link');
   const sections = document.querySelectorAll('section[id]');
   const SCROLL_THRESHOLD = 80;
@@ -133,20 +293,34 @@ function initGnb() {
   };
 
   let lastScrollY = window.scrollY;
+  let gnbUnlocked = false;
+
+  function unlockGnb() {
+    if (gnbUnlocked) return;
+    gnbUnlocked = true;
+    gnb.classList.remove('gnb--logo-mode');
+  }
 
   function onScroll() {
     const currentY = window.scrollY;
-    const scrolledDown = currentY > lastScrollY;
+
+    // 로고 섹션이 뷰포트 밖으로 나가면 GNB 표시
+    if (!gnbUnlocked && logo && logo.getBoundingClientRect().bottom <= 0) {
+      unlockGnb();
+    }
+
+    // 로고 섹션 재진입 시 다시 숨김
+    if (gnbUnlocked && logo && logo.getBoundingClientRect().bottom > 0) {
+      gnbUnlocked = false;
+      gnb.classList.add('gnb--logo-mode');
+    }
+
+    if (!gnbUnlocked) {
+      lastScrollY = currentY;
+      return;
+    }
 
     gnb.classList.toggle('is-scrolled', currentY > SCROLL_THRESHOLD);
-
-    // 로고 트랜지션 중에는 헤더 슬롯이 안정적이도록 GNB를 숨기지 않음
-    const inLogoTransition = document.body.classList.contains('is-logo-transition');
-    if (currentY > SCROLL_THRESHOLD && !inLogoTransition) {
-      gnb.classList.toggle('is-hidden', scrolledDown);
-    } else {
-      gnb.classList.remove('is-hidden');
-    }
 
     lastScrollY = currentY;
 
@@ -178,6 +352,12 @@ function initScrollIndicator() {
   if (!indicator) return;
 
   window.addEventListener('scroll', () => {
+    if (!crewScrollUnlocked && !diveActive) {
+      indicator.style.opacity = '1';
+      indicator.style.transform = 'translateX(-50%) translateY(0)';
+      return;
+    }
+
     const introTop     = intro ? window.scrollY + intro.getBoundingClientRect().top : 0;
     const scrolledIn   = Math.max(0, window.scrollY - introTop);
     const progress     = Math.min(scrolledIn / 150, 1);
@@ -219,6 +399,31 @@ function initLogoScrollGate() {
 
 
 /* =============================================================
+   3-C. 인트로 섹션 아래서-등장 리빌
+        로고가 헤더로 70% 진입했을 때 #sec-intro가 아래에서 슬라이드 인.
+   ============================================================= */
+function initIntroReveal() {
+  const intro = document.getElementById('sec-intro');
+  const logo  = document.getElementById('sec-logo');
+  if (!intro) return;
+
+  const introContent = intro.querySelector('.hero__text');
+  if (!introContent) return;
+  introContent.classList.add('is-visible');
+
+  if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined' || !logo) return;
+
+  ScrollTrigger.create({
+    trigger: '#sec-logo',
+    start: '70% top',
+    onEnter: () => introContent.classList.add('is-visible'),
+    onLeaveBack: () => introContent.classList.add('is-visible'),
+    once: false,
+  });
+}
+
+
+/* =============================================================
    4. 잠수 전환 — 전화면 물결 왜곡 (unseen.co 스타일)
    ============================================================= */
 let diveActive = false;
@@ -229,15 +434,34 @@ function initIntroScrollGate() {
   const crew  = document.getElementById('sec-crew');
   if (!intro || !crew) return;
 
+  const indicator = document.querySelector('.scroll-indicator');
   let touchStartY = 0;
+  let hintTimer = 0;
+
+  function sectionTop(el) {
+    return Math.round(window.scrollY + el.getBoundingClientRect().top);
+  }
+
+  function nudgeDiveHint() {
+    if (!indicator) return;
+
+    indicator.classList.remove('is-hinting');
+    void indicator.offsetWidth;
+    indicator.classList.add('is-hinting');
+
+    window.clearTimeout(hintTimer);
+    hintTimer = window.setTimeout(() => {
+      indicator.classList.remove('is-hinting');
+    }, 1400);
+  }
 
   function isBeforeCrew() {
-    const crewTop = window.scrollY + crew.getBoundingClientRect().top;
+    const crewTop = sectionTop(crew);
     return window.scrollY < crewTop - 4;
   }
 
   function isAtOrAfterIntro() {
-    const introTop = window.scrollY + intro.getBoundingClientRect().top;
+    const introTop = sectionTop(intro);
     return window.scrollY >= introTop - 4;
   }
 
@@ -245,9 +469,30 @@ function initIntroScrollGate() {
     return !crewScrollUnlocked && !diveActive && isAtOrAfterIntro() && isBeforeCrew();
   }
 
+  function clampToIntro() {
+    if (crewScrollUnlocked || diveActive) return;
+
+    const introTop = sectionTop(intro);
+    const crewTop = sectionTop(crew);
+    const y = window.scrollY;
+
+    if (y > introTop + 2 && y < crewTop) {
+      const html = document.documentElement;
+      const prevHtmlBehavior = html.style.scrollBehavior;
+      const prevBodyBehavior = document.body.style.scrollBehavior;
+
+      html.style.scrollBehavior = 'auto';
+      document.body.style.scrollBehavior = 'auto';
+      window.scrollTo(0, introTop);
+      html.style.scrollBehavior = prevHtmlBehavior;
+      document.body.style.scrollBehavior = prevBodyBehavior;
+    }
+  }
+
   window.addEventListener('wheel', (e) => {
     if (e.deltaY > 0 && shouldBlockDown()) {
       e.preventDefault();
+      nudgeDiveHint();
     }
   }, { passive: false });
 
@@ -259,6 +504,7 @@ function initIntroScrollGate() {
     const y = e.touches[0]?.clientY ?? touchStartY;
     if (touchStartY - y > 30 && shouldBlockDown()) {
       e.preventDefault();
+      nudgeDiveHint();
     }
   }, { passive: false });
 
@@ -266,12 +512,128 @@ function initIntroScrollGate() {
     const downKeys = ['ArrowDown', 'PageDown', ' ', 'End'];
     if (downKeys.includes(e.key) && shouldBlockDown()) {
       e.preventDefault();
+      nudgeDiveHint();
     }
   });
 
   window.addEventListener('scroll', () => {
-    if (window.scrollY < 20 && !diveActive) crewScrollUnlocked = false;
+    if (diveActive) return;
+
+    const y = window.scrollY;
+    const crewTop = sectionTop(crew);
+
+    if (y < crewTop - 4) crewScrollUnlocked = false;
+    clampToIntro();
   }, { passive: true });
+
+  clampToIntro();
+}
+
+
+/* =============================================================
+   0-C. CREW FISH VIDEO MATTE
+   ============================================================= */
+function initCrewFishMatte() {
+  const video = document.getElementById('crew-fish-source');
+  const canvas = document.getElementById('crew-fish-bg');
+  if (!video || !canvas) return;
+
+  const ctx = canvas.getContext('2d', { willReadFrequently: true });
+  if (!ctx) return;
+
+  const processWidth = 420;
+  let processHeight = 236;
+  let running = true;
+
+  function clamp01(value) {
+    return Math.max(0, Math.min(1, value));
+  }
+
+  function smoothstep(edge0, edge1, value) {
+    const t = clamp01((value - edge0) / (edge1 - edge0));
+    return t * t * (3 - 2 * t);
+  }
+
+  function resizeCanvas() {
+    const vw = video.videoWidth || 1280;
+    const vh = video.videoHeight || 720;
+    processHeight = Math.max(1, Math.round(processWidth * (vh / vw)));
+    canvas.width = processWidth;
+    canvas.height = processHeight;
+  }
+
+  function sampleBackground(data, width, height) {
+    const box = Math.max(6, Math.round(Math.min(width, height) * 0.055));
+    const points = [
+      [0, 0],
+      [width - box, 0],
+      [0, height - box],
+      [width - box, height - box]
+    ];
+    let r = 0, g = 0, b = 0, count = 0;
+
+    points.forEach(([sx, sy]) => {
+      for (let y = sy; y < sy + box; y += 1) {
+        for (let x = sx; x < sx + box; x += 1) {
+          const i = (y * width + x) * 4;
+          r += data[i];
+          g += data[i + 1];
+          b += data[i + 2];
+          count += 1;
+        }
+      }
+    });
+
+    return {
+      r: r / count,
+      g: g / count,
+      b: b / count
+    };
+  }
+
+  function matteFrame() {
+    if (!running) return;
+    requestAnimationFrame(matteFrame);
+
+    if (video.readyState < 2 || !video.videoWidth) return;
+    if (canvas.width !== processWidth) resizeCanvas();
+
+    let frame;
+    try {
+      ctx.drawImage(video, 0, 0, processWidth, processHeight);
+      frame = ctx.getImageData(0, 0, processWidth, processHeight);
+    } catch (err) {
+      running = false;
+      console.warn('[crew fish] 영상 누끼 처리 중단:', err);
+      return;
+    }
+
+    const data = frame.data;
+    const bg = sampleBackground(data, processWidth, processHeight);
+
+    for (let i = 0; i < data.length; i += 4) {
+      const r = data[i];
+      const g = data[i + 1];
+      const b = data[i + 2];
+      const dist = Math.hypot(r - bg.r, g - bg.g, b - bg.b);
+      const luma = r * 0.2126 + g * 0.7152 + b * 0.0722;
+      const alpha = smoothstep(30, 112, dist) * smoothstep(10, 34, luma);
+
+      data[i + 3] = Math.round(255 * alpha);
+    }
+
+    ctx.putImageData(frame, 0, 0);
+  }
+
+  video.addEventListener('loadedmetadata', resizeCanvas, { once: true });
+  video.play().catch(() => {});
+
+  document.addEventListener('visibilitychange', () => {
+    running = !document.hidden;
+    if (running) matteFrame();
+  });
+
+  matteFrame();
 }
 
 /**
@@ -495,6 +857,17 @@ function initCrewScroll() {
     const panelHeight = window.innerHeight;
     const exitStart = totalPanels * panelHeight;
 
+    if (!crewScrollUnlocked && !diveActive) {
+      if (exitWavePlayed) {
+        document.dispatchEvent(new CustomEvent('crew-wave-exit-reset'));
+      }
+      section.classList.remove('is-title-visible', 'is-crew-exiting', 'is-content-visible', 'is-crew-wave-exiting');
+      tailHidden = false;
+      exitWavePlayed = false;
+      document.dispatchEvent(new CustomEvent('crew-tail-visibility', { detail: { hidden: true } }));
+      return;
+    }
+
     if (scrolled < -10) {
       if (exitWavePlayed) {
         document.dispatchEvent(new CustomEvent('crew-wave-exit-reset'));
@@ -554,7 +927,6 @@ function initCrewScroll() {
     setActive(0, true);
   });
   document.addEventListener('crew-card-reenter', playCrewCardWave);
-  setActive(0);
 
   /* 점 클릭 → 해당 패널 위치로 스크롤 */
   dots.forEach((dot, i) => {
@@ -600,11 +972,20 @@ function initBookingBgVideo() {
   });
 }
 
+const stickySequenceControllers = [];
+let stickySequenceWheelBound = false;
+let stickySequenceSnapRaf = 0;
+let stickySequenceHtmlBehavior = '';
+let stickySequenceBodyBehavior = '';
+let stickySequenceWheelDelta = 0;
+let stickySequenceWheelTimer = 0;
+
 function initStickySequenceSection(sectionId) {
   const section = document.getElementById(sectionId);
   if (!section) return;
   let contentWasVisible = false;
   let lastProgress = 0;
+  let holdWheelCount = 0;
 
   function clamp01(value) {
     return Math.min(Math.max(value, 0), 1);
@@ -615,20 +996,37 @@ function initStickySequenceSection(sectionId) {
     return t * t * (3 - 2 * t);
   }
 
-  function onScroll() {
+  function getSectionMetrics() {
     const rect = section.getBoundingClientRect();
-    const vh   = window.innerHeight;
-    const progress = clamp01((vh - rect.top) / vh);
-    const exitProgress = clamp01((vh * 0.18 - rect.bottom) / (vh * 0.18));
-    const titleY = (1 - progress) * 46;
-    const contentY = (1 - progress) * 52;
+    const vh = window.innerHeight;
+    const sectionTop = window.scrollY + rect.top;
+    const scrollSpan = vh + Math.max(0, rect.height - vh);
+    const progress = clamp01((vh - rect.top) / scrollSpan);
+    return { rect, vh, sectionTop, scrollSpan, progress };
+  }
+
+  function scrollTargetForProgress(progress) {
+    const { vh, sectionTop, scrollSpan } = getSectionMetrics();
+    const maxScroll = document.documentElement.scrollHeight - vh;
+    return Math.min(Math.max(sectionTop - vh + progress * scrollSpan, 0), maxScroll);
+  }
+
+  function onScroll() {
+    const { rect, vh, scrollSpan, progress } = getSectionMetrics();
+    const nextOverlapExit = 1 - smoothstep(vh * 0.58, vh * 0.82, rect.bottom);
+    const bottomExit = clamp01((vh * 0.18 - rect.bottom) / (vh * 0.18));
+    const exitProgress = Math.max(nextOverlapExit, bottomExit);
+    const titleProgress = smoothstep(0.34, 0.44, progress);
+    const contentEnterProgress = smoothstep(0.52, 0.68, progress);
+    const contentExitLift = smoothstep(0.86, 1, progress);
+    const contentLeaveProgress = Math.max(exitProgress, contentExitLift);
+    const contentY = (1 - contentEnterProgress) * 52 - contentExitLift * 32;
     const isInRange = rect.top < vh && rect.bottom > 0;
     const isPast = rect.bottom <= 0;
-    const titleOpacity = smoothstep(0.06, 0.24, progress) * (1 - exitProgress);
-    const contentOpacity = smoothstep(0.22, 0.42, progress) * (1 - exitProgress);
+    const titleOpacity = titleProgress * (1 - contentLeaveProgress);
+    const contentOpacity = contentEnterProgress * (1 - contentLeaveProgress);
     const scrollingDown = progress >= lastProgress;
 
-    section.style.setProperty('--seq-title-y', `${titleY.toFixed(2)}vh`);
     section.style.setProperty('--seq-content-y', `${contentY.toFixed(2)}vh`);
     section.style.setProperty('--seq-title-opacity', titleOpacity.toFixed(3));
     section.style.setProperty('--seq-content-opacity', contentOpacity.toFixed(3));
@@ -636,6 +1034,7 @@ function initStickySequenceSection(sectionId) {
     if (!isInRange && !isPast) {
       section.classList.remove('is-title-visible', 'is-content-visible', 'is-exiting');
       contentWasVisible = false;
+      holdWheelCount = 0;
       lastProgress = progress;
       return;
     }
@@ -648,15 +1047,166 @@ function initStickySequenceSection(sectionId) {
     section.classList.toggle('is-content-visible', contentVisible);
     section.classList.toggle('is-exiting', exiting);
 
-    if (contentVisible && !contentWasVisible && !exiting && scrollingDown) {
+    if (contentOpacity > 0.3 && !contentWasVisible && !exiting && scrollingDown && sectionId !== 'sec-booking') {
       playSequenceWave(section);
     }
-    contentWasVisible = contentVisible && !exiting;
+    contentWasVisible = contentOpacity > 0.3 && !exiting;
     lastProgress = progress;
   }
 
+  const controller = {
+    section,
+    onScroll,
+    getSectionMetrics,
+    scrollTargetForProgress,
+    getHoldWheelCount: () => holdWheelCount,
+    setHoldWheelCount: (value) => { holdWheelCount = value; },
+  };
+
+  stickySequenceControllers.push(controller);
   window.addEventListener('scroll', onScroll, { passive: true });
+  bindStickySequenceWheel();
   onScroll();
+}
+
+function bindStickySequenceWheel() {
+  if (stickySequenceWheelBound) return;
+  stickySequenceWheelBound = true;
+
+  window.addEventListener('wheel', handleStickySequenceWheel, { passive: false });
+}
+
+function smoothStickySequenceScroll(controller, targetY, duration = 760) {
+  if (stickySequenceSnapRaf) window.cancelAnimationFrame(stickySequenceSnapRaf);
+
+  window.__sequenceSnapActive = true;
+
+  const startY = window.scrollY;
+  const deltaY = targetY - startY;
+  const startedAt = performance.now();
+  const html = document.documentElement;
+  const body = document.body;
+  stickySequenceHtmlBehavior = html.style.scrollBehavior;
+  stickySequenceBodyBehavior = body.style.scrollBehavior;
+  html.style.scrollBehavior = 'auto';
+  body.style.scrollBehavior = 'auto';
+
+  function tick(now) {
+    const t = Math.min(Math.max((now - startedAt) / duration, 0), 1);
+    const eased = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    window.scrollTo(0, startY + deltaY * eased);
+
+    if (t < 1) {
+      stickySequenceSnapRaf = window.requestAnimationFrame(tick);
+      return;
+    }
+
+    stickySequenceSnapRaf = 0;
+    window.__sequenceSnapActive = false;
+    html.style.scrollBehavior = stickySequenceHtmlBehavior;
+    body.style.scrollBehavior = stickySequenceBodyBehavior;
+    controller.onScroll();
+  }
+
+  stickySequenceSnapRaf = window.requestAnimationFrame(tick);
+}
+
+function getActiveStickySequenceController() {
+  const candidates = stickySequenceControllers
+    .map(controller => ({ controller, metrics: controller.getSectionMetrics() }))
+    .filter(({ metrics }) => (
+      metrics.rect.top < metrics.vh * 0.95 &&
+      metrics.rect.bottom > metrics.vh * 0.42
+    ));
+
+  if (!candidates.length) return null;
+
+  candidates.sort((a, b) => {
+    const aDistance = Math.abs(a.metrics.progress - 0.72);
+    const bDistance = Math.abs(b.metrics.progress - 0.72);
+    return aDistance - bDistance;
+  });
+
+  return candidates[0];
+}
+
+function handleStickySequenceWheel(e) {
+  if (e.defaultPrevented) return;
+
+  if (window.__sequenceSnapActive) {
+    e.preventDefault();
+    return;
+  }
+
+  const active = getActiveStickySequenceController();
+  if (!active) {
+    stickySequenceControllers.forEach(controller => controller.setHoldWheelCount(0));
+    stickySequenceWheelDelta = 0;
+    return;
+  }
+
+  const { controller, metrics } = active;
+  const { progress } = metrics;
+  const holdProgress = 0.72;
+  const exitProgress = 1.02;
+  const lockedWheelLimit = 1;
+  const wheelThreshold = 90;
+  const rawGoingDown = e.deltaY > 0;
+  const rawGoingUp = e.deltaY < 0;
+  /* 섹션 초기 진입 구간(progress < 0.64)은 자연 스크롤 허용 — 진입 스냅 튕김 방지 */
+  const shouldControl =
+    (rawGoingDown && progress >= holdProgress - 0.08 && progress < 0.98) ||
+    (rawGoingUp && progress > holdProgress + 0.08 && progress < 1);
+
+  if (!shouldControl) {
+    stickySequenceWheelDelta = 0;
+    return;
+  }
+
+  e.preventDefault();
+  window.clearTimeout(stickySequenceWheelTimer);
+  stickySequenceWheelDelta += e.deltaY;
+  stickySequenceWheelTimer = window.setTimeout(() => {
+    stickySequenceWheelDelta = 0;
+  }, 180);
+
+  if (Math.abs(stickySequenceWheelDelta) < wheelThreshold) return;
+
+  const goingDown = stickySequenceWheelDelta > 0;
+  const goingUp = stickySequenceWheelDelta < 0;
+  stickySequenceWheelDelta = 0;
+
+  stickySequenceControllers.forEach(other => {
+    if (other !== controller) other.setHoldWheelCount(0);
+  });
+
+  if (progress < holdProgress - 0.08 || progress >= 0.98) {
+    controller.setHoldWheelCount(0);
+  }
+
+  if (goingDown && progress < holdProgress - 0.04) {
+    controller.setHoldWheelCount(0);
+    /* 이미 0.64+ 이상에서만 진입하므로 작은 보정 스냅 (380ms) */
+    smoothStickySequenceScroll(controller, controller.scrollTargetForProgress(holdProgress), 380);
+    return;
+  }
+
+  if (goingDown && progress >= holdProgress - 0.04 && progress < 0.98) {
+    if (controller.getHoldWheelCount() < lockedWheelLimit) {
+      controller.setHoldWheelCount(controller.getHoldWheelCount() + 1);
+      smoothStickySequenceScroll(controller, controller.scrollTargetForProgress(holdProgress), 180);
+      return;
+    }
+
+    controller.setHoldWheelCount(0);
+    smoothStickySequenceScroll(controller, controller.scrollTargetForProgress(exitProgress), 680);
+    return;
+  }
+
+  if (goingUp && progress > holdProgress + 0.08 && progress < 1) {
+    controller.setHoldWheelCount(0);
+    smoothStickySequenceScroll(controller, controller.scrollTargetForProgress(holdProgress), 520);
+  }
 }
 
 function playSequenceWave(section) {
@@ -668,39 +1218,39 @@ function playSequenceWave(section) {
   content.classList.remove('is-wave-entering');
   void content.offsetWidth;
   content.classList.add('is-wave-entering');
-  window.setTimeout(() => content.classList.remove('is-wave-entering'), 1100);
+  window.setTimeout(() => content.classList.remove('is-wave-entering'), 1050);
 
   if (!dispMap || !turbEl || typeof gsap === 'undefined') return;
 
+  gsap.killTweensOf(dispMap);
   content.style.filter = 'url(#dive-warp)';
 
   let rafId;
   const t0 = performance.now();
   (function tickSequenceWave() {
     const t   = (performance.now() - t0) / 1000;
-    const bfx = (0.006 + Math.sin(t * 2.35) * 0.0022).toFixed(5);
-    const bfy = (0.010 + Math.cos(t * 1.85) * 0.0028).toFixed(5);
+    const fade = Math.max(0, 1 - t / 1.05);
+    const bfx = (0.0068 + Math.sin(t * 4.1) * 0.0016 * fade).toFixed(5);
+    const bfy = (0.0115 + Math.cos(t * 3.6) * 0.0022 * fade).toFixed(5);
     turbEl.setAttribute('baseFrequency', `${bfx} ${bfy}`);
     rafId = requestAnimationFrame(tickSequenceWave);
   })();
 
-  gsap.fromTo(
-    dispMap,
-    { attr: { scale: 30 } },
-    {
-      attr: { scale: 0 },
-      duration: 1.05,
-      ease: 'expo.out',
-      onComplete() {
-        cancelAnimationFrame(rafId);
-        turbEl.setAttribute('baseFrequency', '0.004 0.007');
-        dispMap.setAttribute('scale', '0');
-        content.style.filter = '';
-      },
-    }
-  );
-}
+  dispMap.setAttribute('scale', '0');
 
+  gsap.timeline({
+    onComplete() {
+      cancelAnimationFrame(rafId);
+      turbEl.setAttribute('baseFrequency', '0.004 0.007');
+      dispMap.setAttribute('scale', '0');
+      content.style.filter = '';
+    }
+  })
+    .to(dispMap, { attr: { scale: 16 }, duration: 0.18, ease: 'sine.out' })
+    .to(dispMap, { attr: { scale: 6 }, duration: 0.2, ease: 'sine.inOut' })
+    .to(dispMap, { attr: { scale: 11 }, duration: 0.18, ease: 'sine.inOut' })
+    .to(dispMap, { attr: { scale: 0 }, duration: 0.42, ease: 'sine.out' });
+}
 
 /* =============================================================
    7. 지도 마커
@@ -716,6 +1266,8 @@ function initMapMarkers() {
   let activeMarker = null;
   let indicatorTimer = null;
   let indicatorRaf = null;
+  let cardSwapTimer = null;
+  let activeBranchKey = '';
 
   const branchInfo = {
     '일산':  {
@@ -753,6 +1305,48 @@ function initMapMarkers() {
   };
 
   const cardImg = hoverCard?.querySelector('.location-hover-card__img');
+  const branchEl = hoverCard?.querySelector('.location-hover-card__branch');
+  const metaPs   = hoverCard?.querySelectorAll('.location-hover-card__meta p');
+  const descEl   = hoverCard?.querySelector('.location-hover-card__desc');
+
+  function setHoverCardContent(info) {
+    if (!info) return;
+
+    if (cardImg) {
+      cardImg.src = info.img;
+      cardImg.alt = info.name;
+    }
+    if (branchEl) branchEl.textContent = info.name;
+    if (metaPs?.[0]) metaPs[0].textContent = info.address;
+    if (metaPs?.[1]) metaPs[1].textContent = info.tel;
+    if (descEl) descEl.textContent = info.desc;
+  }
+
+  function swapHoverCardContent(info, branchKey) {
+    if (!hoverCard || !info) return;
+
+    window.clearTimeout(cardSwapTimer);
+
+    if (!activeBranchKey) {
+      setHoverCardContent(info);
+      activeBranchKey = branchKey;
+      return;
+    }
+
+    if (activeBranchKey === branchKey) return;
+
+    hoverCard.classList.add('is-switching');
+    cardSwapTimer = window.setTimeout(() => {
+      setHoverCardContent(info);
+      activeBranchKey = branchKey;
+
+      requestAnimationFrame(() => {
+        hoverCard.classList.remove('is-switching');
+        hoverCard.classList.add('is-switched');
+        window.setTimeout(() => hoverCard.classList.remove('is-switched'), 360);
+      });
+    }, 150);
+  }
 
   function updateIndicator(marker) {
     if (!mapWrap || !hoverCard || !indicator || !indicatorLine || !indicatorEnd || !marker) return;
@@ -782,19 +1376,7 @@ function initMapMarkers() {
     mapWrap?.classList.add('is-hovering');
 
     const info = branchInfo[marker.dataset.branch];
-    if (info) {
-      if (cardImg) {
-        cardImg.src = info.img;
-        cardImg.alt = info.name;
-      }
-      const branchEl = hoverCard?.querySelector('.location-hover-card__branch');
-      const metaPs   = hoverCard?.querySelectorAll('.location-hover-card__meta p');
-      const descEl   = hoverCard?.querySelector('.location-hover-card__desc');
-      if (branchEl) branchEl.textContent = info.name;
-      if (metaPs?.[0]) metaPs[0].textContent = info.address;
-      if (metaPs?.[1]) metaPs[1].textContent = info.tel;
-      if (descEl) descEl.textContent = info.desc;
-    }
+    swapHoverCardContent(info, marker.dataset.branch);
     window.clearTimeout(indicatorTimer);
     window.cancelAnimationFrame(indicatorRaf);
 
@@ -812,9 +1394,12 @@ function initMapMarkers() {
   function deactivate() {
     activeMarker = null;
     window.clearTimeout(indicatorTimer);
+    window.clearTimeout(cardSwapTimer);
     window.cancelAnimationFrame(indicatorRaf);
     markers.forEach(m => m.classList.remove('is-active'));
     mapWrap?.classList.remove('is-hovering');
+    hoverCard?.classList.remove('is-switching', 'is-switched');
+    activeBranchKey = '';
   }
 
   mapWrap?.addEventListener('pointerleave', deactivate);
@@ -865,6 +1450,21 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
   link.addEventListener('click', e => {
     const target = document.getElementById(link.getAttribute('href').slice(1));
     if (!target) return;
+
+    const intro = document.getElementById('sec-intro');
+    if (intro && !crewScrollUnlocked && !diveActive) {
+      const introTop = window.scrollY + intro.getBoundingClientRect().top;
+      const targetTop = window.scrollY + target.getBoundingClientRect().top;
+      const isBelowIntro = targetTop > introTop + 4;
+      const isInIntroGate = window.scrollY >= introTop - 4;
+
+      if (isInIntroGate && isBelowIntro) {
+        e.preventDefault();
+        intro.scrollIntoView({ behavior: 'auto', block: 'start' });
+        return;
+      }
+    }
+
     e.preventDefault();
     target.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });

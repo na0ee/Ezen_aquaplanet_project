@@ -436,6 +436,13 @@
       cursor: pointer;
       white-space: nowrap;
       line-height: 1.2;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .loc-programs__card:hover .loc-btn-white {
+      opacity: 1;
+      pointer-events: auto;
     }
     .loc-btn-outline {
       width: 94px;
@@ -1615,48 +1622,68 @@
     (function () {
       var LOCS = {
         jeju: {
+          img: 'assets/images/jeju.png',
           en: 'Jeju', kr: '제주',
           sub: '제주의 바다를 담은 국내 최대 규모 아쿠아리움',
           addr: '제주특별자치도 서귀포시 성산읍 섭지코지로 95', tel: '1833-7001',
           quote: '<p><span class="loc-info__qm">"</span><strong>유네스코 인류무형문화유산에</strong> 등재된</p><p><strong>제주 해녀의 감동</strong>을 바로 눈앞에서 느껴보세요<span class="loc-info__qm loc-info__qm--close">"</span></p>',
           secSub: '아쿠아플라넷 제주의 주요 프로그램을 소개합니다',
           programDesc: '<strong>제주의 푸른 바다</strong>와 <strong>해양 생태계</strong>를 테마로 구성된 국내 대표 아쿠아리움입니다<br><strong>대형 메인수조</strong>와 <strong>다양한 해양생물 전시</strong>를 통해 <strong>제주 바다의 아름다움</strong>과 <strong>생명의 가치</strong>를 경험할 수 있습니다',
+          programs: [
+            { img: 'assets/images/image 140.png',    title: '오션 아레나 특별 공연' },
+            { img: 'assets/images/jejuProgram1.png', title: '해녀 할망의 바당 이야기' }
+          ],
           desc: [
             '아시아 최대 규모(연면적 2만 5600m², 1만 800톤)를 자랑하며, 단일 수조로는 세계 최대급을 보유하고 있습니다.',
             '아쿠아플라넷 제주의 전시생물은 500여 종 2만 8000마리이며, 제주의 앞 바다를 재현한 초대형 수조 \'제주의 바다\'를 비롯해 \'해양과학 체험관, 대형 해양공연장\' 등 운영하고 있습니다.'
           ]
         },
         yeosu: {
+          img: 'assets/images/Frame 22.png',
           en: 'Yeosu', kr: '여수',
           sub: '여수의 바다를 담은 남해 대표 아쿠아리움',
           addr: '전라남도 여수시 오동도로 61-11', tel: '1833-7001',
           quote: '<p><span class="loc-info__qm">"</span>세계의 바다를 담은 이곳에서 경외감을 넘어,</p><p><strong>생명 보존에 대한 필요성</strong>을 느껴보세요<span class="loc-info__qm loc-info__qm--close">"</span></p>',
           secSub: '아쿠아플라넷 여수의 주요 프로그램을 소개합니다',
           programDesc: '국내 최대 규모급 아쿠아리움으로 다양한 해양생물과 공연 콘텐츠를 선보입니다<br>벨루가와 대형 메인수조를 비롯해 여수 바다를 배경으로 한 차별화된 관람 경험을 제공합니다',
+          programs: [
+            { img: 'assets/images/Frame 139.png', title: "최초 수중 아이돌 퍼포먼스 '시크릿 에이전트 뉴이브'" },
+            { img: 'assets/images/image 138.png', title: '오션라이프 만찬-메인수조 친구들 식사시간' }
+          ],
           desc: [
             '전남 여수시 여수 신항 제2부두 인근에 자리한 국내 2위 규모의 아쿠아리움으로 특히, 국내에서는 처음으로 지상(4층 규모)에 들어선다는 점이 특징입니다.',
             '300여 종 5만 5000여마리의 해양생물이 살고 있고, \'벨루가(흰 고래)\', \'푸른바다거북\' 등 멸종위기 생물들의 종보전 연구를 진행하고 있습니다.'
           ]
         },
         ilsan: {
+          img: 'assets/images/Frame 19.png',
           en: 'Ilsan', kr: '일산',
           sub: '일산 호수공원 옆 국내 대표 아쿠아리움',
           addr: '경기도 고양시 일산동구 장항동 838', tel: '1833-7001',
           quote: '<p><span class="loc-info__qm">"</span>국내에서 처음으로 실내동물원이 결합된</p><p><strong>컨버전스 아쿠아리움</strong>을 만나보세요<span class="loc-info__qm loc-info__qm--close">"</span></p>',
           secSub: '아쿠아플라넷 일산의 주요 프로그램을 소개합니다',
           programDesc: '도심 가까이에서 바다를 경험할 수 있는 수도권 대표 아쿠아리움입니다<br>국내 유일 바다코끼리와 다양한 생물 전시를 통해 교육과 체험이 결합된 해양문화공간을 제공합니다',
+          programs: [
+            { img: 'assets/images/image 136.png', title: '국내 유일! 바다코끼리 자매 메리&바랴 생태설명회' },
+            { img: 'assets/images/programIL.png', title: '메인수조 투명보트 탑승 체험' }
+          ],
           desc: [
             '초대형 규모(연면적 1만 4660m², 수조량 4300톤)를 자랑하며 최대 규모 2000톤에 달하는 대형수조를 비롯해 수조 44개, 동물사 9개와 조류방사장 등 관람과 체험을 동시에 즐길 수 있는 \'도심 속 체험형 복합관람시설\'을 표방하고 있습니다.',
             '특히 대형수조 \'딥 블루오션\'에서의 신기한 마술공연, 다양한 생태설명회가 열리는 \'오션 아레나\', 정글에 사는 동물친구들을 만나는 \'나무 쉼터\' 등을 운영하여 재미와 교육을 동시에 느낄 수 있는 다양한 콘텐츠들을 접할 수 있습니다.'
           ]
         },
         gwanggyo: {
+          img: 'assets/images/Frame 20.png',
           en: 'Gwanggyo', kr: '광교',
           sub: '광교 수변도시의 아름다운 아쿠아리움',
           addr: '경기도 수원시 영통구 광교호수공원로 300 포레나 광교 B1F', tel: '1833-7001',
           quote: '<p><span class="loc-info__qm">"</span>다양한 교육&amp;체험 프로그램과 다양한 공연 등</p><p><strong>기존 아쿠아리움과 차별화된 환상적인 콘텐츠</strong>를 365일 체험해보세요<span class="loc-info__qm loc-info__qm--close">"</span></p>',
           secSub: '아쿠아플라넷 광교의 주요 프로그램을 소개합니다',
           programDesc: '쇼핑과 문화, 체험이 결합된 도심형 아쿠아리움입니다<br>생물 관람뿐 아니라 체험 콘텐츠와 다양한 테마 공간을 통해 새로운 해양문화 경험을 제공합니다',
+          programs: [
+            { img: 'assets/images/gwanggyo_guide_map04.jpg', title: "아쿠아플라넷 광교의 마스코트! '펭귄' 생태설명회" },
+            { img: 'assets/images/programIl2.png',           title: '머메이드쇼' }
+          ],
           desc: [
             '지금까지 경험해보지 못했던 Funny한 체험과 Fantasy한 바닷속 세상, 아쿠아플라넷 광교입니다.',
             '도심 속 바다에 살고 있는 210여종 30,000마리의 해양 및 육지 생물들을 가장 가까운 거리에서 생생하게 만나보세요.',
@@ -1676,6 +1703,11 @@
       var programsDesc   = document.getElementById('loc-programs-desc');
       var secSubPrograms = document.getElementById('loc-sec-sub-programs');
       var secSubMap      = document.getElementById('loc-sec-sub-map');
+      var progImg1       = document.getElementById('loc-prog-img-1');
+      var progTitle1     = document.getElementById('loc-prog-title-1');
+      var progImg2       = document.getElementById('loc-prog-img-2');
+      var progTitle2     = document.getElementById('loc-prog-title-2');
+      var cardImg        = document.querySelector('.loc-info__img');
 
       tabs.forEach(function (tab) {
         tab.addEventListener('click', function (e) {
@@ -1685,6 +1717,7 @@
           if (!loc) return;
           tabs.forEach(function (t) { t.classList.remove('is-active'); });
           tab.classList.add('is-active');
+          if (cardImg && loc.img) { cardImg.src = loc.img; cardImg.alt = '아쿠아플라넷 ' + loc.kr + ' 전경'; }
           if (cityEn)         cityEn.textContent         = loc.en;
           if (citySub)        citySub.textContent        = loc.sub;
           if (cityKr)         cityKr.textContent         = loc.kr;
@@ -1695,6 +1728,12 @@
           if (programsDesc)   programsDesc.innerHTML     = loc.programDesc;
           if (secSubPrograms) secSubPrograms.textContent = loc.secSub;
           if (secSubMap)      secSubMap.textContent      = loc.secSub;
+          if (loc.programs) {
+            if (progImg1)   { progImg1.src = loc.programs[0].img;   progImg1.alt = loc.programs[0].title; }
+            if (progTitle1) { progTitle1.textContent = loc.programs[0].title; }
+            if (progImg2)   { progImg2.src = loc.programs[1].img;   progImg2.alt = loc.programs[1].title; }
+            if (progTitle2) { progTitle2.textContent = loc.programs[1].title; }
+          }
 
           /* 가이드맵 썸네일 & 모달 데이터 전환 */
           currentGuideMapLoc = locKey;
