@@ -514,8 +514,13 @@ function showCreature(idx, immediate = false) {
     crewCanvas.style.opacity = '1';
     setCrewInfoVisible(true);
     if (models[idx]?.pivot) {
+      if (exitActive && exitModel === models[idx].pivot) {
+        exitActive = false;
+        exitModel = null;
+        hideCanvasAfterExit = false;
+      }
       models[idx].pivot.visible = true;
-      if (immediate && !currentSettled) {
+      if ((immediate || !currentSettled) && !entryActive) {
         const settled = ENTRY_FWD.getPoint(1);
         models[idx].pivot.position.copy(settled);
         models[idx].pivot.rotation.set(SETTLED_ROT_X, SETTLED_ROT_Y, 0);
@@ -599,6 +604,46 @@ function showCreature(idx, immediate = false) {
 /* ---------------------------------------------------------------
    렌더 루프
 --------------------------------------------------------------- */
+function restoreCurrentCreatureAfterWaveExit() {
+  clearTimeout(crewEntryTimer);
+  clearTimeout(crewContentTimer);
+
+  if (entryActive && entryModel) {
+    entryActive = false;
+    entryModel = null;
+  }
+
+  if (exitActive) {
+    exitActive = false;
+    exitModel = null;
+    exitT = 0;
+  }
+
+  hideCanvasAfterExit = false;
+
+  const idx = currentIdx >= 0 ? currentIdx : (pendingIdx >= 0 ? pendingIdx : 0);
+  const active = models[idx]?.pivot;
+
+  models.forEach((model, modelIdx) => {
+    if (model?.pivot) model.pivot.visible = Boolean(active) && modelIdx === idx;
+  });
+
+  currentIdx = idx;
+  if (!active) {
+    currentSettled = false;
+    setCrewInfoVisible(true);
+    return;
+  }
+
+  const settled = ENTRY_FWD.getPoint(1);
+  active.position.copy(settled);
+  active.rotation.set(SETTLED_ROT_X, SETTLED_ROT_Y, 0);
+  active.visible = true;
+  currentSettled = true;
+  setCrewInfoVisible(true);
+  enableControls();
+}
+
 const clock = new THREE.Clock();
 
 (function animate() {
@@ -775,6 +820,7 @@ document.addEventListener('crew-wave-exit-reset', () => {
   crewCanvas.style.transform = '';
   const state = getCrewScrollState();
   if (crewInView && state.inPanelRange) {
+    restoreCurrentCreatureAfterWaveExit();
     crewCanvas.style.transition = 'opacity 0.6s ease';
     crewCanvas.style.opacity = '1';
   } else {

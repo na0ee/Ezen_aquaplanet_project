@@ -24,6 +24,7 @@
       position: relative;
       width: 100%;
       min-height: 100vh;
+      height: 100vh;
       background-color: var(--clr-primary);
       display: flex;
       align-items: center;
@@ -35,22 +36,26 @@
     .loc-branch-tabs {
       width: 355px;
       margin: 0 auto 40px;
-      background: rgba(255, 255, 255, 0.18);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.25);
+      background: linear-gradient(135deg, rgba(240, 251, 255, 0.56), rgba(201, 239, 253, 0.24));
+      backdrop-filter: blur(18px) saturate(1.12);
+      -webkit-backdrop-filter: blur(18px) saturate(1.12);
+      border: 1px solid rgba(34, 178, 234, 0.22);
       border-radius: 14px;
-      padding: 6px 6px 6px 6px;
+      padding: 3px;
       display: flex;
       align-items: center;
       gap: 8px;
+      box-shadow:
+        0 16px 36px rgba(0, 98, 150, 0.09),
+        inset 0 1px 0 rgba(255, 255, 255, 0.7),
+        inset 0 -1px 0 rgba(34, 178, 234, 0.08);
     }
 
     .loc-branch-tabs__item {
       font-family: var(--font-en);
       font-size: var(--fs-body);
       letter-spacing: var(--ls-tight);
-      color: rgba(255, 255, 255, 0.55);
+      color: rgba(0, 91, 142, 0.52);
       cursor: pointer;
       padding: 0 16px;
       height: 48px;
@@ -60,23 +65,27 @@
       white-space: nowrap;
       text-decoration: none;
       border-radius: 10px;
-      transition: color var(--tr-base), background var(--tr-base);
+      transition: color var(--tr-base), background var(--tr-base), box-shadow var(--tr-base);
     }
 
     .loc-branch-tabs__item:hover {
-      color: #ffffff;
-      background: rgba(255, 255, 255, 0.08);
+      color: #005b8e;
+      background: rgba(255, 255, 255, 0.28);
+      box-shadow: inset 0 0 0 1px rgba(34, 178, 234, 0.1);
     }
 
     .loc-branch-tabs__item.is-active {
-      background: #ffffff;
+      background: linear-gradient(135deg, #0087c9, var(--clr-primary));
       font-family: var(--font-serif);
       font-weight: 400;
       font-size: 18px;
       letter-spacing: -0.72px;
-      color: var(--clr-primary);
+      color: #ffffff;
       border-radius: 10px;
       padding: 0 22px;
+      box-shadow:
+        0 12px 26px rgba(0, 98, 150, 0.24),
+        inset 0 1px 0 rgba(255, 255, 255, 0.28);
     }
 
     /* ── 히어로 텍스트 ── */
@@ -237,9 +246,112 @@
       );
     }
 
+    .loc-hero,
+    .loc-info,
+    .loc-programs,
+    .loc-map,
+    .loc-footer {
+      height: 100vh;
+      min-height: 100vh;
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+
+    .loc-hero__content,
+    .loc-scroll,
+    .loc-branch-tabs,
+    .loc-info__card,
+    .loc-programs .loc-sec-title-box,
+    .loc-programs__desc,
+    .loc-programs__cards,
+    .loc-map .loc-sec-title-box,
+    .loc-floor-tabs,
+    .loc-map__img-wrap,
+    .loc-map__notice,
+    .loc-thumbs-wrap {
+      opacity: 0;
+      transform: translateY(38px);
+      filter: blur(8px);
+      transition:
+        opacity 0.78s ease,
+        transform 0.92s cubic-bezier(0.16, 1, 0.3, 1),
+        filter 0.78s ease;
+      will-change: opacity, transform, filter;
+    }
+
+    .loc-hero.is-title-visible .loc-hero__content,
+    .loc-hero.is-content-visible .loc-scroll,
+    .loc-info.is-title-visible .loc-branch-tabs,
+    .loc-info.is-content-visible .loc-info__card,
+    .loc-programs.is-title-visible .loc-sec-title-box,
+    .loc-programs.is-content-visible .loc-programs__desc,
+    .loc-programs.is-content-visible .loc-programs__cards,
+    .loc-map.is-title-visible .loc-sec-title-box,
+    .loc-map.is-content-visible .loc-floor-tabs,
+    .loc-map.is-content-visible .loc-map__img-wrap,
+    .loc-map.is-content-visible .loc-map__notice,
+    .loc-map.is-content-visible .loc-thumbs-wrap {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+    }
+
+    .loc-hero.is-content-visible .loc-scroll,
+    .loc-info.is-content-visible .loc-info__card,
+    .loc-programs.is-content-visible .loc-programs__desc,
+    .loc-map.is-content-visible .loc-floor-tabs {
+      transition-delay: 0.24s;
+    }
+
+    .loc-programs.is-content-visible .loc-programs__cards,
+    .loc-map.is-content-visible .loc-map__img-wrap {
+      transition-delay: 0.42s;
+    }
+
+    .loc-map.is-content-visible .loc-map__notice {
+      transition-delay: 0.54s;
+    }
+
+    .loc-map.is-content-visible .loc-thumbs-wrap {
+      transition-delay: 0.66s;
+    }
+
+    .loc-hero.loc-section-exiting .loc-hero__content,
+    .loc-hero.loc-section-exiting .loc-scroll,
+    .loc-info.loc-section-exiting .loc-branch-tabs,
+    .loc-info.loc-section-exiting .loc-info__card,
+    .loc-programs.loc-section-exiting .loc-sec-title-box,
+    .loc-programs.loc-section-exiting .loc-programs__desc,
+    .loc-programs.loc-section-exiting .loc-programs__cards,
+    .loc-map.loc-section-exiting .loc-sec-title-box,
+    .loc-map.loc-section-exiting .loc-floor-tabs,
+    .loc-map.loc-section-exiting .loc-map__img-wrap,
+    .loc-map.loc-section-exiting .loc-map__notice,
+    .loc-map.loc-section-exiting .loc-thumbs-wrap {
+      opacity: 0;
+      transform: translateY(-44px);
+      filter: blur(8px);
+      transition-delay: 0s;
+    }
+
+    .loc-scroll {
+      transform: translate(-50%, 38px);
+    }
+
+    .loc-hero.is-content-visible .loc-scroll {
+      transform: translate(-50%, 0);
+    }
+
+    .loc-hero.loc-section-exiting .loc-scroll {
+      transform: translate(-50%, -44px);
+    }
+
     .loc-info {
       background: transparent;
-      padding: 160px 0 100px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 86px 0 56px;
     }
     .loc-info__card {
       display: flex;
@@ -248,6 +360,23 @@
       margin: 0 auto;
       background: #f5f5f5;
       border-radius: 14px;
+      box-shadow: 0 16px 42px rgba(0, 58, 98, 0.08);
+      transition:
+        opacity 0.34s ease,
+        transform 0.42s cubic-bezier(0.16, 1, 0.3, 1),
+        filter 0.34s ease,
+        box-shadow 0.34s ease;
+    }
+    .loc-info.is-content-visible .loc-info__card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 24px 58px rgba(0, 58, 98, 0.15);
+    }
+    .loc-info.is-content-visible .loc-info__card.is-switching,
+    .loc-info__card.is-switching {
+      opacity: 0.26;
+      transform: translateY(14px) scale(0.985);
+      filter: blur(7px);
+      pointer-events: none;
     }
     .loc-info__img-wrap {
       flex-shrink: 0;
@@ -346,12 +475,11 @@
     ═══════════════════════════════════════════════ */
     .loc-programs {
       background: transparent;
-      min-height: 1080px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding-top: 161px;
-      padding-bottom: 80px;
+      justify-content: center;
+      padding: 84px 0 64px;
     }
     .loc-programs__desc {
       margin-top: 34px;
@@ -362,6 +490,10 @@
       color: #1a1a1a;
       text-align: center;
       line-height: 1.4;
+      transition:
+        opacity 0.34s ease,
+        transform 0.42s cubic-bezier(0.16, 1, 0.3, 1),
+        filter 0.34s ease;
     }
     .loc-programs__desc strong {
       font-weight: 600;
@@ -371,7 +503,7 @@
       align-items: center;
       justify-content: space-between;
       width: 1320px;
-      margin-top: 84px;
+      margin-top: 68px;
       gap: 20px;
     }
     .loc-programs__card {
@@ -382,6 +514,15 @@
       overflow: hidden;
       background: #ffffff;
       flex-shrink: 0;
+      box-shadow: 0 16px 38px rgba(0, 58, 98, 0.08);
+      transition:
+        transform 0.42s cubic-bezier(0.16, 1, 0.3, 1),
+        box-shadow 0.34s ease,
+        filter 0.34s ease;
+    }
+    .loc-programs__card:hover {
+      box-shadow: 0 26px 58px rgba(0, 58, 98, 0.18);
+      filter: saturate(1.04);
     }
     .loc-programs__card-img {
       position: absolute;
@@ -390,6 +531,13 @@
       height: 100%;
       object-fit: cover;
       display: block;
+      transition:
+        opacity 0.34s ease,
+        transform 0.52s cubic-bezier(0.16, 1, 0.3, 1),
+        filter 0.34s ease;
+    }
+    .loc-programs__card:hover .loc-programs__card-img {
+      transform: scale(1.045);
     }
     .loc-programs__card-grad {
       position: absolute;
@@ -416,13 +564,28 @@
       color: #ffffff;
       line-height: normal;
       white-space: nowrap;
+      transition:
+        opacity 0.34s ease,
+        transform 0.42s cubic-bezier(0.16, 1, 0.3, 1),
+        filter 0.34s ease;
+    }
+    .loc-programs__desc.is-switching,
+    .loc-programs__card-img.is-switching,
+    .loc-programs__card-title.is-switching {
+      opacity: 0.24;
+      transform: translateY(12px) scale(0.985);
+      filter: blur(6px);
     }
     .loc-programs__card-btns {
-      display: flex;
-      gap: 16px;
+      position: relative;
+      width: 94px;
+      height: 32px;
       flex-shrink: 0;
     }
     .loc-btn-white {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
       width: 94px;
       height: 32px;
       background: #ffffff;
@@ -445,6 +608,9 @@
       pointer-events: auto;
     }
     .loc-btn-outline {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
       width: 94px;
       height: 32px;
       background: transparent;
@@ -469,8 +635,8 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding-top: 160px;
-      padding-bottom: 160px;
+      justify-content: center;
+      padding: 78px 0 48px;
     }
 
     /* ═══════════════════════════════════════════════
@@ -478,7 +644,6 @@
     ═══════════════════════════════════════════════ */
     .loc-footer {
       background-color: var(--clr-primary);
-      min-height: 100vh;
       width: 100%;
     }
 
@@ -495,7 +660,7 @@
       border-color: rgba(34, 178, 234, 1);
     }
     .loc-floor-tabs {
-      margin-top: 80px;
+      margin-top: 34px;
       display: flex;
       align-items: center;
       background: #f8f8f8;
@@ -525,21 +690,38 @@
       font-weight: 400;
     }
     .loc-map__img-wrap {
-      margin-top: 64px;
-      width: 1320px;
+      margin-top: 28px;
+      width: clamp(320px, 64vw, 920px);
       cursor: pointer;
+    }
+    .loc-map__img-wrap,
+    .loc-map__thumbs,
+    .loc-floor-tabs {
+      transition:
+        opacity 0.34s ease,
+        transform 0.42s cubic-bezier(0.16, 1, 0.3, 1),
+        filter 0.34s ease;
+    }
+    .loc-map__img-wrap.is-switching,
+    .loc-map__thumbs.is-switching,
+    .loc-floor-tabs.is-switching {
+      opacity: 0.24;
+      transform: translateY(12px) scale(0.985);
+      filter: blur(6px);
+      pointer-events: none;
     }
     .loc-map__img {
       width: 100%;
       height: auto;
       display: block;
+      transition: transform 0.52s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .loc-map__notice {
       display: flex;
       align-items: center;
       gap: 6px;
-      margin-top: 20px;
-      width: 1320px;
+      margin-top: 12px;
+      width: clamp(320px, 64vw, 920px);
       font-family: var(--font-kr);
       font-weight: 400;
       font-size: 14px;
@@ -553,8 +735,8 @@
     /* ── 썸네일 래퍼 & 화살표 ── */
     .loc-thumbs-wrap {
       position: relative;
-      width: 1320px;
-      margin-top: 117px;
+      width: clamp(320px, 64vw, 920px);
+      margin-top: 24px;
     }
     .loc-map__thumbs {
       display: flex;
@@ -585,7 +767,7 @@
     }
     .loc-thumbs-arrow {
       position: absolute;
-      bottom: calc(210px / 2 + 8px);
+      bottom: calc(150px / 2 + 8px);
       transform: translateY(50%);
       z-index: 3;
       width: 44px;
@@ -611,7 +793,7 @@
       gap: 12px;
       align-items: flex-start;
       flex-shrink: 0;
-      width: 210px;
+      width: 150px;
     }
     .loc-map__thumb-cat {
       font-family: var(--font-kr);
@@ -623,12 +805,18 @@
     }
     .loc-map__thumb-card {
       position: relative;
-      width: 210px;
-      height: 210px;
+      width: 150px;
+      height: 150px;
       border-radius: 14px;
       overflow: hidden;
       background: #ffffff;
       flex-shrink: 0;
+      animation: locGuideThumbIn 0.48s cubic-bezier(0.16, 1, 0.3, 1) both;
+      animation-delay: calc(var(--thumb-index, 0) * 34ms);
+      box-shadow: 0 10px 24px rgba(0, 58, 98, 0.08);
+      transition:
+        box-shadow 0.28s ease,
+        filter 0.28s ease;
     }
     .loc-map__thumb-card img {
       position: absolute;
@@ -641,6 +829,10 @@
     }
     .loc-map__thumb-card:hover img {
       transform: scale(1.08);
+    }
+    .loc-map__thumb-card:hover {
+      box-shadow: 0 18px 34px rgba(0, 58, 98, 0.16);
+      filter: saturate(1.05) brightness(1.02);
     }
     .loc-map__thumb-grad {
       position: absolute;
@@ -683,6 +875,19 @@
     /* ── 썸네일 카드 클릭 ── */
     .loc-map__thumb-card { cursor: pointer; }
 
+    @keyframes locGuideThumbIn {
+      from {
+        opacity: 0;
+        transform: translateY(18px) scale(0.96);
+        filter: blur(5px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+      }
+    }
+
     /* ═══════════════════════════════════════════════
        전시관 상세 모달
     ═══════════════════════════════════════════════ */
@@ -700,6 +905,25 @@
     .exhibit-modal.is-open {
       opacity: 1;
       pointer-events: auto;
+    }
+    .exhibit-modal.is-content-entering .exhibit-modal__header,
+    .exhibit-modal.is-content-entering .exhibit-modal__body {
+      animation: locModalContentIn 0.36s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    .exhibit-modal.is-content-entering .exhibit-modal__body {
+      animation-delay: 0.05s;
+    }
+    @keyframes locModalContentIn {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+        filter: blur(5px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+      }
     }
     .exhibit-modal__backdrop {
       position: absolute;
@@ -764,7 +988,7 @@
     }
     .exhibit-modal__body {
       display: flex;
-      gap: 148px;
+      gap: 90px;
       align-items: flex-start;
     }
     .exhibit-modal__left {
@@ -1163,6 +1387,178 @@
       }, { passive: true });
     })();
 
+    /* ── Location full-page section scroll ── */
+    (function () {
+      const sections = Array.from(document.querySelectorAll('.loc-hero, .loc-info, .loc-programs, .loc-map, .loc-footer'));
+      if (!sections.length) return;
+
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let currentIndex = 0;
+      let animating = false;
+      let touchStartY = null;
+      let wheelDelta = 0;
+      let wheelTimer = 0;
+      let enterTimer = 0;
+      let contentTimer = 0;
+
+      function easeOutQuint(t) {
+        return 1 - Math.pow(1 - t, 5);
+      }
+
+      function sectionTop(section) {
+        return Math.round(window.scrollY + section.getBoundingClientRect().top);
+      }
+
+      function nearestIndex() {
+        let nearest = currentIndex;
+        let nearestDistance = Infinity;
+        sections.forEach(function (section, index) {
+          const distance = Math.abs(sectionTop(section) - window.scrollY);
+          if (distance < nearestDistance) {
+            nearest = index;
+            nearestDistance = distance;
+          }
+        });
+        return nearest;
+      }
+
+      function resetSection(section) {
+        section.classList.remove('is-title-visible', 'is-content-visible', 'loc-section-exiting');
+      }
+
+      function revealSection(index, immediate) {
+        window.clearTimeout(enterTimer);
+        window.clearTimeout(contentTimer);
+
+        sections.forEach(function (section, sectionIndex) {
+          if (sectionIndex !== index) resetSection(section);
+        });
+
+        const section = sections[index];
+        resetSection(section);
+
+        enterTimer = window.setTimeout(function () {
+          section.classList.add('is-title-visible');
+        }, immediate ? 40 : 260);
+
+        contentTimer = window.setTimeout(function () {
+          section.classList.add('is-content-visible');
+        }, immediate ? 260 : 520);
+      }
+
+      function animateTo(index) {
+        if (animating || index < 0 || index >= sections.length || index === currentIndex) return;
+        const fromSection = sections[currentIndex];
+        const toSection = sections[index];
+        animating = true;
+        wheelDelta = 0;
+        window.clearTimeout(enterTimer);
+        window.clearTimeout(contentTimer);
+
+        fromSection.classList.add('loc-section-exiting');
+        resetSection(toSection);
+
+        const startY = window.scrollY;
+        const targetY = sectionTop(toSection);
+        const distance = targetY - startY;
+
+        if (reduceMotion || Math.abs(distance) < 4) {
+          window.scrollTo(0, targetY);
+          currentIndex = index;
+          animating = false;
+          revealSection(currentIndex, true);
+          return;
+        }
+
+        const duration = 1100;
+        const startTime = performance.now();
+        const prevHtmlBehavior = document.documentElement.style.scrollBehavior;
+        const prevBodyBehavior = document.body.style.scrollBehavior;
+        document.documentElement.style.scrollBehavior = 'auto';
+        document.body.style.scrollBehavior = 'auto';
+
+        window.setTimeout(function () {
+          toSection.classList.add('is-title-visible');
+        }, 430);
+
+        window.setTimeout(function () {
+          toSection.classList.add('is-content-visible');
+        }, 780);
+
+        function step(now) {
+          const progress = Math.min((now - startTime) / duration, 1);
+          const eased = easeOutQuint(progress);
+          window.scrollTo(0, startY + distance * eased);
+
+          if (progress < 1) {
+            requestAnimationFrame(step);
+            return;
+          }
+
+          document.documentElement.style.scrollBehavior = prevHtmlBehavior;
+          document.body.style.scrollBehavior = prevBodyBehavior;
+          resetSection(fromSection);
+          currentIndex = index;
+          animating = false;
+        }
+
+        requestAnimationFrame(step);
+      }
+
+      function goByDirection(direction) {
+        currentIndex = nearestIndex();
+        const nextIndex = currentIndex + direction;
+        if (nextIndex < 0 || nextIndex >= sections.length) return;
+        animateTo(nextIndex);
+      }
+
+      window.addEventListener('wheel', function (e) {
+        if (document.querySelector('.exhibit-modal.is-open')) return;
+        e.preventDefault();
+        wheelDelta += e.deltaY;
+        window.clearTimeout(wheelTimer);
+        wheelTimer = window.setTimeout(function () { wheelDelta = 0; }, 180);
+        if (Math.abs(wheelDelta) < 70) return;
+        goByDirection(wheelDelta > 0 ? 1 : -1);
+      }, { passive: false });
+
+      window.addEventListener('touchstart', function (e) {
+        touchStartY = e.touches && e.touches.length ? e.touches[0].clientY : null;
+      }, { passive: true });
+
+      window.addEventListener('touchmove', function (e) {
+        if (document.querySelector('.exhibit-modal.is-open')) return;
+        if (touchStartY === null) return;
+        const currentY = e.touches && e.touches.length ? e.touches[0].clientY : touchStartY;
+        const diff = touchStartY - currentY;
+        if (Math.abs(diff) < 34) return;
+        e.preventDefault();
+        touchStartY = null;
+        goByDirection(diff > 0 ? 1 : -1);
+      }, { passive: false });
+
+      window.addEventListener('keydown', function (e) {
+        if (document.querySelector('.exhibit-modal.is-open')) return;
+        const nextKeys = ['ArrowDown', 'PageDown', ' ', 'Spacebar'];
+        const prevKeys = ['ArrowUp', 'PageUp'];
+        if (!nextKeys.includes(e.key) && !prevKeys.includes(e.key)) return;
+        e.preventDefault();
+        goByDirection(nextKeys.includes(e.key) ? 1 : -1);
+      });
+
+      window.addEventListener('resize', function () {
+        window.scrollTo(0, sectionTop(sections[currentIndex]));
+      }, { passive: true });
+
+      const indicator = document.querySelector('.loc-scroll');
+      if (indicator) {
+        indicator.addEventListener('click', function () { animateTo(1); });
+      }
+
+      window.scrollTo(0, sectionTop(sections[0]));
+      revealSection(0, true);
+    })();
+
     /* ── 커스텀 커서 ── */
     (function () {
       if (window.matchMedia('(hover: none)').matches) return;
@@ -1440,6 +1836,24 @@
         + '</div>';
     }
 
+    function animateGuideMapChange(updateFn) {
+      var mapWrap = document.querySelector('.loc-map__img-wrap');
+      var track   = document.getElementById('thumb-track');
+      var floors  = document.querySelector('.loc-floor-tabs');
+      var targets = [mapWrap, track, floors].filter(Boolean);
+
+      targets.forEach(function (el) { el.classList.add('is-switching'); });
+
+      window.setTimeout(function () {
+        updateFn();
+        window.requestAnimationFrame(function () {
+          window.requestAnimationFrame(function () {
+            targets.forEach(function (el) { el.classList.remove('is-switching'); });
+          });
+        });
+      }, 170);
+    }
+
     function renderGuideMapThumbs(locKey) {
       var track   = document.getElementById('thumb-track');
       var prevBtn = document.getElementById('thumb-prev');
@@ -1468,7 +1882,8 @@
 
       track.innerHTML = html;
 
-      track.querySelectorAll('.loc-map__thumb-card').forEach(function (card) {
+      track.querySelectorAll('.loc-map__thumb-card').forEach(function (card, index) {
+        card.style.setProperty('--thumb-index', index);
         card.addEventListener('click', function () {
           var key = card.getAttribute('data-key');
           var ex  = (EXHIBITS_BY_LOC[currentGuideMapLoc] || []).find(function (e) { return e.key === key; });
@@ -1528,6 +1943,9 @@
         });
         modalSide.innerHTML = html;
 
+        modal.classList.remove('is-content-entering');
+        void modal.offsetWidth;
+        modal.classList.add('is-content-entering');
         modal.classList.add('is-open');
         modal.setAttribute('aria-hidden', 'false');
         document.body.style.overflow = 'hidden';
@@ -1578,28 +1996,32 @@
 
       floorTabs.forEach(function (tab) {
         tab.addEventListener('click', function () {
-          floorTabs.forEach(function (t) { t.classList.remove('is-active'); });
-          tab.classList.add('is-active');
-
           var floor = tab.textContent.trim();
-          currentFloor = floor;
+          if (floor === currentFloor) return;
 
-          var imgs = (FLOOR_MAP_IMGS[currentGuideMapLoc] || {});
-          if (imgs[floor] && mapImg) {
-            mapImg.src = imgs[floor];
-            mapImg.alt = '아쿠아플라넷 가이드 맵 ' + floor;
-          }
+          animateGuideMapChange(function () {
+            floorTabs.forEach(function (t) { t.classList.remove('is-active'); });
+            tab.classList.add('is-active');
 
-          var floorExhibits = (EXHIBITS_BY_FLOOR[currentGuideMapLoc] || {})[floor];
-          if (floorExhibits !== undefined) {
-            EXHIBITS_BY_LOC[currentGuideMapLoc] = floorExhibits;
-          }
-          if (EXHIBITS_BY_LOC[currentGuideMapLoc] && EXHIBITS_BY_LOC[currentGuideMapLoc].length) {
-            renderGuideMapThumbs(currentGuideMapLoc);
-          } else {
-            var track = document.getElementById('thumb-track');
-            if (track) track.innerHTML = '';
-          }
+            currentFloor = floor;
+
+            var imgs = (FLOOR_MAP_IMGS[currentGuideMapLoc] || {});
+            if (imgs[floor] && mapImg) {
+              mapImg.src = imgs[floor];
+              mapImg.alt = '아쿠아플라넷 가이드 맵 ' + floor;
+            }
+
+            var floorExhibits = (EXHIBITS_BY_FLOOR[currentGuideMapLoc] || {})[floor];
+            if (floorExhibits !== undefined) {
+              EXHIBITS_BY_LOC[currentGuideMapLoc] = floorExhibits;
+            }
+            if (EXHIBITS_BY_LOC[currentGuideMapLoc] && EXHIBITS_BY_LOC[currentGuideMapLoc].length) {
+              renderGuideMapThumbs(currentGuideMapLoc);
+            } else {
+              var track = document.getElementById('thumb-track');
+              if (track) track.innerHTML = '';
+            }
+          });
         });
       });
     }
@@ -1709,6 +2131,23 @@
       var progTitle2     = document.getElementById('loc-prog-title-2');
       var cardImg        = document.querySelector('.loc-info__img');
 
+      function animateBranchContentChange(updateFn) {
+        var infoCard = document.querySelector('.loc-info__card');
+        var programContent = [programsDesc, progImg1, progTitle1, progImg2, progTitle2].filter(Boolean);
+        var targets = [infoCard].concat(programContent);
+
+        targets.forEach(function (el) { el.classList.add('is-switching'); });
+
+        window.setTimeout(function () {
+          updateFn();
+          window.requestAnimationFrame(function () {
+            window.requestAnimationFrame(function () {
+              targets.forEach(function (el) { el.classList.remove('is-switching'); });
+            });
+          });
+        }, 170);
+      }
+
       tabs.forEach(function (tab) {
         tab.addEventListener('click', function (e) {
           e.preventDefault();
@@ -1717,47 +2156,54 @@
           if (!loc) return;
           tabs.forEach(function (t) { t.classList.remove('is-active'); });
           tab.classList.add('is-active');
-          if (cardImg && loc.img) { cardImg.src = loc.img; cardImg.alt = '아쿠아플라넷 ' + loc.kr + ' 전경'; }
-          if (cityEn)         cityEn.textContent         = loc.en;
-          if (citySub)        citySub.textContent        = loc.sub;
-          if (cityKr)         cityKr.textContent         = loc.kr;
-          if (cityAddr)       cityAddr.textContent       = loc.addr;
-          if (cityTel)        cityTel.textContent        = 'TEL. ' + loc.tel;
-          if (cityQuote)      cityQuote.innerHTML        = loc.quote;
-          if (cityDesc)       cityDesc.innerHTML         = loc.desc.map(function (p) { return '<p>' + p + '</p>'; }).join('');
-          if (programsDesc)   programsDesc.innerHTML     = loc.programDesc;
-          if (secSubPrograms) secSubPrograms.textContent = loc.secSub;
-          if (secSubMap)      secSubMap.textContent      = loc.secSub;
-          if (loc.programs) {
-            if (progImg1)   { progImg1.src = loc.programs[0].img;   progImg1.alt = loc.programs[0].title; }
-            if (progTitle1) { progTitle1.textContent = loc.programs[0].title; }
-            if (progImg2)   { progImg2.src = loc.programs[1].img;   progImg2.alt = loc.programs[1].title; }
-            if (progTitle2) { progTitle2.textContent = loc.programs[1].title; }
-          }
+          animateBranchContentChange(function () {
+            if (cardImg && loc.img) { cardImg.src = loc.img; cardImg.alt = '아쿠아플라넷 ' + loc.kr + ' 전경'; }
+            if (cityEn)         cityEn.textContent         = loc.en;
+            if (citySub)        citySub.textContent        = loc.sub;
+            if (cityKr)         cityKr.textContent         = loc.kr;
+            if (cityAddr)       cityAddr.textContent       = loc.addr;
+            if (cityTel)        cityTel.textContent        = 'TEL. ' + loc.tel;
+            if (cityQuote)      cityQuote.innerHTML        = loc.quote;
+            if (cityDesc)       cityDesc.innerHTML         = loc.desc.map(function (p) { return '<p>' + p + '</p>'; }).join('');
+            if (programsDesc)   programsDesc.innerHTML     = loc.programDesc;
+            if (secSubPrograms) secSubPrograms.textContent = loc.secSub;
+            if (secSubMap)      secSubMap.textContent      = loc.secSub;
+            if (loc.programs) {
+              if (progImg1)   { progImg1.src = loc.programs[0].img;   progImg1.alt = loc.programs[0].title; }
+              if (progTitle1) { progTitle1.textContent = loc.programs[0].title; }
+              if (progImg2)   { progImg2.src = loc.programs[1].img;   progImg2.alt = loc.programs[1].title; }
+              if (progTitle2) { progTitle2.textContent = loc.programs[1].title; }
+            }
+          });
 
           /* 가이드맵 썸네일 & 모달 데이터 전환 */
           currentGuideMapLoc = locKey;
 
-          /* 층 탭 재구성 */
-          updateFloorTabs(locKey);
-          var defaultFloor = (FLOOR_TABS_BY_LOC[locKey] || {}).default || '2F';
-          currentFloor = defaultFloor;
+          animateGuideMapChange(function () {
+            /* 층 탭 재구성 */
+            updateFloorTabs(locKey);
+            var defaultFloor = (FLOOR_TABS_BY_LOC[locKey] || {}).default || '2F';
+            currentFloor = defaultFloor;
 
-          /* 메인 맵 이미지 초기화 */
-          var mapImgEl = document.querySelector('.loc-map__img');
-          var floorImgs = (FLOOR_MAP_IMGS[locKey] || {});
-          if (floorImgs[defaultFloor] && mapImgEl) mapImgEl.src = floorImgs[defaultFloor];
+            /* 메인 맵 이미지 초기화 */
+            var mapImgEl = document.querySelector('.loc-map__img');
+            var floorImgs = (FLOOR_MAP_IMGS[locKey] || {});
+            if (floorImgs[defaultFloor] && mapImgEl) {
+              mapImgEl.src = floorImgs[defaultFloor];
+              mapImgEl.alt = '아쿠아플라넷 가이드 맵 ' + defaultFloor;
+            }
 
-          /* 층별 전시 데이터가 있으면 사용, 없으면 기존 배열 */
-          if (EXHIBITS_BY_FLOOR[locKey]) {
-            EXHIBITS_BY_LOC[locKey] = EXHIBITS_BY_FLOOR[locKey][defaultFloor] || [];
-          }
-          if (EXHIBITS_BY_LOC[locKey] && EXHIBITS_BY_LOC[locKey].length) {
-            renderGuideMapThumbs(locKey);
-          } else {
-            var mapTrack = document.getElementById('thumb-track');
-            if (mapTrack) mapTrack.innerHTML = '';
-          }
+            /* 층별 전시 데이터가 있으면 사용, 없으면 기존 배열 */
+            if (EXHIBITS_BY_FLOOR[locKey]) {
+              EXHIBITS_BY_LOC[locKey] = EXHIBITS_BY_FLOOR[locKey][defaultFloor] || [];
+            }
+            if (EXHIBITS_BY_LOC[locKey] && EXHIBITS_BY_LOC[locKey].length) {
+              renderGuideMapThumbs(locKey);
+            } else {
+              var mapTrack = document.getElementById('thumb-track');
+              if (mapTrack) mapTrack.innerHTML = '';
+            }
+          });
         });
       });
     })();
