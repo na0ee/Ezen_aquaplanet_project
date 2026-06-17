@@ -981,9 +981,13 @@ async function initLogo3D() {
   } else {
     gsap.context(() => {
       measure();
+      const isTicketPage = document.querySelector('.ticket-page') !== null;
+      const scrollerEl = isTicketPage ? '.ticket-page' : window;
+
       gsap.timeline({
         scrollTrigger: {
           trigger: '#sec-logo',
+          scroller: scrollerEl,
           start: 'top top',
           end: 'bottom top',
           scrub: 0.5,
@@ -1004,7 +1008,11 @@ async function initLogo3D() {
         },
       }).to(wrap, { x: () => end.dx, y: () => end.dy, scale: () => end.scale, ease: 'none', duration: 1 }, 0);
 
-      /* --- footer 역방향 트랜지션: 헤더(작은 조립) → 흩어졌다 → footer 중앙(큰 조립) --- */
+      /* --- footer 역방향 트랜지션: 헤더(작은 조립) → 흩어졌다 → footer 중앙(큰 조립) ---
+         · 트리거는 100vh 짜리 #footer 로 통일(main·ticket 공통). 작은 요소(placeholder)를
+           트리거로 쓰면 start~end 스크롤 범위가 0/음수가 되어 progress 가 순간 점프 →
+           흩어지는 중간 구간이 안 보인다. footer 는 충분히 높고 페이지 맨 아래라
+           흩어졌다 모이는 모션이 부드럽게 재생되고 중앙에 안착(고정)된다. */
       const footerEl = document.getElementById('footer');
       if (footerEl) {
         // transform 없는 wrap 의 화면상 중앙 (fixed 라 스크롤 무관, resize 시 갱신)
@@ -1022,7 +1030,8 @@ async function initLogo3D() {
         }
         measureWrapCenter();
         ScrollTrigger.create({
-          trigger: '#footer',
+          trigger: footerEl,
+          scroller: scrollerEl,
           start: 'top center',     // footer 상단이 뷰 중앙에 올 때 시작 (그 전엔 헤더 유지)
           end: 'bottom bottom',    // footer 하단이 뷰 하단에 닿을 때 끝
           scrub: 0.5,
@@ -1030,7 +1039,7 @@ async function initLogo3D() {
           onRefreshInit: measureWrapCenter,
           onUpdate: (self) => {
             footerProg = self.progress;
-            syncLogoDockState();
+            footerActive = self.progress > 0;
             // footer 의 실시간 화면 중앙으로 향하는 이동량
             const f = footerEl.getBoundingClientRect();
             const fdx = (f.left + f.width / 2) - wrapCx0;
@@ -1044,7 +1053,6 @@ async function initLogo3D() {
             requestRender();
           },
           onToggle: (self) => {
-            footerActive = self.isActive;
             document.body.classList.toggle('is-logo-transition', self.isActive);
             syncLogoDockState();
             requestRender();
