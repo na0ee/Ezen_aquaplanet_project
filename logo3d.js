@@ -978,8 +978,12 @@ async function initLogo3D() {
         },
       }).to(wrap, { x: () => end.dx, y: () => end.dy, scale: () => end.scale, ease: 'none', duration: 1 }, 0);
 
-      /* --- footer 역방향 트랜지션: 헤더(작은 조립) → 흩어졌다 → footer 중앙(큰 조립) --- */
-      const footerEl = document.querySelector('.ticket-scroll-below__logo-placeholder') || document.getElementById('footer');
+      /* --- footer 역방향 트랜지션: 헤더(작은 조립) → 흩어졌다 → footer 중앙(큰 조립) ---
+         · 트리거는 100vh 짜리 #footer 로 통일(main·ticket 공통). 작은 요소(placeholder)를
+           트리거로 쓰면 start~end 스크롤 범위가 0/음수가 되어 progress 가 순간 점프 →
+           흩어지는 중간 구간이 안 보인다. footer 는 충분히 높고 페이지 맨 아래라
+           흩어졌다 모이는 모션이 부드럽게 재생되고 중앙에 안착(고정)된다. */
+      const footerEl = document.getElementById('footer');
       if (footerEl) {
         // transform 없는 wrap 의 화면상 중앙 (fixed 라 스크롤 무관, resize 시 갱신)
         let wrapCx0 = 0, wrapCy0 = 0;

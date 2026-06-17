@@ -3193,7 +3193,7 @@ body.ticket-open { overflow: hidden; }
 /* 선택된 지점: 화면 중앙선의 왼쪽에 붙어 예매 패널과 나란히 정렬 */
 .ticket.is-selected .ticket-spot.is-selected {
   left: 50% !important;
-  top: 65% !important;
+  top: 55% !important;                              /* 선택 레이아웃을 좀더 위로 */
   transform: translate(-96%, -50%) scale(1.12);   /* 박스 오른쪽 끝이 중앙선에 거의 닿음 */
   z-index: 3;
 }
@@ -3220,11 +3220,12 @@ body.ticket-open { overflow: hidden; }
   transform: scale(0.5);
   opacity: 0.92;
 }
-/* 상단 행 4슬롯 — 일산0·여수1·제주2·광교3 (JS SLOT_LEFT 와 값 일치) */
-.ticket.is-selected .ticket-spot.is-top.slot-0 { left: -4% !important; }
-.ticket.is-selected .ticket-spot.is-top.slot-1 { left: 20% !important; }
-.ticket.is-selected .ticket-spot.is-top.slot-2 { left: 44% !important; }
-.ticket.is-selected .ticket-spot.is-top.slot-3 { left: 68% !important; }
+/* 상단 행 4슬롯 — 일산0·여수1·제주2·광교3 (JS SLOT_LEFT 와 값 일치)
+   지그재그 배치: 일산·제주 ↓(아래) / 여수·광교 ↑(위) */
+.ticket.is-selected .ticket-spot.is-top.slot-0 { left: -4% !important; top: 5% !important; }
+.ticket.is-selected .ticket-spot.is-top.slot-1 { left: 20% !important; top: -7% !important; }
+.ticket.is-selected .ticket-spot.is-top.slot-2 { left: 44% !important; top: 5% !important; }
+.ticket.is-selected .ticket-spot.is-top.slot-3 { left: 68% !important; top: -7% !important; }
 
 @keyframes ticket-bubble-burst {
   0%   { transform: translate(-50%, -50%) scale(1);    opacity: 1; }
@@ -3255,6 +3256,20 @@ body.ticket-open { overflow: hidden; }
   transition: left 1.2s cubic-bezier(.22, .61, .36, 1);
 }
 
+/* 선택 시 생겨나 사방으로 퍼지며 사라지는 작은 버블 파티클(<20px, JS 가 동적 생성).
+   위치/이동/페이드는 Web Animations API(ticket.js)가 개별 지정 */
+.bubble-spark {
+  position: absolute;
+  border-radius: 50%;
+  background: url("assets/images/ticket-bubble.png") center / contain no-repeat;
+  /* 밝은 빛 위에서도 윤곽이 살도록 테두리 + 발광으로 분리 */
+  border: 1.5px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 0 0 5px rgba(120, 200, 255, 0.7), inset 0 0 4px rgba(255, 255, 255, 0.6);
+  pointer-events: none;
+  z-index: 2;
+  will-change: transform, opacity;
+}
+
 /* 시작점 → 상단 목표 위치(--rise)까지 떠오름. 사라지지 않고 살짝 옅어진 채 유지 */
 @keyframes deco-rise {
   0%   { transform: translateY(0);                  opacity: 0.7; }
@@ -3277,7 +3292,7 @@ body.ticket-open { overflow: hidden; }
 /* --- 가격 / 할인 패널 --- */
 .ticket-booking {
   position: absolute;
-  top: 65%;                 /* 선택된 spot 과 같은 수직 중심선 */
+  top: 55%;                 /* 선택된 spot 과 같은 수직 중심선 (좀더 위로) */
   left: 50%;                /* 중앙선의 오른쪽에 배치 → 동물과 나란히 */
   right: auto;
   width: min(480px, 40vw);
@@ -3297,7 +3312,8 @@ body.ticket-open { overflow: hidden; }
   font-family: var(--font-serif);
   font-size: 30px;
   color: var(--clr-text);
-  margin: 0 0 18px 6px;
+  margin: 0 0 18px;
+  text-align: center;
   text-shadow: 0 2px 10px rgba(0, 60, 100, 0.22);
 }
 .ticket-booking__price span { font-size: 22px; }
@@ -3374,7 +3390,18 @@ body.ticket-open { overflow: hidden; }
   border-radius: 6px;
   padding: 4px 0 6px;
   box-shadow: 0 12px 28px rgba(0, 40, 70, 0.22);
+  /* 항목 4개 높이로 고정하고 넘치면 스크롤 (행 약 33.4px × 4 + 상하 padding) */
+  max-height: 144px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
+/* 드롭다운 스크롤바 — 얇고 은은하게 */
+.ticket-discount__body::-webkit-scrollbar { width: 6px; }
+.ticket-discount__body::-webkit-scrollbar-thumb {
+  background: rgba(120, 112, 104, 0.45);
+  border-radius: 3px;
+}
+.ticket-discount__body::-webkit-scrollbar-track { background: transparent; }
 .ticket-discount[open] > .ticket-discount__body {
   animation: ticket-dropdown 0.22s ease-out;
 }
@@ -3391,11 +3418,9 @@ body.ticket-open { overflow: hidden; }
   cursor: pointer;
   transition: background 0.15s ease;
 }
-.ticket-discount__row:hover {
-  background: rgba(90, 90, 90, 0.14);
-}
+.ticket-discount__row:hover,
 .ticket-discount__row.is-active {
-  background: rgba(120, 112, 104, 0.55);   /* 이미지의 강조 행(중간 톤) */
+  background: #D9D9D9;   /* 호버·클릭(활성) 시 강조 배경 */
 }
 .ticket-discount__name {
   color: #2b2b2b;
@@ -3407,6 +3432,8 @@ body.ticket-open { overflow: hidden; }
   flex: none;
   text-align: right;
 }
+.ticket-discount__row:hover .ticket-discount__name,
+.ticket-discount__row:hover .ticket-discount__val,
 .ticket-discount__row.is-active .ticket-discount__name,
 .ticket-discount__row.is-active .ticket-discount__val { color: #fff; }
 
@@ -3447,20 +3474,7 @@ body.ticket-open { overflow: hidden; }
    추가 스타일 (할인 아코디언 및 스크롤 다운 그라데이션)
 ========================================================== */
 .ticket-discount-list {
-  max-height: 255px;
-  overflow-y: auto;
   padding-right: 6px;
-}
-.ticket-discount-list::-webkit-scrollbar {
-  width: 4px;
-}
-.ticket-discount-list::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 2px;
-}
-.ticket-discount-list::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.6);
-  border-radius: 2px;
 }
 
 .ticket-page {

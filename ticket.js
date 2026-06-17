@@ -30,6 +30,16 @@ const BRANCH_ORDER = ['ilsan', 'yeosu', 'jeju', 'gwanggyo'];
 // 각 슬롯의 left(.wrap 기준 %) — CSS 의 .slot-0~3 값과 반드시 일치시킬 것
 const SLOT_LEFT = [-4, 20, 44, 68];
 
+// 지점별 입장권 구매 페이지 URL (예매하기 버튼 클릭 시 이동)
+const BRANCH_URLS = {
+  ilsan: 'https://mall.aquaplanet.co.kr/product/view.do?seq=2700',
+  yeosu: 'https://mall.aquaplanet.co.kr/product/view.do?seq=2940',
+  jeju: 'https://mall.aquaplanet.co.kr/product/view.do?seq=3120',
+  gwanggyo: 'https://mall.aquaplanet.co.kr/product/view.do?seq=1472',
+};
+// 현재 선택된 지점 (예매하기 버튼이 참조)
+let selectedBranch = null;
+
 // 안 터지고 살아남는 거품(큰 7개 중 가장 작은 것) — 빈 슬롯을 채운다.
 let survivorBubble = null;
 
@@ -58,8 +68,60 @@ function placeSurvivor(emptySlotIdx) {
   survivorBubble.style.setProperty('--rise', (9 - y).toFixed(1) + 'vh');
 }
 
+// 선택 시 '중앙 상단의 빛'(light-rays origin: top-center)에서 작은 버블(15~25px)이
+// 생겨나, 빛이 퍼지듯 아래로 부채꼴(±70°)로 퍼지며 사라지는 파티클
+function spawnBubbleSparks() {
+  if (!ticketSection) return;
+  const secRect = ticketSection.getBoundingClientRect();
+  const ox = secRect.width / 2;          // 가로 중앙
+  const oy = secRect.height * 0.05;      // 상단(빛이 시작되는 지점)
+
+  const COUNT = 32;
+  for (let i = 0; i < COUNT; i++) {
+    const el = document.createElement('span');
+    el.className = 'bubble-spark';
+    const size = 8 + Math.random() * 28;             // 8~36px (크기 제각각)
+    el.style.width = el.style.height = size.toFixed(1) + 'px';
+    el.style.left = (ox - size / 2).toFixed(1) + 'px';
+    el.style.top  = (oy - size / 2).toFixed(1) + 'px';
+    ticketSection.appendChild(el);
+
+    // 방향 분기:
+    //  · 가운데 3개 → 아래(생물 쪽)로 내려가되 '짧게'만 가서 생물 근처 도달 전에 사라짐
+    //  · 나머지     → 좌·우 양쪽으로 넓게 퍼짐(중앙 생물 쪽은 비움)
+    let dx, dy;
+    if (i < 3) {
+      // 가운데로 내려오되 부채꼴(수직 ±45°)로 '퍼지며' 내려옴. 거리는 짧게 → 생물 전에 사라짐
+      const ang = (Math.random() - 0.5) * (Math.PI * 0.5); // 수직 기준 ±45°
+      const d = 140 + Math.random() * 130;
+      dx = Math.sin(ang) * d;                        // 좌우로 퍼짐
+      dy = Math.cos(ang) * d;                        // 아래로 내려옴
+    } else {
+      const side = (i % 2 === 0) ? 1 : -1;           // 좌/우 번갈아
+      const phi = (Math.random() * 48) * Math.PI / 180; // 수평에서 아래로 0~48°
+      const dist = 180 + Math.random() * 520;        // 좌우로 멀리
+      dx = side * Math.cos(phi) * dist;
+      dy = Math.sin(phi) * dist;
+    }
+    const dur = 900 + Math.random() * 900;           // 0.9~1.8s
+
+    const anim = el.animate(
+      [
+        { transform: 'translate(0,0) scale(0.2)', opacity: 1, offset: 0 },
+        { opacity: 1, offset: 0.5 },                                          // 50%까지 또렷하게 유지
+        { transform: `translate(${dx.toFixed(1)}px, ${dy.toFixed(1)}px) scale(1)`, opacity: 0, offset: 1 },
+      ],
+      { duration: dur, easing: 'cubic-bezier(.22,.61,.36,1)', delay: Math.random() * 200 }
+    );
+    anim.onfinish = () => el.remove();
+  }
+}
+
 function selectSpot(selected) {
   const emptySlotIdx = branchIndexOf(selected);
+  selectedBranch = BRANCH_ORDER[emptySlotIdx];   // 예매하기 버튼이 참조할 선택 지점
+
+  spawnBubbleSparks();   // 선택 순간 중앙 상단 빛에서 작은 버블이 퍼지는 파티클
 
   spots.forEach((spot) => {
     spot.classList.remove('is-selected', 'is-top', 'slot-0', 'slot-1', 'slot-2', 'slot-3');
@@ -95,6 +157,15 @@ spots.forEach((spot) => {
   });
 });
 
+// 예매하기 버튼 → 선택된 지점의 구매 페이지로 이동
+const bookingBtn = document.querySelector('.ticket-booking__btn');
+if (bookingBtn) {
+  bookingBtn.addEventListener('click', () => {
+    const url = selectedBranch ? BRANCH_URLS[selectedBranch] : '';
+    if (url) window.location.href = url;
+  });
+}
+
 // 장식 거품 연출 예약 (CSS 의 .ticket.is-selected 상태에서 재생)
 //  · 큰 거품 6개   → 큰 순서대로 '펑' 터져 사라짐 (is-bursting)
 //  · 큰 것 중 가장 작은 1개 → 안 터지고 빈 슬롯을 채움 (is-survivor)
@@ -129,11 +200,16 @@ spots.forEach((spot) => {
       el.style.animationDelay = (burstOrder * 0.13).toFixed(2) + 's';
       burstOrder += 1;
     } else {
-      // 작은 거품: 상단 6~22% 부근으로 떠올라 그 자리에서 둥둥
+      // 작은 거품: 위로 떠올라 그 자리에서 둥둥
       el.classList.add('is-floating');
-      const targetY = 6 + Math.random() * 16;
+      // 최종 세로 위치(top, vh): 인라인 --ty 가 있으면 그 값으로 '고정',
+      // 없으면 기존처럼 상단 6~22% 랜덤. (가로 위치는 인라인 --x 로 이미 고정)
+      const ty = parseFloat(getComputedStyle(el).getPropertyValue('--ty'));
+      const targetY = Number.isFinite(ty) ? ty : (6 + Math.random() * 16);
       el.style.setProperty('--rise', (targetY - y).toFixed(1) + 'vh');
-      el.style.setProperty('--drift-dur', (5 + Math.random() * 3).toFixed(1) + 's');
+      // 흔들림 주기: 인라인 --drift-dur 가 있으면 그대로, 없으면 5~8s 랜덤
+      const dd = getComputedStyle(el).getPropertyValue('--drift-dur').trim();
+      if (!dd) el.style.setProperty('--drift-dur', (5 + Math.random() * 3).toFixed(1) + 's');
     }
   });
 })();
@@ -232,14 +308,14 @@ const DISCOUNTS = {
         ['해피포인트 멤버십', '본인포함4인 20%'],
         ['H-LIVE Club', '포인트 100%'],
         ['CJ ONE멤버십', '1000p 이상 사용시 30%'],
-        ['맘마 멤버십', '본인포함4인 20%'],
+        ['맘맘 멤버십', '본인포함4인 20%'],
         ['갤러리아 카드(플래티늄·시그니처)', '본인포함4인 20%'],
       ],
     },
     {
       label: '우대할인',
       rows: [
-        ['다자녀 고양능카드', '본인포함4인 30%'],
+        ['다자녀 고양e카드', '본인포함4인 30%'],
         ['문화누리카드', '본인포함4인 40%'],
         ['복지할인', '본인포함2인 20%'],
         ['한화복지카드 할인', '본인포함4인 20%'],
@@ -327,7 +403,7 @@ const DISCOUNTS = {
         ['해피포인트 멤버십', '본인포함4인 20%'],
         ['CJ ONE 멤버십', '1,000p이상 사용시 30%'],
         ['갤러리아 카드(플래티늄·시그니처)', '본인포함4인 20%'],
-        ['맘마 멤버십', '본인포함4인 20%'],
+        ['맘맘 멤버십', '본인포함4인 20%'],
         ['경기아이플러스 카드', '본인포함4인 30%'],
         ['플라자호텔 멤버십', '본인포함5인 15%'],
       ],
@@ -365,10 +441,14 @@ function renderDiscounts(branch) {
       <details class="ticket-discount">
         <summary><span class="ticket-discount__label">${cat.label}</span></summary>
         <div class="ticket-discount__body">
+          <div class="ticket-discount__row is-active">
+            <span class="ticket-discount__name">선택없음</span>
+            <span class="ticket-discount__val"></span>
+          </div>
           ${cat.rows
             .map(
-              (r, i) => `
-            <div class="ticket-discount__row${i === 0 ? ' is-active' : ''}">
+              (r) => `
+            <div class="ticket-discount__row">
               <span class="ticket-discount__name">${r[0]}</span>
               <span class="ticket-discount__val">${r[1]}</span>
             </div>`
