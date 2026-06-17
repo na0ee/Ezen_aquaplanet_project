@@ -12,7 +12,16 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,500&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
-  
+
+  <!-- Three.js importmap (ES module) -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
 </head>
 <body>
 
@@ -23,6 +32,22 @@
        · 독립 페이지이므로 .ticket-page 는 항상 표시(is-open)
   ================================================================ -->
   <div class="ticket-page is-open">
+    
+    <!-- 3D 로고 캔버스 -->
+    <div class="logo3d-wrap" aria-hidden="true"></div>
+    <div class="logo3d-text" aria-hidden="true"></div>
+    <!-- logo3d.js가 첫 지점(hero)을 찾을 수 있도록 더미 섹션 추가.
+         · glass 굴절 셰이더(logo3d.js)가 hero 의 <video> 를 굴절 배경으로 샘플링하므로
+           메인과 동일한 hero 비디오를 함께 둬야 3D 로고가 정상 렌더된다(footer 안착 포함).
+         · 화면엔 안 보이지만 디코딩은 되도록 visibility:hidden 대신 video 에 opacity:0 사용. -->
+    <div id="sec-logo" style="position: absolute; top: -1000px; width: 100%; height: 1px;" aria-hidden="true">
+      <video class="section__video-bg" autoplay muted loop playsinline preload="auto" aria-hidden="true"
+             style="position:absolute; width:2px; height:2px; opacity:0; pointer-events:none;">
+        <source src="assets/images/first.webm" type="video/webm">
+        <source src="assets/images/first.mp4" type="video/mp4">
+      </video>
+      <h1 class="hero__title" style="display:none;">aqua planet</h1>
+    </div>
 
     <!-- GNB — 메인과 동일 (재사용). 우측 버튼은 홈으로 돌아가기 -->
     <header class="gnb">
@@ -53,22 +78,29 @@
         <h1 class="ticket__title">Ticket</h1>
         <p class="ticket__sub">다양한 할인정보를 확인하고 예매하세요</p>
 
-        <!-- 떠다니는 장식 거품 -->
+        <!-- 떠다니는 장식 거품
+             · --x  : 가로 위치(선택 후에도 동일) / --y : 세로 시작점 / --s : 지름 / --d : 초기 둥둥 주기
+             · 선택하면 크기(--s) 순으로 큰 거품은 터지고(is-bursting), 지름 120px 1개는 빈 슬롯을
+               채우며(is-survivor), 나머지 '작은 거품'만 위로 떠올라 옆에서 둥둥(is-floating) 한다.
+             · ★ 떠다니는(작은) 거품의 '고정 위치'는 아래처럼 --ty(목표 top, vh) 를 주면 된다.
+               (--ty 없으면 상단 6~22% 랜덤. --ty 는 작은 거품에만 적용되고 큰 거품은 무시됨) -->
         <div class="ticket__decor" aria-hidden="true">
-          <span class="deco-bubble" style="--x:10%;  --y:22%; --s:65px;  --d:7s;"></span>
-          <span class="deco-bubble" style="--x:13%; --y:18%; --s:20px;  --d:9s;"></span>
-          <span class="deco-bubble" style="--x:20%; --y:26%; --s:120px;  --d:8s;"></span>
-          <span class="deco-bubble" style="--x:10%;  --y:75%; --s:25px;  --d:11s;"></span>
-          <span class="deco-bubble" style="--x:36%; --y:18%; --s:50px;  --d:6.5s;"></span>
+          <!-- 큰 거품(터짐/생존) — --ty 불필요 -->
+          <span class="deco-bubble" style="--x:10%; --y:22%; --s:65px;  --d:7s;"></span>
+          <span class="deco-bubble" style="--x:20%; --y:26%; --s:120px; --d:8s;"></span>
           <span class="deco-bubble" style="--x:33%; --y:75%; --s:80px;  --d:10s;"></span>
           <span class="deco-bubble" style="--x:50%; --y:52%; --s:100px; --d:12s;"></span>
-          <span class="deco-bubble" style="--x:49%; --y:72%; --s:50px;  --d:7.5s;"></span>
-          <span class="deco-bubble" style="--x:63%; --y:26%; --s:130px;  --d:9s;"></span>
-          <span class="deco-bubble" style="--x:88%; --y:23%; --s:55px;  --d:7.5s;"></span>
-          <span class="deco-bubble" style="--x:88%; --y:52%; --s:100px;  --d:10.5s;"></span>
-          <span class="deco-bubble" style="--x:84%; --y:60%; --s:35px;  --d:10.5s;"></span>
-          <span class="deco-bubble" style="--x:75%; --y:82%; --s:110px;  --d:7s;"></span>
-          <span class="deco-bubble" style="--x:25%; --y:38%; --s:40px;  --d:8s;"></span>
+          <span class="deco-bubble" style="--x:63%; --y:26%; --s:130px; --d:9s;"></span>
+          <span class="deco-bubble" style="--x:88%; --y:52%; --s:100px; --d:10.5s;"></span>
+          <span class="deco-bubble" style="--x:75%; --y:82%; --s:110px; --d:7s;"></span>
+          <!-- 작은 거품(떠다니는 장식) — --ty 로 최종 세로 위치 고정 -->
+          <span class="deco-bubble" style="--x:13%; --y:18%; --s:20px; --d:9s;   --ty:11;"></span>
+          <span class="deco-bubble" style="--x:10%; --y:75%; --s:40px; --d:11s;  --ty:16;"></span>
+          <span class="deco-bubble" style="--x:36%; --y:18%; --s:50px; --d:6.5s; --ty:22;"></span>
+          <span class="deco-bubble" style="--x:49%; --y:72%; --s:50px; --d:7.5s; --ty:18;"></span>
+          <span class="deco-bubble" style="--x:88%; --y:23%; --s:55px; --d:7.5s; --ty:10;"></span>
+          <span class="deco-bubble" style="--x:84%; --y:60%; --s:35px; --d:10.5s; --ty:18;"></span>
+          <span class="deco-bubble" style="--x:25%; --y:38%; --s:40px; --d:8s;   --ty:14;"></span>
         </div>
 
         <!-- 지점 버블 + 예매 패널을 함께 중앙 정렬하는 무대 -->
@@ -116,78 +148,8 @@
           <div class="ticket-booking__panel">
             <h2 class="ticket-booking__title">Discont</h2>
 
-            <details class="ticket-discount">
-              <summary>연간이용권</summary>
-              <div class="ticket-discount__body">
-                <div class="ticket-discount__row">
-                  <span class="ticket-discount__name">성인</span>
-                  <span class="ticket-discount__val">99,000원</span>
-                </div>
-                <div class="ticket-discount__row">
-                  <span class="ticket-discount__name">청소년</span>
-                  <span class="ticket-discount__val">79,000원</span>
-                </div>
-                <div class="ticket-discount__row">
-                  <span class="ticket-discount__name">어린이</span>
-                  <span class="ticket-discount__val">69,000원</span>
-                </div>
-              </div>
-            </details>
-            <details class="ticket-discount">
-              <summary>제휴·멤버십 할인</summary>
-              <div class="ticket-discount__body">
-                <div class="ticket-discount__row">
-                  <span class="ticket-discount__name">통신사 멤버십</span>
-                  <span class="ticket-discount__val">본인 30%</span>
-                </div>
-                <div class="ticket-discount__row">
-                  <span class="ticket-discount__name">제휴 카드</span>
-                  <span class="ticket-discount__val">본인 20%</span>
-                </div>
-                <div class="ticket-discount__row">
-                  <span class="ticket-discount__name">멤버십 회원</span>
-                  <span class="ticket-discount__val">본인 15%</span>
-                </div>
-              </div>
-            </details>
-            <details class="ticket-discount">
-              <summary>우대할인</summary>
-              <div class="ticket-discount__body">
-                <div class="ticket-discount__row">
-                  <span class="ticket-discount__name">경로(만 65세 이상)</span>
-                  <span class="ticket-discount__val">30%</span>
-                </div>
-                <div class="ticket-discount__row">
-                  <span class="ticket-discount__name">장애인</span>
-                  <span class="ticket-discount__val">50%</span>
-                </div>
-                <div class="ticket-discount__row">
-                  <span class="ticket-discount__name">국가유공자</span>
-                  <span class="ticket-discount__val">50%</span>
-                </div>
-              </div>
-            </details>
-            <details class="ticket-discount">
-              <summary>프로모션</summary>
-              <div class="ticket-discount__body">
-                <div class="ticket-discount__row is-active">
-                  <span class="ticket-discount__name">지역민할인</span>
-                  <span class="ticket-discount__val">고양·파주40% | 인천·김포·부천30%</span>
-                </div>
-                <div class="ticket-discount__row">
-                  <span class="ticket-discount__name">세계헌혈자의 날 프로모션</span>
-                  <span class="ticket-discount__val">본인포함4인 40%</span>
-                </div>
-                <div class="ticket-discount__row">
-                  <span class="ticket-discount__name">현충일 호국보훈 프로모션</span>
-                  <span class="ticket-discount__val">본인포함4인 40%</span>
-                </div>
-                <div class="ticket-discount__row">
-                  <span class="ticket-discount__name">학생 할인</span>
-                  <span class="ticket-discount__val">본인포함4인 35%</span>
-                </div>
-              </div>
-            </details>
+            <!-- 할인 아코디언 — 선택한 지점에 따라 ticket.js 가 내용을 채움 -->
+            <div class="ticket-discount-list"></div>
 
             <button class="ticket-booking__btn" type="button">예매하기</button>
           </div>
@@ -198,22 +160,69 @@
       </section>
     </main>
 
-    <!-- FOOTER — 메인과 동일 (재사용) -->
-    <footer class="footer">
-      <video class="footer__video-bg" autoplay muted loop playsinline aria-hidden="true">
-        <source src="assets/images/KakaoTalk_Video_2026-06-13-21-54-21.mp4" type="video/mp4">
-      </video>
-      <div class="footer__inner">
-        <div class="footer__logo" aria-label="Aqua Planet" role="img"></div>
-        <p class="footer__copy">© 2024 Aqua Planet. All rights reserved.</p>
+    <!-- =========================================================
+         스크롤 다운 구역 — 흰색 → #22B2EA 그라데이션
+         (티켓 섹션 하단 흰색 그라데이션과 자연스럽게 이어짐)
+         로고 영역은 추후 main 페이지 업데이트 시 추가 예정
+    ========================================================== -->
+    <section class="ticket-scroll-below" aria-label="하단 영역">
+      <!-- 로고: 추후 추가 -->
+      <div class="ticket-scroll-below__logo-placeholder" aria-hidden="true"></div>
+    </section>
+
+    <!-- FOOTER — 메인과 동일 (내용 업데이트) -->
+    <!-- ================================================
+      FOOTER
+  ================================================ -->
+  <footer id="footer" class="footer">
+    <video class="footer__video-bg" autoplay muted loop playsinline aria-hidden="true">
+      <source src="assets/images/KakaoTalk_Video_2026-06-13-21-54-21.mp4" type="video/mp4">
+    </video>
+    <div class="footer__inner">
+      <nav class="footer__nav" aria-label="푸터 메뉴">
+        <a href="#sec-program" class="footer__link">Program</a>
+        <a href="#sec-crew" class="footer__link">Ocean friends</a>
+        <a href="#sec-logo" class="footer__link">About us</a>
+        <a href="location.html" class="footer__link">Location</a>
+        <a href="#sec-booking" class="footer__link">Ticket</a>
+      </nav>
+
+      <div class="footer__brand">
+        <div class="footer__socials" aria-label="소셜 링크">
+          <a href="https://www.instagram.com/" class="footer__social" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="4" y="4" width="16" height="16" rx="5"></rect>
+              <circle cx="12" cy="12" r="3.4"></circle>
+              <circle cx="17.2" cy="6.8" r="1"></circle>
+            </svg>
+          </a>
+          <a href="https://www.youtube.com/" class="footer__social" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5.2 7.2C5.6 6.5 6.3 6 7.1 5.9C8.4 5.7 10.5 5.6 12 5.6C13.5 5.6 15.6 5.7 16.9 5.9C17.7 6 18.4 6.5 18.8 7.2C19.2 8.1 19.4 10.2 19.4 12C19.4 13.8 19.2 15.9 18.8 16.8C18.4 17.5 17.7 18 16.9 18.1C15.6 18.3 13.5 18.4 12 18.4C10.5 18.4 8.4 18.3 7.1 18.1C6.3 18 5.6 17.5 5.2 16.8C4.8 15.9 4.6 13.8 4.6 12C4.6 10.2 4.8 8.1 5.2 7.2Z"></path>
+              <path d="M10.4 9.3L14.7 12L10.4 14.7V9.3Z" class="footer__social-play"></path>
+            </svg>
+          </a>
+          <a href="https://www.google.com/search?q=aqua+planet" class="footer__social" target="_blank" rel="noopener noreferrer" aria-label="Google">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M19.6 12.2C19.6 11.6 19.5 11.1 19.4 10.6H12.2V13.5H16.3C16.1 14.5 15.5 15.3 14.7 15.8V17.7H17.2C18.7 16.4 19.6 14.5 19.6 12.2Z"></path>
+              <path d="M12.2 19.7C14.3 19.7 16.1 19 17.2 17.7L14.7 15.8C14 16.3 13.1 16.6 12.2 16.6C10.2 16.6 8.5 15.2 7.9 13.4H5.3V15.3C6.5 17.9 9.1 19.7 12.2 19.7Z"></path>
+              <path d="M7.9 13.4C7.7 12.9 7.6 12.5 7.6 12C7.6 11.5 7.7 11.1 7.9 10.6V8.7H5.3C4.8 9.7 4.5 10.8 4.5 12C4.5 13.2 4.8 14.3 5.3 15.3L7.9 13.4Z"></path>
+              <path d="M12.2 7.4C13.3 7.4 14.4 7.8 15.2 8.6L17.3 6.5C16 5.3 14.3 4.6 12.2 4.6C9.1 4.6 6.5 6.3 5.3 8.7L7.9 10.6C8.5 8.8 10.2 7.4 12.2 7.4Z"></path>
+            </svg>
+          </a>
+        </div>
+        <p class="footer__copy">Aqua Planet. ©2026 All rights reserved.</p>
       </div>
-    </footer>
+    </div>
 
   </div><!-- /.ticket-page -->
 
   <!-- 커스텀 커서 (index.html 과 동일) -->
   <div id="custom-cursor" aria-hidden="true"></div>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script type="module" src="./ticket.js"></script>
+  <script type="module" src="./logo3d.js"></script>
 </body>
 </html>

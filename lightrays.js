@@ -229,7 +229,7 @@ export function initLightRays(container, options = {}) {
     if (started) return;
     started = true;
 
-    renderer = new Renderer({ dpr: renderer_dpr(), alpha: true });
+    renderer = new Renderer({ dpr: renderer_dpr(), alpha: true, premultipliedAlpha: false });
     const gl = renderer.gl;
     gl.canvas.style.width = '100%';
     gl.canvas.style.height = '100%';
