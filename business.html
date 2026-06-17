@@ -14,450 +14,6 @@
 
   <link rel="stylesheet" href="style.css" />
 
-  <style>
-    /* ============================================================
-       Business Overview Page — 전용 스타일
-       (전역 토큰은 style.css :root 사용)
-       ============================================================ */
-
-    body {
-      background: #ffffff;
-      color: #16384a;
-      font-family: var(--font-kr);
-    }
-
-    .biz-page { overflow-x: hidden; }
-
-    /* 공통 컨테이너 */
-    .biz-container { width: min(1180px, 90vw); margin: 0 auto; }
-
-    /* 섹션 가운데 라벨 (Business Area & Vision / Capabilities & Cases) */
-    .biz-sec-label {
-      text-align: center;
-      font-family: var(--font-kr);
-      font-weight: 700;
-      font-size: clamp(20px, 2vw, 26px);
-      color: #16384a;
-      letter-spacing: -0.02em;
-      margin: 0 0 56px;
-    }
-    .biz-sec-label::after {
-      content: "";
-      display: block;
-      width: 40px;
-      height: 3px;
-      background: var(--clr-primary);
-      margin: 18px auto 0;
-      border-radius: 2px;
-    }
-
-    /* ── 1) HERO ───────────────────────────────────────────── */
-    .biz-hero {
-      position: relative;
-      padding: 190px 0 90px;
-      text-align: center;
-      background: linear-gradient(180deg, #bfe6fa 0%, #d9f1fc 26%, #eef9fe 60%, #ffffff 100%);
-    }
-    .biz-hero__title {
-      font-family: var(--font-serif);
-      font-size: clamp(34px, 4.2vw, 56px);
-      font-weight: 500;
-      color: #16384a;
-      letter-spacing: -0.01em;
-    }
-    .biz-hero__title em {
-      font-style: italic;
-      font-weight: 500;
-      margin-right: 8px;
-    }
-    .biz-hero__desc {
-      max-width: 620px;
-      margin: 22px auto 0;
-      font-size: 15px;
-      line-height: 1.9;
-      color: #3a5b6e;
-      font-weight: 500;
-    }
-
-
-    /* ── 2) BUSINESS AREA & VISION ─────────────────────────── */
-    .biz-areas { padding: 96px 0 40px; }
-
-    .biz-areas__head { margin-bottom: 30px; }
-    .biz-areas__head h3 {
-      font-size: 22px;
-      font-weight: 700;
-      color: #16384a;
-      letter-spacing: -0.02em;
-    }
-    .biz-areas__head p {
-      margin-top: 10px;
-      font-size: 15px;
-      color: #5a7686;
-      font-weight: 500;
-    }
-
-    /* Planning 배너 (특수) */
-    .biz-banner {
-      position: relative;
-      margin: 26px 0 70px;
-      border-radius: 14px;
-      overflow: hidden;
-      background: linear-gradient(110deg, #1f9ad4 0%, #22b2ea 55%, #57c8f3 100%);
-      padding: 40px 48px;
-      box-shadow: 0 24px 50px rgba(0, 90, 150, 0.18);
-    }
-    .biz-banner__title {
-      font-family: var(--font-serif);
-      font-size: clamp(40px, 5vw, 72px);
-      font-weight: 500;
-      color: #ffffff;
-      line-height: 1;
-    }
-    .biz-banner__title span {
-      font-family: var(--font-kr);
-      font-size: 18px;
-      font-weight: 600;
-      vertical-align: super;
-      margin-left: 10px;
-      opacity: 0.92;
-    }
-
-    /* 각 사업분야 블록 */
-    .biz-area {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      padding: 30px 0;
-      border-bottom: 1px solid rgba(34, 178, 234, 0.16);
-      transition: opacity var(--tr-base), filter var(--tr-base);
-    }
-    .biz-area--right { align-items: flex-end; text-align: right; }
-    .biz-area__word {
-      font-family: var(--font-serif);
-      font-size: clamp(44px, 6vw, 88px);
-      font-weight: 500;
-      color: #14283a;
-      line-height: 1;
-      letter-spacing: -0.01em;
-    }
-    .biz-area__word span {
-      font-family: var(--font-kr);
-      font-size: clamp(16px, 1.6vw, 22px);
-      font-weight: 600;
-      color: var(--clr-primary);
-      margin-left: 14px;
-      letter-spacing: 0;
-    }
-    .biz-area__desc {
-      font-size: 15px;
-      color: #5a7686;
-      font-weight: 500;
-      max-width: 520px;
-    }
-    .biz-area__tags { display: flex; flex-wrap: wrap; gap: 10px; }
-    .biz-area--right .biz-area__tags { justify-content: flex-end; }
-    .biz-tag {
-      display: inline-flex;
-      align-items: center;
-      height: 32px;
-      padding: 0 16px;
-      border: 1px solid rgba(34, 178, 234, 0.55);
-      border-radius: 100px;
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--clr-primary);
-      background: rgba(34, 178, 234, 0.04);
-      transition: background var(--tr-base), color var(--tr-base);
-    }
-    .biz-tag:hover { background: var(--clr-primary); color: #fff; }
-
-    /* 검색으로 숨김 처리된 블록 */
-    .biz-area.is-dimmed { opacity: 0.18; filter: grayscale(0.6); }
-
-    /* ── 3) VISION (4-circle) ──────────────────────────────── */
-    .biz-vision { padding: 96px 0; background: linear-gradient(180deg, #ffffff 0%, #f3fbfe 100%); }
-    .biz-vision__head { text-align: center; margin-bottom: 8px; }
-    .biz-vision__head h3 { font-size: 22px; font-weight: 700; color: #16384a; }
-    .biz-vision__head p { margin-top: 10px; font-size: 15px; color: #5a7686; font-weight: 500; }
-
-    .biz-diagram4 {
-      position: relative;
-      width: 1100px;
-      max-width: 100%;
-      height: 480px;
-      margin: 40px auto 0;
-    }
-    .biz-diagram4 svg.biz-links { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
-    .biz-node {
-      position: absolute;
-      width: 132px; height: 132px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 35% 28%, #5cc6f2 0%, #22b2ea 55%, #1790c6 100%);
-      box-shadow: 0 16px 30px rgba(20, 130, 190, 0.35), inset 0 2px 6px rgba(255,255,255,0.4);
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      font-weight: 600;
-      font-size: 14px;
-      line-height: 1.3;
-      transform: translate(-50%, -50%);
-      z-index: 2;
-    }
-    .biz-label {
-      position: absolute;
-      width: 340px;
-      z-index: 3;
-    }
-    .biz-label h4 {
-      font-family: var(--font-en);
-      font-size: 15px;
-      font-weight: 600;
-      color: #16384a;
-      margin-bottom: 8px;
-    }
-    .biz-label p { font-size: 13px; line-height: 1.7; color: #5a7686; font-weight: 500; }
-    .biz-label--l { text-align: right; }
-    .biz-label--r { text-align: left; }
-    .biz-goal-list { list-style: none; display: flex; flex-direction: column; gap: 4px; }
-    .biz-goal-list li { font-size: 13px; color: #3a5b6e; font-weight: 600; }
-    .biz-goal-list li b { color: var(--clr-primary); margin-right: 6px; }
-    .biz-core-grid {
-      display: grid;
-      grid-template-columns: repeat(2, auto);
-      gap: 4px 18px;
-      font-size: 13px;
-      color: #3a5b6e;
-      font-weight: 600;
-    }
-    .biz-label--r .biz-core-grid { justify-content: start; }
-
-    /* ── 4) CAPABILITIES (5-circle) ────────────────────────── */
-    .biz-caps { padding: 96px 0; }
-    .biz-caps__head { margin-bottom: 10px; }
-    .biz-caps__head h3 { font-size: 22px; font-weight: 700; color: #16384a; }
-    .biz-caps__head p { margin-top: 10px; font-size: 15px; color: #5a7686; font-weight: 500; max-width: 720px; }
-
-    .biz-diagram5 { position: relative; width: 600px; max-width: 100%; height: 560px; margin: 30px auto 0; }
-    .biz-diagram5 svg.biz-links { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
-    .biz-node5 {
-      position: absolute;
-      width: 128px; height: 128px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 35% 28%, #5cc6f2 0%, #22b2ea 55%, #1790c6 100%);
-      box-shadow: 0 16px 30px rgba(20, 130, 190, 0.35), inset 0 2px 6px rgba(255,255,255,0.4);
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      font-weight: 700;
-      font-size: 16px;
-      transform: translate(-50%, -50%);
-      z-index: 2;
-    }
-    .biz-cap-cap {
-      position: absolute;
-      width: 180px;
-      text-align: center;
-      transform: translate(-50%, 0);
-      z-index: 1;
-    }
-    .biz-cap-cap h4 { font-family: var(--font-en); font-size: 13px; font-weight: 600; color: #16384a; margin-bottom: 4px; }
-    .biz-cap-cap p { font-size: 12px; line-height: 1.6; color: #6a8696; font-weight: 500; }
-
-    /* ── 5) 사업 예시 ──────────────────────────────────────── */
-    .biz-case { padding: 30px 0 110px; }
-    .biz-case__head { font-size: 22px; font-weight: 700; color: #16384a; margin-bottom: 24px; }
-    .biz-case__figure {
-      position: relative;
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 30px 60px rgba(0, 80, 130, 0.18);
-    }
-    .biz-case__figure img { width: 100%; height: auto; display: block; }
-    .biz-case__caption {
-      position: absolute;
-      left: 36px; bottom: 30px;
-      max-width: 60%;
-      color: #fff;
-      text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-    }
-    .biz-case__caption h4 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
-    .biz-case__caption p { font-size: 13px; line-height: 1.7; opacity: 0.92; font-weight: 500; }
-
-    /* ── 6) FOOTER (faded logo) ────────────────────────────── */
-    .biz-footer {
-      position: relative;
-      padding: 90px 0 70px;
-      text-align: center;
-      background: linear-gradient(180deg, #ffffff 0%, #dff3fc 55%, #bfe6fa 100%);
-    }
-    .biz-footer__mark {
-      width: 120px; height: auto;
-      opacity: 0.45;
-      margin: 0 auto 18px;
-      display: block;
-      filter: brightness(1.4);
-    }
-    .biz-footer__word {
-      font-family: var(--font-serif);
-      font-size: clamp(48px, 8vw, 120px);
-      font-weight: 400;
-      color: rgba(255, 255, 255, 0.85);
-      letter-spacing: 0.04em;
-      line-height: 1;
-      text-shadow: 0 4px 18px rgba(120, 200, 240, 0.5);
-    }
-    .biz-footer__copy {
-      margin-top: 26px;
-      font-size: 12px;
-      color: #6a96ac;
-      font-weight: 500;
-    }
-
-    /* 스크롤 등장 */
-    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
-    .reveal.is-visible { opacity: 1; transform: none; }
-
-    /* ── 반응형: 다이어그램/큰 글자 정리 ── */
-    @media (max-width: 1024px) {
-      .biz-diagram4 { height: auto; display: flex; flex-direction: column; gap: 18px; align-items: center; }
-      .biz-diagram4 svg.biz-links { display: none; }
-      .biz-diagram4 .biz-node { position: relative; transform: none; left: auto !important; top: auto !important; }
-      .biz-label { position: relative; width: min(420px, 88vw); left: auto !important; top: auto !important; text-align: center !important; }
-      .biz-label--l, .biz-label--r { text-align: center; }
-      .biz-core-grid { justify-content: center; }
-
-      .biz-diagram5 { height: auto; display: flex; flex-direction: column; gap: 14px; align-items: center; }
-      .biz-diagram5 svg.biz-links { display: none; }
-      .biz-node5 { position: relative; transform: none; left: auto !important; top: auto !important; }
-      .biz-cap-cap { position: relative; transform: none; left: auto !important; top: auto !important; width: min(420px, 88vw); }
-
-      .biz-area--right { align-items: flex-start; text-align: left; }
-      .biz-area--right .biz-area__tags { justify-content: flex-start; }
-    }
-
-    /* ============================================================
-       추가 구조 스타일 (탭바 / areas-wrap / 배너·text·list) — 사진 기준
-       ============================================================ */
-
-    /* 히어로 카테고리 탭 바 */
-    .biz-branch-tabs {
-      display: inline-flex;
-      gap: 6px;
-      margin: 0 auto 34px;
-      padding: 6px;
-      background: rgba(255, 255, 255, 0.65);
-      border: 1px solid rgba(34, 178, 234, 0.28);
-      border-radius: 100px;
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      box-shadow: 0 8px 24px rgba(0, 80, 130, 0.08);
-    }
-    .biz-branch-tabs__item {
-      padding: 10px 22px;
-      border-radius: 100px;
-      font-size: 14px;
-      font-weight: 600;
-      color: #5a7686;
-      text-decoration: none;
-      white-space: nowrap;
-      transition: background var(--tr-base), color var(--tr-base);
-    }
-    .biz-branch-tabs__item:hover { color: var(--clr-primary); }
-    .biz-branch-tabs__item.is-active { background: var(--clr-primary); color: #fff; }
-    .biz-branch-tabs__item.is-active:hover { color: #fff; }
-
-    /* 히어로 타이틀 보조 문구 / 강조 */
-    .biz-hero__title .title {
-      font-family: var(--font-kr);
-      font-size: clamp(14px, 1.4vw, 18px);
-      font-weight: 500;
-      color: #3a5b6e;
-      margin-top: 16px;
-    }
-    .biz-hero__desc span { color: var(--clr-primary); font-weight: 600; }
-
-    /* Business Area 컨테이너 (기존 .biz-container 대체) */
-    .areas-wrap { width: min(1180px, 90vw); margin: 0 auto; }
-
-    /* 배너 안 설명/태그 리스트 (Planning 파란 배너 기준) */
-    .biz-banner .text {
-      margin-top: 10px;
-      font-size: 15px;
-      font-weight: 500;
-      color: rgba(255, 255, 255, 0.92);
-    }
-    .biz-banner .list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 20px;
-      list-style: none;
-    }
-    .biz-banner .list li {
-      height: 32px;
-      padding: 0 16px;
-      display: inline-flex;
-      align-items: center;
-      border: 1px solid rgba(255, 255, 255, 0.6);
-      border-radius: 100px;
-      font-size: 13px;
-      font-weight: 500;
-      color: #ffffff;
-      transition: background var(--tr-base), color var(--tr-base);
-    }
-    .biz-banner .list li:hover { background: #fff; color: var(--clr-primary); }
-
-    /* Planning 외 사업분야 → 사진처럼 '큰 텍스트' (배경 없는 대형 워드) */
-    .biz-banner:not([data-name="planning"]) {
-      background: none;
-      box-shadow: none;
-      border-radius: 0;
-      padding: 34px 0;
-      margin: 0;
-      border-bottom: 1px solid rgba(34, 178, 234, 0.16);
-    }
-    .biz-banner:not([data-name="planning"]) .biz-banner__title {
-      color: #14283a;
-      font-size: clamp(44px, 6vw, 88px);
-    }
-    .biz-banner:not([data-name="planning"]) .biz-banner__title span {
-      font-family: var(--font-kr);
-      font-size: clamp(16px, 1.6vw, 22px);
-      font-weight: 600;
-      color: var(--clr-primary);
-      vertical-align: baseline;
-      opacity: 1;
-    }
-    .biz-banner:not([data-name="planning"]) .text { color: #5a7686; }
-    .biz-banner:not([data-name="planning"]) .list li {
-      border-color: rgba(34, 178, 234, 0.55);
-      color: var(--clr-primary);
-      background: rgba(34, 178, 234, 0.04);
-    }
-    .biz-banner:not([data-name="planning"]) .list li:hover {
-      background: var(--clr-primary);
-      color: #fff;
-    }
-
-    /* 좌우 교차 정렬 (사진: Design·Operation 우측 / Construction·Acquisition 좌측) */
-    .biz-banner[data-name="design"],
-    .biz-banner[data-name="operation"] { text-align: right; }
-    .biz-banner[data-name="design"] .list,
-    .biz-banner[data-name="operation"] .list { justify-content: flex-end; }
-
-    @media (max-width: 1024px) {
-      .biz-branch-tabs { flex-wrap: wrap; justify-content: center; }
-      .biz-banner[data-name="design"],
-      .biz-banner[data-name="operation"] { text-align: left; }
-      .biz-banner[data-name="design"] .list,
-      .biz-banner[data-name="operation"] .list { justify-content: flex-start; }
-    }
-  </style>
 </head>
 <body class="biz-page">
 
@@ -509,7 +65,7 @@
         <p class="title">생명이 역동하는 새로운 바다로의 초대</p>
       </h1>
       <p class="biz-hero__desc">
-        <span>해양생태계의 가치</span>와 <span>아름다움</span>을 전달하는 복합 해양문화 공간입니다<br />
+        <b>해양생태계의 가치</b>와 <b>아름다움</b>을 전달하는 복합 해양문화 공간입니다<br />
         전시와 연구를 통해 생물다양성 보전과 지속 가능한 미래에 기여합니다.
       </p>
 
@@ -589,49 +145,49 @@
         </div>
 
         <div class="biz-diagram4 reveal" aria-label="비전 다이어그램">
-          <!-- 연결선 -->
-          <svg class="biz-links" viewBox="0 0 1100 480" preserveAspectRatio="none" aria-hidden="true">
-            <g fill="none" stroke="#9bd6f1" stroke-width="2">
-              <line x1="430" y1="130" x2="670" y2="130"/>
-              <line x1="670" y1="130" x2="670" y2="350"/>
-              <line x1="670" y1="350" x2="430" y2="350"/>
-              <line x1="430" y1="350" x2="430" y2="130"/>
-            </g>
-          </svg>
-
-          <!-- 노드 -->
-          <div class="biz-node" style="left:430px; top:130px;">MISSON</div>
-          <div class="biz-node" style="left:670px; top:130px;">VISION<br>STATEMENT</div>
-          <div class="biz-node" style="left:430px; top:350px;">GOAL</div>
-          <div class="biz-node" style="left:670px; top:350px;">CORE<br>VALUE</div>
-
-          <!-- 라벨 -->
-          <div class="biz-label biz-label--l" style="left:10px; top:96px;">
-            <h4>Happy-Ocean Happy-Future Happy-people</h4>
-            <p>해양생물의 소중함을 공유하고, 이를 지키고 보전하며<br>인간과 자연이 공생하며 느낄 수 있는 최고의 즐거움을 제공하는 기업</p>
-          </div>
-          <div class="biz-label biz-label--r" style="left:750px; top:96px;">
-            <h4>No.1 Global Aquarium Development Company</h4>
-            <p>세계 최고의 아쿠아리움 개발 회사로 도약합니다.</p>
-          </div>
-          <div class="biz-label biz-label--l" style="left:10px; top:300px;">
-            <ul class="biz-goal-list">
-              <li><b>No.1</b>NETWORK POWER</li>
-              <li><b>No.1</b>ECO COMPANY</li>
-              <li><b>No.1</b>BRAND POWER</li>
-              <li><b>No.1</b>MARKET SHARE</li>
-              <li><b>No.1</b>TECHNICAL SKILLS</li>
-            </ul>
-          </div>
-          <div class="biz-label biz-label--r" style="left:750px; top:300px;">
-            <h4>CORE VALUE</h4>
-            <div class="biz-core-grid">
-              <span>고객중심</span><span>행복경영</span>
-              <span>해양보존</span><span>녹색경영</span>
-              <span>창조의힘</span><span>창의경영</span>
-              <span>사회책임</span><span>지속경영</span>
+          <div class="diagram4-wrap">
+            <!-- 연결선 — 원형 (430×430, 중앙, 노드 뒤) -->
+            <div class="biz-ring" aria-hidden="true"></div>
+            <div class="box">
+              <div class="biz-node" style="left:390px; top:90px;">MISSON</div>
+              <div class="biz-label biz-label--l" style="left:0px; top:55px;">
+                <h4>Happy-Ocean Happy-Future Happy-people</h4>
+                <p>해양생물의 소중함을 공유하고, 이를 지키고 보전하며<br>인간과 자연이 공생하며 느낄 수 있는 최고의 즐거움을 제공하는 기업</p>
+              </div>
             </div>
+            <div class="box">
+              <div class="biz-node" style="left:710px; top:90px;">VISION<br>STATEMENT</div>
+              <div class="biz-label biz-label--r" style="left:840px; top:55px;">
+                <h4>No.1 Global Aquarium Development Company</h4>
+                <p>세계 최고의 아쿠아리움 개발 회사로 도약합니다.</p>
+              </div>
+            </div>
+            <div class="box l">
+              <div class="biz-node" style="left:390px; top:410px;">GOAL</div>
+              <div class="biz-label biz-label--l" style="left:0px; top:365px;">
+                <ul class="biz-goal-list">
+                  <li><h4>No.1</h4> NETWORK POWER</li>
+                  <li><h4>No.1</h4>ECO COMPANY</li>
+                  <li><h4>No.1</h4>BRAND POWER</li>
+                  <li><h4>No.1</h4>MARKET SHARE</li>
+                  <li><h4>No.1</h4>TECHNICAL SKILLS</li>
+                </ul>
+              </div>
+            </div>
+            <div class="box">
+              <div class="biz-node" style="left:710px; top:410px;">CORE<br>VALUE</div>
+              <div class="biz-label biz-label--r" style="left:840px; top:365px;">
+                <h4>CORE VALUE</h4>
+                <div class="biz-core-grid">
+                  <h4>고객중심</h4><p>행복경영</p>
+                  <h4>해양보존</h4><p>녹색경영</p>
+                  <h4>창조의힘</h4><p>창의경영</p>
+                  <h4>사회책임</h4><p>지속경영</p>
+                </div>
+              </div>
+            </div>   
           </div>
+          
         </div>
       </div>
     </section>
