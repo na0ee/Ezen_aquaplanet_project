@@ -1,6 +1,6 @@
 /* =============================================================
-   AQUA PLANET — crew3d.js
-   Three.js GLB 로더 + 스크롤 드리븐 동물 전환
+  AQUA PLANET — crew3d.js
+  Three.js GLB 로더 + 스크롤 드리븐 동물 전환
    ============================================================= */
 
 import * as THREE from 'three';
@@ -8,10 +8,10 @@ import { GLTFLoader }    from 'three/addons/loaders/GLTFLoader.js';
 
 
 /* ---------------------------------------------------------------
-   동물 설정
-   scale: 정규화 배율 (1.0 = 뷰포트 기준 2단위 크기)
-   y:     수직 오프셋 (모델 중심 보정)
-   rotY:  기본 회전각 (rad)
+  동물 설정
+  scale: 정규화 배율 (1.0 = 뷰포트 기준 2단위 크기)
+  y:     수직 오프셋 (모델 중심 보정)
+  rotY:  기본 회전각 (rad)
 --------------------------------------------------------------- */
 const CREATURES = [
   { key: 'walrus',  src: 'assets/models/walrus_animated.glb',     scale: 0.78, y: -0.3, rotY:  0.2 },
@@ -21,7 +21,7 @@ const CREATURES = [
 ];
 
 /* 진입 곡선: 브라우저 창 밖에서 헤엄쳐 들어옴
-   FWD = 오른쪽 밖 → 중앙,  BWD = 왼쪽 밖 → 중앙
+    FWD = 오른쪽 밖 → 중앙,  BWD = 왼쪽 밖 → 중앙
    카메라 z=8, FOV 42 기준 화면 가장자리 ≈ ±5.5 → 시작점 ±18 */
 const ENTRY_FWD = new THREE.CatmullRomCurve3([
   new THREE.Vector3( 18, -0.7,  0.9),
