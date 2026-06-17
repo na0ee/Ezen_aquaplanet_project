@@ -2861,6 +2861,17 @@ html, body, * { cursor: none !important; }
   border-color: rgba(255, 255, 255, 1);
 }
 
+/* 밝은(흰) 배경 위에서는 파란 링으로 전환해 잘 보이게 (location/business/ticket 공용) */
+#custom-cursor.is-over-light { border-color: rgba(34, 178, 234, 0.9); }
+#custom-cursor.is-over-light.is-hovering {
+  border-color: rgba(34, 178, 234, 1);
+  background: rgba(34, 178, 234, 0.08);
+}
+#custom-cursor.is-over-light.is-clicking {
+  background: rgba(34, 178, 234, 0.2);
+  border-color: rgba(34, 178, 234, 1);
+}
+
 
 /* -------------------------------------------------------------
    20. GNB DROPDOWN — About us 호버 드롭다운
@@ -3478,9 +3489,16 @@ body.ticket-open { overflow: hidden; }
 }
 
 .ticket-page {
-  /* 배경색 그라데이션: 80% 불투명도 -> 100% 흰색 -> 60% 불투명도 */
-  background: linear-gradient(to bottom, rgba(34, 178, 234, 0.8) 0%, rgba(34, 178, 234, 0.8) 20%, #ffffff 60%, rgba(34, 178, 234, 0.6) 100%);
-  background-attachment: local;
+  /* 솔리드 베이스 (바다색). 실제 그라데이션은 스크롤 콘텐츠를 감싼 .ticket-bg 가 담당
+     → background-attachment:local 의 iOS 버그를 피해 모든 기기에서 동일하게 보인다. */
+  background: #22B2EA;
+}
+
+/* 스크롤 콘텐츠 전체(main+하단영역+footer)를 감싸는 배경 그라데이션 레이어.
+   일반 흐름이라 콘텐츠 전체 높이에 맞춰 그라데이션이 잡히고 함께 스크롤된다. */
+.ticket-bg {
+  position: relative;
+  background: linear-gradient(to bottom, #22B2EA 0%, #22B2EA 20%, #ffffff 60%, #22B2EA 100%);
 }
 
 .ticket, .ticket-scroll-below, .ticket-page #footer {

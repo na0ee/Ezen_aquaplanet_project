@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>aqua planet — Business</title>
+
+  <!-- Pretendard (국문) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@latest/dist/web/static/pretendard.css" />
+  <!-- Poppins + EB Garamond (영문) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    /* ============================================================
+       Business Overview Page — 전용 스타일
+       (전역 토큰은 style.css :root 사용)
+       ============================================================ */
+
+    body {
+      background: #ffffff;
+      color: #16384a;
+      font-family: var(--font-kr);
+    }
+
+    .biz-page { overflow-x: hidden; }
+
+    /* 공통 컨테이너 */
+    .biz-container { width: min(1180px, 90vw); margin: 0 auto; }
+
+    /* 섹션 가운데 라벨 (Business Area & Vision / Capabilities & Cases) */
+    .biz-sec-label {
+      text-align: center;
+      font-family: var(--font-kr);
+      font-weight: 700;
+      font-size: clamp(20px, 2vw, 26px);
+      color: #16384a;
+      letter-spacing: -0.02em;
+      margin: 0 0 56px;
+    }
+    .biz-sec-label::after {
+      content: "";
+      display: block;
+      width: 40px;
+      height: 3px;
+      background: var(--clr-primary);
+      margin: 18px auto 0;
+      border-radius: 2px;
+    }
+
+    /* ── 1) HERO ───────────────────────────────────────────── */
+    .biz-hero {
+      position: relative;
+      padding: 190px 0 90px;
+      text-align: center;
+      background: linear-gradient(180deg, #bfe6fa 0%, #d9f1fc 26%, #eef9fe 60%, #ffffff 100%);
+    }
+    .biz-hero__title {
+      font-family: var(--font-serif);
+      font-size: clamp(34px, 4.2vw, 56px);
+      font-weight: 500;
+      color: #16384a;
+      letter-spacing: -0.01em;
+    }
+    .biz-hero__title em {
+      font-style: italic;
+      font-weight: 500;
+      margin-right: 8px;
+    }
+    .biz-hero__desc {
+      max-width: 620px;
+      margin: 22px auto 0;
+      font-size: 15px;
+      line-height: 1.9;
+      color: #3a5b6e;
+      font-weight: 500;
+    }
+
+
+    /* ── 2) BUSINESS AREA & VISION ─────────────────────────── */
+    .biz-areas { padding: 96px 0 40px; }
+
+    .biz-areas__head { margin-bottom: 30px; }
+    .biz-areas__head h3 {
+      font-size: 22px;
+      font-weight: 700;
+      color: #16384a;
+      letter-spacing: -0.02em;
+    }
+    .biz-areas__head p {
+      margin-top: 10px;
+      font-size: 15px;
+      color: #5a7686;
+      font-weight: 500;
+    }
+
+    /* Planning 배너 (특수) */
+    .biz-banner {
+      position: relative;
+      margin: 26px 0 70px;
+      border-radius: 14px;
+      overflow: hidden;
+      background: linear-gradient(110deg, #1f9ad4 0%, #22b2ea 55%, #57c8f3 100%);
+      padding: 40px 48px;
+      box-shadow: 0 24px 50px rgba(0, 90, 150, 0.18);
+    }
+    .biz-banner__title {
+      font-family: var(--font-serif);
+      font-size: clamp(40px, 5vw, 72px);
+      font-weight: 500;
+      color: #ffffff;
+      line-height: 1;
+    }
+    .biz-banner__title span {
+      font-family: var(--font-kr);
+      font-size: 18px;
+      font-weight: 600;
+      vertical-align: super;
+      margin-left: 10px;
+      opacity: 0.92;
+    }
+
+    /* 각 사업분야 블록 */
+    .biz-area {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      padding: 30px 0;
+      border-bottom: 1px solid rgba(34, 178, 234, 0.16);
+      transition: opacity var(--tr-base), filter var(--tr-base);
+    }
+    .biz-area--right { align-items: flex-end; text-align: right; }
+    .biz-area__word {
+      font-family: var(--font-serif);
+      font-size: clamp(44px, 6vw, 88px);
+      font-weight: 500;
+      color: #14283a;
+      line-height: 1;
+      letter-spacing: -0.01em;
+    }
+    .biz-area__word span {
+      font-family: var(--font-kr);
+      font-size: clamp(16px, 1.6vw, 22px);
+      font-weight: 600;
+      color: var(--clr-primary);
+      margin-left: 14px;
+      letter-spacing: 0;
+    }
+    .biz-area__desc {
+      font-size: 15px;
+      color: #5a7686;
+      font-weight: 500;
+      max-width: 520px;
+    }
+    .biz-area__tags { display: flex; flex-wrap: wrap; gap: 10px; }
+    .biz-area--right .biz-area__tags { justify-content: flex-end; }
+    .biz-tag {
+      display: inline-flex;
+      align-items: center;
+      height: 32px;
+      padding: 0 16px;
+      border: 1px solid rgba(34, 178, 234, 0.55);
+      border-radius: 100px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--clr-primary);
+      background: rgba(34, 178, 234, 0.04);
+      transition: background var(--tr-base), color var(--tr-base);
+    }
+    .biz-tag:hover { background: var(--clr-primary); color: #fff; }
+
+    /* 검색으로 숨김 처리된 블록 */
+    .biz-area.is-dimmed { opacity: 0.18; filter: grayscale(0.6); }
+
+    /* ── 3) VISION (4-circle) ──────────────────────────────── */
+    .biz-vision { padding: 96px 0; background: linear-gradient(180deg, #ffffff 0%, #f3fbfe 100%); }
+    .biz-vision__head { text-align: center; margin-bottom: 8px; }
+    .biz-vision__head h3 { font-size: 22px; font-weight: 700; color: #16384a; }
+    .biz-vision__head p { margin-top: 10px; font-size: 15px; color: #5a7686; font-weight: 500; }
+
+    .biz-diagram4 {
+      position: relative;
+      width: 1100px;
+      max-width: 100%;
+      height: 480px;
+      margin: 40px auto 0;
+    }
+    .biz-diagram4 svg.biz-links { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+    .biz-node {
+      position: absolute;
+      width: 132px; height: 132px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 28%, #5cc6f2 0%, #22b2ea 55%, #1790c6 100%);
+      box-shadow: 0 16px 30px rgba(20, 130, 190, 0.35), inset 0 2px 6px rgba(255,255,255,0.4);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 1.3;
+      transform: translate(-50%, -50%);
+      z-index: 2;
+    }
+    .biz-label {
+      position: absolute;
+      width: 340px;
+      z-index: 3;
+    }
+    .biz-label h4 {
+      font-family: var(--font-en);
+      font-size: 15px;
+      font-weight: 600;
+      color: #16384a;
+      margin-bottom: 8px;
+    }
+    .biz-label p { font-size: 13px; line-height: 1.7; color: #5a7686; font-weight: 500; }
+    .biz-label--l { text-align: right; }
+    .biz-label--r { text-align: left; }
+    .biz-goal-list { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+    .biz-goal-list li { font-size: 13px; color: #3a5b6e; font-weight: 600; }
+    .biz-goal-list li b { color: var(--clr-primary); margin-right: 6px; }
+    .biz-core-grid {
+      display: grid;
+      grid-template-columns: repeat(2, auto);
+      gap: 4px 18px;
+      font-size: 13px;
+      color: #3a5b6e;
+      font-weight: 600;
+    }
+    .biz-label--r .biz-core-grid { justify-content: start; }
+
+    /* ── 4) CAPABILITIES (5-circle) ────────────────────────── */
+    .biz-caps { padding: 96px 0; }
+    .biz-caps__head { margin-bottom: 10px; }
+    .biz-caps__head h3 { font-size: 22px; font-weight: 700; color: #16384a; }
+    .biz-caps__head p { margin-top: 10px; font-size: 15px; color: #5a7686; font-weight: 500; max-width: 720px; }
+
+    .biz-diagram5 { position: relative; width: 600px; max-width: 100%; height: 560px; margin: 30px auto 0; }
+    .biz-diagram5 svg.biz-links { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+    .biz-node5 {
+      position: absolute;
+      width: 128px; height: 128px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 28%, #5cc6f2 0%, #22b2ea 55%, #1790c6 100%);
+      box-shadow: 0 16px 30px rgba(20, 130, 190, 0.35), inset 0 2px 6px rgba(255,255,255,0.4);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-weight: 700;
+      font-size: 16px;
+      transform: translate(-50%, -50%);
+      z-index: 2;
+    }
+    .biz-cap-cap {
+      position: absolute;
+      width: 180px;
+      text-align: center;
+      transform: translate(-50%, 0);
+      z-index: 1;
+    }
+    .biz-cap-cap h4 { font-family: var(--font-en); font-size: 13px; font-weight: 600; color: #16384a; margin-bottom: 4px; }
+    .biz-cap-cap p { font-size: 12px; line-height: 1.6; color: #6a8696; font-weight: 500; }
+
+    /* ── 5) 사업 예시 ──────────────────────────────────────── */
+    .biz-case { padding: 30px 0 110px; }
+    .biz-case__head { font-size: 22px; font-weight: 700; color: #16384a; margin-bottom: 24px; }
+    .biz-case__figure {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 30px 60px rgba(0, 80, 130, 0.18);
+    }
+    .biz-case__figure img { width: 100%; height: auto; display: block; }
+    .biz-case__caption {
+      position: absolute;
+      left: 36px; bottom: 30px;
+      max-width: 60%;
+      color: #fff;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    }
+    .biz-case__caption h4 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+    .biz-case__caption p { font-size: 13px; line-height: 1.7; opacity: 0.92; font-weight: 500; }
+
+    /* ── 6) FOOTER (faded logo) ────────────────────────────── */
+    .biz-footer {
+      position: relative;
+      padding: 90px 0 70px;
+      text-align: center;
+      background: linear-gradient(180deg, #ffffff 0%, #dff3fc 55%, #bfe6fa 100%);
+    }
+    .biz-footer__mark {
+      width: 120px; height: auto;
+      opacity: 0.45;
+      margin: 0 auto 18px;
+      display: block;
+      filter: brightness(1.4);
+    }
+    .biz-footer__word {
+      font-family: var(--font-serif);
+      font-size: clamp(48px, 8vw, 120px);
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.85);
+      letter-spacing: 0.04em;
+      line-height: 1;
+      text-shadow: 0 4px 18px rgba(120, 200, 240, 0.5);
+    }
+    .biz-footer__copy {
+      margin-top: 26px;
+      font-size: 12px;
+      color: #6a96ac;
+      font-weight: 500;
+    }
+
+    /* 스크롤 등장 */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.is-visible { opacity: 1; transform: none; }
+
+    /* ── 반응형: 다이어그램/큰 글자 정리 ── */
+    @media (max-width: 1024px) {
+      .biz-diagram4 { height: auto; display: flex; flex-direction: column; gap: 18px; align-items: center; }
+      .biz-diagram4 svg.biz-links { display: none; }
+      .biz-diagram4 .biz-node { position: relative; transform: none; left: auto !important; top: auto !important; }
+      .biz-label { position: relative; width: min(420px, 88vw); left: auto !important; top: auto !important; text-align: center !important; }
+      .biz-label--l, .biz-label--r { text-align: center; }
+      .biz-core-grid { justify-content: center; }
+
+      .biz-diagram5 { height: auto; display: flex; flex-direction: column; gap: 14px; align-items: center; }
+      .biz-diagram5 svg.biz-links { display: none; }
+      .biz-node5 { position: relative; transform: none; left: auto !important; top: auto !important; }
+      .biz-cap-cap { position: relative; transform: none; left: auto !important; top: auto !important; width: min(420px, 88vw); }
+
+      .biz-area--right { align-items: flex-start; text-align: left; }
+      .biz-area--right .biz-area__tags { justify-content: flex-start; }
+    }
+
+    /* ============================================================
+       추가 구조 스타일 (탭바 / areas-wrap / 배너·text·list) — 사진 기준
+       ============================================================ */
+
+    /* 히어로 카테고리 탭 바 */
+    .biz-branch-tabs {
+      display: inline-flex;
+      gap: 6px;
+      margin: 0 auto 34px;
+      padding: 6px;
+      background: rgba(255, 255, 255, 0.65);
+      border: 1px solid rgba(34, 178, 234, 0.28);
+      border-radius: 100px;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      box-shadow: 0 8px 24px rgba(0, 80, 130, 0.08);
+    }
+    .biz-branch-tabs__item {
+      padding: 10px 22px;
+      border-radius: 100px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #5a7686;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: background var(--tr-base), color var(--tr-base);
+    }
+    .biz-branch-tabs__item:hover { color: var(--clr-primary); }
+    .biz-branch-tabs__item.is-active { background: var(--clr-primary); color: #fff; }
+    .biz-branch-tabs__item.is-active:hover { color: #fff; }
+
+    /* 히어로 타이틀 보조 문구 / 강조 */
+    .biz-hero__title .title {
+      font-family: var(--font-kr);
+      font-size: clamp(14px, 1.4vw, 18px);
+      font-weight: 500;
+      color: #3a5b6e;
+      margin-top: 16px;
+    }
+    .biz-hero__desc span { color: var(--clr-primary); font-weight: 600; }
+
+    /* Business Area 컨테이너 (기존 .biz-container 대체) */
+    .areas-wrap { width: min(1180px, 90vw); margin: 0 auto; }
+
+    /* 배너 안 설명/태그 리스트 (Planning 파란 배너 기준) */
+    .biz-banner .text {
+      margin-top: 10px;
+      font-size: 15px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.92);
+    }
+    .biz-banner .list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+      list-style: none;
+    }
+    .biz-banner .list li {
+      height: 32px;
+      padding: 0 16px;
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      border-radius: 100px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #ffffff;
+      transition: background var(--tr-base), color var(--tr-base);
+    }
+    .biz-banner .list li:hover { background: #fff; color: var(--clr-primary); }
+
+    /* Planning 외 사업분야 → 사진처럼 '큰 텍스트' (배경 없는 대형 워드) */
+    .biz-banner:not([data-name="planning"]) {
+      background: none;
+      box-shadow: none;
+      border-radius: 0;
+      padding: 34px 0;
+      margin: 0;
+      border-bottom: 1px solid rgba(34, 178, 234, 0.16);
+    }
+    .biz-banner:not([data-name="planning"]) .biz-banner__title {
+      color: #14283a;
+      font-size: clamp(44px, 6vw, 88px);
+    }
+    .biz-banner:not([data-name="planning"]) .biz-banner__title span {
+      font-family: var(--font-kr);
+      font-size: clamp(16px, 1.6vw, 22px);
+      font-weight: 600;
+      color: var(--clr-primary);
+      vertical-align: baseline;
+      opacity: 1;
+    }
+    .biz-banner:not([data-name="planning"]) .text { color: #5a7686; }
+    .biz-banner:not([data-name="planning"]) .list li {
+      border-color: rgba(34, 178, 234, 0.55);
+      color: var(--clr-primary);
+      background: rgba(34, 178, 234, 0.04);
+    }
+    .biz-banner:not([data-name="planning"]) .list li:hover {
+      background: var(--clr-primary);
+      color: #fff;
+    }
+
+    /* 좌우 교차 정렬 (사진: Design·Operation 우측 / Construction·Acquisition 좌측) */
+    .biz-banner[data-name="design"],
+    .biz-banner[data-name="operation"] { text-align: right; }
+    .biz-banner[data-name="design"] .list,
+    .biz-banner[data-name="operation"] .list { justify-content: flex-end; }
+
+    @media (max-width: 1024px) {
+      .biz-branch-tabs { flex-wrap: wrap; justify-content: center; }
+      .biz-banner[data-name="design"],
+      .biz-banner[data-name="operation"] { text-align: left; }
+      .biz-banner[data-name="design"] .list,
+      .biz-banner[data-name="operation"] .list { justify-content: flex-start; }
+    }
+  </style>
+</head>
+<body class="biz-page">
+
+  <!-- ================================================
+       GNB — 메인과 동일 (재사용). About us > Business 활성
+  ================================================ -->
+  <header id="gnb" class="gnb">
+    <div class="gnb__inner">
+      <nav class="gnb__nav" aria-label="메인 메뉴">
+        <a href="index.html#sec-program" class="gnb__link" data-nav="program">Program</a>
+        <a href="index.html#sec-crew"    class="gnb__link" data-nav="crew">Ocean friends</a>
+        <div class="gnb__nav-item" data-nav="about">
+          <span class="gnb__link gnb__link--active">About us</span>
+          <div class="gnb__dropdown">
+            <a href="business.html" class="gnb__dropdown-item gnb__dropdown-item--active">Business</a>
+            <a href="#" class="gnb__dropdown-item">Marin Lab</a>
+            <a href="location.html" class="gnb__dropdown-item">Location</a>
+          </div>
+        </div>
+      </nav>
+
+      <a href="index.html" class="gnb__logo-wrap" aria-label="Aqua Planet 홈">
+        <img class="gnb__logo" src="assets/images/headerLogo.png" alt="" aria-hidden="true">
+      </a>
+
+      <a class="gnb__ticket btn-pill" href="ticket.html" aria-label="티켓 예매">
+        Ticket
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M5 12H19M13 6L19 12L13 18" stroke="white" stroke-width="1.5"
+                stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ── 1) HERO ───────────────────────────────────────── -->
+    
+    <section class="biz-hero">
+          <!-- /* bisiness 카테고리 */     -->
+    <nav class="biz-branch-tabs" aria-label="내용 선택">
+      <a href="#" class="biz-branch-tabs__item is-active" data-biz="">Business Overview</a>
+      <a href="#" class="biz-branch-tabs__item is-active" data-biz="">Special Services</a>
+      <a href="#" class="biz-branch-tabs__item is-active" data-biz="">Key Achievements</a>
+    </nav>
+      <h1 class="biz-hero__title">
+        <em>Business</em>Overview
+        <p class="title">생명이 역동하는 새로운 바다로의 초대</p>
+      </h1>
+      <p class="biz-hero__desc">
+        <span>해양생태계의 가치</span>와 <span>아름다움</span>을 전달하는 복합 해양문화 공간입니다<br />
+        전시와 연구를 통해 생물다양성 보전과 지속 가능한 미래에 기여합니다.
+      </p>
+
+    </section>
+
+    <!-- ── 2) BUSINESS AREA & VISION ─────────────────────── -->
+    <section class="biz-areas">
+      <div class="areas-wrap">
+        <h2 class="biz-sec-label reveal">Business Area &amp; Vision</h2>
+
+        <div class="biz-areas__head reveal">
+          <h3>아쿠아리움 사업분야</h3>
+          <p>해저생물의 신비로움, 지적 상상력을 충족시켜 줄 최고의 프리미엄 컨텐츠를 제공하는 아쿠아리움</p>
+        </div>
+
+        <!-- Planning 배너 -->
+        <div class="biz-banner reveal" data-name="planning">
+          <p class="biz-banner__title">Planning<span>: 기획</span></p>
+          <p class="text">사업의 성공적인 완수를 위한 전략적 동반자</p>
+          <ul class="list">
+            <li>사업발굴</li>
+            <li>사업성분석</li>
+            <li>프로젝트재무</li>
+            <li>수요예측</li>
+          </ul>
+        </div>
+        <!-- design 배너 -->
+        <div class="biz-banner reveal" data-name="design">
+          <p class="biz-banner__title">Design<span>: 설계</span></p>
+          <p class="text">국내 아쿠아리움 대형 프로젝트 설계 주도</p>
+          <ul class="list">
+            <li>개념설계</li>
+            <li>기념설계</li>
+            <li>시설설계</li>
+          </ul>
+        </div>
+        <!-- construction 배너 -->
+        <div class="biz-banner reveal" data-name="Construction">
+          <p class="biz-banner__title">Construction<span>: 시공</span></p>
+          <p class="text">특수 시공분야에서 세계 수준의 전문력 보유</p>
+          <ul class="list">
+            <li>사업발굴</li>
+            <li>사업성분석</li>
+            <li>프로젝트재무</li>
+            <li>수요예측</li>
+          </ul>
+        </div>
+        <!-- operation 배너 -->
+        <div class="biz-banner reveal" data-name="operation">
+          <p class="biz-banner__title">Operation<span>: 운영</span></p>
+          <p class="text">국내 최장 25년 운영 경험으로 차별적인 운영 지원</p>
+          <ul class="list">
+            <li>운영대행</li>
+            <li>마케팅</li>
+            <li>생물관리</li>
+            <li>시설관리</li>
+          </ul>
+        </div>
+        <!-- acquisition 배너 -->
+        <div class="biz-banner reveal" data-name="acquisition">
+          <p class="biz-banner__title">Acquisition<span>: 생물수급</span></p>
+          <p class="text">전시생물 기획에 따른 생물수급 및 성공적 순치 지원</p>
+          <ul class="list">
+            <li>국내/해외 수급</li>
+            <li>순치</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 3) VISION (4-circle) ──────────────────────────── -->
+    <section class="biz-vision">
+      <div class="biz-container">
+        <div class="biz-vision__head reveal">
+          <h3>아쿠아리움 개발사업 비전</h3>
+          <p>지속성장 기반을 갖춘 Global Aquarium 전문 기업을 목표로 오늘도 힘찬 도전</p>
+        </div>
+
+        <div class="biz-diagram4 reveal" aria-label="비전 다이어그램">
+          <!-- 연결선 -->
+          <svg class="biz-links" viewBox="0 0 1100 480" preserveAspectRatio="none" aria-hidden="true">
+            <g fill="none" stroke="#9bd6f1" stroke-width="2">
+              <line x1="430" y1="130" x2="670" y2="130"/>
+              <line x1="670" y1="130" x2="670" y2="350"/>
+              <line x1="670" y1="350" x2="430" y2="350"/>
+              <line x1="430" y1="350" x2="430" y2="130"/>
+            </g>
+          </svg>
+
+          <!-- 노드 -->
+          <div class="biz-node" style="left:430px; top:130px;">MISSON</div>
+          <div class="biz-node" style="left:670px; top:130px;">VISION<br>STATEMENT</div>
+          <div class="biz-node" style="left:430px; top:350px;">GOAL</div>
+          <div class="biz-node" style="left:670px; top:350px;">CORE<br>VALUE</div>
+
+          <!-- 라벨 -->
+          <div class="biz-label biz-label--l" style="left:10px; top:96px;">
+            <h4>Happy-Ocean Happy-Future Happy-people</h4>
+            <p>해양생물의 소중함을 공유하고, 이를 지키고 보전하며<br>인간과 자연이 공생하며 느낄 수 있는 최고의 즐거움을 제공하는 기업</p>
+          </div>
+          <div class="biz-label biz-label--r" style="left:750px; top:96px;">
+            <h4>No.1 Global Aquarium Development Company</h4>
+            <p>세계 최고의 아쿠아리움 개발 회사로 도약합니다.</p>
+          </div>
+          <div class="biz-label biz-label--l" style="left:10px; top:300px;">
+            <ul class="biz-goal-list">
+              <li><b>No.1</b>NETWORK POWER</li>
+              <li><b>No.1</b>ECO COMPANY</li>
+              <li><b>No.1</b>BRAND POWER</li>
+              <li><b>No.1</b>MARKET SHARE</li>
+              <li><b>No.1</b>TECHNICAL SKILLS</li>
+            </ul>
+          </div>
+          <div class="biz-label biz-label--r" style="left:750px; top:300px;">
+            <h4>CORE VALUE</h4>
+            <div class="biz-core-grid">
+              <span>고객중심</span><span>행복경영</span>
+              <span>해양보존</span><span>녹색경영</span>
+              <span>창조의힘</span><span>창의경영</span>
+              <span>사회책임</span><span>지속경영</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 4) CAPABILITIES & CASES ──────────────────────── -->
+    <section class="biz-caps">
+      <div class="biz-container">
+        <h2 class="biz-sec-label reveal">Capabilities &amp; Cases</h2>
+
+        <div class="biz-caps__head reveal">
+          <h3>아쿠아리움 개발사업 역량</h3>
+          <p>아쿠아리움을 만들고 운영해 온 30년 운영경험을 통해, 고객과 소통하며 차별화된 역량을 실현합니다.</p>
+        </div>
+
+        <div class="biz-diagram5 reveal" aria-label="역량 다이어그램">
+          <svg class="biz-links" viewBox="0 0 600 560" preserveAspectRatio="none" aria-hidden="true">
+            <polygon points="300,95 466,216 383,412 217,412 134,216"
+                     fill="none" stroke="#9bd6f1" stroke-width="2"/>
+          </svg>
+
+          <!-- 노드 (펜타곤) -->
+          <div class="biz-node5" style="left:300px; top:95px;">창조기획</div>
+          <div class="biz-node5" style="left:466px; top:216px;">네트워크</div>
+          <div class="biz-node5" style="left:383px; top:412px;">전문인력</div>
+          <div class="biz-node5" style="left:217px; top:412px;">특화기술</div>
+          <div class="biz-node5" style="left:134px; top:216px;">책임운영</div>
+
+          <!-- 캡션 -->
+          <div class="biz-cap-cap" style="left:300px; top:8px;">
+            <h4>Contents Creativity</h4>
+            <p>차별화된 콘텐츠 기획력</p>
+          </div>
+          <div class="biz-cap-cap" style="left:560px; top:222px;">
+            <h4>Network</h4>
+            <p>국내외 전시생물·전문 네트워크</p>
+          </div>
+          <div class="biz-cap-cap" style="left:430px; top:476px;">
+            <h4>Professional Staffs</h4>
+            <p>분야별 검증된 전문 인력</p>
+          </div>
+          <div class="biz-cap-cap" style="left:170px; top:476px;">
+            <h4>Specialized Technology</h4>
+            <p>생명유지장치 등 특화 기술</p>
+          </div>
+          <div class="biz-cap-cap" style="left:40px; top:222px;">
+            <h4>Responsible Management</h4>
+            <p>책임 있는 운영 관리</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 5) 사업 예시 ──────────────────────────────────── -->
+    <section class="biz-case">
+      <div class="biz-container">
+        <h3 class="biz-case__head reveal">사업 예시</h3>
+        <figure class="biz-case__figure reveal">
+          <img src="https://www.aquaplanet.co.kr/images/common/aquazium_01_04.png" alt="아쿠아리움 개발 사업 예시" loading="lazy"
+               onerror="this.closest('.biz-case__figure').classList.add('is-fallback'); this.style.display='none';">
+          <figcaption class="biz-case__caption">
+            <h4>세계 수준의 복합 해양 문화공간</h4>
+            <p>최첨단 아쿠아리움과 다양한 해양 콘텐츠가 어우러진 복합 문화공간으로, 기획부터 운영까지 통합 솔루션을 제공합니다.</p>
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ── 6) FOOTER — 메인(index.html)과 동일 ──────────────── -->
+  <footer id="footer" class="footer">
+    <video class="footer__video-bg" autoplay muted loop playsinline aria-hidden="true">
+      <source src="assets/images/KakaoTalk_Video_2026-06-13-21-54-21.mp4" type="video/mp4">
+    </video>
+    <div class="footer__inner">
+      <nav class="footer__nav" aria-label="푸터 메뉴">
+        <a href="index.html#sec-program" class="footer__link">Program</a>
+        <a href="index.html#sec-crew" class="footer__link">Ocean friends</a>
+        <a href="index.html#sec-logo" class="footer__link">About us</a>
+        <a href="location.html" class="footer__link">Location</a>
+        <a href="ticket.html" class="footer__link">Ticket</a>
+      </nav>
+
+      <div class="footer__brand">
+        <div class="footer__socials" aria-label="소셜 링크">
+          <a href="https://www.instagram.com/" class="footer__social" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="4" y="4" width="16" height="16" rx="5"></rect>
+              <circle cx="12" cy="12" r="3.4"></circle>
+              <circle cx="17.2" cy="6.8" r="1"></circle>
+            </svg>
+          </a>
+          <a href="https://www.youtube.com/" class="footer__social" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5.2 7.2C5.6 6.5 6.3 6 7.1 5.9C8.4 5.7 10.5 5.6 12 5.6C13.5 5.6 15.6 5.7 16.9 5.9C17.7 6 18.4 6.5 18.8 7.2C19.2 8.1 19.4 10.2 19.4 12C19.4 13.8 19.2 15.9 18.8 16.8C18.4 17.5 17.7 18 16.9 18.1C15.6 18.3 13.5 18.4 12 18.4C10.5 18.4 8.4 18.3 7.1 18.1C6.3 18 5.6 17.5 5.2 16.8C4.8 15.9 4.6 13.8 4.6 12C4.6 10.2 4.8 8.1 5.2 7.2Z"></path>
+              <path d="M10.4 9.3L14.7 12L10.4 14.7V9.3Z" class="footer__social-play"></path>
+            </svg>
+          </a>
+          <a href="https://www.google.com/search?q=aqua+planet" class="footer__social" target="_blank" rel="noopener noreferrer" aria-label="Google">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M19.6 12.2C19.6 11.6 19.5 11.1 19.4 10.6H12.2V13.5H16.3C16.1 14.5 15.5 15.3 14.7 15.8V17.7H17.2C18.7 16.4 19.6 14.5 19.6 12.2Z"></path>
+              <path d="M12.2 19.7C14.3 19.7 16.1 19 17.2 17.7L14.7 15.8C14 16.3 13.1 16.6 12.2 16.6C10.2 16.6 8.5 15.2 7.9 13.4H5.3V15.3C6.5 17.9 9.1 19.7 12.2 19.7Z"></path>
+              <path d="M7.9 13.4C7.7 12.9 7.6 12.5 7.6 12C7.6 11.5 7.7 11.1 7.9 10.6V8.7H5.3C4.8 9.7 4.5 10.8 4.5 12C4.5 13.2 4.8 14.3 5.3 15.3L7.9 13.4Z"></path>
+              <path d="M12.2 7.4C13.3 7.4 14.4 7.8 15.2 8.6L17.3 6.5C16 5.3 14.3 4.6 12.2 4.6C9.1 4.6 6.5 6.3 5.3 8.7L7.9 10.6C8.5 8.8 10.2 7.4 12.2 7.4Z"></path>
+            </svg>
+          </a>
+        </div>
+        <p class="footer__copy">Aqua Planet. ©2026 All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- 커스텀 커서 (location 페이지와 동일) -->
+  <div id="custom-cursor" aria-hidden="true"></div>
+
+  <script src="./business.js"></script>
+</body>
+</html>
