@@ -39,7 +39,7 @@
           <span class="gnb__link">About us</span>
           <div class="gnb__dropdown">
             <a href="#" class="gnb__dropdown-item">Business</a>
-            <a href="#" class="gnb__dropdown-item">Marin Lab</a>
+            <a href="marinlab.html" class="gnb__dropdown-item">Marin Lab</a>
             <a href="location.html" class="gnb__dropdown-item gnb__dropdown-item--active">Location</a>
           </div>
         </div>
@@ -127,6 +127,8 @@
         <video class="crew-fish-source" id="crew-fish-source" autoplay muted loop playsinline preload="auto" aria-hidden="true">
           <source src="assets/images/fishBg.mp4" type="video/mp4">
         </video>
+        <canvas class="crew-fish-bg crew-fish-bg--top" id="crew-fish-bg-top" aria-hidden="true"></canvas>
+        <canvas class="crew-fish-bg crew-fish-bg--small" id="crew-fish-bg-small" aria-hidden="true"></canvas>
         <canvas class="crew-fish-bg" id="crew-fish-bg" aria-hidden="true"></canvas>
 
         <!-- Our Crew 헤더 -->
@@ -174,7 +176,7 @@
                 국내 유일 바다코끼리 자매, 메리와 바랴
               </p>
             </article>
-            <a href="#sec-booking" class="crew-panel-btn btn-cta btn-cta--fill-white" data-index="0">보러가기</a>
+            <a href="Oceanfriends.html" class="crew-panel-btn btn-cta btn-cta--fill-white" data-index="0">보러가기</a>
 
             <article class="crew-panel glass-card" data-index="1">
               <header class="creature-info__head">
@@ -187,7 +189,7 @@
               </dl>
               <p class="creature-info__desc">국내에 소수만 남아 있는 희귀한 흰고래</p>
             </article>
-            <a href="#sec-booking" class="crew-panel-btn btn-cta btn-cta--fill-white" data-index="1">보러가기</a>
+            <a href="Oceanfriends.html" class="crew-panel-btn btn-cta btn-cta--fill-white" data-index="1">보러가기</a>
 
             <article class="crew-panel glass-card" data-index="2">
               <header class="creature-info__head">
@@ -199,7 +201,7 @@
               </dl>
               <p class="creature-info__desc">메인수조를 대표하는 대형 상어</p>
             </article>
-            <a href="#sec-booking" class="crew-panel-btn btn-cta btn-cta--fill-white" data-index="2">보러가기</a>
+            <a href="Oceanfriends.html" class="crew-panel-btn btn-cta btn-cta--fill-white" data-index="2">보러가기</a>
 
             <article class="crew-panel glass-card" data-index="3">
               <header class="creature-info__head">
@@ -214,7 +216,7 @@
                 아쿠아플라넷의 오랜 친구
               </p>
             </article>
-            <a href="#sec-booking" class="crew-panel-btn btn-cta btn-cta--fill-white" data-index="3">보러가기</a>
+            <a href="Oceanfriends.html" class="crew-panel-btn btn-cta btn-cta--fill-white" data-index="3">보러가기</a>
 
           </div>
         </div>
@@ -238,6 +240,10 @@
     <section id="sec-program" class="section section--program" aria-label="오늘의 프로그램">
       <div class="section__bg section__bg--program" aria-hidden="true"></div>
       <div class="section-seq-sticky">
+        <video class="program-dolphin-source" id="program-dolphin-source" autoplay muted loop playsinline preload="auto" aria-hidden="true">
+          <source src="assets/images/dolphinBg.mp4" type="video/mp4">
+        </video>
+        <canvas class="program-dolphin-bg" id="program-dolphin-bg" aria-hidden="true"></canvas>
       <div class="container">
 
         <div class="section-title section-title--center program-seq-title">
@@ -423,7 +429,7 @@
     <section id="sec-booking" class="section section--booking" aria-label="예매">
       <div class="section__bg section__bg--booking" aria-hidden="true"></div>
       <div class="section-seq-sticky">
-        <video class="booking-bg-video" autoplay muted loop playsinline aria-hidden="true" data-playback-rate="0.35">
+        <video class="booking-bg-video" autoplay muted loop playsinline aria-hidden="true" data-playback-rate="0.25">
           <source src="assets/images/jellyfishBg_alpha.webm" type="video/webm">
           <source src="assets/images/jellyfishBg.mp4" type="video/mp4">
         </video>
@@ -570,6 +576,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="main.js"></script>
   <script src="crew3d.js" type="module"></script>
-  <script src="logo3d.js?v=20260616-41" type="module"></script>
+  <script src="logo3d.js?v=20260617-14" type="module"></script>
 </body>
 </html>

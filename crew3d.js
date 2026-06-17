@@ -1,6 +1,6 @@
 /* =============================================================
-   AQUA PLANET — crew3d.js
-   Three.js GLB 로더 + 스크롤 드리븐 동물 전환
+  AQUA PLANET — crew3d.js
+  Three.js GLB 로더 + 스크롤 드리븐 동물 전환
    ============================================================= */
 
 import * as THREE from 'three';
@@ -8,10 +8,10 @@ import { GLTFLoader }    from 'three/addons/loaders/GLTFLoader.js';
 
 
 /* ---------------------------------------------------------------
-   동물 설정
-   scale: 정규화 배율 (1.0 = 뷰포트 기준 2단위 크기)
-   y:     수직 오프셋 (모델 중심 보정)
-   rotY:  기본 회전각 (rad)
+  동물 설정
+  scale: 정규화 배율 (1.0 = 뷰포트 기준 2단위 크기)
+  y:     수직 오프셋 (모델 중심 보정)
+  rotY:  기본 회전각 (rad)
 --------------------------------------------------------------- */
 const CREATURES = [
   { key: 'walrus',  src: 'assets/models/walrus_animated.glb',     scale: 0.78, y: -0.3, rotY:  0.2 },
@@ -21,7 +21,7 @@ const CREATURES = [
 ];
 
 /* 진입 곡선: 브라우저 창 밖에서 헤엄쳐 들어옴
-   FWD = 오른쪽 밖 → 중앙,  BWD = 왼쪽 밖 → 중앙
+    FWD = 오른쪽 밖 → 중앙,  BWD = 왼쪽 밖 → 중앙
    카메라 z=8, FOV 42 기준 화면 가장자리 ≈ ±5.5 → 시작점 ±18 */
 const ENTRY_FWD = new THREE.CatmullRomCurve3([
   new THREE.Vector3( 18, -0.7,  0.9),
@@ -514,8 +514,13 @@ function showCreature(idx, immediate = false) {
     crewCanvas.style.opacity = '1';
     setCrewInfoVisible(true);
     if (models[idx]?.pivot) {
+      if (exitActive && exitModel === models[idx].pivot) {
+        exitActive = false;
+        exitModel = null;
+        hideCanvasAfterExit = false;
+      }
       models[idx].pivot.visible = true;
-      if (immediate && !currentSettled) {
+      if ((immediate || !currentSettled) && !entryActive) {
         const settled = ENTRY_FWD.getPoint(1);
         models[idx].pivot.position.copy(settled);
         models[idx].pivot.rotation.set(SETTLED_ROT_X, SETTLED_ROT_Y, 0);
@@ -599,6 +604,46 @@ function showCreature(idx, immediate = false) {
 /* ---------------------------------------------------------------
    렌더 루프
 --------------------------------------------------------------- */
+function restoreCurrentCreatureAfterWaveExit() {
+  clearTimeout(crewEntryTimer);
+  clearTimeout(crewContentTimer);
+
+  if (entryActive && entryModel) {
+    entryActive = false;
+    entryModel = null;
+  }
+
+  if (exitActive) {
+    exitActive = false;
+    exitModel = null;
+    exitT = 0;
+  }
+
+  hideCanvasAfterExit = false;
+
+  const idx = currentIdx >= 0 ? currentIdx : (pendingIdx >= 0 ? pendingIdx : 0);
+  const active = models[idx]?.pivot;
+
+  models.forEach((model, modelIdx) => {
+    if (model?.pivot) model.pivot.visible = Boolean(active) && modelIdx === idx;
+  });
+
+  currentIdx = idx;
+  if (!active) {
+    currentSettled = false;
+    setCrewInfoVisible(true);
+    return;
+  }
+
+  const settled = ENTRY_FWD.getPoint(1);
+  active.position.copy(settled);
+  active.rotation.set(SETTLED_ROT_X, SETTLED_ROT_Y, 0);
+  active.visible = true;
+  currentSettled = true;
+  setCrewInfoVisible(true);
+  enableControls();
+}
+
 const clock = new THREE.Clock();
 
 (function animate() {
@@ -775,6 +820,7 @@ document.addEventListener('crew-wave-exit-reset', () => {
   crewCanvas.style.transform = '';
   const state = getCrewScrollState();
   if (crewInView && state.inPanelRange) {
+    restoreCurrentCreatureAfterWaveExit();
     crewCanvas.style.transition = 'opacity 0.6s ease';
     crewCanvas.style.opacity = '1';
   } else {
