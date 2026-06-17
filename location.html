@@ -275,10 +275,26 @@
       transform: translateY(38px);
       filter: blur(8px);
       transition:
-        opacity 0.78s ease,
-        transform 0.92s cubic-bezier(0.16, 1, 0.3, 1),
-        filter 0.78s ease;
+        opacity 0.62s ease,
+        transform 0.74s cubic-bezier(0.16, 1, 0.3, 1),
+        filter 0.62s ease;
       will-change: opacity, transform, filter;
+    }
+
+    .loc-scroll,
+    .loc-info__card,
+    .loc-programs__desc,
+    .loc-programs__cards,
+    .loc-floor-tabs,
+    .loc-map__img-wrap,
+    .loc-map__notice,
+    .loc-thumbs-wrap,
+    .loc-opening__time-block,
+    .loc-opening__note {
+      transition:
+        opacity 0.52s ease,
+        transform 0.62s cubic-bezier(0.16, 1, 0.3, 1),
+        filter 0.52s ease;
     }
 
     .loc-hero.is-title-visible .loc-hero__content,
@@ -307,21 +323,21 @@
     .loc-programs.is-content-visible .loc-programs__desc,
     .loc-map.is-content-visible .loc-floor-tabs,
     .loc-opening.is-content-visible .loc-opening__time-block {
-      transition-delay: 0.24s;
+      transition-delay: 0.12s;
     }
 
     .loc-programs.is-content-visible .loc-programs__cards,
     .loc-map.is-content-visible .loc-map__img-wrap,
     .loc-opening.is-content-visible .loc-opening__note {
-      transition-delay: 0.42s;
+      transition-delay: 0.24s;
     }
 
     .loc-map.is-content-visible .loc-map__notice {
-      transition-delay: 0.54s;
+      transition-delay: 0.32s;
     }
 
     .loc-map.is-content-visible .loc-thumbs-wrap {
-      transition-delay: 0.66s;
+      transition-delay: 0.40s;
     }
 
     .loc-hero.loc-section-exiting .loc-hero__content,
@@ -374,9 +390,9 @@
       border-radius: 14px;
       box-shadow: 0 16px 42px rgba(0, 58, 98, 0.08);
       transition:
-        opacity 0.46s cubic-bezier(0.16, 1, 0.3, 1),
-        transform 0.56s cubic-bezier(0.16, 1, 0.3, 1),
-        filter 0.46s ease;
+        opacity 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.40s cubic-bezier(0.16, 1, 0.3, 1),
+        filter 0.32s ease;
     }
     .loc-info.is-content-visible .loc-info__card.is-switching,
     .loc-info__card.is-switching {
@@ -611,7 +627,7 @@
       height: 32px;
       background: #ffffff;
       border-radius: 24px;
-      border: none;
+      border: 1.5px solid #ffffff;
       font-family: var(--font-kr);
       font-weight: 500;
       font-size: 16px;
@@ -634,9 +650,9 @@
       z-index: 1;
       width: 94px;
       height: 32px;
-      background: transparent;
+      background: var(--clr-primary);
       border-radius: 24px;
-      border: 0.6px solid #ffffff;
+      border: 1.5px solid var(--clr-primary);
       box-shadow: 0 4px 4px rgba(0,0,0,0.25);
       font-family: var(--font-kr);
       font-weight: 500;
@@ -646,11 +662,12 @@
       cursor: pointer;
       white-space: nowrap;
       line-height: 1.2;
-      transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+      transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
     }
     .loc-btn-outline:hover {
-      background: rgba(255, 255, 255, 0.22);
-      border-color: rgba(255, 255, 255, 0.9);
+      background: #ffffff;
+      border-color: #ffffff;
+      color: var(--clr-primary);
       transform: translateY(-1px);
       box-shadow: 0 6px 10px rgba(0,0,0,0.35);
     }
@@ -835,6 +852,13 @@
       scroll-behavior: smooth;
       padding-bottom: 8px;
       scrollbar-width: none;
+      cursor: grab;
+      user-select: none;
+      touch-action: pan-y;
+    }
+    .loc-map__thumbs.is-dragging {
+      cursor: grabbing;
+      scroll-behavior: auto;
     }
     .loc-map__thumbs::-webkit-scrollbar { display: none; }
     /* 투명 마스크 페이드 — 흰 오버레이 없이 썸네일 자체가 페이드 */
@@ -915,6 +939,8 @@
       height: 100%;
       object-fit: cover;
       display: block;
+      pointer-events: none;
+      -webkit-user-drag: none;
       transition: transform 0.42s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .loc-map__thumb-card:hover img {
@@ -1237,8 +1263,8 @@
     <div class="gnb__inner">
       <!-- 왼쪽 메뉴 -->
       <nav class="gnb__nav" aria-label="메인 메뉴">
-        <a href="index.html#sec-program" class="gnb__link" data-nav="program">Program</a>
-        <a href="index.html#sec-crew"    class="gnb__link" data-nav="crew">Ocean friends</a>
+        <a href="program/program.html" class="gnb__link" data-nav="program">Program</a>
+        <a href="Oceanfriends.html"    class="gnb__link" data-nav="crew">Ocean friends</a>
         <div class="gnb__nav-item" data-nav="about">
           <span class="gnb__link gnb__link--active">About us</span>
           <div class="gnb__dropdown">
@@ -1255,7 +1281,7 @@
       </a>
 
       <!-- 오른쪽 티켓 버튼 -->
-      <button class="gnb__ticket btn-pill" type="button" aria-label="티켓 예매">
+      <button class="gnb__ticket btn-pill" type="button" aria-label="티켓 예매" onclick="location.href='ticket.html'">
         Ticket
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path d="M7 17L17 7M17 7H7M17 7V17" stroke="white" stroke-width="1.5"
@@ -1525,7 +1551,43 @@
     <!-- ================================================
          푸터 섹션
     ================================================ -->
-    <footer class="loc-footer" aria-label="푸터">
+    <footer id="footer" class="loc-footer footer" aria-label="푸터">
+      <div class="footer__inner">
+        <nav class="footer__nav" aria-label="푸터 메뉴">
+          <a href="#sec-program" class="footer__link">Program</a>
+          <a href="#sec-crew" class="footer__link">Ocean friends</a>
+          <a href="#sec-logo" class="footer__link">About us</a>
+          <a href="location.html" class="footer__link">Location</a>
+          <a href="#sec-booking" class="footer__link">Ticket</a>
+        </nav>
+
+        <div class="footer__brand">
+          <div class="footer__socials" aria-label="소셜 링크">
+            <a href="https://www.instagram.com/aquaplanet_official" class="footer__social" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <rect x="4" y="4" width="16" height="16" rx="5"></rect>
+                <circle cx="12" cy="12" r="3.4"></circle>
+                <circle cx="17.2" cy="6.8" r="1"></circle>
+              </svg>
+            </a>
+            <a href="https://www.youtube.com/@aquaplanetstory" class="footer__social" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M5.2 7.2C5.6 6.5 6.3 6 7.1 5.9C8.4 5.7 10.5 5.6 12 5.6C13.5 5.6 15.6 5.7 16.9 5.9C17.7 6 18.4 6.5 18.8 7.2C19.2 8.1 19.4 10.2 19.4 12C19.4 13.8 19.2 15.9 18.8 16.8C18.4 17.5 17.7 18 16.9 18.1C15.6 18.3 13.5 18.4 12 18.4C10.5 18.4 8.4 18.3 7.1 18.1C6.3 18 5.6 17.5 5.2 16.8C4.8 15.9 4.6 13.8 4.6 12C4.6 10.2 4.8 8.1 5.2 7.2Z"></path>
+                <path d="M10.4 9.3L14.7 12L10.4 14.7V9.3Z" class="footer__social-play"></path>
+              </svg>
+            </a>
+            <a href="https://www.aquaplanet.co.kr/index.html" class="footer__social" target="_blank" rel="noopener noreferrer" aria-label="Google">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M19.6 12.2C19.6 11.6 19.5 11.1 19.4 10.6H12.2V13.5H16.3C16.1 14.5 15.5 15.3 14.7 15.8V17.7H17.2C18.7 16.4 19.6 14.5 19.6 12.2Z"></path>
+                <path d="M12.2 19.7C14.3 19.7 16.1 19 17.2 17.7L14.7 15.8C14 16.3 13.1 16.6 12.2 16.6C10.2 16.6 8.5 15.2 7.9 13.4H5.3V15.3C6.5 17.9 9.1 19.7 12.2 19.7Z"></path>
+                <path d="M7.9 13.4C7.7 12.9 7.6 12.5 7.6 12C7.6 11.5 7.7 11.1 7.9 10.6V8.7H5.3C4.8 9.7 4.5 10.8 4.5 12C4.5 13.2 4.8 14.3 5.3 15.3L7.9 13.4Z"></path>
+                <path d="M12.2 7.4C13.3 7.4 14.4 7.8 15.2 8.6L17.3 6.5C16 5.3 14.3 4.6 12.2 4.6C9.1 4.6 6.5 6.3 5.3 8.7L7.9 10.6C8.5 8.8 10.2 7.4 12.2 7.4Z"></path>
+              </svg>
+            </a>
+          </div>
+          <p class="footer__copy">Aqua Planet. ©2026 All rights reserved.</p>
+        </div>
+      </div>
     </footer>
 
   </main>
@@ -1569,7 +1631,19 @@
       const gnb = document.getElementById('gnb');
       if (!gnb) return;
       const THRESHOLD = 80;
+      const LIGHT_SELS = '.loc-info, .loc-programs, .loc-map, .loc-opening, .exhibit-modal__card';
       let lastY = window.scrollY;
+
+      function syncGnbBg() {
+        const x = Math.round(window.innerWidth / 2);
+        const y = Math.min(96, window.innerHeight - 1);
+        const stack = document.elementsFromPoint ? document.elementsFromPoint(x, y) : [document.elementFromPoint(x, y)];
+        const onLightBg = stack.some(function (node) {
+          return node && !node.closest('#gnb') && node.closest(LIGHT_SELS);
+        });
+        gnb.classList.toggle('gnb--light-bg', onLightBg);
+      }
+
       window.addEventListener('scroll', function () {
         const y = window.scrollY;
         gnb.classList.toggle('is-scrolled', y > THRESHOLD);
@@ -1579,7 +1653,10 @@
           gnb.classList.remove('is-hidden');
         }
         lastY = y;
+        syncGnbBg();
       }, { passive: true });
+      window.addEventListener('resize', syncGnbBg, { passive: true });
+      syncGnbBg();
     })();
 
     /* ── Location full-page section scroll ── */
@@ -1636,11 +1713,11 @@
 
         enterTimer = window.setTimeout(function () {
           section.classList.add('is-title-visible');
-        }, immediate ? 40 : 260);
+        }, immediate ? 30 : 180);
 
         contentTimer = window.setTimeout(function () {
           section.classList.add('is-content-visible');
-        }, immediate ? 260 : 520);
+        }, immediate ? 150 : 320);
       }
 
       function animateTo(index) {
@@ -1669,7 +1746,7 @@
           return;
         }
 
-        const duration = 1100;
+        const duration = 950;
         const startTime = performance.now();
         const prevHtmlBehavior = document.documentElement.style.scrollBehavior;
         const prevBodyBehavior = document.body.style.scrollBehavior;
@@ -1679,12 +1756,12 @@
         window.setTimeout(function () {
           if (animationToken !== myToken) return;
           toSection.classList.add('is-title-visible');
-        }, 430);
+        }, 340);
 
         window.setTimeout(function () {
           if (animationToken !== myToken) return;
           toSection.classList.add('is-content-visible');
-        }, 780);
+        }, 540);
 
         function step(now) {
           if (animationToken !== myToken) return;
@@ -1816,6 +1893,12 @@
       if (!track) return;
 
       const STEP = 230;
+      const DRAG_THRESHOLD = 5;
+      let isPointerDown = false;
+      let startX = 0;
+      let startScrollLeft = 0;
+      let didDrag = false;
+      let suppressClick = false;
 
       function updateState() {
         const sl       = track.scrollLeft;
@@ -1834,6 +1917,52 @@
 
       prevBtn.addEventListener('click', function () { track.scrollLeft -= STEP; });
       nextBtn.addEventListener('click', function () { track.scrollLeft += STEP; });
+
+      track.addEventListener('pointerdown', function (e) {
+        if (e.pointerType === 'mouse' && e.button !== 0) return;
+        isPointerDown = true;
+        didDrag = false;
+        startX = e.clientX;
+        startScrollLeft = track.scrollLeft;
+        track.classList.add('is-dragging');
+        track.setPointerCapture(e.pointerId);
+      });
+
+      track.addEventListener('pointermove', function (e) {
+        if (!isPointerDown) return;
+        const dx = e.clientX - startX;
+        if (Math.abs(dx) > DRAG_THRESHOLD) didDrag = true;
+        if (didDrag) {
+          e.preventDefault();
+          track.scrollLeft = startScrollLeft - dx;
+        }
+      });
+
+      function endDrag(e) {
+        if (!isPointerDown) return;
+        isPointerDown = false;
+        track.classList.remove('is-dragging');
+        if (track.hasPointerCapture && track.hasPointerCapture(e.pointerId)) {
+          track.releasePointerCapture(e.pointerId);
+        }
+        if (didDrag) {
+          suppressClick = true;
+          window.setTimeout(function () { suppressClick = false; }, 80);
+        }
+      }
+
+      track.addEventListener('pointerup', endDrag);
+      track.addEventListener('pointercancel', endDrag);
+      track.addEventListener('lostpointercapture', function () {
+        isPointerDown = false;
+        track.classList.remove('is-dragging');
+      });
+      track.addEventListener('click', function (e) {
+        if (!suppressClick) return;
+        e.preventDefault();
+        e.stopImmediatePropagation();
+      }, true);
+
       track.addEventListener('scroll', updateState, { passive: true });
       updateState();
     })();

@@ -33,7 +33,7 @@
     <div class="gnb__inner">
       <!-- 왼쪽 메뉴 -->
       <nav class="gnb__nav" aria-label="메인 메뉴">
-        <a href="#sec-program" class="gnb__link" data-nav="program">Program</a>
+        <a href="program/program.html" class="gnb__link" data-nav="program">Program</a>
         <a href="Oceanfriends.html" class="gnb__link" data-nav="crew">Ocean friends</a>
         <div class="gnb__nav-item" data-nav="about">
           <span class="gnb__link">About us</span>
@@ -46,7 +46,7 @@
       </nav>
 
       <!-- 중앙 로고 -->
-      <a href="#sec-logo" class="gnb__logo-wrap" aria-label="Aqua Planet 홈">
+      <a href="index.html" class="gnb__logo-wrap" aria-label="Aqua Planet 홈">
         <img class="gnb__logo" src="assets/images/headerLogo.png" alt="" aria-hidden="true">
       </a>
 
@@ -106,7 +106,7 @@
       <div class="scroll-indicator">
         <div class="scroll-indicator__line"></div>
         <button class="scroll-indicator__text" id="dive-trigger" type="button" aria-label="해저 탐험 시작">Let's <em>Explore</em></button>
-        <span class="scroll-indicator__hint">버튼을 눌러 아래로 이동</span>
+        <span class="scroll-indicator__hint">스크롤하여 탐험 시작</span>
       </div>
     </section>
 
@@ -163,7 +163,7 @@
               <span>drag</span>
             </div>
 
-            <article class="crew-panel is-active glass-card" data-index="0">
+            <article class="crew-panel is-active" data-index="0">
               <header class="creature-info__head">
                 <h3 class="creature-info__name">Walrus</h3>
                 <span class="creature-info__name-kr">: 바다코끼리</span>
@@ -178,7 +178,7 @@
             </article>
             <a href="Oceanfriends.html" class="crew-panel-btn btn-cta btn-cta--fill-white" data-index="0">보러가기</a>
 
-            <article class="crew-panel glass-card" data-index="1">
+            <article class="crew-panel" data-index="1">
               <header class="creature-info__head">
                 <h3 class="creature-info__name">Beluga</h3>
                 <span class="creature-info__name-kr">: 벨루가</span>
@@ -191,7 +191,7 @@
             </article>
             <a href="Oceanfriends.html" class="crew-panel-btn btn-cta btn-cta--fill-white" data-index="1">보러가기</a>
 
-            <article class="crew-panel glass-card" data-index="2">
+            <article class="crew-panel" data-index="2">
               <header class="creature-info__head">
                 <h3 class="creature-info__name">Sand Tiger Shark</h3>
                 <span class="creature-info__name-kr">: 모래뱀상어</span>
@@ -203,7 +203,7 @@
             </article>
             <a href="Oceanfriends.html" class="crew-panel-btn btn-cta btn-cta--fill-white" data-index="2">보러가기</a>
 
-            <article class="crew-panel glass-card" data-index="3">
+            <article class="crew-panel" data-index="3">
               <header class="creature-info__head">
                 <h3 class="creature-info__name">Green Sea Turtle</h3>
                 <span class="creature-info__name-kr">: 푸른바다거북</span>
@@ -240,10 +240,6 @@
     <section id="sec-program" class="section section--program" aria-label="오늘의 프로그램">
       <div class="section__bg section__bg--program" aria-hidden="true"></div>
       <div class="section-seq-sticky">
-        <video class="program-dolphin-source" id="program-dolphin-source" autoplay muted loop playsinline preload="auto" aria-hidden="true">
-          <source src="assets/images/dolphinBg.mp4" type="video/mp4">
-        </video>
-        <canvas class="program-dolphin-bg" id="program-dolphin-bg" aria-hidden="true"></canvas>
       <div class="container">
 
         <div class="section-title section-title--center program-seq-title">
@@ -511,20 +507,20 @@
 
       <div class="footer__brand">
         <div class="footer__socials" aria-label="소셜 링크">
-          <a href="https://www.instagram.com/" class="footer__social" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+          <a href="https://www.instagram.com/aquaplanet_official" class="footer__social" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <rect x="4" y="4" width="16" height="16" rx="5"></rect>
               <circle cx="12" cy="12" r="3.4"></circle>
               <circle cx="17.2" cy="6.8" r="1"></circle>
             </svg>
           </a>
-          <a href="https://www.youtube.com/" class="footer__social" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+          <a href="https://www.youtube.com/@aquaplanetstory" class="footer__social" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path d="M5.2 7.2C5.6 6.5 6.3 6 7.1 5.9C8.4 5.7 10.5 5.6 12 5.6C13.5 5.6 15.6 5.7 16.9 5.9C17.7 6 18.4 6.5 18.8 7.2C19.2 8.1 19.4 10.2 19.4 12C19.4 13.8 19.2 15.9 18.8 16.8C18.4 17.5 17.7 18 16.9 18.1C15.6 18.3 13.5 18.4 12 18.4C10.5 18.4 8.4 18.3 7.1 18.1C6.3 18 5.6 17.5 5.2 16.8C4.8 15.9 4.6 13.8 4.6 12C4.6 10.2 4.8 8.1 5.2 7.2Z"></path>
               <path d="M10.4 9.3L14.7 12L10.4 14.7V9.3Z" class="footer__social-play"></path>
             </svg>
           </a>
-          <a href="https://www.google.com/search?q=aqua+planet" class="footer__social" target="_blank" rel="noopener noreferrer" aria-label="Google">
+          <a href="https://www.aquaplanet.co.kr/index.html" class="footer__social" target="_blank" rel="noopener noreferrer" aria-label="Google">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path d="M19.6 12.2C19.6 11.6 19.5 11.1 19.4 10.6H12.2V13.5H16.3C16.1 14.5 15.5 15.3 14.7 15.8V17.7H17.2C18.7 16.4 19.6 14.5 19.6 12.2Z"></path>
               <path d="M12.2 19.7C14.3 19.7 16.1 19 17.2 17.7L14.7 15.8C14 16.3 13.1 16.6 12.2 16.6C10.2 16.6 8.5 15.2 7.9 13.4H5.3V15.3C6.5 17.9 9.1 19.7 12.2 19.7Z"></path>
@@ -538,9 +534,20 @@
     </div>
   </footer>
 
-  <!-- 잠수 전환 오버레이 (레거시 — 사용 안 함) -->
-  <div class="dive-overlay" id="dive-overlay" aria-hidden="true">
-    <div class="dive-rays" id="dive-rays"></div>
+  <!-- Liquid wave wipe transition overlay -->
+  <div class="page-transition-wave transition-overlay dive-overlay" id="dive-overlay" aria-hidden="true">
+    <svg class="wave-line" id="transition-wave" viewBox="0 0 1440 900" preserveAspectRatio="none" focusable="false">
+      <defs>
+        <filter id="wave-line-distort" x="-4%" y="-12%" width="108%" height="124%">
+          <feTurbulence id="wave-line-turbulence" type="fractalNoise" baseFrequency="0.006 0.018" numOctaves="1" seed="14" result="noise"/>
+          <feDisplacementMap id="wave-line-displacement" in="SourceGraphic" in2="noise" scale="0" xChannelSelector="R" yChannelSelector="G"/>
+        </filter>
+      </defs>
+      <path class="wave-fill" id="transition-wave-fill"
+            d="M0,88 C170,112 300,62 470,86 C640,110 780,70 950,88 C1120,106 1260,70 1440,92 L1440,900 L0,900 Z"></path>
+      <path class="wave-edge" id="transition-wave-edge"
+            d="M0,88 C170,112 300,62 470,86 C640,110 780,70 950,88 C1120,106 1260,70 1440,92"></path>
+    </svg>
   </div>
 
   <!-- SVG 변위 필터 — dive warp 전용 -->

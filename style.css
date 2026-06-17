@@ -269,10 +269,10 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   object-fit: cover;
 }
 
-/* 로고 영상 하단 절반 투명 처리 */
+/* 로고 영상 하단 절반만 표시 — 상단·하단 양쪽 페이드 */
 .section__video-bg {
-  mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%);
   image-rendering: high-quality;
 }
 
@@ -461,14 +461,14 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 
 .btn-cta--fill-white {
-  background: #fff;
-  border: 1.5px solid #fff;
-  color: var(--clr-primary);
+  background: var(--clr-primary);
+  border: 1.5px solid var(--clr-primary);
+  color: #fff;
 }
 .btn-cta--fill-white:hover {
-  background: var(--clr-primary);
-  border-color: var(--clr-primary);
-  color: #fff;
+  background: #fff;
+  border-color: #fff;
+  color: var(--clr-primary);
 }
 
 /* Nav pill 버튼 (H54 / radius 100px) */
@@ -659,12 +659,12 @@ body.is-logo-at-header .gnb__logo {
   inset: 0;
   width: 100vw;
   height: 100%;
-  object-position: center top;
+  object-position: center bottom;
 }
-/* 비디오 배경은 첫 화면(100vh)에만 고정 노출, 이후 스크롤로 자연 이탈 */
+/* 비디오 배경은 상단 절반(50vh)만 노출 — 상단 잘라 올리기 */
 .section--logo .section__video-bg {
-  height: 100vh;
-  height: 100svh;
+  height: 50vh;
+  height: 50svh;
 }
 
 .section__video-bg--first {
@@ -890,17 +890,18 @@ body.is-logo-at-header .gnb__logo {
   position: absolute;
   left: 0;
   bottom: 0;
-  width: clamp(205px, 25vw, 450px);
+  width: clamp(270px, 34vw, 600px);
   height: auto;
   z-index: 1;
-  opacity: 0.34;
+  opacity: calc(0.24 * var(--crew-fish-loop-opacity));
+  --crew-fish-loop-opacity: 1;
   pointer-events: none;
   mix-blend-mode: normal;
   filter: saturate(1.08) contrast(0.92) brightness(1.04) blur(0.45px);
   -webkit-mask-image: radial-gradient(ellipse at center, black 0 48%, rgba(0,0,0,0.62) 64%, transparent 82%);
   mask-image: radial-gradient(ellipse at center, black 0 48%, rgba(0,0,0,0.62) 64%, transparent 82%);
-  transform: translate3d(-52vw, 32vh, 0) rotate(-4deg) scale(0.74);
-  animation: crewFishSwim 32s linear infinite;
+  transform: translate3d(-60vw, 46vh, 0) rotate(-7deg) scale(0.78);
+  animation: crewFishSwim 36s linear infinite;
   will-change: transform, opacity;
   backface-visibility: hidden;
   contain: paint;
@@ -909,10 +910,11 @@ body.is-logo-at-header .gnb__logo {
 .crew-fish-bg--small {
   width: clamp(150px, 18vw, 320px);
   z-index: 0;
-  opacity: 0.2;
+  opacity: calc(0.2 * var(--crew-fish-loop-opacity));
+  --crew-fish-loop-opacity: 1;
   filter: saturate(0.96) contrast(0.9) brightness(1.02) blur(1.1px);
   transform: translate3d(-48vw, 48vh, 0) rotate(3deg) scale(0.6);
-  animation: crewFishSwimSmall 38s cubic-bezier(0.42, 0, 0.58, 1) infinite;
+  animation: crewFishSwimSmall 38s linear infinite;
   animation-delay: -8s;
 }
 
@@ -922,10 +924,11 @@ body.is-logo-at-header .gnb__logo {
   left: 8vw;
   width: clamp(145px, 16vw, 290px);
   z-index: 1;
-  opacity: 0.22;
+  opacity: calc(0.22 * var(--crew-fish-loop-opacity));
+  --crew-fish-loop-opacity: 1;
   filter: saturate(0.94) contrast(0.88) brightness(1.04) blur(1.2px);
   transform: translate3d(-28vw, 18px, 0) rotate(2deg) scale(0.56);
-  animation: crewFishSwimTop 36s cubic-bezier(0.42, 0, 0.58, 1) infinite;
+  animation: crewFishSwimTop 36s linear infinite;
   animation-delay: -9s;
 }
 
@@ -964,97 +967,112 @@ body.is-logo-at-header .gnb__logo {
 @keyframes crewFishSwim {
   0% {
     opacity: 0;
-    transform: translate3d(-54vw, 34vh, 0) rotate(-5deg) scale(0.72);
+    transform: translate3d(-60vw, 46vh, 0) rotate(-7deg) scale(0.78);
   }
-  8% {
-    opacity: 0.34;
-    transform: translate3d(-42vw, 29vh, 0) rotate(-4deg) scale(0.73);
+  6% {
+    opacity: 0.24;
+    transform: translate3d(-48vw, 33vh, 0) rotate(-5deg) scale(0.80);
   }
-  16% {
-    transform: translate3d(-30vw, 24vh, 0) rotate(-2deg) scale(0.75);
+  17% {
+    transform: translate3d(-30vw, 17vh, 0) rotate(-1deg) scale(0.84);
   }
-  25% {
-    transform: translate3d(-14vw, 23vh, 0) rotate(1deg) scale(0.77);
+  28% {
+    /* S커브 첫 번째 굴곡 — 위로 올라오다가 살짝 내려옴 */
+    transform: translate3d(-10vw, 27vh, 0) rotate(4deg) scale(0.88);
   }
-  34% {
-    transform: translate3d(4vw, 17vh, 0) rotate(-1deg) scale(0.8);
+  40% {
+    transform: translate3d(10vw, 9vh, 0) rotate(-2deg) scale(0.92);
   }
-  44% {
-    transform: translate3d(24vw, 6vh, 0) rotate(-4deg) scale(0.83);
+  52% {
+    /* S커브 두 번째 굴곡 — 다시 아래로 살짝 */
+    transform: translate3d(30vw, -1vh, 0) rotate(-6deg) scale(0.95);
   }
-  55% {
-    transform: translate3d(44vw, -9vh, 0) rotate(-7deg) scale(0.86);
+  63% {
+    transform: translate3d(48vw, -11vh, 0) rotate(-3deg) scale(0.97);
   }
-  66% {
-    transform: translate3d(62vw, -23vh, 0) rotate(-8deg) scale(0.88);
+  74% {
+    transform: translate3d(64vw, -27vh, 0) rotate(-7deg) scale(0.99);
   }
-  78% {
-    opacity: 0.26;
-    transform: translate3d(80vw, -35vh, 0) rotate(-6deg) scale(0.9);
+  83% {
+    opacity: 0.18;
+    transform: translate3d(81vw, -42vh, 0) rotate(-5deg) scale(1.00);
   }
-  90% {
-    opacity: 0.14;
-    transform: translate3d(98vw, -50vh, 0) rotate(-3deg) scale(0.91);
+  93% {
+    opacity: 0.08;
+    transform: translate3d(99vw, -55vh, 0) rotate(-2deg) scale(1.00);
   }
   100% {
     opacity: 0;
-    transform: translate3d(114vw, -62vh, 0) rotate(1deg) scale(0.92);
+    transform: translate3d(117vw, -66vh, 0) rotate(2deg) scale(1.00);
   }
 }
 
 @keyframes crewFishSwimSmall {
   0% {
     opacity: 0;
-    transform: translate3d(-48vw, 48vh, 0) rotate(3deg) scale(0.54);
+    transform: translate3d(-50vw, 52vh, 0) rotate(5deg) scale(0.52);
   }
-  14% {
+  10% {
     opacity: 0.2;
-    transform: translate3d(-28vw, 40vh, 0) rotate(-3deg) scale(0.56);
+    transform: translate3d(-36vw, 41vh, 0) rotate(-1deg) scale(0.54);
   }
-  28% {
-    transform: translate3d(-8vw, 44vh, 0) rotate(2deg) scale(0.59);
+  22% {
+    /* 굴곡 — 아래로 살짝 */
+    transform: translate3d(-18vw, 50vh, 0) rotate(5deg) scale(0.57);
   }
-  44% {
-    transform: translate3d(18vw, 34vh, 0) rotate(-4deg) scale(0.61);
+  35% {
+    transform: translate3d(0vw, 36vh, 0) rotate(-3deg) scale(0.60);
+  }
+  48% {
+    /* 굴곡 — 다시 아래로 */
+    transform: translate3d(18vw, 44vh, 0) rotate(4deg) scale(0.62);
   }
   62% {
-    transform: translate3d(50vw, 10vh, 0) rotate(-8deg) scale(0.65);
+    transform: translate3d(40vw, 22vh, 0) rotate(-6deg) scale(0.65);
   }
-  82% {
-    opacity: 0.15;
-    transform: translate3d(82vw, -14vh, 0) rotate(-4deg) scale(0.69);
+  76% {
+    transform: translate3d(62vw, 4vh, 0) rotate(-4deg) scale(0.68);
+  }
+  88% {
+    opacity: 0.14;
+    transform: translate3d(80vw, -12vh, 0) rotate(-2deg) scale(0.70);
   }
   100% {
     opacity: 0;
-    transform: translate3d(108vw, -36vh, 0) rotate(2deg) scale(0.72);
+    transform: translate3d(108vw, -36vh, 0) rotate(3deg) scale(0.72);
   }
 }
 
 @keyframes crewFishSwimTop {
   0% {
     opacity: 0;
-    transform: translate3d(-28vw, 28px, 0) rotate(3deg) scale(0.52);
+    transform: translate3d(-30vw, 34px, 0) rotate(5deg) scale(0.50);
   }
-  15% {
+  12% {
     opacity: 0.22;
-    transform: translate3d(-18vw, 8px, 0) rotate(-2deg) scale(0.54);
+    transform: translate3d(-20vw, 6px, 0) rotate(-1deg) scale(0.53);
   }
-  30% {
-    transform: translate3d(-8vw, -24px, 0) rotate(-5deg) scale(0.56);
+  24% {
+    transform: translate3d(-10vw, -20px, 0) rotate(-5deg) scale(0.55);
   }
-  48% {
-    transform: translate3d(2vw, -62px, 0) rotate(-7deg) scale(0.58);
+  36% {
+    /* 굴곡 — 위로 살짝 튀어오름 */
+    transform: translate3d(-1vw, -6px, 0) rotate(3deg) scale(0.57);
   }
-  66% {
-    transform: translate3d(12vw, -96px, 0) rotate(-5deg) scale(0.6);
+  50% {
+    transform: translate3d(8vw, -54px, 0) rotate(-6deg) scale(0.59);
   }
-  84% {
+  64% {
+    /* 굴곡 — 다시 위로 */
+    transform: translate3d(15vw, -36px, 0) rotate(2deg) scale(0.61);
+  }
+  78% {
     opacity: 0.16;
-    transform: translate3d(21vw, -124px, 0) rotate(-2deg) scale(0.62);
+    transform: translate3d(22vw, -112px, 0) rotate(-5deg) scale(0.62);
   }
   100% {
     opacity: 0;
-    transform: translate3d(30vw, -146px, 0) rotate(1deg) scale(0.64);
+    transform: translate3d(32vw, -150px, 0) rotate(2deg) scale(0.64);
   }
 }
 
@@ -1085,12 +1103,12 @@ body.is-logo-at-header .gnb__logo {
   position: absolute;
   top: 190px;
   left: 50%;
-  transform: translateX(-50%) translateY(0);
+  transform: translateX(-50%) translateY(28px);
   text-align: center;
   white-space: nowrap;
   z-index: 10;
   opacity: 0;
-  transition: opacity 0.42s ease, transform 0.42s ease;
+  transition: opacity 0.85s ease, transform 0.85s ease;
   pointer-events: none;
 }
 
@@ -1126,7 +1144,7 @@ body.is-logo-at-header .gnb__logo {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-48%, -44%);
+  transform: translate(-48%, calc(-44% + 52px));
   display: flex;
   align-items: center;
   gap: clamp(60px, 6.5vw, 108px);
@@ -1135,12 +1153,14 @@ body.is-logo-at-header .gnb__logo {
   z-index: 10;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.38s ease;
+  transition: opacity 1.1s ease, transform 1.1s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .section--crew-scroll.is-content-visible .crew-main {
   opacity: 1;
+  transform: translate(-48%, -44%);
   pointer-events: auto;
+  transition-delay: 0.18s;
 }
 
 .section--crew-scroll.is-content-visible .crew-dots,
@@ -1153,6 +1173,16 @@ body.is-logo-at-header .gnb__logo {
   flex: 0 0 430px;
   height: 410px;
   position: relative;
+  opacity: 0;
+  transform: translateY(34px);
+  transition: opacity 1.05s ease, transform 1.05s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: 0s;
+}
+
+.section--crew-scroll.is-content-visible .crew-canvas-wrap {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.22s;
 }
 
 /* Three.js renderer가 append하는 canvas */
@@ -1224,7 +1254,7 @@ body.is-logo-at-header .gnb__logo {
   50%      { opacity: 1;   transform: scale(1.35); }
 }
 
-/* 인포 패널 래퍼 — 카드(380px) + 버튼 영역(52px) */
+/* 인포 패널 래퍼 — 카드 프레임 고정, 내부 텍스트만 전환 */
 .crew-info-wrap {
   flex: 0 0 546px;
   position: relative;
@@ -1232,48 +1262,10 @@ body.is-logo-at-header .gnb__logo {
   max-width: 100%;
   margin-left: clamp(12px, 1.4vw, 22px);
   min-height: 286px;
-  transition: opacity 0.22s ease, transform 0.22s ease;
-}
-
-.section--crew-scroll.is-creature-moving .crew-info-wrap,
-.section--crew-scroll.is-creature-moving .crew-dots,
-.section--crew-scroll.is-creature-moving .crew-rotate-hint {
-  opacity: 0;
-  transform: translateY(8px);
-  pointer-events: none;
-}
-
-/* 각 생물 패널 — 페이드 + 슬라이드 전환 */
-.crew-panel {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 546px;
-  max-width: 100%;
-  min-height: 203px;
-  padding: 36px 76px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  overflow: visible;
-  border-width: 1px;
-  background: linear-gradient(
-    201deg,
-    rgba(255,255,255,0.00)  1.6%,
-    rgba(255,255,255,0.20) 50.0%,
-    rgba(255,255,255,0.00) 98.4%
-  );
-  opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.48s ease, transform 0.48s ease;
-  pointer-events: none;
-}
-
-.crew-panel.is-active {
-  position: relative;
-  top: auto;
-  left: auto;
-  border-width: 1.5px;
+  backdrop-filter:         blur(var(--blur-glass));
+  -webkit-backdrop-filter: blur(var(--blur-glass));
+  border-radius: var(--radius-card);
+  border: 1.5px solid transparent;
   background:
     linear-gradient(
       201deg,
@@ -1295,17 +1287,24 @@ body.is-logo-at-header .gnb__logo {
     0 0 0 1px rgba(255,255,255,0.015),
     0 18px 38px rgba(0,48,96,0.03),
     0 0 14px rgba(87,205,246,0.035);
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
+  opacity: 0;
+  transform: translateY(38px);
+  transition: opacity 1.05s ease, transform 1.05s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.crew-panel.is-active::before {
+.section--crew-scroll.is-content-visible .crew-info-wrap {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.32s;
+}
+
+.crew-info-wrap::before {
   content: '';
   position: absolute;
   inset: 0;
   border-radius: inherit;
   pointer-events: none;
+  z-index: 0;
   background:
     linear-gradient(to left, rgba(255,255,255,0.52), rgba(198,238,255,0.11), transparent) top right / 116px 1.5px no-repeat,
     linear-gradient(to bottom, rgba(255,255,255,0.48), rgba(198,238,255,0.11), transparent) top right / 1.5px 116px no-repeat,
@@ -1313,24 +1312,53 @@ body.is-logo-at-header .gnb__logo {
     linear-gradient(to top, rgba(255,255,255,0.42), rgba(84,196,237,0.10), transparent) bottom left / 1.5px 116px no-repeat;
 }
 
+.section--crew-scroll.is-creature-moving .crew-info-wrap,
+.section--crew-scroll.is-creature-moving .crew-dots,
+.section--crew-scroll.is-creature-moving .crew-rotate-hint {
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
+}
+
+/* 각 생물 패널 — 텍스트만 페이드 전환 (카드 프레임은 crew-info-wrap 고정) */
+.crew-panel {
+  position: absolute;
+  inset: 0;
+  padding: 36px 76px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: visible;
+  opacity: 0;
+  transition: opacity 0.32s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.crew-panel.is-active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
 .crew-panel.is-prev {
   opacity: 0;
-  transform: translateY(-28px);
 }
 
 /* 카드 밖 하단 버튼 */
 .crew-panel-btn {
   display: none;
+  position: absolute;
+  bottom: -52px;
+  right: 0;
   width: fit-content;
-  margin-top: 20px;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.55s ease;
+  transition: opacity 0.25s ease;
+  z-index: 2;
 }
 
 .crew-panel.is-active + .crew-panel-btn {
   display: flex;
-  margin-left: auto;
   opacity: 1;
   pointer-events: auto;
 }
@@ -1340,12 +1368,17 @@ body.is-logo-at-header .gnb__logo {
   position: absolute;
   bottom: 44px;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%) translateY(18px);
   display: flex;
   gap: 12px;
   z-index: 10;
   opacity: 0;
-  transition: opacity 0.24s ease, transform 0.24s ease;
+  transition: opacity 0.85s ease, transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.section--crew-scroll.is-content-visible .crew-dots {
+  transform: translateX(-50%) translateY(0);
+  transition-delay: 0.44s;
 }
 
 .crew-dot {
@@ -1371,6 +1404,7 @@ body.is-logo-at-header .gnb__logo {
   right: calc(100% + 65px);
   transform: none;
   display: flex;
+  z-index: 2;
   flex-direction: column;
   align-items: center;
   gap: 5px;
@@ -1471,12 +1505,8 @@ body.is-logo-at-header .gnb__logo {
     height: 360px;
   }
 
-  .crew-info-wrap,
-  .crew-panel {
-    width: 500px;
-  }
-
   .crew-info-wrap {
+    width: 500px;
     flex-basis: 500px;
     margin-left: 12px;
   }
@@ -1520,8 +1550,6 @@ body.is-logo-at-header .gnb__logo {
   }
 
   .crew-panel {
-    width: 100%;
-    min-height: 190px;
     padding: 28px 32px;
   }
 
@@ -1561,52 +1589,6 @@ body.is-logo-at-header .gnb__logo {
   background: none;
 }
 
-.program-dolphin-source {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  opacity: 0;
-  pointer-events: none;
-}
-
-.program-dolphin-bg {
-  position: absolute;
-  inset: 0 auto auto 50%;
-  z-index: 0;
-  width: max(170vw, 2200px);
-  height: 100vh;
-  min-height: 100svh;
-  pointer-events: none;
-  opacity: 0.1;
-  mix-blend-mode: screen;
-  filter: blur(1.8px) saturate(0.78) brightness(1.22);
-  transform: translate3d(-58%, 0, 0) scale(1.08);
-  transform-origin: center center;
-  animation: programDolphinPass 30s linear infinite;
-  will-change: transform, opacity;
-}
-
-@keyframes programDolphinPass {
-  0% {
-    opacity: 0;
-    transform: translate3d(-82%, 0, 0) scale(1.06);
-  }
-  12% {
-    opacity: 0.065;
-  }
-  42% {
-    opacity: 0.11;
-    transform: translate3d(-58%, 0, 0) scale(1.1);
-  }
-  74% {
-    opacity: 0.075;
-  }
-  100% {
-    opacity: 0;
-    transform: translate3d(-34%, 0, 0) scale(1.06);
-  }
-}
-
 .section-seq-sticky {
   position: sticky;
   top: 0;
@@ -1632,16 +1614,19 @@ body.is-logo-at-header .gnb__logo {
 
 .section--program .program-seq-title {
   opacity: 0;
+  transform: translateY(28px);
   pointer-events: none;
   margin-bottom: var(--sec-gap);
   width: 100%;
   text-align: center;
+  transition: opacity 0.85s ease, transform 0.85s ease;
 }
 
 .section--program .program-seq-content {
   opacity: 0;
   margin-top: 0;
-  transform: translateY(var(--seq-content-y));
+  transform: translateY(52px);
+  transition: opacity 1.1s ease, transform 1.1s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .section--program .program-seq-content .program-card {
@@ -1651,12 +1636,14 @@ body.is-logo-at-header .gnb__logo {
 }
 
 .section--program.is-title-visible .program-seq-title {
-  opacity: var(--seq-title-opacity);
+  opacity: 1;
+  transform: translateY(0);
   pointer-events: auto;
 }
 
 .section--program.is-content-visible .program-seq-content {
-  opacity: var(--seq-content-opacity);
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .program-seq-content.is-wave-entering {
@@ -2705,29 +2692,60 @@ body.is-logo-at-header .gnb__logo {
    16. DIVE OVERLAY — 잠수 전환 효과
    ------------------------------------------------------------- */
 
+.page-transition-wave,
+.transition-overlay,
 .dive-overlay {
   position: fixed;
   inset: 0;
-  z-index: 9000;
+  z-index: 9999;
   pointer-events: none;
   opacity: 0;
   overflow: hidden;
-  background:
-    radial-gradient(ellipse 200% 65% at 50% 130%, rgba(34,178,234,0.88) 0%, transparent 58%),
-    linear-gradient(180deg, #020c1b 0%, #0b2540 55%, #071a30 100%);
+  visibility: hidden;
+  background: transparent;
+  will-change: opacity;
 }
 
+.page-transition-wave.is-in,
+.transition-overlay.is-in,
 .dive-overlay.is-in {
-  pointer-events: all;
-  animation: diveIn 0.65s cubic-bezier(0.4, 0, 0.6, 1) forwards;
+  pointer-events: none;
+  visibility: visible;
 }
 
+.page-transition-wave.is-out,
+.transition-overlay.is-out,
 .dive-overlay.is-out {
-  animation: diveOut 0.85s ease-in forwards;
+  visibility: visible;
 }
 
-@keyframes diveIn  { from { opacity: 0; } to { opacity: 1; } }
-@keyframes diveOut { from { opacity: 1; } to { opacity: 0; } }
+body.is-transitioning { pointer-events: none; }
+
+.wave-line {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: calc(100vh + 180px);
+  transform: translate3d(0, 100vh, 0);
+  overflow: visible;
+  filter: url(#wave-line-distort);
+  will-change: transform, opacity;
+}
+
+.wave-fill {
+  fill: rgba(4, 126, 198, 0.12);
+  filter: blur(0.4px);
+}
+
+.wave-edge {
+  fill: none;
+  stroke: rgba(236, 255, 255, 0.64);
+  stroke-width: 1.15;
+  vector-effect: non-scaling-stroke;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 12px rgba(143, 229, 255, 0.20));
+}
 
 /* 광선 (JS가 생성) */
 .dive-ray {
@@ -2904,9 +2922,33 @@ body.is-logo-at-header .gnb__logo {
 /* --- Program section exit --- */
 .section--program.is-exiting .program-seq-title {
   opacity: var(--seq-title-opacity);
+  transform: translateY(0);
   transition: none;
 }
 .section--program.is-exiting .program-seq-content {
+  opacity: var(--seq-content-opacity);
+  transform: translateY(0);
+  transition: none;
+}
+
+/* --- Location section exit --- */
+.section--location.is-exiting .location-seq-title {
+  opacity: var(--seq-title-opacity);
+  transform: translateY(0);
+  transition: none;
+}
+.section--location.is-exiting .location-seq-content {
+  opacity: var(--seq-content-opacity);
+  transition: none;
+}
+
+/* --- Booking section exit --- */
+.section--booking.is-exiting .booking-seq-title {
+  opacity: var(--seq-title-opacity);
+  transform: translateY(0);
+  transition: none;
+}
+.section--booking.is-exiting .booking-seq-content {
   opacity: var(--seq-content-opacity);
   transition: none;
 }
@@ -2914,13 +2956,16 @@ body.is-logo-at-header .gnb__logo {
 /* --- Location section sequence --- */
 .section--location .location-seq-title {
   opacity: 0;
+  transform: translateY(28px);
   pointer-events: none;
   margin-bottom: 40px;
   width: 100%;
   text-align: center;
+  transition: opacity 0.85s ease, transform 0.85s ease;
 }
 .section--location.is-title-visible .location-seq-title {
-  opacity: var(--seq-title-opacity);
+  opacity: 1;
+  transform: translateY(0);
   pointer-events: auto;
 }
 .section--location .location-seq-content {
@@ -2934,13 +2979,16 @@ body.is-logo-at-header .gnb__logo {
 /* --- Booking section sequence --- */
 .section--booking .booking-seq-title {
   opacity: 0;
+  transform: translateY(28px);
   pointer-events: none;
   margin-bottom: var(--sec-gap);
   width: 100%;
   text-align: center;
+  transition: opacity 0.85s ease, transform 0.85s ease;
 }
 .section--booking.is-title-visible .booking-seq-title {
-  opacity: var(--seq-title-opacity);
+  opacity: 1;
+  transform: translateY(0);
   pointer-events: auto;
 }
 .section--booking .booking-seq-content {
@@ -3078,6 +3126,20 @@ html, body, * { cursor: none !important; }
   z-index: -1;
 }
 
+.gnb.gnb--light-bg .gnb__dropdown::after,
+body.marin-header-light .gnb .gnb__dropdown::after {
+  background:
+    linear-gradient(145deg, rgba(247, 253, 255, 0.82), rgba(216, 245, 255, 0.52)),
+    rgba(229, 248, 255, 0.58);
+  backdrop-filter: blur(22px) saturate(1.22);
+  -webkit-backdrop-filter: blur(22px) saturate(1.22);
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: 16px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.92),
+    inset 0 -18px 36px rgba(174, 231, 255, 0.22);
+}
+
 /* About us 호버 시 드롭다운 표시 */
 .gnb__nav-item:hover .gnb__dropdown {
   opacity: 1;
@@ -3102,7 +3164,7 @@ html, body, * { cursor: none !important; }
   font-size: var(--fs-body);
   letter-spacing: var(--ls-tight);
   color: var(--clr-text-muted);
-  transition: background var(--tr-base), color var(--tr-base);
+  transition: background var(--tr-base), color var(--tr-base), box-shadow var(--tr-base);
   white-space: nowrap;
   text-decoration: none;
 }
@@ -3126,6 +3188,31 @@ html, body, * { cursor: none !important; }
   color: var(--clr-primary) !important;
 }
 
+.gnb.gnb--light-bg .gnb__dropdown-item,
+body.marin-header-light .gnb .gnb__dropdown-item {
+  color: rgba(17, 118, 158, 0.72);
+}
+
+.gnb.gnb--light-bg .gnb__dropdown-item:hover,
+body.marin-header-light .gnb .gnb__dropdown-item:hover {
+  background: rgba(255, 255, 255, 0.76);
+  color: var(--clr-primary);
+  box-shadow: inset 0 0 0 1px rgba(34, 178, 234, 0.12);
+}
+
+.gnb.gnb--light-bg .gnb__dropdown-item--active,
+body.marin-header-light .gnb .gnb__dropdown-item--active {
+  background: rgba(255, 255, 255, 0.48);
+  color: rgba(14, 139, 189, 0.86) !important;
+  box-shadow: inset 0 0 0 1px rgba(34, 178, 234, 0.12);
+}
+
+.gnb.gnb--light-bg .gnb__dropdown-item--active:hover,
+body.marin-header-light .gnb .gnb__dropdown-item--active:hover {
+  background: rgba(255, 255, 255, 0.86);
+  color: var(--clr-primary) !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .booking-bg-video {
     animation: none;
@@ -3137,12 +3224,14 @@ html, body, * { cursor: none !important; }
 /* Booking sequence override: keep the title-first/content-second rhythm. */
 .section--booking .booking-seq-content {
   opacity: 0;
-  transform: translateX(-50%) translateY(var(--seq-content-y));
+  transform: translateX(-50%) translateY(60px);
   pointer-events: none;
+  transition: opacity 1.3s ease, transform 1.3s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .section--booking.is-content-visible .booking-seq-content {
-  opacity: var(--seq-content-opacity);
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
   pointer-events: auto;
 }
 

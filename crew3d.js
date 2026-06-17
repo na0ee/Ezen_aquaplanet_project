@@ -118,6 +118,10 @@ function getCrewScrollState() {
   };
 }
 
+function isCrewPanelRangeActive() {
+  return getCrewScrollState().inPanelRange;
+}
+
 function hideCrewCanvas() {
   clearTimeout(crewEntryTimer);
   clearTimeout(crewContentTimer);
@@ -197,7 +201,9 @@ function setCrewInfoVisible(visible) {
   crewInfoVisible = visible;
   crewSection?.classList.toggle('is-creature-moving', !visible);
   if (visible && !wasVisible) {
-    document.dispatchEvent(new CustomEvent('crew-card-reenter'));
+    document.dispatchEvent(new CustomEvent('crew-card-reenter', {
+      detail: { idx: currentIdx }
+    }));
   }
 }
 
@@ -450,6 +456,10 @@ function leaveCrewSection() {
   clearTimeout(crewContentTimer);
   /* force-enter 기간 중 IO의 지연 leave 콜백 무시 */
   if (performance.now() < forceCrewEntryUntil) return;
+  if (isCrewPanelRangeActive()) {
+    enterCrewSection();
+    return;
+  }
   /* exit zone 다운 스크롤 중: translateY가 GLB를 위로 밀어내므로 수영 애니메이션 불필요 */
   if (exitZoneActive) return;
   clearTimeout(crewEntryTimer);
