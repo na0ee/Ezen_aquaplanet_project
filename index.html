@@ -50,14 +50,14 @@
         <img class="gnb__logo" src="assets/images/headerLogo.png" alt="" aria-hidden="true">
       </a>
 
-      <!-- 오른쪽 티켓 버튼 -->
-      <button class="gnb__ticket btn-pill" type="button" aria-label="티켓 예매">
+      <!-- 오른쪽 티켓 버튼 → 예매 페이지로 이동 -->
+      <a class="gnb__ticket btn-pill" href="ticket.html" aria-label="티켓 예매">
         Ticket
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path d="M5 12H19M13 6L19 12L13 18" stroke="white" stroke-width="1.5"
                 stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-      </button>
+      </a>
     </div>
   </header>
 
@@ -74,6 +74,9 @@
         <source src="assets/images/first.mp4" type="video/mp4">
       </video>
 
+      <!-- 로고 뒤로 헤엄쳐 지나가는 물고기 떼 (비디오 위 · 로고 캔버스 아래) -->
+      <div class="fish-drift fish-drift--1" aria-hidden="true"></div>
+      <div class="fish-drift fish-drift--2" aria-hidden="true"></div>
     </section>
 
     <!-- ================================================
@@ -573,6 +576,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="main.js"></script>
   <script src="crew3d.js" type="module"></script>
-  <script src="logo3d.js?v=20260616-09" type="module"></script>
+  <script src="logo3d.js?v=20260616-41" type="module"></script>
 </body>
 </html>
