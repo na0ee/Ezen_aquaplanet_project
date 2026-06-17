@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Program - Aqua Planet</title>
+
+    <!-- Pretendard (국문) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@latest/dist/web/static/pretendard.css" />
+    <!-- Poppins + EB Garamond (영문) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,500&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="program.css" />
+    <script src="script.js"></script>
+</head>
+<body>
+    <!-- GNB Navigation -->
+    <nav class="gnb">
+        <div class="gnb__inner">
+            <div class="gnb__category">
+                <button class="gnb__item">Program</button>
+                <button class="gnb__item">Ocean friends</button>
+                <button class="gnb__item gnb__item--active">About us</button>
+            </div>
+            <div class="gnb__logo">
+                <img src="../assets/logo.png" alt="Aqua Planet Logo" />
+            </div>
+            <button class="btn btn--lg">
+                <p>Ticket</p>
+                <p class="btn__icon"><img src="" alt=""></p>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Location Tabs -->
+            <div class="location-tabs">
+                <button class="location-tabs__item location-tabs__item--active">Jeju</button>
+                <button class="location-tabs__item">Yeosu</button>
+                <button class="location-tabs__item">Ilsan</button>
+                <button class="location-tabs__item">Gwanggyo</button>
+            </div>
+
+    <!-- Section: Program Schedule -->
+    <section class="section section--schedule">
+        <div class="container">
+            <div class="section__header">
+                <h2 class="section__title">
+                    Program <span class="section__title-emphasis">Schedule</span>
+                </h2>
+                <p class="section__sub">관람을 더욱 특별하게 만드는 프로그램을 소개합니다</p>
+                <p class="section__description">
+                    생태설명회, 공연, 체험 프로그램을 통해 바다의 매력을 더욱 가까이에서 경험해 보세요
+                    <br><span>아쿠아플라넷 제주</span> 에서 배움과 즐거움이 어우러진 특별한 해양문화 콘텐츠를 만나볼 수 있습니다</p>
+            </div>
+
+            <!-- Schedule Table -->
+            <div class="schedule-table">
+                <div class="schedule-date">6월 16일</div>
+
+                <!-- First Hour Row -->
+                <div class="schedule-hours-row schedule-hours-row--full">
+                    <div class="schedule-hour" data-hour="09">09:00</div>
+                    <div class="schedule-hour" data-hour="10">10:00</div>
+                    <div class="schedule-hour" data-hour="11">11:00</div>
+                    <div class="schedule-hour" data-hour="12">12:00</div>
+                    <div class="schedule-hour" data-hour="13">13:00</div>
+                    <div class="schedule-hour" data-hour="14">14:00</div>
+                    <div class="schedule-hour" data-hour="15">15:00</div>
+                    <div class="schedule-hour" data-hour="16">16:00</div>
+                    <div class="schedule-hour" data-hour="17">17:00</div>
+                    <div class="schedule-hour" data-hour="18">18:00</div>
+                    <div class="schedule-hour" data-hour="19">19:00</div>
+                </div>
+
+                <!-- Second Hour Row -->
+                <div class="schedule-hours-row schedule-hours-row--half">
+                    <div class="schedule-hour" data-hour="09">09:00</div>
+                    <div class="schedule-hour" data-hour="10">10:00</div>
+                    <div class="schedule-hour" data-hour="11">11:00</div>
+                    <div class="schedule-hour" data-hour="12">12:00</div>
+                    <div class="schedule-hour" data-hour="13">13:00</div>
+                    <div class="schedule-hour" data-hour="14">14:00</div>
+                    <div class="schedule-hour" data-hour="15">15:00</div>
+                    <div class="schedule-hour" data-hour="16">16:00</div>
+                    <div class="schedule-hour" data-hour="17">17:00</div>
+                    <div class="schedule-hour" data-hour="18">18:00</div>
+                    <div class="schedule-hour" data-hour="19">19:00</div>
+                </div>
+
+                <!-- Schedule Sections -->
+                <div class="schedule-sections">
+                    <div class="schedule-section__labels">
+                        <div class="schedule-section__label">
+                            <p>2F</p>
+                        </div>
+                        <div class="schedule-section__label">
+                            <p>1F</p>
+                        </div>
+                        <div class="schedule-section__label">
+                            <p>B1F</p>
+                        </div>
+                    </div>
+                    <div class="schedule-section__contents">
+                        <!-- 2F Programs -->
+                        <div class="schedule-section__programs">
+                            <div class="program-group">
+                                <div class="program-slot">
+                                    <span class="tag tag--education">생태설명회</span>
+                                    <div class="program-name">뒤뚱뒤뚱 펭귄</div>
+                                    <div class="program-time"><span class="program-time__icon"></span>14:00 - 14:10</div>
+                                </div>
+                                <div class="program-slot">
+                                    <span class="tag tag--education">생태설명회</span>
+                                    <div class="program-name">뒤뚱뒤뚱 펭귄</div>
+                                    <div class="program-time"><span class="program-time__icon"></span>17:20 - 17:30</div>
+                                </div>
+                            </div>
+                            <div class="program-group">
+                                <div class="program-slot">
+                                    <span class="tag tag--experience">체험프로그램</span>
+                                    <div class="program-name">메인수조 투명보트 체험</div>
+                                    <div class="program-time"><span class="program-time__icon"></span>09:50 - 10:10</div>
+                                </div>
+                            </div>
+                            <div class="program-group">
+                                <div class="program-slot">
+                                    <span class="tag tag--education">생태설명회</span>
+                                    <div class="program-name">춤추는 참물범</div>
+                                    <div class="program-time"><span class="program-time__icon"></span>10:00 - 10:10</div>
+                                </div>
+                                <div class="program-slot">
+                                    <span class="tag tag--education">생태설명회</span>
+                                    <div class="program-name">춤추는 참물범</div>
+                                    <div class="program-time"><span class="program-time__icon"></span>16:00 - 16:10</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 1F Programs -->
+                        <div class="schedule-section__programs">
+                            <div class="program-group">
+                                <div class="program-slot">
+                                    <span class="tag tag--education">생태설명회</span>
+                                    <div class="program-name">달리는 수달</div>
+                                    <div class="program-time"><span class="program-time__icon"></span>10:00 - 10:10</div>
+                                </div>
+                                <div class="program-slot">
+                                    <span class="tag tag--education">생태설명회</span>
+                                    <div class="program-name">하늘을 날다! 플라잉 펭귄</div>
+                                    <div class="program-time"><span class="program-time__icon"></span>14:10 - 14:15</div>
+                                </div>
+                                <div class="program-slot">
+                                    <span class="tag tag--education">생태설명회</span>
+                                    <div class="program-name">달리는 수달</div>
+                                    <div class="program-time"><span class="program-time__icon"></span>16:20 - 16:30</div>
+                                </div>
+                            </div>
+                            <div class="program-group">
+                                <div class="program-slot">
+                                    <span class="tag tag--education">생태설명회</span>
+                                    <div class="program-name">해녀 할망의 바당 이야기</div>
+                                    <div class="program-time"><span class="program-time__icon"></span>11:40 - 11:50</div>
+                                </div>
+                                <div class="program-slot">
+                                    <span class="tag tag--education">생태설명회</span>
+                                    <div class="program-name">해녀 할망의 바당 이야기</div>
+                                    <div class="program-time"><span class="program-time__icon"></span>14:30 - 14:40</div>
+                                </div>
+                                <div class="program-slot">
+                                    <span class="tag tag--education">생태설명회</span>
+                                    <div class="program-name">해녀 할망의 바당 이야기</div>
+                                    <div class="program-time"><span class="program-time__icon"></span>15:30 - 15:40</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- B1F Programs -->
+                        <div class="schedule-section__programs">
+                        <div class="program-group">
+                            <div class="program-slot">
+                                <span class="tag tag--experience">체험프로그램</span>
+                                <div class="program-name">대형 수조 체험다이빙</div>
+                                <div class="program-time"><span class="program-time__icon"></span>10:30 - 11:50</div>
+                            </div>
+                            <div class="program-slot">
+                                <span class="tag tag--experience">체험프로그램</span>
+                                <div class="program-name">대형 수조 체험다이빙</div>
+                                <div class="program-time"><span class="program-time__icon"></span>12:30 - 13:50</div>
+                            </div>
+                            <div class="program-slot">
+                                <span class="tag tag--experience">체험프로그램</span>
+                                <div class="program-name">대형 수조 체험다이빙</div>
+                                <div class="program-time"><span class="program-time__icon"></span>14:30 - 15:50</div>
+                            </div>
+                            <div class="program-slot">
+                                <span class="tag tag--experience">체험프로그램</span>
+                                <div class="program-name">대형 수조 체험다이빙</div>
+                                <div class="program-time"><span class="program-time__icon"></span>16:30 - 17:50</div>
+                            </div>
+                            <div class="program-slot">
+                                <span class="tag tag--experience">체험프로그램</span>
+                                <div class="program-name">대형 수조 체험다이빙</div>
+                                <div class="program-time"><span class="program-time__icon"></span>17:30 - 18:50</div>
+                            </div>
+                        </div>
+                        <div class="program-group">
+                            <div class="program-slot">
+                                <span class="tag tag--experience">체험프로그램</span>
+                                <div class="program-name">캔들 / 방향제 만들기 체험</div>
+                                <div class="program-time"><span class="program-time__icon"></span>09:30 - 09:50</div>
+                            </div>
+                            <div class="program-slot program-slot">
+                                <span class="tag tag--performance">공연프로그램</span>
+                                <div class="program-name">메인 수조 식사시간</div>
+                                <div class="program-time"><span class="program-time__icon"></span>12:10 - 12:20</div>
+                            </div>
+                            <div class="program-slot program-slot">
+                                <span class="tag tag--performance">공연프로그램</span>
+                                <div class="program-name">메인 수조 식사시간</div>
+                                <div class="program-time"><span class="program-time__icon"></span>14:20 - 14:30</div>
+                            </div>
+                            <div class="program-slot program-slot">
+                                <span class="tag tag--performance">공연프로그램</span>
+                                <div class="program-name">메인 수조 식사시간</div>
+                                <div class="program-time"><span class="program-time__icon"></span>15:50 - 16:00</div>
+                            </div>
+                            <div class="program-slot program-slot">
+                                <span class="tag tag--experience">체험프로그램</span>
+                                <div class="program-name">캔들 / 방향제 만들기 체험</div>
+                                <div class="program-time"><span class="program-time__icon"></span>17:10 - 17:30</div>
+                            </div>
+                        </div>
+                        <div class="program-group">
+                            <div class="program-slot">
+                                <span class="tag tag--performance">공연프로그램</span>
+                                <div class="program-name">오션 아레나 특별 공연</div>
+                                <div class="program-time"><span class="program-time__icon"></span>10:50 - 11:40</div>
+                            </div>
+                            <div class="program-slot">
+                                <span class="tag tag--performance">공연프로그램</span>
+                                <div class="program-name">오션 아레나 특별 공연</div>
+                                <div class="program-time"><span class="program-time__icon"></span>12:50 - 13:40</div>
+                            </div>
+                            <div class="program-slot">
+                                <span class="tag tag--performance">공연프로그램</span>
+                                <div class="program-name">오션 아레나 특별 공연</div>
+                                <div class="program-time"><span class="program-time__icon"></span>14:50 - 15:40</div>
+                            </div>
+                            <div class="program-slot">
+                                <span class="tag tag--performance">공연프로그램</span>
+                                <div class="program-name">오션 아레나 특별 공연</div>
+                                <div class="program-time"><span class="program-time__icon"></span>16:20 - 17:10</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="schedule-toggle">
+                <div class="schedule-toggle__item schedule-toggle__item--active" data-section="schedule">
+                    <span class="schedule-toggle__text">프로그램 일정</span>
+                    <span class="schedule-toggle__line"></span>
+                </div>
+                <div class="schedule-toggle__item" data-section="guide">
+                    <span class="schedule-toggle__text">프로그램 안내</span>
+                    <span class="schedule-toggle__line"></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: Program Guide -->
+    <section class="section section--guide">
+        <div class="container">
+            <div class="section__header">
+                <h2 class="section__title">
+                    Program <span class="section__title-emphasis">Guide</span>
+                </h2>
+                <p class="section__sub">관람을 더욱 특별하게 만드는 프로그램을 소개합니다</p>
+                <p class="section__description">생태설명회, 공연, 체험 프로그램을 통해 바다의 매력을 더욱 가까이에서 경험해 보세요<br>아쿠아플라넷 제주에서 배움과 즐거움이 어우러진 특별한 해양문화 콘텐츠를 만나볼 수 있습니다</p>
+            </div>
+
+            <!-- Category Tabs -->
+            <div class="category-tabs">
+                <button class="category-tabs__item category-tabs__item--active">전체</button>
+                <button class="category-tabs__item">생태설명회</button>
+                <button class="category-tabs__item">공연 프로그램</button>
+                <button class="category-tabs__item">체험 프로그램</button>
+            </div>
+
+            <!-- Program List -->
+            <div class="program-list">
+                <div class="program-card">
+                    <span class="tag tag--performance">공연프로그램</span>
+                    <h3 class="program-card__title">오션 아레나 특별 공연</h3>
+                    <div class="program-card__duration">약 50분</div>
+                    <div class="program-card__location"><span>B1F</span> > 아쿠아리움 > 언더 오션 아레나</div>
+                </div>
+
+                <div class="program-card">
+                    <button class="btn btn--sm">생태설명회</button>
+                    <h3 class="program-card__title">춤추는 참물범</h3>
+                    <div class="program-card__duration">약 10분</div>
+                    <div class="program-card__location"><span>2F</span> > 아쿠아리움 > 하버플라넷</div>
+                </div>
+
+                <div class="program-card">
+                    <button class="btn btn--sm">체험프로그램</button>
+                    <h3 class="program-card__title">대형 수조 체험다이빙</h3>
+                    <div class="program-card__duration">약 1시간 20분</div>
+                    <div class="program-card__location"><span>B1F</span> > 아쿠아리움 > 메인수조(제주의 바다)</div>
+                </div>
+
+                <div class="program-card">
+                    <button class="btn btn--sm">생태설명회</button>
+                    <h3 class="program-card__title">뒤뚱뒤뚱 펭귄</h3>
+                    <div class="program-card__duration">약 10분</div>
+                    <div class="program-card__location"><span>2F</span> > 아쿠아리움 > 펭귄플라넷</div>
+                </div>
+
+                <div class="program-card">
+                    <button class="btn btn--sm">생태설명회</button>
+                    <h3 class="program-card__title">달리는 수달</h3>
+                    <div class="program-card__duration">약 10분</div>
+                    <div class="program-card__location"><span>1F</span> > 아쿠아리움 > 아쿠아 사파리</div>
+                </div>
+
+                <div class="program-card">
+                    <button class="btn btn--sm">공연프로그램</button>
+                    <h3 class="program-card__title">메인 수조 식사시간</h3>
+                    <div class="program-card__duration">약 10분</div>
+                    <div class="program-card__location"><span>B1F</span> > 아쿠아리움 > 메인수조(제주의 바다)</div>
+                </div>
+
+                <div class="program-card">
+                    <button class="btn btn--sm">체험프로그램</button>
+                    <h3 class="program-card__title">캔들 / 방향제 만들기 체험</h3>
+                    <div class="program-card__duration">약 20분</div>
+                    <div class="program-card__location"><span>B1F</span> > 아쿠아리움 > 메인수조(제주의 바다)</div>
+                </div>
+
+                <div class="program-card">
+                    <button class="btn btn--sm">체험프로그램</button>
+                    <h3 class="program-card__title">메인수조 투명보트 체험</h3>
+                    <div class="program-card__duration">약 20분</div>
+                    <div class="program-card__location"><span>2F</span> > 아쿠아리움</div>
+                </div>
+
+                <div class="program-card">
+                    <button class="btn btn--sm">생태설명회</button>
+                    <h3 class="program-card__title">하늘을 날다! 플라잉 펭귄</h3>
+                    <div class="program-card__duration">약 05분</div>
+                    <div class="program-card__location"><span>1F</span> > 아쿠아리움 > 플라잉 펭귄</div>
+                </div>
+
+                <div class="program-card">
+                    <button class="btn btn--sm">생태설명회</button>
+                    <h3 class="program-card__title">해녀 할망의 바당 이야기</h3>
+                    <div class="program-card__duration">약 10분</div>
+                    <div class="program-card__location"><span>1F</span> > 아쿠아리움 > 터치풀</div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
