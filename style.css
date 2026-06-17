@@ -2736,14 +2736,14 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   pointer-events: none;
 }
 
-/* 비네트 오버레이 — 주변부 암전으로 잠수 시야 연출 */
+/* 브라이트 플래시 오버레이 — 수면 돌파 순간의 빛 연출 */
 .dive-vignette {
   position: fixed;
   inset: 0;
   z-index: 8999;
   pointer-events: none;
   opacity: 0;
-  background: radial-gradient(circle, transparent 20%, #02001f 100%);
+  background: radial-gradient(circle, #ffffff 0%, #b8e8ff 50%, transparent 100%);
 }
 
 

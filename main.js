@@ -517,14 +517,20 @@ function initIntroScrollGate() {
     }
   });
 
+  let prevScrollYGate = window.scrollY;
   window.addEventListener('scroll', () => {
     if (diveActive) return;
 
     const y = window.scrollY;
     const crewTop = sectionTop(crew);
+    const introTop = sectionTop(intro);
+    const scrollingDown = y > prevScrollYGate;
+    /* 이전 위치가 이미 introTop 이상이었을 때만 clamp — 로고→인트로 진입 시 튕김 방지 */
+    const wasPastIntro = prevScrollYGate >= introTop;
+    prevScrollYGate = y;
 
     if (y < crewTop - 4) crewScrollUnlocked = false;
-    clampToIntro();
+    if (scrollingDown && wasPastIntro) clampToIntro();
   }, { passive: true });
 
   clampToIntro();
@@ -810,9 +816,9 @@ function useSectionTransition({ from, to, onPeak, onDone } = {}) {
   tl.to(dispMap, { attr: { scale: 35 }, duration: 1.1,  ease: 'power2.in'  }, 0)
     .to(dispMap, { attr: { scale:  0 }, duration: 2.0,  ease: 'expo.out'   }, 1.1)
 
-  /* 비네트 */
-  tl.to(vignette, { opacity: 0.3, duration: 1.0, ease: 'power2.in'  }, 0)
-    .to(vignette, { opacity: 0,   duration: 1.8, ease: 'power2.out' }, 1.1)
+  /* 브라이트 플래시 */
+  tl.to(vignette, { opacity: 0.45, duration: 1.0, ease: 'power2.in'  }, 0)
+    .to(vignette, { opacity: 0,    duration: 1.8, ease: 'power2.out' }, 1.1)
 
   /* 이전 섹션 페이드 아웃 — 스크롤 점프 직전에 완전히 가려짐 */
   tl.to(from, { opacity: 0, duration: 0.8, ease: 'power2.in' }, 0)
