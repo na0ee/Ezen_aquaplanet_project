@@ -62,13 +62,32 @@ function initSmoothScroll() {
     if (diveActive) return;
 
     e.preventDefault();
-    targetY = clamp(targetY + e.deltaY * speedScale);
 
-    /* 외부(앵커 클릭 등)에 의해 위치가 크게 바뀐 경우 currentY 보정 */
-    if (Math.abs(currentY - window.scrollY) > 80) {
-      currentY = window.scrollY;
+    const crewScale = crewPanelActive ? 1.3 : speedScale;
+    targetY = clamp(targetY + e.deltaY * crewScale);
+
+    /* 크루 패널 구간: targetY를 인접 패널 경계까지만 허용해 건너뜀 방지 */
+    if (crewPanelActive) {
+      const crewEl = document.getElementById('sec-crew');
+      if (crewEl) {
+        const crewTopAbs = window.scrollY + crewEl.getBoundingClientRect().top;
+        const panelH     = window.innerHeight;
+        const panelCount = crewEl.querySelectorAll('.crew-panel').length || 4;
+        const curPanel   = Math.floor((window.scrollY - crewTopAbs) / panelH);
+        const dir        = e.deltaY > 0 ? 1 : -1;
+        const exitLimit  = crewTopAbs + Math.max(crewEl.offsetHeight, panelCount * panelH);
+        if (dir > 0 && curPanel >= panelCount - 1) {
+          targetY = clamp(targetY + e.deltaY);
+        }
+        const lo = crewTopAbs + Math.max(0, curPanel + (dir < 0 ? -1 : 0)) * panelH;
+        const hi = dir > 0 && curPanel >= panelCount - 1
+          ? exitLimit
+          : crewTopAbs + Math.min(panelCount, curPanel + (dir > 0 ? 1 : 0) + 1) * panelH;
+        targetY = Math.max(lo, Math.min(hi, targetY));
+      }
     }
 
+    if (Math.abs(currentY - window.scrollY) > 80) currentY = window.scrollY;
     if (!rafId) rafId = requestAnimationFrame(tick);
   }, { passive: false });
 
@@ -121,23 +140,26 @@ function initSectionScrollAnim() {
       const { section, cfg } = item;
       const rect = section.getBoundingClientRect();
       const scrollSpan = vh + Math.max(0, rect.height - vh);
-      const progress = clamp01((vh - rect.top) / scrollSpan);
+      const rawProgress = (vh - rect.top) / scrollSpan;
+      const progress = clamp01(rawProgress);
 
-      const nextOverlapExit = 1 - smoothstep(vh * 0.58, vh * 0.82, rect.bottom);
+      const nextOverlapExit = 1 - smoothstep(vh * 0.42, vh * 0.82, rect.bottom);
       const bottomExit = clamp01((vh * 0.18 - rect.bottom) / (vh * 0.18));
       const exitProgress = Math.max(nextOverlapExit, bottomExit);
 
       const titleProgress = smoothstep(0.34, 0.44, progress);
       const contentEnterProgress = smoothstep(0.52, 0.68, progress);
-      const contentExitLift = smoothstep(0.86, 1, progress);
+      const contentExitLift = smoothstep(0.78, 1.18, rawProgress);
       const contentLeaveProgress = Math.max(exitProgress, contentExitLift);
-      const contentY = (1 - contentEnterProgress) * 52 - contentExitLift * 32;
+      const contentY = (1 - contentEnterProgress) * 60 - contentExitLift * 56;
+      const titleY = (1 - titleProgress) * 28 - contentExitLift * 34;
       const isPast = rect.bottom <= 0;
 
       const titleOpacity = titleProgress * (1 - contentLeaveProgress);
       const contentOpacity = contentEnterProgress * (1 - contentLeaveProgress);
 
-      section.style.setProperty('--seq-content-y', `${contentY.toFixed(2)}vh`);
+      section.style.setProperty('--seq-content-y', `${contentY.toFixed(2)}px`);
+      section.style.setProperty('--seq-title-y', `${titleY.toFixed(2)}px`);
       section.style.setProperty('--seq-title-opacity', titleOpacity.toFixed(3));
       section.style.setProperty('--seq-content-opacity', contentOpacity.toFixed(3));
 
@@ -438,6 +460,7 @@ function initIntroReveal() {
 let diveActive = false;
 let isTransitioning = false;
 let crewScrollUnlocked = false;
+let crewPanelActive = false;
 
 function initIntroScrollGate() {
   const intro = document.getElementById('sec-intro');
@@ -540,10 +563,7 @@ function initCrewFishMatte() {
   let fadeRafId = null;
   let lastMatteTime = 0;
   const MATTE_INTERVAL = 1000 / 24;
-  const LOOP_FADE_OUT_SECONDS = 1.05;
-  const LOOP_FADE_IN_SECONDS = 0.8;
-  let lastVideoTime = 0;
-  let loopRestartedAt = -Infinity;
+  const LOOP_FADE_SECONDS = 1.2;
 
   function clamp01(value) {
     return Math.max(0, Math.min(1, value));
@@ -669,24 +689,11 @@ function initCrewFishMatte() {
 
     const duration = video.duration;
     const currentTime = video.currentTime || 0;
-    const now = performance.now();
-
-    if (lastVideoTime > 0.5 && currentTime < lastVideoTime - 0.35) {
-      loopRestartedAt = now;
-    }
-    lastVideoTime = currentTime;
 
     if (Number.isFinite(duration) && duration > 0) {
-      const timeToEnd = Math.max(duration - currentTime, 0);
-      const fadeOut = LOOP_FADE_OUT_SECONDS > 0
-        ? smoothstep(0, LOOP_FADE_OUT_SECONDS, timeToEnd)
-        : 1;
-      const secondsSinceRestart = (now - loopRestartedAt) / 1000;
-      const fadeIn = secondsSinceRestart >= 0 && secondsSinceRestart < LOOP_FADE_IN_SECONDS
-        ? smoothstep(0, LOOP_FADE_IN_SECONDS, secondsSinceRestart)
-        : 1;
-
-      setLoopOpacity(clamp01(Math.min(fadeOut, fadeIn)));
+      const edgeDistance = Math.min(currentTime, Math.max(duration - currentTime, 0));
+      const raw = clamp01(edgeDistance / LOOP_FADE_SECONDS);
+      setLoopOpacity(raw * raw * (3 - 2 * raw));
     } else {
       setLoopOpacity(1);
     }
@@ -709,8 +716,6 @@ function initCrewFishMatte() {
 
   video.addEventListener('loadedmetadata', () => {
     resizeCanvas();
-    lastVideoTime = video.currentTime || 0;
-    loopRestartedAt = -Infinity;
     setLoopOpacity(1);
   }, { once: true });
   video.addEventListener('canplay', keepVideoPlaying);
@@ -1563,6 +1568,7 @@ function initCrewScroll() {
     }
 
     if (!crewScrollUnlocked && !diveActive) {
+      crewPanelActive = false;
       window.clearTimeout(crewEnterTimer);
       if (exitWavePlayed) {
         document.dispatchEvent(new CustomEvent('crew-wave-exit-reset'));
@@ -1575,6 +1581,7 @@ function initCrewScroll() {
     }
 
     if (scrolled < -10) {
+      crewPanelActive = false;
       window.clearTimeout(crewEnterTimer);
       if (exitWavePlayed) {
         document.dispatchEvent(new CustomEvent('crew-wave-exit-reset'));
@@ -1589,6 +1596,7 @@ function initCrewScroll() {
 
     const pastLastPanel = scrolled >= exitStart;
     if (pastLastPanel) {
+      crewPanelActive = false;
       if (!tailHidden) {
         tailHidden = true;
         document.dispatchEvent(new CustomEvent('crew-tail-visibility', { detail: { hidden: true } }));
@@ -1596,6 +1604,8 @@ function initCrewScroll() {
       section.classList.add('is-crew-exiting');
       return;
     }
+
+    crewPanelActive = true;
 
     if (exitWavePlayed) {
       document.dispatchEvent(new CustomEvent('crew-wave-exit-reset'));
@@ -1629,13 +1639,13 @@ function initCrewScroll() {
     resetCrewExitState();
     section.classList.remove('is-content-visible');
     section.classList.add('is-title-visible');
-    crewSequencedEnterUntil = performance.now() + 320;
+    crewSequencedEnterUntil = performance.now() + 120;
     tailHidden = false;
     exitWavePlayed = false;
-    setActive(0, true);
+    setActive(0, false);
     crewEnterTimer = window.setTimeout(() => {
       section.classList.add('is-content-visible');
-    }, 260);
+    }, 80);
   });
   // 3D 생물이 다시 보이는 타이밍에 카드 텍스트를 교체합니다.
 
@@ -1772,8 +1782,9 @@ function initStickySequenceSection(sectionId) {
     const vh = window.innerHeight;
     const sectionTop = window.scrollY + rect.top;
     const scrollSpan = vh + Math.max(0, rect.height - vh);
-    const progress = clamp01((vh - rect.top) / scrollSpan);
-    return { rect, vh, sectionTop, scrollSpan, progress };
+    const rawProgress = (vh - rect.top) / scrollSpan;
+    const progress = clamp01(rawProgress);
+    return { rect, vh, sectionTop, scrollSpan, progress, rawProgress };
   }
 
   function scrollTargetForProgress(progress) {
@@ -1783,15 +1794,16 @@ function initStickySequenceSection(sectionId) {
   }
 
   function onScroll() {
-    const { rect, vh, scrollSpan, progress } = getSectionMetrics();
-    const nextOverlapExit = 1 - smoothstep(vh * 0.58, vh * 0.82, rect.bottom);
+    const { rect, vh, scrollSpan, progress, rawProgress } = getSectionMetrics();
+    const nextOverlapExit = 1 - smoothstep(vh * 0.42, vh * 0.82, rect.bottom);
     const bottomExit = clamp01((vh * 0.18 - rect.bottom) / (vh * 0.18));
     const exitProgress = Math.max(nextOverlapExit, bottomExit);
     const titleProgress = smoothstep(0.34, 0.44, progress);
     const contentEnterProgress = smoothstep(0.52, 0.68, progress);
-    const contentExitLift = smoothstep(0.86, 1, progress);
+    const contentExitLift = smoothstep(0.78, 1.18, rawProgress);
     const contentLeaveProgress = Math.max(exitProgress, contentExitLift);
-    const contentY = (1 - contentEnterProgress) * 52 - contentExitLift * 32;
+    const contentY = (1 - contentEnterProgress) * 52 - contentExitLift * 48;
+    const titleY = (1 - titleProgress) * 28 - contentExitLift * 34;
     const isInRange = rect.top < vh && rect.bottom > 0;
     const isPast = rect.bottom <= 0;
     const titleOpacity = titleProgress * (1 - contentLeaveProgress);
@@ -1799,6 +1811,7 @@ function initStickySequenceSection(sectionId) {
     const scrollingDown = progress >= lastProgress;
 
     section.style.setProperty('--seq-content-y', `${contentY.toFixed(2)}vh`);
+    section.style.setProperty('--seq-title-y', `${titleY.toFixed(2)}px`);
     section.style.setProperty('--seq-title-opacity', titleOpacity.toFixed(3));
     section.style.setProperty('--seq-content-opacity', contentOpacity.toFixed(3));
 
@@ -1916,6 +1929,12 @@ function handleStickySequenceWheel(e) {
   }
 
   const { controller, metrics } = active;
+  if (controller.section.id === 'sec-program') {
+    controller.setHoldWheelCount(0);
+    stickySequenceWheelDelta = 0;
+    return;
+  }
+
   const { progress } = metrics;
   const holdProgress = 0.72;
   const exitProgress = 1.02;

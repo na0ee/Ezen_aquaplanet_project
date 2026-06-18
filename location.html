@@ -15,6 +15,9 @@
   <link rel="stylesheet" href="style.css" />
   <style>
     /* ── Location Hero Page ───────────────────────────── */
+    html {
+      scroll-behavior: smooth;
+    }
     body {
       background-color: var(--clr-primary);
       background-image: none;
@@ -250,9 +253,8 @@
     .loc-map,
     .loc-opening,
     .loc-footer {
-      height: 100vh;
       min-height: 100vh;
-      overflow: hidden;
+      overflow: visible;
       box-sizing: border-box;
     }
 
@@ -1254,7 +1256,7 @@
     }
   </style>
 </head>
-<body>
+<body class="is-logo-at-header">
 
   <!-- ================================================
        GNB — 고정 네비게이션 바
@@ -1659,200 +1661,74 @@
       syncGnbBg();
     })();
 
-    /* ── Location full-page section scroll ── */
+    /* ── Location continuous scroll reveal ── */
     (function () {
       const sections = Array.from(document.querySelectorAll('.loc-hero, .loc-info, .loc-programs, .loc-map, .loc-opening, .loc-footer'));
       if (!sections.length) return;
+      let ticking = false;
 
-      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      let currentIndex = 0;
-      let animating = false;
-      let animationToken = 0;
-      let touchStartY = null;
-      let wheelDelta = 0;
-      let wheelTimer = 0;
-      let enterTimer = 0;
-      let contentTimer = 0;
-
-      function easeOutQuint(t) {
-        return 1 - Math.pow(1 - t, 5);
+      function reveal(section) {
+        section.classList.remove('loc-section-exiting');
+        section.classList.add('is-title-visible', 'is-content-visible');
       }
 
-      function sectionTop(section) {
-        return Math.round(window.scrollY + section.getBoundingClientRect().top);
-      }
-
-      function nearestIndex() {
-        let nearest = currentIndex;
-        let nearestDistance = Infinity;
-        sections.forEach(function (section, index) {
-          const distance = Math.abs(sectionTop(section) - window.scrollY);
-          if (distance < nearestDistance) {
-            nearest = index;
-            nearestDistance = distance;
-          }
-        });
-        return nearest;
-      }
-
-      function resetSection(section) {
+      function resetReveal(section) {
         section.classList.remove('is-title-visible', 'is-content-visible', 'loc-section-exiting');
       }
 
-      function revealSection(index, immediate) {
-        if (typeof window.locSideNavUpdate === 'function') window.locSideNavUpdate(index);
-        window.clearTimeout(enterTimer);
-        window.clearTimeout(contentTimer);
+      function updateActiveSection() {
+        const vh = window.innerHeight || document.documentElement.clientHeight || 1;
+        let activeIndex = 0;
+        let bestDistance = Infinity;
 
-        sections.forEach(function (section, sectionIndex) {
-          if (sectionIndex !== index) resetSection(section);
+        sections.forEach(function (section, index) {
+          const rect = section.getBoundingClientRect();
+          const center = rect.top + rect.height / 2;
+          const distance = Math.abs(center - vh / 2);
+          const isInView = rect.top < vh * 0.82 && rect.bottom > vh * 0.12;
+          const isOutOfReplayRange = rect.bottom < vh * -0.08 || rect.top > vh * 1.08;
+
+          if (isInView) reveal(section);
+          else if (isOutOfReplayRange) resetReveal(section);
+
+          if (distance < bestDistance) {
+            bestDistance = distance;
+            activeIndex = index;
+          }
         });
 
-        const section = sections[index];
-        resetSection(section);
-
-        enterTimer = window.setTimeout(function () {
-          section.classList.add('is-title-visible');
-        }, immediate ? 30 : 180);
-
-        contentTimer = window.setTimeout(function () {
-          section.classList.add('is-content-visible');
-        }, immediate ? 150 : 320);
+        if (typeof window.locSideNavUpdate === 'function') window.locSideNavUpdate(activeIndex);
       }
 
-      function animateTo(index) {
-        if (animating || index < 0 || index >= sections.length || index === currentIndex) return;
-        if (typeof window.locSideNavUpdate === 'function') window.locSideNavUpdate(index);
-        const fromSection = sections[currentIndex];
-        const toSection = sections[index];
-        animating = true;
-        wheelDelta = 0;
-        window.clearTimeout(enterTimer);
-        window.clearTimeout(contentTimer);
-        const myToken = ++animationToken;
-
-        fromSection.classList.add('loc-section-exiting');
-        resetSection(toSection);
-
-        const startY = window.scrollY;
-        const targetY = sectionTop(toSection);
-        const distance = targetY - startY;
-
-        if (reduceMotion || Math.abs(distance) < 4) {
-          window.scrollTo(0, targetY);
-          currentIndex = index;
-          animating = false;
-          revealSection(currentIndex, true);
-          return;
-        }
-
-        const duration = 950;
-        const startTime = performance.now();
-        const prevHtmlBehavior = document.documentElement.style.scrollBehavior;
-        const prevBodyBehavior = document.body.style.scrollBehavior;
-        document.documentElement.style.scrollBehavior = 'auto';
-        document.body.style.scrollBehavior = 'auto';
-
-        window.setTimeout(function () {
-          if (animationToken !== myToken) return;
-          toSection.classList.add('is-title-visible');
-        }, 340);
-
-        window.setTimeout(function () {
-          if (animationToken !== myToken) return;
-          toSection.classList.add('is-content-visible');
-        }, 540);
-
-        function step(now) {
-          if (animationToken !== myToken) return;
-          const progress = Math.min((now - startTime) / duration, 1);
-          const eased = easeOutQuint(progress);
-          window.scrollTo(0, startY + distance * eased);
-
-          if (progress < 1) {
-            requestAnimationFrame(step);
-            return;
-          }
-
-          document.documentElement.style.scrollBehavior = prevHtmlBehavior;
-          document.body.style.scrollBehavior = prevBodyBehavior;
-          resetSection(fromSection);
-          currentIndex = index;
-          animating = false;
-          if (typeof window.locSideNavUpdate === 'function') window.locSideNavUpdate(index);
-        }
-
-        requestAnimationFrame(step);
+      function requestUpdate() {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(function () {
+          ticking = false;
+          updateActiveSection();
+        });
       }
 
-      window.locAnimateTo = animateTo;
-
-      window.locForceAnimateTo = function (index) {
+      function scrollToSection(index) {
         if (index < 0 || index >= sections.length) return;
-        animationToken++;
-        animating = false;
-        wheelDelta = 0;
-        currentIndex = nearestIndex();
-        if (currentIndex === index) {
-          window.scrollTo(0, sectionTop(sections[index]));
-          if (typeof window.locSideNavUpdate === 'function') window.locSideNavUpdate(index);
-          return;
-        }
-        animateTo(index);
-      };
-
-      function goByDirection(direction) {
-        currentIndex = nearestIndex();
-        const nextIndex = currentIndex + direction;
-        if (nextIndex < 0 || nextIndex >= sections.length) return;
-        animateTo(nextIndex);
+        sections[index].scrollIntoView({ behavior: 'smooth', block: 'start' });
+        reveal(sections[index]);
+        if (typeof window.locSideNavUpdate === 'function') window.locSideNavUpdate(index);
       }
 
-      window.addEventListener('wheel', function (e) {
-        if (document.querySelector('.exhibit-modal.is-open')) return;
-        e.preventDefault();
-        wheelDelta += e.deltaY;
-        window.clearTimeout(wheelTimer);
-        wheelTimer = window.setTimeout(function () { wheelDelta = 0; }, 180);
-        if (Math.abs(wheelDelta) < 70) return;
-        goByDirection(wheelDelta > 0 ? 1 : -1);
-      }, { passive: false });
+      window.locAnimateTo = scrollToSection;
+      window.locForceAnimateTo = scrollToSection;
 
-      window.addEventListener('touchstart', function (e) {
-        touchStartY = e.touches && e.touches.length ? e.touches[0].clientY : null;
-      }, { passive: true });
-
-      window.addEventListener('touchmove', function (e) {
-        if (document.querySelector('.exhibit-modal.is-open')) return;
-        if (touchStartY === null) return;
-        const currentY = e.touches && e.touches.length ? e.touches[0].clientY : touchStartY;
-        const diff = touchStartY - currentY;
-        if (Math.abs(diff) < 34) return;
-        e.preventDefault();
-        touchStartY = null;
-        goByDirection(diff > 0 ? 1 : -1);
-      }, { passive: false });
-
-      window.addEventListener('keydown', function (e) {
-        if (document.querySelector('.exhibit-modal.is-open')) return;
-        const nextKeys = ['ArrowDown', 'PageDown', ' ', 'Spacebar'];
-        const prevKeys = ['ArrowUp', 'PageUp'];
-        if (!nextKeys.includes(e.key) && !prevKeys.includes(e.key)) return;
-        e.preventDefault();
-        goByDirection(nextKeys.includes(e.key) ? 1 : -1);
-      });
-
-      window.addEventListener('resize', function () {
-        window.scrollTo(0, sectionTop(sections[currentIndex]));
-      }, { passive: true });
+      window.addEventListener('scroll', requestUpdate, { passive: true });
+      window.addEventListener('resize', requestUpdate, { passive: true });
 
       const indicator = document.querySelector('.loc-scroll');
       if (indicator) {
-        indicator.addEventListener('click', function () { animateTo(1); });
+        indicator.addEventListener('click', function () { scrollToSection(1); });
       }
 
-      window.scrollTo(0, sectionTop(sections[0]));
-      revealSection(0, true);
+      reveal(sections[0]);
+      updateActiveSection();
     })();
 
     /* ── 커스텀 커서 ── */
@@ -1983,7 +1859,7 @@
     var CAT_ORDER_BY_LOC = {
       jeju:     ['특별전시', '아쿠아리움', '부대시설'],
       yeosu:    ['특별전시', '오션라이프', '마린라이프', '아쿠아포리스트', '부대시설'],
-      ilsan:    ['특별전시', '아쿠아리움', '나무쉼터', '부대시설'],
+      ilsan:    ['특별전시', '다흑 기획전2', '아쿠아리움', '나무쉼터', '부대시설'],
       gwanggyo: ['특별전시', '아쿠아리움', '부대시설']
     };
 
@@ -2103,7 +1979,14 @@
           { key: 'restaurant', badge: 'E', color: '#934ebb', category: '부대시설', name: '레스토랑',           floor: '1F', thumbImg: 'assets/images/ilsan_guide_thum30.jpg', mapImg: 'assets/images/ilsan_guide_map30.jpg',
             desc: ['맛있는 식사를 즐길 수 있는 레스토랑입니다.', '관람 전후로 가족과 함께 즐거운 식사 시간을 가져보세요.'] }
         ],
-        'B1F': []
+        'B1F': [
+          { key: 'insect-hall',   badge: 'A', color: '#ff822f', category: '다흑 기획전2', name: '곤충관',    floor: 'B1F', thumbImg: 'assets/images/ilsan_guide_thum29.jpg', mapImg: 'assets/images/ilsan_guide_map29.jpg',
+            desc: ['한국에 서식하는 곤충들을 만나보고', '실제 곤충 표본도 만들어보세요!'] },
+          { key: 'reptile-hall',  badge: 'B', color: '#ff822f', category: '다흑 기획전2', name: '파충류관',  floor: 'B1F', thumbImg: 'assets/images/ilsan_guide_thum31.jpg', mapImg: 'assets/images/ilsan_guide_map31.jpg',
+            desc: ['전 세계 각지에 분포한 이색적인 파충류들이 모여있어요!'] },
+          { key: 'vivarium-hall', badge: 'C', color: '#ff822f', category: '다흑 기획전2', name: '비바리움관', floor: 'B1F', thumbImg: 'assets/images/ilsan_guide_thum32.jpg', mapImg: 'assets/images/ilsan_guide_map32.jpg',
+            desc: ['국내 유명 비바리움 업체의 전시를 만나볼 수 있습니다.'] }
+        ]
       },
       yeosu: {
         '1F': [

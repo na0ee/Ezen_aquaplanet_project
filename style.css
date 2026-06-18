@@ -936,6 +936,10 @@ body.is-logo-at-header .gnb__logo {
   visibility: hidden;
 }
 
+.section--crew-scroll:not(.is-fish-top-visible) .crew-fish-bg--top {
+  visibility: hidden;
+}
+
 .crew-sticky::before,
 .crew-sticky::after {
   content: '';
@@ -970,21 +974,19 @@ body.is-logo-at-header .gnb__logo {
     transform: translate3d(-60vw, 46vh, 0) rotate(-7deg) scale(0.78);
   }
   6% {
-    opacity: 0.24;
+    opacity: calc(0.24 * var(--crew-fish-loop-opacity, 1));
     transform: translate3d(-48vw, 33vh, 0) rotate(-5deg) scale(0.80);
   }
   17% {
     transform: translate3d(-30vw, 17vh, 0) rotate(-1deg) scale(0.84);
   }
   28% {
-    /* S커브 첫 번째 굴곡 — 위로 올라오다가 살짝 내려옴 */
     transform: translate3d(-10vw, 27vh, 0) rotate(4deg) scale(0.88);
   }
   40% {
     transform: translate3d(10vw, 9vh, 0) rotate(-2deg) scale(0.92);
   }
   52% {
-    /* S커브 두 번째 굴곡 — 다시 아래로 살짝 */
     transform: translate3d(30vw, -1vh, 0) rotate(-6deg) scale(0.95);
   }
   63% {
@@ -994,11 +996,11 @@ body.is-logo-at-header .gnb__logo {
     transform: translate3d(64vw, -27vh, 0) rotate(-7deg) scale(0.99);
   }
   83% {
-    opacity: 0.18;
+    opacity: calc(0.18 * var(--crew-fish-loop-opacity, 1));
     transform: translate3d(81vw, -42vh, 0) rotate(-5deg) scale(1.00);
   }
   93% {
-    opacity: 0.08;
+    opacity: calc(0.08 * var(--crew-fish-loop-opacity, 1));
     transform: translate3d(99vw, -55vh, 0) rotate(-2deg) scale(1.00);
   }
   100% {
@@ -1013,18 +1015,16 @@ body.is-logo-at-header .gnb__logo {
     transform: translate3d(-50vw, 52vh, 0) rotate(5deg) scale(0.52);
   }
   10% {
-    opacity: 0.2;
+    opacity: calc(0.2 * var(--crew-fish-loop-opacity, 1));
     transform: translate3d(-36vw, 41vh, 0) rotate(-1deg) scale(0.54);
   }
   22% {
-    /* 굴곡 — 아래로 살짝 */
     transform: translate3d(-18vw, 50vh, 0) rotate(5deg) scale(0.57);
   }
   35% {
     transform: translate3d(0vw, 36vh, 0) rotate(-3deg) scale(0.60);
   }
   48% {
-    /* 굴곡 — 다시 아래로 */
     transform: translate3d(18vw, 44vh, 0) rotate(4deg) scale(0.62);
   }
   62% {
@@ -1034,7 +1034,7 @@ body.is-logo-at-header .gnb__logo {
     transform: translate3d(62vw, 4vh, 0) rotate(-4deg) scale(0.68);
   }
   88% {
-    opacity: 0.14;
+    opacity: calc(0.14 * var(--crew-fish-loop-opacity, 1));
     transform: translate3d(80vw, -12vh, 0) rotate(-2deg) scale(0.70);
   }
   100% {
@@ -1049,25 +1049,23 @@ body.is-logo-at-header .gnb__logo {
     transform: translate3d(-30vw, 34px, 0) rotate(5deg) scale(0.50);
   }
   12% {
-    opacity: 0.22;
+    opacity: calc(0.22 * var(--crew-fish-loop-opacity, 1));
     transform: translate3d(-20vw, 6px, 0) rotate(-1deg) scale(0.53);
   }
   24% {
     transform: translate3d(-10vw, -20px, 0) rotate(-5deg) scale(0.55);
   }
   36% {
-    /* 굴곡 — 위로 살짝 튀어오름 */
     transform: translate3d(-1vw, -6px, 0) rotate(3deg) scale(0.57);
   }
   50% {
     transform: translate3d(8vw, -54px, 0) rotate(-6deg) scale(0.59);
   }
   64% {
-    /* 굴곡 — 다시 위로 */
     transform: translate3d(15vw, -36px, 0) rotate(2deg) scale(0.61);
   }
   78% {
-    opacity: 0.16;
+    opacity: calc(0.16 * var(--crew-fish-loop-opacity, 1));
     transform: translate3d(22vw, -112px, 0) rotate(-5deg) scale(0.62);
   }
   100% {
@@ -1153,14 +1151,14 @@ body.is-logo-at-header .gnb__logo {
   z-index: 10;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 1.1s ease, transform 1.1s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: opacity 0.55s ease, transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .section--crew-scroll.is-content-visible .crew-main {
   opacity: 1;
   transform: translate(-48%, -44%);
   pointer-events: auto;
-  transition-delay: 0.18s;
+  transition-delay: 0.06s;
 }
 
 .section--crew-scroll.is-content-visible .crew-dots,
@@ -1175,14 +1173,14 @@ body.is-logo-at-header .gnb__logo {
   position: relative;
   opacity: 0;
   transform: translateY(34px);
-  transition: opacity 1.05s ease, transform 1.05s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
   transition-delay: 0s;
 }
 
 .section--crew-scroll.is-content-visible .crew-canvas-wrap {
   opacity: 1;
   transform: translateY(0);
-  transition-delay: 0.22s;
+  transition-delay: 0.08s;
 }
 
 /* Three.js renderer가 append하는 canvas */
@@ -1289,13 +1287,13 @@ body.is-logo-at-header .gnb__logo {
     0 0 14px rgba(87,205,246,0.035);
   opacity: 0;
   transform: translateY(38px);
-  transition: opacity 1.05s ease, transform 1.05s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: opacity 0.38s ease, transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .section--crew-scroll.is-content-visible .crew-info-wrap {
   opacity: 1;
   transform: translateY(0);
-  transition-delay: 0.32s;
+  transition-delay: 0.10s;
 }
 
 .crew-info-wrap::before {
@@ -1373,12 +1371,12 @@ body.is-logo-at-header .gnb__logo {
   gap: 12px;
   z-index: 10;
   opacity: 0;
-  transition: opacity 0.85s ease, transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .section--crew-scroll.is-content-visible .crew-dots {
   transform: translateX(-50%) translateY(0);
-  transition-delay: 0.44s;
+  transition-delay: 0.14s;
 }
 
 .crew-dot {
@@ -1580,7 +1578,8 @@ body.is-logo-at-header .gnb__logo {
 .section--program,
 .section--location,
 .section--booking {
-  --seq-content-y: 52vh;
+  --seq-content-y: 60px;
+  --seq-title-y: 28px;
   --seq-title-opacity: 0;
   --seq-content-opacity: 0;
 }
@@ -1613,37 +1612,33 @@ body.is-logo-at-header .gnb__logo {
 }
 
 .section--program .program-seq-title {
-  opacity: 0;
-  transform: translateY(28px);
+  opacity: var(--seq-title-opacity, 0);
+  transform: translateY(var(--seq-title-y, 28px));
   pointer-events: none;
   margin-bottom: var(--sec-gap);
   width: 100%;
   text-align: center;
-  transition: opacity 0.85s ease, transform 0.85s ease;
+}
+
+.section--program.is-title-visible .program-seq-title {
+  pointer-events: auto;
 }
 
 .section--program .program-seq-content {
-  opacity: 0;
+  opacity: var(--seq-content-opacity, 0);
   margin-top: 0;
-  transform: translateY(52px);
-  transition: opacity 1.1s ease, transform 1.1s cubic-bezier(0.22, 1, 0.36, 1);
+  transform: translateY(var(--seq-content-y, 60px));
+  pointer-events: none;
+}
+
+.section--program.is-content-visible .program-seq-content {
+  pointer-events: auto;
 }
 
 .section--program .program-seq-content .program-card {
   opacity: 1;
   transform: translateY(0) scale(1);
   transform-origin: 50% 70%;
-}
-
-.section--program.is-title-visible .program-seq-title {
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
-}
-
-.section--program.is-content-visible .program-seq-content {
-  opacity: 1;
-  transform: translateY(0);
 }
 
 .program-seq-content.is-wave-entering {
@@ -2922,78 +2917,67 @@ body.is-transitioning { pointer-events: none; }
 /* --- Program section exit --- */
 .section--program.is-exiting .program-seq-title {
   opacity: var(--seq-title-opacity);
-  transform: translateY(0);
+  transform: translateY(var(--seq-title-y, 0));
   transition: none;
 }
 .section--program.is-exiting .program-seq-content {
   opacity: var(--seq-content-opacity);
-  transform: translateY(0);
+  transform: translateY(var(--seq-content-y, 0));
   transition: none;
 }
 
 /* --- Location section exit --- */
 .section--location.is-exiting .location-seq-title {
   opacity: var(--seq-title-opacity);
-  transform: translateY(0);
+  transform: translateY(var(--seq-title-y, 0));
   transition: none;
 }
 .section--location.is-exiting .location-seq-content {
   opacity: var(--seq-content-opacity);
-  transition: none;
-}
-
-/* --- Booking section exit --- */
-.section--booking.is-exiting .booking-seq-title {
-  opacity: var(--seq-title-opacity);
-  transform: translateY(0);
-  transition: none;
-}
-.section--booking.is-exiting .booking-seq-content {
-  opacity: var(--seq-content-opacity);
+  transform: translateY(var(--seq-content-y, 0));
   transition: none;
 }
 
 /* --- Location section sequence --- */
 .section--location .location-seq-title {
-  opacity: 0;
-  transform: translateY(28px);
+  opacity: var(--seq-title-opacity, 0);
+  transform: translateY(var(--seq-title-y, 28px));
   pointer-events: none;
   margin-bottom: 40px;
   width: 100%;
   text-align: center;
-  transition: opacity 0.85s ease, transform 0.85s ease;
 }
 .section--location.is-title-visible .location-seq-title {
-  opacity: 1;
-  transform: translateY(0);
   pointer-events: auto;
 }
 .section--location .location-seq-content {
-  opacity: 0;
-  transform: translateY(var(--seq-content-y));
+  opacity: var(--seq-content-opacity, 0);
+  transform: translateY(var(--seq-content-y, 60px));
+  pointer-events: none;
 }
 .section--location.is-content-visible .location-seq-content {
-  opacity: var(--seq-content-opacity);
+  pointer-events: auto;
 }
 
 /* --- Booking section sequence --- */
 .section--booking .booking-seq-title {
-  opacity: 0;
-  transform: translateY(28px);
+  opacity: var(--seq-title-opacity, 0);
+  transform: translateY(var(--seq-title-y, 28px));
   pointer-events: none;
   margin-bottom: var(--sec-gap);
   width: 100%;
   text-align: center;
-  transition: opacity 0.85s ease, transform 0.85s ease;
 }
 .section--booking.is-title-visible .booking-seq-title {
-  opacity: 1;
-  transform: translateY(0);
   pointer-events: auto;
 }
 .section--booking .booking-seq-content {
-  opacity: 1;               /* 카드는 항상 표시 */
-  transform: translateX(-50%);
+  opacity: var(--seq-content-opacity, 0);
+  transform: translateX(-50%) translateY(var(--seq-content-y, 60px));
+  pointer-events: none;
+}
+.section--booking.is-content-visible .booking-seq-content {
+  pointer-events: auto;
 }
 
 
@@ -3221,19 +3205,6 @@ body.marin-header-light .gnb .gnb__dropdown-item--active:hover {
 }
 
 
-/* Booking sequence override: keep the title-first/content-second rhythm. */
-.section--booking .booking-seq-content {
-  opacity: 0;
-  transform: translateX(-50%) translateY(60px);
-  pointer-events: none;
-  transition: opacity 1.3s ease, transform 1.3s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.section--booking.is-content-visible .booking-seq-content {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
-  pointer-events: auto;
-}
 
 
 /* =============================================================
