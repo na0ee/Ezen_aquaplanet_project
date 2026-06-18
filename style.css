@@ -4635,6 +4635,29 @@ body.biz-page {
   overflow-x: hidden;
 }
 
+.biz-page .gnb {
+  height: 102px;
+  padding: 24px 32px;
+  background: rgba(61, 184, 232, 0.95);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+}
+
+.biz-page .gnb.is-scrolled {
+  background: rgba(61, 184, 232, 0.95);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+}
+
+.biz-page .gnb.is-hidden {
+  transform: none;
+}
+
+.biz-page main {
+  padding-top: 102px;
+}
+
 /* 공통 컨테이너 — 페이지의 60% (GNB/footer 제외 모든 섹션 콘텐츠가 이 안에) */
 .biz-container {
   width: 70%;
