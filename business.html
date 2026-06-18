@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>aqua planet — Business</title>
+
+  <!-- Pretendard (국문) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@latest/dist/web/static/pretendard.css" />
+  <!-- Poppins + EB Garamond (영문) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+
+</head>
+<body class="biz-page">
+
+  <!-- ================================================
+       GNB — 메인과 동일 (재사용). About us > Business 활성
+  ================================================ -->
+  <header id="gnb" class="gnb">
+    <div class="gnb__inner">
+      <nav class="gnb__nav" aria-label="메인 메뉴">
+        <a href="index.html#sec-program" class="gnb__link" data-nav="program">Program</a>
+        <a href="index.html#sec-crew"    class="gnb__link" data-nav="crew">Ocean friends</a>
+        <div class="gnb__nav-item" data-nav="about">
+          <span class="gnb__link gnb__link--active">About us</span>
+          <div class="gnb__dropdown">
+            <a href="business.html" class="gnb__dropdown-item gnb__dropdown-item--active">Business</a>
+            <a href="#" class="gnb__dropdown-item">Marin Lab</a>
+            <a href="location.html" class="gnb__dropdown-item">Location</a>
+          </div>
+        </div>
+      </nav>
+
+      <a href="index.html" class="gnb__logo-wrap" aria-label="Aqua Planet 홈">
+        <img class="gnb__logo" src="assets/images/headerLogo.png" alt="" aria-hidden="true">
+      </a>
+
+      <a class="gnb__ticket btn-pill" href="ticket.html" aria-label="티켓 예매">
+        Ticket
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M5 12H19M13 6L19 12L13 18" stroke="white" stroke-width="1.5"
+                stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ── 1) HERO ───────────────────────────────────────── -->
+    
+    <section class="biz-hero">
+          <!-- /* bisiness 카테고리 */     -->
+    <nav class="biz-branch-tabs" aria-label="내용 선택">
+      <a href="#" class="biz-branch-tabs__item is-active" data-biz="">Business Overview</a>
+      <a href="#" class="biz-branch-tabs__item is-active" data-biz="">Special Services</a>
+      <a href="#" class="biz-branch-tabs__item is-active" data-biz="">Key Achievements</a>
+    </nav>
+      <h1 class="biz-hero__title">
+        <em>Business</em>Overview
+        <p class="title">생명이 역동하는 새로운 바다로의 초대</p>
+      </h1>
+      <p class="biz-hero__desc">
+        <b>해양생태계의 가치</b>와 <b>아름다움</b>을 전달하는 복합 해양문화 공간입니다<br />
+        전시와 연구를 통해 생물다양성 보전과 지속 가능한 미래에 기여합니다.
+      </p>
+
+    </section>
+
+    <!-- ── 2) BUSINESS AREA & VISION ─────────────────────── -->
+    <section class="biz-areas">
+      <div class="areas-wrap">
+        <h2 class="biz-sec-label reveal">Business Area &amp; Vision</h2>
+
+        <div class="biz-areas__head reveal">
+          <h3>아쿠아리움 사업분야</h3>
+          <p>해저생물의 신비로움, 지적 상상력을 충족시켜 줄 최고의 프리미엄 컨텐츠를 제공하는 아쿠아리움</p>
+        </div>
+
+        <!-- Planning 배너 -->
+        <div class="biz-banner reveal" data-name="planning">
+          <p class="biz-banner__title">Planning<span>: 기획</span></p>
+          <p class="text">사업의 성공적인 완수를 위한 전략적 동반자</p>
+          <ul class="list">
+            <li>사업발굴</li>
+            <li>사업성분석</li>
+            <li>프로젝트재무</li>
+            <li>수요예측</li>
+          </ul>
+        </div>
+        <!-- design 배너 -->
+        <div class="biz-banner reveal" data-name="design">
+          <p class="biz-banner__title">Design<span>: 설계</span></p>
+          <p class="text">국내 아쿠아리움 대형 프로젝트 설계 주도</p>
+          <ul class="list">
+            <li>개념설계</li>
+            <li>기념설계</li>
+            <li>시설설계</li>
+          </ul>
+        </div>
+        <!-- construction 배너 -->
+        <div class="biz-banner reveal" data-name="Construction">
+          <p class="biz-banner__title">Construction<span>: 시공</span></p>
+          <p class="text">특수 시공분야에서 세계 수준의 전문력 보유</p>
+          <ul class="list">
+            <li>사업발굴</li>
+            <li>사업성분석</li>
+            <li>프로젝트재무</li>
+            <li>수요예측</li>
+          </ul>
+        </div>
+        <!-- operation 배너 -->
+        <div class="biz-banner reveal" data-name="operation">
+          <p class="biz-banner__title">Operation<span>: 운영</span></p>
+          <p class="text">국내 최장 25년 운영 경험으로 차별적인 운영 지원</p>
+          <ul class="list">
+            <li>운영대행</li>
+            <li>마케팅</li>
+            <li>생물관리</li>
+            <li>시설관리</li>
+          </ul>
+        </div>
+        <!-- acquisition 배너 -->
+        <div class="biz-banner reveal" data-name="acquisition">
+          <p class="biz-banner__title">Acquisition<span>: 생물수급</span></p>
+          <p class="text">전시생물 기획에 따른 생물수급 및 성공적 순치 지원</p>
+          <ul class="list">
+            <li>국내/해외 수급</li>
+            <li>순치</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 3) VISION (4-circle) ──────────────────────────── -->
+    <section class="biz-vision">
+      <div class="biz-container">
+        <div class="biz-vision__head reveal">
+          <h3>아쿠아리움 개발사업 비전</h3>
+          <p>지속성장 기반을 갖춘 Global Aquarium 전문 기업을 목표로 오늘도 힘찬 도전</p>
+        </div>
+
+        <div class="biz-diagram4 reveal" aria-label="비전 다이어그램">
+          <div class="diagram4-wrap">
+            <!-- 연결선 — 원형 (430×430, 중앙, 노드 뒤) -->
+            <div class="biz-ring" aria-hidden="true"></div>
+            <div class="box box--l">
+              <div class="biz-node">MISSON</div>
+              <div class="biz-label biz-label--l">
+                <h4>Happy-Ocean Happy-Future Happy-people</h4>
+                <p>해양생물의 소중함을 공유하고, 이를 지키고 보전하며<br>인간과 자연이 공생하며 느낄 수 있는 최고의 즐거움을 제공하는 기업</p>
+              </div>
+            </div>
+            <div class="box box--r">
+              <div class="biz-node">VISION<br>STATEMENT</div>
+              <div class="biz-label biz-label--r">
+                <h4>No.1&nbsp; Global Aquarium <br> Development Company</h4>
+                <p>세계 최고의 아쿠아리움 개발 회사로 도약합니다.</p>
+              </div>
+            </div>
+            <div class="box box--l">
+              <div class="biz-node">GOAL</div>
+              <div class="biz-label biz-label--l">
+                <div class="biz-goal-cols">
+                  <ul class="biz-goal-list">
+                    <li><h4>No.1</h4>&nbsp; NETWORK POWER</li>
+                    <li><h4>No.1</h4>&nbsp; ECO COMPANY</li>
+                  </ul>
+                  <ul class="biz-goal-list">
+                    <li><h4>No.1</h4>&nbsp; BRAND POWER</li>
+                    <li><h4>No.1</h4>&nbsp; MARKET SHARE</li>
+                    <li><h4>No.1</h4>&nbsp; TECHNICAL SKILLS</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="box box--r">
+              <div class="biz-node">CORE<br>VALUE</div>
+              <div class="biz-label biz-label--r">
+                <div class="biz-core-grid">
+                  <h4>고객중심</h4><p>행복경영</p>
+                  <h4>해양보존</h4><p>녹색경영</p>
+                  <h4>창조의힘</h4><p>창의경영</p>
+                  <h4>사회책임</h4><p>지속경영</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 4) CAPABILITIES & CASES ──────────────────────── -->
+    <section class="biz-caps">
+      <div class="biz-container">
+        <h2 class="biz-sec-label reveal">Capabilities &amp; Cases</h2>
+
+        <div class="biz-caps__head reveal">
+          <h3>아쿠아리움 개발사업 역량</h3>
+          <p>아쿠아리움을 만들고 운영해 온 30년 운영경험을 통해, 고객과 소통하며 차별화된 역량을 실현합니다.</p>
+        </div>
+
+        <div class="biz-diagram5 reveal" aria-label="역량 다이어그램">
+          <div class="pentagon5">
+            <div class="ring5" aria-hidden="true"></div>
+
+            <!-- 위 행: 창조기획(왼 캡션) · 네트워크(오른 캡션) -->
+            <div class="row5 row5--t">
+              <div class="box5 box5--l">
+                <div class="biz-cap-cap cap--r">
+                  <h4>Contents Creativity</h4>
+                  <p>국내 대형 아쿠아리움 사업의 독점적 주도를 통해<br>쌓아온 아쿠아리움 전문 데이터 및 기획력</p>
+                </div>
+                <div class="biz-node5">창조기획</div>
+              </div>
+              <div class="box5 box5--r">
+                <div class="biz-node5">네트워크</div>
+                <div class="biz-cap-cap cap--l">
+                  <h4>Network</h4>
+                  <p>해양생물을 위한 신개념 공간 개발 및 새로운 컨텐츠<br>교류 협업 및 스타생물, 희귀생물 교환 전시를 위한<br>해외 우수 아쿠아리움과의 탄탄한 네트워크</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- 중간 행: 책임운영(왼 캡션) · 전문인력(오른 캡션) -->
+            <div class="row5 row5--m">
+              <div class="box5 box5--l">
+                <div class="biz-cap-cap cap--r">
+                  <h4>Responsible Management</h4>
+                  <p>국내 대형 아쿠아리움 사업의<br>책임 있는 운영 관리</p>
+                </div>
+                <div class="biz-node5">책임운영</div>
+              </div>
+              <div class="box5 box5--r">
+                <div class="biz-node5">전문인력</div>
+                <div class="biz-cap-cap cap--l">
+                  <h4>Professional Staffs</h4>
+                  <p>월드클래스 규모의 설계 및<br>시공 경험을 갖춘 전문 인력</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- 아래: 특화기술 노드(캡션은 펜타곤 아래 별도) -->
+            <div class="row5 row5--b">
+              <div class="biz-node5">특화기술</div>
+            </div>
+          </div>
+
+          <!-- 특화기술 캡션 — 펜타곤 아래 가운데 -->
+          <div class="biz-cap-cap cap--c cap5-bottom">
+            <h4>Specialized Technology</h4>
+            <p>월드클래스 규모의 아쿠아리움 설계 및 시공 경험과 해외 MOU<br>체결을 통해 축적한 세계적 수준의 설계 및 시공 노하우<br>해양생물연구센터를 기반으로 축적된 생물의 지속적 연구, 사육 및 운영 노하우<br>오랜 운영 기간에 걸쳐 확보한 생물 수급처 확보를 통한 안정적인 생물 수급 노하우</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 5) 사업 예시 ──────────────────────────────────── -->
+    <section class="biz-case">
+      <div class="biz-container">
+        <h3 class="biz-case__head reveal">사업 예시</h3>
+        <!-- 이미지 슬라이더: 1초마다 옆으로 전환 / 호버 시 멈춤
+             · 슬라이드마다 <h4>제목</h4> <p>설명</p> 를 직접 수정하세요. -->
+        <figure class="biz-case__figure reveal">
+          <div class="biz-case__track">
+            <div class="biz-case__slide">
+              <img src="assets/images/plan-aquarium.png" alt="아쿠아리움" loading="lazy">
+              <figcaption class="biz-case__caption">
+                <h4>세계각지의 유명 아쿠아리움 개발</h4>
+                <p>집객 목적의 특화시설로 확장하여 아쿠아리움은 가족단위의 단체 방문객을 수요를 충족하여<br>다양한 연령층과 대단위 수요를 필요로 하는 공간에 맞는 서비스를 제공합니다</p>
+              </figcaption>
+            </div>
+
+            <div class="biz-case__slide">
+              <img src="assets/images/plan-airport.png" alt="공항" loading="lazy">
+              <figcaption class="biz-case__caption">
+                <h4>공항</h4>
+                <p>대기공간을 힐링 공간으로 변화시켜 <br>이용객의 체류 만족도를 높이고 편안한 이동 경험을 제공합니다</p>
+              </figcaption>
+            </div>
+
+            <div class="biz-case__slide">
+              <img src="assets/images/plan-exhibition.png" alt="전시장" loading="lazy">
+              <figcaption class="biz-case__caption">
+                <h4>이벤트 | 기획전시</h4>
+                <p>전시 목적에 맞춘 맞춤형 아쿠아리움을 구성하여<br> 몰입감 있는 전시 환경을 조성하고 특별한 관람 경험을 제공합니다</p>
+              </figcaption>
+            </div>
+
+            <div class="biz-case__slide">
+              <img src="assets/images/plan-giftshop.png" alt="기프트샵" loading="lazy">
+              <figcaption class="biz-case__caption">
+                <h4>백화점 | 복합쇼핑몰</h4>
+                <p>집객효과를 높이는 해양 콘텐츠를 통해 차별화된 쇼핑경험을 제공하고<br>복합문화공간으로서의 브랜드 가치를 강화합니다</p>
+              </figcaption>
+            </div>
+
+            <div class="biz-case__slide">
+              <img src="assets/images/plan-golf.jpg" alt="골프장" loading="lazy">
+              <figcaption class="biz-case__caption">
+                <h4>골프장</h4>
+                <p>자연 친화적인 공간과 조화를 이루는 프리미엄 아쿠아림움을 통해 <br> 차별화된 휴식 경험을 제공합니다</p>
+              </figcaption>
+            </div>
+
+            <div class="biz-case__slide">
+              <img src="assets/images/plan-home.png" alt="주거" loading="lazy">
+              <figcaption class="biz-case__caption">
+                <h4>주거공간</h4>
+                <p>일상 속에서 자연을 가까이 경험할 수 있는 고품격 인테리어 요소로 활용되어<br>삶의 질을 높이는 공간을 제공합니다</p>
+              </figcaption>
+            </div>
+
+            <div class="biz-case__slide">
+              <img src="assets/images/plan-hospital.png" alt="병원" loading="lazy">
+              <figcaption class="biz-case__caption">
+                <h4>병원 | 회사</h4>
+                <p>자연을 담은 힐링 공간을 조성하여 <br>직원과 방문객의 심리적 안정과 휴식을 돕고 쾌적한 실내 환경을 제공합니다</p>
+              </figcaption>
+            </div>
+
+            <div class="biz-case__slide">
+              <img src="assets/images/plan-laboratory.png" alt="연구소" loading="lazy">
+              <figcaption class="biz-case__caption">
+                <h4>연구센터 | 학교</h4>
+                <p>해양생물 연구와 교육을 위한 체험형 학습 콘텐츠를 제공하여<br> 생태 보전과 환경 교육에 기여합니다</p>
+              </figcaption>
+            </div>
+
+            <div class="biz-case__slide">
+              <img src="assets/images/plan-leisure.png" alt="레저" loading="lazy">
+              <figcaption class="biz-case__caption">
+                <h4>레저 | 스포츠센터</h4>
+                <p>활동적인 공간에 해양 콘텐츠를 더해 <br>휴식과 즐거움이 공존하는 환경을 조성하고 색다른 여가 경험을 제공합니다</p>
+              </figcaption>
+            </div>
+
+            <div class="biz-case__slide">
+              <img src="assets/images/plan-power%20plant.png" alt="발전소" loading="lazy">
+              <figcaption class="biz-case__caption">
+                <h4>발전소</h4>
+                <p>친환경 기술과 해양 콘텐츠를 결합하여 <br>환경보전의 가치를 전달하고 지속가능한 기업 이미지를 강화합니다</p>
+              </figcaption>
+            </div>
+
+            <div class="biz-case__slide">
+              <img src="assets/images/plan-restorant.png" alt="레스토랑" loading="lazy">
+              <figcaption class="biz-case__caption">
+                <h4>레스토랑 | 호텔</h4>
+                <p>프리미엄 공간과 어우러지는 아쿠아리움을 통해 <br>고객에게 특별한 휴식과 감동을 선사하며 품격있는 공간 경험을 제공합니다</p>
+              </figcaption>
+            </div>
+
+            <div class="biz-case__slide">
+              <img src="assets/images/plan-spa.png" alt="스파" loading="lazy">
+              <figcaption class="biz-case__caption">
+                <h4>스파</h4>
+                <p>물과 생명이 어우러진 공간을 조성하여<br> 심신의 안정과 힐링을 제공하고 프리미엄 웰니스 경험을 완성합니다</p>
+              </figcaption>
+            </div>
+
+            <div class="biz-case__slide">
+              <img src="assets/images/plan-thema%20park.png" alt="테마파크" loading="lazy">
+              <figcaption class="biz-case__caption">
+                <h4>테마파크</h4>
+                <p>다양한 해양생물 콘텐츠를 접목하여 <br>체험과 교육이 결합된 볼거리를 제공하고 방문객 만족도와 재방문율을 높입니다</p>
+              </figcaption>
+            </div>
+
+          </div>
+        </figure>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ── 6) FOOTER — 메인(index.html)과 동일 ──────────────── -->
+  <footer id="footer" class="footer">
+    <video class="footer__video-bg" autoplay muted loop playsinline aria-hidden="true">
+      <source src="assets/images/KakaoTalk_Video_2026-06-13-21-54-21.mp4" type="video/mp4">
+    </video>
+    <div class="footer__inner">
+      <nav class="footer__nav" aria-label="푸터 메뉴">
+        <a href="index.html#sec-program" class="footer__link">Program</a>
+        <a href="index.html#sec-crew" class="footer__link">Ocean friends</a>
+        <a href="index.html#sec-logo" class="footer__link">About us</a>
+        <a href="location.html" class="footer__link">Location</a>
+        <a href="ticket.html" class="footer__link">Ticket</a>
+      </nav>
+
+      <div class="footer__brand">
+        <div class="footer__socials" aria-label="소셜 링크">
+          <a href="https://www.instagram.com/" class="footer__social" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="4" y="4" width="16" height="16" rx="5"></rect>
+              <circle cx="12" cy="12" r="3.4"></circle>
+              <circle cx="17.2" cy="6.8" r="1"></circle>
+            </svg>
+          </a>
+          <a href="https://www.youtube.com/" class="footer__social" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5.2 7.2C5.6 6.5 6.3 6 7.1 5.9C8.4 5.7 10.5 5.6 12 5.6C13.5 5.6 15.6 5.7 16.9 5.9C17.7 6 18.4 6.5 18.8 7.2C19.2 8.1 19.4 10.2 19.4 12C19.4 13.8 19.2 15.9 18.8 16.8C18.4 17.5 17.7 18 16.9 18.1C15.6 18.3 13.5 18.4 12 18.4C10.5 18.4 8.4 18.3 7.1 18.1C6.3 18 5.6 17.5 5.2 16.8C4.8 15.9 4.6 13.8 4.6 12C4.6 10.2 4.8 8.1 5.2 7.2Z"></path>
+              <path d="M10.4 9.3L14.7 12L10.4 14.7V9.3Z" class="footer__social-play"></path>
+            </svg>
+          </a>
+          <a href="https://www.google.com/search?q=aqua+planet" class="footer__social" target="_blank" rel="noopener noreferrer" aria-label="Google">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M19.6 12.2C19.6 11.6 19.5 11.1 19.4 10.6H12.2V13.5H16.3C16.1 14.5 15.5 15.3 14.7 15.8V17.7H17.2C18.7 16.4 19.6 14.5 19.6 12.2Z"></path>
+              <path d="M12.2 19.7C14.3 19.7 16.1 19 17.2 17.7L14.7 15.8C14 16.3 13.1 16.6 12.2 16.6C10.2 16.6 8.5 15.2 7.9 13.4H5.3V15.3C6.5 17.9 9.1 19.7 12.2 19.7Z"></path>
+              <path d="M7.9 13.4C7.7 12.9 7.6 12.5 7.6 12C7.6 11.5 7.7 11.1 7.9 10.6V8.7H5.3C4.8 9.7 4.5 10.8 4.5 12C4.5 13.2 4.8 14.3 5.3 15.3L7.9 13.4Z"></path>
+              <path d="M12.2 7.4C13.3 7.4 14.4 7.8 15.2 8.6L17.3 6.5C16 5.3 14.3 4.6 12.2 4.6C9.1 4.6 6.5 6.3 5.3 8.7L7.9 10.6C8.5 8.8 10.2 7.4 12.2 7.4Z"></path>
+            </svg>
+          </a>
+        </div>
+        <p class="footer__copy">Aqua Planet. ©2026 All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- 커스텀 커서 (location 페이지와 동일) -->
+  <div id="custom-cursor" aria-hidden="true"></div>
+
+  <script src="./business.js"></script>
+</body>
+</html>
