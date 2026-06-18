@@ -3705,7 +3705,7 @@ body.ticket-open {
   min-height: 100vh;
   overflow: hidden;
   /* 단색 바다 배경 */
-  background: #22B2EA;
+  /* background: #22B2EA; */
 }
 
 /* 하단 흰색 그라데이션 —
@@ -4384,11 +4384,11 @@ body.ticket-open {
   padding-right: 6px;
 }
 
-.ticket-page {
+/* .ticket-page {
   /* 솔리드 베이스 (바다색). 실제 그라데이션은 스크롤 콘텐츠를 감싼 .ticket-bg 가 담당
      → background-attachment:local 의 iOS 버그를 피해 모든 기기에서 동일하게 보인다. */
-  background: #22B2EA;
-}
+  /* background: #22B2EA;
+} */
 
 /* 스크롤 콘텐츠 전체(main+하단영역+footer)를 감싸는 배경 그라데이션 레이어.
    일반 흐름이라 콘텐츠 전체 높이에 맞춰 그라데이션이 잡히고 함께 스크롤된다. */
@@ -4619,11 +4619,7 @@ body.ticket-open {
    BUSINESS OVERVIEW PAGE (business.html) — 전용 스타일
    (기존 business.html 인라인 <style> 에서 이전. body 규칙만 .biz-page 로 한정)
    ============================================================= */
-body.biz-page {
-  background: #ffffff;
-  color: #16384a;
-  font-family: var(--font-kr);
-}
+body.biz-page {  font-family: var(--font-kr); background-image: none !important; background: none !important;}
 
 .biz-page {
   overflow-x: hidden;
@@ -4661,8 +4657,8 @@ body.biz-page {
   position: relative;
   padding: 140px 0 0;
   text-align: center;
-  /* 상단(탭 영역)은 진한 바다색 → 아래로 흰색 (탭의 흰 글자가 읽히도록) */
-  background: linear-gradient(180deg, #22B2EA 0%, #5cc6f2 13%, #bce7fb 30%, #eaf7fe 56%, #ffffff 100%);
+  /* 배경은 body 의 단일 그라데이션(블루→흰→블루)에 맡김 → hero 는 투명(이중 그라데이션 방지) */
+  background: transparent;
 }
 
 .biz-hero__title {
@@ -4748,7 +4744,7 @@ body.biz-page {
   color: #1a1a1a;
   line-height: 1;
   letter-spacing: -5.12px;
-  padding: 0 12px;
+  padding: 12px;
   transition: background 0.2s ease, color 0.2s ease;
 }
 /* 활성(스크롤로 가운데 도달 시 / Figma 1485:926): 파란 배경 + 흰 글자 + EB Garamond */
@@ -5046,14 +5042,105 @@ body.biz-page {
 }
 
 /* ── 역량 다이어그램(펜타곤) — 박스 구조, 반응형 ── */
+/* 왼쪽 상세패널 + 오른쪽 펜타곤 2단 */
 .biz-diagram5 {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
+  justify-content: space-between;
+  gap: 48px;
   margin: 60px auto 0;
 }
 
-/* 펜타곤(노드 5개 + 측면 캡션) — 가운데 원의 기준 */
+/* ── 왼쪽: 노드 클릭 시 전환되는 상세패널 (한 번에 하나만 .is-active) ── */
+.caps-detail {
+  flex: 1 1 0;
+  min-width: 0;
+}
+.caps-panel {
+  display: none;
+  align-items: center;
+  gap: 28px;
+}
+.caps-panel.is-active { display: flex; }
+
+.caps-panel__text { flex: 1 1 0; min-width: 0; }
+.caps-panel__title {
+  font-family: var(--font-en);
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.36px;
+  color: #1a1a1a;
+  margin-bottom: 14px;
+}
+.caps-panel__desc {
+  font-size: 15px;
+  line-height: 1.55;
+  letter-spacing: -0.3px;
+  color: #1a1a1a;
+  margin-bottom: 22px;
+}
+.caps-panel__tags {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, max-content);
+  gap: 12px 12px;
+}
+.caps-panel__tags li {
+  border: 0.6px solid #22b2ea;
+  border-radius: 50px;
+  padding: 8px 16px;
+  align-items: center;
+  font-size: 18px;
+  line-height: 1.4;
+  letter-spacing: -0.36px;
+  color: #1a1a1a;
+  white-space: nowrap;
+}
+
+/* 이미지 슬롯 — src 비어 있으면 회색 플레이스홀더만 보임 */
+.caps-panel__img {
+  flex: none;
+  width: 320px;
+  aspect-ratio: 16 / 10;
+  margin: 0;
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+}
+.caps-panel__img::after {
+  content: "이미지";
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #9bb7c4;
+  font-size: 14px;
+  letter-spacing: -0.28px;
+}
+.caps-panel__img img {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.caps-panel__img img[src=""],
+.caps-panel__img img:not([src]) { display: none; }   /* 경로 입력 전엔 숨김 */
+
+/* ── 오른쪽: 펜타곤(노드 5개) — 가운데 원의 기준 ── */
+.pentagon5 {
+  flex: none;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.row5 { display: flex; align-items: center; justify-content: center; }
 .pentagon5 {
   position: relative;
   display: flex;
@@ -5096,7 +5183,11 @@ body.biz-page {
   white-space: nowrap;
   position: relative;
   z-index: 2;
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
 }
+/* 선택된 노드 강조 */
+.biz-node5.is-active {transform: scale(1.06);}
 
 /* 캡션 기본 숨김 → 노드 hover/클릭 시 표시 */
 .biz-cap-cap {
@@ -5227,7 +5318,7 @@ body.biz-page {
   position: relative;
   padding: 90px 0 70px;
   text-align: center;
-  background: linear-gradient(180deg, #ffffff 0%, #dff3fc 55%, #bfe6fa 100%);
+  background: transparent;
 }
 
 .biz-footer__mark {
@@ -5304,6 +5395,11 @@ body.biz-page {
     justify-content: center;
   }
 
+  /* 역량 다이어그램: 모바일은 펜타곤 위 / 상세패널 아래로 세로 스택 */
+  .biz-diagram5 { flex-direction: column-reverse; gap: 32px; }
+  .caps-panel { flex-direction: column; align-items: flex-start; }
+  .caps-panel__img { width: 100%; }
+
   /* 역량 다이어그램(펜타곤): 1열로 스택, 박스는 세로(노드 위·캡션 아래) */
   .pentagon5 { gap: 28px; }
   .ring5 { display: none; }
@@ -5345,54 +5441,6 @@ body.biz-page {
   }
 }
 
-/* ── 추가 구조 스타일 (탭바 / areas-wrap / 배너·text·list) — 사진 기준 ── */
-.biz-branch-tabs {
-  display: inline-flex;
-  align-items: center;
-  gap: 0;
-  /* 아이템 사이 간격 0 */
-  width: 501px;
-  height: 54px;
-  padding: 3px;
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.3);
-}
-
-.biz-branch-tabs__item {
-  display: inline-flex;
-  align-items: center;
-  padding: 0 20px;
-  height: 48px;
-  border-radius: 12px;
-  font-family: var(--font-en);
-  /* 비활성: 산세리프 흰색 */
-  font-size: 16px;
-  /* 클릭 전(비활성) 16px */
-  font-weight: 400;
-  letter-spacing: -0.04em;
-  /* 전체 글자 -4% */
-  color: rgba(255, 255, 255, 0.5);
-  white-space: nowrap;
-  text-decoration: none;
-}
-
-.biz-branch-tabs__item:hover {
-  color: #ffffff;
-}
-
-.biz-branch-tabs__item.is-active {
-  background: #ffffff;
-  /* 활성: 흰 pill + 파란 세리프 */
-  color: var(--clr-primary);
-  font-family: var(--font-serif);
-  font-weight: 500;
-  font-size: 18px;
-  /* 클릭(활성)은 18px 유지 */
-}
-
-.biz-branch-tabs__item.is-active:hover {
-  color: var(--clr-primary);
-}
 
 /* 히어로 타이틀 보조 문구 / 강조 */
 .biz-hero__title {

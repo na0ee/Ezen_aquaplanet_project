@@ -63,23 +63,22 @@
   });
 })();
 
-/* ── 역량 다이어그램(펜타곤): 노드 hover/클릭 → 캡션 표시 ── */
+/* ── 역량 다이어그램(펜타곤): 노드 클릭 → 왼쪽 상세패널 전환 ──
+   노드와 패널은 data-cap 값으로 짝지어짐. 한 번에 하나만 .is-active */
 (function () {
-  // 측면 캡션(box5) — hover 는 CSS, 클릭은 box5.is-active 토글
-  document.querySelectorAll('.box5 .biz-node5').forEach(function (node) {
-    node.addEventListener('click', function () {
-      const box = node.closest('.box5');
-      if (box) box.classList.toggle('is-active');
-    });
-  });
-  // 특화기술 노드 — 하단 캡션과 떨어져 있어 JS 로 hover/클릭 연결
-  const techNode = document.querySelector('.row5--b .biz-node5');
-  const bottomCap = document.querySelector('.cap5-bottom');
-  if (techNode && bottomCap) {
-    techNode.addEventListener('mouseenter', function () { bottomCap.classList.add('is-hover'); });
-    techNode.addEventListener('mouseleave', function () { bottomCap.classList.remove('is-hover'); });
-    techNode.addEventListener('click', function () { bottomCap.classList.toggle('is-active'); });
+  const nodes = document.querySelectorAll('.biz-node5[data-cap]');
+  const panels = document.querySelectorAll('.caps-panel[data-cap]');
+  if (!nodes.length || !panels.length) return;
+
+  function activate(cap) {
+    nodes.forEach(function (n) { n.classList.toggle('is-active', n.dataset.cap === cap); });
+    panels.forEach(function (p) { p.classList.toggle('is-active', p.dataset.cap === cap); });
   }
+  nodes.forEach(function (n) {
+    n.addEventListener('click', function () { activate(n.dataset.cap); });
+  });
+  // 초기: 첫 번째 노드 활성
+  activate(nodes[0].dataset.cap);
 })();
 
 /* ── 사업분야 배너: 스크롤로 가운데 도달 시 하나씩 활성화 ──
@@ -229,3 +228,24 @@
     if (hit) hit.scrollIntoView({ behavior: 'smooth', block: 'center' });
   });
 })();
+
+/* ── 배경 그라데이션 */
+function apply(whiteStartRatio = 0.3, whiteEndRatio = 0.7) {
+  const h = document.body.scrollHeight;
+
+  const whiteStart = h * whiteStartRatio;
+  const whiteEnd = h * whiteEndRatio;
+
+  document.body.style.backgroundImage =
+    'linear-gradient(to bottom,' +
+
+      '#22B2EA 0px,' +
+      '#22B2EA ' + whiteStart + 'px,' +
+
+      '#ffffff ' + whiteStart + 'px,' +
+      '#ffffff ' + whiteEnd + 'px,' +
+
+      '#22B2EA ' + h + 'px' +
+
+    ')';
+}
