@@ -66,19 +66,94 @@
 /* ── 역량 다이어그램(펜타곤): 노드 클릭 → 왼쪽 상세패널 전환 ──
    노드와 패널은 data-cap 값으로 짝지어짐. 한 번에 하나만 .is-active */
 (function () {
+  const diagram = document.querySelector('.biz-diagram5');
   const nodes = document.querySelectorAll('.biz-node5[data-cap]');
   const panels = document.querySelectorAll('.caps-panel[data-cap]');
-  if (!nodes.length || !panels.length) return;
+  if (!diagram || !nodes.length || !panels.length) return;
+
+  const capOrder = ['기획', '설계', '시공', '생물수급', '운영'];
+  const baseAngles = {
+    '기획': -90,
+    '설계': -18,
+    '시공': 54,
+    '생물수급': 126,
+    '운영': 198,
+  };
+  const center = 50;
+  const radius = 36;
+  const activeAngle = 198;
+  let currentOffset = 0;
+  let orbitRaf = null;
+
+  function normalizeOffset(targetOffset) {
+    let next = targetOffset;
+    while (next - currentOffset > 180) next -= 360;
+    while (next - currentOffset < -180) next += 360;
+    return next;
+  }
+
+  function placeNodes(offset) {
+    nodes.forEach(function (node) {
+      const baseAngle = baseAngles[node.dataset.cap] ?? -90;
+      const angle = (baseAngle + offset) * Math.PI / 180;
+      const left = center + Math.cos(angle) * radius;
+      const top = center + Math.sin(angle) * radius;
+      node.style.setProperty('--node-left', left.toFixed(3) + '%');
+      node.style.setProperty('--node-top', top.toFixed(3) + '%');
+    });
+  }
+
+  function animateOrbit(selectedCap) {
+    const selectedBaseAngle = baseAngles[selectedCap] ?? -90;
+    const targetOffset = normalizeOffset(activeAngle - selectedBaseAngle);
+    const startOffset = currentOffset;
+    const distance = targetOffset - startOffset;
+    const duration = 650;
+    const startTime = performance.now();
+
+    if (orbitRaf) cancelAnimationFrame(orbitRaf);
+
+    function tick(now) {
+      const progress = Math.min(1, (now - startTime) / duration);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      currentOffset = startOffset + distance * eased;
+      placeNodes(currentOffset);
+
+      if (progress < 1) {
+        orbitRaf = requestAnimationFrame(tick);
+      } else {
+        currentOffset = targetOffset;
+        placeNodes(currentOffset);
+        orbitRaf = null;
+      }
+    }
+
+    orbitRaf = requestAnimationFrame(tick);
+  }
 
   function activate(cap) {
+    diagram.classList.add('is-detail-open');
+    animateOrbit(cap);
     nodes.forEach(function (n) { n.classList.toggle('is-active', n.dataset.cap === cap); });
     panels.forEach(function (p) { p.classList.toggle('is-active', p.dataset.cap === cap); });
   }
+
   nodes.forEach(function (n) {
-    n.addEventListener('click', function () { activate(n.dataset.cap); });
+    n.setAttribute('aria-pressed', 'false');
+
+    function onSelect(e) {
+      const selectedNode = e.currentTarget;
+      const selectedCap = selectedNode.dataset.cap;
+      activate(selectedCap);
+      nodes.forEach(function (node) {
+        node.setAttribute('aria-pressed', String(node === selectedNode));
+      });
+    }
+
+    n.addEventListener('click', onSelect);
   });
-  // 초기: 첫 번째 노드 활성
-  activate(nodes[0].dataset.cap);
+
+  placeNodes(0);
 })();
 
 /* ── 사업분야 배너: 스크롤로 가운데 도달 시 하나씩 활성화 ──
@@ -122,21 +197,6 @@
     }
     lastY = y;
   }, { passive: true });
-})();
-
-/* ── 히어로 카테고리 탭: 한 번에 하나만 활성 ──────────────── */
-(function () {
-  const tabs = Array.from(document.querySelectorAll('.biz-branch-tabs__item'));
-  if (!tabs.length) return;
-  // 초기: 첫 번째만 활성
-  tabs.forEach((t, i) => t.classList.toggle('is-active', i === 0));
-  tabs.forEach((tab) => {
-    tab.addEventListener('click', (e) => {
-      e.preventDefault();
-      tabs.forEach((t) => t.classList.remove('is-active'));
-      tab.classList.add('is-active');
-    });
-  });
 })();
 
 /* ── 커스텀 커서 (location 페이지와 동일) ───────────────────── */
