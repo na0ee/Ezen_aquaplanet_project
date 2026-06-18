@@ -1,14 +1,18 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ocean Friends — aqua planet</title>
 
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@latest/dist/web/static/pretendard.css" />
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@latest/dist/web/static/pretendard.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,500&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,500&family=Poppins:wght@300;400;500&display=swap"
+    rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 
   <style>
@@ -65,7 +69,7 @@
       height: 620px;
       left: 7%;
       top: 18%;
-      background: radial-gradient(circle, rgba(255,255,255,0.24), transparent 62%);
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.24), transparent 62%);
       filter: blur(10px);
     }
 
@@ -74,7 +78,7 @@
       height: 760px;
       right: -10%;
       bottom: -22%;
-      background: radial-gradient(circle, rgba(255,255,255,0.18), transparent 64%);
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.18), transparent 64%);
       filter: blur(12px);
     }
 
@@ -115,7 +119,7 @@
       font-size: clamp(15px, 1.25vw, 22px);
       font-weight: 400;
       line-height: 1.75;
-      color: rgba(255,255,255,0.86);
+      color: rgba(255, 255, 255, 0.86);
     }
 
     .of-scroll {
@@ -126,13 +130,13 @@
       display: grid;
       justify-items: center;
       gap: 18px;
-      color: rgba(255,255,255,0.86);
+      color: rgba(255, 255, 255, 0.86);
     }
 
     .of-scroll__line {
       width: 1px;
       height: 116px;
-      background: linear-gradient(180deg, transparent, rgba(255,255,255,0.75));
+      background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.75));
     }
 
     .of-scroll__text {
@@ -170,7 +174,7 @@
       margin-top: 10px;
       font-family: var(--font-kr);
       font-size: 16px;
-      color: rgba(0,0,0,0.62);
+      color: rgba(0, 0, 0, 0.62);
     }
 
     /* ── 시그니처 섹션 ── */
@@ -209,20 +213,47 @@
       transition: transform 0.7s ease;
     }
 
-    .of-species-card:nth-child(1) { --img-x: 54%; --img-y: 42%; }
-    .of-species-card:nth-child(2) { --img-x: 50%; --img-y: 50%; }
-    .of-species-card:nth-child(3) { --img-x: 50%; --img-y: 44%; }
-    .of-species-card:nth-child(4) { --img-x: 55%; --img-y: 50%; }
-    .of-species-card:nth-child(5) { --img-x: 58%; --img-y: 48%; }
-    .of-species-card:nth-child(6) { --img-x: 50%; --img-y: 48%; }
-    .of-species-card:nth-child(7) { --img-x: 52%; --img-y: 48%; }
+    .of-species-card:nth-child(1) {
+      --img-x: 54%;
+      --img-y: 42%;
+    }
+
+    .of-species-card:nth-child(2) {
+      --img-x: 50%;
+      --img-y: 50%;
+    }
+
+    .of-species-card:nth-child(3) {
+      --img-x: 50%;
+      --img-y: 44%;
+    }
+
+    .of-species-card:nth-child(4) {
+      --img-x: 55%;
+      --img-y: 50%;
+    }
+
+    .of-species-card:nth-child(5) {
+      --img-x: 58%;
+      --img-y: 48%;
+    }
+
+    .of-species-card:nth-child(6) {
+      --img-x: 50%;
+      --img-y: 48%;
+    }
+
+    .of-species-card:nth-child(7) {
+      --img-x: 52%;
+      --img-y: 48%;
+    }
 
     .of-species-card::after {
       content: "";
       position: absolute;
       inset: 0;
       z-index: 1;
-      background: linear-gradient(180deg, rgba(0,0,0,0.08) 35%, rgba(0,0,0,0.68) 100%);
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0.08) 35%, rgba(0, 0, 0, 0.68) 100%);
     }
 
     .of-species-card:hover img {
@@ -240,7 +271,7 @@
       left: 14px;
       font-family: var(--font-en);
       font-size: 13px;
-      color: rgba(255,255,255,0.78);
+      color: rgba(255, 255, 255, 0.78);
     }
 
     .of-species-card__text {
@@ -256,7 +287,7 @@
       font-weight: 500;
       line-height: 1;
       color: #fff;
-      text-shadow: 0 1px 6px rgba(0,0,0,0.45);
+      text-shadow: 0 1px 6px rgba(0, 0, 0, 0.45);
       -webkit-font-smoothing: antialiased;
     }
 
@@ -264,7 +295,7 @@
       display: block;
       margin-top: 7px;
       font-size: 12px;
-      color: rgba(255,255,255,0.7);
+      color: rgba(255, 255, 255, 0.7);
     }
 
     /* ── 페이저 ── */
@@ -285,7 +316,7 @@
       padding: 0;
       border: 0;
       background: transparent;
-      color: rgba(26,26,26,0.50);
+      color: rgba(26, 26, 26, 0.50);
       font-family: "Pretendard Variable", var(--font-kr);
       font-size: 15px;
       font-style: normal;
@@ -297,12 +328,12 @@
 
     .of-pager button:hover,
     .of-pager button:focus-visible {
-      color: rgba(26,26,26,0.72);
+      color: rgba(26, 26, 26, 0.72);
       outline: none;
     }
 
     .of-pager__more {
-      color: rgba(26,26,26,0.50);
+      color: rgba(26, 26, 26, 0.50);
       font-family: "Pretendard Variable", var(--font-kr);
       font-size: 15px;
     }
@@ -350,7 +381,6 @@
       border-radius: 999px;
       border: 1px solid rgba(34, 178, 234, 0.22);
       background: #ffffff;
-      box-shadow: 0 4px 14px rgba(34, 178, 234, 0.08);
     }
 
     .of-search svg {
@@ -396,7 +426,7 @@
     .of-chip:hover,
     .of-chip:focus-visible {
       color: #22b2ea;
-      background: rgba(255,255,255,0.52);
+      background: rgba(255, 255, 255, 0.52);
       outline: none;
     }
 
@@ -447,7 +477,7 @@
       font-weight: 300;
       color: #111;
       padding-bottom: 16px;
-      border-bottom: 1px solid rgba(0,0,0,0.12);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.12);
     }
 
     .of-section-label em {
@@ -469,7 +499,7 @@
       min-height: 22px;
       padding: 0 10px;
       border-radius: 999px;
-      border: 1px solid rgba(34,178,234,0.28);
+      border: 1px solid rgba(34, 178, 234, 0.28);
       font-size: 11px;
       color: #22b2ea;
       background: #ffffff;
@@ -495,7 +525,7 @@
       margin-top: 6px;
       font-family: var(--font-serif);
       font-size: 18px;
-      color: rgba(0,0,0,0.66);
+      color: rgba(0, 0, 0, 0.66);
     }
 
     .of-detail-card p {
@@ -503,7 +533,7 @@
       font-family: var(--font-kr);
       font-size: 15px;
       line-height: 1.8;
-      color: rgba(0,0,0,0.64);
+      color: rgba(0, 0, 0, 0.64);
     }
 
     .of-more {
@@ -535,7 +565,7 @@
       justify-content: center;
       padding: 120px 24px 70px;
       background:
-        radial-gradient(circle at 50% 18%, rgba(255,255,255,0.68) 0 6%, transparent 23%),
+        radial-gradient(circle at 50% 18%, rgba(255, 255, 255, 0.68) 0 6%, transparent 23%),
         linear-gradient(180deg, #ffffff 0%, #d9f7ff 20%, #52cdf2 68%, #22b8ee 100%);
       text-align: center;
       color: #ffffff;
@@ -572,7 +602,7 @@
       gap: 24px;
     }
 
-    .of-meet > div {
+    .of-meet>div {
       display: flex;
       flex-direction: column;
       gap: 8px;
@@ -615,7 +645,7 @@
       justify-content: space-between;
       width: 100%;
       padding: 28px 80px;
-      border-top: 1px solid rgba(255,255,255,0.22);
+      border-top: 1px solid rgba(255, 255, 255, 0.22);
       box-sizing: border-box;
     }
 
@@ -693,178 +723,89 @@
     #custom-cursor.is-over-light {
       border-color: rgba(34, 178, 234, 0.9);
     }
+
     #custom-cursor.is-over-light.is-hovering {
       border-color: rgba(34, 178, 234, 1);
       background: rgba(34, 178, 234, 0.08);
     }
+
     #custom-cursor.is-over-light.is-clicking {
       background: rgba(34, 178, 234, 0.2);
       border-color: rgba(34, 178, 234, 1);
     }
 
-    /* ── 1100px 이하 grid 조정 ── */
+    /* ── 1100px 이하 카드 높이 조정 ── */
     @media (max-width: 1100px) {
-      .of-species.is-carousel-ready {
-        grid-template-columns: repeat(4, minmax(150px, 1fr));
-      }
-
       .of-species-card {
         min-height: 300px;
       }
     }
 
-    /* ── 3D 캐러셀 (데스크톱) ── */
+    /* ── Wave strip (데스크톱) ── */
     @media (min-width: 761px) {
       .of-species {
-        --gallery-glow-x: 50%;
-        --gallery-glow-y: 50%;
-        --gallery-glow-opacity: 0.20;
-        position: relative;
-        display: block;
-        width: min(1520px, calc(100% - 48px));
-        height: clamp(580px, 46vw, 660px);
-        margin: 0 auto;
-        perspective: 2200px;
-        perspective-origin: 50% 50%;
-        transform-style: preserve-3d;
-        isolation: isolate;
-        overflow: visible;
-        outline: none;
-        touch-action: pan-y;
-        user-select: none;
-      }
-
-      .of-species.is-carousel-ready::before,
-      .of-species.is-carousel-ready::after {
-        content: "";
-        position: absolute;
-        pointer-events: none;
-        border-radius: 999px;
-      }
-
-      .of-species.is-carousel-ready::before {
-        inset: -12% -2% -18%;
-        z-index: 0;
-        background:
-          radial-gradient(circle at var(--gallery-glow-x) var(--gallery-glow-y), rgba(143, 183, 232, var(--gallery-glow-opacity)), transparent 40%),
-          radial-gradient(circle at 50% 60%, rgba(184, 211, 244, 0.32), transparent 50%),
-          linear-gradient(180deg, rgba(219, 238, 255, 0.14), rgba(143, 183, 232, 0.12));
-        filter: blur(40px);
-        transition: background 0.7s ease, opacity 0.7s ease;
-      }
-
-      .of-species.is-carousel-ready::after {
-        inset: 6% 8%;
-        z-index: 1;
-        background:
-          linear-gradient(112deg, transparent 0 28%, rgba(255,255,255,0.16) 43%, transparent 58% 100%),
-          repeating-linear-gradient(105deg, rgba(255,255,255,0.08) 0 1px, transparent 1px 18px);
-        mix-blend-mode: screen;
-        opacity: 0.20;
-        animation: ofSpeciesWaterLight 8s ease-in-out infinite alternate;
-      }
-
-      .of-species.is-carousel-ready .of-species-card {
-        --x: 0px;
-        --z: 0px;
-        --rot: 0deg;
-        --scale: 1;
-        --card-opacity: 1;
-        --card-brightness: 1;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        z-index: var(--card-z, 1);
-        width: clamp(260px, 22vw, 360px);
-        height: 460px;
-        min-height: 0;
-        transform:
-          translate3d(calc(-50% + var(--x)), -50%, var(--z))
-          rotateY(var(--rot))
-          scale(var(--scale));
-        transform-style: preserve-3d;
-        opacity: var(--card-opacity);
-        filter: brightness(var(--card-brightness)) saturate(1.02);
-        box-shadow: 0 20px 60px rgba(44, 93, 141, 0.18);
-        transition:
-          transform 0.72s cubic-bezier(0.22, 1, 0.36, 1),
-          opacity 0.52s ease,
-          filter 0.52s ease,
-          box-shadow 0.52s ease;
-        will-change: transform, opacity;
-      }
-
-      .of-species.is-carousel-ready .of-species-card::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        z-index: 2;
-        pointer-events: none;
-        background:
-          linear-gradient(115deg, transparent 0 25%, rgba(255,255,255,0.22) 41%, transparent 57% 100%),
-          repeating-linear-gradient(98deg, rgba(255,255,255,0.075) 0 1px, transparent 1px 17px);
-        mix-blend-mode: screen;
-        opacity: 0.22;
-        transform: translateX(-28%) skewX(-6deg);
-        animation: ofSpeciesCardRipple 7.5s ease-in-out infinite;
-      }
-
-      .of-species.is-carousel-ready .of-species-card::after {
-        z-index: 3;
-        background:
-          radial-gradient(circle at 50% 0%, rgba(219, 238, 255, 0.18), transparent 34%),
-          linear-gradient(180deg, rgba(0,0,0,0.04) 30%, rgba(0,0,0,0.70) 100%);
-      }
-
-      .of-species.is-carousel-ready .of-species-card img {
-        transform: scale(1.01);
-      }
-
-      .of-species.is-carousel-ready .of-species-card:hover img,
-      .of-species.is-carousel-ready .of-species-card.is-active:hover img {
-        transform: scale(1.065);
-      }
-
-      .of-species.is-carousel-ready .of-species-card.is-active {
-        --card-brightness: 1.04;
-        box-shadow:
-          0 24px 72px rgba(68, 117, 166, 0.26),
-          0 0 36px rgba(184, 211, 244, 0.20);
-      }
-
-      .of-species.is-carousel-ready .of-species-card.is-active::before {
-        opacity: 0.34;
-      }
-
-      .of-species.is-carousel-ready .of-species-card__num,
-      .of-species.is-carousel-ready .of-species-card__text {
-        z-index: 4;
-      }
-
-      .of-pager {
-        position: relative;
-        z-index: 4;
+        display: flex;
+        gap: 10px;
+        width: 100%;
+        height: clamp(420px, 38vw, 560px);
+        overflow-x: auto;
+        overflow-y: visible;
+        scrollbar-width: none;
+        cursor: grab;
         align-items: center;
+        padding: 60px 30vw;
+        perspective: 1000px;
+        transform-style: preserve-3d;
+      }
+      .of-species::-webkit-scrollbar { display: none; }
+      .of-species:active { cursor: grabbing; }
+
+      .of-species .of-species-card {
+        position: relative;
+        flex-shrink: 0;
+        width: clamp(80px, 7vw, 110px);
+        height: clamp(260px, 22vw, 340px);
+        min-height: 0;
+        border-radius: 8px;
+        filter: grayscale(1) brightness(0.4);
+        transition:
+          width 0.5s cubic-bezier(0.23, 1, 0.32, 1),
+          filter 0.4s ease;
       }
 
-      @keyframes ofSpeciesWaterLight {
-        0%   { transform: translate3d(-20px,  9px, -80px) rotate(-1deg); opacity: 0.18; }
-        100% { transform: translate3d( 20px, -8px, -80px) rotate( 1deg); opacity: 0.34; }
+      /* 호버 시 확장 */
+      .of-species:has(.of-species-card:hover) .of-species-card {
+        width: clamp(50px, 4.5vw, 70px);
+        filter: grayscale(1) brightness(0.25);
+      }
+      .of-species:has(.of-species-card:hover) .of-species-card:hover {
+        width: clamp(180px, 15vw, 240px);
+        filter: grayscale(0) brightness(1);
       }
 
-      @keyframes ofSpeciesCardRipple {
-        0%   { transform: translateX(-42%) skewX(-6deg); opacity: 0.14; }
-        52%  { opacity: 0.32; }
-        100% { transform: translateX( 40%) skewX(-6deg); opacity: 0.18; }
+      /* 카드 텍스트 호버 시 표시 */
+      .of-species-card__text {
+        opacity: 0;
+        transform: translateY(6px);
+        transition: opacity 0.25s ease 0.1s, transform 0.25s ease 0.1s;
+      }
+      .of-species-card:hover .of-species-card__text {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .of-species-card__num {
+        opacity: 0;
       }
     }
 
     /* ── 모션 감소 ── */
     @media (prefers-reduced-motion: reduce) {
+
       .of-species::after,
       .of-species-card::before {
         animation: none;
       }
+
       .of-species-card,
       .of-pager button {
         transition-duration: 0.01ms;
@@ -999,8 +940,8 @@
       <button class="gnb__ticket btn-pill" type="button" aria-label="티켓 예매" onclick="location.href='ticket.html'">
         Ticket
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M7 17L17 7M17 7H7M17 7V17" stroke="white" stroke-width="1.5"
-                stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M7 17L17 7M17 7H7M17 7V17" stroke="white" stroke-width="1.5" stroke-linecap="round"
+            stroke-linejoin="round" />
         </svg>
       </button>
     </div>
@@ -1087,8 +1028,8 @@
         </div>
         <div class="of-search">
           <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-            <circle cx="6.5" cy="6.5" r="5" stroke="currentColor" stroke-width="1.6"/>
-            <path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            <circle cx="6.5" cy="6.5" r="5" stroke="currentColor" stroke-width="1.6" />
+            <path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
           </svg>
           <input type="text" placeholder="검색하기" aria-label="생물 검색">
         </div>
@@ -1787,7 +1728,8 @@
             </div>
             <h3>바다코끼리</h3>
             <i>Odobenus rosmarus</i>
-            <p>큰 덩치와 커다란 엄니를 자랑하지만, 외모와는 다르게 온순한 성격을 가졌습니다. 큰 엄니는 자신을 지키는 든든한 무기이자, 얼음에서 미끄러지지 않도록 하는 지팡이 역할도 한답니다. 긴 엄니의 길이로 바다코끼리의 서열이 정해진다고 합니다.</p>
+            <p>큰 덩치와 커다란 엄니를 자랑하지만, 외모와는 다르게 온순한 성격을 가졌습니다. 큰 엄니는 자신을 지키는 든든한 무기이자, 얼음에서 미끄러지지 않도록 하는 지팡이 역할도 한답니다. 긴
+              엄니의 길이로 바다코끼리의 서열이 정해진다고 합니다.</p>
             <a class="of-more" href="#">자세히 보기</a>
           </div>
         </article>
@@ -1819,7 +1761,8 @@
             </div>
             <h3>샌드타이거샤크</h3>
             <i>Sand Tiger Shark</i>
-            <p>무시무시한 죠스 노래가 떠오르는 샌드타이거 샤크는, 다 자라면 몸의 길이가 3m가 넘는 대형상어랍니다! 평소에는 천천히 유영하는 모습을 볼 수 있지만 먹잇감을 발견하면 겹겹이 날카로운 이빨과 강력한 턱힘으로 사냥해요.</p>
+            <p>무시무시한 죠스 노래가 떠오르는 샌드타이거 샤크는, 다 자라면 몸의 길이가 3m가 넘는 대형상어랍니다! 평소에는 천천히 유영하는 모습을 볼 수 있지만 먹잇감을 발견하면 겹겹이 날카로운
+              이빨과 강력한 턱힘으로 사냥해요.</p>
             <a class="of-more" href="#">자세히 보기</a>
           </div>
         </article>
@@ -1835,7 +1778,8 @@
             </div>
             <h3>참물범</h3>
             <i>Phoca vitulina</i>
-            <p>참물범은 강과 바다에 사는 물개입니다. 항상 머리를 잠수 위로 내밀고 사람을 경계하는 습성이 있습니다. 평균 몸길이는 1.5m, 몸무게는 70kg 정도이며, 먹이는 생선으로 주로 청어, 숭어, 밴댕이 등입니다.</p>
+            <p>참물범은 강과 바다에 사는 물개입니다. 항상 머리를 잠수 위로 내밀고 사람을 경계하는 습성이 있습니다. 평균 몸길이는 1.5m, 몸무게는 70kg 정도이며, 먹이는 생선으로 주로 청어,
+              숭어, 밴댕이 등입니다.</p>
             <a class="of-more" href="#">자세히 보기</a>
           </div>
         </article>
@@ -1851,7 +1795,8 @@
             </div>
             <h3>퍼큘라클라운피쉬</h3>
             <i>Amphiprion percula</i>
-            <p>흰색과 주황색 줄무늬를 가진 물고기입니다. 아네모네와 공생 관계를 이루며 생활합니다. 아네모네는 클라운피쉬로부터 도움을 받고, 클라운피쉬는 아네모네의 촉수에 있는 자극 세포로부터 보호를 받습니다.</p>
+            <p>흰색과 주황색 줄무늬를 가진 물고기입니다. 아네모네와 공생 관계를 이루며 생활합니다. 아네모네는 클라운피쉬로부터 도움을 받고, 클라운피쉬는 아네모네의 촉수에 있는 자극 세포로부터 보호를
+              받습니다.</p>
             <a class="of-more" href="#">자세히 보기</a>
           </div>
         </article>
@@ -2112,7 +2057,8 @@
             </div>
             <h3>아프리칸펭귄</h3>
             <i>Spheniscus demersus</i>
-            <p>따뜻한 지방인 아프리카에 사는 펭귄입니다. 펭귄은 털이 2중으로 되어있습니다. 안쪽 털은 보온역할을, 바깥쪽 털은 방수역할을 해줍니다. 새끼는 머리 부분에 검은 털이 나고, 자라면서 몇 번의 털갈이를 한 뒤 하얀 줄무늬를 갖게 됩니다.</p>
+            <p>따뜻한 지방인 아프리카에 사는 펭귄입니다. 펭귄은 털이 2중으로 되어있습니다. 안쪽 털은 보온역할을, 바깥쪽 털은 방수역할을 해줍니다. 새끼는 머리 부분에 검은 털이 나고, 자라면서 몇
+              번의 털갈이를 한 뒤 하얀 줄무늬를 갖게 됩니다.</p>
             <a class="of-more" href="#">자세히 보기</a>
           </div>
         </article>
@@ -2128,7 +2074,8 @@
             </div>
             <h3>알락꼬리여우원숭이</h3>
             <i>Lemur catta</i>
-            <p>알락꼬리여우원숭이의 가장 특징적인 부분은 검은색과 흰색으로 이루어진 줄무늬 꼬리입니다. 긴 꼬리는 나뭇가지를 잡을 때나 몸의 균형을 잡을 때 사용됩니다. 수컷의 꼬리 가장자리에 향선이 있어 자신의 영역임을 표시합니다.</p>
+            <p>알락꼬리여우원숭이의 가장 특징적인 부분은 검은색과 흰색으로 이루어진 줄무늬 꼬리입니다. 긴 꼬리는 나뭇가지를 잡을 때나 몸의 균형을 잡을 때 사용됩니다. 수컷의 꼬리 가장자리에 향선이 있어
+              자신의 영역임을 표시합니다.</p>
             <a class="of-more" href="#">자세히 보기</a>
           </div>
         </article>
@@ -2144,7 +2091,8 @@
             </div>
             <h3>푸른목금강앵무</h3>
             <i>Ara glaucogularis</i>
-            <p>푸른목금강앵무는 검은색 몸과 푸른색 목이 특징인 앵무새입니다. 큰 부리는 매우 강력하여 나무껍질을 벗기고 씨앗을 깨물 수 있습니다. 매우 지능이 높아 인간처럼 도구를 사용하기도 합니다.</p>
+            <p>푸른목금강앵무는 검은색 몸과 푸른색 목이 특징인 앵무새입니다. 큰 부리는 매우 강력하여 나무껍질을 벗기고 씨앗을 깨물 수 있습니다. 매우 지능이 높아 인간처럼 도구를 사용하기도 합니다.
+            </p>
             <a class="of-more" href="#">자세히 보기</a>
           </div>
         </article>
@@ -2176,7 +2124,8 @@
             </div>
             <h3>히야신스금강앵무</h3>
             <i>Anodorhynchus hyacinthinus</i>
-            <p>히야신스금강앵무는 세계에서 가장 큰 앵무새입니다. 몸길이가 1m가 넘고 몸무게는 1.5kg 정도입니다. 아름다운 파란색 깃털로 유명하며, 강력한 부리로 단단한 야자열매도 쉽게 깨물 수 있습니다. 현재 멸종위기종으로 보호되고 있습니다.</p>
+            <p>히야신스금강앵무는 세계에서 가장 큰 앵무새입니다. 몸길이가 1m가 넘고 몸무게는 1.5kg 정도입니다. 아름다운 파란색 깃털로 유명하며, 강력한 부리로 단단한 야자열매도 쉽게 깨물 수
+              있습니다. 현재 멸종위기종으로 보호되고 있습니다.</p>
             <a class="of-more" href="#">자세히 보기</a>
           </div>
         </article>
@@ -2244,7 +2193,8 @@
             </div>
             <h3>바다거북</h3>
             <i>Lepidochelys olivacea</i>
-            <p>다른 바다거북들보다 작은 체구를 지닌 친구랍니다. 예쁜 하트 모양의 올리브색 등갑을 가지고 있어요. 서식지 파괴와 남획으로 개체수가 줄어들어 멸종위기종(CITES Ⅰ)으로 지정되어 보호받고 있어요.</p>
+            <p>다른 바다거북들보다 작은 체구를 지닌 친구랍니다. 예쁜 하트 모양의 올리브색 등갑을 가지고 있어요. 서식지 파괴와 남획으로 개체수가 줄어들어 멸종위기종(CITES Ⅰ)으로 지정되어 보호받고
+              있어요.</p>
             <a class="of-more" href="#">자세히 보기</a>
           </div>
         </article>
@@ -2452,7 +2402,8 @@
             </div>
             <h3>작은발톱수달</h3>
             <i>Aonyx cinereus</i>
-            <p>물 속 날쌘돌이 사냥꾼 '수영의 달인' 수달은 몸을 위아래로 흔들면서 빠르게 물살을 가르며 헤엄쳐요. 수염이 예민하게 발달해서 사냥감을 귀신같이 찾아냅니다. 입으로 바로 물지 않고 앞발을 이용해서 먹이를 잡아요.</p>
+            <p>물 속 날쌘돌이 사냥꾼 '수영의 달인' 수달은 몸을 위아래로 흔들면서 빠르게 물살을 가르며 헤엄쳐요. 수염이 예민하게 발달해서 사냥감을 귀신같이 찾아냅니다. 입으로 바로 물지 않고 앞발을
+              이용해서 먹이를 잡아요.</p>
             <a class="of-more" href="#">자세히 보기</a>
           </div>
         </article>
@@ -2468,7 +2419,8 @@
             </div>
             <h3>참물범</h3>
             <i>Phoca vitulina</i>
-            <p>동글동글 동자승과 같은 머리를 가진 귀여운 참물범이에요. 온 몸에 거친 털이 빽빽하게 나 있고, 참깨를 흩뿌린 듯 반점이 많아요. 안타깝게도 무분별한 포획과 서식지 파괴로 수가 빠르게 줄어들고 있답니다.</p>
+            <p>동글동글 동자승과 같은 머리를 가진 귀여운 참물범이에요. 온 몸에 거친 털이 빽빽하게 나 있고, 참깨를 흩뿌린 듯 반점이 많아요. 안타깝게도 무분별한 포획과 서식지 파괴로 수가 빠르게
+              줄어들고 있답니다.</p>
             <a class="of-more" href="#">자세히 보기</a>
           </div>
         </article>
@@ -2680,7 +2632,8 @@
             </div>
             <h3>흑점꺼끌복</h3>
             <i>Blackspotted Puffer</i>
-            <p>몸에 박힌 검은 점, 꺼끌꺼끌한 피부때문에 '흑점꺼끌복'이라 불려요. 위협을 느끼면 주둥이로 물을 뿌리거나 독을 내뿜어 자신을 보호합니다. 육식을 좋아해서 이빨이 날카롭지만 이러한 이빨로 자신을 보호하기도 한답니다.</p>
+            <p>몸에 박힌 검은 점, 꺼끌꺼끌한 피부때문에 '흑점꺼끌복'이라 불려요. 위협을 느끼면 주둥이로 물을 뿌리거나 독을 내뿜어 자신을 보호합니다. 육식을 좋아해서 이빨이 날카롭지만 이러한 이빨로
+              자신을 보호하기도 한답니다.</p>
             <a class="of-more" href="#">자세히 보기</a>
           </div>
         </article>
@@ -2760,7 +2713,8 @@
             </div>
             <h3>보름달물해파리</h3>
             <i>Aurelia aurita</i>
-            <p>동실동실 바다에 떠 수많은 보름달, 황홀하지요? 전 세계적으로 가장 널리 서식하며 우리나라 연안에서도 쉽게 만나볼 수 있는 해파리예요. 아주 작은 갑각류나, 동물성 플랑크톤을 먹고 살아요.</p>
+            <p>동실동실 바다에 떠 수많은 보름달, 황홀하지요? 전 세계적으로 가장 널리 서식하며 우리나라 연안에서도 쉽게 만나볼 수 있는 해파리예요. 아주 작은 갑각류나, 동물성 플랑크톤을 먹고 살아요.
+            </p>
             <a class="of-more" href="#">자세히 보기</a>
           </div>
         </article>
@@ -2776,7 +2730,8 @@
             </div>
             <h3>뿔닭새우</h3>
             <i>Japanese Spider Crab</i>
-            <p>몸 길이의 2배가 넘는 굵은 다리들이 갖고 있어요. 껍질은 엎대기로 몸을 감싸고, 복부에는 흰색 반점이 있지요. 주로 바닥의 동이나 바위로 이루어진 얕은 바다에 살며, 낮에는 바위에 몸을 숨겼다가 밤에 활동을 한답니다.</p>
+            <p>몸 길이의 2배가 넘는 굵은 다리들이 갖고 있어요. 껍질은 엎대기로 몸을 감싸고, 복부에는 흰색 반점이 있지요. 주로 바닥의 동이나 바위로 이루어진 얕은 바다에 살며, 낮에는 바위에 몸을
+              숨겼다가 밤에 활동을 한답니다.</p>
             <a class="of-more" href="#">자세히 보기</a>
           </div>
         </article>
@@ -2792,7 +2747,8 @@
             </div>
             <h3>샌드타이거샤크</h3>
             <i>Carcharias taurus</i>
-            <p>입안 가득 날카로운 이빨이 돋아나 있어요. 이빨이 입 안쪽을 향해 잡아있어 먹잇감을 물면 절대 놓지 않고 통째로 집어삼켜요. 하지만 평소에는 온순해서 사람과 마주치더라도 먼저 공격하는 경우는 드물답니다.</p>
+            <p>입안 가득 날카로운 이빨이 돋아나 있어요. 이빨이 입 안쪽을 향해 잡아있어 먹잇감을 물면 절대 놓지 않고 통째로 집어삼켜요. 하지만 평소에는 온순해서 사람과 마주치더라도 먼저 공격하는
+              경우는 드물답니다.</p>
             <a class="of-more" href="#">자세히 보기</a>
           </div>
         </article>
@@ -2824,7 +2780,8 @@
             </div>
             <h3>훔볼트펭귄</h3>
             <i>Spheniscus humboldti</i>
-            <p>따뜻한 남아메리카에 사는 펭귄이에요. 눈과 가까운 부리 이쪽에 흰색 선이 있어요. 하늘을 날지는 못하지만 앞 날개를 동반하고 물속을 빠른 속도로 헤엄칠 수 있는 다양한 능력이 있답니다.</p>
+            <p>따뜻한 남아메리카에 사는 펭귄이에요. 눈과 가까운 부리 이쪽에 흰색 선이 있어요. 하늘을 날지는 못하지만 앞 날개를 동반하고 물속을 빠른 속도로 헤엄칠 수 있는 다양한 능력이 있답니다.
+            </p>
             <a class="of-more" href="#">자세히 보기</a>
           </div>
         </article>
@@ -2840,7 +2797,8 @@
             </div>
             <h3>우파루파</h3>
             <i>Ambystoma mexicanum</i>
-            <p>뽀얀 피부를 가진 우파루파는 신체의 일부가 잘려도 쉽게 재생되는 신기한 동물이에요! 일반적인 도롱뇽과 달리 올챙이 모습 그대로 성장하기 때문에 성체가 되어서도 갈 아가미와 지느러미 모양의 꼬리를 가지고 있어요.</p>
+            <p>뽀얀 피부를 가진 우파루파는 신체의 일부가 잘려도 쉽게 재생되는 신기한 동물이에요! 일반적인 도롱뇽과 달리 올챙이 모습 그대로 성장하기 때문에 성체가 되어서도 갈 아가미와 지느러미 모양의
+              꼬리를 가지고 있어요.</p>
             <a class="of-more" href="#">자세히 보기</a>
           </div>
         </article>
@@ -2856,7 +2814,8 @@
             </div>
             <h3>자이언트모레이</h3>
             <i>Gymnothorax javanicus</i>
-            <p>다 자라면 몸길이가 3m나 되는 큰 곰치에요. 이빨이 날카롭고, 사나워 다이버를 공격하기도 합니다. 물고기나 갑각류 먹이를 좋아하지만 가끔 커다란 문어와 씨움을 벌여 잡아먹기도 해요.</p>
+            <p>다 자라면 몸길이가 3m나 되는 큰 곰치에요. 이빨이 날카롭고, 사나워 다이버를 공격하기도 합니다. 물고기나 갑각류 먹이를 좋아하지만 가끔 커다란 문어와 씨움을 벌여 잡아먹기도 해요.
+            </p>
             <a class="of-more" href="#">자세히 보기</a>
           </div>
         </article>
@@ -2872,7 +2831,8 @@
             </div>
             <h3>작은발톱수달</h3>
             <i>Aonyx cinereus</i>
-            <p>'수영의 달인' 수달은 몸을 위아래로 흔들면서 빠르게 물살을 가르며 헤엄칩니다. 수염이 예민하게 발달해서 사냥감을 귀신같이 찾아냅니다. 입으로 바로 물지 않고 앞발을 이용해서 먹이를 잡아요. 이빨이 날카롭고 단단해서 딱딱한 껍질도 잘 깨부술 수 있어요.</p>
+            <p>'수영의 달인' 수달은 몸을 위아래로 흔들면서 빠르게 물살을 가르며 헤엄칩니다. 수염이 예민하게 발달해서 사냥감을 귀신같이 찾아냅니다. 입으로 바로 물지 않고 앞발을 이용해서 먹이를
+              잡아요. 이빨이 날카롭고 단단해서 딱딱한 껍질도 잘 깨부술 수 있어요.</p>
             <a class="of-more" href="#">자세히 보기</a>
           </div>
         </article>
@@ -2888,7 +2848,8 @@
             </div>
             <h3>퍼큘라클라운피쉬</h3>
             <i>Amphiprion ocellaris</i>
-            <p>'니모'로 유명한 퍼큘라클라운피쉬는 겁이 없어서 말미잘과 함께 살아가요. 말미잘은 퍼큘라클라운피쉬가 잡아 먹히지 않도록 포식자로부터 보호해주고, 퍼큘라클라운피쉬는 말미잘의 먹이를 유인해주는 사이좋은 친구들이랍니다.</p>
+            <p>'니모'로 유명한 퍼큘라클라운피쉬는 겁이 없어서 말미잘과 함께 살아가요. 말미잘은 퍼큘라클라운피쉬가 잡아 먹히지 않도록 포식자로부터 보호해주고, 퍼큘라클라운피쉬는 말미잘의 먹이를 유인해주는
+              사이좋은 친구들이랍니다.</p>
             <a class="of-more" href="#">자세히 보기</a>
           </div>
         </article>
@@ -2995,8 +2956,8 @@
       }, { passive: true });
       document.addEventListener('mouseleave', function () { el.style.opacity = '0'; });
       document.addEventListener('mouseenter', function () { if (firstMove) el.style.opacity = '1'; });
-      document.addEventListener('mousedown',  function () { el.classList.add('is-clicking'); });
-      document.addEventListener('mouseup',    function () { el.classList.remove('is-clicking'); });
+      document.addEventListener('mousedown', function () { el.classList.add('is-clicking'); });
+      document.addEventListener('mouseup', function () { el.classList.remove('is-clicking'); });
       document.addEventListener('mouseover', function (e) {
         const over = e.target.closest('a, button, [role="button"]');
         el.classList.toggle('is-hovering', !!over);
@@ -3033,7 +2994,7 @@
         if (!visibleList) return;
         visibleList.querySelectorAll('.of-detail-card').forEach(function (card) {
           const name = (card.querySelector('h3') || {}).textContent || '';
-          const sci  = (card.querySelector('i')  || {}).textContent || '';
+          const sci = (card.querySelector('i') || {}).textContent || '';
           const badge = (card.querySelector('.of-badge.of-badge--fill') || {}).textContent || '';
           const match = !q || (name + sci + badge).toLowerCase().includes(q);
           card.style.display = match ? '' : 'none';
@@ -3059,205 +3020,87 @@
     })();
   </script>
 
-  <!-- 3D 캐러셀 -->
+  <!-- Wave strip 인터랙션 -->
   <script>
     (function () {
       const carousel = document.querySelector('#signature .of-species');
-      const pager    = document.querySelector('#signature .of-pager');
-      if (!carousel || !pager) return;
+      const pager = document.querySelector('#signature .of-pager');
+      if (!carousel) return;
 
       const cards = Array.from(carousel.querySelectorAll('.of-species-card'));
       if (!cards.length) return;
 
-      const desktopQuery      = window.matchMedia('(min-width: 761px)');
-      const reduceMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-      const startIndex   = 0; // Beluga 시작
-      const dragThreshold = 44;
-      let activeIndex = startIndex;
-      let isEnabled   = false;
-      let isDragging  = false;
-      let dragStartX  = 0;
-      let wheelLocked = false;
-
-      function shortestOffset(index) {
-        let offset = index - activeIndex;
-        const half = cards.length / 2;
-        if (offset >  half) offset -= cards.length;
-        if (offset < -half) offset += cards.length;
-        return offset;
-      }
-
-      function clampIndex(index) {
-        return (index + cards.length) % cards.length;
-      }
-
-      function getPose(offset) {
-        const abs  = Math.abs(offset);
-        const sign = Math.sign(offset);
-        const slot = Math.min(abs, 3);
-
-        const distance = [0,   480,  860, 1200][slot] || 1400;
-        const depth    = [80,   20,  -40,  -80][slot] || -100;
-        const scale    = [1.02, 0.92, 0.85, 0.76][slot] || 0.68;
-        const opacity  = [1,    1,    0.82, 0.55][slot] || 0.28;
-        const rotate   = [0,    3,    6,    8][slot]    || 9;
-
-        return {
-          x:      `${sign * distance}px`,
-          z:      `${depth}px`,
-          rot:    `${sign * -rotate}deg`,
-          scale:  String(scale),
-          opacity: String(opacity),
-          zIndex: String(100 - slot)
-        };
-      }
-
-      function render() {
-        cards.forEach((card, index) => {
-          const offset   = shortestOffset(index);
-          const pose     = getPose(offset);
-          const isActive = index === activeIndex;
-
-          card.style.setProperty('--x',            pose.x);
-          card.style.setProperty('--z',            pose.z);
-          card.style.setProperty('--rot',          pose.rot);
-          card.style.setProperty('--scale',        pose.scale);
-          card.style.setProperty('--card-opacity', pose.opacity);
-          card.style.setProperty('--card-z',       pose.zIndex);
-          card.classList.toggle('is-active', isActive);
-          card.setAttribute('aria-current', isActive ? 'true' : 'false');
-        });
-
-        const progress = cards.length <= 1 ? 0.5 : activeIndex / (cards.length - 1);
-        carousel.style.setProperty('--gallery-glow-x',       `${26 + progress * 48}%`);
-        carousel.style.setProperty('--gallery-glow-y',       activeIndex % 2 ? '43%' : '56%');
-        carousel.style.setProperty('--gallery-glow-opacity', `${0.19 + (activeIndex % 3) * 0.025}`);
-      }
-
-      function goTo(index) { activeIndex = clampIndex(index); render(); }
-      function goNext()    { goTo(activeIndex + 1); }
-      function goPrev()    { goTo(activeIndex - 1); }
-
-      function buildPager() {
+      /* pager → "more" 버튼만 유지 */
+      if (pager) {
         pager.replaceChildren();
-        const btn      = document.createElement('button');
-        btn.type       = 'button';
-        const moreText = document.createElement('span');
-        moreText.className   = 'of-pager__more';
-        moreText.textContent = 'more';
-        const arrow    = document.createElement('span');
-        arrow.className   = 'of-pager__arrow';
-        arrow.setAttribute('aria-hidden', 'true');
-        arrow.textContent = '↓';
-        btn.append(moreText, arrow);
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.innerHTML = '<span class="of-pager__more">more</span><span class="of-pager__arrow" aria-hidden="true">↓</span>';
         btn.setAttribute('aria-label', '생물 상세 소개 더 보기');
         btn.addEventListener('click', () => {
-          document.querySelector('.of-detail')?.scrollIntoView({
-            behavior: reduceMotionQuery.matches ? 'auto' : 'smooth',
-            block: 'start'
-          });
+          document.querySelector('.of-detail')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
         pager.appendChild(btn);
       }
 
-      function enable() {
-        if (isEnabled) return;
-        isEnabled = true;
-        carousel.classList.add('is-carousel-ready');
-        carousel.setAttribute('tabindex', '0');
-        carousel.setAttribute('role', 'region');
-        carousel.setAttribute('aria-roledescription', '3D gallery carousel');
-
-        cards.forEach((card) => {
-          card.setAttribute('tabindex', '0');
-          card.addEventListener('click',  onCardClick);
-          card.addEventListener('focus',  onCardFocus);
-        });
-
-        render();
-      }
-
-      function disable() {
-        if (!isEnabled) return;
-        isEnabled  = false;
-        isDragging = false;
-        carousel.classList.remove('is-carousel-ready', 'is-dragging');
-        carousel.removeAttribute('tabindex');
-        carousel.removeAttribute('role');
-        carousel.removeAttribute('aria-roledescription');
-        carousel.style.removeProperty('--gallery-glow-x');
-        carousel.style.removeProperty('--gallery-glow-y');
-        carousel.style.removeProperty('--gallery-glow-opacity');
-
-        cards.forEach((card) => {
-          card.classList.remove('is-active');
-          card.removeAttribute('tabindex');
-          card.removeAttribute('aria-current');
-          ['--x','--z','--rot','--scale','--card-opacity','--card-z'].forEach(p => card.style.removeProperty(p));
-          card.removeEventListener('click', onCardClick);
-          card.removeEventListener('focus', onCardFocus);
-        });
-      }
-
-      function syncMode() {
-        if (desktopQuery.matches) enable();
-        else disable();
-      }
-
-      function onCardClick(e) {
-        if (!isEnabled) return;
-        const index = cards.indexOf(e.currentTarget);
-        if (index >= 0) goTo(index);
-      }
-
-      function onCardFocus(e) {
-        if (!isEnabled) return;
-        const index = cards.indexOf(e.currentTarget);
-        if (index >= 0) goTo(index);
-      }
-
-      function onPointerDown(e) {
-        if (!isEnabled || e.button !== 0) return;
+      /* 드래그 스크롤 */
+      let isDragging = false, startX = 0, startScroll = 0;
+      carousel.addEventListener('mousedown', e => {
         isDragging = true;
-        dragStartX = e.clientX;
-        carousel.classList.add('is-dragging');
-        carousel.setPointerCapture?.(e.pointerId);
-      }
-
-      function onPointerUp(e) {
-        if (!isEnabled || !isDragging) return;
-        const deltaX = e.clientX - dragStartX;
+        startX = e.pageX;
+        startScroll = carousel.scrollLeft;
+        carousel.style.cursor = 'grabbing';
+      });
+      window.addEventListener('mousemove', e => {
+        if (!isDragging) return;
+        carousel.scrollLeft = startScroll - (e.pageX - startX);
+      });
+      window.addEventListener('mouseup', () => {
         isDragging = false;
-        carousel.classList.remove('is-dragging');
-        if (Math.abs(deltaX) > dragThreshold) {
-          deltaX < 0 ? goNext() : goPrev();
-        }
+        carousel.style.cursor = 'grab';
+      });
+
+      /* wave 계산: 화면 중앙과의 거리 기반 dock effect */
+      function easeOut(t) { return 1 - Math.pow(1 - t, 2); }
+
+      let raf = null;
+      function updateWave() {
+        const W = carousel.clientWidth;
+        const centerX = W / 2;
+        const carouselRect = carousel.getBoundingClientRect();
+
+        cards.forEach(card => {
+          const rect = card.getBoundingClientRect();
+          const cardCenter = rect.left - carouselRect.left + rect.width / 2;
+          const dist = Math.abs(cardCenter - centerX);
+          const maxDist = W * 0.58;
+          const proximity = Math.max(0, 1 - dist / maxDist);
+          const wave = easeOut(Math.pow(proximity, 1.3));
+
+          /* translateZ는 컨테이너의 perspective(1000px)를 공유 — 개별 perspective() 제거.
+             50px 전진 시 겉보기 배율 = 1000/950 ≈ 1.05 → gap 10px 안에서 겹침 없음. */
+          const translateZ = wave * 50;
+          const sign = cardCenter < centerX ? 1 : -1;
+          const rotateY = sign * (1 - wave) * 14 * (dist / maxDist);
+          const brightness = 0.35 + wave * 0.65;
+          const grayScale = 1 - wave * 0.95;
+
+          /* height는 CSS가 고정 담당 — JS에서 건드리지 않음 (레이아웃 혼선 방지) */
+          card.style.transform = `translateZ(${translateZ.toFixed(1)}px) rotateY(${rotateY.toFixed(2)}deg)`;
+          card.style.filter = `grayscale(${grayScale.toFixed(3)}) brightness(${brightness.toFixed(3)})`;
+        });
       }
 
-      function onWheel(e) {
-        if (!isEnabled || wheelLocked) return;
-        e.preventDefault();
-        wheelLocked = true;
-        e.deltaX > 0 || e.deltaY > 0 ? goNext() : goPrev();
-        setTimeout(() => { wheelLocked = false; }, 600);
-      }
+      carousel.addEventListener('scroll', () => {
+        if (raf) cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(updateWave);
+      }, { passive: true });
 
-      function onKeyDown(e) {
-        if (!isEnabled) return;
-        if (e.key === 'ArrowRight') { e.preventDefault(); goNext(); }
-        if (e.key === 'ArrowLeft')  { e.preventDefault(); goPrev(); }
-      }
-
-      buildPager();
-      syncMode();
-      desktopQuery.addEventListener('change', syncMode);
-
-      carousel.addEventListener('pointerdown', onPointerDown);
-      carousel.addEventListener('pointerup',   onPointerUp);
-      carousel.addEventListener('wheel',       onWheel, { passive: false });
-      carousel.addEventListener('keydown',     onKeyDown);
+      /* 초기 실행 */
+      updateWave();
     })();
   </script>
 
 </body>
+
 </html>
