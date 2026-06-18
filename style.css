@@ -3439,7 +3439,6 @@ body.ticket-open {
   font-size: 48px;
   letter-spacing: var(--ls-tight);
   color: var(--clr-text);
-  text-shadow: 0 4px 18px rgba(0, 60, 100, 0.25);
   z-index: 2;
 }
 
@@ -4146,7 +4145,7 @@ body.biz-page {
   font-family: var(--font-kr);
   font-weight: 400;
   font-size: clamp(20px, 2vw, 26px);
-  color: #16384a;
+  color: #1a1a1a;
   letter-spacing: -0.02em;
   margin-bottom: 68px;
 }
@@ -4175,7 +4174,7 @@ body.biz-page {
   font-size: 42px;
   /* 일반 글자(Overview) */
   font-weight: 500;
-  color: #16384a;
+  color: #1a1a1a;
   letter-spacing: -0.01em;
 }
 
@@ -4192,7 +4191,7 @@ body.biz-page {
   margin: 34px auto 0;
   font-size: 15px;
   line-height: 1.9;
-  color: #3a5b6e;
+  color: #1a1a1a;
   font-weight: 500;
 }
 
@@ -4253,8 +4252,17 @@ body.biz-page {
   color: #1a1a1a;
   line-height: 1;
   letter-spacing: -5.12px;
-  margin: 0 12px;
+  padding: 0 12px;
+  transition: background 0.2s ease, color 0.2s ease;
 }
+/* 활성(스크롤로 가운데 도달 시 / Figma 1485:926): 파란 배경 + 흰 글자 + EB Garamond */
+.biz-banner.is-active .biz-banner__title {
+  background: #22b2ea;
+  color: #fff;
+  font-family: var(--font-serif);   /* EB Garamond */
+  font-size: 138px;
+}
+.biz-banner.is-active .biz-banner__title span { color: #fff; }
 
 .biz-banner__title span {
   font-family: var(--font-kr);
@@ -4376,16 +4384,14 @@ body.biz-page {
   align-items: center;
 }
 
+/* 박스(flex) 구조 — 2×2 그리드, 항상 가운데. 화면 크기 변해도 중앙 유지 */
 .diagram4-wrap {
-  position: relative;
-  /* 노드·원(biz-ring)의 좌표 기준 */
-  flex: none;
-  /* 노드 간격 140px(중심거리 320) 수용 — 콘텐츠 중심 (550, 250) */
-  width: 90%;
-  display: flex; justify-content: center; align-items: center;
-  /* 고정폭 → 콘텐츠(중심 550)가 정중앙 */
-  height: 500px;
-  max-width: 100%;
+  position: relative;                /* 원(biz-ring)의 기준 */
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+  column-gap: 140px;                 /* 좌우 노드 사이 간격 */
+  row-gap: 60px;                     /* 위아래 행 간격 */
 }
 
 .biz-diagram4 svg.biz-links {
@@ -4396,11 +4402,11 @@ body.biz-page {
   pointer-events: none;
 }
 
-/* 노드를 잇는 원형 선 — 430×430, 노드 중심(550,250) 기준 중앙, 노드 뒤(z-index 1) */
+/* 노드를 잇는 원형 선 — 그리드(=노드 군집) 정중앙에 배치, 노드 뒤(z-index 1) */
 .biz-ring {
   position: absolute;
-  left: 550px;
-  top: 250px;
+  left: 50%;
+  top: 50%;
   width: 430px;
   height: 430px;
   transform: translate(-50%, -50%);
@@ -4410,16 +4416,17 @@ body.biz-page {
   pointer-events: none;
 }
 
+/* 각 박스: 노드 + 라벨 가로 배치(세로 중앙), 사이 40px */
 .box {
   display: flex;
-  justify-content: center;
   align-items: center;
+  gap: 40px;
 }
-.l{position: absolute;   left:0; display: inline;}
-  
+.box--l { flex-direction: row-reverse; }   /* 왼쪽 열: 라벨 바깥(좌) · 노드 안쪽(우) */
+/* .box--r 은 기본 row: 노드 안쪽(좌) · 라벨 바깥(우) */
 
 .biz-node {
-  position: absolute;
+  flex: none;
   width: 180px;
   height: 180px;
   border-radius: 50%;
@@ -4433,14 +4440,23 @@ body.biz-page {
   font-size: 26px;
   line-height: 1.4;
   letter-spacing: -0.52px;
-  transform: translate(-50%, -50%);
   z-index: 2;
 }
 
 .biz-label {
-  position: absolute;
-  width: 100%;
+  flex: none;
+  width: 470px;          /* p 가 아래줄로 내려가지 않도록 넉넉히 */
   z-index: 3;
+  /* 기본 숨김(공간은 유지) → 노드 hover/클릭 시 표시 */
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+/* 노드를 hover 하거나, 클릭(.is-active)하면 해당 라벨 표시 */
+.box .biz-node:hover ~ .biz-label,
+.box.is-active .biz-label {
+  opacity: 1;
+  visibility: visible;
 }
 
 .biz-label h4 {
@@ -4475,23 +4491,35 @@ body.biz-page {
   gap: 4px;
 }
 
+.biz-goal-cols {
+  display: flex;
+  gap: 32px;
+  justify-content: flex-end;
+}
 .biz-goal-list li {
   display: flex;
+  align-items: baseline;
   font-size: 16px;
   color: #1a1a1a;
   font-weight: 400;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  white-space: nowrap;
 }
-.biz-goal-list li h4{display: inline-block;}
+.biz-goal-list li h4 {
+  display: inline-block;
+  margin: 0 5px 0 0;
+}
 
 .biz-core-grid {
   display: grid;
-  grid-template-columns: repeat(2, auto);
-  gap: 4px 18px;
+  grid-template-columns: repeat(4, auto);
+  gap: 10px 16px;
   font-size: 13px;
   color: #3a5b6e;
   font-weight: 600;
+  white-space: nowrap;
 }
+.biz-core-grid h4 { margin: 0; }
 
 .biz-label--r .biz-core-grid {
   justify-content: start;
@@ -4499,47 +4527,66 @@ body.biz-page {
 
 /* ── 4) CAPABILITIES (5-circle) ────────────────────────── */
 .biz-caps {
-  padding: 96px 0;
+  padding: 36px 0;
 }
 
 .biz-caps__head {
-  margin-bottom: 10px;
+  margin-bottom: 184px;
 }
 
 .biz-caps__head h3 {
-  font-size: 22px;
-  font-weight: 700;
-  color: #16384a;
+  font-size: 24px;
+  font-weight: 600;
+  color: #1a1a1a;
+  letter-spacing: -0.48px;
 }
 
 .biz-caps__head p {
-  margin-top: 10px;
-  font-size: 15px;
-  color: #5a7686;
-  font-weight: 500;
+  margin-top: 12px;
+  font-size: 18px;
+  color: #1a1a1a;
+  font-weight: 400;
   max-width: 720px;
 }
 
+/* ── 역량 다이어그램(펜타곤) — 박스 구조, 반응형 ── */
 .biz-diagram5 {
-  position: relative;
-  width: 600px;
-  max-width: 100%;
-  height: 560px;
-  margin: 30px auto 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 60px auto 0;
 }
 
-.biz-diagram5 svg.biz-links {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
+/* 펜타곤(노드 5개 + 측면 캡션) — 가운데 원의 기준 */
+.pentagon5 {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
+.row5 { display: flex; align-items: center; justify-content: center; }
+/* 정오각형(외접원 R=215, 노드 지름 180) 비율
+   위 노드 중심 ±126(간격 73) / 중간 ±204(간격 229) / 세로 단계 240·149 */
+.row5--t { gap: 73px; }                       /* 창조기획 ↔ 네트워크 */
+.row5--m { gap: 229px; margin-top: 60px; }    /* 책임운영 ↔ 전문인력 */
+.row5--b { margin-top: -31px; }               /* 특화기술 (아래 꼭짓점) */
+
+/* 박스: 노드만 레이아웃을 차지해 좌우 대칭(정오각형)을 보장.
+   캡션은 노드 옆에 절대배치 → 캡션 길이가 노드 위치에 영향 주지 않음 */
+.box5 { position: relative; }
+.box5 .biz-cap-cap {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: max-content;
+}
+.box5--l .biz-cap-cap { right: calc(100% + 40px); text-align: right; }  /* 노드 왼쪽 */
+.box5--r .biz-cap-cap { left:  calc(100% + 40px); text-align: left; }   /* 노드 오른쪽 */
 
 .biz-node5 {
-  position: absolute;
-  width: 128px;
-  height: 128px;
+  flex: none;
+  width: 180px;
+  height: 180px;
   border-radius: 50%;
   background: #22b2ea;
   color: #fff;
@@ -4547,44 +4594,72 @@ body.biz-page {
   align-items: center;
   justify-content: center;
   text-align: center;
-  font-weight: 700;
-  font-size: 16px;
-  transform: translate(-50%, -50%);
+  font-weight: 600;
+  font-size: 26px;
+  letter-spacing: -0.52px;
+  white-space: nowrap;
+  position: relative;
   z-index: 2;
 }
 
+/* 캡션 기본 숨김 → 노드 hover/클릭 시 표시 */
 .biz-cap-cap {
-  position: absolute;
-  width: 180px;
-  text-align: center;
-  transform: translate(-50%, 0);
-  z-index: 1;
+  flex: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
 }
+/* 측면 캡션(box5): 노드(=box5 영역) hover 또는 box5.is-active 시 표시
+   (box5--l 은 DOM이 [캡션][노드]라 ~ 선택자가 안 잡혀서 :hover 로 처리) */
+.box5:hover .biz-cap-cap,
+.box5.is-active .biz-cap-cap { opacity: 1; visibility: visible; }
+/* 특화기술 캡션(아래): JS 가 붙이는 클래스로 표시 */
+.cap5-bottom.is-hover,
+.cap5-bottom.is-active { opacity: 1; visibility: visible; }
 
 .biz-cap-cap h4 {
   font-family: var(--font-en);
-  font-size: 13px;
-  font-weight: 600;
-  color: #16384a;
-  margin-bottom: 4px;
-}
-
-.biz-cap-cap p {
-  font-size: 12px;
-  line-height: 1.6;
-  color: #6a8696;
+  font-size: 18px;
   font-weight: 500;
+  letter-spacing: -0.36px;
+  color: #1a1a1a;
+  margin-bottom: 16px;
+}
+.biz-cap-cap p {
+  font-size: 16px;
+  line-height: 1.4;
+  letter-spacing: -0.32px;
+  color: #1a1a1a;
+  white-space: nowrap;
+}
+.cap--r { text-align: right; }
+.cap--l { text-align: left; }
+.cap--c { text-align: center; }
+.cap5-bottom { margin-top: 28px; }          /* 특화기술 캡션 — 펜타곤 아래 가운데 */
+
+/* 외접원 — 정오각형 5개 노드 중심을 지나는 원 (외심 위치 = 박스 높이의 46.4%) */
+.ring5 {
+  position: absolute;
+  left: 50%;
+  top: 46.4%;            /* 아래꼭짓점 펜타곤은 외심이 bbox 중앙보다 위 */
+  transform: translate(-50%, -50%);
+  width: 430px;
+  height: 430px;
+  border: 2px solid #9bd6f1;
+  border-radius: 50%;
+  z-index: 1;
+  pointer-events: none;
 }
 
 /* ── 5) 사업 예시 ──────────────────────────────────────── */
 .biz-case {
-  padding: 30px 0 110px;
+  padding-top: 262px;
 }
 
 .biz-case__head {
   font-size: 22px;
   font-weight: 700;
-  color: #16384a;
+  color: #1a1a1a;
   margin-bottom: 24px;
 }
 
@@ -4592,13 +4667,42 @@ body.biz-page {
   position: relative;
   border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 30px 60px rgba(0, 80, 130, 0.18);
+  aspect-ratio: 1364 / 570;   /* 이미지 원본 비율 고정 (폭이 변해도 비율 유지) */
 }
 
-.biz-case__figure img {
+/* 슬라이드 트랙: 가로로 늘어선 슬라이드를 translateX 로 이동 */
+.biz-case__track {
+  display: flex;
+  height: 100%;
+  transition: transform 0.5s ease;
+}
+
+.biz-case__slide {
+  position: relative;
+  flex: 0 0 100%;
+  height: 100%;
+}
+
+.biz-case__slide img {
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
   display: block;
+}
+
+/* Figma(1485:1005) — 슬라이드 하단만 어둡게(캡션 가독성). 상단은 이미지 그대로 */
+.biz-case__slide::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(30, 36, 44, 0) 55%,
+    rgba(30, 36, 44, 0.4) 82%,
+    rgba(30, 36, 44, 0.62) 100%
+  );
 }
 
 .biz-case__caption {
@@ -4607,20 +4711,19 @@ body.biz-page {
   bottom: 30px;
   max-width: 60%;
   color: #fff;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  z-index: 2;          /* 그라데이션 오버레이 위에 */
 }
 
 .biz-case__caption h4 {
   font-size: 18px;
-  font-weight: 700;
-  margin-bottom: 8px;
+  font-weight: 400;
+  line-height: 1.6;
 }
 
 .biz-case__caption p {
-  font-size: 13px;
-  line-height: 1.7;
-  opacity: 0.92;
-  font-weight: 500;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.6;
 }
 
 /* ── 6) FOOTER (faded logo) — 현재는 메인 footer 사용, 잔여 스타일 ── */
@@ -4647,7 +4750,6 @@ body.biz-page {
   color: rgba(255, 255, 255, 0.85);
   letter-spacing: 0.04em;
   line-height: 1;
-  text-shadow: 0 4px 18px rgba(120, 200, 240, 0.5);
 }
 
 .biz-footer__copy {
@@ -4671,30 +4773,29 @@ body.biz-page {
 
 /* ── 반응형: 다이어그램/큰 글자 정리 ── */
 @media (max-width: 1024px) {
-  .biz-diagram4 {
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-    align-items: center;
+  /* 비전 다이어그램: 1열로 스택, 각 박스는 세로(노드 위 · 텍스트 아래) */
+  .diagram4-wrap {
+    grid-template-columns: 1fr;
+    column-gap: 0;
+    row-gap: 40px;
+    justify-items: center;
   }
+
+  .biz-ring { display: none; }
 
   .biz-diagram4 svg.biz-links {
     display: none;
   }
 
-  .biz-diagram4 .biz-node {
-    position: relative;
-    transform: none;
-    left: auto !important;
-    top: auto !important;
+  .box,
+  .box--l {
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
   }
 
   .biz-label {
-    position: relative;
     width: min(420px, 88vw);
-    left: auto !important;
-    top: auto !important;
     text-align: center !important;
   }
 
@@ -4707,32 +4808,36 @@ body.biz-page {
     justify-content: center;
   }
 
-  .biz-diagram5 {
-    height: auto;
+  /* 역량 다이어그램(펜타곤): 1열로 스택, 박스는 세로(노드 위·캡션 아래) */
+  .pentagon5 { gap: 28px; }
+  .ring5 { display: none; }
+  .row5,
+  .row5--t,
+  .row5--m,
+  .row5--b {
+    flex-direction: column;
+    gap: 28px;
+    margin-top: 0;
+  }
+  .box5 {
     display: flex;
     flex-direction: column;
-    gap: 14px;
     align-items: center;
+    gap: 18px;
+    text-align: center;
   }
-
-  .biz-diagram5 svg.biz-links {
-    display: none;
-  }
-
-  .biz-node5 {
-    position: relative;
+  /* 모바일: 캡션 절대배치 해제 → 노드 아래 정상 배치 */
+  .box5 .biz-cap-cap {
+    position: static;
     transform: none;
-    left: auto !important;
-    top: auto !important;
+    width: auto;
+    right: auto;
+    left: auto;
   }
-
-  .biz-cap-cap {
-    position: relative;
-    transform: none;
-    left: auto !important;
-    top: auto !important;
-    width: min(420px, 88vw);
-  }
+  .cap--l,
+  .cap--r,
+  .cap--c { text-align: center; }
+  .biz-cap-cap p { white-space: normal; }
 
   .biz-area--right {
     align-items: flex-start;
@@ -4802,7 +4907,7 @@ body.biz-page {
   font-family: var(--font-kr);
   font-size: clamp(14px, 1.4vw, 18px);
   font-weight: 500;
-  color: #3a5b6e;
+  color: #1a1a1a;
   margin-top: 12px;
 }
 
@@ -4835,6 +4940,19 @@ body.biz-page {
   justify-content: flex-start;
   margin: 0;
   list-style: none;
+}
+
+/* text·list 기본 숨김 → 배너 활성(스크롤로 가운데 도달) 시 등장 */
+.biz-banner .text,
+.biz-banner .list {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.biz-banner.is-active .text,
+.biz-banner.is-active .list {
+  opacity: 1;
+  transform: none;
 }
 
 /* 교차 배치: 우측 블록은 태그도 우측 정렬 */
