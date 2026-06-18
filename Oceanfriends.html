@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ko">
 
 <head>
@@ -213,40 +213,17 @@
       transition: transform 0.7s ease;
     }
 
-    .of-species-card:nth-child(1) {
-      --img-x: 54%;
-      --img-y: 42%;
-    }
-
-    .of-species-card:nth-child(2) {
-      --img-x: 50%;
-      --img-y: 50%;
-    }
-
-    .of-species-card:nth-child(3) {
-      --img-x: 50%;
-      --img-y: 44%;
-    }
-
-    .of-species-card:nth-child(4) {
-      --img-x: 55%;
-      --img-y: 50%;
-    }
-
-    .of-species-card:nth-child(5) {
-      --img-x: 58%;
-      --img-y: 48%;
-    }
-
-    .of-species-card:nth-child(6) {
-      --img-x: 50%;
-      --img-y: 48%;
-    }
-
-    .of-species-card:nth-child(7) {
-      --img-x: 52%;
-      --img-y: 48%;
-    }
+    /* 카드별 이미지 피사체 중심 — data-species 속성으로 각각 지정 */
+    [data-species="beluga"]      { --img-x: 50%; --img-y: 36%; }
+    [data-species="walrus"]      { --img-x: 30%; --img-y: 50%; }
+    [data-species="penguin"]     { --img-x: 50%; --img-y: 38%; }
+    [data-species="shark"]       { --img-x: 95%; --img-y: 50%; }
+    [data-species="ray"]         { --img-x: 50%; --img-y: 50%; }
+    [data-species="otter"]       { --img-x: 50%; --img-y: 42%; }
+    [data-species="sea-turtle"]  { --img-x: 68%; --img-y: 50%; }
+    [data-species="harbor-seal"] { --img-x: 30%; --img-y: 32%; }
+    [data-species="jellyfish"]   { --img-x: 50%; --img-y: 50%; }
+    [data-species="clownfish"]   { --img-x: 65%; --img-y: 50%; }
 
     .of-species-card::after {
       content: "";
@@ -741,60 +718,100 @@
       }
     }
 
-    /* ── Wave strip (데스크톱) ── */
+    /* ── Signature Species — 세로 strip → hover 시 가로 확장 (데스크톱) ── */
     @media (min-width: 761px) {
+      /* 스크롤 컨테이너: overflow만 담당, flex는 .of-species-list에 위임
+         display:block — 기본 CSS grid를 명시적으로 해제 */
       .of-species {
-        display: flex;
-        gap: 10px;
+        display: block;
         width: 100%;
-        height: clamp(420px, 38vw, 560px);
+        margin: 0;
         overflow-x: auto;
-        overflow-y: visible;
-        scrollbar-width: none;
+        overflow-y: hidden;
+        padding: 24px 0 64px;
+        box-sizing: border-box;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(255, 255, 255, 0.22) transparent;
+        -webkit-overflow-scrolling: touch;
         cursor: grab;
-        align-items: center;
-        padding: 60px 30vw;
-        perspective: 1000px;
-        transform-style: preserve-3d;
+        user-select: none;
       }
-      .of-species::-webkit-scrollbar { display: none; }
+      .of-species::-webkit-scrollbar        { height: 3px; }
+      .of-species::-webkit-scrollbar-track  { background: transparent; }
+      .of-species::-webkit-scrollbar-thumb  { background: rgba(255,255,255,0.22); border-radius: 2px; }
       .of-species:active { cursor: grabbing; }
 
+      /* 카드 flex 리스트: 내용이 viewport보다 작으면 중앙, 크면 스크롤
+         width: max-content → 내용 폭 그대로
+         min-width: 100%   → 작을 때 부모 폭으로 늘어나 justify-content:center 효과 */
+      .of-species-list {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 24px;
+        width: max-content;
+        min-width: 100%;
+        padding: 0 48px;
+        box-sizing: border-box;
+      }
+
+      /* 카드 기본: 좁은 세로 strip.
+         --closed-w: 기본 폭.  --open-w: JS가 이미지 비율로 계산해 덮어씀.
+         transition에 transform 없음 → 카드 떨림 원천 차단. */
       .of-species .of-species-card {
-        position: relative;
-        flex-shrink: 0;
-        width: clamp(80px, 7vw, 110px);
-        height: clamp(260px, 22vw, 340px);
+        --closed-w: clamp(180px, 14vw, 200px);
+        --open-w:   520px;                     /* JS 로드 전 fallback */
+
+        flex: 0 0 var(--closed-w);
+        width: var(--closed-w);
+        height: clamp(320px, 27vw, 380px);
         min-height: 0;
-        border-radius: 8px;
-        filter: grayscale(1) brightness(0.4);
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        box-shadow: 0 18px 46px rgba(0, 60, 90, 0.22);
         transition:
-          width 0.5s cubic-bezier(0.23, 1, 0.32, 1),
-          filter 0.4s ease;
+          flex-basis   0.55s cubic-bezier(0.22, 1, 0.36, 1),
+          width        0.55s cubic-bezier(0.22, 1, 0.36, 1),
+          border-color 0.35s ease,
+          box-shadow   0.35s ease;
       }
 
-      /* 호버 시 확장 */
-      .of-species:has(.of-species-card:hover) .of-species-card {
-        width: clamp(50px, 4.5vw, 70px);
-        filter: grayscale(1) brightness(0.25);
-      }
-      .of-species:has(.of-species-card:hover) .of-species-card:hover {
-        width: clamp(180px, 15vw, 240px);
-        filter: grayscale(0) brightness(1);
+      /* hover: 이미지 원본 비율에 맞춰 넓게 열림 */
+      .of-species .of-species-card:hover {
+        flex-basis:   var(--open-w);
+        width:        var(--open-w);
+        border-color: rgba(255, 255, 255, 0.75);
+        box-shadow:   0 28px 70px rgba(0, 80, 120, 0.30);
       }
 
-      /* 카드 텍스트 호버 시 표시 */
+      /* 이미지: transform scale 없음, filter만 변경 */
+      .of-species-card img {
+        filter: brightness(0.75) saturate(0.90);
+        transition: filter 0.4s ease;
+      }
+      .of-species-card:hover img {
+        filter: brightness(1.0) saturate(1.06);
+        transform: none;   /* 기본 CSS의 scale(1.06) 무력화 */
+      }
+
+      /* overlay(::after): strip 상태에서 숨기고, hover 시 표시 */
+      .of-species-card::after {
+        opacity: 0;
+        transition: opacity 0.4s ease;
+      }
+      .of-species-card:hover::after {
+        opacity: 1;
+      }
+
+      /* 번호·텍스트: hover 시 fade-in. position:absolute → layout 불변. */
+      .of-species-card__num,
       .of-species-card__text {
         opacity: 0;
-        transform: translateY(6px);
-        transition: opacity 0.25s ease 0.1s, transform 0.25s ease 0.1s;
+        transition: opacity 0.35s ease 0.1s;
       }
+      .of-species-card:hover .of-species-card__num,
       .of-species-card:hover .of-species-card__text {
         opacity: 1;
-        transform: translateY(0);
-      }
-      .of-species-card__num {
-        opacity: 0;
       }
     }
 
@@ -862,11 +879,19 @@
       }
 
       .of-species {
-        display: flex;
+        display: block;
         width: calc(100% - 24px);
+        margin: 0 auto;
         overflow-x: auto;
         scroll-snap-type: x mandatory;
         padding-bottom: 12px;
+      }
+
+      .of-species-list {
+        display: flex;
+        gap: 12px;
+        padding: 0 16px;
+        width: max-content;
       }
 
       .of-species-card {
@@ -973,41 +998,58 @@
       </div>
 
       <div class="of-species" aria-label="생물 카드 목록">
-        <article class="of-species-card">
-          <img src="assets/images/strip · Beluga.png" alt="벨루가">
-          <span class="of-species-card__num">01</span>
-          <div class="of-species-card__text"><strong>Beluga</strong><span>white whale</span></div>
-        </article>
-        <article class="of-species-card">
-          <img src="assets/images/strip · Walrus.png" alt="바다코끼리">
-          <span class="of-species-card__num">02</span>
-          <div class="of-species-card__text"><strong>Walrus</strong><span>marine mammal</span></div>
-        </article>
-        <article class="of-species-card">
-          <img src="assets/images/strip · Penguin.png" alt="펭귄">
-          <span class="of-species-card__num">03</span>
-          <div class="of-species-card__text"><strong>Penguin</strong><span>flightless bird</span></div>
-        </article>
-        <article class="of-species-card">
-          <img src="assets/images/strip · Shark.png" alt="상어">
-          <span class="of-species-card__num">04</span>
-          <div class="of-species-card__text"><strong>Shark</strong><span>sand tiger shark</span></div>
-        </article>
-        <article class="of-species-card">
-          <img src="assets/images/strip · Ray.png" alt="가오리">
-          <span class="of-species-card__num">05</span>
-          <div class="of-species-card__text"><strong>Ray</strong><span>manta ray</span></div>
-        </article>
-        <article class="of-species-card">
-          <img src="assets/images/strip · Otter.png" alt="수달">
-          <span class="of-species-card__num">06</span>
-          <div class="of-species-card__text"><strong>Otter</strong><span>small-clawed otter</span></div>
-        </article>
-        <article class="of-species-card">
-          <img src="assets/images/strip · Sea Turtle.png" alt="바다거북">
-          <span class="of-species-card__num">07</span>
-          <div class="of-species-card__text"><strong>Sea Turtle</strong><span>green turtle</span></div>
-        </article>
+        <div class="of-species-list">
+          <article class="of-species-card" data-species="beluga">
+            <img src="assets/images/yeosu/10_벨루가(흰고래).jpg" alt="벨루가">
+            <span class="of-species-card__num">01</span>
+            <div class="of-species-card__text"><strong>Beluga</strong><span>벨루가</span></div>
+          </article>
+          <article class="of-species-card" data-species="walrus">
+            <img src="assets/images/ilsan/05_바다코끼리.jpg" alt="바다코끼리">
+            <span class="of-species-card__num">02</span>
+            <div class="of-species-card__text"><strong>Walrus</strong><span>바다코끼리</span></div>
+          </article>
+          <article class="of-species-card" data-species="penguin">
+            <img src="assets/images/ilsan/10_아프리카펭귄.jpg" alt="펭귄">
+            <span class="of-species-card__num">03</span>
+            <div class="of-species-card__text"><strong>Penguin</strong><span>아프리칸 펭귄</span></div>
+          </article>
+          <article class="of-species-card" data-species="shark">
+            <img src="assets/images/ilsan/08_샌드타이거샤크.jpg" alt="상어">
+            <span class="of-species-card__num">04</span>
+            <div class="of-species-card__text"><strong>Sand Tiger Shark</strong><span>샌드타이거샤크</span></div>
+          </article>
+          <article class="of-species-card" data-species="ray">
+            <img src="assets/images/ilsan/22_흑가오리.jpg" alt="가오리">
+            <span class="of-species-card__num">05</span>
+            <div class="of-species-card__text"><strong>Black Ray</strong><span>흑가오리</span></div>
+          </article>
+          <article class="of-species-card" data-species="otter">
+            <img src="assets/images/yeosu/24_작은발톱수달.jpg" alt="수달">
+            <span class="of-species-card__num">06</span>
+            <div class="of-species-card__text"><strong>Asian Small-Clawed Otter</strong><span>작은발톱수달</span></div>
+          </article>
+          <article class="of-species-card" data-species="sea-turtle">
+            <img src="assets/images/yeosu/바다거북.jpg" alt="바다거북">
+            <span class="of-species-card__num">07</span>
+            <div class="of-species-card__text"><strong>Sea Turtle</strong><span>바다거북</span></div>
+          </article>
+          <article class="of-species-card" data-species="harbor-seal">
+            <img src="assets/images/yeosu/26_참물범.jpg" alt="참물범">
+            <span class="of-species-card__num">08</span>
+            <div class="of-species-card__text"><strong>Harbor Seal</strong><span>참물범</span></div>
+          </article>
+          <article class="of-species-card" data-species="jellyfish">
+            <img src="assets/images/yeosu/11_보름달물해파리.jpg" alt="보름달물해파리">
+            <span class="of-species-card__num">09</span>
+            <div class="of-species-card__text"><strong>Moon Jellyfish</strong><span>보름달물해파리</span></div>
+          </article>
+          <article class="of-species-card" data-species="clownfish">
+            <img src="assets/images/yeosu/28_퍼큘라클라운피쉬.jpg" alt="흰동가리">
+            <span class="of-species-card__num">10</span>
+            <div class="of-species-card__text"><strong>Clownfish</strong><span>퍼큘라클라운피쉬</span></div>
+          </article>
+        </div>
       </div>
       <div class="of-pager" aria-label="생물 상세 소개 더 보기"></div>
     </section>
@@ -3020,17 +3062,14 @@
     })();
   </script>
 
-  <!-- Wave strip 인터랙션 -->
+  <!-- Signature Species 갤러리 — strip 확장 + 드래그·휠 -->
   <script>
     (function () {
-      const carousel = document.querySelector('#signature .of-species');
+      const wrap  = document.querySelector('#signature .of-species');
       const pager = document.querySelector('#signature .of-pager');
-      if (!carousel) return;
+      if (!wrap) return;
 
-      const cards = Array.from(carousel.querySelectorAll('.of-species-card'));
-      if (!cards.length) return;
-
-      /* pager → "more" 버튼만 유지 */
+      /* more 버튼 */
       if (pager) {
         pager.replaceChildren();
         const btn = document.createElement('button');
@@ -3043,61 +3082,61 @@
         pager.appendChild(btn);
       }
 
-      /* 드래그 스크롤 */
+      /* ── hover 확장 폭 계산 ──────────────────────────────────────────
+       * img.naturalWidth / img.naturalHeight = 이미지 원본 비율
+       * openWidth = cardHeight × ratio  (원본 비율 유지)
+       * clamp(300px ~ 700px)로 너무 넓거나 좁아지지 않게 제한
+       * CSS 변수 --open-w 에 저장 → .of-species-card:hover { width: var(--open-w) }
+       */
+      Array.from(wrap.querySelectorAll('.of-species-card')).forEach(card => {
+        const img = card.querySelector('img');
+        if (!img) return;
+
+        function apply() {
+          const ratio = img.naturalWidth / img.naturalHeight;
+          if (!ratio || !isFinite(ratio)) return;
+          const cardH  = card.offsetHeight || 380;
+          const openW  = Math.round(Math.min(Math.max(cardH * ratio, 300), 700));
+          card.style.setProperty('--open-w', openW + 'px');
+        }
+
+        if (img.complete && img.naturalWidth) apply();
+        else img.addEventListener('load', apply);
+      });
+
+      /* 모바일은 네이티브 터치 스크롤 — JS 조작 불필요 */
+      if (window.matchMedia('(max-width: 760px)').matches) return;
+
+      /* ── 드래그 스크롤 ───────────────────────────────────────────────
+       * scrollLeft를 직접 갱신. transform 계산 없음 → 떨림 없음.
+       */
       let isDragging = false, startX = 0, startScroll = 0;
-      carousel.addEventListener('mousedown', e => {
-        isDragging = true;
-        startX = e.pageX;
-        startScroll = carousel.scrollLeft;
-        carousel.style.cursor = 'grabbing';
+
+      wrap.addEventListener('mousedown', e => {
+        isDragging  = true;
+        startX      = e.clientX;
+        startScroll = wrap.scrollLeft;
+        wrap.style.cursor = 'grabbing';
+        e.preventDefault();
       });
       window.addEventListener('mousemove', e => {
         if (!isDragging) return;
-        carousel.scrollLeft = startScroll - (e.pageX - startX);
+        wrap.scrollLeft = startScroll - (e.clientX - startX);
       });
       window.addEventListener('mouseup', () => {
         isDragging = false;
-        carousel.style.cursor = 'grab';
+        wrap.style.cursor = 'grab';
       });
 
-      /* wave 계산: 화면 중앙과의 거리 기반 dock effect */
-      function easeOut(t) { return 1 - Math.pow(1 - t, 2); }
-
-      let raf = null;
-      function updateWave() {
-        const W = carousel.clientWidth;
-        const centerX = W / 2;
-        const carouselRect = carousel.getBoundingClientRect();
-
-        cards.forEach(card => {
-          const rect = card.getBoundingClientRect();
-          const cardCenter = rect.left - carouselRect.left + rect.width / 2;
-          const dist = Math.abs(cardCenter - centerX);
-          const maxDist = W * 0.58;
-          const proximity = Math.max(0, 1 - dist / maxDist);
-          const wave = easeOut(Math.pow(proximity, 1.3));
-
-          /* translateZ는 컨테이너의 perspective(1000px)를 공유 — 개별 perspective() 제거.
-             50px 전진 시 겉보기 배율 = 1000/950 ≈ 1.05 → gap 10px 안에서 겹침 없음. */
-          const translateZ = wave * 50;
-          const sign = cardCenter < centerX ? 1 : -1;
-          const rotateY = sign * (1 - wave) * 14 * (dist / maxDist);
-          const brightness = 0.35 + wave * 0.65;
-          const grayScale = 1 - wave * 0.95;
-
-          /* height는 CSS가 고정 담당 — JS에서 건드리지 않음 (레이아웃 혼선 방지) */
-          card.style.transform = `translateZ(${translateZ.toFixed(1)}px) rotateY(${rotateY.toFixed(2)}deg)`;
-          card.style.filter = `grayscale(${grayScale.toFixed(3)}) brightness(${brightness.toFixed(3)})`;
-        });
-      }
-
-      carousel.addEventListener('scroll', () => {
-        if (raf) cancelAnimationFrame(raf);
-        raf = requestAnimationFrame(updateWave);
-      }, { passive: true });
-
-      /* 초기 실행 */
-      updateWave();
+      /* ── 세로 휠 → 가로 스크롤 변환 ────────────────────────────────
+       * 트랙패드 가로 스와이프(deltaX 우세)는 그대로 통과.
+       */
+      wrap.addEventListener('wheel', e => {
+        if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+          e.preventDefault();
+          wrap.scrollLeft += e.deltaY;
+        }
+      }, { passive: false });
     })();
   </script>
 
