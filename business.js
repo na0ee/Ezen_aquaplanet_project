@@ -229,40 +229,23 @@
   });
 })();
 
-/* ── 배경 그라데이션: 흰색 구간을 [Business Area & Vision 라벨 ~ 사업예시 슬라이더 끝]에 정렬 ──
-   파랑(상단) → (페이드) → 흰색(라벨부터) → 흰색(track 끝까지) → (페이드) → 파랑(footer).
-   요소의 실제 위치(offsetTop, transform 무시)를 측정해 px 로 그라데이션 스톱을 지정한다. */
-(function () {
-  const label = document.querySelector('.biz-sec-label');     // 첫 라벨 = Business Area & Vision
-  const track = document.querySelector('.biz-case__track');    // 사업예시 슬라이더
-  const footer = document.getElementById('footer');
-  if (!label || !track) return;
+/* ── 배경 그라데이션 */
+function apply(whiteStartRatio = 0.3, whiteEndRatio = 0.7) {
+  const h = document.body.scrollHeight;
 
-  const TOP_FADE = 280;   // 라벨 위쪽 파랑→흰 전환 길이(px)
+  const whiteStart = h * whiteStartRatio;
+  const whiteEnd = h * whiteEndRatio;
 
-  // 문서 기준 top (offsetParent 체인 합산 → reveal 의 transform 영향 없음)
-  function docTop(el) { let t = 0; while (el) { t += el.offsetTop; el = el.offsetParent; } return t; }
+  document.body.style.backgroundImage =
+    'linear-gradient(to bottom,' +
 
-  function apply() {
-    const labelTop = docTop(label);
-    const caseBottom = docTop(track) + track.offsetHeight;
-    const footerTop = footer ? docTop(footer) : document.body.scrollHeight;
-    const blueEnd = Math.max(0, labelTop - TOP_FADE);
-    document.body.style.backgroundImage =
-      'linear-gradient(to bottom,' +
-      ' #22B2EA 0px,' +
-      ' #22B2EA ' + blueEnd + 'px,' +
-      ' #ffffff ' + labelTop + 'px,' +
-      ' #ffffff ' + caseBottom + 'px,' +
-      ' #22B2EA ' + footerTop + 'px)';
-  }
+      '#22B2EA 0px,' +
+      '#22B2EA ' + whiteStart + 'px,' +
 
-  apply();
-  window.addEventListener('load', apply);
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(apply);
-  let rid;
-  window.addEventListener('resize', function () {
-    clearTimeout(rid);
-    rid = setTimeout(apply, 150);
-  }, { passive: true });
-})();
+      '#ffffff ' + whiteStart + 'px,' +
+      '#ffffff ' + whiteEnd + 'px,' +
+
+      '#22B2EA ' + h + 'px' +
+
+    ')';
+}
