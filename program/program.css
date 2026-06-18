@@ -362,6 +362,8 @@ body {
 .schedule-table {
   width: 100%;
   margin-bottom: 40px;
+  position: relative; /* 커스텀 스크롤바(absolute 오버레이) 기준 */
+  padding-bottom: 44px; /* 스크롤바 오버레이 공간 */
 }
 
 .schedule-date {
@@ -463,40 +465,63 @@ body {
   flex-direction: column;
   flex: 1;
   overflow-x: auto;
+  scrollbar-width: none; /* 네이티브 스크롤바 숨김 (커스텀 오버레이 사용) */
 }
 
-/* 하단 가로 스크롤바: 손잡이=캐릭터 아이콘(고정 크기), 트랙=얇은 컬러 막대 */
+/* 네이티브 가로 스크롤바 숨김 */
 .schedule-section__contents::-webkit-scrollbar {
-  height: 34px; /* 아이콘(30px)이 잘리지 않도록 그보다 큰 영역 높이 */
+  height: 0;
 }
 
-/* 이미 지나간 부분(손잡이 왼쪽): primary, 가운데 4px 막대 */
-.schedule-section__contents::-webkit-scrollbar-track-piece:start {
-  background: linear-gradient(
-    to bottom,
-    transparent calc(50% - 2px),
-    var(--Brand-Primary, #22B2EA) calc(50% - 2px),
-    var(--Brand-Primary, #22B2EA) calc(50% + 2px),
-    transparent calc(50% + 2px)
-  );
+/* 커스텀 가로 스크롤바: schedule-table 기준 absolute 오버레이 (다른 영역 레이아웃에 영향 없음) */
+.cscrollbar {
+  position: absolute;
+  left: 180px; /* 라벨 폭 제외, contents 영역과 정렬 */
+  right: 0;
+  bottom: 0;
+  height: 34px;
 }
 
-/* 아직 안 지나간 부분(손잡이 오른쪽): #BEDBF4, 가운데 4px 막대 */
-.schedule-section__contents::-webkit-scrollbar-track-piece:end {
-  background: linear-gradient(
-    to bottom,
-    transparent calc(50% - 2px),
-    #BEDBF4 calc(50% - 2px),
-    #BEDBF4 calc(50% + 2px),
-    transparent calc(50% + 2px)
-  );
+/* 안 지나간 부분(트랙 바탕): #BEDBF4, 가운데 4px 막대 */
+.cscrollbar::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 4px;
+  border-radius: 2px;
+  background: #BEDBF4;
 }
 
-.schedule-section__contents::-webkit-scrollbar-thumb {
-  /* 아이콘을 고정 크기로 표시 */
-  background: url('../assets/images/jeju_character_icon.svg') no-repeat center;
-  background-size: 34px 34px;
-  min-width: 34px;
+/* 지나간 부분: primary, 손잡이 위치까지 */
+.cscrollbar__progress {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 4px;
+  width: 0;
+  border-radius: 2px;
+  background: var(--Brand-Primary, #22B2EA);
+}
+
+/* 손잡이: 캐릭터 아이콘 고정 크기 */
+.cscrollbar__thumb {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  width: 34px;
+  height: 34px;
+  background: url('../assets/images/jeju_character_icon.svg') no-repeat center / contain;
+  cursor: grab;
+  touch-action: none;
+}
+
+.cscrollbar__thumb:active {
+  cursor: grabbing;
 }
 
 .schedule-section__programs {
@@ -608,14 +633,13 @@ body {
   color: #3a3a3a;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
   line-height: 1.2;
 }
 
 .program-time__icon {
   width: 12px;
   height: 12px;
-  background-color: rgba(26, 26, 26, 0.3);
   flex-shrink: 0;
 }
 
@@ -637,6 +661,12 @@ body {
   align-items: center;
   gap: 6px;
   cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+/* 호버 시 왼쪽으로 살짝 이동 (벗어나면 원위치) */
+.schedule-toggle__item:hover {
+  transform: translateX(-8px);
 }
 
 .schedule-toggle__text {
@@ -676,58 +706,345 @@ body {
 
 /* Program Card */
 .program-card {
-    width: 1138px;
+  margin: 0 auto;
+  width: 1138px;
+  height: 80px;
   border-radius: 14px;
   padding: 0 50px;
   display: flex;
   align-items: center;
-  gap: 20px;
+  justify-content: space-between;
   transition: all 0.3s ease;
-  height: 80px;
 }
 
-.program-card:hover {
-  background-color: rgba(255, 255, 255, 0.3);
-  border-color: rgba(255, 255, 255, 0.4);
+.program-card:hover,
+.program-card--active {
+  background-color: var(--Brand-Primary);
 }
 
-.program-card .btn {
-  flex-shrink: 0;
-  margin-right: 20px;
+/* 호버/활성 시 텍스트 흰색 + chevron-down 아이콘 흰색 (img 아이콘은 JS로 src 전환) */
+.program-card:hover .program-card__title,
+.program-card:hover .program-card__duration,
+.program-card:hover .program-card__location,
+.program-card--active .program-card__title,
+.program-card--active .program-card__duration,
+.program-card--active .program-card__location {
+  color: #fff;
+}
+
+.program-card:hover .program-card__meta::after {
+  background-image: url('../assets/images/chevron_down_white.svg');
+}
+
+/* 상세가 펼쳐진 카드는 위쪽 화살표 (호버 중에도 유지) */
+.program-card--active .program-card__meta::after,
+.program-card--active:hover .program-card__meta::after {
+  background-image: url('../assets/images/chevron_up_white.svg');
+}
+
+/* 호버/활성 시 아이콘(img) 항상 흰색 */
+.program-card:hover img,
+.program-card--active img {
+  filter: brightness(0) invert(1);
+}
+
+/* 호버/활성 시 배지(.tag) 색: program-slot active와 동일 (흰 배경 + 카테고리 색 텍스트) */
+.program-card:hover .tag--education,
+.program-card--active .tag--education {
+  background-color: #ffffff;
+  color: #002D72;
+}
+
+.program-card:hover .tag--experience,
+.program-card--active .tag--experience {
+  background-color: #ffffff;
+  color: #BEDBF4;
+}
+
+.program-card:hover .tag--performance,
+.program-card--active .tag--performance {
+  background-color: #ffffff;
+  color: var(--Brand-Primary, #22B2EA);
+}
+
+/* 왼쪽: 배지 + 제목 */
+.program-card__info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* program-card 배지 (Figma: h32, 14px) */
+.program-card .tag {
+  height: 32px;
+  padding: 6px 10px;
+  font-size: 14px;
+  letter-spacing: -0.28px;
+  margin-bottom: 0;
+  align-self: auto;
 }
 
 .program-card__title {
   font-family: "Pretendard", sans-serif;
   font-size: 18px;
   font-weight: 500;
-  letter-spacing: -0.32px;
+  letter-spacing: -0.72px;
   color: #1a1a1a;
-  flex: 1;
-  margin-right: 30px;
+  white-space: nowrap;
+}
+
+/* 오른쪽: 소요시간 + 위치 + 펼치기 아이콘 */
+.program-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 46px;
+}
+
+/* 끝 펼치기(chevron-down) 아이콘 */
+.program-card__meta::after {
+  content: "";
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  margin-left: 28px; /* gap 46 + 28 = Figma 74px 간격 */
+  background: url('../assets/images/chevron_down_grey.svg') no-repeat center / contain;
 }
 
 .program-card__duration {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 120px; /* Figma 고정폭 → 카드 간 정렬 */
   font-family: "Pretendard", sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  letter-spacing: -0.28px;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: -0.32px;
   color: #3A3A3A;
-  min-width: 100px;
-  text-align: right;
-  margin-right: 30px;
+  white-space: nowrap;
 }
 
 .program-card__location {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 300px; /* Figma 고정폭 → 카드 간 정렬 */
   font-family: "Pretendard", sans-serif;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 400;
-  letter-spacing: -0.28px;
+  letter-spacing: -0.32px;
   color: #3A3A3A;
-  text-align: right;
+  white-space: nowrap;
 }
 
 .program-card__location span {
   font-weight: 500;
+}
+
+/* 위치 구분자(chevron-right) 아이콘 */
+.program-card__chevron {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+}
+
+/* ===== 프로그램 상세 (인라인 아코디언) ===== */
+.detail-modal {
+  width: 1120px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 4px;
+  justify-self: center;
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition: max-height 0.55s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.detail-modal.is-open {
+  max-height: 460px;
+  opacity: 1;
+}
+
+.detail-modal__panel {
+  position: relative;
+  display: flex;
+  gap: 120px;
+  align-items: flex-start;
+  background: #ffffff;
+  border-radius: 14px;
+  /* 아래에서 위로 올라오며 나타나는 모션 */
+  transform: translateY(30px);
+  opacity: 0;
+  transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.detail-modal.is-open .detail-modal__panel {
+  opacity: 1;
+}
+
+.detail-modal.is-open .detail-modal__panel {
+  transform: translateY(0);
+}
+
+.detail-modal__close {
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  font-size: 28px;
+  line-height: 1;
+  color: #1a1a1a;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.detail-modal__info {
+  width: 448px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-top: 10px;
+}
+
+.detail-modal__header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* 모달 배지 (Figma: h32, 16px) */
+.detail-modal__tag {
+  height: 32px;
+  padding: 6px 16px;
+  font-size: 16px;
+  letter-spacing: -0.32px;
+  margin-bottom: 0;
+  align-self: auto;
+}
+
+.detail-modal__title {
+  font-family: "Pretendard", sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: -0.8px;
+  color: #000;
+  white-space: nowrap;
+}
+
+.detail-modal__body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.detail-modal__parts {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.detail-modal__part {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.detail-modal__part-label {
+  font-family: "Pretendard", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: -0.32px;
+  color: #000;
+}
+
+.detail-modal__part-text {
+  font-family: "Pretendard", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: -0.32px;
+  color: #000;
+  line-height: 1.4;
+}
+
+.detail-modal__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.detail-modal__meta-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* 세로 정렬 행 (유의사항 등 라벨 위 + 내용 아래) */
+.detail-modal__meta-row--column {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.detail-modal__meta-row--column .detail-modal__meta-value {
+  font-size: 14px;
+}
+
+.detail-modal__meta-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: "Pretendard", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.32px;
+  color: #1a1a1a;
+  line-height: 1.4;
+}
+
+.detail-modal__meta-label .img {width: 16px; height: 16px;}
+
+.detail-modal__meta-label .img img {width: 100%;}
+
+.detail-modal__meta-value {
+  font-family: "Pretendard", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: -0.32px;
+  color: #1a1a1a;
+  line-height: 1.4;
+}
+
+.detail-modal__location {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: "Pretendard", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: -0.32px;
+  color: #3a3a3a;
+  white-space: nowrap;
+}
+
+.detail-modal__location span {
+  font-weight: 500;
+}
+
+/* 이미지 영역 (회색 박스) */
+.detail-modal__image {
+  flex-shrink: 0;
+  width: 570px;
+  height: 340px;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.detail-modal__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 /* Responsive */
@@ -846,25 +1163,16 @@ body {
   }
 
   .program-card {
+    width: 100%;
+    height: auto;
     flex-direction: column;
     align-items: flex-start;
     padding: 16px;
-    min-height: auto;
     gap: 8px;
   }
 
-  .program-card .btn {
-    margin-right: 0;
-  }
-
-  .program-card__title {
-    margin-right: 0;
-  }
-
-  .program-card__duration {
-    min-width: auto;
-    text-align: left;
-    margin-right: 0;
+  .program-card__meta {
+    gap: 20px;
   }
 
   .program-card__location {

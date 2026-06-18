@@ -44,12 +44,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // 선택된 시간대 프로그램 하이라이트
   function highlightProgramsByTime(selectedHour) {
-    // 모든 program-slot의 하이라이트 제거
+    const greyIcon = '../assets/images/time_icon_grey.svg';
+    const whiteIcon = '../assets/images/time_icon_white.svg';
+
+    // 모든 program-slot의 하이라이트 제거 + 아이콘 grey로 복원
     document.querySelectorAll('.program-slot').forEach(slot => {
       slot.classList.remove('program-slot--active');
+      const icon = slot.querySelector('.program-time__icon img');
+      if (icon) icon.src = greyIcon;
     });
 
-    // 선택된 시간대의 프로그램만 배경색 변경
+    // 선택된 시간대의 프로그램만 배경색 변경 + 아이콘 white로 변경
     scheduleSectionPrograms.forEach(programsContainer => {
       const programSlots = programsContainer.querySelectorAll('.program-slot');
 
@@ -61,6 +66,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
           if (startTime === selectedHour) {
             slot.classList.add('program-slot--active');
+            const icon = slot.querySelector('.program-time__icon img');
+            if (icon) icon.src = whiteIcon;
           }
         }
       });
@@ -312,4 +319,177 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('scroll', updateToggleActive);
     updateToggleActive();
   }
+
+  // ===== 커스텀 가로 스크롤바 (absolute 오버레이, 손잡이가 트랙 양 끝까지 이동) =====
+  const contentsEl = document.querySelector('.schedule-section__contents');
+  const cscrollbar = document.querySelector('.cscrollbar');
+  const cthumb = document.querySelector('.cscrollbar__thumb');
+  const cprogress = document.querySelector('.cscrollbar__progress');
+
+  if (contentsEl && cscrollbar && cthumb && cprogress) {
+    function updateCustomScrollbar() {
+      const maxScroll = contentsEl.scrollWidth - contentsEl.clientWidth;
+      if (maxScroll <= 0) {
+        cscrollbar.style.visibility = 'hidden';
+        return;
+      }
+      cscrollbar.style.visibility = '';
+      const trackWidth = cscrollbar.clientWidth - cthumb.offsetWidth; // 손잡이 이동 범위
+      const thumbLeft = (contentsEl.scrollLeft / maxScroll) * trackWidth;
+      cthumb.style.left = thumbLeft + 'px';
+      cprogress.style.width = (thumbLeft + cthumb.offsetWidth / 2) + 'px';
+    }
+
+    // contents 스크롤 → 손잡이 위치 + 시간 행 동기화
+    contentsEl.addEventListener('scroll', function() {
+      updateCustomScrollbar();
+      if (isScrolling) return;
+      isScrolling = true;
+      scheduleHoursRowHalf.scrollLeft = contentsEl.scrollLeft;
+      scheduleHoursRowFull.scrollLeft = contentsEl.scrollLeft;
+      requestAnimationFrame(() => { isScrolling = false; });
+    });
+
+    // 손잡이 드래그
+    let dragging = false;
+    let dragStartX = 0;
+    let dragStartScroll = 0;
+
+    cthumb.addEventListener('pointerdown', function(e) {
+      dragging = true;
+      dragStartX = e.clientX;
+      dragStartScroll = contentsEl.scrollLeft;
+      cthumb.setPointerCapture(e.pointerId);
+      e.preventDefault();
+    });
+
+    cthumb.addEventListener('pointermove', function(e) {
+      if (!dragging) return;
+      const maxScroll = contentsEl.scrollWidth - contentsEl.clientWidth;
+      const trackWidth = cscrollbar.clientWidth - cthumb.offsetWidth;
+      if (trackWidth <= 0) return;
+      const deltaX = e.clientX - dragStartX;
+      contentsEl.scrollLeft = dragStartScroll + (deltaX / trackWidth) * maxScroll;
+    });
+
+    function endDrag(e) {
+      if (!dragging) return;
+      dragging = false;
+      try { cthumb.releasePointerCapture(e.pointerId); } catch (err) { /* noop */ }
+    }
+    cthumb.addEventListener('pointerup', endDrag);
+    cthumb.addEventListener('pointercancel', endDrag);
+
+    // 트랙 클릭 시 해당 위치로 이동
+    cscrollbar.addEventListener('pointerdown', function(e) {
+      if (e.target === cthumb) return;
+      const trackWidth = cscrollbar.clientWidth - cthumb.offsetWidth;
+      if (trackWidth <= 0) return;
+      const clickX = e.clientX - cscrollbar.getBoundingClientRect().left - cthumb.offsetWidth / 2;
+      const ratio = Math.max(0, Math.min(1, clickX / trackWidth));
+      contentsEl.scrollLeft = ratio * (contentsEl.scrollWidth - contentsEl.clientWidth);
+    });
+
+    window.addEventListener('resize', updateCustomScrollbar);
+    new ResizeObserver(updateCustomScrollbar).observe(contentsEl);
+    setTimeout(updateCustomScrollbar, 150);
+  }
+
+  // (program-card 호버/활성 시 아이콘 흰색 처리는 CSS filter로 대체)
+
+  // ===== program-card 클릭 시 상세 인라인 펼침 (아코디언) =====
+  const detailModal = document.querySelector('.detail-modal');
+  if (detailModal) {
+    const modalTag = detailModal.querySelector('.detail-modal__tag');
+    const modalTitle = detailModal.querySelector('.detail-modal__title');
+    const modalParts = detailModal.querySelector('.detail-modal__parts');
+    let activeCard = null;
+
+    // 클릭한 카드 정보를 상세 패널에 채움
+    // 자동 입력: 배지(.tag) / 프로그램명(제목)
+    // 그 외 상세 내용은 카드의 .program-card__detail에서 HTML로 직접 작성
+    function fillDetail(card) {
+      const tag = card.querySelector('.tag');
+      if (tag && modalTag) {
+        modalTag.textContent = tag.textContent;
+        const variant = [...tag.classList].find(c => c.startsWith('tag--')) || '';
+        modalTag.className = 'tag detail-modal__tag ' + variant;
+      }
+      const title = card.querySelector('.program-card__title');
+      if (title && modalTitle) modalTitle.textContent = title.textContent;
+
+      // 카드별 상세 본문 (HTML에서 직접 작성하는 부분) — 이미지 제외한 본문 전체 주입
+      const detail = card.querySelector('.program-card__detail');
+      if (modalParts) {
+        if (detail) {
+          const clone = detail.cloneNode(true);
+          clone.querySelectorAll('.program-card__detail-img').forEach(img => img.remove());
+          modalParts.innerHTML = clone.innerHTML;
+        } else {
+          modalParts.innerHTML = '';
+        }
+      }
+
+      // 이미지: 카드 detail의 .program-card__detail-img를 모달 이미지에 반영
+      const modalImageImg = detailModal.querySelector('.detail-modal__image img');
+      const detailImg = detail ? detail.querySelector('.program-card__detail-img') : null;
+      const detailImgSrc = detailImg ? detailImg.getAttribute('src') : '';
+      if (modalImageImg && detailImgSrc) {
+        modalImageImg.src = detailImgSrc;
+        modalImageImg.alt = detailImg.getAttribute('alt') || '';
+      }
+      // 카드별 이미지 확대/위치(transform) 반영 (없으면 초기화)
+      if (modalImageImg) {
+        modalImageImg.style.transform = detailImg ? detailImg.style.transform : '';
+      }
+    }
+
+    function closeDetail() {
+      detailModal.classList.remove('is-open');
+      if (activeCard) {
+        activeCard.classList.remove('program-card--active');
+        activeCard = null;
+      }
+    }
+
+    function openDetail(card) {
+      // 같은 카드 다시 클릭 → 닫기
+      if (activeCard === card) {
+        closeDetail();
+        return;
+      }
+      closeDetail(); // 기존 열린 카드 정리
+
+      fillDetail(card);
+      card.after(detailModal); // 클릭한 카드 바로 다음으로 상세 이동
+      card.classList.add('program-card--active');
+      activeCard = card;
+
+      // 다음 프레임에 펼침(아래에서 위로 + 슬라이드다운)
+      requestAnimationFrame(() => detailModal.classList.add('is-open'));
+    }
+
+    document.querySelectorAll('.program-card').forEach(card => {
+      card.addEventListener('click', function() { openDetail(card); });
+    });
+  }
+
+  // ===== 카테고리 탭으로 program-card 필터링 =====
+  const categoryTabs = document.querySelectorAll('.category-tabs__item');
+  const programCards = document.querySelectorAll('.program-card');
+  // 탭 순서: 전체 / 생태설명회 / 공연 / 체험
+  const categoryFilters = [null, 'tag--education', 'tag--performance', 'tag--experience'];
+
+  categoryTabs.forEach((tab, index) => {
+    tab.addEventListener('click', function() {
+      categoryTabs.forEach(t => t.classList.remove('category-tabs__item--active'));
+      tab.classList.add('category-tabs__item--active');
+
+      const filter = categoryFilters[index];
+      programCards.forEach(card => {
+        const show = !filter || card.querySelector('.' + filter);
+        card.style.display = show ? '' : 'none';
+      });
+    });
+  });
 });
