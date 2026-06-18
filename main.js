@@ -62,13 +62,32 @@ function initSmoothScroll() {
     if (diveActive) return;
 
     e.preventDefault();
-    targetY = clamp(targetY + e.deltaY * speedScale);
 
-    /* 외부(앵커 클릭 등)에 의해 위치가 크게 바뀐 경우 currentY 보정 */
-    if (Math.abs(currentY - window.scrollY) > 80) {
-      currentY = window.scrollY;
+    const crewScale = crewPanelActive ? 1.3 : speedScale;
+    targetY = clamp(targetY + e.deltaY * crewScale);
+
+    /* 크루 패널 구간: targetY를 인접 패널 경계까지만 허용해 건너뜀 방지 */
+    if (crewPanelActive) {
+      const crewEl = document.getElementById('sec-crew');
+      if (crewEl) {
+        const crewTopAbs = window.scrollY + crewEl.getBoundingClientRect().top;
+        const panelH     = window.innerHeight;
+        const panelCount = crewEl.querySelectorAll('.crew-panel').length || 4;
+        const curPanel   = Math.floor((window.scrollY - crewTopAbs) / panelH);
+        const dir        = e.deltaY > 0 ? 1 : -1;
+        const exitLimit  = crewTopAbs + Math.max(crewEl.offsetHeight, panelCount * panelH);
+        if (dir > 0 && curPanel >= panelCount - 1) {
+          targetY = clamp(targetY + e.deltaY);
+        }
+        const lo = crewTopAbs + Math.max(0, curPanel + (dir < 0 ? -1 : 0)) * panelH;
+        const hi = dir > 0 && curPanel >= panelCount - 1
+          ? exitLimit
+          : crewTopAbs + Math.min(panelCount, curPanel + (dir > 0 ? 1 : 0) + 1) * panelH;
+        targetY = Math.max(lo, Math.min(hi, targetY));
+      }
     }
 
+    if (Math.abs(currentY - window.scrollY) > 80) currentY = window.scrollY;
     if (!rafId) rafId = requestAnimationFrame(tick);
   }, { passive: false });
 
@@ -79,6 +98,15 @@ function initSmoothScroll() {
     targetY = window.scrollY;
     currentY = window.scrollY;
   }, { passive: true });
+
+  window.__syncSmoothScroll = () => {
+    targetY = window.scrollY;
+    currentY = window.scrollY;
+    if (rafId) {
+      cancelAnimationFrame(rafId);
+      rafId = null;
+    }
+  };
 }
 
 
@@ -87,7 +115,7 @@ function initSmoothScroll() {
    ============================================================= */
 function initSectionScrollAnim() {
   const configs = [
-    { id: 'sec-program',  rippleSelector: '.program-seq-content',  ripple: true  },
+    { id: 'sec-program',  rippleSelector: null,                    ripple: false },
     { id: 'sec-location', rippleSelector: '.location-seq-content', ripple: true  },
     { id: 'sec-booking',  rippleSelector: null,                    ripple: false },
   ];
@@ -112,23 +140,26 @@ function initSectionScrollAnim() {
       const { section, cfg } = item;
       const rect = section.getBoundingClientRect();
       const scrollSpan = vh + Math.max(0, rect.height - vh);
-      const progress = clamp01((vh - rect.top) / scrollSpan);
+      const rawProgress = (vh - rect.top) / scrollSpan;
+      const progress = clamp01(rawProgress);
 
-      const nextOverlapExit = 1 - smoothstep(vh * 0.58, vh * 0.82, rect.bottom);
+      const nextOverlapExit = 1 - smoothstep(vh * 0.42, vh * 0.82, rect.bottom);
       const bottomExit = clamp01((vh * 0.18 - rect.bottom) / (vh * 0.18));
       const exitProgress = Math.max(nextOverlapExit, bottomExit);
 
       const titleProgress = smoothstep(0.34, 0.44, progress);
       const contentEnterProgress = smoothstep(0.52, 0.68, progress);
-      const contentExitLift = smoothstep(0.86, 1, progress);
+      const contentExitLift = smoothstep(0.78, 1.18, rawProgress);
       const contentLeaveProgress = Math.max(exitProgress, contentExitLift);
-      const contentY = (1 - contentEnterProgress) * 52 - contentExitLift * 32;
+      const contentY = (1 - contentEnterProgress) * 60 - contentExitLift * 56;
+      const titleY = (1 - titleProgress) * 28 - contentExitLift * 34;
       const isPast = rect.bottom <= 0;
 
       const titleOpacity = titleProgress * (1 - contentLeaveProgress);
       const contentOpacity = contentEnterProgress * (1 - contentLeaveProgress);
 
-      section.style.setProperty('--seq-content-y', `${contentY.toFixed(2)}vh`);
+      section.style.setProperty('--seq-content-y', `${contentY.toFixed(2)}px`);
+      section.style.setProperty('--seq-title-y', `${titleY.toFixed(2)}px`);
       section.style.setProperty('--seq-title-opacity', titleOpacity.toFixed(3));
       section.style.setProperty('--seq-content-opacity', contentOpacity.toFixed(3));
 
@@ -158,8 +189,8 @@ function triggerContentRipple(el) {
   const t0 = performance.now();
   (function tickRipple() {
     const t   = (performance.now() - t0) / 1000;
-    const bfx = (0.005 + Math.sin(t * 3.2) * 0.0018).toFixed(5);
-    const bfy = (0.009 + Math.cos(t * 2.7) * 0.0022).toFixed(5);
+    const bfx = (0.0024 + Math.sin(t * 2.2) * 0.0010).toFixed(5);
+    const bfy = (0.0042 + Math.cos(t * 1.9) * 0.0013).toFixed(5);
     turbEl.setAttribute('baseFrequency', `${bfx} ${bfy}`);
     rafId = requestAnimationFrame(tickRipple);
   })();
@@ -175,9 +206,9 @@ function triggerContentRipple(el) {
       el.style.filter = '';
     },
   })
-    .to(dispMap, { attr: { scale: 18 }, duration: 0.22, ease: 'sine.out'   })
-    .to(dispMap, { attr: { scale:  6 }, duration: 0.26, ease: 'sine.inOut' })
-    .to(dispMap, { attr: { scale: 12 }, duration: 0.22, ease: 'sine.inOut' })
+    .to(dispMap, { attr: { scale: 14 }, duration: 0.22, ease: 'sine.out'   })
+    .to(dispMap, { attr: { scale:  5 }, duration: 0.26, ease: 'sine.inOut' })
+    .to(dispMap, { attr: { scale:  9 }, duration: 0.22, ease: 'sine.inOut' })
     .to(dispMap, { attr: { scale:  0 }, duration: 0.55, ease: 'power2.out' });
 }
 
@@ -427,7 +458,9 @@ function initIntroReveal() {
    4. 잠수 전환 — 전화면 물결 왜곡 (unseen.co 스타일)
    ============================================================= */
 let diveActive = false;
+let isTransitioning = false;
 let crewScrollUnlocked = false;
+let crewPanelActive = false;
 
 function initIntroScrollGate() {
   const intro = document.getElementById('sec-intro');
@@ -466,33 +499,13 @@ function initIntroScrollGate() {
   }
 
   function shouldBlockDown() {
-    return !crewScrollUnlocked && !diveActive && isAtOrAfterIntro() && isBeforeCrew();
-  }
-
-  function clampToIntro() {
-    if (crewScrollUnlocked || diveActive) return;
-
-    const introTop = sectionTop(intro);
-    const crewTop = sectionTop(crew);
-    const y = window.scrollY;
-
-    if (y > introTop + 2 && y < crewTop) {
-      const html = document.documentElement;
-      const prevHtmlBehavior = html.style.scrollBehavior;
-      const prevBodyBehavior = document.body.style.scrollBehavior;
-
-      html.style.scrollBehavior = 'auto';
-      document.body.style.scrollBehavior = 'auto';
-      window.scrollTo(0, introTop);
-      html.style.scrollBehavior = prevHtmlBehavior;
-      document.body.style.scrollBehavior = prevBodyBehavior;
-    }
+    return !crewScrollUnlocked && !diveActive && !isTransitioning && isAtOrAfterIntro() && isBeforeCrew();
   }
 
   window.addEventListener('wheel', (e) => {
     if (e.deltaY > 0 && shouldBlockDown()) {
       e.preventDefault();
-      nudgeDiveHint();
+      triggerDive();
     }
   }, { passive: false });
 
@@ -504,7 +517,7 @@ function initIntroScrollGate() {
     const y = e.touches[0]?.clientY ?? touchStartY;
     if (touchStartY - y > 30 && shouldBlockDown()) {
       e.preventDefault();
-      nudgeDiveHint();
+      triggerDive();
     }
   }, { passive: false });
 
@@ -512,7 +525,7 @@ function initIntroScrollGate() {
     const downKeys = ['ArrowDown', 'PageDown', ' ', 'End'];
     if (downKeys.includes(e.key) && shouldBlockDown()) {
       e.preventDefault();
-      nudgeDiveHint();
+      triggerDive();
     }
   });
 
@@ -521,12 +534,9 @@ function initIntroScrollGate() {
 
     const y = window.scrollY;
     const crewTop = sectionTop(crew);
-
+    /* 이전 위치가 이미 introTop 이상이었을 때만 clamp — 로고→인트로 진입 시 튕김 방지 */
     if (y < crewTop - 4) crewScrollUnlocked = false;
-    clampToIntro();
   }, { passive: true });
-
-  clampToIntro();
 }
 
 
@@ -536,14 +546,24 @@ function initIntroScrollGate() {
 function initCrewFishMatte() {
   const video = document.getElementById('crew-fish-source');
   const canvas = document.getElementById('crew-fish-bg');
+  const smallCanvas = document.getElementById('crew-fish-bg-small');
+  const topCanvas = document.getElementById('crew-fish-bg-top');
   if (!video || !canvas) return;
 
   const ctx = canvas.getContext('2d', { willReadFrequently: true });
   if (!ctx) return;
+  const smallCtx = smallCanvas ? smallCanvas.getContext('2d') : null;
+  const topCtx = topCanvas ? topCanvas.getContext('2d') : null;
 
   const processWidth = 420;
   let processHeight = 236;
   let running = true;
+  let sectionVisible = false;
+  let matteRafId = null;
+  let fadeRafId = null;
+  let lastMatteTime = 0;
+  const MATTE_INTERVAL = 1000 / 24;
+  const LOOP_FADE_SECONDS = 1.2;
 
   function clamp01(value) {
     return Math.max(0, Math.min(1, value));
@@ -560,6 +580,14 @@ function initCrewFishMatte() {
     processHeight = Math.max(1, Math.round(processWidth * (vh / vw)));
     canvas.width = processWidth;
     canvas.height = processHeight;
+    if (smallCanvas) {
+      smallCanvas.width = processWidth;
+      smallCanvas.height = processHeight;
+    }
+    if (topCanvas) {
+      topCanvas.width = processWidth;
+      topCanvas.height = processHeight;
+    }
   }
 
   function sampleBackground(data, width, height) {
@@ -592,11 +620,25 @@ function initCrewFishMatte() {
   }
 
   function matteFrame() {
-    if (!running) return;
-    requestAnimationFrame(matteFrame);
+    matteRafId = null;
+    if (!running || !sectionVisible) return;
 
-    if (video.readyState < 2 || !video.videoWidth) return;
-    if (canvas.width !== processWidth) resizeCanvas();
+    const now = performance.now();
+    if (now - lastMatteTime < MATTE_INTERVAL) {
+      scheduleMatte();
+      return;
+    }
+    lastMatteTime = now;
+
+    if (video.readyState < 2 || !video.videoWidth) {
+      scheduleMatte();
+      return;
+    }
+    if (
+      canvas.width !== processWidth ||
+      (smallCanvas && smallCanvas.width !== processWidth) ||
+      (topCanvas && topCanvas.width !== processWidth)
+    ) resizeCanvas();
 
     let frame;
     try {
@@ -623,17 +665,92 @@ function initCrewFishMatte() {
     }
 
     ctx.putImageData(frame, 0, 0);
+    if (smallCtx) smallCtx.putImageData(frame, 0, 0);
+    if (topCtx) topCtx.putImageData(frame, 0, 0);
+
+    scheduleMatte();
   }
 
-  video.addEventListener('loadedmetadata', resizeCanvas, { once: true });
+  function scheduleMatte() {
+    if (matteRafId || !running || !sectionVisible) return;
+    matteRafId = requestAnimationFrame(matteFrame);
+  }
+
+  function setLoopOpacity(value) {
+    const opacity = String(value.toFixed(3));
+    canvas.style.setProperty('--crew-fish-loop-opacity', opacity);
+    if (smallCanvas) smallCanvas.style.setProperty('--crew-fish-loop-opacity', opacity);
+    if (topCanvas) topCanvas.style.setProperty('--crew-fish-loop-opacity', opacity);
+  }
+
+  function updateLoopFade() {
+    fadeRafId = null;
+    if (!running || !sectionVisible) return;
+
+    const duration = video.duration;
+    const currentTime = video.currentTime || 0;
+
+    if (Number.isFinite(duration) && duration > 0) {
+      const edgeDistance = Math.min(currentTime, Math.max(duration - currentTime, 0));
+      const raw = clamp01(edgeDistance / LOOP_FADE_SECONDS);
+      setLoopOpacity(raw * raw * (3 - 2 * raw));
+    } else {
+      setLoopOpacity(1);
+    }
+    scheduleLoopFade();
+  }
+
+  function scheduleLoopFade() {
+    if (fadeRafId || !running || !sectionVisible) return;
+    fadeRafId = requestAnimationFrame(updateLoopFade);
+  }
+
+  function keepVideoPlaying() {
+    if (document.hidden) return;
+    video.muted = true;
+    video.playsInline = true;
+    if (video.paused || video.ended) {
+      video.play().catch(() => {});
+    }
+  }
+
+  video.addEventListener('loadedmetadata', () => {
+    resizeCanvas();
+    setLoopOpacity(1);
+  }, { once: true });
+  video.addEventListener('canplay', keepVideoPlaying);
+  video.addEventListener('stalled', keepVideoPlaying);
+  video.addEventListener('waiting', keepVideoPlaying);
+  video.addEventListener('pause', keepVideoPlaying);
   video.play().catch(() => {});
 
   document.addEventListener('visibilitychange', () => {
     running = !document.hidden;
-    if (running) matteFrame();
+    if (running) {
+      keepVideoPlaying();
+      scheduleMatte();
+      scheduleLoopFade();
+    } else {
+      if (matteRafId) cancelAnimationFrame(matteRafId);
+      if (fadeRafId) cancelAnimationFrame(fadeRafId);
+      matteRafId = null;
+      fadeRafId = null;
+    }
   });
 
-  matteFrame();
+  const crewSection = document.getElementById('sec-crew');
+  if (crewSection) {
+    new IntersectionObserver(([entry]) => {
+      sectionVisible = entry.isIntersecting;
+      if (sectionVisible && running) {
+        keepVideoPlaying();
+        scheduleMatte();
+        scheduleLoopFade();
+      } else {
+        setLoopOpacity(1);
+      }
+    }, { rootMargin: '100px' }).observe(crewSection);
+  }
 }
 
 /**
@@ -644,7 +761,7 @@ function initCrewFishMatte() {
  * @param {{ from, to, onPeak?, onDone? }} opts
  * @returns {gsap.core.Timeline|null}
  */
-function useSectionTransition({ from, to, onPeak, onDone } = {}) {
+function useSectionTransitionLegacy({ from, to, onPeak, onDone } = {}) {
   const dispMap  = document.getElementById('dive-disp-map');
   const turbEl   = document.getElementById('dive-turbulence');
   const vignette = document.getElementById('dive-vignette');
@@ -654,15 +771,14 @@ function useSectionTransition({ from, to, onPeak, onDone } = {}) {
 
   /* 필터를 #main 전체에 적용 */
   gsap.set(mainEl, { filter: 'url(#dive-warp)' });
-  gsap.set(to, { opacity: 0 });   /* Y 이동 없음 — 경계선 아티팩트 방지 */
 
   /* rAF — baseFrequency를 미세하게 흔들어 파동이 살아있게 함 */
   let rafId;
   const t0 = performance.now();
   (function tickTurbulence() {
     const t   = (performance.now() - t0) / 1000;
-    const bfx = (0.004 + Math.sin(t * 2.1) * 0.0018).toFixed(5);
-    const bfy = (0.007 + Math.cos(t * 1.7) * 0.0025).toFixed(5);
+    const bfx = (0.002 + Math.sin(t * 1.6) * 0.0012).toFixed(5);
+    const bfy = (0.0035 + Math.cos(t * 1.3) * 0.0016).toFixed(5);
     turbEl.setAttribute('baseFrequency', `${bfx} ${bfy}`);
     rafId = requestAnimationFrame(tickTurbulence);
   })();
@@ -672,41 +788,595 @@ function useSectionTransition({ from, to, onPeak, onDone } = {}) {
     onComplete() {
       cancelAnimationFrame(rafId);
       turbEl.setAttribute('baseFrequency', '0.004 0.007'); /* 원래 값 복원 */
-      gsap.set([mainEl, from, to, vignette], { clearProps: 'all' });
+      gsap.set([mainEl, vignette], { clearProps: 'all' });
       onDone?.();
     },
   });
 
-  /* 변위 스케일  0 → 30 → 0 */
-  /* 파동 상승 1.1s → 정점 유지 → 하강 2.0s  (총 ~3.1s) */
+  /* 변위 스케일  0 → 35 → 0  (인트로·크루 동시에 같은 파동으로 덮임) */
   tl.to(dispMap, { attr: { scale: 35 }, duration: 1.1,  ease: 'power2.in'  }, 0)
     .to(dispMap, { attr: { scale:  0 }, duration: 2.0,  ease: 'expo.out'   }, 1.1)
 
-  /* 비네트 */
-  tl.to(vignette, { opacity: 0.3, duration: 1.0, ease: 'power2.in'  }, 0)
-    .to(vignette, { opacity: 0,   duration: 1.8, ease: 'power2.out' }, 1.1)
+  /* 브라이트 플래시 */
+  tl.to(vignette, { opacity: 0.35, duration: 1.0, ease: 'power2.in'  }, 0)
+    .to(vignette, { opacity: 0,    duration: 1.8, ease: 'power2.out' }, 1.1)
 
-  /* 이전 섹션 페이드 아웃 — 스크롤 점프 직전에 완전히 가려짐 */
-  tl.to(from, { opacity: 0, duration: 0.8, ease: 'power2.in' }, 0)
+  /* t=0.8s 스크롤 점프 — 왜곡이 최고조에 달하는 중이라 점프가 가려짐 */
+  tl.call(() => onPeak?.(), null, 0.8);
 
-  /* t=0.8s 스크롤 점프 — displacement가 아직 올라가는 중이라 전환이 가려짐 */
-  tl.call(() => onPeak?.(), null, 0.8)
+  return tl;
+}
 
-  /* 다음 섹션 — 빠르게 나타나서 t=1.1s 파동 정점에서 충분히 보이도록 */
-  tl.to(to, { opacity: 1, duration: 0.75, ease: 'expo.out' }, 0.8);
+function useSectionTransitionRippleLegacy({ from, to, onPeak, onDone } = {}) {
+  const dispMap = document.getElementById('dive-disp-map');
+  const turbEl = document.getElementById('dive-turbulence');
+  const mainEl = document.getElementById('main');
+  const overlay = document.getElementById('dive-overlay');
+
+  if (!dispMap || !turbEl || !vignette || !mainEl || !overlay || !from || !to) return null;
+
+  const surface = overlay.querySelector('.dive-overlay__surface');
+  const distortion = overlay.querySelector('.dive-overlay__distortion');
+  const ripples = overlay.querySelectorAll('.dive-overlay__ripple');
+  const fromContent = from.querySelectorAll('.hero, .scroll-indicator, .bubble-layer--hero');
+  const rippleEls = [...ripples];
+  const fromContentEls = [...fromContent];
+  const transitionTargets = [
+    mainEl,
+    from,
+    ...fromContentEls,
+    to,
+    overlay,
+    surface,
+    distortion,
+    ...rippleEls,
+  ].filter(Boolean);
+
+  gsap.killTweensOf([...transitionTargets, dispMap]);
+  dispMap.setAttribute('scale', '0');
+  turbEl.setAttribute('baseFrequency', '0.004 0.007');
+
+  gsap.set(mainEl, {
+    filter: 'url(#dive-warp)',
+    transformOrigin: '50% 50%',
+    willChange: 'filter',
+  });
+  gsap.set(from, {
+    transformOrigin: '50% 58%',
+    willChange: 'transform, filter, opacity',
+  });
+  gsap.set(fromContentEls, {
+    transformOrigin: '50% 58%',
+    willChange: 'transform, filter, opacity',
+  });
+  gsap.set(to, {
+    opacity: 0,
+    y: 40,
+    filter: 'blur(12px)',
+    transformOrigin: '50% 46%',
+    willChange: 'transform, filter, opacity',
+  });
+  gsap.set(overlay, {
+    autoAlpha: 0,
+    yPercent: -8,
+    backdropFilter: 'blur(0px) saturate(1.15)',
+    webkitBackdropFilter: 'blur(0px) saturate(1.15)',
+  });
+  gsap.set([surface, distortion, ...rippleEls, vignette].filter(Boolean), { opacity: 0 });
+  overlay.classList.add('is-in');
+
+  let rafId;
+  const t0 = performance.now();
+  (function tickTurbulence() {
+    const t = (performance.now() - t0) / 1000;
+    const bfx = (0.0035 + Math.sin(t * 2.4) * 0.0017).toFixed(5);
+    const bfy = (0.0060 + Math.cos(t * 2.0) * 0.0021).toFixed(5);
+    turbEl.setAttribute('baseFrequency', `${bfx} ${bfy}`);
+    rafId = requestAnimationFrame(tickTurbulence);
+  })();
+
+  const tl = gsap.timeline({
+    defaults: { overwrite: 'auto' },
+    onComplete() {
+      cancelAnimationFrame(rafId);
+      turbEl.setAttribute('baseFrequency', '0.004 0.007');
+      dispMap.setAttribute('scale', '0');
+      overlay.classList.remove('is-in', 'is-out');
+      gsap.set(transitionTargets, { clearProps: 'all' });
+      onDone?.();
+    },
+  });
+
+  tl.to(overlay, {
+      autoAlpha: 1,
+      yPercent: 0,
+      backdropFilter: 'blur(7px) saturate(1.38)',
+      webkitBackdropFilter: 'blur(7px) saturate(1.38)',
+      duration: 0.42,
+      ease: 'power2.out',
+    }, 0)
+    .to(surface, {
+      opacity: 0.92,
+      yPercent: 210,
+      scaleX: 1.18,
+      filter: 'blur(8px)',
+      duration: 0.96,
+      ease: 'power3.inOut',
+    }, 0)
+    .to(distortion, {
+      opacity: 0.72,
+      yPercent: 7,
+      scale: 1.18,
+      duration: 0.92,
+      ease: 'sine.inOut',
+    }, 0.08)
+    .to(rippleEls, {
+      opacity: 0.72,
+      scale: 1.18,
+      stagger: 0.1,
+      duration: 0.56,
+      ease: 'power2.out',
+    }, 0.1)
+    .to(rippleEls, {
+      opacity: 0,
+      scale: 2.85,
+      stagger: 0.08,
+      duration: 0.82,
+      ease: 'power2.out',
+    }, 0.44);
+
+  tl.to(from, {
+      scale: 1.055,
+      y: 74,
+      filter: 'blur(9px)',
+      opacity: 0.72,
+      duration: 0.95,
+      ease: 'power3.inOut',
+    }, 0.05)
+    .to(fromContentEls, {
+      y: 42,
+      filter: 'blur(12px)',
+      opacity: 0.18,
+      duration: 0.82,
+      ease: 'power2.in',
+    }, 0.08)
+    .to(dispMap, { attr: { scale: 42 }, duration: 0.74, ease: 'power2.inOut' }, 0.04)
+    .to(vignette, { opacity: 0.32, duration: 0.54, ease: 'power2.in' }, 0.22);
+
+  tl.call(() => {
+      onPeak?.();
+      overlay.classList.add('is-out');
+    }, null, 0.82)
+    .to(to, {
+      opacity: 1,
+      y: 0,
+      filter: 'blur(0px)',
+      duration: 1.12,
+      ease: 'power3.out',
+    }, 0.92)
+    .to(dispMap, { attr: { scale: 9 }, duration: 0.38, ease: 'sine.inOut' }, 0.86)
+    .to(dispMap, { attr: { scale: 0 }, duration: 1.12, ease: 'expo.out' }, 1.24)
+    .to(distortion, {
+      opacity: 0,
+      yPercent: 16,
+      scale: 1.04,
+      duration: 0.86,
+      ease: 'power2.out',
+    }, 1.05)
+    .to(surface, {
+      opacity: 0,
+      yPercent: 280,
+      filter: 'blur(14px)',
+      duration: 0.78,
+      ease: 'power2.out',
+    }, 1.02)
+    .to(vignette, { opacity: 0, duration: 0.92, ease: 'power2.out' }, 0.9)
+    .to(overlay, {
+      autoAlpha: 0,
+      backdropFilter: 'blur(0px) saturate(1.1)',
+      webkitBackdropFilter: 'blur(0px) saturate(1.1)',
+      duration: 0.92,
+      ease: 'power2.out',
+    }, 1.26);
+
+  return tl;
+}
+
+function useSectionTransitionDepthLegacy({ from, to, onPeak, onDone } = {}) {
+  const overlay = document.getElementById('dive-overlay');
+  const mainEl = document.getElementById('main');
+  const dispMap = document.getElementById('dive-disp-map');
+  const turbEl = document.getElementById('dive-turbulence');
+  const vignette = document.getElementById('dive-vignette');
+
+  if (!overlay || !mainEl || !from || !to) return null;
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fogNear = overlay.querySelector('.transition-overlay__fog--near');
+  const fogFar = overlay.querySelector('.transition-overlay__fog--far');
+  const depth = overlay.querySelector('.transition-overlay__depth');
+  const currentContent = from.querySelectorAll('.hero, .scroll-indicator, .bubble-layer--hero');
+  const nextChildren = to.querySelectorAll('.crew-header, .crew-canvas-wrap, .crew-info-wrap, .crew-dots');
+  const resetTargets = [
+    overlay,
+    fogNear,
+    fogFar,
+    depth,
+    mainEl,
+    from,
+    ...currentContent,
+    to,
+    ...nextChildren,
+    vignette,
+  ].filter(Boolean);
+
+  gsap.killTweensOf(resetTargets);
+  if (dispMap) gsap.killTweensOf(dispMap);
+  if (dispMap) dispMap.setAttribute('scale', '0');
+  if (turbEl) turbEl.setAttribute('baseFrequency', '0.004 0.007');
+
+  overlay.classList.add('is-in');
+
+  gsap.set(overlay, {
+    autoAlpha: 0,
+    yPercent: reduceMotion ? 0 : -4,
+    backdropFilter: reduceMotion ? 'none' : 'blur(0px) saturate(1.08)',
+    webkitBackdropFilter: reduceMotion ? 'none' : 'blur(0px) saturate(1.08)',
+  });
+  gsap.set([fogNear, fogFar, depth].filter(Boolean), { autoAlpha: 0 });
+  gsap.set(mainEl, {
+    filter: dispMap && !reduceMotion ? 'url(#dive-warp)' : 'none',
+    transformOrigin: '50% 50%',
+  });
+  gsap.set(from, {
+    transformOrigin: '50% 54%',
+    willChange: reduceMotion ? 'opacity' : 'transform, filter, opacity',
+  });
+  gsap.set(currentContent, {
+    transformOrigin: '50% 54%',
+    willChange: reduceMotion ? 'opacity' : 'transform, filter, opacity',
+  });
+  gsap.set(to, {
+    autoAlpha: reduceMotion ? 1 : 0,
+    y: reduceMotion ? 0 : '86vh',
+    scale: reduceMotion ? 1 : 0.96,
+    filter: reduceMotion ? 'none' : 'blur(14px)',
+    transformOrigin: '50% 38%',
+    willChange: reduceMotion ? 'opacity' : 'transform, filter, opacity',
+  });
+  gsap.set(nextChildren, {
+    x: reduceMotion ? 0 : '-100vw',
+    y: reduceMotion ? 0 : 24,
+    autoAlpha: 0,
+    filter: reduceMotion ? 'none' : 'blur(10px)',
+    willChange: reduceMotion ? 'opacity' : 'transform, filter, opacity',
+  });
+
+  let rafId = null;
+  if (turbEl && !reduceMotion) {
+    const t0 = performance.now();
+    (function tickDepthFog() {
+      const t = (performance.now() - t0) / 1000;
+      const bfx = (0.0022 + Math.sin(t * 1.25) * 0.0007).toFixed(5);
+      const bfy = (0.0048 + Math.cos(t * 1.08) * 0.0010).toFixed(5);
+      turbEl.setAttribute('baseFrequency', `${bfx} ${bfy}`);
+      rafId = requestAnimationFrame(tickDepthFog);
+    })();
+  }
+
+  const tl = gsap.timeline({
+    defaults: { ease: reduceMotion ? 'power1.out' : 'power4.inOut' },
+    onStart() {
+      isTransitioning = true;
+      document.body.classList.add('is-transitioning');
+    },
+    onComplete() {
+      if (rafId) cancelAnimationFrame(rafId);
+      if (turbEl) turbEl.setAttribute('baseFrequency', '0.004 0.007');
+      if (dispMap) dispMap.setAttribute('scale', '0');
+      overlay.classList.remove('is-in', 'is-out');
+      gsap.set(resetTargets, { clearProps: 'all' });
+      isTransitioning = false;
+      document.body.classList.remove('is-transitioning');
+      onDone?.();
+    },
+  });
+
+  if (reduceMotion) {
+    tl.to(overlay, { autoAlpha: 1, duration: 0.18 }, 0)
+      .to(from, { autoAlpha: 0, duration: 0.18 }, 0)
+      .call(() => {
+        onPeak?.();
+        overlay.classList.add('is-out');
+      }, null, 0.18)
+      .to(to, { autoAlpha: 1, duration: 0.2 }, 0.2)
+      .to(nextChildren, { autoAlpha: 1, duration: 0.24, stagger: 0.03 }, 0.22)
+      .to(overlay, { autoAlpha: 0, duration: 0.2 }, 0.34);
+
+    return tl;
+  }
+
+  tl.to(overlay, {
+      autoAlpha: 1,
+      yPercent: 0,
+      backdropFilter: 'blur(8px) saturate(1.26)',
+      webkitBackdropFilter: 'blur(8px) saturate(1.26)',
+      duration: 0.42,
+    }, 0)
+    .to(fogNear, {
+      autoAlpha: 0.86,
+      yPercent: -10,
+      scale: 1.05,
+      duration: 1.15,
+      ease: 'sine.inOut',
+    }, 0)
+    .to(fogFar, {
+      autoAlpha: 0.62,
+      xPercent: 8,
+      scale: 1.08,
+      duration: 1.55,
+      ease: 'sine.inOut',
+    }, 0.08)
+    .to(depth, {
+      autoAlpha: 0.72,
+      scale: 1.16,
+      duration: 1.05,
+      ease: 'expo.inOut',
+    }, 0.08)
+    .to(from, {
+      scale: 1.06,
+      y: 86,
+      autoAlpha: 0,
+      filter: 'blur(8px)',
+      duration: 1.05,
+    }, 0.05)
+    .to(currentContent, {
+      scale: 1.035,
+      y: 54,
+      autoAlpha: 0,
+      filter: 'blur(12px)',
+      duration: 0.92,
+    }, 0.08);
+
+  if (dispMap) {
+    tl.to(dispMap, { attr: { scale: 18 }, duration: 0.68, ease: 'power3.inOut' }, 0.14)
+      .to(dispMap, { attr: { scale: 0 }, duration: 0.9, ease: 'expo.out' }, 0.92);
+  }
+
+  if (vignette) {
+    tl.to(vignette, { autoAlpha: 0.18, duration: 0.52, ease: 'power2.inOut' }, 0.2)
+      .to(vignette, { autoAlpha: 0, duration: 0.86, ease: 'power2.out' }, 0.98);
+  }
+
+  tl.call(() => {
+      onPeak?.();
+      overlay.classList.add('is-out');
+    }, null, 0.72)
+    .to(to, {
+      autoAlpha: 1,
+      y: 0,
+      scale: 1,
+      filter: 'blur(0px)',
+      duration: 1.18,
+      ease: 'expo.out',
+    }, 0.72)
+    .to(nextChildren, {
+      x: 0,
+      y: 0,
+      autoAlpha: 1,
+      filter: 'blur(0px)',
+      duration: 1.02,
+      stagger: 0.08,
+      ease: 'power4.out',
+    }, 0.86)
+    .to([fogNear, fogFar, depth].filter(Boolean), {
+      autoAlpha: 0,
+      scale: 1.24,
+      duration: 0.78,
+      ease: 'power2.out',
+    }, 1.18)
+    .to(overlay, {
+      autoAlpha: 0,
+      backdropFilter: 'blur(0px) saturate(1.08)',
+      webkitBackdropFilter: 'blur(0px) saturate(1.08)',
+      duration: 0.62,
+      ease: 'power2.out',
+    }, 1.32);
+
+  return tl;
+}
+
+function useSectionTransition({ from, to, onPeak, onDone } = {}) {
+  const overlay = document.getElementById('dive-overlay');
+  const wave = document.getElementById('transition-wave');
+  const waveFill = document.getElementById('transition-wave-fill');
+  const waveEdge = document.getElementById('transition-wave-edge');
+  const waveTurbulence = document.getElementById('wave-line-turbulence');
+  const waveDisplacement = document.getElementById('wave-line-displacement');
+
+  if (!overlay || !wave || !waveFill || !waveEdge || !from || !to) return null;
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const currentContent = from.querySelectorAll('.hero, .scroll-indicator, .bubble-layer--hero');
+  const resetTargets = [
+    overlay,
+    wave,
+    waveFill,
+    waveEdge,
+    waveDisplacement,
+    from,
+    ...currentContent,
+    to,
+  ].filter(Boolean);
+
+  const waveShapes = [
+    {
+      edge: 'M0,88 C170,112 300,62 470,86 C640,110 780,70 950,88 C1120,106 1260,70 1440,92',
+      fill: 'M0,88 C170,112 300,62 470,86 C640,110 780,70 950,88 C1120,106 1260,70 1440,92 L1440,900 L0,900 Z',
+    },
+    {
+      edge: 'M0,92 C180,66 332,114 500,88 C670,62 820,112 980,86 C1150,58 1294,112 1440,84',
+      fill: 'M0,92 C180,66 332,114 500,88 C670,62 820,112 980,86 C1150,58 1294,112 1440,84 L1440,900 L0,900 Z',
+    },
+    {
+      edge: 'M0,86 C154,106 320,74 486,92 C650,110 806,66 972,88 C1140,110 1286,64 1440,90',
+      fill: 'M0,86 C154,106 320,74 486,92 C650,110 806,66 972,88 C1140,110 1286,64 1440,90 L1440,900 L0,900 Z',
+    },
+  ];
+
+  gsap.killTweensOf(resetTargets);
+  overlay.classList.add('is-in');
+  if (waveTurbulence) waveTurbulence.setAttribute('baseFrequency', '0.006 0.018');
+  if (waveDisplacement) waveDisplacement.setAttribute('scale', '0');
+
+  gsap.set(overlay, { autoAlpha: 1 });
+  gsap.set(wave, {
+    y: reduceMotion ? 0 : '64vh',
+    opacity: 0,
+  });
+  gsap.set(waveFill, { attr: { d: waveShapes[0].fill } });
+  gsap.set(waveEdge, { attr: { d: waveShapes[0].edge } });
+  gsap.set(from, {
+    transformOrigin: '50% 54%',
+    willChange: reduceMotion ? 'opacity' : 'transform, filter, opacity',
+  });
+  gsap.set(currentContent, {
+    transformOrigin: '50% 54%',
+    willChange: reduceMotion ? 'opacity' : 'transform, filter, opacity',
+  });
+  gsap.set(to, {
+    autoAlpha: reduceMotion ? 1 : 0,
+    y: reduceMotion ? 0 : 56,
+    scale: reduceMotion ? 1 : 0.985,
+    filter: reduceMotion ? 'none' : 'blur(8px)',
+    transformOrigin: '50% 50%',
+    willChange: reduceMotion ? 'opacity' : 'transform, filter, opacity',
+  });
+  const tl = gsap.timeline({
+    defaults: { ease: reduceMotion ? 'power1.out' : 'power4.inOut' },
+    onStart() {
+      isTransitioning = true;
+      document.body.classList.add('is-transitioning');
+    },
+    onComplete() {
+      overlay.classList.remove('is-in', 'is-out');
+      if (waveTurbulence) waveTurbulence.setAttribute('baseFrequency', '0.006 0.018');
+      if (waveDisplacement) waveDisplacement.setAttribute('scale', '0');
+      gsap.set(resetTargets, { clearProps: 'all' });
+      gsap.set(wave, { y: '100vh' });
+      isTransitioning = false;
+      document.body.classList.remove('is-transitioning');
+      onDone?.();
+    },
+  });
+
+  if (reduceMotion) {
+    tl.to(overlay, { autoAlpha: 1, duration: 0.12 }, 0)
+      .to(from, { autoAlpha: 0, duration: 0.18 }, 0)
+      .call(() => {
+        onPeak?.();
+        overlay.classList.add('is-out');
+      }, null, 0.18)
+      .to(to, { autoAlpha: 1, duration: 0.2 }, 0.2)
+      .to(overlay, { autoAlpha: 0, duration: 0.18 }, 0.34);
+
+    return tl;
+  }
+
+  const surface = { y: window.innerHeight * 0.72, p: 0 };
+
+  tl.to(surface, {
+      y: window.innerHeight * 0.48,
+      p: 1,
+      duration: 0.78,
+      ease: 'power3.out',
+      onUpdate() {
+        window.__cursorWaveSubmerge?.({
+          y: surface.y,
+          strength: 0.26 + surface.p * 0.22,
+          phase: performance.now() * 0.006,
+          amp: 7 + surface.p * 5,
+          step: 46,
+        });
+      },
+    }, 0)
+    .to(surface, {
+      y: window.innerHeight * 0.54,
+      p: 0.55,
+      duration: 0.64,
+      ease: 'sine.inOut',
+      onUpdate() {
+        window.__cursorWaveSubmerge?.({
+          y: surface.y,
+          strength: 0.22 + surface.p * 0.18,
+          phase: performance.now() * 0.005,
+          amp: 9,
+          step: 50,
+        });
+      },
+    }, 0.78)
+    .to(waveFill, { attr: { d: waveShapes[1].fill }, duration: 0.34, ease: 'sine.inOut' }, 0.08)
+    .to(waveEdge, { attr: { d: waveShapes[1].edge }, duration: 0.34, ease: 'sine.inOut' }, 0.08)
+    .to(waveFill, { attr: { d: waveShapes[2].fill }, duration: 0.38, ease: 'sine.inOut' }, 0.43)
+    .to(waveEdge, { attr: { d: waveShapes[2].edge }, duration: 0.38, ease: 'sine.inOut' }, 0.43)
+    .to(waveFill, { attr: { d: waveShapes[0].fill }, duration: 0.44, ease: 'sine.inOut' }, 0.82)
+    .to(waveEdge, { attr: { d: waveShapes[0].edge }, duration: 0.44, ease: 'sine.inOut' }, 0.82);
+
+  if (waveTurbulence) {
+    tl.to(waveTurbulence, { attr: { baseFrequency: '0.011 0.026' }, duration: 0.58, ease: 'sine.inOut' }, 0.06)
+      .to(waveTurbulence, { attr: { baseFrequency: '0.005 0.014' }, duration: 0.64, ease: 'sine.inOut' }, 0.64);
+  }
+  if (waveDisplacement) {
+    tl.to(waveDisplacement, { attr: { scale: 8 }, duration: 0.42, ease: 'sine.inOut' }, 0.08)
+      .to(waveDisplacement, { attr: { scale: 2 }, duration: 0.5, ease: 'sine.inOut' }, 0.5)
+      .to(waveDisplacement, { attr: { scale: 0 }, duration: 0.46, ease: 'sine.out' }, 0.95);
+  }
+
+  tl.to(from, {
+      scale: 1.04,
+      y: 136,
+      autoAlpha: 0,
+      filter: 'blur(6px)',
+      duration: 1.16,
+      ease: 'power3.inOut',
+    }, 0.10)
+    .to(currentContent, {
+      scale: 1.025,
+      y: 92,
+      autoAlpha: 0,
+      filter: 'blur(10px)',
+      duration: 1.02,
+      ease: 'power3.inOut',
+    }, 0.12);
+
+  tl.call(() => {
+      onPeak?.();
+      overlay.classList.add('is-out');
+    }, null, 0.92)
+    .to(to, {
+      autoAlpha: 1,
+      y: 0,
+      scale: 1,
+      filter: 'blur(0px)',
+      duration: 0.74,
+      ease: 'expo.out',
+    }, 0.94)
+    .to(overlay, { autoAlpha: 0, duration: 0.34, ease: 'power2.out' }, 1.38);
 
   return tl;
 }
 
 function triggerDive() {
-  if (diveActive) return;
+  if (diveActive || isTransitioning) return;
   diveActive = true;
   crewScrollUnlocked = true;
 
   if (typeof gsap === 'undefined') {
+    isTransitioning = true;
     document.getElementById('sec-crew')?.scrollIntoView({ behavior: 'smooth' });
     setTimeout(() => {
       document.dispatchEvent(new CustomEvent('crew-force-enter'));
+      isTransitioning = false;
     }, 450);
     diveActive = false;
     return;
@@ -717,7 +1387,7 @@ function triggerDive() {
 
   if (!fromEl || !toEl) { diveActive = false; return; }
 
-  useSectionTransition({
+  const transition = useSectionTransition({
     from:   fromEl,
     to:     toEl,
     onPeak: () => {
@@ -735,11 +1405,18 @@ function triggerDive() {
         }
         html.style.scrollBehavior = '';
         document.body.style.scrollBehavior = '';
+        window.__syncSmoothScroll?.();
       }
       document.dispatchEvent(new CustomEvent('crew-force-enter'));
     },
     onDone: () => { diveActive = false; },
   });
+
+  if (!transition) {
+    diveActive = false;
+    isTransitioning = false;
+    document.body.classList.remove('is-transitioning');
+  }
 }
 
 
@@ -760,10 +1437,28 @@ function initCrewScroll() {
   const creatures  = ['walrus', 'beluga', 'whaleshark', 'turtle'];
   const totalPanels = panels.length;
   let currentIndex  = -1;
+  let displayedIndex = -1;
   let tailHidden    = false;
   let exitWavePlayed = false;
   let lastCrewCardWaveAt = 0;
   let crewCardWaveTl = null;
+  let crewEnterTimer = 0;
+  let crewSequencedEnterUntil = 0;
+
+  function resetCrewExitState() {
+    if (
+      !section.classList.contains('is-crew-exiting') &&
+      !section.classList.contains('is-crew-wave-exiting')
+    ) return;
+
+    sticky.style.filter = '';
+    section.classList.remove('is-crew-exiting', 'is-crew-wave-exiting');
+    section.querySelectorAll('.crew-header, .crew-main, .crew-canvas-wrap, .crew-info-wrap, .crew-dots, .crew-rotate-hint').forEach((el) => {
+      el.style.animation = 'none';
+      void el.offsetWidth;
+      el.style.animation = '';
+    });
+  }
 
   function playCrewCardWave() {
     const wrap    = document.querySelector('.crew-info-wrap');
@@ -776,7 +1471,7 @@ function initCrewScroll() {
     lastCrewCardWaveAt = now;
 
     wrap.style.filter = 'url(#dive-warp)';
-    turbEl.setAttribute('baseFrequency', '0.0038 0.0068');
+    turbEl.setAttribute('baseFrequency', '0.0014 0.0026');
     dispMap.setAttribute('scale', '0');
 
     crewCardWaveTl?.kill();
@@ -791,8 +1486,8 @@ function initCrewScroll() {
     });
 
     crewCardWaveTl
-      .to(dispMap, { attr: { scale: 34 }, duration: 0.18, ease: 'sine.out' })
-      .to(dispMap, { attr: { scale: 0 }, duration: 0.86, ease: 'power3.out' });
+      .to(dispMap, { attr: { scale: 5 }, duration: 0.38, ease: 'sine.inOut' })
+      .to(dispMap, { attr: { scale: 0 }, duration: 1.10, ease: 'power2.out' });
   }
 
   function playCrewExitWave() {
@@ -807,8 +1502,8 @@ function initCrewScroll() {
     const t0 = performance.now();
     (function tickCrewExitWave() {
       const t   = (performance.now() - t0) / 1000;
-      const bfx = (0.007 + Math.sin(t * 2.9) * 0.0028).toFixed(5);
-      const bfy = (0.012 + Math.cos(t * 2.1) * 0.0032).toFixed(5);
+      const bfx = (0.003 + Math.sin(t * 2.2) * 0.0018).toFixed(5);
+      const bfy = (0.005 + Math.cos(t * 1.8) * 0.0022).toFixed(5);
       turbEl.setAttribute('baseFrequency', `${bfx} ${bfy}`);
       rafId = requestAnimationFrame(tickCrewExitWave);
     })();
@@ -830,25 +1525,35 @@ function initCrewScroll() {
     );
   }
 
-  function setActive(idx, force = false) {
-    if (idx === currentIndex && !force) return;
-    const prevIndex = currentIndex;
-    currentIndex = idx;
-
+  function showCard(idx, force = false) {
+    if (idx === displayedIndex && !force) return;
+    displayedIndex = idx;
     panels.forEach((p, i) => {
       p.classList.remove('is-active', 'is-prev');
       if      (i === idx) p.classList.add('is-active');
       else if (i  <  idx) p.classList.add('is-prev');
     });
+  }
+
+  function setActive(idx, force = false) {
+    if (idx === currentIndex && !force) return;
+    const prevIndex = currentIndex;
+    currentIndex = idx;
 
     dots.forEach((d, i) => d.classList.toggle('is-active', i === idx));
 
     if (placeholder) placeholder.dataset.creature = creatures[idx] ?? '';
 
+    if (force || prevIndex < 0) {
+      showCard(idx, true);
+    }
+
     /* Three.js crew3d.js에 전달 */
     document.dispatchEvent(new CustomEvent('crew-switch', { detail: { idx, immediate: force } }));
 
-    if (force || (prevIndex >= 0 && prevIndex !== idx)) playCrewCardWave();
+    if (!force && prevIndex >= 0 && prevIndex !== idx) {
+      section.classList.add('is-card-pending');
+    }
   }
 
   function onScroll() {
@@ -857,7 +1562,14 @@ function initCrewScroll() {
     const panelHeight = window.innerHeight;
     const exitStart = totalPanels * panelHeight;
 
+    if (!crewScrollUnlocked && !diveActive && scrolled >= -10) {
+      crewScrollUnlocked = true;
+      window.__syncSmoothScroll?.();
+    }
+
     if (!crewScrollUnlocked && !diveActive) {
+      crewPanelActive = false;
+      window.clearTimeout(crewEnterTimer);
       if (exitWavePlayed) {
         document.dispatchEvent(new CustomEvent('crew-wave-exit-reset'));
       }
@@ -869,6 +1581,8 @@ function initCrewScroll() {
     }
 
     if (scrolled < -10) {
+      crewPanelActive = false;
+      window.clearTimeout(crewEnterTimer);
       if (exitWavePlayed) {
         document.dispatchEvent(new CustomEvent('crew-wave-exit-reset'));
       }
@@ -882,24 +1596,21 @@ function initCrewScroll() {
 
     const pastLastPanel = scrolled >= exitStart;
     if (pastLastPanel) {
+      crewPanelActive = false;
       if (!tailHidden) {
         tailHidden = true;
         document.dispatchEvent(new CustomEvent('crew-tail-visibility', { detail: { hidden: true } }));
       }
       section.classList.add('is-crew-exiting');
-      if (!exitWavePlayed) {
-        exitWavePlayed = true;
-        section.classList.add('is-crew-wave-exiting');
-        document.dispatchEvent(new CustomEvent('crew-wave-exit'));
-        playCrewExitWave();
-      }
       return;
     }
+
+    crewPanelActive = true;
 
     if (exitWavePlayed) {
       document.dispatchEvent(new CustomEvent('crew-wave-exit-reset'));
     }
-    section.classList.remove('is-crew-exiting', 'is-crew-wave-exiting');
+    resetCrewExitState();
     exitWavePlayed = false;
 
     if (tailHidden) {
@@ -909,26 +1620,44 @@ function initCrewScroll() {
 
     /* 각 패널은 100vh(= innerHeight)씩 차지 */
     const wasContentVisible = section.classList.contains('is-content-visible');
-    section.classList.add('is-title-visible', 'is-content-visible');
+    section.classList.add('is-title-visible');
+    if (performance.now() >= crewSequencedEnterUntil) {
+      section.classList.add('is-content-visible');
+    }
 
     const idx = Math.min(
       Math.floor(scrolled / panelHeight),
       totalPanels - 1
     );
-    setActive(Math.max(idx, 0), !wasContentVisible);
+    const canForceInitial = currentIndex < 0 || (!wasContentVisible && performance.now() >= crewSequencedEnterUntil);
+    setActive(Math.max(idx, 0), canForceInitial);
   }
 
   window.addEventListener('scroll', onScroll, { passive: true });
   document.addEventListener('crew-force-enter', () => {
-    section.classList.remove('is-crew-exiting', 'is-crew-wave-exiting');
-    section.classList.add('is-title-visible', 'is-content-visible');
+    window.clearTimeout(crewEnterTimer);
+    resetCrewExitState();
+    section.classList.remove('is-content-visible');
+    section.classList.add('is-title-visible');
+    crewSequencedEnterUntil = performance.now() + 120;
     tailHidden = false;
     exitWavePlayed = false;
-    setActive(0, true);
+    setActive(0, false);
+    crewEnterTimer = window.setTimeout(() => {
+      section.classList.add('is-content-visible');
+    }, 80);
   });
-  document.addEventListener('crew-card-reenter', playCrewCardWave);
+  // 3D 생물이 다시 보이는 타이밍에 카드 텍스트를 교체합니다.
 
   /* 점 클릭 → 해당 패널 위치로 스크롤 */
+  document.addEventListener('crew-card-reenter', (e) => {
+    const idx = Number(e.detail?.idx);
+    const nextIndex = Number.isInteger(idx) && idx >= 0 ? idx : currentIndex;
+    showCard(Math.min(Math.max(nextIndex, 0), totalPanels - 1), true);
+    section.classList.remove('is-card-pending');
+    if (!diveActive) playCrewCardWave();
+  });
+
   dots.forEach((dot, i) => {
     dot.addEventListener('click', () => {
       const sTop = window.scrollY + section.getBoundingClientRect().top;
@@ -936,6 +1665,7 @@ function initCrewScroll() {
     });
   });
 
+  onScroll();
 }
 
 
@@ -960,6 +1690,24 @@ function initLocationSequence() {
    ============================================================= */
 function initBookingSequence() {
   initStickySequenceSection('sec-booking');
+
+  const section = document.getElementById('sec-booking');
+  if (!section) return;
+
+  const restartBookingVideos = () => {
+    section.querySelectorAll('.booking-bg-video').forEach(video => {
+      video.style.setProperty('--booking-video-loop-opacity', '1');
+      video.style.animation = 'none';
+      void video.offsetWidth;
+      video.style.animation = '';
+    });
+  };
+
+  const observer = new IntersectionObserver(([entry]) => {
+    if (entry.isIntersecting) restartBookingVideos();
+  }, { threshold: 0.16 });
+
+  observer.observe(section);
 }
 
 function initBookingBgVideo() {
@@ -969,6 +1717,39 @@ function initBookingBgVideo() {
       video.playbackRate = rate;
       video.defaultPlaybackRate = rate;
     }
+
+    const restartMotion = () => {
+      video.style.setProperty('--booking-video-loop-opacity', '1');
+      video.style.animation = 'none';
+      try {
+        video.currentTime = 0;
+      } catch (_) {}
+      void video.offsetWidth;
+      video.style.animation = '';
+    };
+
+    const section = video.closest('.section--booking');
+    if (section) {
+      const observer = new IntersectionObserver(([entry]) => {
+        if (entry.isIntersecting) restartMotion();
+      }, { threshold: 0.16 });
+
+      observer.observe(section);
+    }
+
+    const fadeSeconds = Number(video.dataset.loopFadeSeconds || 0.9);
+    const updateLoopFade = () => {
+      const duration = video.duration;
+      if (Number.isFinite(duration) && duration > 0 && fadeSeconds > 0) {
+        const edgeDistance = Math.min(video.currentTime, Math.max(duration - video.currentTime, 0));
+        const rawOpacity = Math.min(Math.max(edgeDistance / fadeSeconds, 0), 1);
+        const easedOpacity = rawOpacity * rawOpacity * (3 - 2 * rawOpacity);
+        video.style.setProperty('--booking-video-loop-opacity', easedOpacity.toFixed(3));
+      }
+      requestAnimationFrame(updateLoopFade);
+    };
+
+    updateLoopFade();
   });
 }
 
@@ -1001,8 +1782,9 @@ function initStickySequenceSection(sectionId) {
     const vh = window.innerHeight;
     const sectionTop = window.scrollY + rect.top;
     const scrollSpan = vh + Math.max(0, rect.height - vh);
-    const progress = clamp01((vh - rect.top) / scrollSpan);
-    return { rect, vh, sectionTop, scrollSpan, progress };
+    const rawProgress = (vh - rect.top) / scrollSpan;
+    const progress = clamp01(rawProgress);
+    return { rect, vh, sectionTop, scrollSpan, progress, rawProgress };
   }
 
   function scrollTargetForProgress(progress) {
@@ -1012,15 +1794,16 @@ function initStickySequenceSection(sectionId) {
   }
 
   function onScroll() {
-    const { rect, vh, scrollSpan, progress } = getSectionMetrics();
-    const nextOverlapExit = 1 - smoothstep(vh * 0.58, vh * 0.82, rect.bottom);
+    const { rect, vh, scrollSpan, progress, rawProgress } = getSectionMetrics();
+    const nextOverlapExit = 1 - smoothstep(vh * 0.42, vh * 0.82, rect.bottom);
     const bottomExit = clamp01((vh * 0.18 - rect.bottom) / (vh * 0.18));
     const exitProgress = Math.max(nextOverlapExit, bottomExit);
     const titleProgress = smoothstep(0.34, 0.44, progress);
     const contentEnterProgress = smoothstep(0.52, 0.68, progress);
-    const contentExitLift = smoothstep(0.86, 1, progress);
+    const contentExitLift = smoothstep(0.78, 1.18, rawProgress);
     const contentLeaveProgress = Math.max(exitProgress, contentExitLift);
-    const contentY = (1 - contentEnterProgress) * 52 - contentExitLift * 32;
+    const contentY = (1 - contentEnterProgress) * 52 - contentExitLift * 48;
+    const titleY = (1 - titleProgress) * 28 - contentExitLift * 34;
     const isInRange = rect.top < vh && rect.bottom > 0;
     const isPast = rect.bottom <= 0;
     const titleOpacity = titleProgress * (1 - contentLeaveProgress);
@@ -1028,6 +1811,7 @@ function initStickySequenceSection(sectionId) {
     const scrollingDown = progress >= lastProgress;
 
     section.style.setProperty('--seq-content-y', `${contentY.toFixed(2)}vh`);
+    section.style.setProperty('--seq-title-y', `${titleY.toFixed(2)}px`);
     section.style.setProperty('--seq-title-opacity', titleOpacity.toFixed(3));
     section.style.setProperty('--seq-content-opacity', contentOpacity.toFixed(3));
 
@@ -1047,7 +1831,7 @@ function initStickySequenceSection(sectionId) {
     section.classList.toggle('is-content-visible', contentVisible);
     section.classList.toggle('is-exiting', exiting);
 
-    if (contentOpacity > 0.3 && !contentWasVisible && !exiting && scrollingDown && sectionId !== 'sec-booking') {
+    if (contentOpacity > 0.3 && !contentWasVisible && !exiting && scrollingDown && sectionId === 'sec-location') {
       playSequenceWave(section);
     }
     contentWasVisible = contentOpacity > 0.3 && !exiting;
@@ -1095,7 +1879,6 @@ function smoothStickySequenceScroll(controller, targetY, duration = 760) {
     const t = Math.min(Math.max((now - startedAt) / duration, 0), 1);
     const eased = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
     window.scrollTo(0, startY + deltaY * eased);
-
     if (t < 1) {
       stickySequenceSnapRaf = window.requestAnimationFrame(tick);
       return;
@@ -1146,6 +1929,12 @@ function handleStickySequenceWheel(e) {
   }
 
   const { controller, metrics } = active;
+  if (controller.section.id === 'sec-program') {
+    controller.setHoldWheelCount(0);
+    stickySequenceWheelDelta = 0;
+    return;
+  }
+
   const { progress } = metrics;
   const holdProgress = 0.72;
   const exitProgress = 1.02;
@@ -1230,8 +2019,8 @@ function playSequenceWave(section) {
   (function tickSequenceWave() {
     const t   = (performance.now() - t0) / 1000;
     const fade = Math.max(0, 1 - t / 1.05);
-    const bfx = (0.0068 + Math.sin(t * 4.1) * 0.0016 * fade).toFixed(5);
-    const bfy = (0.0115 + Math.cos(t * 3.6) * 0.0022 * fade).toFixed(5);
+    const bfx = (0.0030 + Math.sin(t * 2.8) * 0.0010 * fade).toFixed(5);
+    const bfy = (0.0055 + Math.cos(t * 2.4) * 0.0014 * fade).toFixed(5);
     turbEl.setAttribute('baseFrequency', `${bfx} ${bfy}`);
     rafId = requestAnimationFrame(tickSequenceWave);
   })();
@@ -1246,10 +2035,10 @@ function playSequenceWave(section) {
       content.style.filter = '';
     }
   })
-    .to(dispMap, { attr: { scale: 16 }, duration: 0.18, ease: 'sine.out' })
-    .to(dispMap, { attr: { scale: 6 }, duration: 0.2, ease: 'sine.inOut' })
-    .to(dispMap, { attr: { scale: 11 }, duration: 0.18, ease: 'sine.inOut' })
-    .to(dispMap, { attr: { scale: 0 }, duration: 0.42, ease: 'sine.out' });
+    .to(dispMap, { attr: { scale: 12 }, duration: 0.18, ease: 'sine.out' })
+    .to(dispMap, { attr: { scale:  4 }, duration: 0.2,  ease: 'sine.inOut' })
+    .to(dispMap, { attr: { scale:  8 }, duration: 0.18, ease: 'sine.inOut' })
+    .to(dispMap, { attr: { scale:  0 }, duration: 0.42, ease: 'sine.out' });
 }
 
 /* =============================================================
@@ -1355,10 +2144,13 @@ function initMapMarkers() {
     const markerRect = marker.getBoundingClientRect();
     const cardRect = hoverCard.getBoundingClientRect();
 
-    const startX = markerRect.left + markerRect.width / 2 - wrapRect.left;
+    const rawStartX = markerRect.left + markerRect.width / 2 - wrapRect.left;
     const startY = markerRect.top + markerRect.height / 2 - wrapRect.top;
     const endX = cardRect.left - wrapRect.left;
     const endY = cardRect.top + Math.min(168, cardRect.height * 0.43) - wrapRect.top;
+    const logoRect = marker.querySelector('.map-marker__logo')?.getBoundingClientRect();
+    const startClearance = (logoRect?.width || markerRect.width) / 2 + 14;
+    const startX = rawStartX + (endX >= rawStartX ? startClearance : -startClearance);
     const bendX = startX + Math.max(72, (endX - startX) * 0.48);
 
     indicator.setAttribute('viewBox', `0 0 ${wrapRect.width} ${wrapRect.height}`);
@@ -1451,17 +2243,13 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
     const target = document.getElementById(link.getAttribute('href').slice(1));
     if (!target) return;
 
-    const intro = document.getElementById('sec-intro');
-    if (intro && !crewScrollUnlocked && !diveActive) {
-      const introTop = window.scrollY + intro.getBoundingClientRect().top;
+    const crew = document.getElementById('sec-crew');
+    if (crew && target !== document.getElementById('sec-logo')) {
+      const crewTop = window.scrollY + crew.getBoundingClientRect().top;
       const targetTop = window.scrollY + target.getBoundingClientRect().top;
-      const isBelowIntro = targetTop > introTop + 4;
-      const isInIntroGate = window.scrollY >= introTop - 4;
-
-      if (isInIntroGate && isBelowIntro) {
-        e.preventDefault();
-        intro.scrollIntoView({ behavior: 'auto', block: 'start' });
-        return;
+      if (targetTop >= crewTop - 4) {
+        crewScrollUnlocked = true;
+        window.__syncSmoothScroll?.();
       }
     }
 
@@ -1549,13 +2337,14 @@ function initCursorWave() {
     width:         '100%',
     height:        '100%',
     pointerEvents: 'none',
-    zIndex:        '9996',
+    zIndex:        '10000',
+    opacity:       '0.72',
   });
   document.body.appendChild(canvas);
 
   const ctx = canvas.getContext('2d');
 
-  const SCALE         = 9;
+  const SCALE         = 14;
   const DAMP          = 0.92;
   const DIST_INTERVAL = 16;
   const RX = 4, RY = 1;
@@ -1591,17 +2380,30 @@ function initCursorWave() {
     if (running) tick();
   });
 
-  function disturb(cx, cy) {
-    for (let dy = -RY; dy <= RY; dy++) {
-      for (let dx = -RX; dx <= RX; dx++) {
-        const d = Math.hypot(dx / RX, dy / RY);
+  function disturb(cx, cy, force = FORCE, rx = RX, ry = RY) {
+    for (let dy = -ry; dy <= ry; dy++) {
+      for (let dx = -rx; dx <= rx; dx++) {
+        const d = Math.hypot(dx / rx, dy / ry);
         if (d > 1) continue;
         const nx = cx + dx, ny = cy + dy;
         if (nx < 1 || nx >= bW - 1 || ny < 1 || ny >= bH - 1) continue;
-        cur[ny * bW + nx] += FORCE * (1 - d);
+        cur[ny * bW + nx] += force * (1 - d);
       }
     }
   }
+
+  window.__cursorWaveSubmerge = function submergeCursorWave(opts = {}) {
+    const y = Number.isFinite(opts.y) ? opts.y : H * 0.58;
+    const strength = Number.isFinite(opts.strength) ? opts.strength : 0.7;
+    const phase = Number.isFinite(opts.phase) ? opts.phase : performance.now() * 0.003;
+    const step = Math.max(32, Number.isFinite(opts.step) ? opts.step : 48);
+    const amp = Number.isFinite(opts.amp) ? opts.amp : 9;
+
+    for (let x = -step; x <= W + step; x += step) {
+      const yy = y + Math.sin(x * 0.012 + phase) * amp + Math.sin(x * 0.027 - phase * 0.7) * amp * 0.32;
+      disturb(Math.round(x / SCALE), Math.round(yy / SCALE), FORCE * strength, 3, 1);
+    }
+  };
 
   function tick() {
     if (!running) return;
@@ -1657,7 +2459,7 @@ function initCursorWave() {
     offCtx.putImageData(imgData, 0, 0);
     ctx.clearRect(0, 0, W, H);
     ctx.save();
-    ctx.filter = 'blur(7px)';
+    ctx.filter = 'blur(5px)';
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = 'high';
     ctx.drawImage(offscreen, 0, 0, W, H);
