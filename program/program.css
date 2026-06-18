@@ -1,4 +1,4 @@
-@charset "utf-8";
+﻿@charset "utf-8";
 
 /* CSS Variables */
 :root {
@@ -76,11 +76,18 @@ body {
   right: 0;
   width: 100%;
   height: 102px;
-  background-color: rgba(61, 184, 232, 0.95);
+  background-color: ;
   backdrop-filter: blur(15px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   z-index: 1000;
-  padding: 24px 32px;
+  padding: 16px 32px;
+  display: flex;
+  justify-content: center;
+  transition: transform 0.35s ease;
+}
+
+/* 아래로 스크롤 시 위로 숨김, 위로 스크롤 시 다시 표시 */
+.gnb--hidden {
+  transform: translateY(-100%);
 }
 
 .gnb__inner {
@@ -88,7 +95,6 @@ body {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  height: 54px;
   position: relative;
 }
 
@@ -101,21 +107,125 @@ body {
 .gnb__item {
     color: rgba(255, 255, 255, 0.50);
     font-family: "Poppins";
-    font-size: 20px;
+    font-size: 18px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
     letter-spacing: -0.96px;
+    transition: transform 0.2s ease;
 }
 
 .gnb__item--active {
     color: #FFF;
     font-family: "EB Garamond";
-    font-size: 22px;
+    font-size: 20px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
     letter-spacing: -1.04px;
+}
+
+/* 호버 시 폰트/색 변경 없이 살짝 확대만 (레이아웃 흔들림 없음) */
+.gnb__item:hover {
+    color: rgba(255, 255, 255, 0.50);
+    transform: scale(1.1);
+}
+
+.gnb__item--active:hover {
+    color: #FFF;
+}
+
+/* 페이지 10% 이상 스크롤 시: 흰 텍스트 대신 primary 계열로 전환 */
+.gnb--scrolled .gnb__item {
+    color: rgba(34, 178, 234, 0.50);
+}
+
+.gnb--scrolled .gnb__item--active {
+    color: var(--Brand-Primary, #22B2EA);
+}
+
+.gnb--scrolled .gnb__item:hover {
+    color: rgba(34, 178, 234, 0.50);
+}
+
+.gnb--scrolled .gnb__item--active:hover {
+    color: var(--Brand-Primary, #22B2EA);
+}
+
+/* 스크롤 시 드롭다운 배경도 밝은 회색으로 + 항목 텍스트 가독성 확보 */
+.gnb--scrolled .gnb__dropdown {
+    background-color: #F8F8F8;
+}
+
+.gnb--scrolled .gnb__dropdown-item {
+    color: rgba(34, 178, 234, 0.50);
+}
+
+.gnb--scrolled .gnb__dropdown:hover .gnb__dropdown-item:not(:hover) {
+    color: rgba(34, 178, 234, 0.50);
+}
+
+/* gnb 하위 드롭다운 (호버 시 표시) */
+.gnb__nav-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.gnb__dropdown {
+    position: absolute;
+    top: 48px;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 3px;
+    border-radius: 14px;
+    background-color: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(15px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.gnb__nav-item:hover .gnb__dropdown {
+    opacity: 1;
+    visibility: visible;
+}
+
+.gnb__dropdown-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 153px;
+    height: 48px;
+    border-radius: 12px;
+    font-family: "Poppins";
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: -0.64px;
+    color: rgba(255, 255, 255, 0.5);
+    white-space: nowrap;
+    transition: all 0.2s ease;
+}
+
+/* active 항목과 호버 항목에 동일한 강조 스타일 적용 */
+.gnb__dropdown-item--active,
+.gnb__dropdown-item:hover {
+    background-color: #ffffff;
+    color: #22b2ea;
+    font-family: "EB Garamond";
+    font-size: 18px;
+    letter-spacing: -0.72px;
+}
+
+/* 드롭다운에 호버 중일 때: 호버하지 않은 항목(기본 active 포함)은 기본 스타일로 */
+.gnb__dropdown:hover .gnb__dropdown-item:not(:hover) {
+    background-color: transparent;
+    color: rgba(255, 255, 255, 0.5);
+    font-family: "Poppins";
+    font-size: 16px;
+    letter-spacing: -0.64px;
 }
 
 .gnb__logo {
@@ -125,13 +235,13 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 60px;
   height: 60px;
   z-index: 10;
 }
 
 .gnb__logo img {
-  width: 60px;
-  height: 60px;
+  width: 100%;
   opacity: 0.8;
 }
 
@@ -165,14 +275,13 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 24px;
-  padding: 0 8px;
+  padding: 4px 8px;
   margin-bottom: 4px;
   align-self: flex-start;
   border-radius: 24px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   font-family: "Pretendard", sans-serif;
-  font-size: 12px;
+  font-size: 10px;
   font-weight: 500;
   letter-spacing: -0.32px;
   color: #fff;
@@ -192,42 +301,59 @@ body {
   background-color: #BEDBF4;
 }
 
-.btn--lg {
-    width: 144px;
-  height: 54px;
-  padding: 0 22px;
+.btn--ticket {
+  height: 44px;
+  padding: 0 14px 0 20px;
   border-radius: 100px;
   background-color: rgba(255, 255, 255, 0.3);
   border: 1px solid rgba(255, 255, 255, 0.4);
   gap: 10px;
 }
 
-.btn--lg p {
+.btn--ticket p {
     color: #ffffff;
-    font-size: 20px;
+    font-size: 18px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
     letter-spacing: -0.96px;
 }
 
-.btn--lg .btn__icon {
+/* 10% 이상 스크롤 시 티켓 버튼 텍스트/테두리 primary로 전환 */
+.gnb--scrolled .btn--ticket {
+    border-color: rgba(34, 178, 234, 0.4);
+}
+
+.gnb--scrolled .btn--ticket p {
+    color: var(--Brand-Primary, #22B2EA);
+}
+
+.btn--ticket .btn__icon {
     width: 24px;
     height: 24px;
 }
 
-.btn--lg .btn__icon img {
+.btn--ticket .btn__icon img {
     width: 100%;
 }
 
-.btn--lg:hover {
-  background-color: rgba(255, 255, 255, 0.4);
+.btn--ticket:hover {
+  background-color: rgba(34, 178, 234, 0.4);
 }
 
 /* Section Styles */
 .section {
   position: relative;
   padding: 160px 0;
+}
+
+.section--schedule {
+  padding-top: 0px;
+}
+
+/* 지역 탭으로 선택되지 않은 섹션 숨김 */
+.section.is-hidden {
+  display: none;
 }
 
 .section__header {
@@ -237,7 +363,7 @@ body {
 
 .section__title {
   font-family: "Poppins", sans-serif;
-  font-size: 42px;
+  font-size: 36px;
   font-weight: 300;
   letter-spacing: -1.68px;
   line-height: 1.4;
@@ -247,7 +373,7 @@ body {
 
 .section__title-emphasis {
   font-family: "EB Garamond", serif;
-  font-size: 48px;
+  font-size: 40px;
   font-weight: 500;
   font-style: italic;
   letter-spacing: -1.92px;
@@ -257,7 +383,7 @@ body {
 
 .section__sub {
   font-family: "Pretendard", sans-serif;
-  font-size: 18px;
+  font-size: 14px;
   font-weight: 400;
   letter-spacing: -0.36px;
   line-height: normal;
@@ -269,7 +395,7 @@ body {
     color: #1A1A1A;
     text-align: center;
     font-family: Pretendard;
-    font-size: 20px;
+    font-size: 16px;
     font-style: normal;
     font-weight: 400;
     line-height: 140%; /* 33.6px */
@@ -281,10 +407,10 @@ body {
 }
 
 /* Location Tabs */
-.location-tabs {
+.cartegory-tabs-a {
+  margin: 38px 0;
   display: flex;
   justify-content: center;
-  margin-bottom: 60px;
   flex-wrap: wrap;
   background-color: rgba(255, 255, 255, 0.3);
   padding: 3px;
@@ -294,27 +420,26 @@ body {
   margin-right: auto;
 }
 
-.location-tabs__item {
+.cartegory-tabs-a__item {
   padding: 12px 20px;
   border-radius: 12px;
   font-family: "Pretendard", sans-serif;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
   letter-spacing: -0.64px;
   color: rgba(255, 255, 255, 0.5);
   background-color: transparent;
   border: none;
-  transition: all 0.3s ease;
   cursor: pointer;
   display: flex;
   align-items: center;
 }
 
-.location-tabs__item--active {
+.cartegory-tabs-a__item--active {
     background-color: #ffffff;
     color: var(--Brand-Primary, #22B2EA);
     font-family: "EB Garamond";
-    font-size: 18px;
+    font-size: 16px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
@@ -322,7 +447,7 @@ body {
 }
 
 /* Category Tabs */
-.category-tabs {
+.cartegory-tabs-b {
   display: flex;
   justify-content: center;
   margin-bottom: 80px;
@@ -335,11 +460,11 @@ body {
   margin-right: auto;
 }
 
-.category-tabs__item {
+.cartegory-tabs-b__item {
   padding: 12px 20px;
   border-radius: 12px;
   font-family: "Pretendard", sans-serif;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
   letter-spacing: -0.32px;
   color: rgba(34, 178, 234, 0.50);
@@ -351,7 +476,7 @@ body {
   align-items: center;
 }
 
-.category-tabs__item--active {
+.cartegory-tabs-b__item--active {
   background-color: #ffffff;
   color: var(--Brand-Primary, #22B2EA);
   border: none;
@@ -368,7 +493,7 @@ body {
 
 .schedule-date {
   font-family: "Pretendard", sans-serif;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 600;
   letter-spacing: -1.44px;
   color: #1a1a1a;
@@ -413,7 +538,7 @@ body {
 
 .schedule-hour {
   font-family: "Pretendard", sans-serif;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 500;
   letter-spacing: -1.04px;
   color: #1a1a1a;
@@ -448,7 +573,7 @@ body {
 
 .schedule-section__label {
   font-family: "Pretendard", sans-serif;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 500;
   letter-spacing: -1.04px;
   color: #1a1a1a;
@@ -456,7 +581,6 @@ body {
   align-items: center;
   justify-content: center;
   height: 100%;
-  margin-bottom: ;
   border-bottom: 1.6px solid var(--Brand-Borderline, #BEDBF4);
 }
 
@@ -568,13 +692,19 @@ body {
   flex-direction: column;
   gap: 4px;
   flex-shrink: 0;
+  cursor: pointer;
+}
+
+/* 슬롯 클릭으로 스크롤할 때 고정 gnb에 가리지 않도록 여백 */
+.program-card {
+  scroll-margin-top: 140px;
 }
 
 .program-slot--highlighted {
   background-color: #22b2ea;
 }
 
-.program-slot--active {
+.program-slot--active, .program-slot:hover {
   background-color: var(--Brand-Primary, #22B2EA);
 }
 
@@ -585,25 +715,25 @@ body {
 }
 
 .program-slot--highlighted .program-name,
-.program-slot--active .program-name {
+.program-slot--active .program-name, .program-slot:hover .program-name {
   color: #ffffff;
 }
 
 .program-slot--highlighted .program-time,
-.program-slot--active .program-time {
+.program-slot--active .program-time, .program-slot:hover .program-time {
   color: #ffffff;
 }
 
 /* 교육 프로그램(.tag--education) 슬롯 하이라이트: 흰 배경 + #002D72 텍스트 */
 .program-slot--highlighted:has(.tag--education) .tag--education,
-.program-slot--active:has(.tag--education) .tag--education {
+.program-slot--active:has(.tag--education) .tag--education, .program-slot:hover:has(.tag--education) .tag--education {
   background-color: #ffffff;
   color: #002D72;
 }
 
 /* 체험 프로그램(.tag--experience) 슬롯 하이라이트: 흰 배경 + #BEDBF4 텍스트 */
 .program-slot--highlighted:has(.tag--experience) .tag--experience,
-.program-slot--active:has(.tag--experience) .tag--experience {
+.program-slot--active:has(.tag--experience) .tag--experience, .program-slot:hover:has(.tag--experience) .tag--experience {
   background-color: #ffffff;
   color: #BEDBF4;
 }
@@ -611,14 +741,14 @@ body {
 
 /* 공연 프로그램(.tag--performance) 슬롯 하이라이트: 흰 배경 + primary 텍스트 */
 .program-slot--highlighted:has(.tag--performance) .tag--performance,
-.program-slot--active:has(.tag--performance) .tag--performance {
+.program-slot--active:has(.tag--performance) .tag--performance, .program-slot:hover:has(.tag--performance) .tag--performance {
   background-color: #ffffff;
   color: var(--Brand-Primary, #22B2EA);
 }
 
 .program-name {
   font-family: "Pretendard", sans-serif;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 500;
   letter-spacing: -0.72px;
   color: #1a1a1a;
@@ -627,7 +757,7 @@ body {
 
 .program-time {
   font-family: "Pretendard", sans-serif;
-  font-size: 12px;
+  font-size: 10px;
   font-weight: 500;
   letter-spacing: -0.32px;
   color: #3a3a3a;
@@ -638,8 +768,8 @@ body {
 }
 
 .program-time__icon {
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
   flex-shrink: 0;
 }
 
@@ -714,12 +844,31 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  transition: all 0.3s ease;
+  transition: height 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+              padding 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+              margin 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.4s ease,
+              transform 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+              background-color 0.3s ease;
 }
 
-.program-card:hover,
-.program-card--active {
+.program-card:hover {
   background-color: var(--Brand-Primary);
+}
+
+/* 클릭한 카드: 위로 접히며 사라짐 (상세가 같은 자리로 올라옴) */
+.program-card--active {
+  height: 0;
+  min-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  border: 0;
+  opacity: 0;
+  transform: translateY(-30px);
+  overflow: hidden;
+  pointer-events: none;
 }
 
 /* 호버/활성 시 텍스트 흰색 + chevron-down 아이콘 흰색 (img 아이콘은 JS로 src 전환) */
@@ -776,9 +925,9 @@ body {
 
 /* program-card 배지 (Figma: h32, 14px) */
 .program-card .tag {
-  height: 32px;
-  padding: 6px 10px;
-  font-size: 14px;
+  height: 28px;
+  padding: 0 10px;
+  font-size: 12px;
   letter-spacing: -0.28px;
   margin-bottom: 0;
   align-self: auto;
@@ -786,7 +935,7 @@ body {
 
 .program-card__title {
   font-family: "Pretendard", sans-serif;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 500;
   letter-spacing: -0.72px;
   color: #1a1a1a;
@@ -816,7 +965,7 @@ body {
   gap: 6px;
   width: 120px; /* Figma 고정폭 → 카드 간 정렬 */
   font-family: "Pretendard", sans-serif;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
   letter-spacing: -0.32px;
   color: #3A3A3A;
@@ -829,7 +978,7 @@ body {
   gap: 6px;
   width: 300px; /* Figma 고정폭 → 카드 간 정렬 */
   font-family: "Pretendard", sans-serif;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 400;
   letter-spacing: -0.32px;
   color: #3A3A3A;
@@ -857,8 +1006,8 @@ body {
   overflow: hidden;
   max-height: 0;
   opacity: 0;
-  transition: max-height 0.55s cubic-bezier(0.4, 0, 0.2, 1),
-              opacity 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .detail-modal.is-open {
@@ -869,14 +1018,14 @@ body {
 .detail-modal__panel {
   position: relative;
   display: flex;
-  gap: 120px;
+  justify-content: space-between;
   align-items: flex-start;
   background: #ffffff;
   border-radius: 14px;
   /* 아래에서 위로 올라오며 나타나는 모션 */
   transform: translateY(30px);
   opacity: 0;
-  transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1),
+  transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1),
               opacity 0.45s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -904,8 +1053,9 @@ body {
   width: 448px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  padding-top: 10px;
+  gap: 16px;
+  padding-top: 16px;
+  padding-left: 16px;
 }
 
 .detail-modal__header {
@@ -917,7 +1067,7 @@ body {
 /* 모달 배지 (Figma: h32, 16px) */
 .detail-modal__tag {
   height: 32px;
-  padding: 6px 16px;
+  padding: 0 14px;
   font-size: 16px;
   letter-spacing: -0.32px;
   margin-bottom: 0;
@@ -926,7 +1076,7 @@ body {
 
 .detail-modal__title {
   font-family: "Pretendard", sans-serif;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 500;
   letter-spacing: -0.8px;
   color: #000;
@@ -934,15 +1084,18 @@ body {
 }
 
 .detail-modal__body {
+  padding-left: 4px;
   display: flex;
   flex-direction: column;
   gap: 4px;
+
 }
 
 .detail-modal__parts {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  font-size: 14px;
 }
 
 .detail-modal__part {
@@ -953,7 +1106,7 @@ body {
 
 .detail-modal__part-label {
   font-family: "Pretendard", sans-serif;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
   letter-spacing: -0.32px;
   color: #000;
@@ -976,10 +1129,9 @@ body {
 
 .detail-modal__meta-row {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 16px;
 }
-
 /* 세로 정렬 행 (유의사항 등 라벨 위 + 내용 아래) */
 .detail-modal__meta-row--column {
   flex-direction: column;
@@ -996,7 +1148,7 @@ body {
   align-items: center;
   gap: 6px;
   font-family: "Pretendard", sans-serif;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
   letter-spacing: -0.32px;
   color: #1a1a1a;
@@ -1009,7 +1161,7 @@ body {
 
 .detail-modal__meta-value {
   font-family: "Pretendard", sans-serif;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 400;
   letter-spacing: -0.32px;
   color: #1a1a1a;
@@ -1021,7 +1173,7 @@ body {
   align-items: center;
   gap: 6px;
   font-family: "Pretendard", sans-serif;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 400;
   letter-spacing: -0.32px;
   color: #3a3a3a;
@@ -1031,7 +1183,6 @@ body {
 .detail-modal__location span {
   font-weight: 500;
 }
-
 /* 이미지 영역 (회색 박스) */
 .detail-modal__image {
   flex-shrink: 0;
@@ -1137,12 +1288,12 @@ body {
     margin-bottom: 20px;
   }
 
-  .location-tabs {
+  .cartegory-tabs-a {
     margin-bottom: 40px;
     flex-wrap: wrap;
   }
 
-  .category-tabs {
+  .cartegory-tabs-b {
     margin-bottom: 40px;
     flex-wrap: wrap;
   }
@@ -1184,4 +1335,16 @@ body {
     gap: 12px;
     margin-bottom: 40px;
   }
+}
+
+.logo-end {
+  height: 1080px;
+}
+
+/* detail card top-right icon */
+.detail-modal__icon {
+  position: absolute;
+  top: 30px;
+  right: 36px;
+  z-index: 2;
 }
