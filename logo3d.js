@@ -86,8 +86,8 @@ const GLASS_PRESETS = {
     mapSaturation: 1,                                                      // 매핑 비디오 채도
     mapBrightness: -0.3,                                                       // 매핑 비디오 밝기 오프셋
     // opacity 낮춰 더 투명하게 — 뒤 배경이 비치고 굴절 배경이 겹쳐 맑은 유리감.
-    symbol: { color: 0xffffff, iridescence: 0.05, sheen: 0.0, envMapIntensity: 1.45, emissive: 0.02, opacity: 2},
-    text:   { color: 0xffffff, iridescence: 0.05, emissive: 0.02, opacity: 2},
+    symbol: { color: 0xffffff, iridescence: 0.05, sheen: 0.0, envMapIntensity: 1.45, emissive: 0.02, opacity: 0.72},
+    text:   { color: 0xffffff, iridescence: 0.05, emissive: 0.02, opacity: 0.39},
     rimGain: 0.18, edge: 0.6, lumAlpha: 0.06,                                 // lumAlpha 낮춰 내부 투과 유지
   },
 };
@@ -109,6 +109,44 @@ const REFRACT = {
   mapContrast: STYLE.mapContrast ?? 1.0,
   mapSaturation: STYLE.mapSaturation ?? 1.0,
   mapBrightness: STYLE.mapBrightness ?? 0.0,
+};
+
+// 베벨/노멀 따라 흐르는 하이라이트 수치. 심볼/텍스트를 따로 조절한다.
+const SYMBOL_LINE = {
+  rimContour: 0.1,
+  contourX: 1.12,
+  contourY: -0.84,
+  contourWave: 0.06,
+  lineAStart: 0.01,
+  lineAEnd: 0.03,
+  lineBStart: 0.012,
+  lineBEnd: 0.052,
+  lineRepeat: 6.0,
+  lineMix: 0.44,
+  tintMix: 0.18,
+  shadowLine: 0.10,
+  lineGlow: 0.01,
+  whiteLine: 0.1,
+};
+const TEXT_LINE = {
+  rimContour: 0.1,
+  contourX: 1.12,
+  contourY: -0.84,
+  contourWave: 0.06,
+  lineAStart: 0.016,
+  lineAEnd: 0.066,
+  lineBStart: 0.012,
+  lineBEnd: 0.092,
+  lineRepeat: 1.0,
+  lineMix: 0.44,
+  tintMix: 0.4,
+  shadowLine: 0.10,
+  lineGlow: 0.2,
+  whiteLine: 0.07,
+};
+const glslFloat = (value) => {
+  const normalized = Number(value);
+  return Number.isInteger(normalized) ? `${normalized}.0` : `${normalized}`;
 };
 const FLOAT_AMPLITUDE = 0.03;        // 생물별 위아래 둥둥 범위
 const FLOAT_SPEED = 0.85;            // 기본 둥둥 속도
@@ -234,8 +272,8 @@ function applyChromaticRim(mat, strength = ABBERATION, sheen = 0.0, rimGain = ST
          uniform float uMapBrightness;
          uniform float uFooterLift;`;
 
-    // 굴절 코드: 화면좌표 → 비디오 cover UV → 노멀 왜곡 → 배경 샘플로 베이스 교체.
-    const refractCode = useRefract ? `
+    // 굴절 코드: 화면좌표 → 비디오 cover UV → 노멀 왜곡 → 배경 샘플.
+    const refractBaseCode = `
          vec2 _px = gl_FragCoord.xy / uCanvasPx;
          _px.y = 1.0 - _px.y;                                  // gl_FragCoord 는 y-up → 화면 y-down 보정
          // 화면 위(0)→비디오 텍스처 v=1 이므로 v 반전 (이게 빠지면 배경이 상하 뒤집혀 어긋난다).
@@ -253,6 +291,9 @@ function applyChromaticRim(mat, strength = ABBERATION, sheen = 0.0, rimGain = ST
          _bg = mix(vec3(_bgLum0), _bg, uMapSaturation);
          _bg = (_bg - 0.5) * uMapContrast + 0.5 + uMapBrightness;
          _bg = clamp(_bg, 0.0, 1.0);
+    `;
+
+    const symbolRefractCode = refractBaseCode + `
          outgoingLight = mix(outgoingLight, _bg, uRefractMix); // 배경 굴절을 유리 베이스로
          float _inner = smoothstep(0.18, 0.82, 1.0 - abs(nrm.z));
          float _lower = smoothstep(0.18, 0.86, _px.y);
@@ -268,7 +309,31 @@ function applyChromaticRim(mat, strength = ABBERATION, sheen = 0.0, rimGain = ST
          outgoingLight = mix(outgoingLight, uShadowColor, _glassShadow);
          outgoingLight *= 1.0 - clamp((_inner * 0.55 + _bandShade) * uCoreDarken, 0.0, 0.82);
          outgoingLight += vec3(1.0) * uFooterLift;             // footer 어두운 배경 보정 밝기
-    ` : '';
+    `;
+
+    const lineRefractCode = (line) => refractBaseCode + `
+         // 화면 수평선이 아니라 곡면 노멀/프레넬 등고선을 따라 흐르게 한다.
+         float _rimBaseText = 1.0 - dotNV;
+         float _edgeGuide = smoothstep(0.020, 0.110, _rimBaseText) * (1.0 - smoothstep(0.90, 1.0, _rimBaseText));
+         vec2 _flowDir = normalize(vec2(nrm.y * 0.78 + 0.22, -nrm.x * 0.72 + 0.92));
+         float _strokeFlow = dot(_uv - 0.5, _flowDir) + _rimBaseText * 0.34 + nrm.x * nrm.y * 0.10;
+         float _contour = _rimBaseText * ${glslFloat(line.rimContour)} + nrm.x * ${glslFloat(line.contourX)} + nrm.y * ${glslFloat(line.contourY)} + sin((nrm.x - nrm.y) * 4.2 + _uv.x * 1.1) * ${glslFloat(line.contourWave)};
+         float _lineA = 1.0 - smoothstep(${glslFloat(line.lineAStart)}, ${glslFloat(line.lineAEnd)}, abs(fract(_contour) - 0.5));
+         float _lineB = 1.0 - smoothstep(${glslFloat(line.lineBStart)}, ${glslFloat(line.lineBEnd)}, abs(fract((_strokeFlow - uTime * 0.018) * ${glslFloat(line.lineRepeat)} + 0.17) - 0.5));
+         float _flowLine = clamp(_lineA * _edgeGuide * 0.92 + _lineB * smoothstep(0.06, 0.34, _rimBaseText) * ${glslFloat(line.lineMix)}, 0.0, 1.0);
+         float _bodyShade = smoothstep(0.18, 0.82, 1.0 - abs(nrm.z)) * 0.12;
+         vec3 _glassTint = mix(vec3(0.70, 0.90, 1.0), _bg, 0.26);
+         outgoingLight = mix(outgoingLight, _bg, uRefractMix);     // 심볼처럼 비디오 매핑을 글자 본체에도 깐다.
+         outgoingLight = mix(outgoingLight, _glassTint, ${glslFloat(line.tintMix)});
+         outgoingLight = mix(outgoingLight, uShadowColor, (_flowLine * ${glslFloat(line.shadowLine)} + _bodyShade) * uShadow);
+         outgoingLight += vec3(0.82, 0.98, 1.0) * _flowLine * ${glslFloat(line.lineGlow)};
+         outgoingLight += vec3(1.0) * _lineA * _edgeGuide * ${glslFloat(line.whiteLine)};
+         outgoingLight += vec3(1.0) * uFooterLift;
+    `;
+    const symbolLineRefractCode = lineRefractCode(SYMBOL_LINE);
+    const textLineRefractCode = lineRefractCode(TEXT_LINE);
+
+    const refractCode = useRefract ? (refractTarget === 'text' ? textLineRefractCode : symbolLineRefractCode) : '';
 
     shader.fragmentShader = shader.fragmentShader
       .replace('void main() {', header + `
