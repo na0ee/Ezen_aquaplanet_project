@@ -95,6 +95,7 @@ const totalPanelCount  = crewSection?.querySelectorAll('.crew-panel').length || 
 let crewInView = false;
 let crewEntryTimer = null;
 let crewContentTimer = null;
+let crewFishTopTimer = null;
 let crewInfoVisible = true;
 let forceCrewEntryUntil = 0;
 
@@ -116,6 +117,10 @@ function getCrewScrollState() {
     exitStart,
     inPanelRange: scrolled >= 0 && scrolled < exitStart,
   };
+}
+
+function isCrewPanelRangeActive() {
+  return getCrewScrollState().inPanelRange;
 }
 
 function hideCrewCanvas() {
@@ -197,7 +202,9 @@ function setCrewInfoVisible(visible) {
   crewInfoVisible = visible;
   crewSection?.classList.toggle('is-creature-moving', !visible);
   if (visible && !wasVisible) {
-    document.dispatchEvent(new CustomEvent('crew-card-reenter'));
+    document.dispatchEvent(new CustomEvent('crew-card-reenter', {
+      detail: { idx: currentIdx }
+    }));
   }
 }
 
@@ -217,7 +224,7 @@ function scheduleCreatureEntry(immediate = false) {
   crewEntryTimer = setTimeout(() => {
     if (!crewInView) return;
     showCreature(pendingIdx >= 0 ? pendingIdx : 0);
-  }, 620);
+  }, 1000);
 }
 
 setCrewInfoVisible(false);
@@ -442,18 +449,31 @@ function enterCrewSection() {
   setCrewTitleVisible(true);
   hideCanvasAfterExit = false;
   clearTimeout(crewContentTimer);
+  clearTimeout(crewFishTopTimer);
+  crewSection?.classList.remove('is-fish-top-visible');
   crewSection?.classList.add('is-content-visible');
-  scheduleCreatureEntry(true);
+  crewFishTopTimer = setTimeout(() => {
+    if (crewSection?.classList.contains('is-content-visible')) {
+      crewSection.classList.add('is-fish-top-visible');
+    }
+  }, 2000);
+  scheduleCreatureEntry();
 }
 
 function leaveCrewSection() {
   clearTimeout(crewContentTimer);
   /* force-enter 기간 중 IO의 지연 leave 콜백 무시 */
   if (performance.now() < forceCrewEntryUntil) return;
+  if (isCrewPanelRangeActive()) {
+    enterCrewSection();
+    return;
+  }
   /* exit zone 다운 스크롤 중: translateY가 GLB를 위로 밀어내므로 수영 애니메이션 불필요 */
   if (exitZoneActive) return;
   clearTimeout(crewEntryTimer);
+  clearTimeout(crewFishTopTimer);
   crewSection?.classList.remove('is-content-visible');
+  crewSection?.classList.remove('is-fish-top-visible');
   setCrewTitleVisible(false);
   if (loadedN !== CREATURES.length) {
     crewCanvas.style.opacity = '0';
@@ -727,6 +747,14 @@ const clock = new THREE.Clock();
     showCreature(pendingIdx >= 0 ? pendingIdx : 0, forceEntryNow);
   }
 
+  if (!crewInView && !entryActive && !exitActive) return;
+
+  /* 클립 경로 항상 갱신 (스크롤 복귀 대응) */
+  clampCanvasToSticky();
+
+  /* 패널 구간 이탈 + 애니메이션 없음 → 렌더 스킵 (프로그램 섹션 진입 시 GPU 경쟁 방지) */
+  if (!crewState.inPanelRange && !entryActive && !exitActive && !forceEntryNow) return;
+
   if (controlsActive && currentSettled) {
     camera.position.y = 0.3;
     camera.position.z = 8;
@@ -737,7 +765,6 @@ const clock = new THREE.Clock();
     camera.position.z = 8.0 + Math.sin(clock.elapsedTime * 0.22) * 0.12 * cameraBobFade;
   }
 
-  clampCanvasToSticky();
   renderer.render(scene, camera);
 }());
 
@@ -759,6 +786,9 @@ document.addEventListener('crew-switch', (e) => {
   if (!crewInView) return;
 
   if (loadedN === CREATURES.length) {
+    /* 첫 진입(currentIdx === -1)이고 immediate가 아닌 경우:
+       force-enter 다이브 전환에서 발생 — scheduleCreatureEntry 타이머에 맡김 */
+    if (currentIdx === -1 && !e.detail.immediate) return;
     showCreature(e.detail.idx, Boolean(e.detail.immediate));
   }
 });

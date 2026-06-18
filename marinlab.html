@@ -334,7 +334,7 @@
     .m-word__head {
       display: inline-flex;
       align-items: baseline;
-      padding: 0;
+      padding: 12px;
       background: transparent;
       color: var(--ink);
       transition:
@@ -498,26 +498,33 @@
     }
 
     .m-case {
-      position: absolute;
-      left: 300px;
+      position: fixed;
+      left: calc(50vw - (960px * var(--marin-scale)) + (300px * var(--marin-scale)));
+      top: calc(50vh - (128px * var(--marin-scale)));
       width: 535px;
       color: var(--ink);
       opacity: 0;
-      transform: translateY(calc(var(--case-stick-offset, 0) * 1px));
+      transform: scale(var(--marin-scale));
+      transform-origin: top left;
+      z-index: 4;
       pointer-events: none;
       filter: blur(7px);
       transition:
         opacity 0.34s ease,
         filter 0.34s ease;
+      backface-visibility: hidden;
+      contain: layout paint;
       will-change: opacity, filter;
     }
 
-    .m-case--1 { top: 2881px; }
-    .m-case--2 { top: 2881px; }
-    .m-case--3 { top: 2881px; }
-    .m-case--4 { top: 2881px; }
-    .m-case--5 { top: 2881px; }
-    .m-case--6 { top: 2881px; }
+    .m-case--1,
+    .m-case--2,
+    .m-case--3,
+    .m-case--4,
+    .m-case--5,
+    .m-case--6 {
+      top: calc(50vh - (128px * var(--marin-scale)));
+    }
 
     .m-case__head {
       display: flex;
@@ -575,13 +582,70 @@
       overflow: hidden;
       background: #eef8fc;
       opacity: var(--case-img-opacity, 0.24);
+      transform: translate3d(0, calc(var(--case-img-offset, 0) * 1px), 0);
       filter:
         saturate(var(--case-img-saturation, 0.72))
         blur(var(--case-img-blur, 6px));
       transition:
         opacity 0.34s ease,
         filter 0.34s ease;
+      will-change: opacity, filter, transform;
+      backface-visibility: hidden;
+    }
+
+    .m-img--hidden-marker {
+      visibility: hidden;
+      opacity: 0 !important;
+      pointer-events: none;
+    }
+
+    .m-img--pinned-source {
+      visibility: hidden;
+      opacity: 0 !important;
+      pointer-events: none;
+    }
+
+    .m-img--suppressed {
+      opacity: 0 !important;
+      pointer-events: none;
+    }
+
+    .m-img-fixed {
+      position: fixed;
+      left: calc(50vw - (960px * var(--marin-scale)) + (1170px * var(--marin-scale)));
+      top: calc(50vh - (135px * var(--marin-scale)));
+      width: 450px;
+      height: 270px;
+      overflow: hidden;
+      background: #eef8fc;
+      opacity: 0;
+      transform: scale(var(--marin-scale));
+      transform-origin: top left;
+      z-index: 3;
+      pointer-events: none;
+      filter:
+        saturate(var(--case-img-saturation, 0.72))
+        blur(var(--case-img-blur, 6px));
+      transition:
+        opacity 0.34s ease,
+        filter 0.34s ease;
+      backface-visibility: hidden;
       will-change: opacity, filter;
+    }
+
+    .m-img-fixed.is-active {
+      opacity: var(--case-img-opacity, 1);
+    }
+
+    .m-img-fixed img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .m-img-fixed .m-img__name {
+      display: block;
     }
 
     .m-img img {
@@ -630,6 +694,7 @@
     }
 
     body:not(.marin-cases-content-visible) .m-case.is-active,
+    body:not(.marin-cases-content-visible) .m-img-fixed,
     body:not(.marin-cases-content-visible) .m-img {
       opacity: 0;
       pointer-events: none;
@@ -637,6 +702,12 @@
     }
 
     body:not(.marin-case-text-visible) .m-case.is-active {
+      opacity: 0;
+      pointer-events: none;
+      filter: blur(7px);
+    }
+
+    body:not(.marin-case-text-visible) .m-img-fixed {
       opacity: 0;
       pointer-events: none;
       filter: blur(7px);
@@ -666,6 +737,7 @@
     body.marin-view-conservation .m-cases-copy,
     body.marin-view-conservation .m-pill-tabs--cases,
     body.marin-view-conservation .m-case,
+    body.marin-view-conservation .m-img-fixed,
     body.marin-view-conservation .m-img {
       display: none;
     }
@@ -1017,12 +1089,45 @@
       white-space: nowrap;
     }
 
+    body.marin-view-conservation .m-fig-con01-title,
+    body.marin-view-conservation .m-fig-intro-copy,
+    body.marin-view-conservation .m-fig-principle {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+
+    body.marin-view-conservation.marin-conservation-intro .m-fig-con01-title,
+    body.marin-view-conservation.marin-conservation-intro .m-fig-intro-copy {
+      animation: marinConservationFadeIn 0.9s ease forwards;
+    }
+
+    body.marin-view-conservation.marin-conservation-intro .m-fig-principle {
+      animation: marinConservationFadeIn 0.55s ease forwards;
+    }
+
+    body.marin-view-conservation.marin-conservation-intro .m-fig-principle:nth-child(1) { animation-delay: 0.25s; }
+    body.marin-view-conservation.marin-conservation-intro .m-fig-principle:nth-child(2) { animation-delay: 0.38s; }
+    body.marin-view-conservation.marin-conservation-intro .m-fig-principle:nth-child(3) { animation-delay: 0.51s; }
+    body.marin-view-conservation.marin-conservation-intro .m-fig-principle:nth-child(4) { animation-delay: 0.64s; }
+
+    @keyframes marinConservationFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
     .m-fig-con02 {
       left: 0;
       top: 1080px;
       width: 1920px;
       height: 1285px;
       overflow: hidden;
+      perspective: 1200px;
     }
 
     .m-fig-con03 {
@@ -1032,6 +1137,7 @@
       height: 1877px;
       overflow: hidden;
       display: none;
+      perspective: 1200px;
     }
 
     .m-fig-con04 {
@@ -1041,6 +1147,7 @@
       height: 1285px;
       overflow: hidden;
       display: none;
+      perspective: 1200px;
     }
 
     body.marin-view-conservation.marin-fig-case-pinniped .m-fig-con02,
@@ -1055,6 +1162,29 @@
     body.marin-view-conservation.marin-fig-case-otter .m-fig-con04 {
       display: block;
     }
+
+    .m-fig-con05,
+    .m-fig-con06,
+    .m-fig-con07,
+    .m-fig-con08 {
+      left: 0;
+      top: 1080px;
+      width: 1920px;
+      height: 1285px;
+      overflow: hidden;
+      display: none;
+      perspective: 1200px;
+    }
+
+    body.marin-view-conservation.marin-fig-case-penguin .m-fig-con02,
+    body.marin-view-conservation.marin-fig-case-turtle .m-fig-con02,
+    body.marin-view-conservation.marin-fig-case-seahorse .m-fig-con02,
+    body.marin-view-conservation.marin-fig-case-shark .m-fig-con02 { display: none; }
+
+    body.marin-view-conservation.marin-fig-case-penguin .m-fig-con05 { display: block; }
+    body.marin-view-conservation.marin-fig-case-turtle .m-fig-con06 { display: block; }
+    body.marin-view-conservation.marin-fig-case-seahorse .m-fig-con07 { display: block; }
+    body.marin-view-conservation.marin-fig-case-shark .m-fig-con08 { display: block; }
 
     .m-fig-section-head {
       left: 545px;
@@ -1100,6 +1230,7 @@
       letter-spacing: -0.48px;
       color: #1a1a1a;
       pointer-events: auto;
+      cursor: pointer;
     }
 
     .m-fig-species.is-active {
@@ -1107,16 +1238,93 @@
       font-weight: 600;
     }
 
-    .m-fig-species:nth-child(1),
-    .m-fig-species:nth-child(2) {
-      cursor: pointer;
-    }
-
     .m-fig-species img {
       display: block;
       width: 72px;
       height: 60px;
       object-fit: contain;
+    }
+
+    body.marin-view-conservation .m-fig-con02 .m-fig-section-head,
+    body.marin-view-conservation .m-fig-con03 .m-fig-section-head,
+    body.marin-view-conservation .m-fig-con04 .m-fig-section-head,
+    body.marin-view-conservation .m-fig-con05 .m-fig-section-head,
+    body.marin-view-conservation .m-fig-con06 .m-fig-section-head,
+    body.marin-view-conservation .m-fig-con07 .m-fig-section-head,
+    body.marin-view-conservation .m-fig-con08 .m-fig-section-head,
+    body.marin-view-conservation .m-fig-species,
+    body.marin-view-conservation .m-fig-whale-card,
+    body.marin-view-conservation .m-fig-otter-card,
+    body.marin-view-conservation .m-fig-pinniped-copy,
+    body.marin-view-conservation .m-fig-flip-card:not(.is-detail) {
+      opacity: 0;
+    }
+
+    body.marin-view-conservation .m-fig-con02 .m-fig-section-head,
+    body.marin-view-conservation .m-fig-con03 .m-fig-section-head,
+    body.marin-view-conservation .m-fig-con04 .m-fig-section-head,
+    body.marin-view-conservation .m-fig-con05 .m-fig-section-head,
+    body.marin-view-conservation .m-fig-con06 .m-fig-section-head,
+    body.marin-view-conservation .m-fig-con07 .m-fig-section-head,
+    body.marin-view-conservation .m-fig-con08 .m-fig-section-head,
+    body.marin-view-conservation .m-fig-species {
+      transform: translateY(18px);
+    }
+
+    body.marin-view-conservation.marin-conservation-cases-intro .m-fig-con02 .m-fig-section-head,
+    body.marin-view-conservation.marin-conservation-cases-intro .m-fig-con03 .m-fig-section-head,
+    body.marin-view-conservation.marin-conservation-cases-intro .m-fig-con04 .m-fig-section-head,
+    body.marin-view-conservation.marin-conservation-cases-intro .m-fig-con05 .m-fig-section-head,
+    body.marin-view-conservation.marin-conservation-cases-intro .m-fig-con06 .m-fig-section-head,
+    body.marin-view-conservation.marin-conservation-cases-intro .m-fig-con07 .m-fig-section-head,
+    body.marin-view-conservation.marin-conservation-cases-intro .m-fig-con08 .m-fig-section-head {
+      animation: marinConservationFadeIn 0.9s ease forwards;
+    }
+
+    body.marin-view-conservation.marin-conservation-cases-intro .m-fig-species {
+      animation: marinConservationFadeIn 0.65s ease forwards;
+    }
+
+    body.marin-view-conservation.marin-conservation-cases-intro .m-fig-species:nth-child(1) { animation-delay: 0.85s; }
+    body.marin-view-conservation.marin-conservation-cases-intro .m-fig-species:nth-child(2) { animation-delay: 1s; }
+    body.marin-view-conservation.marin-conservation-cases-intro .m-fig-species:nth-child(3) { animation-delay: 1.15s; }
+    body.marin-view-conservation.marin-conservation-cases-intro .m-fig-species:nth-child(4) { animation-delay: 1.3s; }
+    body.marin-view-conservation.marin-conservation-cases-intro .m-fig-species:nth-child(5) { animation-delay: 1.45s; }
+    body.marin-view-conservation.marin-conservation-cases-intro .m-fig-species:nth-child(6) { animation-delay: 1.6s; }
+    body.marin-view-conservation.marin-conservation-cases-intro .m-fig-species:nth-child(7) { animation-delay: 1.75s; }
+
+    body.marin-view-conservation.marin-fig-species-title-mode .m-fig-section-head,
+    body.marin-view-conservation.marin-fig-species-title-mode .m-fig-species {
+      opacity: 1;
+      transform: translateY(0);
+      animation: none !important;
+    }
+
+    body.marin-view-conservation.marin-conservation-cases-intro .m-fig-whale-card,
+    body.marin-view-conservation.marin-conservation-cases-intro .m-fig-otter-card,
+    body.marin-view-conservation.marin-conservation-cases-intro .m-fig-pinniped-copy,
+    body.marin-view-conservation.marin-conservation-cases-intro .m-fig-flip-card:not(.is-detail) {
+      animation: marinFigCaseContentFade 0.75s ease 2s forwards;
+    }
+
+    body.marin-view-conservation.marin-fig-species-title-mode.marin-conservation-cases-intro .m-fig-whale-card,
+    body.marin-view-conservation.marin-fig-species-title-mode.marin-conservation-cases-intro .m-fig-otter-card,
+    body.marin-view-conservation.marin-fig-species-title-mode.marin-conservation-cases-intro .m-fig-pinniped-copy,
+    body.marin-view-conservation.marin-fig-species-title-mode.marin-conservation-cases-intro .m-fig-flip-card:not(.is-detail) {
+      opacity: 1;
+      animation: none;
+    }
+
+    body.marin-view-conservation .m-fig-case-content-enter .m-fig-whale-card,
+    body.marin-view-conservation .m-fig-case-content-enter .m-fig-otter-card,
+    body.marin-view-conservation .m-fig-case-content-enter .m-fig-pinniped-copy,
+    body.marin-view-conservation .m-fig-case-content-enter .m-fig-flip-card:not(.is-detail) {
+      animation: marinFigCaseContentFade 0.55s ease forwards !important;
+    }
+
+    @keyframes marinFigCaseContentFade {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
     .m-fig-whale-card,
@@ -1189,6 +1397,7 @@
       top: 593px;
       width: 849px;
       text-align: center;
+      pointer-events: none;
     }
 
     .m-fig-pinniped-copy h3 {
@@ -1216,6 +1425,14 @@
       background: #ffffff;
       cursor: pointer;
       pointer-events: auto;
+      z-index: 2;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      transform-style: preserve-3d;
+      transform-origin: center center;
+      transition:
+        transform 0.7s cubic-bezier(0.2, 0.72, 0.2, 1);
+      will-change: transform;
     }
 
     .m-fig-flip-card > img {
@@ -1250,18 +1467,44 @@
     .m-fig-flip-card--walrus-detail { left: 389px; top: 799px; }
     .m-fig-flip-card--sea-lion-detail { left: 803px; top: 799px; }
     .m-fig-flip-card--seal-detail { left: 1217px; top: 799px; }
+    .m-fig-con03 .m-fig-flip-card {
+      pointer-events: auto !important;
+      z-index: 20;
+    }
+    .m-fig-con03 .m-fig-flip-card.is-detail.is-visible {
+      z-index: 30 !important;
+    }
+    .m-fig-flip-card--seahorse { left: 596px; top: 593px; }
+    .m-fig-flip-card--sea-dragon { left: 1010px; top: 593px; }
+    .m-fig-flip-card--seahorse-detail { left: 596px; top: 593px; }
+    .m-fig-flip-card--sea-dragon-detail { left: 1010px; top: 593px; }
 
     .m-fig-flip-card.is-detail {
-      display: none;
-      z-index: 2;
+      display: block;
+      visibility: hidden;
+      pointer-events: none;
+      opacity: 0;
+      transform: rotateY(-90deg);
+      z-index: 1;
     }
 
     .m-fig-flip-card.is-flipped {
-      display: none;
+      visibility: hidden;
+      opacity: 0 !important;
+      transform: rotateY(90deg) !important;
+      animation: none !important;
+      pointer-events: none;
+      z-index: 1;
     }
 
     .m-fig-flip-card.is-detail.is-visible {
       display: block;
+      visibility: visible;
+      opacity: 1 !important;
+      pointer-events: auto;
+      transform: rotateY(0deg) !important;
+      animation: none !important;
+      z-index: 5;
     }
 
     .m-fig-flip-caption {
@@ -1283,6 +1526,10 @@
       width: 1920px;
       height: 1605px;
       background: transparent;
+    }
+
+    body.marin-view-conservation .m-footer-blank {
+      top: 1900px;
     }
 
     .m-mobile-note {
@@ -1341,8 +1588,8 @@
   <header id="gnb" class="gnb">
     <div class="gnb__inner">
       <nav class="gnb__nav" aria-label="메인 메뉴">
-        <a href="index.html#sec-program" class="gnb__link" data-nav="program">Program</a>
-        <a href="index.html#sec-crew" class="gnb__link" data-nav="crew">Ocean friends</a>
+        <a href="program/program.html" class="gnb__link" data-nav="program">Program</a>
+        <a href="Oceanfriends.html" class="gnb__link" data-nav="crew">Ocean friends</a>
         <div class="gnb__nav-item" data-nav="about">
           <span class="gnb__link gnb__link--active">About us</span>
           <div class="gnb__dropdown">
@@ -1357,7 +1604,7 @@
         <img class="gnb__logo" src="assets/images/headerLogo.png" alt="" aria-hidden="true">
       </a>
 
-      <a href="index.html#sec-booking" class="gnb__ticket btn-pill" aria-label="티켓 예매">
+      <a href="ticket.html" class="gnb__ticket btn-pill" aria-label="티켓 예매">
         Ticket
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path d="M7 17L17 7M17 7H7M17 7V17" stroke="white" stroke-width="1.5"
@@ -1604,6 +1851,137 @@
               <div class="m-fig-flip-caption"><p class="m-fig-card-en">Seal</p><p class="m-fig-card-kr">물범</p><p class="m-fig-card-desc">물범은 전 세계 바다에 서식하는 대표적인<br>기각류입니다.<br>우리나라에서는 백령도 인근에 점박이 물범이<br>서식하며 보호받고 있습니다.</p></div>
             </article>
           </section>
+
+          <section class="marin-node m-fig-con05">
+            <div class="marin-node m-fig-title m-fig-section-head">
+              <h2 class="m-fig-title__main">
+                <span class="m-fig-title__serif">Conservation</span><span class="m-fig-title__plain"> Cases</span>
+              </h2>
+              <p class="m-fig-title__sub">보전 활동을 통해 보호하고 연구하는 해양생물 사례를 소개합니다</p>
+              <p class="m-fig-section-copy">
+                <strong>보호가 필요한 해양생물</strong>들을 체계적으로 관리하고 연구합니다<br>
+                <strong>건강한 개체군 유지</strong>와 <strong>생물다양성 보전</strong>을 위해 노력하고 있습니다
+              </p>
+            </div>
+            <div class="marin-node m-fig-species-row">
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777.png" alt=""><span>고래류</span></div>
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777-1.png" alt=""><span>기각류</span></div>
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/image 217 [Vectorized].png" alt=""><span>수달</span></div>
+              <div class="m-fig-species is-active"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777-2.png" alt=""><span>펭귄류</span></div>
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482903.png" alt=""><span>바다거북</span></div>
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482946.png" alt=""><span>해마와 해룡</span></div>
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777-3.png" alt=""><span>상어류</span></div>
+            </div>
+            <article class="marin-node m-fig-otter-card">
+              <img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_04_01.png" alt="Penguin">
+              <div class="m-fig-side-panel"></div>
+              <div class="m-fig-otter-text">
+                <p class="m-fig-card-en">Penguin</p>
+                <p class="m-fig-card-kr">펭귄</p>
+                <p class="m-fig-card-desc">기후변화로 인해 남극의 환경이 훼손되며 남극에<br>서식하는 펭귄들의 숫자가 빠른 속도로<br>줄어가고 있습니다.<br>남극조약 협의당사국 회의를 통해 세종기지 옆<br>해안 언덕에 서식하는 펭귄을 포함한 생물들을<br>맡아 관리하게 되었습니다.</p>
+              </div>
+            </article>
+          </section>
+
+          <section class="marin-node m-fig-con06">
+            <div class="marin-node m-fig-title m-fig-section-head">
+              <h2 class="m-fig-title__main">
+                <span class="m-fig-title__serif">Conservation</span><span class="m-fig-title__plain"> Cases</span>
+              </h2>
+              <p class="m-fig-title__sub">보전 활동을 통해 보호하고 연구하는 해양생물 사례를 소개합니다</p>
+              <p class="m-fig-section-copy">
+                <strong>보호가 필요한 해양생물</strong>들을 체계적으로 관리하고 연구합니다<br>
+                <strong>건강한 개체군 유지</strong>와 <strong>생물다양성 보전</strong>을 위해 노력하고 있습니다
+              </p>
+            </div>
+            <div class="marin-node m-fig-species-row">
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777.png" alt=""><span>고래류</span></div>
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777-1.png" alt=""><span>기각류</span></div>
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/image 217 [Vectorized].png" alt=""><span>수달</span></div>
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777-2.png" alt=""><span>펭귄류</span></div>
+              <div class="m-fig-species is-active"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482903.png" alt=""><span>바다거북</span></div>
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482946.png" alt=""><span>해마와 해룡</span></div>
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777-3.png" alt=""><span>상어류</span></div>
+            </div>
+            <article class="marin-node m-fig-otter-card">
+              <img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_05_01.png" alt="Sea Turtle">
+              <div class="m-fig-side-panel"></div>
+              <div class="m-fig-otter-text">
+                <p class="m-fig-card-en">Sea Turtle</p>
+                <p class="m-fig-card-kr">바다거북</p>
+                <p class="m-fig-card-desc">바다 거북이에 의해 풍성해진 해초밭은<br>다양한 해양생물의 은신처가 되어<br>생태계를 풍부하게 만들어줍니다.<br>우리나라에서는 4종의 바다거북이<br>2013년 해양수산부에서 지정하는<br>보호대상해양생물로 신규 지정되었습니다.</p>
+              </div>
+            </article>
+          </section>
+
+          <section class="marin-node m-fig-con07">
+            <div class="marin-node m-fig-title m-fig-section-head">
+              <h2 class="m-fig-title__main">
+                <span class="m-fig-title__serif">Conservation</span><span class="m-fig-title__plain"> Cases</span>
+              </h2>
+              <p class="m-fig-title__sub">보전 활동을 통해 보호하고 연구하는 해양생물 사례를 소개합니다</p>
+              <p class="m-fig-section-copy">
+                <strong>보호가 필요한 해양생물</strong>들을 체계적으로 관리하고 연구합니다<br>
+                <strong>건강한 개체군 유지</strong>와 <strong>생물다양성 보전</strong>을 위해 노력하고 있습니다
+              </p>
+            </div>
+            <div class="marin-node m-fig-species-row">
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777.png" alt=""><span>고래류</span></div>
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777-1.png" alt=""><span>기각류</span></div>
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/image 217 [Vectorized].png" alt=""><span>수달</span></div>
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777-2.png" alt=""><span>펭귄류</span></div>
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482903.png" alt=""><span>바다거북</span></div>
+              <div class="m-fig-species is-active"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482946.png" alt=""><span>해마와 해룡</span></div>
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777-3.png" alt=""><span>상어류</span></div>
+            </div>
+            <article class="marin-node m-fig-flip-card m-fig-flip-card--seahorse">
+              <img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_06_01.png" alt="Seahorse">
+              <div class="m-fig-flip-caption"><p class="m-fig-card-en">Seahorse</p><p class="m-fig-card-kr">해마</p></div>
+            </article>
+            <article class="marin-node m-fig-flip-card m-fig-flip-card--sea-dragon">
+              <img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_06_02.png" alt="Sea Dragon">
+              <div class="m-fig-flip-caption"><p class="m-fig-card-en">Sea dragon</p><p class="m-fig-card-kr">해룡</p></div>
+            </article>
+            <article class="marin-node m-fig-flip-card m-fig-flip-card--seahorse-detail is-detail">
+              <img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_06_01.png" alt="Seahorse detail">
+              <div class="m-fig-flip-caption"><p class="m-fig-card-en">Seahorse</p><p class="m-fig-card-kr">해마</p><p class="m-fig-card-desc">1990년대 이후 해마는 빠른 속도로<br>감소하기에 이르렀습니다.<br>CITES 동물군에 포함되었지만, 불법적으로<br>거래가 이루어지고 있는 상황입니다.<br>우리나라에서는 가시해마와 복해마를<br>보호대상해양생물로 지정 보호하고 있습니다.</p></div>
+            </article>
+            <article class="marin-node m-fig-flip-card m-fig-flip-card--sea-dragon-detail is-detail">
+              <img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_06_02.png" alt="Sea Dragon detail">
+              <div class="m-fig-flip-caption"><p class="m-fig-card-en">Sea dragon</p><p class="m-fig-card-kr">해룡</p><p class="m-fig-card-desc">해룡은 움직임이 느려,<br>쉽게 천적의 공격을 받기 때문에<br>성체가 되는 개체는 많지 않은 생물입니다.<br>또한 서식지가 오염됨에 따라 개체 수가<br>줄어들고 있는 상황입니다.<br>오스트레일리아의 해안에만 있는 어류로<br>수출을 금하며 보호하고 있는 어류입니다.</p></div>
+            </article>
+          </section>
+
+          <section class="marin-node m-fig-con08">
+            <div class="marin-node m-fig-title m-fig-section-head">
+              <h2 class="m-fig-title__main">
+                <span class="m-fig-title__serif">Conservation</span><span class="m-fig-title__plain"> Cases</span>
+              </h2>
+              <p class="m-fig-title__sub">보전 활동을 통해 보호하고 연구하는 해양생물 사례를 소개합니다</p>
+              <p class="m-fig-section-copy">
+                <strong>보호가 필요한 해양생물</strong>들을 체계적으로 관리하고 연구합니다<br>
+                <strong>건강한 개체군 유지</strong>와 <strong>생물다양성 보전</strong>을 위해 노력하고 있습니다
+              </p>
+            </div>
+            <div class="marin-node m-fig-species-row">
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777.png" alt=""><span>고래류</span></div>
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777-1.png" alt=""><span>기각류</span></div>
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/image 217 [Vectorized].png" alt=""><span>수달</span></div>
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777-2.png" alt=""><span>펭귄류</span></div>
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482903.png" alt=""><span>바다거북</span></div>
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482946.png" alt=""><span>해마와 해룡</span></div>
+              <div class="m-fig-species is-active"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777-3.png" alt=""><span>상어류</span></div>
+            </div>
+            <article class="marin-node m-fig-otter-card">
+              <img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_07_01.png" alt="Shark">
+              <div class="m-fig-side-panel"></div>
+              <div class="m-fig-otter-text">
+                <p class="m-fig-card-en">Shark</p>
+                <p class="m-fig-card-kr">상어</p>
+                <p class="m-fig-card-desc">상어는 사람을 먹잇감으로<br>삼지 않으며 오히려 사람에 의해 상어가<br>멸종위기에 처한 상황입니다.<br>아쿠아플라넷에서는 상어의<br>서식지외보전기관으로서 다양한 상어들의<br>보전을 위해 노력하고 있습니다.</p>
+              </div>
+            </article>
+          </section>
         </div>
       </section>
 
@@ -1715,10 +2093,49 @@
       <figure class="m-img m-img--d" data-case-img="3"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482989.png" alt="2013 구조 사례 사진"><figcaption class="m-img__name">돌고래</figcaption></figure>
       <figure class="m-img m-img--e" data-case-img="4"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482990.png" alt="2012 구조 사례 사진"><figcaption class="m-img__name">돌고래</figcaption></figure>
 
-      <footer class="marin-node m-footer-blank" aria-label="추후 작업 예정 푸터"></footer>
+      <div class="marin-node m-footer-blank"></div>
     </div>
     <p class="m-mobile-note">Figma 원본 1920px 캔버스를 화면 폭에 맞춰 축소 표시합니다.</p>
   </main>
+
+  <footer id="footer" class="footer">
+    <div class="footer__inner">
+      <nav class="footer__nav" aria-label="푸터 메뉴">
+        <a href="index.html#sec-program" class="footer__link">Program</a>
+        <a href="index.html#sec-crew" class="footer__link">Ocean friends</a>
+        <a href="index.html" class="footer__link">About us</a>
+        <a href="location.html" class="footer__link">Location</a>
+        <a href="index.html#sec-booking" class="footer__link">Ticket</a>
+      </nav>
+
+      <div class="footer__brand">
+        <div class="footer__socials" aria-label="소셜 링크">
+          <a href="https://www.instagram.com/aquaplanet_official" class="footer__social" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="4" y="4" width="16" height="16" rx="5"></rect>
+              <circle cx="12" cy="12" r="3.4"></circle>
+              <circle cx="17.2" cy="6.8" r="1"></circle>
+            </svg>
+          </a>
+          <a href="https://www.youtube.com/@aquaplanetstory" class="footer__social" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5.2 7.2C5.6 6.5 6.3 6 7.1 5.9C8.4 5.7 10.5 5.6 12 5.6C13.5 5.6 15.6 5.7 16.9 5.9C17.7 6 18.4 6.5 18.8 7.2C19.2 8.1 19.4 10.2 19.4 12C19.4 13.8 19.2 15.9 18.8 16.8C18.4 17.5 17.7 18 16.9 18.1C15.6 18.3 13.5 18.4 12 18.4C10.5 18.4 8.4 18.3 7.1 18.1C6.3 18 5.6 17.5 5.2 16.8C4.8 15.9 4.6 13.8 4.6 12C4.6 10.2 4.8 8.1 5.2 7.2Z"></path>
+              <path d="M10.4 9.3L14.7 12L10.4 14.7V9.3Z" class="footer__social-play"></path>
+            </svg>
+          </a>
+          <a href="https://www.aquaplanet.co.kr/index.html" class="footer__social" target="_blank" rel="noopener noreferrer" aria-label="Google">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M19.6 12.2C19.6 11.6 19.5 11.1 19.4 10.6H12.2V13.5H16.3C16.1 14.5 15.5 15.3 14.7 15.8V17.7H17.2C18.7 16.4 19.6 14.5 19.6 12.2Z"></path>
+              <path d="M12.2 19.7C14.3 19.7 16.1 19 17.2 17.7L14.7 15.8C14 16.3 13.1 16.6 12.2 16.6C10.2 16.6 8.5 15.2 7.9 13.4H5.3V15.3C6.5 17.9 9.1 19.7 12.2 19.7Z"></path>
+              <path d="M7.9 13.4C7.7 12.9 7.6 12.5 7.6 12C7.6 11.5 7.7 11.1 7.9 10.6V8.7H5.3C4.8 9.7 4.5 10.8 4.5 12C4.5 13.2 4.8 14.3 5.3 15.3L7.9 13.4Z"></path>
+              <path d="M12.2 7.4C13.3 7.4 14.4 7.8 15.2 8.6L17.3 6.5C16 5.3 14.3 4.6 12.2 4.6C9.1 4.6 6.5 6.3 5.3 8.7L7.9 10.6C8.5 8.8 10.2 7.4 12.2 7.4Z"></path>
+            </svg>
+          </a>
+        </div>
+        <p class="footer__copy">Aqua Planet. ©2026 All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
 
   <div id="custom-cursor" aria-hidden="true"></div>
 
@@ -1732,6 +2149,7 @@
       var caseTabs = Array.from(document.querySelectorAll('[data-case-category]'));
       var casesCopy = document.querySelector('.m-cases-copy');
       var shell = document.querySelector('.marin-shell');
+      var currentStageHeight = 6769;
       var gnb = document.getElementById('gnb');
       var wheelTarget = window.scrollY;
       var wheelRaf = 0;
@@ -1740,6 +2158,15 @@
       var pendingCaseIndex = 0;
       var caseSwitchTimer = 0;
       var activeCaseCategory = 'dolphin';
+      var whaleSharkFixedImg = document.createElement('figure');
+      whaleSharkFixedImg.className = 'm-img-fixed';
+      whaleSharkFixedImg.innerHTML = '<img src="" alt=""><figcaption class="m-img__name"></figcaption>';
+      document.body.appendChild(whaleSharkFixedImg);
+
+      cases.forEach(function (node) {
+        document.body.appendChild(node);
+      });
+
       var caseDatasets = {
         dolphin: {
           subject: '돌고래',
@@ -1869,12 +2296,12 @@
             }
           ],
           images: [
-            { src: 'assets/images/sec.aboutus/marinlab/whale-shark-case-20171029.png', alt: '고래상어 구조 사례 사진', name: '고래상어' },
-            { src: 'assets/images/sec.aboutus/marinlab/whale-shark-case-20170913.png', alt: '고래상어 구조 사례 사진', name: '고래상어' },
+            { src: 'assets/images/sec.aboutus/marinlab/whale-shark-case.png', alt: '고래상어 구조 사례 사진', name: '고래상어' },
             { src: 'assets/images/sec.aboutus/marinlab/otter-case.png', alt: '수달 구조 사례 사진', name: '수달' },
             { src: 'assets/images/sec.aboutus/marinlab/triton-case-20150217.png', alt: '나팔고둥 구조 사례 사진', name: '나팔고둥' },
             { src: 'assets/images/sec.aboutus/marinlab/triton-case-20131124.png', alt: '나팔고둥 구조 사례 사진', name: '나팔고둥' }
-          ]
+          ],
+          imageSlots: [0, null, 1, 2, 3]
         }
       };
 
@@ -1885,7 +2312,7 @@
       function fitStage() {
         scale = window.innerWidth / 1920;
         document.documentElement.style.setProperty('--marin-scale', String(scale));
-        if (shell) shell.style.height = (6769 * scale) + 'px';
+        if (shell) shell.style.height = (currentStageHeight * scale) + 'px';
         updateScrollState();
       }
 
@@ -1905,17 +2332,11 @@
 
         window.clearTimeout(caseSwitchTimer);
         pendingCaseIndex = nextIndex;
+        setActive(cases, 'data-case', pendingCaseIndex);
         cases.forEach(function (node) {
-          node.classList.add('is-hiding');
+          node.classList.remove('is-hiding');
         });
-
-        caseSwitchTimer = window.setTimeout(function () {
-          setActive(cases, 'data-case', pendingCaseIndex);
-          cases.forEach(function (node) {
-            node.classList.remove('is-hiding');
-          });
-          activeCaseIndex = pendingCaseIndex;
-        }, 190);
+        activeCaseIndex = pendingCaseIndex;
       }
 
       function renderCases(category) {
@@ -1956,9 +2377,13 @@
         });
 
         caseImgs.forEach(function (node, index) {
-          var image = dataset.images[index] || dataset.images[dataset.images.length - 1];
+          var imageSlot = Array.isArray(dataset.imageSlots) ? dataset.imageSlots[index] : index;
+          var isHiddenMarker = imageSlot === null;
+          var image = isHiddenMarker ? null : (dataset.images[imageSlot] || dataset.images[dataset.images.length - 1]);
           var img = node.querySelector('img');
           var name = node.querySelector('.m-img__name');
+          node.classList.toggle('m-img--hidden-marker', isHiddenMarker);
+          node.style.setProperty('--case-img-offset', '0');
           if (img && image) {
             img.src = image.src;
             img.alt = image.alt;
@@ -1968,6 +2393,18 @@
           }
           node.classList.toggle('is-active', index === 0);
         });
+
+        var fixedImage = category === 'others' ? dataset.images[0] : null;
+        var fixedImg = whaleSharkFixedImg.querySelector('img');
+        var fixedName = whaleSharkFixedImg.querySelector('.m-img__name');
+        if (fixedImage && fixedImg) {
+          fixedImg.src = fixedImage.src;
+          fixedImg.alt = fixedImage.alt;
+        }
+        if (fixedImage && fixedName) {
+          fixedName.textContent = fixedImage.name || dataset.subject;
+        }
+        whaleSharkFixedImg.classList.remove('is-active');
 
         caseTabs.forEach(function (tab) {
           tab.classList.toggle('m-pill--active', tab.getAttribute('data-case-category') === category);
@@ -1995,38 +2432,61 @@
         var viewportCenterY = designY + (window.innerHeight / scale) * 0.5;
         var nearestImgIndex = 0;
         var nearestImgDistance = Infinity;
+        var imageDistances = [];
+        var imageCenters = [];
 
         caseImgs.forEach(function (img) {
           var imgTop = img.offsetTop;
           var imgCenter = imgTop + img.offsetHeight * 0.5;
           var distance = Math.abs(viewportCenterY - imgCenter);
+          imageCenters.push(imgCenter);
+          imageDistances.push(distance);
           if (distance < nearestImgDistance) {
             nearestImgDistance = distance;
             nearestImgIndex = Number(img.getAttribute('data-case-img')) || 0;
           }
+        });
+
+        var caseIndex = nearestImgIndex;
+        var activeImgIndex = caseIndex;
+        var whaleSharkPinned = activeCaseCategory === 'others' && caseIndex <= 1 && caseImgs[0] && caseImgs[1];
+        var whaleSharkRangeDistance = imageDistances[0] || 0;
+
+        if (whaleSharkPinned) {
+          var firstCenter = imageCenters[0];
+          var secondCenter = imageCenters[1];
+          whaleSharkRangeDistance = viewportCenterY < firstCenter
+            ? firstCenter - viewportCenterY
+            : viewportCenterY > secondCenter
+              ? viewportCenterY - secondCenter
+              : 0;
+          activeImgIndex = 0;
+        }
+
+        caseImgs.forEach(function (img, index) {
+          var distance = imageDistances[index];
           var focus = 1 - clamp(distance / 330, 0, 1);
           var easedFocus = 1 - Math.pow(1 - focus, 4);
           img.style.setProperty('--case-img-opacity', String((0.18 + easedFocus * 0.82).toFixed(3)));
           img.style.setProperty('--case-img-saturation', String((0.58 + easedFocus * 0.42).toFixed(3)));
           img.style.setProperty('--case-img-blur', (7 - easedFocus * 7).toFixed(2) + 'px');
+          img.style.setProperty('--case-img-offset', '0');
+          img.classList.toggle('m-img--pinned-source', whaleSharkPinned && index === 0);
+          img.classList.toggle('m-img--suppressed', whaleSharkPinned && index > 0);
         });
 
-        var caseIndex = nearestImgIndex;
-        var textVisible = nearestImgDistance < 190;
+        var textVisible = whaleSharkPinned ? whaleSharkRangeDistance < 190 : nearestImgDistance < 190;
+        var fixedFocus = 1 - clamp(whaleSharkRangeDistance / 330, 0, 1);
+        var fixedEasedFocus = 1 - Math.pow(1 - fixedFocus, 4);
+        whaleSharkFixedImg.style.setProperty('--case-img-opacity', String((0.18 + fixedEasedFocus * 0.82).toFixed(3)));
+        whaleSharkFixedImg.style.setProperty('--case-img-saturation', String((0.58 + fixedEasedFocus * 0.42).toFixed(3)));
+        whaleSharkFixedImg.style.setProperty('--case-img-blur', (7 - fixedEasedFocus * 7).toFixed(2) + 'px');
+        whaleSharkFixedImg.classList.toggle('is-active', whaleSharkPinned && textVisible);
+
         document.body.classList.toggle('marin-case-text-visible', textVisible);
         setActiveCase(caseIndex);
-        setActive(caseImgs, 'data-case-img', nearestImgIndex);
+        setActive(caseImgs, 'data-case-img', activeImgIndex);
 
-        var stickyStart = 2140;
-        var stickyEnd = 4920;
-        var stickyOffset = 0;
-        if (designY >= stickyStart && designY <= stickyEnd) {
-          var caseViewportY = (window.innerHeight / scale) * 0.5 - 128;
-          stickyOffset = designY + caseViewportY - 2881;
-        } else if (designY > stickyEnd) {
-          stickyOffset = stickyEnd + ((window.innerHeight / scale) * 0.5 - 128) - 2881;
-        }
-        document.documentElement.style.setProperty('--case-stick-offset', String(Math.round(stickyOffset)));
       }
 
       function requestUpdate() {
@@ -2158,17 +2618,27 @@
       var cases = Array.from(document.querySelectorAll('.m-case[data-case]'));
       var caseImgs = Array.from(document.querySelectorAll('.m-img[data-case-img]'));
       var figCaseRows = Array.from(document.querySelectorAll('.m-figma-conservation .m-fig-species-row'));
-      var figFlipPairs = [
-        ['.m-fig-flip-card--walrus', '.m-fig-flip-card--walrus-detail'],
-        ['.m-fig-flip-card--sea-lion', '.m-fig-flip-card--sea-lion-detail'],
-        ['.m-fig-flip-card--seal', '.m-fig-flip-card--seal-detail']
-      ].map(function (pair) {
+      var figFlipDefs = [
+        ['m-fig-flip-card--walrus', 'm-fig-flip-card--walrus-detail'],
+        ['m-fig-flip-card--sea-lion', 'm-fig-flip-card--sea-lion-detail'],
+        ['m-fig-flip-card--seal', 'm-fig-flip-card--seal-detail'],
+        ['m-fig-flip-card--seahorse', 'm-fig-flip-card--seahorse-detail'],
+        ['m-fig-flip-card--sea-dragon', 'm-fig-flip-card--sea-dragon-detail']
+      ];
+      var figFlipPairs = figFlipDefs.map(function (pair) {
         return {
-          front: document.querySelector(pair[0] + ':not(.is-detail)'),
-          back: document.querySelector(pair[1])
+          frontClass: pair[0],
+          backClass: pair[1],
+          front: document.querySelector('.' + pair[0] + ':not(.is-detail)'),
+          back: document.querySelector('.' + pair[1])
         };
       });
       var currentView = 'rescue';
+      var currentFigCaseView = 'whale';
+      var conservationStageHeight = 3500;
+      var conservationIntroPlayed = false;
+      var conservationCasesIntroPlayed = false;
+      var lastFigFlipPointerTime = 0;
 
       if (!viewTabs.length) return;
 
@@ -2272,6 +2742,7 @@
       }
 
       function applyHeight(height) {
+        currentStageHeight = height;
         if (stage) stage.style.height = height + 'px';
         if (shell) shell.style.height = (height * getScale()) + 'px';
       }
@@ -2311,7 +2782,11 @@
       }
 
       function renderRescue() {
-        document.body.classList.remove('marin-view-conservation');
+        conservationIntroPlayed = false;
+        conservationCasesIntroPlayed = false;
+        currentFigCaseView = 'whale';
+        document.body.classList.remove('marin-view-conservation', 'marin-conservation-intro', 'marin-conservation-cases-intro', 'marin-fig-species-title-mode');
+        clearFigCaseContentFade();
         if (stage) stage.setAttribute('aria-label', rescueSnapshot.stageLabel);
         applyHeight(rescueSnapshot.height);
         return;
@@ -2348,11 +2823,78 @@
         applyHeight(rescueSnapshot.height);
       }
 
+      function playConservationIntro() {
+        conservationIntroPlayed = true;
+        document.body.classList.remove('marin-conservation-intro');
+        void document.body.offsetWidth;
+        window.requestAnimationFrame(function () {
+          document.body.classList.add('marin-conservation-intro');
+        });
+      }
+
+      function playConservationCasesIntro() {
+        conservationCasesIntroPlayed = true;
+        document.body.classList.remove('marin-conservation-cases-intro');
+        void document.body.offsetWidth;
+        window.requestAnimationFrame(function () {
+          document.body.classList.add('marin-conservation-cases-intro');
+        });
+      }
+
+      function updateConservationCasesIntro() {
+        var casesSection = document.querySelector('.m-fig-con02');
+        if (currentView !== 'conservation' || !casesSection) return;
+        var rect = casesSection.getBoundingClientRect();
+        var isEntering = rect.top < window.innerHeight * 0.78 && rect.bottom > window.innerHeight * 0.18;
+        var isResetRange = rect.top > window.innerHeight * 0.92;
+
+        if (isEntering) {
+          if (!conservationCasesIntroPlayed) playConservationCasesIntro();
+          return;
+        }
+
+        if (isResetRange) {
+          conservationCasesIntroPlayed = false;
+          document.body.classList.remove('marin-conservation-cases-intro');
+        }
+      }
+
+      function updateConservationIntro() {
+        var introTitle = document.querySelector('.m-fig-con01-title');
+        var introPrinciples = document.querySelector('.m-fig-principles');
+        if (currentView !== 'conservation' || !introTitle || !introPrinciples) return;
+        var titleRect = introTitle.getBoundingClientRect();
+        var principlesRect = introPrinciples.getBoundingClientRect();
+        var isEntering = titleRect.top < window.innerHeight * 0.82 && principlesRect.bottom > window.innerHeight * 0.08;
+        var isPastIntro = principlesRect.bottom < window.innerHeight * 0.06;
+
+        if (isEntering) {
+          if (!conservationIntroPlayed) playConservationIntro();
+          return;
+        }
+
+        if (isPastIntro) {
+          conservationIntroPlayed = false;
+          document.body.classList.remove('marin-conservation-intro');
+        }
+      }
+
+      function updateConservationScrollInteractions() {
+        updateConservationIntro();
+        updateConservationCasesIntro();
+      }
+
       function renderConservation() {
+        conservationIntroPlayed = false;
+        conservationCasesIntroPlayed = false;
+        currentFigCaseView = 'whale';
+        document.body.classList.remove('marin-conservation-cases-intro', 'marin-fig-species-title-mode');
+        clearFigCaseContentFade();
         document.body.classList.add('marin-view-conservation');
         if (stage) stage.setAttribute('aria-label', 'Marin Lab Conservation page');
-        setFigCaseView('whale');
-        applyHeight(5442);
+        setFigCaseView('whale', false);
+        applyHeight(conservationStageHeight);
+        playConservationIntro();
         return;
         if (stage) stage.setAttribute('aria-label', 'Marin Lab Conservation page');
         if (heroTitle) {
@@ -2392,7 +2934,7 @@
           tab.classList.toggle('m-pill--active', index === 0);
         });
         renderConservationCases('cetacean');
-        applyHeight(5442);
+        applyHeight(conservationStageHeight);
       }
 
       function setView(view) {
@@ -2411,59 +2953,259 @@
         });
       });
 
-      function setFigCaseView(view) {
-        var activeIndex = view === 'pinniped' ? 1 : view === 'otter' ? 2 : 0;
+      function getFigCaseSection(view) {
+        var selector = view === 'pinniped' ? '.m-fig-con03'
+          : view === 'otter' ? '.m-fig-con04'
+            : view === 'penguin' ? '.m-fig-con05'
+              : view === 'turtle' ? '.m-fig-con06'
+                : view === 'seahorse' ? '.m-fig-con07'
+                  : view === 'shark' ? '.m-fig-con08'
+                    : '.m-fig-con02';
+        return document.querySelector(selector);
+      }
+
+      function clearFigCaseContentFade() {
+        Array.from(document.querySelectorAll('.m-fig-case-content-enter')).forEach(function (section) {
+          section.classList.remove('m-fig-case-content-enter');
+        });
+      }
+
+      function playFigCaseContentFade(view) {
+        var section = getFigCaseSection(view);
+        if (!section) return;
+        clearFigCaseContentFade();
+        void section.offsetWidth;
+        section.classList.add('m-fig-case-content-enter');
+      }
+
+      function scrollFigSpeciesIntoTitleView(view) {
+        var section = getFigCaseSection(view);
+        var row = section ? section.querySelector('.m-fig-species-row') : null;
+        if (!row) return;
+        window.requestAnimationFrame(function () {
+          var scale = getScale();
+          var targetViewportTop = Math.max(96, window.innerHeight * 0.12);
+          var targetScrollTop = (section.offsetTop + row.offsetTop) * scale - targetViewportTop;
+          window.scrollTo({
+            top: Math.max(0, targetScrollTop),
+            behavior: 'smooth'
+          });
+        });
+      }
+
+      function setFigCaseView(view, fromUser) {
+        var changed = view !== currentFigCaseView;
+        currentFigCaseView = view;
+        var activeIndex = view === 'pinniped' ? 1 : view === 'otter' ? 2 : view === 'penguin' ? 3 : view === 'turtle' ? 4 : view === 'seahorse' ? 5 : view === 'shark' ? 6 : 0;
         document.body.classList.toggle('marin-fig-case-pinniped', activeIndex === 1);
         document.body.classList.toggle('marin-fig-case-otter', activeIndex === 2);
+        document.body.classList.toggle('marin-fig-case-penguin', activeIndex === 3);
+        document.body.classList.toggle('marin-fig-case-turtle', activeIndex === 4);
+        document.body.classList.toggle('marin-fig-case-seahorse', activeIndex === 5);
+        document.body.classList.toggle('marin-fig-case-shark', activeIndex === 6);
         resetFigFlipCards();
         figCaseRows.forEach(function (row) {
           Array.from(row.querySelectorAll('.m-fig-species')).forEach(function (item, index) {
             item.classList.toggle('is-active', index === activeIndex);
           });
         });
+        if (fromUser) {
+          document.body.classList.add('marin-fig-species-title-mode');
+          scrollFigSpeciesIntoTitleView(view);
+          if (changed) playFigCaseContentFade(view);
+        }
       }
 
       function resetFigFlipCards() {
         figFlipPairs.forEach(function (pair) {
-          if (pair.front) pair.front.classList.remove('is-flipped');
-          if (pair.back) pair.back.classList.remove('is-visible');
+          window.clearTimeout(pair.flipTimer);
+          if (pair.front) {
+            pair.front.classList.remove('is-flipped');
+            pair.front.style.visibility = 'visible';
+            pair.front.style.opacity = '1';
+            pair.front.style.transform = 'rotateY(0deg)';
+            pair.front.style.pointerEvents = 'auto';
+            pair.front.style.zIndex = '2';
+          }
+          if (pair.back) {
+            pair.back.classList.remove('is-visible');
+            pair.back.style.visibility = 'hidden';
+            pair.back.style.opacity = '0';
+            pair.back.style.transform = 'rotateY(-90deg)';
+            pair.back.style.pointerEvents = 'none';
+            pair.back.style.zIndex = '1';
+          }
         });
+      }
+
+      function initFigFlipPairs() {
+        figFlipPairs.forEach(function (pair) {
+          pair.front = document.querySelector('.' + pair.frontClass + ':not(.is-detail)');
+          pair.back = document.querySelector('.' + pair.backClass);
+          if (!pair.front || !pair.back) return;
+          pair.front._figFlipPair = pair;
+          pair.back._figFlipPair = pair;
+          pair.front.setAttribute('role', 'button');
+          pair.front.setAttribute('tabindex', '0');
+          pair.back.setAttribute('role', 'button');
+          pair.back.setAttribute('tabindex', '0');
+        });
+        resetFigFlipCards();
+      }
+
+      function getFigFlipPair(card) {
+        if (card && card._figFlipPair) return card._figFlipPair;
+        var pair = figFlipPairs.find(function (item) {
+          return card && (card.classList.contains(item.frontClass) || card.classList.contains(item.backClass));
+        });
+        if (!pair) return null;
+        pair.front = document.querySelector('.' + pair.frontClass + ':not(.is-detail)');
+        pair.back = document.querySelector('.' + pair.backClass);
+        if (pair.front) pair.front._figFlipPair = pair;
+        if (pair.back) pair.back._figFlipPair = pair;
+        return pair.front && pair.back ? pair : null;
+      }
+
+      function getFigFlipPairAtPoint(clientX, clientY) {
+        return figFlipPairs.find(function (pair) {
+          pair.front = document.querySelector('.' + pair.frontClass + ':not(.is-detail)');
+          pair.back = document.querySelector('.' + pair.backClass);
+          var activeCard = pair.back && pair.back.classList.contains('is-visible') ? pair.back : pair.front;
+          if (!activeCard) return false;
+          var rect = activeCard.getBoundingClientRect();
+          return rect.width > 0 &&
+            rect.height > 0 &&
+            clientX >= rect.left &&
+            clientX <= rect.right &&
+            clientY >= rect.top &&
+            clientY <= rect.bottom;
+        }) || null;
+      }
+
+      function getPinnipedFlipPairAtPoint(clientX, clientY) {
+        var pinnipedPairs = figFlipPairs.slice(0, 3);
+        return pinnipedPairs.find(function (pair) {
+          pair.front = document.querySelector('.' + pair.frontClass + ':not(.is-detail)');
+          pair.back = document.querySelector('.' + pair.backClass);
+          var cards = [pair.back, pair.front].filter(Boolean);
+          return cards.some(function (card) {
+            var rect = card.getBoundingClientRect();
+            return rect.width > 0 &&
+              rect.height > 0 &&
+              clientX >= rect.left &&
+              clientX <= rect.right &&
+              clientY >= rect.top &&
+              clientY <= rect.bottom;
+          });
+        }) || null;
+      }
+
+      function handleFigFlipPointer(event) {
+        if (currentView !== 'conservation') return false;
+
+        var pair = getFigFlipPairAtPoint(event.clientX, event.clientY);
+        if (!pair) return false;
+
+        lastFigFlipPointerTime = Date.now();
+        event.preventDefault();
+        event.stopImmediatePropagation();
+
+        if (pair.back && pair.back.classList.contains('is-visible')) showFigFlipFront(pair);
+        else showFigFlipBack(pair);
+        return true;
+      }
+
+      function showFigFlipBack(pair) {
+        if (!pair) return;
+        pair.front = document.querySelector('.' + pair.frontClass + ':not(.is-detail)');
+        pair.back = document.querySelector('.' + pair.backClass);
+        if (!pair.front || !pair.back) return;
+        clearFigCaseContentFade();
+        resetFigFlipCards();
+        window.clearTimeout(pair.flipTimer);
+
+        pair.front.classList.add('is-flipped');
+        pair.front.style.visibility = 'hidden';
+        pair.front.style.opacity = '0';
+        pair.front.style.transform = 'rotateY(-90deg)';
+        pair.front.style.pointerEvents = 'none';
+        pair.front.style.zIndex = '1';
+
+        pair.back.classList.add('is-visible');
+        pair.back.style.visibility = 'visible';
+        pair.back.style.opacity = '1';
+        pair.back.style.transform = 'rotateY(0deg)';
+        pair.back.style.pointerEvents = 'auto';
+        pair.back.style.zIndex = '10';
+      }
+
+      function showFigFlipFront(pair) {
+        if (!pair) return;
+        pair.front = document.querySelector('.' + pair.frontClass + ':not(.is-detail)');
+        pair.back = document.querySelector('.' + pair.backClass);
+        if (!pair.front || !pair.back) return;
+        clearFigCaseContentFade();
+        window.clearTimeout(pair.flipTimer);
+
+        pair.back.classList.remove('is-visible');
+        pair.back.style.visibility = 'hidden';
+        pair.back.style.opacity = '0';
+        pair.back.style.transform = 'rotateY(90deg)';
+        pair.back.style.pointerEvents = 'none';
+        pair.back.style.zIndex = '1';
+
+        pair.front.classList.remove('is-flipped');
+        pair.front.style.visibility = 'visible';
+        pair.front.style.opacity = '1';
+        pair.front.style.transform = 'rotateY(0deg)';
+        pair.front.style.pointerEvents = 'auto';
+        pair.front.style.zIndex = '2';
       }
 
       figCaseRows.forEach(function (row) {
         Array.from(row.querySelectorAll('.m-fig-species')).forEach(function (item, index) {
-          if (index > 2) return;
+          if (index > 6) return;
           item.setAttribute('role', 'button');
           item.setAttribute('tabindex', '0');
-          var viewName = index === 1 ? 'pinniped' : index === 2 ? 'otter' : 'whale';
+          var viewName = index === 1 ? 'pinniped' : index === 2 ? 'otter' : index === 3 ? 'penguin' : index === 4 ? 'turtle' : index === 5 ? 'seahorse' : index === 6 ? 'shark' : 'whale';
           item.addEventListener('click', function () {
-            setFigCaseView(viewName);
+            setFigCaseView(viewName, true);
           });
           item.addEventListener('keydown', function (event) {
             if (event.key !== 'Enter' && event.key !== ' ') return;
             event.preventDefault();
-            setFigCaseView(viewName);
+            setFigCaseView(viewName, true);
           });
         });
       });
 
+      initFigFlipPairs();
+
+      document.addEventListener('pointerdown', handleFigFlipPointer, true);
+
+      var figmaConservation = document.querySelector('.m-figma-conservation');
+      if (figmaConservation) {
+        figmaConservation.addEventListener('click', function (event) {
+          if (Date.now() - lastFigFlipPointerTime < 500) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            return;
+          }
+        }, true);
+      }
+
+      document.addEventListener('click', function (event) {
+        if (Date.now() - lastFigFlipPointerTime < 500) return;
+      }, true);
+
       figFlipPairs.forEach(function (pair) {
         if (!pair.front || !pair.back) return;
-        pair.front.setAttribute('role', 'button');
-        pair.front.setAttribute('tabindex', '0');
-        pair.back.setAttribute('role', 'button');
-        pair.back.setAttribute('tabindex', '0');
         function showBack() {
-          resetFigFlipCards();
-          pair.front.classList.add('is-flipped');
-          pair.back.classList.add('is-visible');
+          showFigFlipBack(pair);
         }
         function showFront() {
-          pair.front.classList.remove('is-flipped');
-          pair.back.classList.remove('is-visible');
+          showFigFlipFront(pair);
         }
-        pair.front.addEventListener('click', showBack);
-        pair.back.addEventListener('click', showFront);
         pair.front.addEventListener('keydown', function (event) {
           if (event.key !== 'Enter' && event.key !== ' ') return;
           event.preventDefault();
@@ -2485,8 +3227,10 @@
         }, true);
       });
 
+      window.addEventListener('scroll', updateConservationScrollInteractions, { passive: true });
       window.addEventListener('resize', function () {
-        applyHeight(currentView === 'conservation' ? 5442 : rescueSnapshot.height);
+        applyHeight(currentView === 'conservation' ? conservationStageHeight : rescueSnapshot.height);
+        updateConservationScrollInteractions();
       }, { passive: true });
     })();
   </script>
