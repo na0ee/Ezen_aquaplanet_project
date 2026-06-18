@@ -190,11 +190,7 @@
   window.addEventListener('scroll', function () {
     const y = window.scrollY;
     gnb.classList.toggle('is-scrolled', y > THRESHOLD);
-    if (y > THRESHOLD) {
-      gnb.classList.toggle('is-hidden', y > lastY);
-    } else {
-      gnb.classList.remove('is-hidden');
-    }
+    gnb.classList.remove('is-hidden');
     lastY = y;
   }, { passive: true });
 })();
