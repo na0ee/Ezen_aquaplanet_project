@@ -43,7 +43,7 @@
       justify-content: center;
       text-align: center;
       color: #ffffff;
-      padding: 120px 24px 240px;
+      padding: 120px 24px 120px;
       background: #22b8ee;
     }
 
@@ -221,6 +221,15 @@
       transform: translate3d(0, 0, 0);
     }
 
+    /* of-scroll은 translateX(-50%) 중앙 정렬이 있으므로 reveal 시 함께 유지 */
+    .oceanfriends-page .of-hero .of-scroll.of-reveal {
+      transform: translateX(-50%) translateY(38px);
+    }
+
+    .oceanfriends-page .of-hero .of-scroll.of-reveal.is-visible {
+      transform: translateX(-50%) translateY(0);
+    }
+
     @media (prefers-reduced-motion: reduce) {
       .oceanfriends-page .of-reveal {
         opacity: 1;
@@ -231,8 +240,8 @@
 
     /* ── 시그니처 섹션 ── */
     .of-signature {
-      min-height: 112svh;
-      padding: clamp(220px, 28vh, 340px) 0 clamp(260px, 32vh, 420px);
+      min-height: 90svh;
+      padding: clamp(110px, 14vh, 170px) 0 clamp(80px, 10vh, 140px);
       background: linear-gradient(180deg, #22b8ee 0%, #7dd5f0 35%, #c8f0fb 65%, #ffffff 100%);
     }
 
@@ -376,7 +385,7 @@
     /* ── 디테일 섹션 ── */
     .of-detail {
       min-height: 100svh;
-      padding: clamp(150px, 18vh, 220px) 0 260px;
+      padding: clamp(80px, 10vh, 120px) 0 260px;
       background: #ffffff;
     }
 
@@ -408,12 +417,15 @@
 
     .of-filter__chips {
       display: flex;
+      justify-content: center;
       align-items: center;
-      gap: 4px;
-      min-height: 46px;
-      padding: 6px;
+      flex-wrap: wrap;
+      background-color: rgba(235, 238, 240, 0.88);
+      padding: 3px;
       border-radius: 14px;
-      background: rgba(235, 238, 240, 0.88);
+      width: fit-content;
+      margin-left: auto;
+      margin-right: auto;
     }
 
     .of-search {
@@ -449,24 +461,28 @@
     }
 
     .of-chip {
-      min-width: 74px;
-      height: 34px;
-      padding: 0 16px;
-      border-radius: 10px;
-      border: 0;
-      background: transparent;
+      padding: 12px 20px;
+      border-radius: 12px;
+      border: none;
+      background-color: transparent;
       color: rgba(20, 32, 42, 0.34);
-      font-family: var(--font-en);
-      font-size: 12px;
-      font-weight: 400;
-      letter-spacing: 0;
+      font-family: var(--font-kr);
+      font-size: 16px;
+      font-weight: 500;
+      letter-spacing: -0.64px;
       cursor: pointer;
-      transition: color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+      display: flex;
+      align-items: center;
+      transition: all 0.3s ease;
     }
 
     .of-chip.is-active {
-      background: #ffffff;
+      background-color: #ffffff;
       color: #22b2ea;
+      font-family: var(--font-serif);
+      font-size: 18px;
+      font-weight: 400;
+      letter-spacing: -0.72px;
     }
 
     .of-chip:hover,
