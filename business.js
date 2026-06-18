@@ -63,23 +63,22 @@
   });
 })();
 
-/* ── 역량 다이어그램(펜타곤): 노드 hover/클릭 → 캡션 표시 ── */
+/* ── 역량 다이어그램(펜타곤): 노드 클릭 → 왼쪽 상세패널 전환 ──
+   노드와 패널은 data-cap 값으로 짝지어짐. 한 번에 하나만 .is-active */
 (function () {
-  // 측면 캡션(box5) — hover 는 CSS, 클릭은 box5.is-active 토글
-  document.querySelectorAll('.box5 .biz-node5').forEach(function (node) {
-    node.addEventListener('click', function () {
-      const box = node.closest('.box5');
-      if (box) box.classList.toggle('is-active');
-    });
-  });
-  // 특화기술 노드 — 하단 캡션과 떨어져 있어 JS 로 hover/클릭 연결
-  const techNode = document.querySelector('.row5--b .biz-node5');
-  const bottomCap = document.querySelector('.cap5-bottom');
-  if (techNode && bottomCap) {
-    techNode.addEventListener('mouseenter', function () { bottomCap.classList.add('is-hover'); });
-    techNode.addEventListener('mouseleave', function () { bottomCap.classList.remove('is-hover'); });
-    techNode.addEventListener('click', function () { bottomCap.classList.toggle('is-active'); });
+  const nodes = document.querySelectorAll('.biz-node5[data-cap]');
+  const panels = document.querySelectorAll('.caps-panel[data-cap]');
+  if (!nodes.length || !panels.length) return;
+
+  function activate(cap) {
+    nodes.forEach(function (n) { n.classList.toggle('is-active', n.dataset.cap === cap); });
+    panels.forEach(function (p) { p.classList.toggle('is-active', p.dataset.cap === cap); });
   }
+  nodes.forEach(function (n) {
+    n.addEventListener('click', function () { activate(n.dataset.cap); });
+  });
+  // 초기: 첫 번째 노드 활성
+  activate(nodes[0].dataset.cap);
 })();
 
 /* ── 사업분야 배너: 스크롤로 가운데 도달 시 하나씩 활성화 ──
@@ -228,4 +227,42 @@
     const hit = blocks.find((el) => haystack(el).includes(q));
     if (hit) hit.scrollIntoView({ behavior: 'smooth', block: 'center' });
   });
+})();
+
+/* ── 배경 그라데이션: 흰색 구간을 [Business Area & Vision 라벨 ~ 사업예시 슬라이더 끝]에 정렬 ──
+   파랑(상단) → (페이드) → 흰색(라벨부터) → 흰색(track 끝까지) → (페이드) → 파랑(footer).
+   요소의 실제 위치(offsetTop, transform 무시)를 측정해 px 로 그라데이션 스톱을 지정한다. */
+(function () {
+  const label = document.querySelector('.biz-sec-label');     // 첫 라벨 = Business Area & Vision
+  const track = document.querySelector('.biz-case__track');    // 사업예시 슬라이더
+  const footer = document.getElementById('footer');
+  if (!label || !track) return;
+
+  const TOP_FADE = 280;   // 라벨 위쪽 파랑→흰 전환 길이(px)
+
+  // 문서 기준 top (offsetParent 체인 합산 → reveal 의 transform 영향 없음)
+  function docTop(el) { let t = 0; while (el) { t += el.offsetTop; el = el.offsetParent; } return t; }
+
+  function apply() {
+    const labelTop = docTop(label);
+    const caseBottom = docTop(track) + track.offsetHeight;
+    const footerTop = footer ? docTop(footer) : document.body.scrollHeight;
+    const blueEnd = Math.max(0, labelTop - TOP_FADE);
+    document.body.style.backgroundImage =
+      'linear-gradient(to bottom,' +
+      ' #22B2EA 0px,' +
+      ' #22B2EA ' + blueEnd + 'px,' +
+      ' #ffffff ' + labelTop + 'px,' +
+      ' #ffffff ' + caseBottom + 'px,' +
+      ' #22B2EA ' + footerTop + 'px)';
+  }
+
+  apply();
+  window.addEventListener('load', apply);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(apply);
+  let rid;
+  window.addEventListener('resize', function () {
+    clearTimeout(rid);
+    rid = setTimeout(apply, 150);
+  }, { passive: true });
 })();
