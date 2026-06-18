@@ -1,0 +1,3238 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>aqua planet - Marin Lab</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@latest/dist/web/static/pretendard.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,500&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    :root {
+      --marin-scale: 1;
+      --brand: #22b2ea;
+      --ink: #1a1a1a;
+      --muted-blue: rgba(34, 178, 234, 0.5);
+      --font-en: "Poppins", sans-serif;
+      --font-serif: "EB Garamond", serif;
+      --font-kr: "Pretendard", sans-serif;
+    }
+
+    html,
+    body {
+      margin: 0;
+      background: var(--brand);
+      overflow-x: hidden;
+      overflow-y: auto !important;
+    }
+
+    body {
+      font-family: var(--font-kr);
+      color: var(--ink);
+    }
+
+    .marin-shell {
+      position: relative;
+      width: 100%;
+      height: calc(6769px * var(--marin-scale));
+      min-height: 100vh;
+      background: var(--brand);
+      overflow: visible;
+    }
+
+    .marin-stage {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 1920px;
+      height: 6769px;
+      transform: translateX(-50%) scale(var(--marin-scale));
+      transform-origin: top center;
+      overflow: hidden;
+      background: linear-gradient(180deg, #22b2ea 0%, #ffffff 9.6154%, #ffffff 86%, #22b2ea 100%);
+    }
+
+    .marin-node,
+    .marin-node * {
+      box-sizing: border-box;
+    }
+
+    .marin-node {
+      position: absolute;
+    }
+
+    .m-gnb {
+      left: 0;
+      top: 0;
+      width: 1920px;
+      height: 102px;
+      padding: 24px 32px;
+      z-index: 5;
+    }
+
+    .m-gnb__inner {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      height: 54px;
+    }
+
+    .m-nav {
+      display: flex;
+      align-items: center;
+      gap: 44px;
+      height: 54px;
+    }
+
+    .m-nav__link,
+    .m-ticket {
+      font-family: var(--font-en);
+      font-size: 24px;
+      font-weight: 400;
+      line-height: 1;
+      letter-spacing: -0.96px;
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .m-nav__link--active {
+      font-family: var(--font-serif);
+      font-size: 26px;
+      font-weight: 400;
+      color: #ffffff;
+    }
+
+    .m-gnb--blue .m-nav__link,
+    .m-gnb--blue .m-ticket {
+      color: var(--muted-blue);
+    }
+
+    .m-gnb--blue .m-nav__link--active,
+    .m-gnb--blue .m-ticket {
+      color: var(--brand);
+    }
+
+    .m-logo {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 60px;
+      height: 60px;
+      transform: translate(-50%, -50%);
+      overflow: hidden;
+      opacity: 0.8;
+    }
+
+    .m-logo img {
+      position: absolute;
+      top: 0.16%;
+      left: -68.16%;
+      width: 231.31%;
+      height: 148.57%;
+      max-width: none;
+    }
+
+    .m-ticket {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      height: 54px;
+      padding: 0 22px;
+      border-radius: 100px;
+      background: rgba(255,255,255,0.02);
+      border: 0;
+    }
+
+    .m-ticket svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .m-nav-item {
+      position: relative;
+      display: flex;
+      align-items: center;
+      height: 54px;
+    }
+
+    .m-dropdown {
+      position: absolute;
+      top: 62px;
+      left: 50%;
+      width: 159px;
+      padding: 3px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.3);
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .m-dropdown__item {
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-en);
+      font-size: 16px;
+      letter-spacing: -0.64px;
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+    }
+
+    .m-dropdown__item--active {
+      background: #ffffff;
+      font-family: var(--font-serif);
+      font-size: 18px;
+      letter-spacing: -0.72px;
+      color: var(--brand);
+    }
+
+    .m-pill-tabs {
+      left: 813px;
+      top: 151px;
+      width: 295px;
+      height: 54px;
+      padding: 3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.3);
+    }
+
+    .m-pill-tabs--cases {
+      top: 2725px;
+      background: #f8f8f8;
+      opacity: 0;
+      transform: translateY(44px);
+      filter: blur(8px);
+      transition:
+        opacity 0.58s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.68s cubic-bezier(0.16, 1, 0.3, 1),
+        filter 0.58s ease;
+    }
+
+    .m-pill {
+      height: 48px;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      border: 0;
+      background: transparent;
+      font-family: var(--font-en);
+      font-size: 16px;
+      letter-spacing: -0.64px;
+      color: rgba(34,178,234,0.5);
+      white-space: nowrap;
+      cursor: pointer;
+    }
+
+    .m-pill--active {
+      background: #ffffff;
+      font-family: var(--font-serif);
+      font-size: 18px;
+      letter-spacing: -0.72px;
+      color: var(--brand);
+    }
+
+    .m-title {
+      text-align: center;
+      color: var(--ink);
+    }
+
+    .m-title--hero {
+      left: 649px;
+      top: 280px;
+      width: 622px;
+    }
+
+    .m-title--cases {
+      left: 749px;
+      top: 2450px;
+      width: 422px;
+      opacity: 0;
+      transform: translateY(42px);
+      filter: blur(8px);
+      transition:
+        opacity 0.62s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.72s cubic-bezier(0.16, 1, 0.3, 1),
+        filter 0.62s ease;
+    }
+
+    .m-title__main {
+      margin: 0 0 12px;
+      font-size: 0;
+      white-space: nowrap;
+      letter-spacing: -1.92px;
+    }
+
+    .m-title__serif {
+      font-family: var(--font-serif);
+      font-size: 48px;
+      font-weight: 500;
+      font-style: italic;
+      line-height: normal;
+    }
+
+    .m-title__plain {
+      font-family: var(--font-en);
+      font-size: 42px;
+      font-weight: 300;
+      line-height: normal;
+    }
+
+    .m-title__sub {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.45;
+      letter-spacing: -0.36px;
+    }
+
+    .m-hero-copy {
+      left: 570px;
+      top: 394px;
+      width: 780px;
+      text-align: center;
+      font-size: 16px;
+      line-height: 1.45;
+      letter-spacing: -0.32px;
+    }
+
+    .m-hero-copy strong {
+      font-weight: 600;
+    }
+
+    .m-word {
+      color: var(--ink);
+      transition:
+        opacity 0.46s ease,
+        filter 0.46s ease;
+    }
+
+    .m-word:not(.is-active) {
+      opacity: 0.22;
+      filter: saturate(0.75);
+    }
+
+    .m-word.is-active {
+      opacity: 1;
+      filter: none;
+    }
+
+    .m-word__head {
+      display: inline-flex;
+      align-items: baseline;
+      padding: 12px;
+      background: transparent;
+      color: var(--ink);
+      transition:
+        background 0.72s cubic-bezier(0.16, 1, 0.3, 1),
+        color 0.72s cubic-bezier(0.16, 1, 0.3, 1),
+        filter 0.46s ease,
+        opacity 0.46s ease;
+    }
+
+    .m-word__en {
+      font-family: var(--font-en);
+      font-weight: 400;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .m-word__kr {
+      font-family: var(--font-kr);
+      font-weight: 400;
+      letter-spacing: -0.04em;
+      white-space: nowrap;
+    }
+
+    .m-word__desc {
+      margin: 18px 0 0;
+      font-family: var(--font-kr);
+      font-size: 15px;
+      font-weight: 400;
+      line-height: 1.45;
+      letter-spacing: -0.3px;
+      opacity: 0;
+      transition:
+        opacity 0.46s ease,
+        filter 0.46s ease;
+    }
+
+    .m-word--rescue {
+      left: 300px;
+      top: 543px;
+      width: 468px;
+      height: 185px;
+    }
+
+    .m-word--rescue .m-word__head {
+      width: 465px;
+      height: 118px;
+      display: flex;
+      align-items: baseline;
+      padding: 5px 18px;
+    }
+
+    .m-word--rescue .m-word__en {
+      font-family: var(--font-serif);
+      font-size: 96px;
+      letter-spacing: -3.84px;
+    }
+
+    .m-word--rescue .m-word__kr {
+      margin-left: 10px;
+      font-size: 28px;
+      letter-spacing: -1.12px;
+    }
+
+    .m-word--treatment {
+      left: 884px;
+      top: 874px;
+      width: 617px;
+      text-align: right;
+    }
+
+    .m-word--rehab {
+      left: 300px;
+      top: 1212px;
+      width: 773px;
+    }
+
+    .m-word--release {
+      left: 949px;
+      top: 1587px;
+      width: 680px;
+      text-align: right;
+    }
+
+    .m-word--treatment .m-word__en,
+    .m-word--rehab .m-word__en,
+    .m-word--release .m-word__en {
+      font-size: 96px;
+    }
+
+    .m-word--treatment .m-word__kr,
+    .m-word--rehab .m-word__kr,
+    .m-word--release .m-word__kr {
+      display: inline-block;
+      margin-left: 12px;
+      font-size: 28px;
+      vertical-align: baseline;
+    }
+
+    .m-word.is-active .m-word__head {
+      background: var(--brand);
+      color: #ffffff;
+    }
+
+    .m-word.is-active .m-word__en {
+      font-family: var(--font-serif);
+      font-weight: 400;
+      letter-spacing: -3.84px;
+    }
+
+    .m-word.is-active .m-word__desc {
+      opacity: 1;
+      filter: blur(0);
+    }
+
+    .marin-stage > .m-pill-tabs:not(.m-pill-tabs--cases),
+    .m-title--hero,
+    .m-hero-copy {
+      transition:
+        opacity 0.62s ease,
+        filter 0.62s ease;
+      will-change: opacity, filter;
+    }
+
+    body.marin-activities-exiting .marin-stage > .m-pill-tabs:not(.m-pill-tabs--cases),
+    body.marin-activities-exiting .m-title--hero,
+    body.marin-activities-exiting .m-hero-copy,
+    body.marin-activities-exiting .m-word {
+      opacity: 0;
+      filter: blur(8px);
+      pointer-events: none;
+    }
+
+    .m-con02 {
+      left: 0;
+      top: 2260px;
+      width: 1920px;
+      height: 2904px;
+      overflow: hidden;
+    }
+
+    .m-cases-copy {
+      left: 687px;
+      top: 2638px;
+      width: 546px;
+      text-align: center;
+      font-size: 20px;
+      line-height: 1.4;
+      letter-spacing: -0.4px;
+      opacity: 0;
+      transform: translateY(44px);
+      filter: blur(8px);
+      transition:
+        opacity 0.58s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.68s cubic-bezier(0.16, 1, 0.3, 1),
+        filter 0.58s ease;
+    }
+
+    .m-cases-copy strong {
+      font-weight: 600;
+    }
+
+    .m-case {
+      position: fixed;
+      left: calc(50vw - (960px * var(--marin-scale)) + (300px * var(--marin-scale)));
+      top: calc(50vh - (128px * var(--marin-scale)));
+      width: 535px;
+      color: var(--ink);
+      opacity: 0;
+      transform: scale(var(--marin-scale));
+      transform-origin: top left;
+      z-index: 4;
+      pointer-events: none;
+      filter: blur(7px);
+      transition:
+        opacity 0.34s ease,
+        filter 0.34s ease;
+      backface-visibility: hidden;
+      contain: layout paint;
+      will-change: opacity, filter;
+    }
+
+    .m-case--1,
+    .m-case--2,
+    .m-case--3,
+    .m-case--4,
+    .m-case--5,
+    .m-case--6 {
+      top: calc(50vh - (128px * var(--marin-scale)));
+    }
+
+    .m-case__head {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 16px;
+      font-size: 24px;
+      line-height: 1.4;
+      font-weight: 600;
+      letter-spacing: -0.48px;
+    }
+
+    .m-case.is-active {
+      opacity: 1;
+      pointer-events: auto;
+      filter: none;
+    }
+
+    .m-case.is-hiding {
+      opacity: 0;
+      pointer-events: none;
+      filter: blur(7px);
+    }
+
+    .m-case__row {
+      display: grid;
+      grid-template-columns: 78px 1fr;
+      gap: 16px;
+      margin-bottom: 4px;
+      font-size: 18px;
+      line-height: 1.4;
+      letter-spacing: -0.36px;
+    }
+
+    .m-case__row dt {
+      font-weight: 600;
+    }
+
+    .m-case__row dd {
+      margin: 0;
+      font-weight: 400;
+    }
+
+    .m-case__note {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: 100px 1fr;
+      gap: 16px;
+      font-size: 16px;
+      line-height: 1.55;
+      letter-spacing: -0.32px;
+    }
+
+    .m-img {
+      position: absolute;
+      overflow: hidden;
+      background: #eef8fc;
+      opacity: var(--case-img-opacity, 0.24);
+      transform: translate3d(0, calc(var(--case-img-offset, 0) * 1px), 0);
+      filter:
+        saturate(var(--case-img-saturation, 0.72))
+        blur(var(--case-img-blur, 6px));
+      transition:
+        opacity 0.34s ease,
+        filter 0.34s ease;
+      will-change: opacity, filter, transform;
+      backface-visibility: hidden;
+    }
+
+    .m-img--hidden-marker {
+      visibility: hidden;
+      opacity: 0 !important;
+      pointer-events: none;
+    }
+
+    .m-img--pinned-source {
+      visibility: hidden;
+      opacity: 0 !important;
+      pointer-events: none;
+    }
+
+    .m-img--suppressed {
+      opacity: 0 !important;
+      pointer-events: none;
+    }
+
+    .m-img-fixed {
+      position: fixed;
+      left: calc(50vw - (960px * var(--marin-scale)) + (1170px * var(--marin-scale)));
+      top: calc(50vh - (135px * var(--marin-scale)));
+      width: 450px;
+      height: 270px;
+      overflow: hidden;
+      background: #eef8fc;
+      opacity: 0;
+      transform: scale(var(--marin-scale));
+      transform-origin: top left;
+      z-index: 3;
+      pointer-events: none;
+      filter:
+        saturate(var(--case-img-saturation, 0.72))
+        blur(var(--case-img-blur, 6px));
+      transition:
+        opacity 0.34s ease,
+        filter 0.34s ease;
+      backface-visibility: hidden;
+      will-change: opacity, filter;
+    }
+
+    .m-img-fixed.is-active {
+      opacity: var(--case-img-opacity, 1);
+    }
+
+    .m-img-fixed img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .m-img-fixed .m-img__name {
+      display: block;
+    }
+
+    .m-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .m-img__name {
+      position: absolute;
+      left: 14px;
+      top: 12px;
+      display: none;
+      padding: 6px 10px 7px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.42);
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0.13));
+      box-shadow: 0 10px 24px rgba(0, 33, 74, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.38);
+      backdrop-filter: blur(14px) saturate(1.35);
+      -webkit-backdrop-filter: blur(14px) saturate(1.35);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 1;
+      letter-spacing: -0.28px;
+      text-shadow: 0 1px 8px rgba(0, 22, 46, 0.44);
+      pointer-events: none;
+    }
+
+    body.marin-cases-others-active .m-img__name {
+      display: block;
+    }
+
+    body.marin-cases-title-visible .m-title--cases {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+    }
+
+    body.marin-cases-content-visible .m-cases-copy,
+    body.marin-cases-content-visible .m-pill-tabs--cases {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+    }
+
+    body:not(.marin-cases-content-visible) .m-case.is-active,
+    body:not(.marin-cases-content-visible) .m-img-fixed,
+    body:not(.marin-cases-content-visible) .m-img {
+      opacity: 0;
+      pointer-events: none;
+      filter: blur(8px);
+    }
+
+    body:not(.marin-case-text-visible) .m-case.is-active {
+      opacity: 0;
+      pointer-events: none;
+      filter: blur(7px);
+    }
+
+    body:not(.marin-case-text-visible) .m-img-fixed {
+      opacity: 0;
+      pointer-events: none;
+      filter: blur(7px);
+    }
+
+    .m-img--a { left: 1170px; top: 2894px; width: 450px; height: 270px; }
+    .m-img--b { left: 1172px; top: 3290px; width: 450px; height: 270px; }
+    .m-img--c { left: 1172px; top: 3714px; width: 450px; height: 214px; }
+    .m-img--d { left: 1172px; top: 4110px; width: 450px; height: 214px; }
+    .m-img--e { left: 1172px; top: 4506px; width: 450px; height: 214px; }
+
+    .m-conservation-view {
+      display: none;
+      left: 0;
+      top: 0;
+      width: 1920px;
+      height: 5442px;
+      color: var(--ink);
+      pointer-events: none;
+    }
+
+    body.marin-view-conservation .m-title--hero,
+    body.marin-view-conservation .m-hero-copy,
+    body.marin-view-conservation .m-word,
+    body.marin-view-conservation .m-con02,
+    body.marin-view-conservation .m-title--cases,
+    body.marin-view-conservation .m-cases-copy,
+    body.marin-view-conservation .m-pill-tabs--cases,
+    body.marin-view-conservation .m-case,
+    body.marin-view-conservation .m-img-fixed,
+    body.marin-view-conservation .m-img {
+      display: none;
+    }
+
+    body.marin-view-conservation .m-conservation-view {
+      display: block;
+    }
+
+    body.marin-view-conservation .m-conservation-view > :not(.m-figma-conservation) {
+      display: none !important;
+    }
+
+    body.marin-view-conservation .m-conservation-view > .m-figma-conservation {
+      display: block !important;
+      pointer-events: auto;
+    }
+
+    body.marin-view-conservation .m-pill-tabs:not(.m-pill-tabs--cases) {
+      z-index: 8;
+    }
+
+    .m-cons-title {
+      left: 654px;
+      top: 274px;
+      width: 612px;
+      text-align: center;
+    }
+
+    .m-cons-copy {
+      left: 560px;
+      top: 393px;
+      width: 800px;
+      text-align: center;
+      font-size: 20px;
+      line-height: 1.4;
+      letter-spacing: -0.4px;
+    }
+
+    .m-cons-principles {
+      left: 496px;
+      top: 621px;
+      width: 928px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .m-cons-principle {
+      width: 170px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      text-align: center;
+    }
+
+    .m-cons-icon {
+      width: 120px;
+      height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .m-cons-icon img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+
+    .m-cons-principle strong,
+    .m-cons-principle span {
+      display: block;
+      font-size: 26px;
+      font-weight: 400;
+      line-height: 1.4;
+      letter-spacing: -0.52px;
+      white-space: nowrap;
+    }
+
+    .m-cons-cases-a,
+    .m-cons-cases-b {
+      left: 0;
+      width: 1920px;
+      overflow: hidden;
+    }
+
+    .m-cons-cases-a {
+      top: 1080px;
+      height: 1285px;
+    }
+
+    .m-cons-cases-b {
+      top: 2365px;
+      height: 1732px;
+    }
+
+    .m-cons-section-title {
+      left: 742px;
+      width: 436px;
+      text-align: center;
+    }
+
+    .m-cons-cases-a .m-cons-section-title {
+      top: 154px;
+    }
+
+    .m-cons-cases-b .m-cons-section-title {
+      top: 160px;
+    }
+
+    .m-cons-category-row {
+      left: 412px;
+      top: 427px;
+      width: 1096px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .m-cons-category {
+      width: 120px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      text-align: center;
+      color: var(--brand);
+      font-size: 24px;
+      font-weight: 600;
+      line-height: 1.4;
+      letter-spacing: -0.48px;
+    }
+
+    .m-cons-category img {
+      width: 72px;
+      height: 60px;
+      object-fit: contain;
+    }
+
+    .m-cons-card-row {
+      left: 300px;
+      top: 640px;
+      width: 1320px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .m-cons-card {
+      min-height: 328px;
+      padding: 28px;
+      border-radius: 16px;
+      background: rgba(248, 248, 248, 0.92);
+      border: 1px solid rgba(34, 178, 234, 0.16);
+      box-shadow: 0 18px 45px rgba(0, 74, 112, 0.08);
+    }
+
+    .m-cons-card__thumb {
+      height: 150px;
+      margin: 0 0 22px;
+      overflow: hidden;
+      border-radius: 12px;
+      background: #eef8fc;
+    }
+
+    .m-cons-card__thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .m-cons-card h3 {
+      margin: 0 0 10px;
+      font-size: 24px;
+      line-height: 1.35;
+      letter-spacing: -0.48px;
+    }
+
+    .m-cons-card p {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.55;
+      letter-spacing: -0.32px;
+    }
+
+    .m-cons-feature {
+      left: 300px;
+      top: 450px;
+      width: 1320px;
+      display: grid;
+      grid-template-columns: 560px 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .m-cons-feature__image {
+      height: 360px;
+      overflow: hidden;
+      border-radius: 18px;
+      background: #eef8fc;
+    }
+
+    .m-cons-feature__image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .m-cons-feature__body h3 {
+      margin: 0 0 24px;
+      font-size: 42px;
+      line-height: 1.25;
+      letter-spacing: -1.68px;
+    }
+
+    .m-cons-feature__body p {
+      margin: 0 0 18px;
+      font-size: 20px;
+      line-height: 1.55;
+      letter-spacing: -0.4px;
+    }
+
+    .m-cons-feature__list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 30px;
+    }
+
+    .m-cons-feature__list span {
+      min-height: 54px;
+      display: flex;
+      align-items: center;
+      padding: 0 18px;
+      border-radius: 999px;
+      background: rgba(34, 178, 234, 0.1);
+      color: var(--brand);
+      font-size: 18px;
+      letter-spacing: -0.36px;
+    }
+
+    .m-fig-title {
+      text-align: center;
+      color: #1a1a1a;
+    }
+
+    .m-fig-title__main {
+      margin: 0 0 12px;
+      font-size: 0;
+      letter-spacing: -1.68px;
+      white-space: nowrap;
+    }
+
+    .m-fig-title__serif {
+      font-family: var(--font-serif);
+      font-size: 48px;
+      font-style: italic;
+      font-weight: 500;
+      line-height: normal;
+      letter-spacing: -1.92px;
+    }
+
+    .m-fig-title__plain {
+      font-family: var(--font-en);
+      font-size: 42px;
+      font-weight: 300;
+      line-height: normal;
+    }
+
+    .m-fig-title__sub {
+      margin: 0;
+      font-size: 18px;
+      line-height: normal;
+      letter-spacing: -0.36px;
+    }
+
+    .m-fig-con01-title {
+      left: 630px;
+      top: 274px;
+      width: 660px;
+    }
+
+    .m-fig-intro-copy {
+      left: 520px;
+      top: 390px;
+      width: 880px;
+      text-align: center;
+      font-size: 20px;
+      line-height: 1.4;
+      letter-spacing: -0.4px;
+      white-space: nowrap;
+    }
+
+    .m-fig-intro-copy strong {
+      font-weight: 600;
+    }
+
+    .m-fig-principles {
+      left: 496px;
+      top: 621px;
+      width: 928px;
+      display: flex;
+      align-items: flex-start;
+      gap: 130px;
+    }
+
+    .m-fig-principle {
+      width: 140px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      text-align: center;
+    }
+
+    .m-fig-principle:nth-child(2) { width: 126px; }
+    .m-fig-principle:nth-child(3) { width: 120px; }
+    .m-fig-principle:nth-child(4) { width: 161px; }
+
+    .m-fig-principle__icon {
+      width: 120px;
+      height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .m-fig-principle__icon img {
+      display: block;
+      width: auto;
+      height: auto;
+      max-width: 100px;
+      max-height: 90px;
+      object-fit: contain;
+    }
+
+    .m-fig-principle p {
+      margin: 0;
+      min-height: 72px;
+      font-size: 26px;
+      line-height: 1.4;
+      letter-spacing: -0.52px;
+    }
+
+    .m-fig-principle span {
+      display: block;
+      white-space: nowrap;
+    }
+
+    body.marin-view-conservation .m-fig-con01-title,
+    body.marin-view-conservation .m-fig-intro-copy,
+    body.marin-view-conservation .m-fig-principle {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+
+    body.marin-view-conservation.marin-conservation-intro .m-fig-con01-title,
+    body.marin-view-conservation.marin-conservation-intro .m-fig-intro-copy {
+      animation: marinConservationFadeIn 0.9s ease forwards;
+    }
+
+    body.marin-view-conservation.marin-conservation-intro .m-fig-principle {
+      animation: marinConservationFadeIn 0.55s ease forwards;
+    }
+
+    body.marin-view-conservation.marin-conservation-intro .m-fig-principle:nth-child(1) { animation-delay: 0.25s; }
+    body.marin-view-conservation.marin-conservation-intro .m-fig-principle:nth-child(2) { animation-delay: 0.38s; }
+    body.marin-view-conservation.marin-conservation-intro .m-fig-principle:nth-child(3) { animation-delay: 0.51s; }
+    body.marin-view-conservation.marin-conservation-intro .m-fig-principle:nth-child(4) { animation-delay: 0.64s; }
+
+    @keyframes marinConservationFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .m-fig-con02 {
+      left: 0;
+      top: 1080px;
+      width: 1920px;
+      height: 1285px;
+      overflow: hidden;
+      perspective: 1200px;
+    }
+
+    .m-fig-con03 {
+      left: 0;
+      top: 1080px;
+      width: 1920px;
+      height: 1877px;
+      overflow: hidden;
+      display: none;
+      perspective: 1200px;
+    }
+
+    .m-fig-con04 {
+      left: 0;
+      top: 1080px;
+      width: 1920px;
+      height: 1285px;
+      overflow: hidden;
+      display: none;
+      perspective: 1200px;
+    }
+
+    body.marin-view-conservation.marin-fig-case-pinniped .m-fig-con02,
+    body.marin-view-conservation.marin-fig-case-otter .m-fig-con02 {
+      display: none;
+    }
+
+    body.marin-view-conservation.marin-fig-case-pinniped .m-fig-con03 {
+      display: block;
+    }
+
+    body.marin-view-conservation.marin-fig-case-otter .m-fig-con04 {
+      display: block;
+    }
+
+    .m-fig-con05,
+    .m-fig-con06,
+    .m-fig-con07,
+    .m-fig-con08 {
+      left: 0;
+      top: 1080px;
+      width: 1920px;
+      height: 1285px;
+      overflow: hidden;
+      display: none;
+      perspective: 1200px;
+    }
+
+    body.marin-view-conservation.marin-fig-case-penguin .m-fig-con02,
+    body.marin-view-conservation.marin-fig-case-turtle .m-fig-con02,
+    body.marin-view-conservation.marin-fig-case-seahorse .m-fig-con02,
+    body.marin-view-conservation.marin-fig-case-shark .m-fig-con02 { display: none; }
+
+    body.marin-view-conservation.marin-fig-case-penguin .m-fig-con05 { display: block; }
+    body.marin-view-conservation.marin-fig-case-turtle .m-fig-con06 { display: block; }
+    body.marin-view-conservation.marin-fig-case-seahorse .m-fig-con07 { display: block; }
+    body.marin-view-conservation.marin-fig-case-shark .m-fig-con08 { display: block; }
+
+    .m-fig-section-head {
+      left: 545px;
+      top: 160px;
+      width: 830px;
+      text-align: center;
+    }
+
+    .m-fig-section-copy {
+      margin: 34px 0 0;
+      font-size: 20px;
+      line-height: 1.4;
+      letter-spacing: -0.4px;
+      white-space: nowrap;
+    }
+
+    .m-fig-section-copy strong {
+      font-weight: 600;
+    }
+
+    .m-fig-species-row {
+      left: 412px;
+      top: 427px;
+      width: 1096px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+    }
+
+    .m-fig-con03 .m-fig-species-row {
+      top: 427px;
+    }
+
+    .m-fig-species {
+      width: 108px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      text-align: center;
+      font-size: 24px;
+      line-height: 1.4;
+      letter-spacing: -0.48px;
+      color: #1a1a1a;
+      pointer-events: auto;
+      cursor: pointer;
+    }
+
+    .m-fig-species.is-active {
+      color: var(--brand);
+      font-weight: 600;
+    }
+
+    .m-fig-species img {
+      display: block;
+      width: 72px;
+      height: 60px;
+      object-fit: contain;
+    }
+
+    body.marin-view-conservation .m-fig-con02 .m-fig-section-head,
+    body.marin-view-conservation .m-fig-con03 .m-fig-section-head,
+    body.marin-view-conservation .m-fig-con04 .m-fig-section-head,
+    body.marin-view-conservation .m-fig-con05 .m-fig-section-head,
+    body.marin-view-conservation .m-fig-con06 .m-fig-section-head,
+    body.marin-view-conservation .m-fig-con07 .m-fig-section-head,
+    body.marin-view-conservation .m-fig-con08 .m-fig-section-head,
+    body.marin-view-conservation .m-fig-species,
+    body.marin-view-conservation .m-fig-whale-card,
+    body.marin-view-conservation .m-fig-otter-card,
+    body.marin-view-conservation .m-fig-pinniped-copy,
+    body.marin-view-conservation .m-fig-flip-card:not(.is-detail) {
+      opacity: 0;
+    }
+
+    body.marin-view-conservation .m-fig-con02 .m-fig-section-head,
+    body.marin-view-conservation .m-fig-con03 .m-fig-section-head,
+    body.marin-view-conservation .m-fig-con04 .m-fig-section-head,
+    body.marin-view-conservation .m-fig-con05 .m-fig-section-head,
+    body.marin-view-conservation .m-fig-con06 .m-fig-section-head,
+    body.marin-view-conservation .m-fig-con07 .m-fig-section-head,
+    body.marin-view-conservation .m-fig-con08 .m-fig-section-head,
+    body.marin-view-conservation .m-fig-species {
+      transform: translateY(18px);
+    }
+
+    body.marin-view-conservation.marin-conservation-cases-intro .m-fig-con02 .m-fig-section-head,
+    body.marin-view-conservation.marin-conservation-cases-intro .m-fig-con03 .m-fig-section-head,
+    body.marin-view-conservation.marin-conservation-cases-intro .m-fig-con04 .m-fig-section-head,
+    body.marin-view-conservation.marin-conservation-cases-intro .m-fig-con05 .m-fig-section-head,
+    body.marin-view-conservation.marin-conservation-cases-intro .m-fig-con06 .m-fig-section-head,
+    body.marin-view-conservation.marin-conservation-cases-intro .m-fig-con07 .m-fig-section-head,
+    body.marin-view-conservation.marin-conservation-cases-intro .m-fig-con08 .m-fig-section-head {
+      animation: marinConservationFadeIn 0.9s ease forwards;
+    }
+
+    body.marin-view-conservation.marin-conservation-cases-intro .m-fig-species {
+      animation: marinConservationFadeIn 0.65s ease forwards;
+    }
+
+    body.marin-view-conservation.marin-conservation-cases-intro .m-fig-species:nth-child(1) { animation-delay: 0.85s; }
+    body.marin-view-conservation.marin-conservation-cases-intro .m-fig-species:nth-child(2) { animation-delay: 1s; }
+    body.marin-view-conservation.marin-conservation-cases-intro .m-fig-species:nth-child(3) { animation-delay: 1.15s; }
+    body.marin-view-conservation.marin-conservation-cases-intro .m-fig-species:nth-child(4) { animation-delay: 1.3s; }
+    body.marin-view-conservation.marin-conservation-cases-intro .m-fig-species:nth-child(5) { animation-delay: 1.45s; }
+    body.marin-view-conservation.marin-conservation-cases-intro .m-fig-species:nth-child(6) { animation-delay: 1.6s; }
+    body.marin-view-conservation.marin-conservation-cases-intro .m-fig-species:nth-child(7) { animation-delay: 1.75s; }
+
+    body.marin-view-conservation.marin-fig-species-title-mode .m-fig-section-head,
+    body.marin-view-conservation.marin-fig-species-title-mode .m-fig-species {
+      opacity: 1;
+      transform: translateY(0);
+      animation: none !important;
+    }
+
+    body.marin-view-conservation.marin-conservation-cases-intro .m-fig-whale-card,
+    body.marin-view-conservation.marin-conservation-cases-intro .m-fig-otter-card,
+    body.marin-view-conservation.marin-conservation-cases-intro .m-fig-pinniped-copy,
+    body.marin-view-conservation.marin-conservation-cases-intro .m-fig-flip-card:not(.is-detail) {
+      animation: marinFigCaseContentFade 0.75s ease 2s forwards;
+    }
+
+    body.marin-view-conservation.marin-fig-species-title-mode.marin-conservation-cases-intro .m-fig-whale-card,
+    body.marin-view-conservation.marin-fig-species-title-mode.marin-conservation-cases-intro .m-fig-otter-card,
+    body.marin-view-conservation.marin-fig-species-title-mode.marin-conservation-cases-intro .m-fig-pinniped-copy,
+    body.marin-view-conservation.marin-fig-species-title-mode.marin-conservation-cases-intro .m-fig-flip-card:not(.is-detail) {
+      opacity: 1;
+      animation: none;
+    }
+
+    body.marin-view-conservation .m-fig-case-content-enter .m-fig-whale-card,
+    body.marin-view-conservation .m-fig-case-content-enter .m-fig-otter-card,
+    body.marin-view-conservation .m-fig-case-content-enter .m-fig-pinniped-copy,
+    body.marin-view-conservation .m-fig-case-content-enter .m-fig-flip-card:not(.is-detail) {
+      animation: marinFigCaseContentFade 0.55s ease forwards !important;
+    }
+
+    @keyframes marinFigCaseContentFade {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .m-fig-whale-card,
+    .m-fig-otter-card {
+      left: 432px;
+      top: 593px;
+      width: 1056px;
+      height: 480px;
+      overflow: hidden;
+      border-radius: 14px;
+      background: #ffffff;
+    }
+
+    .m-fig-whale-card > img,
+    .m-fig-otter-card > img {
+      position: absolute;
+      display: block;
+      right: 0;
+      top: 50%;
+      width: 1096px;
+      height: 651px;
+      transform: translateY(-50%);
+      object-fit: cover;
+    }
+
+    .m-fig-side-panel {
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 315px;
+      height: 480px;
+      background: linear-gradient(90deg, rgba(26,26,26,0), rgba(26,26,26,0.62));
+    }
+
+    .m-fig-whale-text,
+    .m-fig-otter-text {
+      position: absolute;
+      right: 20px;
+      bottom: 20px;
+      width: 275px;
+      color: #ffffff;
+    }
+
+    .m-fig-card-en {
+      margin: 0 0 12px;
+      font-family: var(--font-serif);
+      font-size: 24px;
+      font-weight: 500;
+      line-height: normal;
+      letter-spacing: -0.48px;
+    }
+
+    .m-fig-card-kr {
+      margin: 0 0 36px;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: normal;
+      letter-spacing: -0.32px;
+    }
+
+    .m-fig-card-desc {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.6;
+      letter-spacing: -0.32px;
+    }
+
+    .m-fig-pinniped-copy {
+      left: 536px;
+      top: 593px;
+      width: 849px;
+      text-align: center;
+      pointer-events: none;
+    }
+
+    .m-fig-pinniped-copy h3 {
+      margin: 0 0 12px;
+      color: var(--brand);
+      font-size: 24px;
+      font-weight: 600;
+      line-height: 1.4;
+      letter-spacing: -0.48px;
+    }
+
+    .m-fig-pinniped-copy p {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.4;
+      letter-spacing: -0.36px;
+      white-space: nowrap;
+    }
+
+    .m-fig-flip-card {
+      width: 314px;
+      height: 480px;
+      overflow: hidden;
+      border-radius: 14px;
+      background: #ffffff;
+      cursor: pointer;
+      pointer-events: auto;
+      z-index: 2;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      transform-style: preserve-3d;
+      transform-origin: center center;
+      transition:
+        transform 0.7s cubic-bezier(0.2, 0.72, 0.2, 1);
+      will-change: transform;
+    }
+
+    .m-fig-flip-card > img {
+      position: absolute;
+      display: block;
+      top: 50%;
+      left: 50%;
+      width: 100%;
+      height: 100%;
+      transform: translate(-50%, -50%);
+      object-fit: cover;
+    }
+
+    .m-fig-flip-card::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 159px;
+      background: linear-gradient(180deg, rgba(26,26,26,0), rgba(26,26,26,0.6));
+    }
+
+    .m-fig-flip-card.is-detail::after {
+      height: 100%;
+      background: linear-gradient(90deg, rgba(26,26,26,0.08), rgba(26,26,26,0.72));
+    }
+
+    .m-fig-flip-card--walrus { left: 389px; top: 799px; }
+    .m-fig-flip-card--sea-lion { left: 803px; top: 799px; }
+    .m-fig-flip-card--seal { left: 1217px; top: 799px; }
+    .m-fig-flip-card--walrus-detail { left: 389px; top: 799px; }
+    .m-fig-flip-card--sea-lion-detail { left: 803px; top: 799px; }
+    .m-fig-flip-card--seal-detail { left: 1217px; top: 799px; }
+    .m-fig-con03 .m-fig-flip-card {
+      pointer-events: auto !important;
+      z-index: 20;
+    }
+    .m-fig-con03 .m-fig-flip-card.is-detail.is-visible {
+      z-index: 30 !important;
+    }
+    .m-fig-flip-card--seahorse { left: 596px; top: 593px; }
+    .m-fig-flip-card--sea-dragon { left: 1010px; top: 593px; }
+    .m-fig-flip-card--seahorse-detail { left: 596px; top: 593px; }
+    .m-fig-flip-card--sea-dragon-detail { left: 1010px; top: 593px; }
+
+    .m-fig-flip-card.is-detail {
+      display: block;
+      visibility: hidden;
+      pointer-events: none;
+      opacity: 0;
+      transform: rotateY(-90deg);
+      z-index: 1;
+    }
+
+    .m-fig-flip-card.is-flipped {
+      visibility: hidden;
+      opacity: 0 !important;
+      transform: rotateY(90deg) !important;
+      animation: none !important;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .m-fig-flip-card.is-detail.is-visible {
+      display: block;
+      visibility: visible;
+      opacity: 1 !important;
+      pointer-events: auto;
+      transform: rotateY(0deg) !important;
+      animation: none !important;
+      z-index: 5;
+    }
+
+    .m-fig-flip-caption {
+      position: absolute;
+      left: 20px;
+      right: 20px;
+      bottom: 20px;
+      z-index: 1;
+      color: #ffffff;
+    }
+
+    .m-fig-flip-caption .m-fig-card-kr {
+      margin-bottom: 0;
+    }
+
+    .m-footer-blank {
+      left: 0;
+      top: 5064px;
+      width: 1920px;
+      height: 1605px;
+      background: transparent;
+    }
+
+    body.marin-view-conservation .m-footer-blank {
+      top: 1900px;
+    }
+
+    .m-mobile-note {
+      display: none;
+    }
+
+    #custom-cursor.is-over-light {
+      border-color: rgba(34, 178, 234, 0.9);
+      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.55), inset 0 0 0 1px rgba(34, 178, 234, 0.08);
+    }
+
+    #custom-cursor.is-over-light.is-hovering {
+      border-color: rgba(34, 178, 234, 1);
+      background: rgba(34, 178, 234, 0.08);
+    }
+
+    #custom-cursor.is-over-light.is-clicking {
+      background: rgba(34, 178, 234, 0.2);
+      border-color: rgba(34, 178, 234, 1);
+    }
+
+    body.marin-header-light .gnb__link {
+      color: rgba(34, 178, 234, 0.5);
+    }
+
+    body.marin-header-light .gnb__link:hover,
+    body.marin-header-light .gnb__link.gnb__link--active,
+    body.marin-header-light .gnb__ticket {
+      color: var(--brand);
+    }
+
+    body.marin-header-light .gnb__ticket svg path {
+      stroke: var(--brand);
+    }
+
+    @media (max-width: 720px) {
+      .m-mobile-note {
+        position: fixed;
+        left: 12px;
+        right: 12px;
+        bottom: 12px;
+        z-index: 10;
+        display: block;
+        padding: 10px 12px;
+        border-radius: 12px;
+        background: rgba(255,255,255,0.86);
+        color: #1a1a1a;
+        font-size: 12px;
+        line-height: 1.45;
+        text-align: center;
+      }
+    }
+</style>
+</head>
+<body>
+  <header id="gnb" class="gnb">
+    <div class="gnb__inner">
+      <nav class="gnb__nav" aria-label="메인 메뉴">
+        <a href="program/program.html" class="gnb__link" data-nav="program">Program</a>
+        <a href="Oceanfriends.html" class="gnb__link" data-nav="crew">Ocean friends</a>
+        <div class="gnb__nav-item" data-nav="about">
+          <span class="gnb__link gnb__link--active">About us</span>
+          <div class="gnb__dropdown">
+            <a href="#" class="gnb__dropdown-item">Business</a>
+            <a href="marinlab.html" class="gnb__dropdown-item gnb__dropdown-item--active">Marin Lab</a>
+            <a href="location.html" class="gnb__dropdown-item">Location</a>
+          </div>
+        </div>
+      </nav>
+
+      <a href="index.html" class="gnb__logo-wrap" aria-label="Aqua Planet 홈">
+        <img class="gnb__logo" src="assets/images/headerLogo.png" alt="" aria-hidden="true">
+      </a>
+
+      <a href="ticket.html" class="gnb__ticket btn-pill" aria-label="티켓 예매">
+        Ticket
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M7 17L17 7M17 7H7M17 7V17" stroke="white" stroke-width="1.5"
+                stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
+  </header>
+
+  <main class="marin-shell">
+    <div class="marin-stage" aria-label="Marin Lab Rescue and Care page">
+      <nav class="marin-node m-pill-tabs" aria-label="Marin Lab 활동 카테고리">
+        <button class="m-pill m-pill--active" type="button" data-marin-view="rescue">Rescue &amp; Care</button>
+        <button class="m-pill" type="button" data-marin-view="conservation">Conservation</button>
+      </nav>
+
+      <section class="marin-node m-conservation-view" aria-label="Conservation activities">
+        <div class="marin-node m-title m-cons-title">
+          <h1 class="m-title__main">
+            <span class="m-title__serif">Conservation</span><span class="m-title__plain"> Activities</span>
+          </h1>
+          <p class="m-title__sub">바다와 생명을 지키는 지속적인 노력</p>
+        </div>
+        <p class="marin-node m-cons-copy">
+          아쿠아플라넷은 <strong>해양수산부 지정 서식지외보전기관</strong>으로서 <strong>해양생물의 보호와 증식을 위한 연구</strong>를 수행합니다<br>
+          전문적인 번식·사육 관리와 환경 연구를 통해 <strong>생물다양성 보전에 기여</strong>하고 있습니다
+        </p>
+
+        <div class="marin-node m-cons-principles" aria-label="Conservation principles">
+          <div class="m-cons-principle">
+            <div class="m-cons-icon"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_03_01.png" alt=""></div>
+            <p><strong>Protect</strong><span>해양생물 보호</span></p>
+          </div>
+          <div class="m-cons-principle">
+            <div class="m-cons-icon"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_04_01.png" alt=""></div>
+            <p><strong>Breeding</strong><span>개체군 유지</span></p>
+          </div>
+          <div class="m-cons-principle">
+            <div class="m-cons-icon"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_05_01.png" alt=""></div>
+            <p><strong>Research</strong><span>생태 연구</span></p>
+          </div>
+          <div class="m-cons-principle">
+            <div class="m-cons-icon"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_06_01.png" alt=""></div>
+            <p><strong>Preserve</strong><span>생물다양성 보전</span></p>
+          </div>
+        </div>
+
+        <section class="marin-node m-cons-cases-a" aria-label="Conservation cases by species">
+          <div class="marin-node m-title m-cons-section-title">
+            <h2 class="m-title__main">
+              <span class="m-title__serif">Conservation</span><span class="m-title__plain"> Cases</span>
+            </h2>
+            <p class="m-title__sub">보호와 증식을 위한 연구 대상</p>
+          </div>
+          <div class="marin-node m-cons-category-row">
+            <div class="m-cons-category"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777.png" alt=""><span>고래류</span></div>
+            <div class="m-cons-category"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777-1.png" alt=""><span>바다거북</span></div>
+            <div class="m-cons-category"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777-2.png" alt=""><span>어류</span></div>
+            <div class="m-cons-category"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777-3.png" alt=""><span>무척추동물</span></div>
+          </div>
+          <div class="marin-node m-cons-card-row">
+            <article class="m-cons-card">
+              <div class="m-cons-card__thumb"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_03_01.png" alt="해양생물 보호 연구"></div>
+              <h3>해양생물 보호</h3>
+              <p>보호가 필요한 생물의 건강 상태와 행동을 관찰하고, 안정적인 관리 환경을 설계합니다.</p>
+            </article>
+            <article class="m-cons-card">
+              <div class="m-cons-card__thumb"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_04_01.png" alt="개체군 유지 연구"></div>
+              <h3>개체군 유지</h3>
+              <p>번식과 성장 기록을 축적해 장기적인 보호와 개체군 유지에 필요한 기준을 만듭니다.</p>
+            </article>
+            <article class="m-cons-card">
+              <div class="m-cons-card__thumb"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_05_01.png" alt="생태 연구"></div>
+              <h3>생태 연구</h3>
+              <p>수질, 먹이, 행동 반응 데이터를 바탕으로 해양 생태 보전에 필요한 근거를 마련합니다.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="marin-node m-cons-cases-b" aria-label="Conservation research process">
+          <div class="marin-node m-title m-cons-section-title">
+            <h2 class="m-title__main">
+              <span class="m-title__serif">Research</span><span class="m-title__plain"> Process</span>
+            </h2>
+            <p class="m-title__sub">관찰에서 보전 교육까지 이어지는 연구 흐름</p>
+          </div>
+          <div class="marin-node m-cons-feature">
+            <div class="m-cons-feature__image">
+              <img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_07_01.png" alt="해양생물 보전 연구">
+            </div>
+            <div class="m-cons-feature__body">
+              <h3>작은 관찰을 모아<br>바다를 지키는 기준으로</h3>
+              <p>아쿠아플라넷은 생물의 상태와 환경 변화를 지속적으로 기록하고, 연구 결과를 사육 관리와 교육 콘텐츠에 반영합니다.</p>
+              <p>보호, 번식, 연구, 교육이 하나의 흐름으로 이어질 때 해양 생태계 보전의 힘이 커집니다.</p>
+              <div class="m-cons-feature__list">
+                <span>보호종 건강 기록</span>
+                <span>사육 환경 데이터</span>
+                <span>번식·성장 관리</span>
+                <span>생태 보전 교육</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="m-figma-conservation">
+          <div class="marin-node m-fig-title m-fig-con01-title">
+            <h1 class="m-fig-title__main">
+              <span class="m-fig-title__serif">Conservation</span><span class="m-fig-title__plain"> Activities</span>
+            </h1>
+            <p class="m-fig-title__sub">바다와 생명을 지키는 지속적인 노력</p>
+          </div>
+          <p class="marin-node m-fig-intro-copy">
+            아쿠아플라넷은 <strong>해양수산부 지정 서식지외보전기관</strong>으로서 <strong>해양생물의 보호와 증식을 위한 연구</strong>를 수행합니다<br>
+            전문적인 번식·사육 관리와 환경 연구를 통해 <strong>생물다양성 보전에 기여</strong>하고 있습니다
+          </p>
+          <div class="marin-node m-fig-principles">
+            <div class="m-fig-principle">
+              <div class="m-fig-principle__icon"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482985.png" alt=""></div>
+              <p><span>Protect</span><span>해양생물 보호</span></p>
+            </div>
+            <div class="m-fig-principle">
+              <div class="m-fig-principle__icon"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482943.png" alt=""></div>
+              <p><span>Breeding</span><span>개체군 유지</span></p>
+            </div>
+            <div class="m-fig-principle">
+              <div class="m-fig-principle__icon"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482944.png" alt=""></div>
+              <p><span>Research</span><span>생태 연구</span></p>
+            </div>
+            <div class="m-fig-principle">
+              <div class="m-fig-principle__icon"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482945.png" alt=""></div>
+              <p><span>Preserve</span><span>생물다양성 보전</span></p>
+            </div>
+          </div>
+
+          <section class="marin-node m-fig-con02">
+            <div class="marin-node m-fig-title m-fig-section-head">
+              <h2 class="m-fig-title__main">
+                <span class="m-fig-title__serif">Conservation</span><span class="m-fig-title__plain"> Cases</span>
+              </h2>
+              <p class="m-fig-title__sub">보전 활동을 통해 보호하고 연구하는 해양생물 사례를 소개합니다</p>
+              <p class="m-fig-section-copy">
+                <strong>보호가 필요한 해양생물</strong>들을 체계적으로 관리하고 연구합니다<br>
+                <strong>건강한 개체군 유지</strong>와 <strong>생물다양성 보전</strong>을 위해 노력하고 있습니다
+              </p>
+            </div>
+            <div class="marin-node m-fig-species-row">
+              <div class="m-fig-species is-active"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777.png" alt=""><span>고래류</span></div>
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777-1.png" alt=""><span>기각류</span></div>
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/image 217 [Vectorized].png" alt=""><span>수달</span></div>
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777-2.png" alt=""><span>펭귄류</span></div>
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482903.png" alt=""><span>바다거북</span></div>
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482946.png" alt=""><span>해마와 해룡</span></div>
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777-3.png" alt=""><span>상어류</span></div>
+            </div>
+            <article class="marin-node m-fig-whale-card">
+              <img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_01_01.png" alt="Whale">
+              <div class="m-fig-side-panel"></div>
+              <div class="m-fig-whale-text">
+                <p class="m-fig-card-en">Whale</p>
+                <p class="m-fig-card-kr">고래</p>
+                <p class="m-fig-card-desc">고래류는 전 세계 바다에 서식하는 대표적인<br>해양 포유류로, 흰수염고래와 돌고래, 상괭이<br>등이 포함됩니다.<br>과거 무분별한 포획으로 개체 수가 감소해<br>현재는 국제적인 보호와 보전활동이<br>이루어지고 있습니다</p>
+              </div>
+            </article>
+          </section>
+
+          <section class="marin-node m-fig-con04">
+            <div class="marin-node m-fig-title m-fig-section-head">
+              <h2 class="m-fig-title__main">
+                <span class="m-fig-title__serif">Conservation</span><span class="m-fig-title__plain"> Cases</span>
+              </h2>
+              <p class="m-fig-title__sub">보전 활동을 통해 보호하고 연구하는 해양생물 사례를 소개합니다</p>
+              <p class="m-fig-section-copy">
+                <strong>보호가 필요한 해양생물</strong>들을 체계적으로 관리하고 연구합니다<br>
+                <strong>건강한 개체군 유지</strong>와 <strong>생물다양성 보전</strong>을 위해 노력하고 있습니다
+              </p>
+            </div>
+            <div class="marin-node m-fig-species-row">
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777.png" alt=""><span>고래류</span></div>
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777-1.png" alt=""><span>기각류</span></div>
+              <div class="m-fig-species is-active"><img src="assets/images/sec.aboutus/marinlab/image 217 [Vectorized].png" alt=""><span>수달</span></div>
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777-2.png" alt=""><span>펭귄류</span></div>
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482903.png" alt=""><span>바다거북</span></div>
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482946.png" alt=""><span>해마와 해룡</span></div>
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777-3.png" alt=""><span>상어류</span></div>
+            </div>
+            <article class="marin-node m-fig-otter-card">
+              <img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_03_01.png" alt="Otter">
+              <div class="m-fig-side-panel"></div>
+              <div class="m-fig-otter-text">
+                <p class="m-fig-card-en">Otter</p>
+                <p class="m-fig-card-kr">수달</p>
+                <p class="m-fig-card-desc">우리나라엔 유라시안 수달이 분포하고 있으며<br>이 수달은 천연기념물 제330호이자<br>멸종위기 야생생물 1급으로 지정되었습니다.<br>숫자가 감소되어가는 수달의 복원을 위해<br>현재는 국제적인 보호와 보전활동이<br>이루어지고 있습니다</p>
+              </div>
+            </article>
+          </section>
+
+          <section class="marin-node m-fig-con03">
+            <div class="marin-node m-fig-title m-fig-section-head">
+              <h2 class="m-fig-title__main">
+                <span class="m-fig-title__serif">Conservation</span><span class="m-fig-title__plain"> Cases</span>
+              </h2>
+              <p class="m-fig-title__sub">보전 활동을 통해 보호하고 연구하는 해양생물 사례를 소개합니다</p>
+              <p class="m-fig-section-copy">
+                <strong>보호가 필요한 해양생물</strong>들을 체계적으로 관리하고 연구합니다<br>
+                <strong>건강한 개체군 유지</strong>와 <strong>생물다양성 보전</strong>을 위해 노력하고 있습니다
+              </p>
+            </div>
+            <div class="marin-node m-fig-species-row">
+              <div class="m-fig-species is-active"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777.png" alt=""><span>고래류</span></div>
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777-1.png" alt=""><span>기각류</span></div>
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/image 217 [Vectorized].png" alt=""><span>수달</span></div>
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777-2.png" alt=""><span>펭귄류</span></div>
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482903.png" alt=""><span>바다거북</span></div>
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482946.png" alt=""><span>해마와 해룡</span></div>
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777-3.png" alt=""><span>상어류</span></div>
+            </div>
+            <div class="marin-node m-fig-pinniped-copy">
+              <h3>기각류란?</h3>
+              <p>‘지느러미처럼 생긴 발이 달린 동물’ 이라는 뜻입니다</p>
+              <p>아쿠아플라넷 일산, 제주에서 만나볼 수 있는 바다코끼리를 포함하여 바다사자류, 물범류가 있으며 총 33종이 알려져 있습니다</p>
+            </div>
+            <article class="marin-node m-fig-flip-card m-fig-flip-card--walrus">
+              <img src="assets/images/sec.aboutus/marinlab/sec.aboutus/marinlab/hmbrc_pre_02_01 1.png" alt="Walrus">
+              <div class="m-fig-flip-caption"><p class="m-fig-card-en">Walrus</p><p class="m-fig-card-kr">바다코끼리</p></div>
+            </article>
+            <article class="marin-node m-fig-flip-card m-fig-flip-card--sea-lion">
+              <img src="assets/images/sec.aboutus/marinlab/sec.aboutus/marinlab/hmbrc_pre_02_02 1.png" alt="Sea Lion">
+              <div class="m-fig-flip-caption"><p class="m-fig-card-en">Sea Lion</p><p class="m-fig-card-kr">바다사자</p></div>
+            </article>
+            <article class="marin-node m-fig-flip-card m-fig-flip-card--seal">
+              <img src="assets/images/sec.aboutus/marinlab/sec.aboutus/marinlab/hmbrc_pre_02_03 1.png" alt="Seal">
+              <div class="m-fig-flip-caption"><p class="m-fig-card-en">Seal</p><p class="m-fig-card-kr">물범</p></div>
+            </article>
+            <article class="marin-node m-fig-flip-card m-fig-flip-card--walrus-detail is-detail">
+              <img src="assets/images/sec.aboutus/marinlab/sec.aboutus/marinlab/hmbrc_pre_02_01 1.png" alt="Walrus detail">
+              <div class="m-fig-flip-caption"><p class="m-fig-card-en">Walrus</p><p class="m-fig-card-kr">바다코끼리</p><p class="m-fig-card-desc">바다코끼리는 최대 3.6m, 2톤에 이르는<br>대형 기각류입니다.<br>긴 엄니를 먹이를 찾거나 몸을 보호하는 데<br>사용하며 북극 연안에 서식합니다.</p></div>
+            </article>
+            <article class="marin-node m-fig-flip-card m-fig-flip-card--sea-lion-detail is-detail">
+              <img src="assets/images/sec.aboutus/marinlab/sec.aboutus/marinlab/hmbrc_pre_02_02 1.png" alt="Sea Lion detail">
+              <div class="m-fig-flip-caption"><p class="m-fig-card-en">Sea Lion</p><p class="m-fig-card-kr">바다사자</p><p class="m-fig-card-desc">물개라고도 불리는 바다사자는 긴 앞지느러미를<br>가지고 있어 육상에서 자유롭게 움직입니다.<br>개체 수 감소로 보호받고 있습니다.</p></div>
+            </article>
+            <article class="marin-node m-fig-flip-card m-fig-flip-card--seal-detail is-detail">
+              <img src="assets/images/sec.aboutus/marinlab/sec.aboutus/marinlab/hmbrc_pre_02_03 1.png" alt="Seal detail">
+              <div class="m-fig-flip-caption"><p class="m-fig-card-en">Seal</p><p class="m-fig-card-kr">물범</p><p class="m-fig-card-desc">물범은 전 세계 바다에 서식하는 대표적인<br>기각류입니다.<br>우리나라에서는 백령도 인근에 점박이 물범이<br>서식하며 보호받고 있습니다.</p></div>
+            </article>
+          </section>
+
+          <section class="marin-node m-fig-con05">
+            <div class="marin-node m-fig-title m-fig-section-head">
+              <h2 class="m-fig-title__main">
+                <span class="m-fig-title__serif">Conservation</span><span class="m-fig-title__plain"> Cases</span>
+              </h2>
+              <p class="m-fig-title__sub">보전 활동을 통해 보호하고 연구하는 해양생물 사례를 소개합니다</p>
+              <p class="m-fig-section-copy">
+                <strong>보호가 필요한 해양생물</strong>들을 체계적으로 관리하고 연구합니다<br>
+                <strong>건강한 개체군 유지</strong>와 <strong>생물다양성 보전</strong>을 위해 노력하고 있습니다
+              </p>
+            </div>
+            <div class="marin-node m-fig-species-row">
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777.png" alt=""><span>고래류</span></div>
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777-1.png" alt=""><span>기각류</span></div>
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/image 217 [Vectorized].png" alt=""><span>수달</span></div>
+              <div class="m-fig-species is-active"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777-2.png" alt=""><span>펭귄류</span></div>
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482903.png" alt=""><span>바다거북</span></div>
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482946.png" alt=""><span>해마와 해룡</span></div>
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777-3.png" alt=""><span>상어류</span></div>
+            </div>
+            <article class="marin-node m-fig-otter-card">
+              <img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_04_01.png" alt="Penguin">
+              <div class="m-fig-side-panel"></div>
+              <div class="m-fig-otter-text">
+                <p class="m-fig-card-en">Penguin</p>
+                <p class="m-fig-card-kr">펭귄</p>
+                <p class="m-fig-card-desc">기후변화로 인해 남극의 환경이 훼손되며 남극에<br>서식하는 펭귄들의 숫자가 빠른 속도로<br>줄어가고 있습니다.<br>남극조약 협의당사국 회의를 통해 세종기지 옆<br>해안 언덕에 서식하는 펭귄을 포함한 생물들을<br>맡아 관리하게 되었습니다.</p>
+              </div>
+            </article>
+          </section>
+
+          <section class="marin-node m-fig-con06">
+            <div class="marin-node m-fig-title m-fig-section-head">
+              <h2 class="m-fig-title__main">
+                <span class="m-fig-title__serif">Conservation</span><span class="m-fig-title__plain"> Cases</span>
+              </h2>
+              <p class="m-fig-title__sub">보전 활동을 통해 보호하고 연구하는 해양생물 사례를 소개합니다</p>
+              <p class="m-fig-section-copy">
+                <strong>보호가 필요한 해양생물</strong>들을 체계적으로 관리하고 연구합니다<br>
+                <strong>건강한 개체군 유지</strong>와 <strong>생물다양성 보전</strong>을 위해 노력하고 있습니다
+              </p>
+            </div>
+            <div class="marin-node m-fig-species-row">
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777.png" alt=""><span>고래류</span></div>
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777-1.png" alt=""><span>기각류</span></div>
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/image 217 [Vectorized].png" alt=""><span>수달</span></div>
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777-2.png" alt=""><span>펭귄류</span></div>
+              <div class="m-fig-species is-active"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482903.png" alt=""><span>바다거북</span></div>
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482946.png" alt=""><span>해마와 해룡</span></div>
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777-3.png" alt=""><span>상어류</span></div>
+            </div>
+            <article class="marin-node m-fig-otter-card">
+              <img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_05_01.png" alt="Sea Turtle">
+              <div class="m-fig-side-panel"></div>
+              <div class="m-fig-otter-text">
+                <p class="m-fig-card-en">Sea Turtle</p>
+                <p class="m-fig-card-kr">바다거북</p>
+                <p class="m-fig-card-desc">바다 거북이에 의해 풍성해진 해초밭은<br>다양한 해양생물의 은신처가 되어<br>생태계를 풍부하게 만들어줍니다.<br>우리나라에서는 4종의 바다거북이<br>2013년 해양수산부에서 지정하는<br>보호대상해양생물로 신규 지정되었습니다.</p>
+              </div>
+            </article>
+          </section>
+
+          <section class="marin-node m-fig-con07">
+            <div class="marin-node m-fig-title m-fig-section-head">
+              <h2 class="m-fig-title__main">
+                <span class="m-fig-title__serif">Conservation</span><span class="m-fig-title__plain"> Cases</span>
+              </h2>
+              <p class="m-fig-title__sub">보전 활동을 통해 보호하고 연구하는 해양생물 사례를 소개합니다</p>
+              <p class="m-fig-section-copy">
+                <strong>보호가 필요한 해양생물</strong>들을 체계적으로 관리하고 연구합니다<br>
+                <strong>건강한 개체군 유지</strong>와 <strong>생물다양성 보전</strong>을 위해 노력하고 있습니다
+              </p>
+            </div>
+            <div class="marin-node m-fig-species-row">
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777.png" alt=""><span>고래류</span></div>
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777-1.png" alt=""><span>기각류</span></div>
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/image 217 [Vectorized].png" alt=""><span>수달</span></div>
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777-2.png" alt=""><span>펭귄류</span></div>
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482903.png" alt=""><span>바다거북</span></div>
+              <div class="m-fig-species is-active"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482946.png" alt=""><span>해마와 해룡</span></div>
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777-3.png" alt=""><span>상어류</span></div>
+            </div>
+            <article class="marin-node m-fig-flip-card m-fig-flip-card--seahorse">
+              <img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_06_01.png" alt="Seahorse">
+              <div class="m-fig-flip-caption"><p class="m-fig-card-en">Seahorse</p><p class="m-fig-card-kr">해마</p></div>
+            </article>
+            <article class="marin-node m-fig-flip-card m-fig-flip-card--sea-dragon">
+              <img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_06_02.png" alt="Sea Dragon">
+              <div class="m-fig-flip-caption"><p class="m-fig-card-en">Sea dragon</p><p class="m-fig-card-kr">해룡</p></div>
+            </article>
+            <article class="marin-node m-fig-flip-card m-fig-flip-card--seahorse-detail is-detail">
+              <img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_06_01.png" alt="Seahorse detail">
+              <div class="m-fig-flip-caption"><p class="m-fig-card-en">Seahorse</p><p class="m-fig-card-kr">해마</p><p class="m-fig-card-desc">1990년대 이후 해마는 빠른 속도로<br>감소하기에 이르렀습니다.<br>CITES 동물군에 포함되었지만, 불법적으로<br>거래가 이루어지고 있는 상황입니다.<br>우리나라에서는 가시해마와 복해마를<br>보호대상해양생물로 지정 보호하고 있습니다.</p></div>
+            </article>
+            <article class="marin-node m-fig-flip-card m-fig-flip-card--sea-dragon-detail is-detail">
+              <img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_06_02.png" alt="Sea Dragon detail">
+              <div class="m-fig-flip-caption"><p class="m-fig-card-en">Sea dragon</p><p class="m-fig-card-kr">해룡</p><p class="m-fig-card-desc">해룡은 움직임이 느려,<br>쉽게 천적의 공격을 받기 때문에<br>성체가 되는 개체는 많지 않은 생물입니다.<br>또한 서식지가 오염됨에 따라 개체 수가<br>줄어들고 있는 상황입니다.<br>오스트레일리아의 해안에만 있는 어류로<br>수출을 금하며 보호하고 있는 어류입니다.</p></div>
+            </article>
+          </section>
+
+          <section class="marin-node m-fig-con08">
+            <div class="marin-node m-fig-title m-fig-section-head">
+              <h2 class="m-fig-title__main">
+                <span class="m-fig-title__serif">Conservation</span><span class="m-fig-title__plain"> Cases</span>
+              </h2>
+              <p class="m-fig-title__sub">보전 활동을 통해 보호하고 연구하는 해양생물 사례를 소개합니다</p>
+              <p class="m-fig-section-copy">
+                <strong>보호가 필요한 해양생물</strong>들을 체계적으로 관리하고 연구합니다<br>
+                <strong>건강한 개체군 유지</strong>와 <strong>생물다양성 보전</strong>을 위해 노력하고 있습니다
+              </p>
+            </div>
+            <div class="marin-node m-fig-species-row">
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777.png" alt=""><span>고래류</span></div>
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777-1.png" alt=""><span>기각류</span></div>
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/image 217 [Vectorized].png" alt=""><span>수달</span></div>
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777-2.png" alt=""><span>펭귄류</span></div>
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482903.png" alt=""><span>바다거북</span></div>
+              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482946.png" alt=""><span>해마와 해룡</span></div>
+              <div class="m-fig-species is-active"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777-3.png" alt=""><span>상어류</span></div>
+            </div>
+            <article class="marin-node m-fig-otter-card">
+              <img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_07_01.png" alt="Shark">
+              <div class="m-fig-side-panel"></div>
+              <div class="m-fig-otter-text">
+                <p class="m-fig-card-en">Shark</p>
+                <p class="m-fig-card-kr">상어</p>
+                <p class="m-fig-card-desc">상어는 사람을 먹잇감으로<br>삼지 않으며 오히려 사람에 의해 상어가<br>멸종위기에 처한 상황입니다.<br>아쿠아플라넷에서는 상어의<br>서식지외보전기관으로서 다양한 상어들의<br>보전을 위해 노력하고 있습니다.</p>
+              </div>
+            </article>
+          </section>
+        </div>
+      </section>
+
+      <section aria-label="Rescue and care activities">
+        <div class="marin-node m-title m-title--hero">
+          <h1 class="m-title__main">
+            <span class="m-title__serif">Rescue </span><span class="m-title__plain">&amp; </span><span class="m-title__serif">Care Activities</span>
+          </h1>
+          <p class="m-title__sub">구조부터 방사까지, 생명의 회복</p>
+        </div>
+        <p class="marin-node m-hero-copy">
+          아쿠아플라넷은 해양수산부 지정 해양동물전문구조ㆍ치료기관으로서 좌초 및 부상 해양생물을 구조하고 치료합니다.<br>
+          전문 인력과 보호시설을 통해 회복을 거쳐 건강하게 바다로 돌아갈 수 있도록 지원합니다.
+        </p>
+
+        <article class="marin-node m-word m-word--rescue is-active" data-step="0">
+          <div class="m-word__head"><span class="m-word__en">Rescue</span><span class="m-word__kr">: 구조</span></div>
+          <p class="m-word__desc">아쿠아플라넷은 다친 해양동물에게 첫 번째 손길을 전하며 체계적이고 신속한 구조 활동을 펼쳐 왔습니다.</p>
+        </article>
+        <article class="marin-node m-word m-word--treatment" data-step="1">
+          <div class="m-word__head"><span class="m-word__en">Treatment</span><span class="m-word__kr">: 치료</span></div>
+          <p class="m-word__desc">구조, 진단 및 치료, 회복 과정 모두 맞춤형 관리가 이어지며<br>전문적인 치료와 재활 과정을 통해 해양생물의 건강한 회복을 돕습니다.</p>
+        </article>
+        <article class="marin-node m-word m-word--rehab" data-step="2">
+          <div class="m-word__head"><span class="m-word__en">Rehabilitation</span><span class="m-word__kr">: 재활</span></div>
+          <p class="m-word__desc">구조, 진단 및 치료, 적응 훈련 등을 거쳐, 야생 복귀까지<br>전문적인 치료와 재활 과정을 통해 해양생물의 건강한 회복을 돕습니다.</p>
+        </article>
+        <article class="marin-node m-word m-word--release" data-step="3">
+          <div class="m-word__head"><span class="m-word__en">Release</span><span class="m-word__kr">: 야생 방사</span></div>
+          <p class="m-word__desc">구조, 진단 및 치료, 회복 이후 방사 여부를 검토하며<br>전문적인 치료와 재활 과정을 통해 해양생물의 건강한 회복을 돕습니다.</p>
+        </article>
+      </section>
+
+      <section class="marin-node m-con02" aria-label="Rescue and care cases"></section>
+
+      <div class="marin-node m-title m-title--cases">
+        <h2 class="m-title__main">
+          <span class="m-title__serif">Rescue </span><span class="m-title__plain">&amp; </span><span class="m-title__serif">Care Cases</span>
+        </h2>
+        <p class="m-title__sub">구조, 치료를 통해 보호한 해양생물 사례를 소개합니다</p>
+      </div>
+      <p class="marin-node m-cases-copy">
+        제주 바다에서 구조된 <strong>돌고래</strong>들의 이야기입니다<br>
+        구조와 치료를 거쳐 다시 바다를 향한 여정을 이어갑니다
+      </p>
+      <nav class="marin-node m-pill-tabs m-pill-tabs--cases" aria-label="사례 분류">
+        <button class="m-pill m-pill--active" type="button" data-case-category="dolphin">Dolphin</button>
+        <button class="m-pill" type="button" data-case-category="turtle">SeaTurtle</button>
+        <button class="m-pill" type="button" data-case-category="others">Others</button>
+      </nav>
+
+      <article class="m-case m-case--1 is-active" data-case="0">
+        <div class="m-case__head"><span>2018.04.26</span><span>구조일지</span></div>
+        <dl>
+          <div class="m-case__row"><dt>구조 대상</dt><dd>뱀머리돌고래 Steno bredanensis</dd></div>
+          <div class="m-case__row"><dt>구조 장소</dt><dd>여수시 돌산읍 우두리 내항</dd></div>
+          <div class="m-case__row"><dt>구조 과정</dt><dd>좌초 개체로 피부 외상이 있어 응급조치 후 이송 치료</dd></div>
+        </dl>
+      </article>
+
+      <article class="m-case m-case--2" data-case="1">
+        <div class="m-case__head"><span>2017.07.17</span><span>구조일지</span></div>
+        <dl>
+          <div class="m-case__row"><dt>구조 대상</dt><dd>남방큰돌고래 Tursiops aduncus</dd></div>
+          <div class="m-case__row"><dt>구조 장소</dt><dd>제주시 구좌읍 하도리 연안</dd></div>
+          <div class="m-case__row"><dt>구조 과정</dt><dd>얕은 수역에 머문 개체를 안전하게 관찰 후 유도</dd></div>
+        </dl>
+      </article>
+
+      <article class="m-case m-case--3" data-case="2">
+        <div class="m-case__head"><span>2015.08.20</span><span>구조일지</span></div>
+        <dl>
+          <div class="m-case__row"><dt>구조 대상</dt><dd>남방큰돌고래 Tursiops aduncus</dd></div>
+          <div class="m-case__row"><dt>구조 장소</dt><dd>제주시 구좌읍 하도리</dd></div>
+          <div class="m-case__row"><dt>구조 과정</dt><dd>연안에 머문 개체의 상태를 확인 후 방류</dd></div>
+        </dl>
+      </article>
+
+      <article class="m-case m-case--4" data-case="3">
+        <div class="m-case__head"><span>2015.07.18</span><span>구조일지</span></div>
+        <dl>
+          <div class="m-case__row"><dt>구조 대상</dt><dd>남방큰돌고래 Tursiops aduncus</dd></div>
+          <div class="m-case__row"><dt>구조 장소</dt><dd>제주 구좌읍 하도리 해안</dd></div>
+          <div class="m-case__row"><dt>구조 과정</dt><dd>연안에 머문 개체의 움직임을 확인하고 자연 방류</dd></div>
+        </dl>
+      </article>
+
+      <article class="m-case m-case--5" data-case="4">
+        <div class="m-case__head"><span>2014.04.02</span><span>구조일지</span></div>
+        <dl>
+          <div class="m-case__row"><dt>구조 대상</dt><dd>상괭이</dd></div>
+          <div class="m-case__row"><dt>구조 장소</dt><dd>제주 해역</dd></div>
+          <div class="m-case__row"><dt>구조 과정</dt><dd>현장 관찰 및 이송 치료 가능성 검토 후 보호 조치 실행</dd></div>
+        </dl>
+      </article>
+
+      <article class="m-case m-case--6" data-case="5">
+        <div class="m-case__head"><span>2013.08.17</span><span>구조일지</span></div>
+        <dl>
+          <div class="m-case__row"><dt>구조 대상</dt><dd>남방큰돌고래 Tursiops aduncus</dd></div>
+          <div class="m-case__row"><dt>구조 장소</dt><dd>제주 해역</dd></div>
+          <div class="m-case__row"><dt>구조 과정</dt><dd>해양생물 보호기관 협력 하에 구조 및 방류 진행</dd></div>
+        </dl>
+      </article>
+
+      <figure class="m-img m-img--a is-active" data-case-img="0"><img src="assets/images/sec.aboutus/marinlab/image 171.png" alt="2018 구조 사례 사진"><figcaption class="m-img__name">돌고래</figcaption></figure>
+      <figure class="m-img m-img--b" data-case-img="1"><img src="assets/images/sec.aboutus/marinlab/image 172.png" alt="2017 구조 사례 사진"><figcaption class="m-img__name">돌고래</figcaption></figure>
+      <figure class="m-img m-img--c" data-case-img="2"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482988.png" alt="2015 구조 사례 사진"><figcaption class="m-img__name">돌고래</figcaption></figure>
+      <figure class="m-img m-img--d" data-case-img="3"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482989.png" alt="2013 구조 사례 사진"><figcaption class="m-img__name">돌고래</figcaption></figure>
+      <figure class="m-img m-img--e" data-case-img="4"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482990.png" alt="2012 구조 사례 사진"><figcaption class="m-img__name">돌고래</figcaption></figure>
+
+      <div class="marin-node m-footer-blank"></div>
+    </div>
+    <p class="m-mobile-note">Figma 원본 1920px 캔버스를 화면 폭에 맞춰 축소 표시합니다.</p>
+  </main>
+
+  <footer id="footer" class="footer">
+    <div class="footer__inner">
+      <nav class="footer__nav" aria-label="푸터 메뉴">
+        <a href="index.html#sec-program" class="footer__link">Program</a>
+        <a href="index.html#sec-crew" class="footer__link">Ocean friends</a>
+        <a href="index.html" class="footer__link">About us</a>
+        <a href="location.html" class="footer__link">Location</a>
+        <a href="index.html#sec-booking" class="footer__link">Ticket</a>
+      </nav>
+
+      <div class="footer__brand">
+        <div class="footer__socials" aria-label="소셜 링크">
+          <a href="https://www.instagram.com/aquaplanet_official" class="footer__social" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="4" y="4" width="16" height="16" rx="5"></rect>
+              <circle cx="12" cy="12" r="3.4"></circle>
+              <circle cx="17.2" cy="6.8" r="1"></circle>
+            </svg>
+          </a>
+          <a href="https://www.youtube.com/@aquaplanetstory" class="footer__social" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5.2 7.2C5.6 6.5 6.3 6 7.1 5.9C8.4 5.7 10.5 5.6 12 5.6C13.5 5.6 15.6 5.7 16.9 5.9C17.7 6 18.4 6.5 18.8 7.2C19.2 8.1 19.4 10.2 19.4 12C19.4 13.8 19.2 15.9 18.8 16.8C18.4 17.5 17.7 18 16.9 18.1C15.6 18.3 13.5 18.4 12 18.4C10.5 18.4 8.4 18.3 7.1 18.1C6.3 18 5.6 17.5 5.2 16.8C4.8 15.9 4.6 13.8 4.6 12C4.6 10.2 4.8 8.1 5.2 7.2Z"></path>
+              <path d="M10.4 9.3L14.7 12L10.4 14.7V9.3Z" class="footer__social-play"></path>
+            </svg>
+          </a>
+          <a href="https://www.aquaplanet.co.kr/index.html" class="footer__social" target="_blank" rel="noopener noreferrer" aria-label="Google">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M19.6 12.2C19.6 11.6 19.5 11.1 19.4 10.6H12.2V13.5H16.3C16.1 14.5 15.5 15.3 14.7 15.8V17.7H17.2C18.7 16.4 19.6 14.5 19.6 12.2Z"></path>
+              <path d="M12.2 19.7C14.3 19.7 16.1 19 17.2 17.7L14.7 15.8C14 16.3 13.1 16.6 12.2 16.6C10.2 16.6 8.5 15.2 7.9 13.4H5.3V15.3C6.5 17.9 9.1 19.7 12.2 19.7Z"></path>
+              <path d="M7.9 13.4C7.7 12.9 7.6 12.5 7.6 12C7.6 11.5 7.7 11.1 7.9 10.6V8.7H5.3C4.8 9.7 4.5 10.8 4.5 12C4.5 13.2 4.8 14.3 5.3 15.3L7.9 13.4Z"></path>
+              <path d="M12.2 7.4C13.3 7.4 14.4 7.8 15.2 8.6L17.3 6.5C16 5.3 14.3 4.6 12.2 4.6C9.1 4.6 6.5 6.3 5.3 8.7L7.9 10.6C8.5 8.8 10.2 7.4 12.2 7.4Z"></path>
+            </svg>
+          </a>
+        </div>
+        <p class="footer__copy">Aqua Planet. ©2026 All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <div id="custom-cursor" aria-hidden="true"></div>
+
+  <script>
+    (function () {
+      var scale = 1;
+      var raf = 0;
+      var words = Array.from(document.querySelectorAll('.m-word[data-step]'));
+      var cases = Array.from(document.querySelectorAll('.m-case[data-case]'));
+      var caseImgs = Array.from(document.querySelectorAll('.m-img[data-case-img]'));
+      var caseTabs = Array.from(document.querySelectorAll('[data-case-category]'));
+      var casesCopy = document.querySelector('.m-cases-copy');
+      var shell = document.querySelector('.marin-shell');
+      var currentStageHeight = 6769;
+      var gnb = document.getElementById('gnb');
+      var wheelTarget = window.scrollY;
+      var wheelRaf = 0;
+      var activeWordIndex = 0;
+      var activeCaseIndex = 0;
+      var pendingCaseIndex = 0;
+      var caseSwitchTimer = 0;
+      var activeCaseCategory = 'dolphin';
+      var whaleSharkFixedImg = document.createElement('figure');
+      whaleSharkFixedImg.className = 'm-img-fixed';
+      whaleSharkFixedImg.innerHTML = '<img src="" alt=""><figcaption class="m-img__name"></figcaption>';
+      document.body.appendChild(whaleSharkFixedImg);
+
+      cases.forEach(function (node) {
+        document.body.appendChild(node);
+      });
+
+      var caseDatasets = {
+        dolphin: {
+          subject: '돌고래',
+          cases: cases.map(function (node) {
+            return {
+              date: node.querySelector('.m-case__head span:first-child')?.textContent || '',
+              label: node.querySelector('.m-case__head span:last-child')?.textContent || '구조일지',
+              rows: Array.from(node.querySelectorAll('.m-case__row')).map(function (row) {
+                return {
+                  term: row.querySelector('dt')?.textContent || '',
+                  value: row.querySelector('dd')?.innerHTML || ''
+                };
+              })
+            };
+          }),
+          images: caseImgs.map(function (node) {
+            var img = node.querySelector('img');
+            return { src: img?.getAttribute('src') || '', alt: img?.getAttribute('alt') || '', name: '돌고래' };
+          })
+        },
+        turtle: {
+          subject: '바다거북',
+          cases: [
+            {
+              date: '2017.11.25',
+              label: '구조일지',
+              rows: [
+                { term: '구조 대상', value: '붉은바다거북 Caretta Caretta' },
+                { term: '구조 장소', value: '강원도 삼척시 장호항' },
+                { term: '구조 과정', value: '이물 제거 및 상처부위 소독 치료' }
+              ]
+            },
+            {
+              date: '2016.12.19',
+              label: '구조일지',
+              rows: [
+                { term: '구조 대상', value: '매부리바다거북 Eretmochelys imbricata' },
+                { term: '구조 장소', value: '경상남도 하동시 금남면 인근 연안' },
+                { term: '구조 과정', value: '어민 선박 유획 중 수면에 떠 있는 상태로 발견,<br>행동 저하 및 잠영 불가로 이송 치료' }
+              ]
+            },
+            {
+              date: '2015.08.07',
+              label: '구조일지',
+              rows: [
+                { term: '구조 대상', value: '푸른바다거북 Chelonia mydas' },
+                { term: '구조 장소', value: '서귀포시 성산읍 신산리 정치망' },
+                { term: '구조 과정', value: '미약한 상처로 확인 후 즉시 방류' }
+              ]
+            },
+            {
+              date: '2014.08.07',
+              label: '구조일지',
+              rows: [
+                { term: '구조 대상', value: '푸른바다거북 Chelonia mydas 2마리' },
+                { term: '구조 장소', value: '국립수산과학 미래양식연구센터' },
+                { term: '구조 과정', value: '1. 미래양식연구센터에서 당사 반입<br>2. 괴사 진행 확인 및 항생제 치료<br>3. 소독치료 진행 중' },
+                { term: '수의사 검진 내용', value: '등갑 사이와 꼬리, 배갑 사이 괴사 심각,<br>사지 일부에 괴사 확인' }
+              ]
+            },
+            {
+              date: '2012.09.25',
+              label: '구조일지',
+              rows: [
+                { term: '구조 대상', value: '푸른바다거북 1마리(갑장 72cm, 암컷)' },
+                { term: '구조 장소', value: '서귀포시 신산리' },
+                { term: '구조 과정', value: '어부로부터 정치망에 걸린 바다거북 목격<br>1. 아쿠아플라넷으로 구조 요청<br>2. 제주도청 및 제주해양경찰청에 신고<br>3. 구조차량 이동 후 구조 시작' }
+              ]
+            }
+          ],
+          images: [
+            { src: 'assets/images/sec.aboutus/marinlab/turtle-case-20171125.png', alt: '2017 바다거북 구조 사례 사진', name: '바다거북' },
+            { src: 'assets/images/sec.aboutus/marinlab/turtle-case-20161219.png', alt: '2016 바다거북 구조 사례 사진', name: '바다거북' },
+            { src: 'assets/images/sec.aboutus/marinlab/turtle-case-20150807.png', alt: '2015 바다거북 구조 사례 사진', name: '바다거북' },
+            { src: 'assets/images/sec.aboutus/marinlab/turtle-case-20140807.png', alt: '2014 바다거북 구조 사례 사진', name: '바다거북' },
+            { src: 'assets/images/sec.aboutus/marinlab/turtle-case-20120925.png', alt: '2012 바다거북 구조 사례 사진', name: '바다거북' }
+          ]
+        },
+        others: {
+          subject: '해양생물',
+          cases: [
+            {
+              date: '2017.10.29',
+              label: '구조일지',
+              rows: [
+                { term: '구조 대상', value: '고래상어 Rhincodon typus' },
+                { term: '구조 장소', value: '완도 여객터미널 인근 해역' },
+                { term: '구조 과정', value: '인근 공사현장에 들여와 갇혀있는 개체 자립 탈출 유도' }
+              ]
+            },
+            {
+              date: '2017.09.13',
+              label: '구조일지',
+              rows: [
+                { term: '구조 대상', value: '고래상어 Rhincodon typus' },
+                { term: '구조 장소', value: '강원도 삼척시 초곡항' },
+                { term: '구조 과정', value: '정치망 혼획 개체로 그물에 일부 긁힌 상처 외 유영 상태 및 활력이 양호하여 현장 즉시 방류' }
+              ]
+            },
+            {
+              date: '2012.01.14',
+              label: '구조일지',
+              rows: [
+                { term: '구조 대상', value: '유라시아수달 1마리' },
+                { term: '구조 장소', value: '전남 여수시 수정동 엑스포 인근 도로' },
+                { term: '구조 개체의 상태', value: '차량에 치어 척추손상으로 인한 증상' },
+                { term: '구조 과정', value: '시민으로부터 수달 구조 신고 접수<br>1. 순천 야생동물보호센터 구조 신청<br>2. 현장 확인 후 생물 포획하여 응급조치(음수 제공 및 보온, 생물 안정화 주력)<br>3. 순천 야생동물 보호센터에 생물 인수인계' }
+              ]
+            },
+            {
+              date: '2015.02.17',
+              label: '구조일지',
+              rows: [
+                { term: '구조 대상', value: '나팔고둥 Charonia sauliae' },
+                { term: '구조 장소', value: '전남 여수시에 위치한 횟집' },
+                { term: '구조 과정', value: '1. 여수 인근 해역에서 채집되어 상인에게 판매되기 전 수조에서 발견<br>2. 서식가능 지역 판단<br>3. 용천 인공해수욕장 옆 인공방파제쪽 수심 1m 지점에 방류' }
+              ]
+            },
+            {
+              date: '2013.11.24',
+              label: '구조일지',
+              rows: [
+                { term: '구조 대상', value: '나팔고둥 Charonia sauliae' },
+                { term: '구조 장소', value: '제주도 서귀포시 성산읍 인근 해녀의 집' },
+                { term: '구조 과정', value: '1. 해녀의집 수조에 있는 생물 발견<br>2. 예비수조 내 격리공간 마련 후 환경조성<br>3. 불가사리 급이 후 섭이 확인<br>4. 개체 생태 연구 진행 중' }
+              ]
+            }
+          ],
+          images: [
+            { src: 'assets/images/sec.aboutus/marinlab/whale-shark-case.png', alt: '고래상어 구조 사례 사진', name: '고래상어' },
+            { src: 'assets/images/sec.aboutus/marinlab/otter-case.png', alt: '수달 구조 사례 사진', name: '수달' },
+            { src: 'assets/images/sec.aboutus/marinlab/triton-case-20150217.png', alt: '나팔고둥 구조 사례 사진', name: '나팔고둥' },
+            { src: 'assets/images/sec.aboutus/marinlab/triton-case-20131124.png', alt: '나팔고둥 구조 사례 사진', name: '나팔고둥' }
+          ],
+          imageSlots: [0, null, 1, 2, 3]
+        }
+      };
+
+      function clamp(value, min, max) {
+        return Math.max(min, Math.min(max, value));
+      }
+
+      function fitStage() {
+        scale = window.innerWidth / 1920;
+        document.documentElement.style.setProperty('--marin-scale', String(scale));
+        if (shell) shell.style.height = (currentStageHeight * scale) + 'px';
+        updateScrollState();
+      }
+
+      function setActive(nodes, attr, activeIndex) {
+        nodes.forEach(function (node) {
+          node.classList.toggle('is-active', Number(node.getAttribute(attr)) === activeIndex);
+        });
+      }
+
+      function setActiveWord(nextIndex) {
+        setActive(words, 'data-step', nextIndex);
+        activeWordIndex = nextIndex;
+      }
+
+      function setActiveCase(nextIndex) {
+        if (nextIndex === activeCaseIndex || nextIndex === pendingCaseIndex) return;
+
+        window.clearTimeout(caseSwitchTimer);
+        pendingCaseIndex = nextIndex;
+        setActive(cases, 'data-case', pendingCaseIndex);
+        cases.forEach(function (node) {
+          node.classList.remove('is-hiding');
+        });
+        activeCaseIndex = pendingCaseIndex;
+      }
+
+      function renderCases(category) {
+        var dataset = caseDatasets[category];
+        if (!dataset || category === activeCaseCategory) return;
+
+        window.clearTimeout(caseSwitchTimer);
+        activeCaseCategory = category;
+        activeCaseIndex = 0;
+        pendingCaseIndex = 0;
+        document.body.classList.toggle('marin-cases-others-active', category === 'others');
+
+        if (casesCopy) {
+          casesCopy.innerHTML =
+            '제주 바다에서 구조된 <strong>' + dataset.subject + '</strong>들의 이야기입니다<br>' +
+            '구조와 치료를 거쳐 다시 바다를 향한 여정을 이어갑니다';
+        }
+
+        cases.forEach(function (node, index) {
+          var item = dataset.cases[index];
+          if (!item) {
+            node.classList.remove('is-active', 'is-hiding');
+            return;
+          }
+
+          var head = node.querySelector('.m-case__head');
+          var dl = node.querySelector('dl');
+          if (head) {
+            head.innerHTML = '<span>' + item.date + '</span><span>' + item.label + '</span>';
+          }
+          if (dl) {
+            dl.innerHTML = item.rows.map(function (row) {
+              return '<div class="m-case__row"><dt>' + row.term + '</dt><dd>' + row.value + '</dd></div>';
+            }).join('');
+          }
+          node.classList.toggle('is-active', index === 0);
+          node.classList.remove('is-hiding');
+        });
+
+        caseImgs.forEach(function (node, index) {
+          var imageSlot = Array.isArray(dataset.imageSlots) ? dataset.imageSlots[index] : index;
+          var isHiddenMarker = imageSlot === null;
+          var image = isHiddenMarker ? null : (dataset.images[imageSlot] || dataset.images[dataset.images.length - 1]);
+          var img = node.querySelector('img');
+          var name = node.querySelector('.m-img__name');
+          node.classList.toggle('m-img--hidden-marker', isHiddenMarker);
+          node.style.setProperty('--case-img-offset', '0');
+          if (img && image) {
+            img.src = image.src;
+            img.alt = image.alt;
+          }
+          if (name && image) {
+            name.textContent = image.name || dataset.subject;
+          }
+          node.classList.toggle('is-active', index === 0);
+        });
+
+        var fixedImage = category === 'others' ? dataset.images[0] : null;
+        var fixedImg = whaleSharkFixedImg.querySelector('img');
+        var fixedName = whaleSharkFixedImg.querySelector('.m-img__name');
+        if (fixedImage && fixedImg) {
+          fixedImg.src = fixedImage.src;
+          fixedImg.alt = fixedImage.alt;
+        }
+        if (fixedImage && fixedName) {
+          fixedName.textContent = fixedImage.name || dataset.subject;
+        }
+        whaleSharkFixedImg.classList.remove('is-active');
+
+        caseTabs.forEach(function (tab) {
+          tab.classList.toggle('m-pill--active', tab.getAttribute('data-case-category') === category);
+        });
+        updateScrollState();
+      }
+
+      function updateScrollState() {
+        raf = 0;
+        var designY = window.scrollY / scale;
+
+        if (gnb) gnb.classList.toggle('is-scrolled', window.scrollY > 80);
+        document.body.classList.toggle('marin-header-light', designY > 2100 && designY < 6420);
+        document.body.classList.toggle('marin-activities-exiting', designY > 1760);
+        document.body.classList.toggle('marin-cases-title-visible', designY > 1860);
+        document.body.classList.toggle('marin-cases-content-visible', designY > 2140);
+
+        var activityMarkerY = designY + (window.innerHeight / scale) * 0.56;
+        var wordIndex = 0;
+        if (activityMarkerY > 874) wordIndex = 1;
+        if (activityMarkerY > 1212) wordIndex = 2;
+        if (activityMarkerY > 1587) wordIndex = 3;
+        setActiveWord(wordIndex);
+
+        var viewportCenterY = designY + (window.innerHeight / scale) * 0.5;
+        var nearestImgIndex = 0;
+        var nearestImgDistance = Infinity;
+        var imageDistances = [];
+        var imageCenters = [];
+
+        caseImgs.forEach(function (img) {
+          var imgTop = img.offsetTop;
+          var imgCenter = imgTop + img.offsetHeight * 0.5;
+          var distance = Math.abs(viewportCenterY - imgCenter);
+          imageCenters.push(imgCenter);
+          imageDistances.push(distance);
+          if (distance < nearestImgDistance) {
+            nearestImgDistance = distance;
+            nearestImgIndex = Number(img.getAttribute('data-case-img')) || 0;
+          }
+        });
+
+        var caseIndex = nearestImgIndex;
+        var activeImgIndex = caseIndex;
+        var whaleSharkPinned = activeCaseCategory === 'others' && caseIndex <= 1 && caseImgs[0] && caseImgs[1];
+        var whaleSharkRangeDistance = imageDistances[0] || 0;
+
+        if (whaleSharkPinned) {
+          var firstCenter = imageCenters[0];
+          var secondCenter = imageCenters[1];
+          whaleSharkRangeDistance = viewportCenterY < firstCenter
+            ? firstCenter - viewportCenterY
+            : viewportCenterY > secondCenter
+              ? viewportCenterY - secondCenter
+              : 0;
+          activeImgIndex = 0;
+        }
+
+        caseImgs.forEach(function (img, index) {
+          var distance = imageDistances[index];
+          var focus = 1 - clamp(distance / 330, 0, 1);
+          var easedFocus = 1 - Math.pow(1 - focus, 4);
+          img.style.setProperty('--case-img-opacity', String((0.18 + easedFocus * 0.82).toFixed(3)));
+          img.style.setProperty('--case-img-saturation', String((0.58 + easedFocus * 0.42).toFixed(3)));
+          img.style.setProperty('--case-img-blur', (7 - easedFocus * 7).toFixed(2) + 'px');
+          img.style.setProperty('--case-img-offset', '0');
+          img.classList.toggle('m-img--pinned-source', whaleSharkPinned && index === 0);
+          img.classList.toggle('m-img--suppressed', whaleSharkPinned && index > 0);
+        });
+
+        var textVisible = whaleSharkPinned ? whaleSharkRangeDistance < 190 : nearestImgDistance < 190;
+        var fixedFocus = 1 - clamp(whaleSharkRangeDistance / 330, 0, 1);
+        var fixedEasedFocus = 1 - Math.pow(1 - fixedFocus, 4);
+        whaleSharkFixedImg.style.setProperty('--case-img-opacity', String((0.18 + fixedEasedFocus * 0.82).toFixed(3)));
+        whaleSharkFixedImg.style.setProperty('--case-img-saturation', String((0.58 + fixedEasedFocus * 0.42).toFixed(3)));
+        whaleSharkFixedImg.style.setProperty('--case-img-blur', (7 - fixedEasedFocus * 7).toFixed(2) + 'px');
+        whaleSharkFixedImg.classList.toggle('is-active', whaleSharkPinned && textVisible);
+
+        document.body.classList.toggle('marin-case-text-visible', textVisible);
+        setActiveCase(caseIndex);
+        setActive(caseImgs, 'data-case-img', activeImgIndex);
+
+      }
+
+      function requestUpdate() {
+        if (raf) return;
+        raf = window.requestAnimationFrame(updateScrollState);
+      }
+
+      function maxScrollY() {
+        return Math.max(
+          0,
+          document.documentElement.scrollHeight - window.innerHeight,
+          document.body.scrollHeight - window.innerHeight
+        );
+      }
+
+      function animateWheelScroll() {
+        var current = window.scrollY;
+        var diff = wheelTarget - current;
+
+        if (Math.abs(diff) < 0.6) {
+          window.scrollTo(0, wheelTarget);
+          wheelRaf = 0;
+          requestUpdate();
+          return;
+        }
+
+        window.scrollTo(0, current + diff * 0.09);
+        requestUpdate();
+        wheelRaf = window.requestAnimationFrame(animateWheelScroll);
+      }
+
+      window.addEventListener('wheel', function (e) {
+        if (e.ctrlKey) return;
+        e.preventDefault();
+        wheelTarget = clamp(wheelTarget + e.deltaY * 0.72, 0, maxScrollY());
+        if (!wheelRaf) wheelRaf = window.requestAnimationFrame(animateWheelScroll);
+      }, { passive: false });
+
+      window.addEventListener('resize', fitStage, { passive: true });
+      window.addEventListener('scroll', function () {
+        if (!wheelRaf) wheelTarget = window.scrollY;
+        requestUpdate();
+      }, { passive: true });
+      caseTabs.forEach(function (tab) {
+        tab.addEventListener('click', function () {
+          var category = tab.getAttribute('data-case-category');
+          renderCases(category);
+        });
+      });
+      fitStage();
+    })();
+
+    (function () {
+      if (window.matchMedia('(hover: none)').matches) return;
+      var el = document.getElementById('custom-cursor');
+      if (!el) return;
+
+      var half = 17;
+      var tx = -200;
+      var ty = -200;
+      var cx = -200;
+      var cy = -200;
+      var firstMove = false;
+
+      function currentScale() {
+        var raw = getComputedStyle(document.documentElement).getPropertyValue('--marin-scale');
+        var parsed = Number(raw);
+        return Number.isFinite(parsed) && parsed > 0 ? parsed : 1;
+      }
+
+      function isOnLightArea(clientY) {
+        var designY = (window.scrollY + clientY) / currentScale();
+        return designY > 520 && designY < 6420;
+      }
+
+      window.addEventListener('mousemove', function (e) {
+        tx = e.clientX;
+        ty = e.clientY;
+        if (!firstMove) {
+          firstMove = true;
+          cx = tx;
+          cy = ty;
+          el.style.opacity = '1';
+        }
+
+        var hit = document.elementFromPoint(e.clientX, e.clientY);
+        var overInteractive = !!(hit && hit.closest('a, button, [role="button"]'));
+        el.classList.toggle('is-hovering', overInteractive);
+        el.classList.toggle('is-over-light', isOnLightArea(e.clientY));
+      }, { passive: true });
+
+      document.addEventListener('mouseleave', function () {
+        el.style.opacity = '0';
+      });
+
+      document.addEventListener('mouseenter', function () {
+        if (firstMove) el.style.opacity = '1';
+      });
+
+      document.addEventListener('mousedown', function () {
+        el.classList.add('is-clicking');
+      });
+
+      document.addEventListener('mouseup', function () {
+        el.classList.remove('is-clicking');
+      });
+
+      (function loop() {
+        cx += (tx - cx) * 0.2;
+        cy += (ty - cy) * 0.2;
+        el.style.transform = 'translate(' + (cx - half).toFixed(1) + 'px,' + (cy - half).toFixed(1) + 'px)';
+        window.requestAnimationFrame(loop);
+      })();
+    })();
+  </script>
+  <script>
+    (function () {
+      var stage = document.querySelector('.marin-stage');
+      var shell = document.querySelector('.marin-shell');
+      var viewTabs = Array.from(document.querySelectorAll('[data-marin-view]'));
+      var caseTabs = Array.from(document.querySelectorAll('[data-case-category]'));
+      var heroTitle = document.querySelector('.m-title--hero .m-title__main');
+      var heroSub = document.querySelector('.m-title--hero .m-title__sub');
+      var heroCopy = document.querySelector('.m-hero-copy');
+      var casesTitle = document.querySelector('.m-title--cases .m-title__main');
+      var casesSub = document.querySelector('.m-title--cases .m-title__sub');
+      var casesCopy = document.querySelector('.m-cases-copy');
+      var words = Array.from(document.querySelectorAll('.m-word[data-step]'));
+      var cases = Array.from(document.querySelectorAll('.m-case[data-case]'));
+      var caseImgs = Array.from(document.querySelectorAll('.m-img[data-case-img]'));
+      var figCaseRows = Array.from(document.querySelectorAll('.m-figma-conservation .m-fig-species-row'));
+      var figFlipDefs = [
+        ['m-fig-flip-card--walrus', 'm-fig-flip-card--walrus-detail'],
+        ['m-fig-flip-card--sea-lion', 'm-fig-flip-card--sea-lion-detail'],
+        ['m-fig-flip-card--seal', 'm-fig-flip-card--seal-detail'],
+        ['m-fig-flip-card--seahorse', 'm-fig-flip-card--seahorse-detail'],
+        ['m-fig-flip-card--sea-dragon', 'm-fig-flip-card--sea-dragon-detail']
+      ];
+      var figFlipPairs = figFlipDefs.map(function (pair) {
+        return {
+          frontClass: pair[0],
+          backClass: pair[1],
+          front: document.querySelector('.' + pair[0] + ':not(.is-detail)'),
+          back: document.querySelector('.' + pair[1])
+        };
+      });
+      var currentView = 'rescue';
+      var currentFigCaseView = 'whale';
+      var conservationStageHeight = 3500;
+      var conservationIntroPlayed = false;
+      var conservationCasesIntroPlayed = false;
+      var lastFigFlipPointerTime = 0;
+
+      if (!viewTabs.length) return;
+
+      var rescueSnapshot = {
+        height: 6769,
+        stageLabel: stage ? stage.getAttribute('aria-label') : '',
+        heroTitle: heroTitle ? heroTitle.innerHTML : '',
+        heroSub: heroSub ? heroSub.innerHTML : '',
+        heroCopy: heroCopy ? heroCopy.innerHTML : '',
+        casesTitle: casesTitle ? casesTitle.innerHTML : '',
+        casesSub: casesSub ? casesSub.innerHTML : '',
+        casesCopy: casesCopy ? casesCopy.innerHTML : '',
+        words: words.map(function (node) { return node.innerHTML; }),
+        cases: cases.map(function (node) { return node.innerHTML; }),
+        caseImgs: caseImgs.map(function (node) { return node.innerHTML; }),
+        caseTabs: caseTabs.map(function (node) {
+          return {
+            html: node.innerHTML,
+            category: node.getAttribute('data-case-category'),
+            active: node.classList.contains('m-pill--active')
+          };
+        })
+      };
+
+      var conservationCases = {
+        cetacean: {
+          copy: '아쿠아플라넷은 고래류의 생태와 건강 상태를 지속적으로 관찰하며<br>해양 생물 다양성 보전을 위한 연구 활동을 이어갑니다.',
+          cases: [
+            { date: 'Research 01', label: '고래류 생태 모니터링', rows: [
+              ['대상', '고래류 및 해양 포유류'],
+              ['활동', '행동 패턴, 서식 환경, 개체 건강 상태 관찰'],
+              ['목표', '해양 생태계 변화에 따른 보호 기준 마련']
+            ] },
+            { date: 'Research 02', label: '해양 포유류 건강 관리', rows: [
+              ['대상', '구조 및 보호가 필요한 해양 포유류'],
+              ['활동', '검진 기록 축적과 사육 환경 데이터 분석'],
+              ['목표', '장기적인 보호 및 회복 관리 체계 강화']
+            ] },
+            { date: 'Research 03', label: '서식 환경 연구', rows: [
+              ['대상', '연안 및 수족관 내 생태 환경'],
+              ['활동', '수질, 먹이, 행동 반응 데이터 관찰'],
+              ['목표', '생물에게 적합한 환경 조성']
+            ] }
+          ],
+          images: [
+            ['assets/images/sec.aboutus/marinlab/hmbrc_pre_03_01.png', '고래류 생태 모니터링'],
+            ['assets/images/sec.aboutus/marinlab/hmbrc_pre_04_01.png', '해양 포유류 건강 관리'],
+            ['assets/images/sec.aboutus/marinlab/hmbrc_pre_05_01.png', '서식 환경 연구']
+          ]
+        },
+        turtle: {
+          copy: '멸종위기 해양생물의 보호와 번식을 위해<br>전문적인 사육 관리와 생태 연구를 진행합니다.',
+          cases: [
+            { date: 'Breeding 01', label: '바다거북 보호 연구', rows: [
+              ['대상', '바다거북류'],
+              ['활동', '성장 상태와 먹이 반응 관찰'],
+              ['목표', '안정적인 개체군 유지와 보호']
+            ] },
+            { date: 'Breeding 02', label: '개체군 유지 관리', rows: [
+              ['대상', '보호 대상 해양생물'],
+              ['활동', '번식 환경 개선 및 사육 조건 기록'],
+              ['목표', '생물다양성 보전에 기여']
+            ] }
+          ],
+          images: [
+            ['assets/images/sec.aboutus/marinlab/turtle-case-20171125.png', '바다거북 보호 연구'],
+            ['assets/images/sec.aboutus/marinlab/turtle-case-20150807.png', '개체군 유지 관리']
+          ]
+        },
+        research: {
+          copy: '해양생물의 서식 환경과 행동 특성을 연구하며<br>더 나은 보호 방법을 찾기 위한 데이터를 축적합니다.',
+          cases: [
+            { date: 'Preserve 01', label: '생물다양성 보전', rows: [
+              ['대상', '해양생물 전반'],
+              ['활동', '보호종 기록과 생태 데이터 관리'],
+              ['목표', '지속 가능한 해양 생태 보전']
+            ] },
+            { date: 'Preserve 02', label: '환경 교육 연계', rows: [
+              ['대상', '관람객 및 지역사회'],
+              ['활동', '보전 메시지 전달과 교육 콘텐츠 운영'],
+              ['목표', '해양 보호 인식 확산']
+            ] }
+          ],
+          images: [
+            ['assets/images/sec.aboutus/marinlab/hmbrc_pre_06_01.png', '생물다양성 보전'],
+            ['assets/images/sec.aboutus/marinlab/hmbrc_pre_07_01.png', '환경 교육 연계']
+          ]
+        }
+      };
+
+      var conservationWords = [
+        ['Protect', ': 해양생물 보호', '멸종위기 해양생물과 보호가 필요한 생물의 상태를 관찰하고 안전한 환경을 제공합니다.'],
+        ['Breeding', ': 개체군 유지', '전문적인 번식·사육 관리로 생물의 건강한 성장과 개체군 유지에 기여합니다.'],
+        ['Research', ': 생태 연구', '행동, 서식 환경, 건강 데이터를 바탕으로 해양 생태 보전 연구를 이어갑니다.'],
+        ['Preserve', ': 생물다양성 보전', '연구와 교육을 연결해 바다와 생명을 지키는 지속 가능한 보전 활동을 실천합니다.']
+      ];
+
+      function getScale() {
+        var parsed = Number(getComputedStyle(document.documentElement).getPropertyValue('--marin-scale'));
+        return Number.isFinite(parsed) && parsed > 0 ? parsed : window.innerWidth / 1920;
+      }
+
+      function applyHeight(height) {
+        currentStageHeight = height;
+        if (stage) stage.style.height = height + 'px';
+        if (shell) shell.style.height = (height * getScale()) + 'px';
+      }
+
+      function rowsToHtml(rows) {
+        return rows.map(function (row) {
+          return '<div class="m-case__row"><dt>' + row[0] + '</dt><dd>' + row[1] + '</dd></div>';
+        }).join('');
+      }
+
+      function renderConservationCases(category) {
+        var dataset = conservationCases[category] || conservationCases.cetacean;
+        if (casesCopy) casesCopy.innerHTML = dataset.copy;
+
+        cases.forEach(function (node, index) {
+          var item = dataset.cases[index];
+          node.style.display = item ? '' : 'none';
+          node.classList.toggle('is-active', index === 0 && !!item);
+          node.classList.remove('is-hiding');
+          if (!item) return;
+          node.innerHTML =
+            '<div class="m-case__head"><span>' + item.date + '</span><span>' + item.label + '</span></div>' +
+            '<dl>' + rowsToHtml(item.rows) + '</dl>';
+        });
+
+        caseImgs.forEach(function (node, index) {
+          var image = dataset.images[index];
+          node.style.display = image ? '' : 'none';
+          node.classList.toggle('is-active', index === 0 && !!image);
+          if (!image) return;
+          node.innerHTML = '<img src="' + image[0] + '" alt="' + image[1] + '"><figcaption class="m-img__name">' + image[1] + '</figcaption>';
+        });
+
+        caseTabs.forEach(function (tab) {
+          tab.classList.toggle('m-pill--active', tab.getAttribute('data-case-category') === category);
+        });
+      }
+
+      function renderRescue() {
+        conservationIntroPlayed = false;
+        conservationCasesIntroPlayed = false;
+        currentFigCaseView = 'whale';
+        document.body.classList.remove('marin-view-conservation', 'marin-conservation-intro', 'marin-conservation-cases-intro', 'marin-fig-species-title-mode');
+        clearFigCaseContentFade();
+        if (stage) stage.setAttribute('aria-label', rescueSnapshot.stageLabel);
+        applyHeight(rescueSnapshot.height);
+        return;
+        if (stage) stage.setAttribute('aria-label', rescueSnapshot.stageLabel);
+        if (heroTitle) heroTitle.innerHTML = rescueSnapshot.heroTitle;
+        if (heroSub) heroSub.innerHTML = rescueSnapshot.heroSub;
+        if (heroCopy) heroCopy.innerHTML = rescueSnapshot.heroCopy;
+        if (casesTitle) casesTitle.innerHTML = rescueSnapshot.casesTitle;
+        if (casesSub) casesSub.innerHTML = rescueSnapshot.casesSub;
+        if (casesCopy) casesCopy.innerHTML = rescueSnapshot.casesCopy;
+
+        words.forEach(function (node, index) {
+          node.innerHTML = rescueSnapshot.words[index] || node.innerHTML;
+        });
+        cases.forEach(function (node, index) {
+          node.style.display = '';
+          node.innerHTML = rescueSnapshot.cases[index] || node.innerHTML;
+          node.classList.toggle('is-active', index === 0);
+          node.classList.remove('is-hiding');
+        });
+        caseImgs.forEach(function (node, index) {
+          node.style.display = '';
+          node.innerHTML = rescueSnapshot.caseImgs[index] || node.innerHTML;
+          node.classList.toggle('is-active', index === 0);
+        });
+        caseTabs.forEach(function (tab, index) {
+          var saved = rescueSnapshot.caseTabs[index];
+          if (!saved) return;
+          tab.innerHTML = saved.html;
+          tab.setAttribute('data-case-category', saved.category);
+          tab.classList.toggle('m-pill--active', saved.active);
+        });
+        document.body.classList.remove('marin-cases-others-active');
+        applyHeight(rescueSnapshot.height);
+      }
+
+      function playConservationIntro() {
+        conservationIntroPlayed = true;
+        document.body.classList.remove('marin-conservation-intro');
+        void document.body.offsetWidth;
+        window.requestAnimationFrame(function () {
+          document.body.classList.add('marin-conservation-intro');
+        });
+      }
+
+      function playConservationCasesIntro() {
+        conservationCasesIntroPlayed = true;
+        document.body.classList.remove('marin-conservation-cases-intro');
+        void document.body.offsetWidth;
+        window.requestAnimationFrame(function () {
+          document.body.classList.add('marin-conservation-cases-intro');
+        });
+      }
+
+      function updateConservationCasesIntro() {
+        var casesSection = document.querySelector('.m-fig-con02');
+        if (currentView !== 'conservation' || !casesSection) return;
+        var rect = casesSection.getBoundingClientRect();
+        var isEntering = rect.top < window.innerHeight * 0.78 && rect.bottom > window.innerHeight * 0.18;
+        var isResetRange = rect.top > window.innerHeight * 0.92;
+
+        if (isEntering) {
+          if (!conservationCasesIntroPlayed) playConservationCasesIntro();
+          return;
+        }
+
+        if (isResetRange) {
+          conservationCasesIntroPlayed = false;
+          document.body.classList.remove('marin-conservation-cases-intro');
+        }
+      }
+
+      function updateConservationIntro() {
+        var introTitle = document.querySelector('.m-fig-con01-title');
+        var introPrinciples = document.querySelector('.m-fig-principles');
+        if (currentView !== 'conservation' || !introTitle || !introPrinciples) return;
+        var titleRect = introTitle.getBoundingClientRect();
+        var principlesRect = introPrinciples.getBoundingClientRect();
+        var isEntering = titleRect.top < window.innerHeight * 0.82 && principlesRect.bottom > window.innerHeight * 0.08;
+        var isPastIntro = principlesRect.bottom < window.innerHeight * 0.06;
+
+        if (isEntering) {
+          if (!conservationIntroPlayed) playConservationIntro();
+          return;
+        }
+
+        if (isPastIntro) {
+          conservationIntroPlayed = false;
+          document.body.classList.remove('marin-conservation-intro');
+        }
+      }
+
+      function updateConservationScrollInteractions() {
+        updateConservationIntro();
+        updateConservationCasesIntro();
+      }
+
+      function renderConservation() {
+        conservationIntroPlayed = false;
+        conservationCasesIntroPlayed = false;
+        currentFigCaseView = 'whale';
+        document.body.classList.remove('marin-conservation-cases-intro', 'marin-fig-species-title-mode');
+        clearFigCaseContentFade();
+        document.body.classList.add('marin-view-conservation');
+        if (stage) stage.setAttribute('aria-label', 'Marin Lab Conservation page');
+        setFigCaseView('whale', false);
+        applyHeight(conservationStageHeight);
+        playConservationIntro();
+        return;
+        if (stage) stage.setAttribute('aria-label', 'Marin Lab Conservation page');
+        if (heroTitle) {
+          heroTitle.innerHTML = '<span class="m-title__serif">Conservation</span><span class="m-title__plain"> Activities</span>';
+        }
+        if (heroSub) heroSub.textContent = '바다와 생명을 지키는 지속적인 노력';
+        if (heroCopy) {
+          heroCopy.innerHTML =
+            '아쿠아플라넷은 <strong>해양수산부 지정 서식지외보전기관</strong>으로서 <strong>해양생물의 보호와 증식을 위한 연구</strong>를 수행합니다.<br>' +
+            '전문적인 번식·사육 관리와 환경 연구를 통해 <strong>생물다양성 보전에 기여</strong>하고 있습니다.';
+        }
+        if (casesTitle) casesTitle.innerHTML = '<span class="m-title__serif">Conservation</span><span class="m-title__plain"> Cases</span>';
+        if (casesSub) casesSub.textContent = '해양생물 보전을 위한 연구와 관리 활동을 소개합니다';
+
+        words.forEach(function (node, index) {
+          var item = conservationWords[index];
+          if (!item) return;
+          var en = node.querySelector('.m-word__en');
+          var kr = node.querySelector('.m-word__kr');
+          var desc = node.querySelector('.m-word__desc');
+          if (en) en.textContent = item[0];
+          if (kr) kr.textContent = item[1];
+          if (desc) desc.textContent = item[2];
+        });
+
+        var labels = [
+          ['cetacean', 'Cetaceans'],
+          ['turtle', 'SeaTurtles'],
+          ['research', 'Research']
+        ];
+        caseTabs.forEach(function (tab, index) {
+          var item = labels[index];
+          tab.style.display = item ? '' : 'none';
+          if (!item) return;
+          tab.textContent = item[1];
+          tab.setAttribute('data-case-category', item[0]);
+          tab.classList.toggle('m-pill--active', index === 0);
+        });
+        renderConservationCases('cetacean');
+        applyHeight(conservationStageHeight);
+      }
+
+      function setView(view) {
+        currentView = view === 'conservation' ? 'conservation' : 'rescue';
+        viewTabs.forEach(function (tab) {
+          tab.classList.toggle('m-pill--active', tab.getAttribute('data-marin-view') === currentView);
+        });
+        if (currentView === 'conservation') renderConservation();
+        else renderRescue();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      viewTabs.forEach(function (tab) {
+        tab.addEventListener('click', function () {
+          setView(tab.getAttribute('data-marin-view'));
+        });
+      });
+
+      function getFigCaseSection(view) {
+        var selector = view === 'pinniped' ? '.m-fig-con03'
+          : view === 'otter' ? '.m-fig-con04'
+            : view === 'penguin' ? '.m-fig-con05'
+              : view === 'turtle' ? '.m-fig-con06'
+                : view === 'seahorse' ? '.m-fig-con07'
+                  : view === 'shark' ? '.m-fig-con08'
+                    : '.m-fig-con02';
+        return document.querySelector(selector);
+      }
+
+      function clearFigCaseContentFade() {
+        Array.from(document.querySelectorAll('.m-fig-case-content-enter')).forEach(function (section) {
+          section.classList.remove('m-fig-case-content-enter');
+        });
+      }
+
+      function playFigCaseContentFade(view) {
+        var section = getFigCaseSection(view);
+        if (!section) return;
+        clearFigCaseContentFade();
+        void section.offsetWidth;
+        section.classList.add('m-fig-case-content-enter');
+      }
+
+      function scrollFigSpeciesIntoTitleView(view) {
+        var section = getFigCaseSection(view);
+        var row = section ? section.querySelector('.m-fig-species-row') : null;
+        if (!row) return;
+        window.requestAnimationFrame(function () {
+          var scale = getScale();
+          var targetViewportTop = Math.max(96, window.innerHeight * 0.12);
+          var targetScrollTop = (section.offsetTop + row.offsetTop) * scale - targetViewportTop;
+          window.scrollTo({
+            top: Math.max(0, targetScrollTop),
+            behavior: 'smooth'
+          });
+        });
+      }
+
+      function setFigCaseView(view, fromUser) {
+        var changed = view !== currentFigCaseView;
+        currentFigCaseView = view;
+        var activeIndex = view === 'pinniped' ? 1 : view === 'otter' ? 2 : view === 'penguin' ? 3 : view === 'turtle' ? 4 : view === 'seahorse' ? 5 : view === 'shark' ? 6 : 0;
+        document.body.classList.toggle('marin-fig-case-pinniped', activeIndex === 1);
+        document.body.classList.toggle('marin-fig-case-otter', activeIndex === 2);
+        document.body.classList.toggle('marin-fig-case-penguin', activeIndex === 3);
+        document.body.classList.toggle('marin-fig-case-turtle', activeIndex === 4);
+        document.body.classList.toggle('marin-fig-case-seahorse', activeIndex === 5);
+        document.body.classList.toggle('marin-fig-case-shark', activeIndex === 6);
+        resetFigFlipCards();
+        figCaseRows.forEach(function (row) {
+          Array.from(row.querySelectorAll('.m-fig-species')).forEach(function (item, index) {
+            item.classList.toggle('is-active', index === activeIndex);
+          });
+        });
+        if (fromUser) {
+          document.body.classList.add('marin-fig-species-title-mode');
+          scrollFigSpeciesIntoTitleView(view);
+          if (changed) playFigCaseContentFade(view);
+        }
+      }
+
+      function resetFigFlipCards() {
+        figFlipPairs.forEach(function (pair) {
+          window.clearTimeout(pair.flipTimer);
+          if (pair.front) {
+            pair.front.classList.remove('is-flipped');
+            pair.front.style.visibility = 'visible';
+            pair.front.style.opacity = '1';
+            pair.front.style.transform = 'rotateY(0deg)';
+            pair.front.style.pointerEvents = 'auto';
+            pair.front.style.zIndex = '2';
+          }
+          if (pair.back) {
+            pair.back.classList.remove('is-visible');
+            pair.back.style.visibility = 'hidden';
+            pair.back.style.opacity = '0';
+            pair.back.style.transform = 'rotateY(-90deg)';
+            pair.back.style.pointerEvents = 'none';
+            pair.back.style.zIndex = '1';
+          }
+        });
+      }
+
+      function initFigFlipPairs() {
+        figFlipPairs.forEach(function (pair) {
+          pair.front = document.querySelector('.' + pair.frontClass + ':not(.is-detail)');
+          pair.back = document.querySelector('.' + pair.backClass);
+          if (!pair.front || !pair.back) return;
+          pair.front._figFlipPair = pair;
+          pair.back._figFlipPair = pair;
+          pair.front.setAttribute('role', 'button');
+          pair.front.setAttribute('tabindex', '0');
+          pair.back.setAttribute('role', 'button');
+          pair.back.setAttribute('tabindex', '0');
+        });
+        resetFigFlipCards();
+      }
+
+      function getFigFlipPair(card) {
+        if (card && card._figFlipPair) return card._figFlipPair;
+        var pair = figFlipPairs.find(function (item) {
+          return card && (card.classList.contains(item.frontClass) || card.classList.contains(item.backClass));
+        });
+        if (!pair) return null;
+        pair.front = document.querySelector('.' + pair.frontClass + ':not(.is-detail)');
+        pair.back = document.querySelector('.' + pair.backClass);
+        if (pair.front) pair.front._figFlipPair = pair;
+        if (pair.back) pair.back._figFlipPair = pair;
+        return pair.front && pair.back ? pair : null;
+      }
+
+      function getFigFlipPairAtPoint(clientX, clientY) {
+        return figFlipPairs.find(function (pair) {
+          pair.front = document.querySelector('.' + pair.frontClass + ':not(.is-detail)');
+          pair.back = document.querySelector('.' + pair.backClass);
+          var activeCard = pair.back && pair.back.classList.contains('is-visible') ? pair.back : pair.front;
+          if (!activeCard) return false;
+          var rect = activeCard.getBoundingClientRect();
+          return rect.width > 0 &&
+            rect.height > 0 &&
+            clientX >= rect.left &&
+            clientX <= rect.right &&
+            clientY >= rect.top &&
+            clientY <= rect.bottom;
+        }) || null;
+      }
+
+      function getPinnipedFlipPairAtPoint(clientX, clientY) {
+        var pinnipedPairs = figFlipPairs.slice(0, 3);
+        return pinnipedPairs.find(function (pair) {
+          pair.front = document.querySelector('.' + pair.frontClass + ':not(.is-detail)');
+          pair.back = document.querySelector('.' + pair.backClass);
+          var cards = [pair.back, pair.front].filter(Boolean);
+          return cards.some(function (card) {
+            var rect = card.getBoundingClientRect();
+            return rect.width > 0 &&
+              rect.height > 0 &&
+              clientX >= rect.left &&
+              clientX <= rect.right &&
+              clientY >= rect.top &&
+              clientY <= rect.bottom;
+          });
+        }) || null;
+      }
+
+      function handleFigFlipPointer(event) {
+        if (currentView !== 'conservation') return false;
+
+        var pair = getFigFlipPairAtPoint(event.clientX, event.clientY);
+        if (!pair) return false;
+
+        lastFigFlipPointerTime = Date.now();
+        event.preventDefault();
+        event.stopImmediatePropagation();
+
+        if (pair.back && pair.back.classList.contains('is-visible')) showFigFlipFront(pair);
+        else showFigFlipBack(pair);
+        return true;
+      }
+
+      function showFigFlipBack(pair) {
+        if (!pair) return;
+        pair.front = document.querySelector('.' + pair.frontClass + ':not(.is-detail)');
+        pair.back = document.querySelector('.' + pair.backClass);
+        if (!pair.front || !pair.back) return;
+        clearFigCaseContentFade();
+        resetFigFlipCards();
+        window.clearTimeout(pair.flipTimer);
+
+        pair.front.classList.add('is-flipped');
+        pair.front.style.visibility = 'hidden';
+        pair.front.style.opacity = '0';
+        pair.front.style.transform = 'rotateY(-90deg)';
+        pair.front.style.pointerEvents = 'none';
+        pair.front.style.zIndex = '1';
+
+        pair.back.classList.add('is-visible');
+        pair.back.style.visibility = 'visible';
+        pair.back.style.opacity = '1';
+        pair.back.style.transform = 'rotateY(0deg)';
+        pair.back.style.pointerEvents = 'auto';
+        pair.back.style.zIndex = '10';
+      }
+
+      function showFigFlipFront(pair) {
+        if (!pair) return;
+        pair.front = document.querySelector('.' + pair.frontClass + ':not(.is-detail)');
+        pair.back = document.querySelector('.' + pair.backClass);
+        if (!pair.front || !pair.back) return;
+        clearFigCaseContentFade();
+        window.clearTimeout(pair.flipTimer);
+
+        pair.back.classList.remove('is-visible');
+        pair.back.style.visibility = 'hidden';
+        pair.back.style.opacity = '0';
+        pair.back.style.transform = 'rotateY(90deg)';
+        pair.back.style.pointerEvents = 'none';
+        pair.back.style.zIndex = '1';
+
+        pair.front.classList.remove('is-flipped');
+        pair.front.style.visibility = 'visible';
+        pair.front.style.opacity = '1';
+        pair.front.style.transform = 'rotateY(0deg)';
+        pair.front.style.pointerEvents = 'auto';
+        pair.front.style.zIndex = '2';
+      }
+
+      figCaseRows.forEach(function (row) {
+        Array.from(row.querySelectorAll('.m-fig-species')).forEach(function (item, index) {
+          if (index > 6) return;
+          item.setAttribute('role', 'button');
+          item.setAttribute('tabindex', '0');
+          var viewName = index === 1 ? 'pinniped' : index === 2 ? 'otter' : index === 3 ? 'penguin' : index === 4 ? 'turtle' : index === 5 ? 'seahorse' : index === 6 ? 'shark' : 'whale';
+          item.addEventListener('click', function () {
+            setFigCaseView(viewName, true);
+          });
+          item.addEventListener('keydown', function (event) {
+            if (event.key !== 'Enter' && event.key !== ' ') return;
+            event.preventDefault();
+            setFigCaseView(viewName, true);
+          });
+        });
+      });
+
+      initFigFlipPairs();
+
+      document.addEventListener('pointerdown', handleFigFlipPointer, true);
+
+      var figmaConservation = document.querySelector('.m-figma-conservation');
+      if (figmaConservation) {
+        figmaConservation.addEventListener('click', function (event) {
+          if (Date.now() - lastFigFlipPointerTime < 500) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            return;
+          }
+        }, true);
+      }
+
+      document.addEventListener('click', function (event) {
+        if (Date.now() - lastFigFlipPointerTime < 500) return;
+      }, true);
+
+      figFlipPairs.forEach(function (pair) {
+        if (!pair.front || !pair.back) return;
+        function showBack() {
+          showFigFlipBack(pair);
+        }
+        function showFront() {
+          showFigFlipFront(pair);
+        }
+        pair.front.addEventListener('keydown', function (event) {
+          if (event.key !== 'Enter' && event.key !== ' ') return;
+          event.preventDefault();
+          showBack();
+        });
+        pair.back.addEventListener('keydown', function (event) {
+          if (event.key !== 'Enter' && event.key !== ' ') return;
+          event.preventDefault();
+          showFront();
+        });
+      });
+
+      caseTabs.forEach(function (tab) {
+        tab.addEventListener('click', function (event) {
+          if (currentView !== 'conservation') return;
+          event.preventDefault();
+          event.stopImmediatePropagation();
+          renderConservationCases(tab.getAttribute('data-case-category'));
+        }, true);
+      });
+
+      window.addEventListener('scroll', updateConservationScrollInteractions, { passive: true });
+      window.addEventListener('resize', function () {
+        applyHeight(currentView === 'conservation' ? conservationStageHeight : rescueSnapshot.height);
+        updateConservationScrollInteractions();
+      }, { passive: true });
+    })();
+  </script>
+</body>
+</html>
