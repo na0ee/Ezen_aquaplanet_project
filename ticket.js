@@ -512,6 +512,9 @@ function initCustomCursor() {
   // 즉시 보이게 (마우스 이동 전엔 화면 밖 위치에 있으므로 안 보임)
   el.style.opacity = '1';
 
+  // 밝은(흰) 영역 위에서는 파란 링으로 전환 (location 페이지와 동일)
+  const LIGHT_SELS = '.ticket-booking, .ticket-discount, .ticket-scroll-below';
+
   window.addEventListener('mousemove', e => {
     tx = e.clientX;
     ty = e.clientY;
@@ -519,6 +522,8 @@ function initCustomCursor() {
       snapped = true;
       cx = tx; cy = ty;
     }
+    const hit = document.elementFromPoint(e.clientX, e.clientY);
+    el.classList.toggle('is-over-light', !!(hit && hit.closest(LIGHT_SELS)));
   }, { passive: true });
 
   document.addEventListener('mouseleave', () => { el.style.opacity = '0'; });
@@ -667,4 +672,4 @@ function initCursorWave() {
 }
 
 initCustomCursor();
-initCursorWave();
+// initCursorWave();   // location 커서와 동일하게 — 수면 물결 효과 비활성화 (복원하려면 주석 해제)
