@@ -79,7 +79,7 @@ body {
   background-color: ;
   backdrop-filter: blur(15px);
   z-index: 1000;
-  padding: 16px 32px;
+  padding: 24px 32px;
   display: flex;
   justify-content: center;
   transition: transform 0.35s ease;

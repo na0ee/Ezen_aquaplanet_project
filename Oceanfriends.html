@@ -23,6 +23,218 @@
       background-image: none;
     }
 
+    /* ── GNB ── */
+    .oceanfriends-page .gnb {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      backdrop-filter: blur(15px);
+      z-index: 1000;
+      padding: 24px 32px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: transform 0.35s ease;
+    }
+
+    .oceanfriends-page .gnb--hidden {
+      transform: translateY(-100%);
+    }
+
+    .oceanfriends-page .gnb__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      position: relative;
+    }
+
+    .oceanfriends-page .gnb__nav {
+      display: flex;
+      gap: 44px;
+      align-items: center;
+    }
+
+    .oceanfriends-page .gnb__link {
+      color: rgba(255, 255, 255, 0.50);
+      font-family: "Poppins";
+      font-size: 18px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+      letter-spacing: -0.96px;
+      transition: transform 0.2s ease;
+      text-decoration: none;
+    }
+
+    .oceanfriends-page .gnb__link--active {
+      color: #FFF;
+      font-family: "EB Garamond";
+      font-size: 20px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+      letter-spacing: -1.04px;
+    }
+
+    .oceanfriends-page .gnb__link:hover {
+      color: rgba(255, 255, 255, 0.50);
+      transform: scale(1.1);
+    }
+
+    .oceanfriends-page .gnb__link--active:hover {
+      color: #FFF;
+    }
+
+    .oceanfriends-page .gnb--scrolled .gnb__link {
+      color: rgba(34, 178, 234, 0.50);
+    }
+
+    .oceanfriends-page .gnb--scrolled .gnb__link--active {
+      color: var(--Brand-Primary, #22B2EA);
+    }
+
+    .oceanfriends-page .gnb--scrolled .gnb__link:hover {
+      color: rgba(34, 178, 234, 0.50);
+    }
+
+    .oceanfriends-page .gnb--scrolled .gnb__link--active:hover {
+      color: var(--Brand-Primary, #22B2EA);
+    }
+
+    .oceanfriends-page .gnb__nav-item {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .oceanfriends-page .gnb__dropdown {
+      position: absolute;
+      top: 48px;
+      left: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 3px;
+      border-radius: 14px;
+      background-color: rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(15px);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.25s ease, visibility 0.25s ease;
+      z-index: 100;
+      pointer-events: none;
+    }
+
+    .oceanfriends-page .gnb__nav-item:hover .gnb__dropdown {
+      pointer-events: auto;
+    }
+
+    .oceanfriends-page .gnb--scrolled .gnb__dropdown {
+      background-color: #F8F8F8;
+    }
+
+    .oceanfriends-page .gnb__nav-item:hover .gnb__dropdown {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .oceanfriends-page .gnb__dropdown-item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 153px;
+      height: 48px;
+      border-radius: 12px;
+      font-family: "Poppins";
+      font-size: 16px;
+      font-weight: 400;
+      letter-spacing: -0.64px;
+      color: rgba(255, 255, 255, 0.5);
+      white-space: nowrap;
+      transition: all 0.2s ease;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    .oceanfriends-page .gnb__dropdown-item--active,
+    .oceanfriends-page .gnb__dropdown-item:hover {
+      background-color: #ffffff;
+      color: #22b2ea;
+      font-family: "EB Garamond";
+      font-size: 18px;
+      letter-spacing: -0.72px;
+    }
+
+    .oceanfriends-page .gnb--scrolled .gnb__dropdown-item {
+      color: rgba(34, 178, 234, 0.50);
+    }
+
+    .oceanfriends-page .gnb__dropdown:hover .gnb__dropdown-item:not(:hover) {
+      background-color: transparent;
+      color: rgba(255, 255, 255, 0.5);
+      font-family: "Poppins";
+      font-size: 16px;
+      letter-spacing: -0.64px;
+    }
+
+    .oceanfriends-page .gnb--scrolled .gnb__dropdown:hover .gnb__dropdown-item:not(:hover) {
+      color: rgba(34, 178, 234, 0.50);
+    }
+
+    .oceanfriends-page .gnb__logo-wrap {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+    }
+
+    .oceanfriends-page .gnb__logo {
+      width: 60px;
+      height: 60px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .oceanfriends-page .gnb__logo img {
+      width: 100%;
+      opacity: 0.8;
+    }
+
+    .oceanfriends-page .gnb__ticket {
+      height: 44px;
+      padding: 0 14px;
+      border-radius: 100px;
+      background-color: rgba(255, 255, 255, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      gap: 10px;
+      color: #ffffff;
+      font-size: 18px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+      letter-spacing: -0.96px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .oceanfriends-page .gnb--scrolled .gnb__ticket {
+      border-color: rgba(34, 178, 234, 0.4);
+      color: var(--Brand-Primary, #22B2EA);
+    }
+
+    .oceanfriends-page .gnb__ticket:hover {
+      background-color: rgba(34, 178, 234, 0.4);
+    }
+
     /* ── 메인 레이아웃 ── */
     .of-main {
       overflow-x: clip;
@@ -35,15 +247,34 @@
     }
 
     /* ── 히어로 ── */
+    .intro__content {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      text-align: center;
+      color: #ffffff;
+      background: #22b8ee;
+      z-index: 1;
+      padding-top: 26vh;
+    }
+
+    .intro__content-inner {
+      width: fit-content;
+      max-width: calc(100% - 48px);
+      margin: 0 auto;
+    }
+
     .of-hero {
       position: relative;
-      min-height: max(920px, 108svh);
+      min-height: auto;
       display: flex;
       align-items: center;
       justify-content: center;
       text-align: center;
       color: #ffffff;
-      padding: 120px 24px 120px;
       background: #22b8ee;
     }
 
@@ -73,27 +304,21 @@
       filter: blur(12px);
     }
 
-    .of-hero__content {
-      position: relative;
-      z-index: 1;
-      transform: translateY(18px);
-    }
-
     .of-eyebrow {
       display: block;
       font-family: var(--font-serif);
       font-style: italic;
       font-weight: 500;
       font-size: clamp(18px, 2vw, 32px);
-      margin-bottom: -8px;
     }
 
     .of-title {
       margin: 0;
       font-family: var(--font-en);
-      font-weight: 300;
+      font-weight: 500;
       font-size: clamp(56px, 8.6vw, 128px);
-      line-height: 1.12;
+      line-height: 1;
+      letter-spacing: -2%;
       color: #ffffff;
     }
 
@@ -104,36 +329,48 @@
     }
 
     .of-hero__lead {
-      margin: 18px auto 0;
+      margin: 30px auto 0;
       max-width: 760px;
       font-family: var(--font-kr);
       font-size: clamp(15px, 1.25vw, 22px);
       font-weight: 400;
-      line-height: 1.75;
+      line-height: 1.6;
       color: rgba(255, 255, 255, 0.86);
     }
 
     .of-scroll {
       position: absolute;
       left: 50%;
-      bottom: 300px;
+      bottom: 14vh;
       transform: translateX(-50%);
       display: grid;
       justify-items: center;
-      gap: 18px;
+      gap: 24px;
       color: rgba(255, 255, 255, 0.86);
     }
 
     .of-scroll__line {
       width: 1px;
-      height: 116px;
+      height: 180px;
       background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.75));
     }
 
     .of-scroll__text {
       font-family: var(--font-serif);
       font-style: italic;
-      font-size: 18px;
+      font-size: 32px;
+    }
+
+    .of-scroll__text-lets {
+      font-family: "Poppins", sans-serif;
+      font-weight: 300;
+      letter-spacing: -2%;
+      font-style: normal;
+    }
+
+    .of-scroll__text-explore {
+      font-family: var(--font-serif);
+      font-style: italic;
     }
 
     /* ── 섹션 공통 ── */
@@ -149,23 +386,27 @@
     }
 
     .of-section-title span {
-      font-family: var(--font-en);
+      font-family: "Poppins", sans-serif;
       font-size: clamp(30px, 3.1vw, 42px);
       font-weight: 300;
+      letter-spacing: -1.68px;
+      line-height: 1.4;
     }
 
     .of-section-title em {
-      font-family: var(--font-serif);
+      font-family: "EB Garamond", serif;
       font-size: clamp(34px, 3.5vw, 48px);
       font-weight: 500;
       font-style: italic;
+      letter-spacing: -1.92px;
+      line-height: 1.4;
     }
 
     .of-section-sub {
-      margin-top: 10px;
+      margin-top: 12px;
       font-family: var(--font-kr);
       font-size: 16px;
-      color: rgba(0, 0, 0, 0.62);
+      color: #1a1a1a;
     }
 
     .of-scroll-hint {
@@ -415,12 +656,12 @@
       margin: 0 auto;
     }
 
-    .of-filter__chips {
+    .cartegory-tabs-b {
       display: flex;
       justify-content: center;
-      align-items: center;
+      margin-bottom: 0;
       flex-wrap: wrap;
-      background-color: rgba(235, 238, 240, 0.88);
+      background-color: #F8F8F8;
       padding: 3px;
       border-radius: 14px;
       width: fit-content;
@@ -460,33 +701,35 @@
       color: rgba(20, 32, 42, 0.34);
     }
 
-    .of-chip {
+    .cartegory-tabs-b__item {
       padding: 12px 20px;
       border-radius: 12px;
-      border: none;
-      background-color: transparent;
-      color: rgba(20, 32, 42, 0.34);
-      font-family: var(--font-kr);
-      font-size: 16px;
+      font-family: "Pretendard", sans-serif;
+      font-size: 14px;
       font-weight: 500;
       letter-spacing: -0.64px;
+      color: rgba(34, 178, 234, 0.5);
+      background-color: transparent;
+      border: none;
       cursor: pointer;
       display: flex;
       align-items: center;
-      transition: all 0.3s ease;
     }
 
-    .of-chip.is-active {
+    .cartegory-tabs-b__item--active {
       background-color: #ffffff;
-      color: #22b2ea;
-      font-family: var(--font-serif);
-      font-size: 18px;
+      color: var(--Brand-Primary, #22B2EA);
+      font-family: "EB Garamond";
+      font-size: 16px;
+      font-style: normal;
       font-weight: 400;
+      line-height: normal;
       letter-spacing: -0.72px;
+      border: none;
     }
 
-    .of-chip:hover,
-    .of-chip:focus-visible {
+    .cartegory-tabs-b__item:hover,
+    .cartegory-tabs-b__item:focus-visible {
       color: #22b2ea;
       background: rgba(255, 255, 255, 0.52);
       outline: none;
@@ -1023,13 +1266,13 @@
         height: 38px;
       }
 
-      .of-filter__chips {
+      .cartegory-tabs-b {
         max-width: 100%;
         overflow-x: auto;
         scrollbar-width: none;
       }
 
-      .of-filter__chips::-webkit-scrollbar {
+      .cartegory-tabs-b::-webkit-scrollbar {
         display: none;
       }
 
@@ -1066,18 +1309,26 @@
   <header id="gnb" class="gnb">
     <div class="gnb__inner">
       <!-- 왼쪽 메뉴 -->
-      <nav class="gnb__nav" aria-label="메인 메뉴">
-        <a href="program/program.html" class="gnb__link" data-nav="program">Program</a>
-        <a href="Oceanfriends.html" class="gnb__link gnb__link--active" data-nav="crew">Ocean Friends</a>
-        <div class="gnb__nav-item" data-nav="about">
-          <span class="gnb__link">About us</span>
+      <div class="gnb__nav" aria-label="메인 메뉴">
+        <div class="gnb__nav-item">
+          <a href="program/program.html" class="gnb__link">Program</a>
+          <div class="gnb__dropdown">
+            <a href="program/program.html" class="gnb__dropdown-item gnb__dropdown-item--active">Jeju</a>
+            <a href="program/program.html" class="gnb__dropdown-item">Yeosu</a>
+            <a href="program/program.html" class="gnb__dropdown-item">Ilsan</a>
+            <a href="program/program.html" class="gnb__dropdown-item">Gwanggyo</a>
+          </div>
+        </div>
+        <a href="Oceanfriends.html" class="gnb__link gnb__link--active">Ocean Friends</a>
+        <div class="gnb__nav-item">
+          <a href="location.html" class="gnb__link">About us</a>
           <div class="gnb__dropdown">
             <a href="business.html" class="gnb__dropdown-item">Business</a>
             <a href="marinlab.html" class="gnb__dropdown-item">Marin Lab</a>
             <a href="location.html" class="gnb__dropdown-item">Location</a>
           </div>
         </div>
-      </nav>
+      </div>
 
       <!-- 중앙 로고 -->
       <a href="index.html" class="gnb__logo-wrap" aria-label="Aqua Planet 홈">
@@ -1097,9 +1348,9 @@
 
   <main class="of-main">
 
-    <!-- 히어로 -->
-    <section class="of-hero" aria-label="Ocean Friends 소개">
-      <div class="of-hero__content">
+    <!-- 인트로 콘텐츠 -->
+    <section class="intro__content">
+      <div class="intro__content-inner">
         <span class="of-eyebrow">Welcome</span>
         <h1 class="of-title">Meet Our <em>Ocean Friends</em></h1>
         <p class="of-hero__lead">
@@ -1109,8 +1360,14 @@
       </div>
       <a class="of-scroll" href="#signature" aria-label="대표 생물 바로가기">
         <span class="of-scroll__line"></span>
-        <span class="of-scroll__text">Let's Explore</span>
+        <span class="of-scroll__text">
+          <span class="of-scroll__text-lets">Let's </span><span class="of-scroll__text-explore">Explore</span>
+        </span>
       </a>
+    </section>
+
+    <!-- 히어로 -->
+    <section class="of-hero" aria-label="Ocean Friends 소개">
     </section>
 
     <!-- 시그니처 생물 캐러셀 -->
@@ -1201,11 +1458,11 @@
             </svg>
             <input type="text" placeholder="검색하기" aria-label="생물 검색">
           </div>
-          <div class="of-filter__chips">
-            <button class="of-chip is-active" type="button">Jeju</button>
-            <button class="of-chip" type="button">Yeosu</button>
-            <button class="of-chip" type="button">Ilsan</button>
-            <button class="of-chip" type="button">Gwanggyo</button>
+          <div class="cartegory-tabs-b">
+            <button class="cartegory-tabs-b__item cartegory-tabs-b__item--active" type="button">Jeju</button>
+            <button class="cartegory-tabs-b__item" type="button">Yeosu</button>
+            <button class="cartegory-tabs-b__item" type="button">Ilsan</button>
+            <button class="cartegory-tabs-b__item" type="button">Gwanggyo</button>
           </div>
         </div>
       </div>
@@ -3097,37 +3354,33 @@
   <div id="custom-cursor" aria-hidden="true"></div>
 
   <script>
-    /* ── GNB: 업스크롤 시에만 표시 ── */
+    /* ── GNB: 페이지 10% 이상 스크롤 시 색상 전환 ── */
     (function () {
-      const gnb = document.getElementById('gnb');
+      const gnb = document.querySelector('.gnb');
       if (!gnb) return;
-      const THRESHOLD = 80;
-      const LIGHT_SELS = '.of-detail, .of-filter, .of-detail-card, .of-brand, .of-meet, .of-footer-note';
-      let lastY = window.scrollY;
 
-      function syncGnbBg() {
-        const x = Math.round(window.innerWidth / 2);
-        const y = Math.min(96, window.innerHeight - 1);
-        const stack = document.elementsFromPoint ? document.elementsFromPoint(x, y) : [document.elementFromPoint(x, y)];
-        const onLightBg = stack.some(function (node) {
-          return node && !node.closest('#gnb') && node.closest(LIGHT_SELS);
-        });
-        gnb.classList.toggle('gnb--light-bg', onLightBg);
+      let lastScrollY = window.scrollY;
+
+      function updateGnbScrolled() {
+        const y = window.scrollY;
+        const max = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = max > 0 ? y / max : 0;
+        const scrolled = progress >= 0.1;
+
+        gnb.classList.toggle('gnb--scrolled', scrolled);
+
+        // 10% 넘은 뒤: 아래로 스크롤하면 숨기고, 위로 스크롤하면 다시 표시
+        if (scrolled && y > lastScrollY) {
+          gnb.classList.add('gnb--hidden');
+        } else {
+          gnb.classList.remove('gnb--hidden');
+        }
+        lastScrollY = y;
       }
 
-      window.addEventListener('scroll', function () {
-        const y = window.scrollY;
-        gnb.classList.toggle('is-scrolled', y > THRESHOLD);
-        if (y > THRESHOLD) {
-          gnb.classList.toggle('is-hidden', y > lastY);
-        } else {
-          gnb.classList.remove('is-hidden');
-        }
-        lastY = y;
-        syncGnbBg();
-      }, { passive: true });
-      window.addEventListener('resize', syncGnbBg, { passive: true });
-      syncGnbBg();
+      window.addEventListener('scroll', updateGnbScrolled);
+      window.addEventListener('resize', updateGnbScrolled);
+      updateGnbScrolled();
     })();
 
     /* ── 섹션 타이틀/콘텐츠 순차 페이드인 ── */
@@ -3248,7 +3501,7 @@
   <!-- 필터 칩 활성화 + 리스트 전환 + 검색 -->
   <script>
     (function () {
-      const chips = document.querySelectorAll('.of-filter__chips .of-chip');
+      const chips = document.querySelectorAll('.cartegory-tabs-b .cartegory-tabs-b__item');
       const lists = document.querySelectorAll('.of-detail-list[data-list]');
       const searchInput = document.querySelector('.of-search input');
 
@@ -3277,8 +3530,8 @@
 
       chips.forEach(function (chip) {
         chip.addEventListener('click', function () {
-          chips.forEach(function (c) { c.classList.remove('is-active'); });
-          chip.classList.add('is-active');
+          chips.forEach(function (c) { c.classList.remove('cartegory-tabs-b__item--active'); });
+          chip.classList.add('cartegory-tabs-b__item--active');
           showList(chip.textContent.trim().toLowerCase());
         });
       });
@@ -3465,7 +3718,7 @@
 
       function showDetailList(key) {
         const lists = document.querySelectorAll('.of-detail-list[data-list]');
-        const chips = document.querySelectorAll('.of-filter__chips .of-chip');
+        const chips = document.querySelectorAll('.cartegory-tabs-b .cartegory-tabs-b__item');
         const searchInput = document.querySelector('.of-search input');
 
         lists.forEach(list => {
@@ -3476,7 +3729,7 @@
         });
 
         chips.forEach(chip => {
-          chip.classList.toggle('is-active', chip.textContent.trim().toLowerCase() === key);
+          chip.classList.toggle('cartegory-tabs-b__item--active', chip.textContent.trim().toLowerCase() === key);
         });
 
         if (searchInput) searchInput.value = '';
