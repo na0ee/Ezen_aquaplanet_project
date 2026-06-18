@@ -564,6 +564,14 @@ button {
   -webkit-backdrop-filter: none;
 }
 
+.gnb.is-hidden {
+  transform: translateY(-100%);
+}
+
+.gnb.gnb--light-bg {
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.86) 0%, rgba(255, 255, 255, 0) 100%);
+}
+
 .gnb__inner {
   position: relative;
   display: flex;
@@ -597,6 +605,30 @@ button {
   font-size: var(--fs-nav-active);
   font-weight: 400;
   color: var(--clr-text);
+}
+
+.gnb.gnb--light-bg .gnb__link {
+  color: rgba(17, 118, 158, 0.58);
+}
+
+.gnb.gnb--light-bg .gnb__link:hover,
+.gnb.gnb--light-bg .gnb__link.gnb__link--active {
+  color: var(--clr-primary);
+}
+
+.gnb.gnb--light-bg .btn-pill {
+  color: var(--clr-primary);
+  background: rgba(255, 255, 255, 0.72);
+  border-color: rgba(34, 178, 234, 0.18);
+}
+
+.gnb.gnb--light-bg .btn-pill:hover {
+  background: #ffffff;
+  border-color: rgba(34, 178, 234, 0.34);
+}
+
+.gnb.gnb--light-bg .btn-pill svg path {
+  stroke: var(--clr-primary);
 }
 
 /* 중앙 로고 — 절대 중앙 배치 */
@@ -746,18 +778,20 @@ body.is-logo-at-header .gnb__logo {
   inset: 0;
   width: 100vw;
   height: 100%;
-  object-position: center bottom;
+  object-position: center top;
 }
 
 /* 비디오 배경은 첫 화면(100vh)에만 고정 노출, 이후 스크롤로 자연 이탈 */
 .section--logo .section__video-bg {
-  height: 50vh;
-  height: 50svh;
+  height: 100vh;
+  height: 100svh;
 }
 
 .section__video-bg--first {
   object-fit: cover;
   background: #22bbff;
+  mask-image: linear-gradient(to bottom, black 0%, black 58%, rgba(0, 0, 0, 0.5) 78%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, black 58%, rgba(0, 0, 0, 0.5) 78%, transparent 100%);
   transform: translate3d(0, 0, 0);
   backface-visibility: hidden;
   filter: none;
@@ -1400,10 +1434,7 @@ body.is-logo-at-header .gnb__logo {
 .section--crew-scroll.is-creature-moving .crew-dots,
 .section--crew-scroll.is-creature-moving .crew-rotate-hint {
   opacity: 0;
-  transform: translateY(8px);
-  pointer-events: none;
-}
-
+  
 /* 각 생물 패널 — 페이드 + 슬라이드 전환 */
 .crew-panel {
   position: absolute;
@@ -1422,12 +1453,13 @@ body.is-logo-at-header .gnb__logo {
       rgba(255, 255, 255, 0.00) 1.6%,
       rgba(255, 255, 255, 0.20) 50.0%,
       rgba(255, 255, 255, 0.00) 98.4%);
+  background-clip: padding-box, border-box;
   opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.48s ease, transform 0.48s ease;
+  transform: translateY(38px);
+  transition: opacity 0.38s ease, transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
   pointer-events: none;
 }
-
+  
 .crew-panel.is-active {
   position: relative;
   top: auto;
@@ -1511,7 +1543,7 @@ body.is-logo-at-header .gnb__logo {
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.25s ease;
-  z-index: 2;
+  z-index: 4;
 }
 
 .crew-panel.is-active+.crew-panel-btn {
@@ -1596,6 +1628,7 @@ body.is-logo-at-header .gnb__logo {
 .creature-info {
   flex: 1;
   padding: 36px 76px;
+  border-radius: calc(var(--radius-card) - 2px);
   /* 글래스 그라데이션 (Figma 201deg 패턴) */
   background: linear-gradient(201deg,
       rgba(255, 255, 255, 0.00) 1.6%,
@@ -2502,7 +2535,7 @@ body.is-logo-at-header .gnb__logo {
 .booking-bg-video {
   position: absolute;
   z-index: 0;
-  top: 50%;
+  top: 46%;
   left: 50%;
   width: clamp(420px, 42vw, 760px);
   height: auto;
@@ -2516,7 +2549,7 @@ body.is-logo-at-header .gnb__logo {
   transform: translate3d(-50%, -50%, 0);
   will-change: transform, opacity;
   animation: jellyfish-path 72s linear infinite;
-  animation-delay: 0s;
+  animation-delay: -28s;
 }
 
 /* Reference-arrow path: one slow clockwise oval around the booking cards. */
@@ -2996,7 +3029,7 @@ body.is-logo-at-header .gnb__logo {
 }
 
 /* 예매 카드 hover: 버튼 밝기 */
-.booking-card .btn-cta--white {
+.booking-card .btn-cta--fill-white {
   opacity: 0.88;
   color: var(--clr-text);
   background: rgba(255, 255, 255, 0.08);
@@ -3013,13 +3046,11 @@ body.is-logo-at-header .gnb__logo {
     border-color var(--tr-base),
     transform var(--tr-base);
 }
-
+.booking-card:hover .btn-cta--fill-white,
+.booking-card .btn-cta--fill-white:hover,
 .booking-card:hover .btn-cta--white,
 .booking-card .btn-cta--white:hover {
   opacity: 1;
-  color: var(--clr-text);
-  background: rgba(255, 255, 255, 0.18);
-  border-color: rgba(255, 255, 255, 0.72);
   transform: translateY(-1px);
 }
 
@@ -3040,6 +3071,16 @@ body.is-logo-at-header .gnb__logo {
   background:
     radial-gradient(ellipse 200% 65% at 50% 130%, rgba(34, 178, 234, 0.88) 0%, transparent 58%),
     linear-gradient(180deg, #020c1b 0%, #0b2540 55%, #071a30 100%);
+}
+
+.dive-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(circle at 50% 34%, rgba(74, 210, 255, 0.18), transparent 42%),
+    linear-gradient(180deg, rgba(34, 187, 255, 0.34) 0%, rgba(5, 70, 132, 0.42) 48%, rgba(3, 34, 74, 0.50) 100%);
 }
 
 .page-transition-wave.is-in,
@@ -3063,6 +3104,20 @@ body.is-logo-at-header .gnb__logo {
   to {
     opacity: 1;
   }
+}
+
+.wave-line {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1;
+  width: 100%;
+  height: calc(100vh + 180px);
+  transform: translate3d(0, 100vh, 0);
+  overflow: visible;
+  filter: url(#wave-line-distort);
+  will-change: transform, opacity;
+}
 }
 
 @keyframes diveOut {
