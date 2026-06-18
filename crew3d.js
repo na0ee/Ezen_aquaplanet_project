@@ -41,7 +41,7 @@ const ENTRY_BWD = new THREE.CatmullRomCurve3([
 const EXIT_FWD = new THREE.Vector3(-18, -0.4, 0.3);
 const EXIT_BWD = new THREE.Vector3( 18, -0.4, 0.3);
 
-const ENTRY_DUR  = 2.15;  /* 진입 시간 (초) */
+const ENTRY_DUR  = 2.0;  /* 진입 시간 (초) */
 const EXIT_DUR   = 0.8;   /* 퇴장 시간 (초) */
 const ENTRY_SIDE_ROT = Math.PI * 0.5;
 const ENTRY_SWIM_Y = 0.18;
@@ -224,7 +224,7 @@ function scheduleCreatureEntry(immediate = false) {
   crewEntryTimer = setTimeout(() => {
     if (!crewInView) return;
     showCreature(pendingIdx >= 0 ? pendingIdx : 0);
-  }, 1000);
+  }, 400);
 }
 
 setCrewInfoVisible(false);
@@ -445,7 +445,6 @@ function enterCrewSection() {
   crewCanvas.style.transition = 'opacity 0.35s ease';
   crewCanvas.style.opacity    = '1';
 
-  setCrewInfoVisible(true);
   setCrewTitleVisible(true);
   hideCanvasAfterExit = false;
   clearTimeout(crewContentTimer);
@@ -691,7 +690,7 @@ const clock = new THREE.Clock();
     entryModel.rotation.y = (1 - rotT) * ENTRY_SIDE_ROT * rotSign + rotT * SETTLED_ROT_Y + swim * 0.1 * swimFade * rotSign;
     entryModel.rotation.x = Math.sin(entryT * Math.PI * 2.2) * ENTRY_PITCH * swimFade + settle * SETTLED_ROT_X;
     entryModel.rotation.z = -swim * ENTRY_ROLL * rotSign * swimFade;
-    if (entryT >= 0.48) {
+    if (entryT >= 0.55) {
       setCrewInfoVisible(true);
     }
     if (entryT >= 1) {
@@ -699,7 +698,6 @@ const clock = new THREE.Clock();
       entryActive = false;
       entryModel  = null;
       currentSettled = true;
-      setCrewInfoVisible(true);
       enableControls();
     }
   }
@@ -734,17 +732,6 @@ const clock = new THREE.Clock();
     if (crewCanvas.style.opacity !== '0' || currentIdx >= 0) {
       hideCrewCanvas();
     }
-  }
-
-  if (
-    crewInView &&
-    loadedN === CREATURES.length &&
-    currentIdx < 0 &&
-    !entryActive &&
-    !exitActive &&
-    crewState.inPanelRange
-  ) {
-    showCreature(pendingIdx >= 0 ? pendingIdx : 0, forceEntryNow);
   }
 
   if (!crewInView && !entryActive && !exitActive) return;

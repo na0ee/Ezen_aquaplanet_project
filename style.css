@@ -497,12 +497,6 @@ button {
 }
 
 .btn-cta--fill-white {
-  background: #fff;
-  border: 1.5px solid #fff;
-  color: var(--clr-primary);
-}
-
-.btn-cta--fill-white:hover {
   background: var(--clr-primary);
   border: 1.5px solid var(--clr-primary);
   color: #fff;
@@ -862,6 +856,37 @@ body.is-logo-at-header .gnb__logo {
   letter-spacing: var(--ls-normal);
   line-height: 1.4;
   color: var(--clr-text);
+}
+
+/* hero 텍스트 순차 페이드인 */
+@keyframes heroFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+#sec-intro .hero__eyebrow,
+#sec-intro .hero__title,
+#sec-intro .hero__sub {
+  opacity: 0;
+  animation: heroFadeUp 0.9s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+  animation-play-state: paused;
+}
+
+#sec-intro .hero__eyebrow { animation-delay: 0.1s; }
+#sec-intro .hero__title   { animation-delay: 0.5s; }
+#sec-intro .hero__sub     { animation-delay: 1.0s; }
+
+/* hero 섹션이 화면에 들어오면 실행 */
+#sec-intro.hero-active .hero__eyebrow,
+#sec-intro.hero-active .hero__title,
+#sec-intro.hero-active .hero__sub {
+  animation-play-state: running;
 }
 
 /* 스크롤 인디케이터 */
@@ -1427,62 +1452,39 @@ body.is-logo-at-header .gnb__logo {
   max-width: 100%;
   margin-left: clamp(12px, 1.4vw, 22px);
   min-height: 286px;
-  transition: opacity 0.22s ease, transform 0.22s ease;
-}
-
-.section--crew-scroll.is-creature-moving .crew-info-wrap,
-.section--crew-scroll.is-creature-moving .crew-dots,
-.section--crew-scroll.is-creature-moving .crew-rotate-hint {
-  opacity: 0;
-}
-
-/* 각 생물 패널 — 페이드 + 슬라이드 전환 */
-.crew-panel {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 546px;
-  max-width: 100%;
-  min-height: 203px;
-  padding: 36px 76px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  overflow: visible;
-  border-width: 1px;
-  background: linear-gradient(201deg,
-      rgba(255, 255, 255, 0.00) 1.6%,
-      rgba(255, 255, 255, 0.20) 50.0%,
-      rgba(255, 255, 255, 0.00) 98.4%);
-  background-clip: padding-box, border-box;
-  opacity: 0;
-  transform: translateY(38px);
-  transition: opacity 0.38s ease, transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
-  pointer-events: none;
-}
-
-.crew-panel.is-active {
-  position: relative;
-  top: auto;
-  left: auto;
-  border-width: 1.5px;
+  backdrop-filter:         blur(var(--blur-glass));
+  -webkit-backdrop-filter: blur(var(--blur-glass));
+  border-radius: var(--radius-card);
+  border: 1.5px solid transparent;
   background:
-    linear-gradient(201deg,
-      rgba(255, 255, 255, 0.03) 1.6%,
+    linear-gradient(
+      201deg,
+      rgba(255, 255, 255, 0.03)  1.6%,
       rgba(255, 255, 255, 0.24) 50.0%,
-      rgba(255, 255, 255, 0.04) 98.4%) padding-box,
-    linear-gradient(135deg,
+      rgba(255, 255, 255, 0.04) 98.4%
+    ) padding-box,
+    linear-gradient(
+      135deg,
       rgba(255, 255, 255, 0.24) 0%,
       rgba(198, 238, 255, 0.06) 23%,
       rgba(255, 255, 255, 0.15) 48%,
-      rgba(84, 196, 237, 0.06) 72%,
-      rgba(255, 255, 255, 0.20) 100%) border-box;
+      rgba(84, 196, 237, 0.06)  72%,
+      rgba(255, 255, 255, 0.20) 100%
+    ) border-box;
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.08),
     inset 0 -1px 0 rgba(116, 211, 246, 0.03),
     0 0 0 1px rgba(255, 255, 255, 0.015),
     0 18px 38px rgba(0, 48, 96, 0.03),
     0 0 14px rgba(87, 205, 246, 0.035);
+  opacity: 0;
+  transform: translateY(38px);
+  overflow: visible;
+  background-clip: padding-box, border-box;
+  transition: opacity 0.38s ease, transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.section--crew-scroll.is-content-visible .crew-info-wrap {
   opacity: 1;
   transform: translateY(0);
   transition-delay: 0.10s;
@@ -1827,6 +1829,7 @@ body.is-logo-at-header .gnb__logo {
   margin-bottom: var(--sec-gap);
   width: 100%;
   text-align: center;
+  will-change: transform, opacity;
 }
 
 .section--program.is-title-visible .program-seq-title {
@@ -1838,6 +1841,7 @@ body.is-logo-at-header .gnb__logo {
   margin-top: 0;
   transform: translateY(var(--seq-content-y, 60px));
   pointer-events: none;
+  will-change: transform, opacity;
 }
 
 .section--program.is-content-visible .program-seq-content {
@@ -1890,22 +1894,17 @@ body.is-logo-at-header .gnb__logo {
   border: 0;
   border-radius: 20px;
   background: rgba(255, 255, 255, 0.10);
-  backdrop-filter: blur(18px) saturate(1.28);
-  -webkit-backdrop-filter: blur(18px) saturate(1.28);
   box-shadow: none;
   isolation: isolate;
+  will-change: transform;
   transition:
     transform var(--tr-base),
-    background var(--tr-base),
-    backdrop-filter var(--tr-base),
-    -webkit-backdrop-filter var(--tr-base);
+    background var(--tr-base);
 }
 
 .program-card:hover {
   transform: translateY(-8px);
   background: rgba(255, 255, 255, 0.14);
-  backdrop-filter: blur(20px) saturate(1.34);
-  -webkit-backdrop-filter: blur(20px) saturate(1.34);
   box-shadow: none;
   z-index: 2;
 }
@@ -1932,8 +1931,6 @@ body.is-logo-at-header .gnb__logo {
   position: absolute;
   inset: 0;
   background: rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(1.4px) saturate(1.08);
-  -webkit-backdrop-filter: blur(1.4px) saturate(1.08);
   opacity: 0.48;
   pointer-events: none;
   z-index: 1;
@@ -2668,7 +2665,6 @@ body.is-logo-at-header .gnb__logo {
     inset 0 1px 0 rgba(255, 255, 255, 0.12),
     0 8px 32px rgba(0, 20, 60, 0.18);
   margin-top: 0;
-  opacity: 1;
   transform: translateX(-50%);
 }
 
@@ -2682,22 +2678,15 @@ body.is-logo-at-header .gnb__logo {
   border: 0;
   border-radius: 20px;
   background: rgba(255, 255, 255, 0.10);
-  backdrop-filter: blur(18px) saturate(1.28);
-  -webkit-backdrop-filter: blur(18px) saturate(1.28);
   box-shadow: none;
   isolation: isolate;
+  will-change: transform;
   transition:
-    transform var(--tr-base),
-    background var(--tr-base),
-    backdrop-filter var(--tr-base),
-    -webkit-backdrop-filter var(--tr-base);
+    background var(--tr-base);
 }
 
 .booking-card:hover {
-  transform: translateY(-8px);
   background: rgba(255, 255, 255, 0.14);
-  backdrop-filter: blur(20px) saturate(1.34);
-  -webkit-backdrop-filter: blur(20px) saturate(1.34);
   box-shadow: none;
 }
 
@@ -3006,9 +2995,13 @@ body.is-logo-at-header .gnb__logo {
   transform: translate3d(-1px, -1px, 0);
 }
 
-.program-card:hover .program-card__img,
-.booking-card:hover .booking-card__img {
+.program-card:hover .program-card__img {
   transform: scale(1.025);
+  filter: brightness(1.12) contrast(1.05) saturate(1.1);
+}
+
+.booking-card:hover .booking-card__img {
+  transform: scale(1.08);
   filter: brightness(1.12) contrast(1.05) saturate(1.1);
 }
 
@@ -3032,14 +3025,6 @@ body.is-logo-at-header .gnb__logo {
 /* 예매 카드 hover: 버튼 밝기 */
 .booking-card .btn-cta--fill-white {
   opacity: 0.88;
-  color: var(--clr-text);
-  background: rgba(255, 255, 255, 0.08);
-  border: 1.5px solid rgba(255, 255, 255, 0.42);
-  backdrop-filter: blur(12px) saturate(1.25);
-  -webkit-backdrop-filter: blur(12px) saturate(1.25);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.22),
-    0 3px 12px rgba(0, 32, 80, 0.08);
   transition:
     opacity var(--tr-base),
     background var(--tr-base),
@@ -3119,7 +3104,7 @@ body.is-logo-at-header .gnb__logo {
   filter: url(#wave-line-distort);
   will-change: transform, opacity;
 }
-}
+
 
 @keyframes diveOut {
   from {
@@ -3274,19 +3259,16 @@ body.is-logo-at-header .gnb__logo {
   0% {
     opacity: 1;
     transform: translateX(-50%) translateY(0) scale(1);
-    filter: blur(0) brightness(1);
   }
 
   42% {
     opacity: 0.88;
     transform: translateX(-50%) translateY(-12px) scale(1.018);
-    filter: blur(0.4px) brightness(1.08);
   }
 
   100% {
     opacity: 0;
     transform: translateX(-50%) translateY(-46px) scale(0.985);
-    filter: blur(8px) brightness(1.18);
   }
 }
 
@@ -3294,19 +3276,16 @@ body.is-logo-at-header .gnb__logo {
   0% {
     opacity: 1;
     transform: translateY(0) scale(1);
-    filter: blur(0) brightness(1);
   }
 
   36% {
     opacity: 0.92;
     transform: translateY(-18px) scale(1.035);
-    filter: blur(0.6px) brightness(1.12);
   }
 
   100% {
     opacity: 0;
     transform: translateY(-82px) scale(0.94);
-    filter: blur(10px) brightness(1.2);
   }
 }
 
@@ -3314,31 +3293,26 @@ body.is-logo-at-header .gnb__logo {
   0% {
     opacity: 1;
     transform: translateY(0) scale(1);
-    filter: blur(0) brightness(1);
   }
 
   40% {
     opacity: 0.86;
     transform: translateY(-10px) scale(1.014);
-    filter: blur(0.4px) brightness(1.06);
   }
 
   100% {
     opacity: 0;
     transform: translateY(-54px) scale(0.975);
-    filter: blur(8px) brightness(1.16);
   }
 }
 
 @keyframes crewUiWaveOut {
   from {
     opacity: 1;
-    filter: blur(0);
   }
 
   to {
     opacity: 0;
-    filter: blur(6px);
   }
 }
 
@@ -3353,6 +3327,13 @@ body.is-logo-at-header .gnb__logo {
   opacity: var(--seq-content-opacity);
   transform: translateY(var(--seq-content-y, 0));
   transition: none;
+}
+
+/* 콘텐츠 진입·퇴장 애니메이션 중 backdrop-filter 비활성화 (매 프레임 블러 재계산 방지) */
+.section--program.is-content-animating .program-grid::before,
+.section--booking.is-content-animating .booking-grid {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 /* --- Location section exit --- */
@@ -3406,9 +3387,14 @@ body.is-logo-at-header .gnb__logo {
 }
 
 .section--booking .booking-seq-content {
-  opacity: 1;
-  /* 카드는 항상 표시 */
-  transform: translateX(-50%);
+  opacity: var(--seq-content-opacity, 0);
+  transform: translateX(-50%) translateY(var(--seq-content-y, 52px));
+  pointer-events: none;
+  transition: none;
+}
+
+.section--booking.is-content-visible .booking-seq-content {
+  pointer-events: auto;
 }
 
 
