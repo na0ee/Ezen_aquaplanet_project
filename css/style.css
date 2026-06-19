@@ -1,4 +1,4 @@
-/* =============================================================
+﻿/* =============================================================
    AQUA PLANET — Global Stylesheet
    Design System: design-system.json / design.md.md 기준
    ============================================================= */
@@ -97,7 +97,7 @@ body {
   font-family: var(--font-kr);
   overscroll-behavior-y: none;
   background-color: #22BBFF;
-  background-image: url('assets/images/contentBg.png');
+  background-image: url('../assets/images/contentBg.png');
   background-position: top center;
   background-size: 100% 100%;
   background-repeat: no-repeat;
@@ -840,7 +840,7 @@ body.is-logo-at-header .gnb__logo {
   position: absolute;
   pointer-events: none;
   z-index: 100;
-  background: url('assets/images/fish.png') no-repeat center center;
+  background: url('../assets/images/fish.png') no-repeat center center;
   background-size: contain;
   will-change: transform;
 }
@@ -2157,19 +2157,19 @@ body.is-logo-at-header .gnb__logo {
 }
 
 .program-card__img--1 {
-  background-image: url('assets/images/image%20136.png');
+  background-image: url('../assets/images/image%20136.png');
 }
 
 .program-card__img--2 {
-  background-image: url('assets/images/Frame139.webp');
+  background-image: url('../assets/images/Frame139.webp');
 }
 
 .program-card__img--3 {
-  background-image: url('assets/images/image%20138.png');
+  background-image: url('../assets/images/image%20138.png');
 }
 
 .program-card__img--4 {
-  background-image: url('assets/images/image%20140.png');
+  background-image: url('../assets/images/image%20140.png');
 }
 
 .program-card__gradient {
@@ -2640,7 +2640,7 @@ body.is-logo-at-header .gnb__logo {
   top: -20px;
   width: 610px;
   height: 523px;
-  background-image: url("assets/images/image 138.png");
+  background-image: url("../assets/images/image 138.png");
 }
 
 .location-deco--left {
@@ -2648,7 +2648,7 @@ body.is-logo-at-header .gnb__logo {
   bottom: -40px;
   width: 550px;
   height: 450px;
-  background-image: url("assets/images/image 136.png");
+  background-image: url("../assets/images/image 136.png");
 }
 
 
@@ -2858,19 +2858,19 @@ body.is-logo-at-header .gnb__logo {
 }
 
 .booking-card__img--ilsan {
-  background-image: url("assets/images/Frame 19.png");
+  background-image: url("../assets/images/Frame 19.png");
 }
 
 .booking-card__img--seoul {
-  background-image: url("assets/images/Frame 20.png");
+  background-image: url("../assets/images/Frame 20.png");
 }
 
 .booking-card__img--yeosu {
-  background-image: url("assets/images/Frame 22.png");
+  background-image: url("../assets/images/Frame 22.png");
 }
 
 .booking-card__img--jeju {
-  background-image: url("assets/images/Frame 21.png");
+  background-image: url("../assets/images/Frame 21.png");
 }
 
 .booking-card__gradient {
@@ -3912,7 +3912,7 @@ body.ticket-open {
   top: var(--y);
   width: var(--s, 40px);
   height: var(--s, 40px);
-  background: url("assets/images/ticket-bubble.png") center / contain no-repeat;
+  background: url("../assets/images/ticket-bubble.png") center / contain no-repeat;
   opacity: 0.7;
   animation: ticket-float var(--d, 8s) ease-in-out infinite;
 }
@@ -4203,7 +4203,7 @@ body.ticket-open {
 .bubble-spark {
   position: absolute;
   border-radius: 50%;
-  background: url("assets/images/ticket-bubble.png") center / contain no-repeat;
+  background: url("../assets/images/ticket-bubble.png") center / contain no-repeat;
   /* 밝은 빛 위에서도 윤곽이 살도록 테두리 + 발광으로 분리 */
   border: 1.5px solid rgba(255, 255, 255, 0.95);
   box-shadow: 0 0 5px rgba(120, 200, 255, 0.7), inset 0 0 4px rgba(255, 255, 255, 0.6);
