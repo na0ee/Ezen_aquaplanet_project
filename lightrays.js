@@ -1,14 +1,15 @@
-/* =============================================================
-   AQUA PLANET — lightrays.js
-   React Bits <LightRays /> 컴포넌트를 바닐라 JS로 포팅 (ogl + WebGL)
-   셰이더는 원본 그대로. 컨테이너 요소 + 옵션으로 초기화.
-
-   사용: HTML에 <div class="light-rays-container" data-light-rays
-         data-rays-origin="top-center" data-rays-color="#ffffff" ...></div>
-   를 두면 DOMContentLoaded 시 자동 초기화됩니다.
-   ============================================================= */
-
-import { Renderer, Program, Triangle, Mesh } from 'ogl';
+// ============================================================================
+//  LightRays — React Bits(https://reactbits.dev/backgrounds/light-rays)
+//  의 WebGL god-ray 효과를 바닐라 JS로 포팅한 버전.
+//
+//  사용법:
+//    import { initLightRays } from './lightrays.js';
+//    const destroy = initLightRays(container, { raysColor: '#00ffff', ... });
+//    // 페이지를 떠날 때 destroy() 를 호출하면 자원이 정리됩니다.
+//
+//  의존성(ogl)은 번들러 없이도 동작하도록 CDN ESM 에서 직접 불러옵니다.
+// ============================================================================
+import { Renderer, Program, Triangle, Mesh } from 'https://cdn.jsdelivr.net/npm/ogl@1.0.11/+esm';
 
 const DEFAULT_COLOR = '#ffffff';
 
@@ -36,12 +37,12 @@ const getAnchorAndDir = (origin, w, h) => {
       return { anchor: [0.5 * w, (1 + outside) * h], dir: [0, -1] };
     case 'bottom-right':
       return { anchor: [w, (1 + outside) * h], dir: [0, -1] };
-    default: // "top-center"
+    default: // 'top-center'
       return { anchor: [0.5 * w, -outside * h], dir: [0, 1] };
   }
 };
 
-const VERT = `
+const vert = /* glsl */ `
 attribute vec2 position;
 varying vec2 vUv;
 void main() {
@@ -49,7 +50,7 @@ void main() {
   gl_Position = vec4(position, 0.0, 1.0);
 }`;
 
-const FRAG = `precision highp float;
+const frag = /* glsl */ `precision highp float;
 
 uniform float iTime;
 uniform vec2  iResolution;
@@ -67,9 +68,6 @@ uniform vec2  mousePos;
 uniform float mouseInfluence;
 uniform float noiseAmount;
 uniform float distortion;
-uniform float intensity;
-uniform float sweepSpeed;
-uniform float sweepAmount;
 
 varying vec2 vUv;
 
@@ -113,14 +111,6 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     finalRayDir = normalize(mix(rayDir, mouseDirection, mouseInfluence));
   }
 
-  // 좌우 스윕 — 밝은 줄기가 왼쪽 → 오른쪽으로 왕복하며 쓸고 지나감
-  if (sweepAmount != 0.0) {
-    float ang = sin(iTime * sweepSpeed) * sweepAmount;
-    float cs = cos(ang);
-    float sn = sin(ang);
-    finalRayDir = normalize(mat2(cs, -sn, sn, cs) * finalRayDir);
-  }
-
   vec4 rays1 = vec4(1.0) *
                rayStrength(rayPos, finalRayDir, coord, 36.2214, 21.11349,
                            1.5 * raysSpeed);
@@ -128,73 +118,119 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
                rayStrength(rayPos, finalRayDir, coord, 22.3991, 18.0234,
                            1.1 * raysSpeed);
 
-  // 광선 세기(스칼라) — rays1/rays2 는 rgb=alpha 동일하므로 .a 사용
-  float strength = rays1.a * 0.5 + rays2.a * 0.4;
+  // 광선의 밝기(강도)만 스칼라로 계산 — 채널을 어둡게 만드는 틴트를 제거해
+  // 어떤 부분도 검게 깔리지 않도록 한다.
+  float intensity = rays1.x * 0.5 + rays2.x * 0.4;
 
   if (noiseAmount > 0.0) {
     float n = noise(coord * 0.01 + iTime * 0.1);
-    strength *= (1.0 - noiseAmount + noiseAmount * n);
+    intensity *= (1.0 - noiseAmount + noiseAmount * n);
   }
 
-  strength = clamp(strength * intensity, 0.0, 1.0);
+  intensity = clamp(intensity, 0.0, 1.0);
 
-  // 흰색(raysColor) 광선 — 어둡게 하지 않고, 굴곡은 불투명도(alpha)로만 표현
-  vec3 col = raysColor;
-  if (saturation != 1.0) {
-    float gray = dot(col, vec3(0.299, 0.587, 0.114));
-    col = mix(vec3(gray), col, saturation);
-  }
-
-  // premultiplied alpha → 투명 캔버스가 페이지 위에 자연스럽게 합성됨
-  fragColor = vec4(col * strength, strength);
+  // rgb 는 항상 광선 색(흰색)으로 두고, 강도는 알파로만 표현한다.
+  // 이렇게 하면 강도가 낮은 곳은 단순히 투명해질 뿐 배경을 어둡게 만들지 않는다.
+  fragColor = vec4(raysColor, intensity);
 }
 
 void main() {
   vec4 color;
   mainImage(color, gl_FragCoord.xy);
-  gl_FragColor  = color;
+  gl_FragColor = color;
 }`;
 
 /**
- * 컨테이너 요소에 LightRays 효과를 마운트한다.
- * @returns {() => void} cleanup 함수
+ * 컨테이너 엘리먼트 안에 LightRays 캔버스를 생성하고 애니메이션을 시작합니다.
+ * @param {HTMLElement} container - 광선을 렌더링할 컨테이너(position: relative/absolute 권장)
+ * @param {Object} [options] - React 컴포넌트와 동일한 옵션들
+ * @returns {() => void} 자원을 정리하는 destroy 함수
  */
 export function initLightRays(container, options = {}) {
-  const opts = {
-    raysOrigin: 'top-center',
-    raysColor: DEFAULT_COLOR,
-    raysSpeed: 1,
-    lightSpread: 1,
-    rayLength: 2,
-    pulsating: false,
-    fadeDistance: 1.0,
-    saturation: 1.0,
-    followMouse: true,
-    mouseInfluence: 0.1,
-    noiseAmount: 0.0,
-    distortion: 0.0,
-    intensity: 1.0,
-    sweepSpeed: 0.0,
-    sweepAmount: 0.0,
-    ...options
-  };
+  if (!container) {
+    console.warn('initLightRays: container 엘리먼트를 찾을 수 없습니다.');
+    return () => {};
+  }
 
-  let renderer = null;
-  let uniforms = null;
-  let mesh = null;
-  let animationId = null;
-  let webglCleanup = null;
+  const {
+    raysOrigin = 'top-center',
+    raysColor = DEFAULT_COLOR,
+    raysSpeed = 1,
+    lightSpread = 1,
+    rayLength = 2,
+    pulsating = false,
+    fadeDistance = 1.0,
+    saturation = 1.0,
+    followMouse = true,
+    mouseInfluence = 0.1,
+    noiseAmount = 0.0,
+    distortion = 0.0,
+  } = options;
+
   const mouse = { x: 0.5, y: 0.5 };
   const smoothMouse = { x: 0.5, y: 0.5 };
 
-  const initializeWebGL = async () => {
-    if (!container) return;
-    await new Promise((resolve) => setTimeout(resolve, 10));
-    if (!container) return;
+  let renderer = null;
+  let mesh = null;
+  let uniforms = null;
+  let animationId = null;
+  let isVisible = false;
+  let started = false;
 
-    renderer = new Renderer({ dpr: Math.min(window.devicePixelRatio, 2), alpha: true });
+  const renderer_dpr = () => Math.min(window.devicePixelRatio || 1, 2);
+
+  const updatePlacement = () => {
+    if (!renderer) return;
+    renderer.dpr = renderer_dpr();
+
+    const wCSS = container.clientWidth;
+    const hCSS = container.clientHeight;
+    renderer.setSize(wCSS, hCSS);
+
+    const dpr = renderer.dpr;
+    const w = wCSS * dpr;
+    const h = hCSS * dpr;
+
+    uniforms.iResolution.value = [w, h];
+
+    const { anchor, dir } = getAnchorAndDir(raysOrigin, w, h);
+    uniforms.rayPos.value = anchor;
+    uniforms.rayDir.value = dir;
+  };
+
+  const loop = (t) => {
+    if (!renderer || !uniforms || !mesh) return;
+
+    uniforms.iTime.value = t * 0.001;
+
+    if (followMouse && mouseInfluence > 0.0) {
+      const smoothing = 0.92;
+      smoothMouse.x = smoothMouse.x * smoothing + mouse.x * (1 - smoothing);
+      smoothMouse.y = smoothMouse.y * smoothing + mouse.y * (1 - smoothing);
+      uniforms.mousePos.value = [smoothMouse.x, smoothMouse.y];
+    }
+
+    try {
+      renderer.render({ scene: mesh });
+      animationId = requestAnimationFrame(loop);
+    } catch (error) {
+      console.warn('WebGL rendering error:', error);
+    }
+  };
+
+  const handleMouseMove = (e) => {
+    if (!renderer) return;
+    const rect = container.getBoundingClientRect();
+    mouse.x = (e.clientX - rect.left) / rect.width;
+    mouse.y = (e.clientY - rect.top) / rect.height;
+  };
+
+  const start = () => {
+    if (started) return;
+    started = true;
+
+    renderer = new Renderer({ dpr: renderer_dpr(), alpha: true, premultipliedAlpha: false });
     const gl = renderer.gl;
-    gl.clearColor(0, 0, 0, 0); // 투명 클리어 — 빈 영역에 검은 박스가 보이지 않도록
     gl.canvas.style.width = '100%';
     gl.canvas.style.height = '100%';
 
@@ -206,152 +242,68 @@ export function initLightRays(container, options = {}) {
       iResolution: { value: [1, 1] },
       rayPos: { value: [0, 0] },
       rayDir: { value: [0, 1] },
-      raysColor: { value: hexToRgb(opts.raysColor) },
-      raysSpeed: { value: opts.raysSpeed },
-      lightSpread: { value: opts.lightSpread },
-      rayLength: { value: opts.rayLength },
-      pulsating: { value: opts.pulsating ? 1.0 : 0.0 },
-      fadeDistance: { value: opts.fadeDistance },
-      saturation: { value: opts.saturation },
+      raysColor: { value: hexToRgb(raysColor) },
+      raysSpeed: { value: raysSpeed },
+      lightSpread: { value: lightSpread },
+      rayLength: { value: rayLength },
+      pulsating: { value: pulsating ? 1.0 : 0.0 },
+      fadeDistance: { value: fadeDistance },
+      saturation: { value: saturation },
       mousePos: { value: [0.5, 0.5] },
-      mouseInfluence: { value: opts.mouseInfluence },
-      noiseAmount: { value: opts.noiseAmount },
-      distortion: { value: opts.distortion },
-      intensity: { value: opts.intensity },
-      sweepSpeed: { value: opts.sweepSpeed },
-      sweepAmount: { value: opts.sweepAmount }
+      mouseInfluence: { value: mouseInfluence },
+      noiseAmount: { value: noiseAmount },
+      distortion: { value: distortion },
     };
 
     const geometry = new Triangle(gl);
-    const program = new Program(gl, { vertex: VERT, fragment: FRAG, uniforms });
+    const program = new Program(gl, { vertex: vert, fragment: frag, uniforms });
     mesh = new Mesh(gl, { geometry, program });
 
-    const updatePlacement = () => {
-      if (!container || !renderer) return;
-      renderer.dpr = Math.min(window.devicePixelRatio, 2);
-
-      const { clientWidth: wCSS, clientHeight: hCSS } = container;
-      renderer.setSize(wCSS, hCSS);
-
-      const dpr = renderer.dpr;
-      const w = wCSS * dpr;
-      const h = hCSS * dpr;
-      uniforms.iResolution.value = [w, h];
-
-      const { anchor, dir } = getAnchorAndDir(opts.raysOrigin, w, h);
-      uniforms.rayPos.value = anchor;
-      uniforms.rayDir.value = dir;
-    };
-
-    const loop = (t) => {
-      if (!renderer || !uniforms || !mesh) return;
-      uniforms.iTime.value = t * 0.001;
-
-      if (opts.followMouse && opts.mouseInfluence > 0.0) {
-        const smoothing = 0.92;
-        smoothMouse.x = smoothMouse.x * smoothing + mouse.x * (1 - smoothing);
-        smoothMouse.y = smoothMouse.y * smoothing + mouse.y * (1 - smoothing);
-        uniforms.mousePos.value = [smoothMouse.x, smoothMouse.y];
-      }
-
-      // 컨테이너가 보이지 않을 때(예: 오버레이 닫힘 → visibility:hidden 상속)는
-      // 그리기를 건너뛰어 GPU 자원 절약. 루프는 유지해 다시 보이면 재개.
-      const visible = getComputedStyle(container).visibility !== 'hidden';
-      if (visible) {
-        try {
-          renderer.render({ scene: mesh });
-        } catch (error) {
-          console.warn('WebGL rendering error:', error);
-          return;
-        }
-      }
-      animationId = requestAnimationFrame(loop);
-    };
-
     window.addEventListener('resize', updatePlacement);
+    if (followMouse) window.addEventListener('mousemove', handleMouseMove);
+
     updatePlacement();
     animationId = requestAnimationFrame(loop);
-
-    webglCleanup = () => {
-      if (animationId) {
-        cancelAnimationFrame(animationId);
-        animationId = null;
-      }
-      window.removeEventListener('resize', updatePlacement);
-      if (renderer) {
-        try {
-          const canvas = renderer.gl.canvas;
-          const loseContextExt = renderer.gl.getExtension('WEBGL_lose_context');
-          if (loseContextExt) loseContextExt.loseContext();
-          if (canvas && canvas.parentNode) canvas.parentNode.removeChild(canvas);
-        } catch (error) {
-          console.warn('Error during WebGL cleanup:', error);
-        }
-      }
-      renderer = null;
-      uniforms = null;
-      mesh = null;
-    };
   };
 
-  // 화면에 들어올 때만 초기화 (IntersectionObserver)
-  let started = false;
+  const stop = () => {
+    if (animationId) {
+      cancelAnimationFrame(animationId);
+      animationId = null;
+    }
+    window.removeEventListener('resize', updatePlacement);
+    window.removeEventListener('mousemove', handleMouseMove);
+
+    if (renderer) {
+      try {
+        const canvas = renderer.gl.canvas;
+        const loseContextExt = renderer.gl.getExtension('WEBGL_lose_context');
+        if (loseContextExt) loseContextExt.loseContext();
+        if (canvas && canvas.parentNode) canvas.parentNode.removeChild(canvas);
+      } catch (error) {
+        console.warn('Error during WebGL cleanup:', error);
+      }
+    }
+    renderer = null;
+    mesh = null;
+    uniforms = null;
+    started = false;
+  };
+
+  // 화면에 보일 때만 렌더링하여 자원을 아낍니다(React 버전의 IntersectionObserver 동작 포팅).
   const observer = new IntersectionObserver(
     (entries) => {
-      if (entries[0].isIntersecting && !started) {
-        started = true;
-        initializeWebGL();
-      }
+      isVisible = entries[0].isIntersecting;
+      if (isVisible) start();
+      else stop();
     },
     { threshold: 0.1 }
   );
   observer.observe(container);
 
-  // 마우스 추적
-  const handleMouseMove = (e) => {
-    const rect = container.getBoundingClientRect();
-    if (!rect.width || !rect.height) return;
-    mouse.x = (e.clientX - rect.left) / rect.width;
-    mouse.y = (e.clientY - rect.top) / rect.height;
-  };
-  if (opts.followMouse) window.addEventListener('mousemove', handleMouseMove);
-
+  // destroy 함수
   return () => {
     observer.disconnect();
-    if (opts.followMouse) window.removeEventListener('mousemove', handleMouseMove);
-    if (webglCleanup) webglCleanup();
+    stop();
   };
-}
-
-/* --- data-light-rays 요소 자동 초기화 --- */
-const num = (v, d) => (v == null || v === '' ? d : parseFloat(v));
-const bool = (v, d) => (v == null ? d : v === 'true' || v === '');
-
-function autoInit() {
-  document.querySelectorAll('[data-light-rays]').forEach((el) => {
-    const d = el.dataset;
-    initLightRays(el, {
-      raysOrigin: d.raysOrigin || 'top-center',
-      raysColor: d.raysColor || DEFAULT_COLOR,
-      raysSpeed: num(d.raysSpeed, 1),
-      lightSpread: num(d.lightSpread, 1),
-      rayLength: num(d.rayLength, 2),
-      pulsating: bool(d.pulsating, false),
-      fadeDistance: num(d.fadeDistance, 1.0),
-      saturation: num(d.saturation, 1.0),
-      followMouse: bool(d.followMouse, true),
-      mouseInfluence: num(d.mouseInfluence, 0.1),
-      noiseAmount: num(d.noiseAmount, 0.0),
-      distortion: num(d.distortion, 0.0),
-      intensity: num(d.intensity, 1.0),
-      sweepSpeed: num(d.sweepSpeed, 0.0),
-      sweepAmount: num(d.sweepAmount, 0.0)
-    });
-  });
-}
-
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', autoInit);
-} else {
-  autoInit();
 }

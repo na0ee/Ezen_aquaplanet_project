@@ -994,9 +994,13 @@ async function initLogo3D() {
   } else {
     gsap.context(() => {
       measure();
+      const isTicketPage = document.querySelector('.ticket-page') !== null;
+      const scrollerEl = isTicketPage ? '.ticket-page' : window;
+
       gsap.timeline({
         scrollTrigger: {
           trigger: '#sec-logo',
+          scroller: scrollerEl,
           start: 'top top',
           end: 'bottom top',
           scrub: 0.5,
@@ -1021,7 +1025,8 @@ async function initLogo3D() {
       footerEl = document.getElementById('footer');
       if (footerEl) {
         ScrollTrigger.create({
-          trigger: '#footer',
+          trigger: footerEl,
+          scroller: scrollerEl,
           start: 'top center',     // footer 상단이 뷰 중앙에 올 때 시작 (그 전엔 헤더 유지)
           end: 'bottom bottom',    // footer 하단이 뷰 하단에 닿을 때 끝
           scrub: 0.5,
@@ -1054,7 +1059,6 @@ async function initLogo3D() {
             requestRender();
           },
           onToggle: (self) => {
-            footerActive = self.isActive;
             document.body.classList.toggle('is-logo-transition', self.isActive);
             syncLogoDockState();
             requestRender();

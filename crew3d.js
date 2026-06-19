@@ -121,8 +121,11 @@ function getCrewScrollState() {
 function hideCrewCanvas() {
   clearTimeout(crewEntryTimer);
   clearTimeout(crewContentTimer);
+  crewWaveExiting = false;
+  exitZoneActive = false;
   crewCanvas.style.opacity = '0';
   crewCanvas.style.transform = '';
+  crewCanvas.style.filter = '';
   crewCanvas.style.clipPath = 'inset(0px 0px 100vh 0px)';
   models.forEach((model) => {
     if (model?.pivot) model.pivot.visible = false;
@@ -131,6 +134,7 @@ function hideCrewCanvas() {
   entryModel = null;
   exitActive = false;
   exitModel = null;
+  hideCanvasAfterExit = false;
   currentIdx = -1;
   currentSettled = false;
   disableControls();
@@ -510,8 +514,13 @@ function showCreature(idx, immediate = false) {
     crewCanvas.style.opacity = '1';
     setCrewInfoVisible(true);
     if (models[idx]?.pivot) {
+      if (exitActive && exitModel === models[idx].pivot) {
+        exitActive = false;
+        exitModel = null;
+        hideCanvasAfterExit = false;
+      }
       models[idx].pivot.visible = true;
-      if (immediate && !currentSettled) {
+      if ((immediate || !currentSettled) && !entryActive) {
         const settled = ENTRY_FWD.getPoint(1);
         models[idx].pivot.position.copy(settled);
         models[idx].pivot.rotation.set(SETTLED_ROT_X, SETTLED_ROT_Y, 0);
@@ -595,6 +604,46 @@ function showCreature(idx, immediate = false) {
 /* ---------------------------------------------------------------
    렌더 루프
 --------------------------------------------------------------- */
+function restoreCurrentCreatureAfterWaveExit() {
+  clearTimeout(crewEntryTimer);
+  clearTimeout(crewContentTimer);
+
+  if (entryActive && entryModel) {
+    entryActive = false;
+    entryModel = null;
+  }
+
+  if (exitActive) {
+    exitActive = false;
+    exitModel = null;
+    exitT = 0;
+  }
+
+  hideCanvasAfterExit = false;
+
+  const idx = currentIdx >= 0 ? currentIdx : (pendingIdx >= 0 ? pendingIdx : 0);
+  const active = models[idx]?.pivot;
+
+  models.forEach((model, modelIdx) => {
+    if (model?.pivot) model.pivot.visible = Boolean(active) && modelIdx === idx;
+  });
+
+  currentIdx = idx;
+  if (!active) {
+    currentSettled = false;
+    setCrewInfoVisible(true);
+    return;
+  }
+
+  const settled = ENTRY_FWD.getPoint(1);
+  active.position.copy(settled);
+  active.rotation.set(SETTLED_ROT_X, SETTLED_ROT_Y, 0);
+  active.visible = true;
+  currentSettled = true;
+  setCrewInfoVisible(true);
+  enableControls();
+}
+
 const clock = new THREE.Clock();
 
 (function animate() {
@@ -653,13 +702,15 @@ const clock = new THREE.Clock();
         crewCanvas.style.opacity = '0';
         setCrewInfoVisible(false);
         document.dispatchEvent(new CustomEvent('crew-tail-exit-complete'));
+      } else if (crewWaveExiting) {
+        hideCrewCanvas();
       }
     }
   }
 
   const crewState = getCrewScrollState();
   const forceEntryNow = performance.now() < forceCrewEntryUntil;
-  if (!crewState.inPanelRange && !entryActive && !exitActive && !crewWaveExiting && !forceEntryNow) {
+  if (!crewState.inPanelRange && !entryActive && !exitActive && !forceEntryNow) {
     if (crewCanvas.style.opacity !== '0' || currentIdx >= 0) {
       hideCrewCanvas();
     }
@@ -722,12 +773,14 @@ document.addEventListener('crew-tail-visibility', (e) => {
   /* force-enter 기간(1200ms) 중에는 어떤 숨김 동작도 차단 */
   if (performance.now() < forceCrewEntryUntil) return;
 
+  const state = getCrewScrollState();
+
   if (e.detail.hidden) {
     startSectionExit(true);
     return;
   }
 
-  if (crewInView && getCrewScrollState().inPanelRange) {
+  if (crewInView && state.inPanelRange) {
     crewCanvas.style.opacity = '1';
     scheduleCreatureEntry();
   } else {
@@ -765,7 +818,9 @@ document.addEventListener('crew-wave-exit-reset', () => {
   crewWaveExiting = false;
   crewCanvas.style.filter = '';
   crewCanvas.style.transform = '';
-  if (crewInView && getCrewScrollState().inPanelRange) {
+  const state = getCrewScrollState();
+  if (crewInView && state.inPanelRange) {
+    restoreCurrentCreatureAfterWaveExit();
     crewCanvas.style.transition = 'opacity 0.6s ease';
     crewCanvas.style.opacity = '1';
   } else {
