@@ -8,33 +8,36 @@
    ------------------------------------------------------------- */
 :root {
   /* 3D 로고 비율 — fullLogo.glb 레퍼런스 기준: 심볼 폭 ≈ 텍스트 폭의 0.61 */
-  --logo3d-size:   min(110.5vmin, 850px);   /* 심볼 캔버스 */
-  --logo3d-text-w: min(90vmin, 860px);   /* 글자 캔버스 가로 */
-  --logo3d-text-h: min(21vmin, 196px);   /* 글자 캔버스 세로 */
+  --logo3d-size: min(130vmin, 1040px);
+  /* 심볼 캔버스 (더 키움) */
+  --logo3d-text-w: min(90vmin, 860px);
+  /* 글자 캔버스 가로 */
+  --logo3d-text-h: min(21vmin, 196px);
+  /* 글자 캔버스 세로 */
 
   /* Fonts */
-  --font-en:    "Poppins", sans-serif;
+  --font-en: "Poppins", sans-serif;
   --font-serif: "EB Garamond", serif;
-  --font-kr:    "Pretendard", sans-serif;
+  --font-kr: "Pretendard", sans-serif;
 
   /* Brand Colors */
-  --clr-primary:      #22B2EA;
-  --clr-text:         #FFFFFF;
-  --clr-text-muted:   rgba(255, 255, 255, 0.5);
-  --clr-glass-02:     rgba(255, 255, 255, 0.02);
-  --clr-glass-10:     rgba(255, 255, 255, 0.10);
-  --clr-glass-34:     rgba(255, 255, 255, 0.34);
-  --clr-overlay-56:   rgba(0,   0,   0,   0.56);
-  --clr-overlay-70:   rgba(0,   0,   0,   0.70);
+  --clr-primary: #22B2EA;
+  --clr-text: #FFFFFF;
+  --clr-text-muted: rgba(255, 255, 255, 0.5);
+  --clr-glass-02: rgba(255, 255, 255, 0.02);
+  --clr-glass-10: rgba(255, 255, 255, 0.10);
+  --clr-glass-34: rgba(255, 255, 255, 0.34);
+  --clr-overlay-56: rgba(0, 0, 0, 0.56);
+  --clr-overlay-70: rgba(0, 0, 0, 0.70);
 
   /* Background (deep ocean) */
-  --bg-base:    #071525;
-  --bg-mid:     #0a1e35;
-  --bg-light:   #0d2642;
+  --bg-base: #071525;
+  --bg-mid: #0a1e35;
+  --bg-light: #0d2642;
 
   /* Layout */
-  --container-w:  1160px;
-  --gutter-side:  380px;
+  --container-w: 1160px;
+  --gutter-side: 380px;
 
   /* Typography scale */
   --fs-hero:       128px;
@@ -50,31 +53,37 @@
   --fs-body:        16px;
 
   /* Letter spacing */
-  --ls-tight:   -0.04em;
-  --ls-normal:  -0.02em;
+  --ls-tight: -0.04em;
+  --ls-normal: -0.02em;
 
   /* Spacing */
-  --title-top:    100px;
-  --sec-gap:       48px;
-  --card-gap:      16px;
+  --title-top: 100px;
+  --sec-gap: 48px;
+  --card-gap: 16px;
 
   /* Effects */
-  --blur-glass:       15px;
-  --radius-card:      14px;
-  --radius-image:     16px;
-  --radius-btn-cta:   24px;
+  --blur-glass: 15px;
+  --radius-card: 14px;
+  --radius-image: 16px;
+  --radius-btn-cta: 24px;
   --radius-btn-pill: 100px;
 
   /* Transitions */
-  --tr-base:  0.3s ease;
-  --tr-slow:  0.7s cubic-bezier(0.25, 0.1, 0.25, 1);
+  --tr-base: 0.3s ease;
+  --tr-slow: 0.7s cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 
 
 /* -------------------------------------------------------------
    2. RESET & BASE
    ------------------------------------------------------------- */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
 html {
   scroll-behavior: auto;
@@ -98,9 +107,22 @@ body {
   overflow-x: hidden;
 }
 
-a    { color: inherit; text-decoration: none; }
-img  { display: block; max-width: 100%; }
-button { cursor: pointer; border: none; background: none; font-family: inherit; }
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: inherit;
+}
 
 
 /* -------------------------------------------------------------
@@ -131,7 +153,10 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 
 /* 배경 위에 콘텐츠 올리기 (.crew-sticky, .scroll-indicator, .section__video-bg는 제외) */
-.section > *:not(.section__bg):not(.section__video-bg):not(.crew-sticky):not(.scroll-indicator):not(.bubble-layer) { position: relative; z-index: 1; }
+.section>*:not(.section__bg):not(.section__video-bg):not(.crew-sticky):not(.scroll-indicator):not(.bubble-layer) {
+  position: relative;
+  z-index: 1;
+}
 
 /* Crew ~ Booking 사이드 glass bubble 배경 */
 .bubble-section-wrapper {
@@ -140,7 +165,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   isolation: isolate;
 }
 
-.bubble-section-wrapper > .section {
+.bubble-section-wrapper>.section {
   position: relative;
   z-index: 2;
 }
@@ -179,9 +204,9 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   opacity: var(--bubble-opacity);
   pointer-events: none;
   background:
-    radial-gradient(circle at 31% 25%, rgba(255,255,255,0.88) 0 8%, rgba(255,255,255,0.22) 9%, transparent 24%),
-    radial-gradient(circle at 68% 72%, rgba(112,218,255,0.20) 0 13%, transparent 35%),
-    radial-gradient(circle at 48% 50%, rgba(255,255,255,0.10), rgba(255,255,255,0.025) 58%, rgba(255,255,255,0.12) 100%);
+    radial-gradient(circle at 31% 25%, rgba(255, 255, 255, 0.88) 0 8%, rgba(255, 255, 255, 0.22) 9%, transparent 24%),
+    radial-gradient(circle at 68% 72%, rgba(112, 218, 255, 0.20) 0 13%, transparent 35%),
+    radial-gradient(circle at 48% 50%, rgba(255, 255, 255, 0.10), rgba(255, 255, 255, 0.025) 58%, rgba(255, 255, 255, 0.12) 100%);
   border: 1px solid rgba(255, 255, 255, 0.48);
   box-shadow:
     inset 0 0 10px rgba(255, 255, 255, 0.28),
@@ -206,7 +231,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
 .glass-bubble::before {
   inset: 13% 17% 42% 22%;
-  border-top: 1px solid rgba(255,255,255,0.72);
+  border-top: 1px solid rgba(255, 255, 255, 0.72);
   transform: rotate(-24deg);
   filter: blur(0.25px);
 }
@@ -216,7 +241,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   bottom: 18%;
   width: 28%;
   height: 28%;
-  background: radial-gradient(circle, rgba(255,255,255,0.22), transparent 70%);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.22), transparent 70%);
 }
 
 @keyframes glassBubbleRise {
@@ -224,12 +249,15 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     transform: translate3d(0, 80px, 0) scale(0.86);
     opacity: 0;
   }
+
   12% {
     opacity: var(--bubble-opacity);
   }
+
   78% {
     opacity: var(--bubble-opacity);
   }
+
   100% {
     transform: translate3d(var(--bubble-drift), -118vh, 0) scale(1.08);
     opacity: 0;
@@ -240,6 +268,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   0% {
     margin-left: calc(var(--bubble-sway) * -1);
   }
+
   100% {
     margin-left: var(--bubble-sway);
   }
@@ -289,15 +318,14 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
    4. GLASS CARD
    ------------------------------------------------------------- */
 .glass-card {
-  backdrop-filter:         blur(var(--blur-glass));
+  backdrop-filter: blur(var(--blur-glass));
   -webkit-backdrop-filter: blur(var(--blur-glass));
-  border:        4px solid transparent;
+  border: 4px solid transparent;
   border-radius: var(--radius-card);
   background:
     var(--clr-glass-02) padding-box,
-    conic-gradient(
-      from 315deg,
-      rgba(255, 252, 255, 0.72)  0deg,
+    conic-gradient(from 315deg,
+      rgba(255, 252, 255, 0.72) 0deg,
       rgba(220, 245, 255, 0.08) 45deg,
       rgba(255, 252, 255, 0.58) 90deg,
       rgba(160, 215, 255, 0.06) 135deg,
@@ -305,8 +333,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
       rgba(130, 195, 255, 0.05) 225deg,
       rgba(210, 238, 255, 0.40) 270deg,
       rgba(200, 235, 255, 0.08) 315deg,
-      rgba(255, 252, 255, 0.72) 360deg
-    ) border-box;
+      rgba(255, 252, 255, 0.72) 360deg) border-box;
   box-shadow:
     0 0 0 1px rgba(255, 255, 255, 0.06),
     0 0 28px rgba(34, 178, 234, 0.15);
@@ -326,19 +353,18 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   padding: 2.5px;
   border-radius: inherit;
   background:
-    radial-gradient(circle at 0% 0%, rgba(255,255,255,0.96) 0 8%, transparent 24%),
-    radial-gradient(circle at 100% 0%, rgba(255,255,255,0.88) 0 7%, transparent 24%),
-    radial-gradient(circle at 0% 100%, rgba(255,255,255,0.72) 0 7%, transparent 25%),
-    radial-gradient(circle at 100% 100%, rgba(255,255,255,0.62) 0 6%, transparent 24%),
+    radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.96) 0 8%, transparent 24%),
+    radial-gradient(circle at 100% 0%, rgba(255, 255, 255, 0.88) 0 7%, transparent 24%),
+    radial-gradient(circle at 0% 100%, rgba(255, 255, 255, 0.72) 0 7%, transparent 25%),
+    radial-gradient(circle at 100% 100%, rgba(255, 255, 255, 0.62) 0 6%, transparent 24%),
     linear-gradient(115deg,
-      rgba(255,255,255,0.72) 0%,
-      rgba(255,255,255,0.10) 18%,
-      rgba(255,255,255,0.18) 34%,
-      rgba(161,225,255,0.08) 50%,
-      rgba(255,255,255,0.15) 66%,
-      rgba(255,255,255,0.48) 84%,
-      rgba(255,255,255,0.16) 100%
-    );
+      rgba(255, 255, 255, 0.72) 0%,
+      rgba(255, 255, 255, 0.10) 18%,
+      rgba(255, 255, 255, 0.18) 34%,
+      rgba(161, 225, 255, 0.08) 50%,
+      rgba(255, 255, 255, 0.15) 66%,
+      rgba(255, 255, 255, 0.48) 84%,
+      rgba(255, 255, 255, 0.16) 100%);
   -webkit-mask:
     linear-gradient(#000 0 0) content-box,
     linear-gradient(#000 0 0);
@@ -360,8 +386,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   inset: 0;
   border-radius: inherit;
   background:
-    linear-gradient(135deg, rgba(255,255,255,0.34), rgba(255,255,255,0.06) 34%, transparent 68%),
-    radial-gradient(ellipse 70% 42% at 16% 0%, rgba(255,255,255,0.20), transparent 72%);
+    linear-gradient(135deg, rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0.06) 34%, transparent 68%),
+    radial-gradient(ellipse 70% 42% at 16% 0%, rgba(255, 255, 255, 0.20), transparent 72%);
   opacity: 0.46;
   pointer-events: none;
   z-index: 3;
@@ -372,7 +398,10 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .section-title {
   margin-bottom: var(--sec-gap);
 }
-.section-title--center { text-align: center; }
+
+.section-title--center {
+  text-align: center;
+}
 
 .section-title__main {
   display: flex;
@@ -381,7 +410,10 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   line-height: 1.1;
   margin-bottom: 12px;
 }
-.section-title--center .section-title__main { justify-content: center; }
+
+.section-title--center .section-title__main {
+  justify-content: center;
+}
 
 .t-en {
   font-family: var(--font-en);
@@ -390,6 +422,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   letter-spacing: var(--ls-tight);
   color: var(--clr-text);
 }
+
 .t-serif {
   font-family: var(--font-serif);
   font-weight: 500;
@@ -435,6 +468,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   border: 1.5px solid var(--clr-primary);
   color: var(--clr-primary);
 }
+
 .btn-cta--outline:hover {
   background: var(--clr-primary);
   color: #fff;
@@ -445,6 +479,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   border: 1.5px solid var(--clr-text);
   color: var(--clr-text);
 }
+
 .btn-cta--white:hover {
   background: var(--clr-text);
   color: var(--bg-base);
@@ -455,6 +490,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   border: 1.5px solid var(--clr-primary);
   color: #fff;
 }
+
 .btn-cta--primary:hover {
   background: transparent;
   color: var(--clr-primary);
@@ -488,9 +524,10 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   border: 1px solid var(--clr-glass-10);
   transition: background var(--tr-base), border-color var(--tr-base);
 }
+
 .btn-pill:hover {
   background: var(--clr-glass-10);
-  border-color: rgba(255,255,255,0.25);
+  border-color: rgba(255, 255, 255, 0.25);
 }
 
 
@@ -499,7 +536,9 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
    ------------------------------------------------------------- */
 .gnb {
   position: fixed;
-  top: 0; left: 0; right: 0;
+  top: 0;
+  left: 0;
+  right: 0;
   z-index: 1000;
   padding: 24px 32px;
   transition: background var(--tr-base), backdrop-filter var(--tr-base), transform 0.35s ease, opacity 0.6s ease;
@@ -517,6 +556,14 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   background: linear-gradient(to bottom, rgba(34, 187, 255, 0.55) 0%, transparent 100%);
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
+}
+
+.gnb.is-hidden {
+  transform: translateY(-100%);
+}
+
+.gnb.gnb--light-bg {
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.86) 0%, rgba(255, 255, 255, 0) 100%);
 }
 
 .gnb__inner {
@@ -542,19 +589,47 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   transition: color var(--tr-base);
   white-space: nowrap;
 }
-.gnb__link:hover              { color: var(--clr-text); }
-.gnb__link.gnb__link--active  {
+
+.gnb__link:hover {
+  color: var(--clr-text);
+}
+
+.gnb__link.gnb__link--active {
   font-family: var(--font-serif);
   font-size: var(--fs-nav-active);
   font-weight: 400;
   color: var(--clr-text);
 }
 
+.gnb.gnb--light-bg .gnb__link {
+  color: rgba(17, 118, 158, 0.58);
+}
+
+.gnb.gnb--light-bg .gnb__link:hover,
+.gnb.gnb--light-bg .gnb__link.gnb__link--active {
+  color: var(--clr-primary);
+}
+
+.gnb.gnb--light-bg .btn-pill {
+  color: var(--clr-primary);
+  background: rgba(255, 255, 255, 0.72);
+  border-color: rgba(34, 178, 234, 0.18);
+}
+
+.gnb.gnb--light-bg .btn-pill:hover {
+  background: #ffffff;
+  border-color: rgba(34, 178, 234, 0.34);
+}
+
+.gnb.gnb--light-bg .btn-pill svg path {
+  stroke: var(--clr-primary);
+}
+
 /* 중앙 로고 — 절대 중앙 배치 */
 .gnb__logo-wrap {
   position: absolute;
   left: 50%;
-  top:  50%;
+  top: 50%;
   transform: translate(-50%, -50%);
 }
 
@@ -574,14 +649,17 @@ body.is-logo-at-header .gnb__logo {
 /* ---- 3D 로고 캔버스 래퍼 — 화면 중앙 고정, 내부 심볼만 스크롤로 이동 ---- */
 .logo3d-wrap {
   position: fixed;
-  top: 36%; left: 50%;
+  top: 40%;
+  left: 50%;
   width: var(--logo3d-size);
   height: var(--logo3d-size);
   margin-left: calc(var(--logo3d-size) / -2);
-  margin-top:  calc(var(--logo3d-size) / -2);
-  transform-origin: center center;   /* 가운데 기준 축소 */
+  margin-top: calc(var(--logo3d-size) / -2);
+  transform-origin: center center;
+  /* 가운데 기준 축소 */
   pointer-events: none;
-  z-index: 1500;                     /* gnb(1000) 위 → 헤더에 가려지지 않고 안착 */
+  z-index: 1500;
+  /* gnb(1000) 위 → 헤더에 가려지지 않고 안착 */
   opacity: 1;
   filter: none;
   transition: opacity 0.14s ease, filter 0.12s ease;
@@ -591,20 +669,27 @@ body.is-logo-at-header .gnb__logo {
   opacity: 0;
   filter: brightness(0) invert(1);
 }
+
 /* ---- 'aqua planet' 글자 캔버스 — 위치/크기 고정, 페이드만 (GSAP transform 없음) ---- */
 .logo3d-text {
   position: fixed;
-  top: 77%; left: 50%;
+  top: 80%;
+  left: 50%;
   width: var(--logo3d-text-w);
   height: var(--logo3d-text-h);
   margin-left: calc(var(--logo3d-text-w) / -2);
-  margin-top:  calc(var(--logo3d-text-h) / -2);
+  margin-top: calc(var(--logo3d-text-h) / -2);
   pointer-events: none;
   z-index: 1490;
   will-change: opacity;
 }
+
 .logo3d-wrap canvas,
-.logo3d-text canvas { display: block; width: 100% !important; height: 100% !important; }
+.logo3d-text canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
 
 /* ---- 로고 뒤로 헤엄쳐 지나가는 물고기 떼 (비디오 위 z:0, 로고 캔버스 z:1490 아래) ---- */
 .fish-drift {
@@ -615,31 +700,58 @@ body.is-logo-at-header .gnb__logo {
   background-size: contain;
   will-change: transform;
 }
+
 .fish-drift--1 {
   top: 18%;
-  width: 42vmin; height: 30vmin;
+  width: 42vmin;
+  height: 30vmin;
   opacity: 0.9;
   animation: fishDrift1 30s linear infinite;
 }
+
 .fish-drift--2 {
   top: 52%;
-  width: 28vmin; height: 20vmin;
-  opacity: 0.65;          /* 더 멀리 있는 떼 — 작고 흐리게 */
+  width: 28vmin;
+  height: 20vmin;
+  opacity: 0.65;
+  /* 더 멀리 있는 떼 — 작고 흐리게 */
   animation: fishDrift2 46s linear infinite -14s;
 }
+
 /* 왼쪽 밖 → 오른쪽 밖으로 가로지르며 위아래 살짝 출렁 */
 @keyframes fishDrift1 {
-  0%   { transform: translateX(-50vw) translateY(0); }
-  50%  { transform: translateX(40vw)  translateY(-3vh); }
-  100% { transform: translateX(140vw) translateY(0); }
+  0% {
+    transform: translateX(-50vw) translateY(0);
+  }
+
+  50% {
+    transform: translateX(40vw) translateY(-3vh);
+  }
+
+  100% {
+    transform: translateX(140vw) translateY(0);
+  }
 }
+
 @keyframes fishDrift2 {
-  0%   { transform: translateX(140vw) translateY(0) scaleX(-1); }   /* 반대 방향 */
-  50%  { transform: translateX(40vw)  translateY(3vh) scaleX(-1); }
-  100% { transform: translateX(-50vw) translateY(0) scaleX(-1); }
+  0% {
+    transform: translateX(140vw) translateY(0) scaleX(-1);
+  }
+
+  /* 반대 방향 */
+  50% {
+    transform: translateX(40vw) translateY(3vh) scaleX(-1);
+  }
+
+  100% {
+    transform: translateX(-50vw) translateY(0) scaleX(-1);
+  }
 }
+
 @media (prefers-reduced-motion: reduce) {
-  .fish-drift { animation: none; }
+  .fish-drift {
+    animation: none;
+  }
 }
 
 
@@ -650,7 +762,8 @@ body.is-logo-at-header .gnb__logo {
    이 구간을 스크롤하는 동안 3D 로고가 흩어졌다 모이며 헤더로 안착한다. */
 .section--logo {
   min-height: 150vh;
-  min-height: 150svh;   /* iOS 주소창 변동 대응 */
+  min-height: 150svh;
+  /* iOS 주소창 변동 대응 */
   isolation: isolate;
   overflow: hidden;
 }
@@ -659,17 +772,20 @@ body.is-logo-at-header .gnb__logo {
   inset: 0;
   width: 100vw;
   height: 100%;
-  object-position: center bottom;
+  object-position: center top;
 }
-/* 비디오 배경은 상단 절반(50vh)만 노출 — 상단 잘라 올리기 */
+
+/* 비디오 배경은 첫 화면(100vh)에만 고정 노출, 이후 스크롤로 자연 이탈 */
 .section--logo .section__video-bg {
-  height: 50vh;
-  height: 50svh;
+  height: 100vh;
+  height: 100svh;
 }
 
 .section__video-bg--first {
   object-fit: cover;
   background: #22bbff;
+  mask-image: linear-gradient(to bottom, black 0%, black 58%, rgba(0, 0, 0, 0.5) 78%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, black 58%, rgba(0, 0, 0, 0.5) 78%, transparent 100%);
   transform: translate3d(0, 0, 0);
   backface-visibility: hidden;
   filter: none;
@@ -696,7 +812,8 @@ body.is-logo-at-header .gnb__logo {
   align-items: center;
   justify-content: center;
   flex: 1;
-  padding-top: 102px; /* GNB 높이 보상 */
+  padding-top: 102px;
+  /* GNB 높이 보상 */
 }
 
 .hero__text {
@@ -739,6 +856,37 @@ body.is-logo-at-header .gnb__logo {
   letter-spacing: var(--ls-normal);
   line-height: 1.4;
   color: var(--clr-text);
+}
+
+/* hero 텍스트 순차 페이드인 */
+@keyframes heroFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+#sec-intro .hero__eyebrow,
+#sec-intro .hero__title,
+#sec-intro .hero__sub {
+  opacity: 0;
+  animation: heroFadeUp 0.9s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+  animation-play-state: paused;
+}
+
+#sec-intro .hero__eyebrow { animation-delay: 0.1s; }
+#sec-intro .hero__title   { animation-delay: 0.5s; }
+#sec-intro .hero__sub     { animation-delay: 1.0s; }
+
+/* hero 섹션이 화면에 들어오면 실행 */
+#sec-intro.hero-active .hero__eyebrow,
+#sec-intro.hero-active .hero__title,
+#sec-intro.hero-active .hero__sub {
+  animation-play-state: running;
 }
 
 /* 스크롤 인디케이터 */
@@ -785,7 +933,7 @@ body.is-logo-at-header .gnb__logo {
   right: 4px;
   bottom: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.95), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.95), transparent);
   transform: scaleX(0);
   transform-origin: center;
   opacity: 0;
@@ -835,15 +983,35 @@ body.is-logo-at-header .gnb__logo {
 }
 
 @keyframes scrollPulse {
-  0%,100% { opacity: 0.35; }
-  50%      { opacity: 1; }
+
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+
+  50% {
+    opacity: 1;
+  }
 }
 
 @keyframes exploreHintNudge {
-  0%, 100% { transform: translateY(0) scale(1); }
-  28%      { transform: translateY(-5px) scale(1.035); }
-  52%      { transform: translateY(0) scale(1); }
-  72%      { transform: translateY(-2px) scale(1.015); }
+
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+
+  28% {
+    transform: translateY(-5px) scale(1.035);
+  }
+
+  52% {
+    transform: translateY(0) scale(1);
+  }
+
+  72% {
+    transform: translateY(-2px) scale(1.015);
+  }
 }
 
 
@@ -898,10 +1066,10 @@ body.is-logo-at-header .gnb__logo {
   pointer-events: none;
   mix-blend-mode: normal;
   filter: saturate(1.08) contrast(0.92) brightness(1.04) blur(0.45px);
-  -webkit-mask-image: radial-gradient(ellipse at center, black 0 48%, rgba(0,0,0,0.62) 64%, transparent 82%);
-  mask-image: radial-gradient(ellipse at center, black 0 48%, rgba(0,0,0,0.62) 64%, transparent 82%);
-  transform: translate3d(-60vw, 46vh, 0) rotate(-7deg) scale(0.78);
-  animation: crewFishSwim 36s linear infinite;
+  -webkit-mask-image: radial-gradient(ellipse at center, black 0 48%, rgba(0, 0, 0, 0.62) 64%, transparent 82%);
+  mask-image: radial-gradient(ellipse at center, black 0 48%, rgba(0, 0, 0, 0.62) 64%, transparent 82%);
+  transform: translate3d(-48vw, 36vh, 0) scale(0.9);
+  animation: crewFishSwim 20s linear infinite;
   will-change: transform, opacity;
   backface-visibility: hidden;
   contain: paint;
@@ -957,15 +1125,20 @@ body.is-logo-at-header .gnb__logo {
   z-index: 4;
   opacity: 0.52;
   background:
-    linear-gradient(115deg, transparent 0 38%, rgba(255,255,255,0.10) 44%, transparent 52%),
-    linear-gradient(102deg, transparent 0 58%, rgba(129,226,255,0.07) 63%, transparent 70%);
+    linear-gradient(115deg, transparent 0 38%, rgba(255, 255, 255, 0.10) 44%, transparent 52%),
+    linear-gradient(102deg, transparent 0 58%, rgba(129, 226, 255, 0.07) 63%, transparent 70%);
   background-size: 180% 100%, 220% 100%;
   animation: crewLightDrift 14s ease-in-out infinite alternate;
 }
 
 @keyframes crewLightDrift {
-  from { background-position: 0% 0, 20% 0; }
-  to   { background-position: 100% 0, 84% 0; }
+  from {
+    background-position: 0% 0, 20% 0;
+  }
+
+  to {
+    background-position: 100% 0, 84% 0;
+  }
 }
 
 @keyframes crewFishSwim {
@@ -1048,6 +1221,7 @@ body.is-logo-at-header .gnb__logo {
     opacity: 0;
     transform: translate3d(-30vw, 34px, 0) rotate(5deg) scale(0.50);
   }
+
   12% {
     opacity: calc(0.22 * var(--crew-fish-loop-opacity, 1));
     transform: translate3d(-20vw, 6px, 0) rotate(-1deg) scale(0.53);
@@ -1064,10 +1238,12 @@ body.is-logo-at-header .gnb__logo {
   64% {
     transform: translate3d(15vw, -36px, 0) rotate(2deg) scale(0.61);
   }
+
   78% {
     opacity: calc(0.16 * var(--crew-fish-loop-opacity, 1));
     transform: translate3d(22vw, -112px, 0) rotate(-5deg) scale(0.62);
   }
+
   100% {
     opacity: 0;
     transform: translate3d(32vw, -150px, 0) rotate(2deg) scale(0.64);
@@ -1211,25 +1387,25 @@ body.is-logo-at-header .gnb__logo {
   width: 260px;
   height: 260px;
   border-radius: 50%;
-  background: radial-gradient(circle at 38% 34%, rgba(34,178,234,0.22), rgba(34,178,234,0.04));
-  border: 1px solid rgba(34,178,234,0.28);
+  background: radial-gradient(circle at 38% 34%, rgba(34, 178, 234, 0.22), rgba(34, 178, 234, 0.04));
+  border: 1px solid rgba(34, 178, 234, 0.28);
   animation: crewShapeFloat 4s ease-in-out infinite;
   transition: background 0.9s ease, border-color 0.9s ease;
 }
 
 .crew-canvas__placeholder[data-creature="beluga"] .crew-canvas__shape {
-  background: radial-gradient(circle at 38% 34%, rgba(100,200,240,0.22), rgba(100,200,240,0.04));
-  border-color: rgba(100,200,240,0.28);
+  background: radial-gradient(circle at 38% 34%, rgba(100, 200, 240, 0.22), rgba(100, 200, 240, 0.04));
+  border-color: rgba(100, 200, 240, 0.28);
 }
 
 .crew-canvas__placeholder[data-creature="whaleshark"] .crew-canvas__shape {
-  background: radial-gradient(circle at 38% 34%, rgba(15,160,210,0.22), rgba(15,160,210,0.04));
-  border-color: rgba(15,160,210,0.28);
+  background: radial-gradient(circle at 38% 34%, rgba(15, 160, 210, 0.22), rgba(15, 160, 210, 0.04));
+  border-color: rgba(15, 160, 210, 0.28);
 }
 
 .crew-canvas__placeholder[data-creature="turtle"] .crew-canvas__shape {
-  background: radial-gradient(circle at 38% 34%, rgba(20,180,120,0.22), rgba(20,180,120,0.04));
-  border-color: rgba(20,180,120,0.28);
+  background: radial-gradient(circle at 38% 34%, rgba(20, 180, 120, 0.22), rgba(20, 180, 120, 0.04));
+  border-color: rgba(20, 180, 120, 0.28);
 }
 
 .crew-canvas__glow {
@@ -1237,19 +1413,35 @@ body.is-logo-at-header .gnb__logo {
   width: 210px;
   height: 210px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(34,178,234,0.13), transparent 68%);
+  background: radial-gradient(circle, rgba(34, 178, 234, 0.13), transparent 68%);
   animation: crewGlowPulse 3s ease-in-out infinite;
   pointer-events: none;
 }
 
 @keyframes crewShapeFloat {
-  0%,100% { transform: translateY(0); }
-  50%      { transform: translateY(-18px); }
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-18px);
+  }
 }
 
 @keyframes crewGlowPulse {
-  0%,100% { opacity: 0.5; transform: scale(1); }
-  50%      { opacity: 1;   transform: scale(1.35); }
+
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.35);
+  }
 }
 
 /* 인포 패널 래퍼 — 카드 프레임 고정, 내부 텍스트만 전환 */
@@ -1267,26 +1459,28 @@ body.is-logo-at-header .gnb__logo {
   background:
     linear-gradient(
       201deg,
-      rgba(255,255,255,0.03)  1.6%,
-      rgba(255,255,255,0.24) 50.0%,
-      rgba(255,255,255,0.04) 98.4%
+      rgba(255, 255, 255, 0.03)  1.6%,
+      rgba(255, 255, 255, 0.24) 50.0%,
+      rgba(255, 255, 255, 0.04) 98.4%
     ) padding-box,
     linear-gradient(
       135deg,
-      rgba(255,255,255,0.24) 0%,
-      rgba(198,238,255,0.06) 23%,
-      rgba(255,255,255,0.15) 48%,
-      rgba(84,196,237,0.06) 72%,
-      rgba(255,255,255,0.20) 100%
+      rgba(255, 255, 255, 0.24) 0%,
+      rgba(198, 238, 255, 0.06) 23%,
+      rgba(255, 255, 255, 0.15) 48%,
+      rgba(84, 196, 237, 0.06)  72%,
+      rgba(255, 255, 255, 0.20) 100%
     ) border-box;
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.08),
-    inset 0 -1px 0 rgba(116,211,246,0.03),
-    0 0 0 1px rgba(255,255,255,0.015),
-    0 18px 38px rgba(0,48,96,0.03),
-    0 0 14px rgba(87,205,246,0.035);
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    inset 0 -1px 0 rgba(116, 211, 246, 0.03),
+    0 0 0 1px rgba(255, 255, 255, 0.015),
+    0 18px 38px rgba(0, 48, 96, 0.03),
+    0 0 14px rgba(87, 205, 246, 0.035);
   opacity: 0;
   transform: translateY(38px);
+  overflow: visible;
+  background-clip: padding-box, border-box;
   transition: opacity 0.38s ease, transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -1304,10 +1498,10 @@ body.is-logo-at-header .gnb__logo {
   pointer-events: none;
   z-index: 0;
   background:
-    linear-gradient(to left, rgba(255,255,255,0.52), rgba(198,238,255,0.11), transparent) top right / 116px 1.5px no-repeat,
-    linear-gradient(to bottom, rgba(255,255,255,0.48), rgba(198,238,255,0.11), transparent) top right / 1.5px 116px no-repeat,
-    linear-gradient(to right, rgba(255,255,255,0.44), rgba(84,196,237,0.10), transparent) bottom left / 116px 1.5px no-repeat,
-    linear-gradient(to top, rgba(255,255,255,0.42), rgba(84,196,237,0.10), transparent) bottom left / 1.5px 116px no-repeat;
+    linear-gradient(to left, rgba(255, 255, 255, 0.52), rgba(198, 238, 255, 0.11), transparent) top right / 116px 1.5px no-repeat,
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.48), rgba(198, 238, 255, 0.11), transparent) top right / 1.5px 116px no-repeat,
+    linear-gradient(to right, rgba(255, 255, 255, 0.44), rgba(84, 196, 237, 0.10), transparent) bottom left / 116px 1.5px no-repeat,
+    linear-gradient(to top, rgba(255, 255, 255, 0.42), rgba(84, 196, 237, 0.10), transparent) bottom left / 1.5px 116px no-repeat;
 }
 
 .section--crew-scroll.is-creature-moving .crew-info-wrap,
@@ -1352,10 +1546,10 @@ body.is-logo-at-header .gnb__logo {
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.25s ease;
-  z-index: 2;
+  z-index: 4;
 }
 
-.crew-panel.is-active + .crew-panel-btn {
+.crew-panel.is-active+.crew-panel-btn {
   display: flex;
   opacity: 1;
   pointer-events: auto;
@@ -1384,7 +1578,7 @@ body.is-logo-at-header .gnb__logo {
   height: 8px;
   padding: 0;
   border-radius: 50%;
-  background: rgba(255,255,255,0.22);
+  background: rgba(255, 255, 255, 0.22);
   border: none;
   cursor: pointer;
   transition: background var(--tr-base), transform var(--tr-base);
@@ -1422,21 +1616,27 @@ body.is-logo-at-header .gnb__logo {
 }
 
 @keyframes hintBlink {
-  0%,100% { opacity: 0.35; }
-  50%      { opacity: 0.75; }
+
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+
+  50% {
+    opacity: 0.75;
+  }
 }
 
 /* 정보 카드 */
 .creature-info {
   flex: 1;
   padding: 36px 76px;
+  border-radius: calc(var(--radius-card) - 2px);
   /* 글래스 그라데이션 (Figma 201deg 패턴) */
-  background: linear-gradient(
-    201deg,
-    rgba(255,255,255,0.00) 1.6%,
-    rgba(255,255,255,0.08) 50%,
-    rgba(255,255,255,0.00) 98.4%
-  );
+  background: linear-gradient(201deg,
+      rgba(255, 255, 255, 0.00) 1.6%,
+      rgba(255, 255, 255, 0.08) 50%,
+      rgba(255, 255, 255, 0.00) 98.4%);
 }
 
 .creature-info__head {
@@ -1471,7 +1671,11 @@ body.is-logo-at-header .gnb__logo {
   padding-left: 6px;
   margin-bottom: 8px;
 }
-.creature-info__meta > div { margin-bottom: 0; }
+
+.creature-info__meta>div {
+  margin-bottom: 0;
+}
+
 .creature-info__meta dt,
 .creature-info__meta dd {
   display: inline;
@@ -1480,8 +1684,15 @@ body.is-logo-at-header .gnb__logo {
   letter-spacing: var(--ls-normal);
   color: var(--clr-text);
 }
-.creature-info__meta dt { font-weight: 400; }
-.creature-info__meta dd { font-weight: 400; margin-left: 0; }
+
+.creature-info__meta dt {
+  font-weight: 400;
+}
+
+.creature-info__meta dd {
+  font-weight: 400;
+  margin-left: 0;
+}
 
 .creature-info__desc {
   font-family: var(--font-kr);
@@ -1618,6 +1829,7 @@ body.is-logo-at-header .gnb__logo {
   margin-bottom: var(--sec-gap);
   width: 100%;
   text-align: center;
+  will-change: transform, opacity;
 }
 
 .section--program.is-title-visible .program-seq-title {
@@ -1629,6 +1841,7 @@ body.is-logo-at-header .gnb__logo {
   margin-top: 0;
   transform: translateY(var(--seq-content-y, 60px));
   pointer-events: none;
+  will-change: transform, opacity;
 }
 
 .section--program.is-content-visible .program-seq-content {
@@ -1673,7 +1886,7 @@ body.is-logo-at-header .gnb__logo {
 
 .program-card {
   position: relative;
-  width:  var(--card-w);
+  width: var(--card-w);
   height: var(--card-h);
   overflow: hidden;
   flex-shrink: 0;
@@ -1681,21 +1894,17 @@ body.is-logo-at-header .gnb__logo {
   border: 0;
   border-radius: 20px;
   background: rgba(255, 255, 255, 0.10);
-  backdrop-filter: blur(18px) saturate(1.28);
-  -webkit-backdrop-filter: blur(18px) saturate(1.28);
   box-shadow: none;
   isolation: isolate;
+  will-change: transform;
   transition:
     transform var(--tr-base),
-    background var(--tr-base),
-    backdrop-filter var(--tr-base),
-    -webkit-backdrop-filter var(--tr-base);
+    background var(--tr-base);
 }
+
 .program-card:hover {
   transform: translateY(-8px);
   background: rgba(255, 255, 255, 0.14);
-  backdrop-filter: blur(20px) saturate(1.34);
-  -webkit-backdrop-filter: blur(20px) saturate(1.34);
   box-shadow: none;
   z-index: 2;
 }
@@ -1721,9 +1930,7 @@ body.is-logo-at-header .gnb__logo {
   content: '';
   position: absolute;
   inset: 0;
-  background: rgba(255,255,255,0.06);
-  backdrop-filter: blur(1.4px) saturate(1.08);
-  -webkit-backdrop-filter: blur(1.4px) saturate(1.08);
+  background: rgba(255, 255, 255, 0.06);
   opacity: 0.48;
   pointer-events: none;
   z-index: 1;
@@ -1734,14 +1941,12 @@ body.is-logo-at-header .gnb__logo {
   content: '';
   position: absolute;
   inset: -18% -24%;
-  background: linear-gradient(
-    var(--glass-shine-angle, 120deg),
-    transparent 0%,
-    rgba(255,255,255,0.00) 21%,
-    rgba(255,255,255,0.24) 36%,
-    rgba(255,255,255,0.08) 49%,
-    transparent 66%
-  );
+  background: linear-gradient(var(--glass-shine-angle, 120deg),
+      transparent 0%,
+      rgba(255, 255, 255, 0.00) 21%,
+      rgba(255, 255, 255, 0.24) 36%,
+      rgba(255, 255, 255, 0.08) 49%,
+      transparent 66%);
   opacity: var(--glass-shine-opacity, 0.42);
   transform: translateX(var(--glass-shine-x, 0px)) translateY(var(--glass-shine-y, 0px));
   transition: opacity 0.7s ease, transform 0.7s ease;
@@ -1749,25 +1954,82 @@ body.is-logo-at-header .gnb__logo {
   z-index: 2;
 }
 
-.program-card:nth-child(1) { --glass-shine-angle: 120deg; --glass-shine-x: -34px; --glass-shine-y: -18px; --glass-shine-opacity: 0.46; }
-.program-card:nth-child(2) { --glass-shine-angle: 132deg; --glass-shine-x: 42px; --glass-shine-y: -28px; --glass-shine-opacity: 0.38; }
-.program-card:nth-child(3) { --glass-shine-angle: 112deg; --glass-shine-x: 10px; --glass-shine-y: 8px; --glass-shine-opacity: 0.34; }
-.program-card:nth-child(4) { --glass-shine-angle: 126deg; --glass-shine-x: -8px; --glass-shine-y: -10px; --glass-shine-opacity: 0.50; }
+.program-card:nth-child(1) {
+  --glass-shine-angle: 120deg;
+  --glass-shine-x: -34px;
+  --glass-shine-y: -18px;
+  --glass-shine-opacity: 0.46;
+}
 
-.booking-card:nth-child(1) { --glass-shine-angle: 118deg; --glass-shine-x: -38px; --glass-shine-y: -20px; --glass-shine-opacity: 0.44; }
-.booking-card:nth-child(2) { --glass-shine-angle: 134deg; --glass-shine-x: 46px; --glass-shine-y: -24px; --glass-shine-opacity: 0.40; }
-.booking-card:nth-child(3) { --glass-shine-angle: 110deg; --glass-shine-x: 6px; --glass-shine-y: 10px; --glass-shine-opacity: 0.35; }
-.booking-card:nth-child(4) { --glass-shine-angle: 124deg; --glass-shine-x: -18px; --glass-shine-y: -12px; --glass-shine-opacity: 0.48; }
+.program-card:nth-child(2) {
+  --glass-shine-angle: 132deg;
+  --glass-shine-x: 42px;
+  --glass-shine-y: -28px;
+  --glass-shine-opacity: 0.38;
+}
 
-.program-card__img--1 { background-image: url('assets/images/image%20136.png'); }
-.program-card__img--2 { background-image: url('assets/images/Frame%20139.png'); }
-.program-card__img--3 { background-image: url('assets/images/image%20138.png'); }
-.program-card__img--4 { background-image: url('assets/images/image%20140.png'); }
+.program-card:nth-child(3) {
+  --glass-shine-angle: 112deg;
+  --glass-shine-x: 10px;
+  --glass-shine-y: 8px;
+  --glass-shine-opacity: 0.34;
+}
+
+.program-card:nth-child(4) {
+  --glass-shine-angle: 126deg;
+  --glass-shine-x: -8px;
+  --glass-shine-y: -10px;
+  --glass-shine-opacity: 0.50;
+}
+
+.booking-card:nth-child(1) {
+  --glass-shine-angle: 118deg;
+  --glass-shine-x: -38px;
+  --glass-shine-y: -20px;
+  --glass-shine-opacity: 0.44;
+}
+
+.booking-card:nth-child(2) {
+  --glass-shine-angle: 134deg;
+  --glass-shine-x: 46px;
+  --glass-shine-y: -24px;
+  --glass-shine-opacity: 0.40;
+}
+
+.booking-card:nth-child(3) {
+  --glass-shine-angle: 110deg;
+  --glass-shine-x: 6px;
+  --glass-shine-y: 10px;
+  --glass-shine-opacity: 0.35;
+}
+
+.booking-card:nth-child(4) {
+  --glass-shine-angle: 124deg;
+  --glass-shine-x: -18px;
+  --glass-shine-y: -12px;
+  --glass-shine-opacity: 0.48;
+}
+
+.program-card__img--1 {
+  background-image: url('assets/images/image%20136.png');
+}
+
+.program-card__img--2 {
+  background-image: url('assets/images/Frame%20139.png');
+}
+
+.program-card__img--3 {
+  background-image: url('assets/images/image%20138.png');
+}
+
+.program-card__img--4 {
+  background-image: url('assets/images/image%20140.png');
+}
 
 .program-card__gradient {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.12) 28%, transparent 62%);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0.12) 28%, transparent 62%);
   z-index: 1;
 }
 
@@ -1775,7 +2037,8 @@ body.is-logo-at-header .gnb__logo {
 .program-card__body {
   position: absolute;
   bottom: 0;
-  left: 0; right: 0;
+  left: 0;
+  right: 0;
   padding: 24px;
   display: flex;
   flex-direction: column;
@@ -1798,7 +2061,7 @@ body.is-logo-at-header .gnb__logo {
 .program-card__hover-gradient {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.42) 48%, rgba(0,0,0,0.85) 100%);
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.42) 48%, rgba(0, 0, 0, 0.85) 100%);
   opacity: 0;
   transition: opacity var(--tr-base);
   z-index: 2;
@@ -1910,7 +2173,7 @@ body.is-logo-at-header .gnb__logo {
 .map-marker {
   position: absolute;
   left: var(--mx);
-  top:  var(--my);
+  top: var(--my);
   transform: translate(-50%, -50%);
   display: block;
   width: 110px;
@@ -1928,7 +2191,8 @@ body.is-logo-at-header .gnb__logo {
   left: 50%;
   top: 50%;
   display: block;
-  width: 11px; height: 11px;
+  width: 11px;
+  height: 11px;
   transform: translate(-50%, -50%);
   border-radius: 50%;
   background: rgb(254 255 188);
@@ -1936,6 +2200,7 @@ body.is-logo-at-header .gnb__logo {
   box-shadow: 0 0 4px 9px rgb(254 255 188 / 49%);
   transition: opacity 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
 }
+
 .map-marker:hover .map-marker__dot,
 .map-marker:focus-visible .map-marker__dot,
 .map-marker.is-active .map-marker__dot {
@@ -1959,6 +2224,7 @@ body.is-logo-at-header .gnb__logo {
   transition: opacity 0.28s ease, transform 0.28s cubic-bezier(0.34, 1.4, 0.64, 1);
   filter: drop-shadow(0 2px 14px rgba(0, 0, 0, 0.4));
 }
+
 .map-marker:hover .map-marker__logo,
 .map-marker:focus-visible .map-marker__logo,
 .map-marker.is-active .map-marker__logo {
@@ -1968,7 +2234,9 @@ body.is-logo-at-header .gnb__logo {
 
 .map-marker:hover .map-marker__label,
 .map-marker:focus-visible .map-marker__label,
-.map-marker.is-active .map-marker__label { color: var(--clr-text); }
+.map-marker.is-active .map-marker__label {
+  color: var(--clr-text);
+}
 
 .location-hover-card {
   position: absolute;
@@ -1984,27 +2252,23 @@ body.is-logo-at-header .gnb__logo {
   pointer-events: none;
   transition: opacity 0.28s ease, transform 0.28s ease;
   background:
-    linear-gradient(
-      201deg,
-      rgba(255,255,255,0.03) 1.6%,
-      rgba(255,255,255,0.24) 50%,
-      rgba(255,255,255,0.04) 98.4%
-    ) padding-box,
-    linear-gradient(
-      135deg,
-      rgba(255,255,255,0.24) 0%,
-      rgba(198,238,255,0.06) 23%,
-      rgba(255,255,255,0.15) 48%,
-      rgba(84,196,237,0.06) 72%,
-      rgba(255,255,255,0.20) 100%
-    ) border-box;
+    linear-gradient(201deg,
+      rgba(255, 255, 255, 0.03) 1.6%,
+      rgba(255, 255, 255, 0.24) 50%,
+      rgba(255, 255, 255, 0.04) 98.4%) padding-box,
+    linear-gradient(135deg,
+      rgba(255, 255, 255, 0.24) 0%,
+      rgba(198, 238, 255, 0.06) 23%,
+      rgba(255, 255, 255, 0.15) 48%,
+      rgba(84, 196, 237, 0.06) 72%,
+      rgba(255, 255, 255, 0.20) 100%) border-box;
   border-width: 1.5px;
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.08),
-    inset 0 -1px 0 rgba(116,211,246,0.03),
-    0 0 0 1px rgba(255,255,255,0.015),
-    0 18px 38px rgba(0,48,96,0.03),
-    0 0 14px rgba(87,205,246,0.035);
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    inset 0 -1px 0 rgba(116, 211, 246, 0.03),
+    0 0 0 1px rgba(255, 255, 255, 0.015),
+    0 18px 38px rgba(0, 48, 96, 0.03),
+    0 0 14px rgba(87, 205, 246, 0.035);
   overflow: visible;
   isolation: isolate;
 }
@@ -2016,10 +2280,10 @@ body.is-logo-at-header .gnb__logo {
   border-radius: inherit;
   pointer-events: none;
   background:
-    linear-gradient(to left, rgba(255,255,255,0.52), rgba(198,238,255,0.11), transparent) top right / 116px 1.5px no-repeat,
-    linear-gradient(to bottom, rgba(255,255,255,0.48), rgba(198,238,255,0.11), transparent) top right / 1.5px 116px no-repeat,
-    linear-gradient(to right, rgba(255,255,255,0.44), rgba(84,196,237,0.10), transparent) bottom left / 116px 1.5px no-repeat,
-    linear-gradient(to top, rgba(255,255,255,0.42), rgba(84,196,237,0.10), transparent) bottom left / 1.5px 116px no-repeat;
+    linear-gradient(to left, rgba(255, 255, 255, 0.52), rgba(198, 238, 255, 0.11), transparent) top right / 116px 1.5px no-repeat,
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.48), rgba(198, 238, 255, 0.11), transparent) top right / 1.5px 116px no-repeat,
+    linear-gradient(to right, rgba(255, 255, 255, 0.44), rgba(84, 196, 237, 0.10), transparent) bottom left / 116px 1.5px no-repeat,
+    linear-gradient(to top, rgba(255, 255, 255, 0.42), rgba(84, 196, 237, 0.10), transparent) bottom left / 1.5px 116px no-repeat;
   z-index: 1;
 }
 
@@ -2139,7 +2403,7 @@ body.is-logo-at-header .gnb__logo {
   min-width: 0;
   min-height: 370px;
   border-radius: 12px;
-  border: 1px dashed rgba(255,255,255,0.5);
+  border: 1px dashed rgba(255, 255, 255, 0.5);
   background: #dfe9ef;
   display: flex;
   align-items: center;
@@ -2196,6 +2460,7 @@ body.is-logo-at-header .gnb__logo {
     opacity: 0;
     transform: translateY(14px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -2207,6 +2472,7 @@ body.is-logo-at-header .gnb__logo {
     opacity: 0.42;
     transform: translateY(10px) scale(0.985);
   }
+
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -2217,19 +2483,25 @@ body.is-logo-at-header .gnb__logo {
 .location-deco {
   position: absolute;
   border-radius: var(--radius-image);
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.06);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   background-size: cover;
   background-position: center;
 }
+
 .location-deco--right {
-  right: 0; top: -20px;
-  width: 610px; height: 523px;
+  right: 0;
+  top: -20px;
+  width: 610px;
+  height: 523px;
   background-image: url("assets/images/image 138.png");
 }
+
 .location-deco--left {
-  left: 0; bottom: -40px;
-  width: 550px; height: 450px;
+  left: 0;
+  bottom: -40px;
+  width: 550px;
+  height: 450px;
   background-image: url("assets/images/image 136.png");
 }
 
@@ -2261,7 +2533,7 @@ body.is-logo-at-header .gnb__logo {
 .booking-bg-video {
   position: absolute;
   z-index: 0;
-  top: 50%;
+  top: 46%;
   left: 50%;
   width: clamp(420px, 42vw, 760px);
   height: auto;
@@ -2275,36 +2547,102 @@ body.is-logo-at-header .gnb__logo {
   transform: translate3d(-50%, -50%, 0);
   will-change: transform, opacity;
   animation: jellyfish-path 72s linear infinite;
-  animation-delay: 0s;
+  animation-delay: -28s;
 }
 
 /* Reference-arrow path: one slow clockwise oval around the booking cards. */
 @keyframes jellyfish-path {
-  0%   { transform: translate3d(-50%, -50%, 0) translate3d(-32vw, -32vh, 0) scale(1.18); opacity: calc(var(--booking-video-loop-opacity) * .42); }
-  4%   { transform: translate3d(-50%, -50%, 0) translate3d(-42vw, -24vh, 0) scale(1.18); opacity: calc(var(--booking-video-loop-opacity) * .42); }
-  8%   { transform: translate3d(-50%, -50%, 0) translate3d(-52vw, -12vh, 0) scale(1.18); opacity: calc(var(--booking-video-loop-opacity) * .42); }
-  12%  { transform: translate3d(-50%, -50%, 0) translate3d(-62vw,   2vh, 0) scale(1.18); opacity: calc(var(--booking-video-loop-opacity) * .42); }
-  16%  { transform: translate3d(-50%, -50%, 0) translate3d(-58vw,  18vh, 0) scale(1.18); opacity: calc(var(--booking-video-loop-opacity) * .42); }
-  20%  { transform: translate3d(-50%, -50%, 0) translate3d(-45vw,  36vh, 0) scale(1.18); opacity: calc(var(--booking-video-loop-opacity) * .42); }
-  24%  { transform: translate3d(-50%, -50%, 0) translate3d(-24vw,  50vh, 0) scale(1.18); opacity: calc(var(--booking-video-loop-opacity) * .42); }
-  28%  { transform: translate3d(-50%, -50%, 0) translate3d(  3vw,  58vh, 0) scale(1.18); opacity: calc(var(--booking-video-loop-opacity) * .42); }
-  32%  { transform: translate3d(-50%, -50%, 0) translate3d( 15vw,  56vh, 0) scale(1.18); opacity: calc(var(--booking-video-loop-opacity) * .42); }
-  36%  { transform: translate3d(-50%, -50%, 0) translate3d( 27vw,  52vh, 0) scale(1.18); opacity: calc(var(--booking-video-loop-opacity) * .42); }
-  40%  { transform: translate3d(-50%, -50%, 0) translate3d( 37vw,  46vh, 0) scale(1.18); opacity: calc(var(--booking-video-loop-opacity) * .42); }
-  44%  { transform: translate3d(-50%, -50%, 0) translate3d( 47vw,  33vh, 0) scale(1.18); opacity: calc(var(--booking-video-loop-opacity) * .42); }
-  48%  { transform: translate3d(-50%, -50%, 0) translate3d( 55vw,  28vh, 0) scale(1.18); opacity: calc(var(--booking-video-loop-opacity) * .42); }
-  52%  { transform: translate3d(-50%, -50%, 0) translate3d( 66vw,  15vh, 0) scale(1.18); opacity: calc(var(--booking-video-loop-opacity) * .42); }
-  56%  { transform: translate3d(-50%, -50%, 0) translate3d( 70vw,   0vh, 0) scale(1.18); opacity: calc(var(--booking-video-loop-opacity) * .42); }
-  60%  { transform: translate3d(-50%, -50%, 0) translate3d( 66vw, -15vh, 0) scale(1.18); opacity: calc(var(--booking-video-loop-opacity) * .42); }
-  64%  { transform: translate3d(-50%, -50%, 0) translate3d( 55vw, -28vh, 0) scale(1.18); opacity: calc(var(--booking-video-loop-opacity) * .42); }
-  68%  { transform: translate3d(-50%, -50%, 0) translate3d( 37vw, -38vh, 0) scale(1.18); opacity: calc(var(--booking-video-loop-opacity) * .42); }
-  72%  { transform: translate3d(-50%, -50%, 0) translate3d( 15vw, -45vh, 0) scale(1.18); opacity: calc(var(--booking-video-loop-opacity) * .42); }
-  76%  { transform: translate3d(-50%, -50%, 0) translate3d( -9vw, -47vh, 0) scale(1.18); opacity: calc(var(--booking-video-loop-opacity) * .42); }
-  80%  { transform: translate3d(-50%, -50%, 0) translate3d(-33vw, -45vh, 0) scale(1.18); opacity: calc(var(--booking-video-loop-opacity) * .42); }
-  84%  { transform: translate3d(-50%, -50%, 0) translate3d(-55vw, -38vh, 0) scale(1.18); opacity: calc(var(--booking-video-loop-opacity) * .26); }
-  88%  { transform: translate3d(-50%, -50%, 0) translate3d(-73vw, -28vh, 0) scale(1.18); opacity: 0; }
-  94%  { transform: translate3d(-50%, -50%, 0) translate3d(-84vw, -15vh, 0) scale(1.18); opacity: 0; }
-  100% { transform: translate3d(-50%, -50%, 0) translate3d(-88vw,   0vh, 0) scale(1.18); opacity: 0; }
+
+  /* ── Arc 1: 가운데 하단 등장, 위로 올라오다가 왼쪽으로 꺾임 ── */
+  0% {
+    transform: translate(-50%, -50%) translate(0vw, 44vh);
+    opacity: 0;
+  }
+
+  4% {
+    transform: translate(-50%, -50%) translate(-2vw, 32vh);
+    opacity: 0.6;
+  }
+
+  12% {
+    transform: translate(-50%, -50%) translate(-5vw, 18vh);
+    opacity: 0.6;
+  }
+
+  22% {
+    transform: translate(-50%, -50%) translate(-14vw, 7vh);
+    opacity: 0.6;
+  }
+
+  32% {
+    transform: translate(-50%, -50%) translate(-28vw, 1vh);
+    opacity: 0.6;
+  }
+
+  41% {
+    transform: translate(-50%, -50%) translate(-42vw, -1vh);
+    opacity: 0.6;
+  }
+
+  46% {
+    transform: translate(-50%, -50%) translate(-52vw, 0vh);
+    opacity: 0.25;
+  }
+
+  /* 왼쪽 화면 밖 퇴장 */
+  49% {
+    transform: translate(-50%, -50%) translate(-65vw, 0vh);
+    opacity: 0;
+  }
+
+  /* off-screen 상태에서 위치 점프 */
+  50% {
+    transform: translate(-50%, -50%) translate(0vw, -44vh);
+    opacity: 0;
+  }
+
+  /* ── Arc 2: 가운데 상단 등장, 아래로 내려오다가 오른쪽으로 꺾임 ── */
+  54% {
+    transform: translate(-50%, -50%) translate(2vw, -32vh);
+    opacity: 0.6;
+  }
+
+  62% {
+    transform: translate(-50%, -50%) translate(5vw, -18vh);
+    opacity: 0.6;
+  }
+
+  72% {
+    transform: translate(-50%, -50%) translate(14vw, -7vh);
+    opacity: 0.6;
+  }
+
+  82% {
+    transform: translate(-50%, -50%) translate(28vw, -1vh);
+    opacity: 0.6;
+  }
+
+  91% {
+    transform: translate(-50%, -50%) translate(42vw, 1vh);
+    opacity: 0.6;
+  }
+
+  96% {
+    transform: translate(-50%, -50%) translate(52vw, 0vh);
+    opacity: 0.25;
+  }
+
+  /* 오른쪽 화면 밖 퇴장 */
+  99% {
+    transform: translate(-50%, -50%) translate(65vw, 0vh);
+    opacity: 0;
+  }
+
+  /* 루프 연결 */
+  100% {
+    transform: translate(-50%, -50%) translate(0vw, 44vh);
+    opacity: 0;
+  }
 }
 
 /* flex-wrap 비대칭 2×2 그리드 */
@@ -2314,9 +2652,11 @@ body.is-logo-at-header .gnb__logo {
   display: flex;
   flex-wrap: wrap;
   gap: 17.93px;
-  width: 1328px; /* 1300px + padding 12px×2 + border 2px×2 */
+  width: 1328px;
+  /* 1300px + padding 12px×2 + border 2px×2 */
   padding: 12px;
-  border-radius: 32px; /* card 20px + padding 12px */
+  border-radius: 32px;
+  /* card 20px + padding 12px */
   background: rgba(255, 255, 255, 0.06);
   backdrop-filter: blur(10px) saturate(1.15);
   -webkit-backdrop-filter: blur(10px) saturate(1.15);
@@ -2325,13 +2665,12 @@ body.is-logo-at-header .gnb__logo {
     inset 0 1px 0 rgba(255, 255, 255, 0.12),
     0 8px 32px rgba(0, 20, 60, 0.18);
   margin-top: 0;
-  opacity: 1;
   transform: translateX(-50%);
 }
 
 .booking-card {
   position: relative;
-  width:  var(--bw);
+  width: var(--bw);
   height: 313.79px;
   overflow: hidden;
   flex-shrink: 0;
@@ -2339,21 +2678,15 @@ body.is-logo-at-header .gnb__logo {
   border: 0;
   border-radius: 20px;
   background: rgba(255, 255, 255, 0.10);
-  backdrop-filter: blur(18px) saturate(1.28);
-  -webkit-backdrop-filter: blur(18px) saturate(1.28);
   box-shadow: none;
   isolation: isolate;
+  will-change: transform;
   transition:
-    transform var(--tr-base),
-    background var(--tr-base),
-    backdrop-filter var(--tr-base),
-    -webkit-backdrop-filter var(--tr-base);
+    background var(--tr-base);
 }
+
 .booking-card:hover {
-  transform: translateY(-8px);
   background: rgba(255, 255, 255, 0.14);
-  backdrop-filter: blur(20px) saturate(1.34);
-  -webkit-backdrop-filter: blur(20px) saturate(1.34);
   box-shadow: none;
 }
 
@@ -2377,24 +2710,37 @@ body.is-logo-at-header .gnb__logo {
   transition: transform 0.45s ease, filter var(--tr-base);
   z-index: 0;
 }
-.booking-card__img--ilsan  { background-image: url("assets/images/Frame 19.png"); }
-.booking-card__img--seoul  { background-image: url("assets/images/Frame 20.png"); }
-.booking-card__img--yeosu  { background-image: url("assets/images/Frame 22.png"); }
-.booking-card__img--jeju   { background-image: url("assets/images/Frame 21.png"); }
+
+.booking-card__img--ilsan {
+  background-image: url("assets/images/Frame 19.png");
+}
+
+.booking-card__img--seoul {
+  background-image: url("assets/images/Frame 20.png");
+}
+
+.booking-card__img--yeosu {
+  background-image: url("assets/images/Frame 22.png");
+}
+
+.booking-card__img--jeju {
+  background-image: url("assets/images/Frame 21.png");
+}
 
 .booking-card__gradient {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(to bottom, rgba(0,0,0,0.04) 0%, rgba(0,0,0,0.06) 48%, rgba(0,0,0,0.30) 100%),
-    linear-gradient(to top, rgba(0,0,0,0.14) 0%, transparent 42%);
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 0%, rgba(0, 0, 0, 0.06) 48%, rgba(0, 0, 0, 0.30) 100%),
+    linear-gradient(to top, rgba(0, 0, 0, 0.14) 0%, transparent 42%);
   z-index: 1;
 }
 
 .booking-card__foot {
   position: absolute;
   bottom: 16px;
-  left: 16px; right: 16px;
+  left: 16px;
+  right: 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -2603,16 +2949,28 @@ body.is-logo-at-header .gnb__logo {
   transform: translateY(36px);
   transition: opacity 0.8s ease, transform 0.8s ease;
 }
+
 .reveal.is-visible {
   opacity: 1;
   transform: translateY(0);
 }
 
 /* 지연 변형 */
-.reveal--delay-1 { transition-delay: 0.12s; }
-.reveal--delay-2 { transition-delay: 0.24s; }
-.reveal--delay-3 { transition-delay: 0.36s; }
-.reveal--delay-4 { transition-delay: 0.48s; }
+.reveal--delay-1 {
+  transition-delay: 0.12s;
+}
+
+.reveal--delay-2 {
+  transition-delay: 0.24s;
+}
+
+.reveal--delay-3 {
+  transition-delay: 0.36s;
+}
+
+.reveal--delay-4 {
+  transition-delay: 0.48s;
+}
 
 
 /* -------------------------------------------------------------
@@ -2624,48 +2982,49 @@ body.is-logo-at-header .gnb__logo {
 .program-card:hover .program-card__hover-gradient {
   opacity: 1;
 }
+
 .program-card:hover::before,
 .booking-card:hover::before {
   opacity: 1;
   filter: brightness(1.18);
 }
+
 .program-card:hover::after,
 .booking-card:hover::after {
   opacity: 0.62;
   transform: translate3d(-1px, -1px, 0);
 }
-.program-card:hover .program-card__img,
-.booking-card:hover .booking-card__img {
+
+.program-card:hover .program-card__img {
   transform: scale(1.025);
   filter: brightness(1.12) contrast(1.05) saturate(1.1);
 }
+
+.booking-card:hover .booking-card__img {
+  transform: scale(1.08);
+  filter: brightness(1.12) contrast(1.05) saturate(1.1);
+}
+
 .program-card:hover .program-card__img::before,
 .booking-card:hover .booking-card__img::before {
   opacity: 0.56;
 }
+
 .program-card:hover .program-card__img::after,
 .booking-card:hover .booking-card__img::after {
   opacity: calc(var(--glass-shine-opacity, 0.42) + 0.10);
   transform:
-    translateX(calc(var(--glass-shine-x, 0px) + 20px))
-    translateY(var(--glass-shine-y, 0px));
+    translateX(calc(var(--glass-shine-x, 0px) + 20px)) translateY(var(--glass-shine-y, 0px));
 }
+
 .program-card:hover .program-card__hover-info {
   opacity: 1;
   max-height: 300px;
 }
 
 /* 예매 카드 hover: 버튼 밝기 */
-.booking-card .btn-cta--white {
+.booking-card .btn-cta--fill-white {
   opacity: 0.88;
-  color: var(--clr-text);
-  background: rgba(255, 255, 255, 0.08);
-  border: 1.5px solid rgba(255, 255, 255, 0.42);
-  backdrop-filter: blur(12px) saturate(1.25);
-  -webkit-backdrop-filter: blur(12px) saturate(1.25);
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.22),
-    0 3px 12px rgba(0, 32, 80, 0.08);
   transition:
     opacity var(--tr-base),
     background var(--tr-base),
@@ -2673,12 +3032,11 @@ body.is-logo-at-header .gnb__logo {
     border-color var(--tr-base),
     transform var(--tr-base);
 }
+.booking-card:hover .btn-cta--fill-white,
+.booking-card .btn-cta--fill-white:hover,
 .booking-card:hover .btn-cta--white,
 .booking-card .btn-cta--white:hover {
   opacity: 1;
-  color: var(--clr-text);
-  background: rgba(255, 255, 255, 0.18);
-  border-color: rgba(255, 255, 255, 0.72);
   transform: translateY(-1px);
 }
 
@@ -2696,9 +3054,19 @@ body.is-logo-at-header .gnb__logo {
   pointer-events: none;
   opacity: 0;
   overflow: hidden;
-  visibility: hidden;
-  background: transparent;
-  will-change: opacity;
+  background:
+    radial-gradient(ellipse 200% 65% at 50% 130%, rgba(34, 178, 234, 0.88) 0%, transparent 58%),
+    linear-gradient(180deg, #020c1b 0%, #0b2540 55%, #071a30 100%);
+}
+
+.dive-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(circle at 50% 34%, rgba(74, 210, 255, 0.18), transparent 42%),
+    linear-gradient(180deg, rgba(34, 187, 255, 0.34) 0%, rgba(5, 70, 132, 0.42) 48%, rgba(3, 34, 74, 0.50) 100%);
 }
 
 .page-transition-wave.is-in,
@@ -2714,12 +3082,21 @@ body.is-logo-at-header .gnb__logo {
   visibility: visible;
 }
 
-body.is-transitioning { pointer-events: none; }
+@keyframes diveIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
 
 .wave-line {
   position: absolute;
   left: 0;
   top: 0;
+  z-index: 1;
   width: 100%;
   height: calc(100vh + 180px);
   transform: translate3d(0, 100vh, 0);
@@ -2728,18 +3105,15 @@ body.is-transitioning { pointer-events: none; }
   will-change: transform, opacity;
 }
 
-.wave-fill {
-  fill: rgba(4, 126, 198, 0.12);
-  filter: blur(0.4px);
-}
 
-.wave-edge {
-  fill: none;
-  stroke: rgba(236, 255, 255, 0.64);
-  stroke-width: 1.15;
-  vector-effect: non-scaling-stroke;
-  stroke-linecap: round;
-  filter: drop-shadow(0 0 12px rgba(143, 229, 255, 0.20));
+@keyframes diveOut {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
 }
 
 /* 광선 (JS가 생성) */
@@ -2747,15 +3121,28 @@ body.is-transitioning { pointer-events: none; }
   position: absolute;
   top: 0;
   width: 1.5px;
-  background: linear-gradient(to bottom, rgba(255,255,255,0.45) 0%, transparent 100%);
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.45) 0%, transparent 100%);
   transform-origin: top center;
   animation: rayFlicker var(--ray-dur, 2.8s) var(--ray-delay, 0s) ease-in-out infinite;
 }
 
 @keyframes rayFlicker {
-  0%,100% { opacity: 0.15; transform: rotate(var(--r, 0deg)) scaleX(1);   }
-  40%      { opacity: 0.65; transform: rotate(calc(var(--r, 0deg) + 0.8deg)) scaleX(2); }
-  70%      { opacity: 0.30; transform: rotate(calc(var(--r, 0deg) - 0.5deg)) scaleX(1.2); }
+
+  0%,
+  100% {
+    opacity: 0.15;
+    transform: rotate(var(--r, 0deg)) scaleX(1);
+  }
+
+  40% {
+    opacity: 0.65;
+    transform: rotate(calc(var(--r, 0deg) + 0.8deg)) scaleX(2);
+  }
+
+  70% {
+    opacity: 0.30;
+    transform: rotate(calc(var(--r, 0deg) - 0.5deg)) scaleX(1.2);
+  }
 }
 
 /* 기포 (JS가 생성) */
@@ -2763,31 +3150,48 @@ body.is-transitioning { pointer-events: none; }
   position: absolute;
   border-radius: 50%;
   background: radial-gradient(circle at 35% 30%,
-    rgba(255,255,255,0.55),
-    rgba(34,178,234,0.10)
-  );
-  border: 1px solid rgba(255,255,255,0.32);
+      rgba(255, 255, 255, 0.55),
+      rgba(34, 178, 234, 0.10));
+  border: 1px solid rgba(255, 255, 255, 0.32);
   animation: bubbleRise var(--dur) var(--delay) ease-out forwards;
 }
 
 @keyframes bubbleRise {
-  0%   { transform: translateY(0)                           translateX(0);               opacity: 0.75; }
-  50%  { transform: translateY(calc(var(--travel) * 0.5))   translateX(var(--sway));     opacity: 0.50; }
-  100% { transform: translateY(var(--travel))               translateX(calc(var(--sway) * 0.35)); opacity: 0; }
+  0% {
+    transform: translateY(0) translateX(0);
+    opacity: 0.75;
+  }
+
+  50% {
+    transform: translateY(calc(var(--travel) * 0.5)) translateX(var(--sway));
+    opacity: 0.50;
+  }
+
+  100% {
+    transform: translateY(var(--travel)) translateX(calc(var(--sway) * 0.35));
+    opacity: 0;
+  }
 }
 
 /* 파문 링 (JS가 생성) */
 .dive-ripple {
   position: absolute;
   border-radius: 50%;
-  border: 1.5px solid rgba(255,255,255,0.55);
+  border: 1.5px solid rgba(255, 255, 255, 0.55);
   transform: translate(-50%, -50%) scale(0);
   animation: rippleExpand 0.9s ease-out var(--rip-delay, 0s) forwards;
 }
 
 @keyframes rippleExpand {
-  from { transform: translate(-50%, -50%) scale(0); opacity: 0.8; }
-  to   { transform: translate(-50%, -50%) scale(7); opacity: 0;   }
+  from {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0.8;
+  }
+
+  to {
+    transform: translate(-50%, -50%) scale(7);
+    opacity: 0;
+  }
 }
 
 /* SVG 필터 요소 — DOM에 존재해야 하지만 화면에는 보이지 않음 */
@@ -2819,10 +3223,12 @@ body.is-transitioning { pointer-events: none; }
   opacity: 0;
   transition: opacity 0.38s ease;
 }
+
 .section--crew-scroll.is-crew-exiting .crew-main {
   opacity: 0;
   transition: opacity 0.38s ease;
 }
+
 .section--crew-scroll.is-crew-exiting .crew-dots {
   opacity: 0;
   transition: opacity 0.38s ease;
@@ -2853,17 +3259,16 @@ body.is-transitioning { pointer-events: none; }
   0% {
     opacity: 1;
     transform: translateX(-50%) translateY(0) scale(1);
-    filter: blur(0) brightness(1);
   }
+
   42% {
     opacity: 0.88;
     transform: translateX(-50%) translateY(-12px) scale(1.018);
-    filter: blur(0.4px) brightness(1.08);
   }
+
   100% {
     opacity: 0;
     transform: translateX(-50%) translateY(-46px) scale(0.985);
-    filter: blur(8px) brightness(1.18);
   }
 }
 
@@ -2871,17 +3276,16 @@ body.is-transitioning { pointer-events: none; }
   0% {
     opacity: 1;
     transform: translateY(0) scale(1);
-    filter: blur(0) brightness(1);
   }
+
   36% {
     opacity: 0.92;
     transform: translateY(-18px) scale(1.035);
-    filter: blur(0.6px) brightness(1.12);
   }
+
   100% {
     opacity: 0;
     transform: translateY(-82px) scale(0.94);
-    filter: blur(10px) brightness(1.2);
   }
 }
 
@@ -2889,28 +3293,26 @@ body.is-transitioning { pointer-events: none; }
   0% {
     opacity: 1;
     transform: translateY(0) scale(1);
-    filter: blur(0) brightness(1);
   }
+
   40% {
     opacity: 0.86;
     transform: translateY(-10px) scale(1.014);
-    filter: blur(0.4px) brightness(1.06);
   }
+
   100% {
     opacity: 0;
     transform: translateY(-54px) scale(0.975);
-    filter: blur(8px) brightness(1.16);
   }
 }
 
 @keyframes crewUiWaveOut {
   from {
     opacity: 1;
-    filter: blur(0);
   }
+
   to {
     opacity: 0;
-    filter: blur(6px);
   }
 }
 
@@ -2920,10 +3322,18 @@ body.is-transitioning { pointer-events: none; }
   transform: translateY(var(--seq-title-y, 0));
   transition: none;
 }
+
 .section--program.is-exiting .program-seq-content {
   opacity: var(--seq-content-opacity);
   transform: translateY(var(--seq-content-y, 0));
   transition: none;
+}
+
+/* 콘텐츠 진입·퇴장 애니메이션 중 backdrop-filter 비활성화 (매 프레임 블러 재계산 방지) */
+.section--program.is-content-animating .program-grid::before,
+.section--booking.is-content-animating .booking-grid {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 /* --- Location section exit --- */
@@ -2947,14 +3357,17 @@ body.is-transitioning { pointer-events: none; }
   width: 100%;
   text-align: center;
 }
+
 .section--location.is-title-visible .location-seq-title {
   pointer-events: auto;
 }
+
 .section--location .location-seq-content {
   opacity: var(--seq-content-opacity, 0);
   transform: translateY(var(--seq-content-y, 60px));
   pointer-events: none;
 }
+
 .section--location.is-content-visible .location-seq-content {
   pointer-events: auto;
 }
@@ -2968,14 +3381,18 @@ body.is-transitioning { pointer-events: none; }
   width: 100%;
   text-align: center;
 }
+
 .section--booking.is-title-visible .booking-seq-title {
   pointer-events: auto;
 }
+
 .section--booking .booking-seq-content {
   opacity: var(--seq-content-opacity, 0);
-  transform: translateX(-50%) translateY(var(--seq-content-y, 60px));
+  transform: translateX(-50%) translateY(var(--seq-content-y, 52px));
   pointer-events: none;
+  transition: none;
 }
+
 .section--booking.is-content-visible .booking-seq-content {
   pointer-events: auto;
 }
@@ -3005,7 +3422,7 @@ body.is-transitioning { pointer-events: none; }
   pointer-events: none;
   transform: translateY(12px);
   transition:
-    opacity   0.3s ease,
+    opacity 0.3s ease,
     transform 0.3s ease,
     background 0.2s ease;
 }
@@ -3029,7 +3446,11 @@ body.is-transitioning { pointer-events: none; }
 /* -------------------------------------------------------------
    20. CUSTOM CURSOR — 흰색 원형 커서
    ------------------------------------------------------------- */
-html, body, * { cursor: none !important; }
+html,
+body,
+* {
+  cursor: none !important;
+}
 
 #custom-cursor {
   position: fixed;
@@ -3044,11 +3465,11 @@ html, body, * { cursor: none !important; }
   z-index: 99999;
   opacity: 0;
   transition:
-    width        0.22s ease,
-    height       0.22s ease,
+    width 0.22s ease,
+    height 0.22s ease,
     border-color 0.22s ease,
-    background   0.22s ease,
-    opacity      0.25s ease;
+    background 0.22s ease,
+    opacity 0.25s ease;
 }
 
 #custom-cursor.is-hovering {
@@ -3065,6 +3486,21 @@ html, body, * { cursor: none !important; }
   border-color: rgba(255, 255, 255, 1);
 }
 
+/* 밝은(흰) 배경 위에서는 파란 링으로 전환해 잘 보이게 (location/business/ticket 공용) */
+#custom-cursor.is-over-light {
+  border-color: rgba(34, 178, 234, 0.9);
+}
+
+#custom-cursor.is-over-light.is-hovering {
+  border-color: rgba(34, 178, 234, 1);
+  background: rgba(34, 178, 234, 0.08);
+}
+
+#custom-cursor.is-over-light.is-clicking {
+  background: rgba(34, 178, 234, 0.2);
+  border-color: rgba(34, 178, 234, 1);
+}
+
 
 /* -------------------------------------------------------------
    20. GNB DROPDOWN — About us 호버 드롭다운
@@ -3075,16 +3511,18 @@ html, body, * { cursor: none !important; }
   align-items: center;
 }
 
-.gnb__nav-item > .gnb__link {
+.gnb__nav-item>.gnb__link {
   cursor: default;
 }
 
 /* 드롭다운 패널 */
 .gnb__dropdown {
   position: absolute;
-  top: 20px;
-  left: 0;
-  transform: translateY(-6px);
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-6px);
+  padding-top: 14px;
+  /* 트리거와의 시각적 간격 — hover 영역 유지 */
   background: transparent;
   display: flex;
   flex-direction: column;
@@ -3226,24 +3664,33 @@ body.marin-header-light .gnb .gnb__dropdown-item--active:hover {
 .ticket-page {
   position: fixed;
   inset: 0;
-  z-index: 2000;          /* 메인 GNB(1000) 위 */
+  z-index: 2000;
+  /* 메인 GNB(1000) 위 */
   overflow-y: auto;
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
   transition: opacity 0.45s ease, visibility 0.45s ease;
 }
+
 .ticket-page.is-open {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
 }
-.ticket-page .gnb { position: fixed; }
+
+.ticket-page .gnb {
+  position: fixed;
+}
 
 /* 오버레이 열림 동안 뒤 본문 스크롤 잠금 */
-body.ticket-open { overflow: hidden; }
+body.ticket-open {
+  overflow: hidden;
+}
 
-.ticket-main { position: relative; }
+.ticket-main {
+  position: relative;
+}
 
 /* --- 메인 무대 --- */
 .ticket {
@@ -3251,35 +3698,35 @@ body.ticket-open { overflow: hidden; }
   min-height: 100vh;
   overflow: hidden;
   /* 단색 바다 배경 */
-  background: #22B2EA;
+  /* background: #22B2EA; */
 }
 
 /* 하단 흰색 그라데이션 —
    · 초기(버블 선택 전) : 완전 투명 → 단색 배경만 보임
    · 버블 터진 뒤(is-selected) : 스크롤 모션과 함께 서서히 페이드인 */
 
-#light-rays{
-    width:100%;
-    height:600px;
-    position:absolute;
-    top:0;
-    left:0;
-    pointer-events:none;
-    overflow:hidden;
-    z-index:1;
-    opacity:0.8;
-    /* Mac/Safari 등에서 WebGL alpha 합성 오류로 흰색으로 보이지 않도록
+#light-rays {
+  width: 100%;
+  height: 600px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+  opacity: 0.8;
+  /* Mac/Safari 등에서 WebGL alpha 합성 오류로 흰색으로 보이지 않도록
        컨테이너 배경을 #22B2EA로 고정. 실제 빛 이펙트만 위에 합성됨 */
-    background: #22B2EA;
-    /* 하단 경계선이 보이지 않도록 아래로 갈수록 부드럽게 사라지게 마스킹 */
-    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 55%, transparent 100%);
-            mask-image: linear-gradient(to bottom, #000 0%, #000 55%, transparent 100%);
+  background: #22B2EA;
+  /* 하단 경계선이 보이지 않도록 아래로 갈수록 부드럽게 사라지게 마스킹 */
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 55%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 55%, transparent 100%);
 }
 
 /* WebGL 캔버스는 빛 이펙트만 오버레이 — 배경이 흰색으로 새어나오지 않도록 screen 합성 */
 #light-rays canvas {
-    display: block;
-    mix-blend-mode: screen;
+  display: block;
+  mix-blend-mode: screen;
 }
 
 
@@ -3294,7 +3741,6 @@ body.ticket-open { overflow: hidden; }
   font-size: 48px;
   letter-spacing: var(--ls-tight);
   color: var(--clr-text);
-  text-shadow: 0 4px 18px rgba(0, 60, 100, 0.25);
   z-index: 2;
 }
 
@@ -3316,7 +3762,13 @@ body.ticket-open { overflow: hidden; }
 }
 
 /* --- 떠다니는 장식 거품 --- */
-.ticket__decor { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+.ticket__decor {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
 .deco-bubble {
   position: absolute;
   left: var(--x);
@@ -3354,12 +3806,15 @@ body.ticket-open { overflow: hidden; }
   width: clamp(240px, 30vw, 560px);
   aspect-ratio: 587 / 522;
   z-index: 1;
-  transition: transform 0.8s cubic-bezier(.22,.61,.36,1),
-              top 0.8s cubic-bezier(.22,.61,.36,1),
-              left 0.8s cubic-bezier(.22,.61,.36,1),
-              opacity 0.5s ease;
+  transition: transform 0.8s cubic-bezier(.22, .61, .36, 1),
+    top 0.8s cubic-bezier(.22, .61, .36, 1),
+    left 0.8s cubic-bezier(.22, .61, .36, 1),
+    opacity 0.5s ease;
 }
-.ticket-spot:hover { transform: translateY(-12px) scale(1.035); }
+
+.ticket-spot:hover {
+  transform: translateY(-12px) scale(1.035);
+}
 
 /* 내부 래퍼 — 둥실 떠다니는 애니메이션 (hover 변형과 분리) */
 .ticket-spot__inner {
@@ -3375,7 +3830,8 @@ body.ticket-open { overflow: hidden; }
   top: 50%;
   width: 85%;
   height: 85%;
-  transform: translate(-50%, -50%);   /* spot 중심 기준으로 확대 → 동물과 중심 일치 */
+  transform: translate(-50%, -50%);
+  /* spot 중심 기준으로 확대 → 동물과 중심 일치 */
   object-fit: contain;
   pointer-events: none;
   filter: drop-shadow(0 10px 34px rgba(0, 70, 120, 0.18));
@@ -3409,30 +3865,85 @@ body.ticket-open { overflow: hidden; }
 }
 
 /* 지점별 위치 (Figma 1920 프레임 기준 비율 환산) */
-.ticket-spot--ilsan    { left: -2%;  top: 46%; }
-.ticket-spot--yeosu    { left: 26%; top: 23%; }
-.ticket-spot--jeju     { left: 50%; top: 55%; }
-.ticket-spot--gwanggyo { left: 65%; top: 23%; }
+.ticket-spot--ilsan {
+  left: -2%;
+  top: 46%;
+}
+
+.ticket-spot--yeosu {
+  left: 26%;
+  top: 23%;
+}
+
+.ticket-spot--jeju {
+  left: 50%;
+  top: 55%;
+}
+
+.ticket-spot--gwanggyo {
+  left: 65%;
+  top: 23%;
+}
 
 /* 지점별 동물 크기/회전 — 모두 버블 정중앙(translate -50%,-50%)에 배치 */
-.ticket-spot--ilsan    .ticket-spot__animal { width: 67%; transform: translate(-52%, -38%) rotate(18deg); }
-.ticket-spot--yeosu    .ticket-spot__animal { width: 77%; transform: translate(-50%, -50%) scaleX(-1); }
-.ticket-spot--jeju     .ticket-spot__animal { width: 55%; transform: translate(-50%, -50%); }
-.ticket-spot--gwanggyo .ticket-spot__animal { width: 72%; transform: translate(-50%, -50%); }
+.ticket-spot--ilsan .ticket-spot__animal {
+  width: 67%;
+  transform: translate(-52%, -38%) rotate(18deg);
+}
+
+.ticket-spot--yeosu .ticket-spot__animal {
+  width: 77%;
+  transform: translate(-50%, -50%) scaleX(-1);
+}
+
+.ticket-spot--jeju .ticket-spot__animal {
+  width: 55%;
+  transform: translate(-50%, -50%);
+}
+
+.ticket-spot--gwanggyo .ticket-spot__animal {
+  width: 72%;
+  transform: translate(-50%, -50%);
+}
 
 /* 지점별 라벨 — 동물 위(버블 상단)로 올려 겹치지 않게 */
-.ticket-spot--ilsan    .ticket-spot__label { top: 35%; left: 47%;}
-.ticket-spot--yeosu    .ticket-spot__label { top: 30%; }
-.ticket-spot--jeju     .ticket-spot__label { top: 37%; left: 62%;}
-.ticket-spot--gwanggyo .ticket-spot__label { top: 35%; left: 70%;}
+.ticket-spot--ilsan .ticket-spot__label {
+  top: 35%;
+  left: 47%;
+}
+
+.ticket-spot--yeosu .ticket-spot__label {
+  top: 30%;
+}
+
+.ticket-spot--jeju .ticket-spot__label {
+  top: 37%;
+  left: 62%;
+}
+
+.ticket-spot--gwanggyo .ticket-spot__label {
+  top: 35%;
+  left: 70%;
+}
 
 @keyframes ticket-float {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-14px); }
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-14px);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ticket-spot__inner, .deco-bubble { animation: none; }
+
+  .ticket-spot__inner,
+  .deco-bubble {
+    animation: none;
+  }
 }
 
 /* ============================================================
@@ -3445,10 +3956,13 @@ body.ticket-open { overflow: hidden; }
 /* 선택된 지점: 화면 중앙선의 왼쪽에 붙어 예매 패널과 나란히 정렬 */
 .ticket.is-selected .ticket-spot.is-selected {
   left: 50% !important;
-  top: 55% !important;                              /* 선택 레이아웃을 좀더 위로 */
-  transform: translate(-96%, -50%) scale(1.12);   /* 박스 오른쪽 끝이 중앙선에 거의 닿음 */
+  top: 55% !important;
+  /* 선택 레이아웃을 좀더 위로 */
+  transform: translate(-96%, -50%) scale(1.12);
+  /* 박스 오른쪽 끝이 중앙선에 거의 닿음 */
   z-index: 3;
 }
+
 /* 버블 터짐 — 부풀었다가 사라짐 */
 .ticket.is-selected .ticket-spot.is-selected .ticket-spot__bubble {
   animation: ticket-bubble-burst 0.6s ease-out forwards;
@@ -3457,9 +3971,19 @@ body.ticket-open { overflow: hidden; }
 /* 지점 선택 시 스테이지 스크롤-다운 효과
    · 콘텐츠가 위에서 아래로 흘러내리듯 등장 */
 @keyframes stage-scroll-reveal {
-  0%   { transform: translateY(-36px); opacity: 0;   }
-  40%  { opacity: 1; }
-  100% { transform: translateY(0);    opacity: 1;   }
+  0% {
+    transform: translateY(-36px);
+    opacity: 0;
+  }
+
+  40% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 .ticket-stage.scroll-reveal {
@@ -3472,17 +3996,44 @@ body.ticket-open { overflow: hidden; }
   transform: scale(0.5);
   opacity: 0.92;
 }
+
 /* 상단 행 4슬롯 — 일산0·여수1·제주2·광교3 (JS SLOT_LEFT 와 값 일치)
    지그재그 배치: 일산·제주 ↓(아래) / 여수·광교 ↑(위) */
-.ticket.is-selected .ticket-spot.is-top.slot-0 { left: -4% !important; top: 5% !important; }
-.ticket.is-selected .ticket-spot.is-top.slot-1 { left: 20% !important; top: -7% !important; }
-.ticket.is-selected .ticket-spot.is-top.slot-2 { left: 44% !important; top: 5% !important; }
-.ticket.is-selected .ticket-spot.is-top.slot-3 { left: 68% !important; top: -7% !important; }
+.ticket.is-selected .ticket-spot.is-top.slot-0 {
+  left: -4% !important;
+  top: 5% !important;
+}
+
+.ticket.is-selected .ticket-spot.is-top.slot-1 {
+  left: 20% !important;
+  top: -7% !important;
+}
+
+.ticket.is-selected .ticket-spot.is-top.slot-2 {
+  left: 44% !important;
+  top: 5% !important;
+}
+
+.ticket.is-selected .ticket-spot.is-top.slot-3 {
+  left: 68% !important;
+  top: -7% !important;
+}
 
 @keyframes ticket-bubble-burst {
-  0%   { transform: translate(-50%, -50%) scale(1);    opacity: 1; }
-  45%  { transform: translate(-50%, -50%) scale(1.28); opacity: 0.85; }
-  100% { transform: translate(-50%, -50%) scale(1.7);  opacity: 0; }
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+
+  45% {
+    transform: translate(-50%, -50%) scale(1.28);
+    opacity: 0.85;
+  }
+
+  100% {
+    transform: translate(-50%, -50%) scale(1.7);
+    opacity: 0;
+  }
 }
 
 /* 선택 시: 서브카피는 위로 떠오르며 사라짐 */
@@ -3498,11 +4049,13 @@ body.ticket-open { overflow: hidden; }
     deco-rise 1.4s ease-out forwards,
     deco-drift var(--drift-dur, 6s) ease-in-out 1.4s infinite;
 }
+
 /* 큰 거품(JS가 큰 순서대로 6개에 is-bursting + animation-delay 부여)은
    떠오르다가 '펑' 터져서 사라짐 */
 .ticket.is-selected .deco-bubble.is-bursting {
   animation: deco-pop 0.55s ease-out forwards;
 }
+
 /* 살아남은 거품: 빈 슬롯 자리로 가로 이동(left)은 부드럽게 슬라이드 */
 .deco-bubble.is-survivor {
   transition: left 1.2s cubic-bezier(.22, .61, .36, 1);
@@ -3524,39 +4077,78 @@ body.ticket-open { overflow: hidden; }
 
 /* 시작점 → 상단 목표 위치(--rise)까지 떠오름. 사라지지 않고 살짝 옅어진 채 유지 */
 @keyframes deco-rise {
-  0%   { transform: translateY(0);                  opacity: 0.7; }
-  100% { transform: translateY(var(--rise, -45vh)); opacity: 0.85; }
+  0% {
+    transform: translateY(0);
+    opacity: 0.7;
+  }
+
+  100% {
+    transform: translateY(var(--rise, -45vh));
+    opacity: 0.85;
+  }
 }
+
 /* 떠오른 위치(--rise) 주변에서 좌우·상하로 잔잔하게 떠다님 */
 @keyframes deco-drift {
-  0%   { transform: translate(0,    var(--rise, -45vh)); }
-  25%  { transform: translate(7px,  calc(var(--rise, -45vh) - 10px)); }
-  50%  { transform: translate(0,    calc(var(--rise, -45vh) - 16px)); }
-  75%  { transform: translate(-7px, calc(var(--rise, -45vh) - 8px)); }
-  100% { transform: translate(0,    var(--rise, -45vh)); }
+  0% {
+    transform: translate(0, var(--rise, -45vh));
+  }
+
+  25% {
+    transform: translate(7px, calc(var(--rise, -45vh) - 10px));
+  }
+
+  50% {
+    transform: translate(0, calc(var(--rise, -45vh) - 16px));
+  }
+
+  75% {
+    transform: translate(-7px, calc(var(--rise, -45vh) - 8px));
+  }
+
+  100% {
+    transform: translate(0, var(--rise, -45vh));
+  }
 }
+
 @keyframes deco-pop {
-  0%   { transform: translateY(0) scale(1);       opacity: 0.75; }
-  60%  { transform: translateY(-36px) scale(1.45); opacity: 0.5; }
-  100% { transform: translateY(-64px) scale(1.95); opacity: 0; }
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0.75;
+  }
+
+  60% {
+    transform: translateY(-36px) scale(1.45);
+    opacity: 0.5;
+  }
+
+  100% {
+    transform: translateY(-64px) scale(1.95);
+    opacity: 0;
+  }
 }
 
 /* --- 가격 / 할인 패널 --- */
 .ticket-booking {
   position: absolute;
-  top: 55%;                 /* 선택된 spot 과 같은 수직 중심선 (좀더 위로) */
-  left: 50%;                /* 중앙선의 오른쪽에 배치 → 동물과 나란히 */
+  top: 55%;
+  /* 선택된 spot 과 같은 수직 중심선 (좀더 위로) */
+  left: 50%;
+  /* 중앙선의 오른쪽에 배치 → 동물과 나란히 */
   right: auto;
   width: min(480px, 40vw);
   z-index: 4;
   opacity: 0;
-  transform: translate(24px, calc(-50% + 24px));   /* 중앙선 +24px 오른쪽 / 등장 시 살짝 아래 */
+  transform: translate(24px, calc(-50% + 24px));
+  /* 중앙선 +24px 오른쪽 / 등장 시 살짝 아래 */
   pointer-events: none;
   transition: opacity 0.6s ease 0.35s, transform 0.6s ease 0.35s;
 }
+
 .ticket.is-selected .ticket-booking {
   opacity: 1;
-  transform: translate(24px, -50%);                /* 중앙선 +24px, 세로 중앙 */
+  transform: translate(24px, -50%);
+  /* 중앙선 +24px, 세로 중앙 */
   pointer-events: auto;
 }
 
@@ -3568,17 +4160,21 @@ body.ticket-open { overflow: hidden; }
   text-align: center;
   text-shadow: 0 2px 10px rgba(0, 60, 100, 0.22);
 }
-.ticket-booking__price span { font-size: 22px; }
-.ticket-booking__price strong { font-weight: 500; }
+
+.ticket-booking__price span {
+  font-size: 22px;
+}
+
+.ticket-booking__price strong {
+  font-weight: 500;
+}
 
 /* 패널 — Figma node 1284:263 (glass card, 좌우 대각선 하이라이트 그라데이션) */
 .ticket-booking__panel {
-  background-image: linear-gradient(
-    231.21deg,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.2) 49.346%,
-    rgba(255, 255, 255, 0) 98.692%
-  );
+  background-image: linear-gradient(231.21deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.2) 49.346%,
+      rgba(255, 255, 255, 0) 98.692%);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 10px;
   backdrop-filter: blur(15px);
@@ -3586,6 +4182,7 @@ body.ticket-open { overflow: hidden; }
   padding: 51px 49px 51px 47px;
   box-shadow: 0 18px 50px rgba(0, 70, 120, 0.12);
 }
+
 /* 제목 "Discont" — EB Garamond Medium 33px */
 .ticket-booking__title {
   font-family: var(--font-serif);
@@ -3599,12 +4196,14 @@ body.ticket-open { overflow: hidden; }
 
 /* 할인 드롭다운 — 흰색 0.8, radius 3px, 12px 텍스트 */
 .ticket-discount {
-  position: relative;                 /* 펼침 목록(absolute)의 기준 */
+  position: relative;
+  /* 펼침 목록(absolute)의 기준 */
   background: rgba(255, 255, 255, 0.8);
   border-radius: 3px;
   margin-bottom: 18px;
 }
-.ticket-discount > summary {
+
+.ticket-discount>summary {
   list-style: none;
   cursor: pointer;
   padding: 14px 15px 14px 8px;
@@ -3618,8 +4217,12 @@ body.ticket-open { overflow: hidden; }
   letter-spacing: -0.264px;
   color: #000;
 }
-.ticket-discount > summary::-webkit-details-marker { display: none; }
-.ticket-discount > summary::after {
+
+.ticket-discount>summary::-webkit-details-marker {
+  display: none;
+}
+
+.ticket-discount>summary::after {
   content: "";
   width: 6px;
   height: 6px;
@@ -3630,7 +4233,12 @@ body.ticket-open { overflow: hidden; }
   margin: -3px 0 0 12px;
   flex: none;
 }
-.ticket-discount[open] > summary::after { transform: rotate(-135deg); margin-top: 2px; }
+
+.ticket-discount[open]>summary::after {
+  transform: rotate(-135deg);
+  margin-top: 2px;
+}
+
 /* 클릭 시 아래로 펼쳐지는 드롭다운 목록 — absolute 로 아래 항목들을 덮음 */
 .ticket-discount__body {
   position: absolute;
@@ -3647,16 +4255,25 @@ body.ticket-open { overflow: hidden; }
   overflow-y: auto;
   overscroll-behavior: contain;
 }
+
 /* 드롭다운 스크롤바 — 얇고 은은하게 */
-.ticket-discount__body::-webkit-scrollbar { width: 6px; }
+.ticket-discount__body::-webkit-scrollbar {
+  width: 6px;
+}
+
 .ticket-discount__body::-webkit-scrollbar-thumb {
   background: rgba(120, 112, 104, 0.45);
   border-radius: 3px;
 }
-.ticket-discount__body::-webkit-scrollbar-track { background: transparent; }
-.ticket-discount[open] > .ticket-discount__body {
+
+.ticket-discount__body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.ticket-discount[open]>.ticket-discount__body {
   animation: ticket-dropdown 0.22s ease-out;
 }
+
 .ticket-discount__row {
   display: flex;
   align-items: center;
@@ -3670,28 +4287,43 @@ body.ticket-open { overflow: hidden; }
   cursor: pointer;
   transition: background 0.15s ease;
 }
+
 .ticket-discount__row:hover,
 .ticket-discount__row.is-active {
-  background: #D9D9D9;   /* 호버·클릭(활성) 시 강조 배경 */
+  background: #D9D9D9;
+  /* 호버·클릭(활성) 시 강조 배경 */
 }
+
 .ticket-discount__name {
   color: #2b2b2b;
-  word-break: keep-all;   /* 한글 단어 단위 줄바꿈 (긴 항목명 대응) */
+  word-break: keep-all;
+  /* 한글 단어 단위 줄바꿈 (긴 항목명 대응) */
 }
+
 .ticket-discount__val {
   color: #5b6671;
   white-space: nowrap;
   flex: none;
   text-align: right;
 }
+
 .ticket-discount__row:hover .ticket-discount__name,
 .ticket-discount__row:hover .ticket-discount__val,
 .ticket-discount__row.is-active .ticket-discount__name,
-.ticket-discount__row.is-active .ticket-discount__val { color: #fff; }
+.ticket-discount__row.is-active .ticket-discount__val {
+  color: #fff;
+}
 
 @keyframes ticket-dropdown {
-  from { opacity: 0; transform: translateY(-8px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* 예매하기 버튼 — #22b2ea, 94×32, radius 24 */
@@ -3714,12 +4346,28 @@ body.ticket-open { overflow: hidden; }
   cursor: pointer;
   transition: background 0.2s ease, transform 0.2s ease;
 }
-.ticket-booking__btn:hover { background: #1b9fd2; transform: translateY(-2px); }
+
+.ticket-booking__btn:hover {
+  background: #1b9fd2;
+  transform: translateY(-2px);
+}
 
 @media (prefers-reduced-motion: reduce) {
-  .ticket-spot, .ticket-booking { transition: none; }
-  .ticket.is-selected .ticket-spot.is-selected .ticket-spot__bubble { animation: none; opacity: 0; }
-  .ticket.is-selected .deco-bubble { animation: none; opacity: 0; }
+
+  .ticket-spot,
+  .ticket-booking {
+    transition: none;
+  }
+
+  .ticket.is-selected .ticket-spot.is-selected .ticket-spot__bubble {
+    animation: none;
+    opacity: 0;
+  }
+
+  .ticket.is-selected .deco-bubble {
+    animation: none;
+    opacity: 0;
+  }
 }
 
 /* =========================================================
@@ -3729,13 +4377,22 @@ body.ticket-open { overflow: hidden; }
   padding-right: 6px;
 }
 
-.ticket-page {
-  /* 배경색 그라데이션: 80% 불투명도 -> 100% 흰색 -> 60% 불투명도 */
-  background: linear-gradient(to bottom, rgba(34, 178, 234, 0.8) 0%, rgba(34, 178, 234, 0.8) 20%, #ffffff 60%, rgba(34, 178, 234, 0.6) 100%);
-  background-attachment: local;
+/* .ticket-page {
+  /* 솔리드 베이스 (바다색). 실제 그라데이션은 스크롤 콘텐츠를 감싼 .ticket-bg 가 담당
+     → background-attachment:local 의 iOS 버그를 피해 모든 기기에서 동일하게 보인다. */
+  /* background: #22B2EA;
+} */
+
+/* 스크롤 콘텐츠 전체(main+하단영역+footer)를 감싸는 배경 그라데이션 레이어.
+   일반 흐름이라 콘텐츠 전체 높이에 맞춰 그라데이션이 잡히고 함께 스크롤된다. */
+.ticket-bg {
+  position: relative;
+  background: linear-gradient(to bottom, #22B2EA 0%, #22B2EA 20%, #ffffff 60%, #22B2EA 100%);
 }
 
-.ticket, .ticket-scroll-below, .ticket-page #footer {
+.ticket,
+.ticket-scroll-below,
+.ticket-page #footer {
   background: transparent !important;
 }
 
@@ -3759,6 +4416,1115 @@ body.ticket-open { overflow: hidden; }
   position: relative;
   z-index: 10;
 }
+
 .ticket-page #footer .footer__video-bg {
   display: none !important;
+}
+
+/* Landing logo wave background */
+.logo-wave-bg {
+  position: absolute;
+  inset: 0 0 auto;
+  width: 100vw;
+  height: 100vh;
+  height: 100svh;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, rgba(220, 250, 255, 0.72) 0%, rgba(83, 207, 246, 0.7) 22%, rgba(25, 176, 231, 0.86) 56%, rgba(34, 187, 255, 0) 100%),
+    radial-gradient(ellipse 110% 58% at 50% 14%, rgba(255, 255, 255, 0.68) 0%, rgba(160, 232, 255, 0.38) 34%, rgba(34, 187, 255, 0) 78%),
+    #22bbff;
+  mask-image: linear-gradient(to bottom, black 0%, black 60%, rgba(0, 0, 0, 0.55) 78%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, black 60%, rgba(0, 0, 0, 0.55) 78%, transparent 100%);
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+}
+
+.logo-wave-bg::before,
+.logo-wave-bg::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  width: 150vw;
+  min-width: 1440px;
+  height: 42vh;
+  border-radius: 43% 47% 0 0 / 86% 92% 0 0;
+  transform: translate3d(-50%, 0, 0);
+  pointer-events: none;
+  will-change: transform;
+}
+
+.logo-wave-bg::before {
+  bottom: 23vh;
+  opacity: 0.48;
+  background:
+    radial-gradient(ellipse 48% 54% at 22% 84%, rgba(255, 255, 255, 0.5), transparent 62%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.46), rgba(50, 199, 238, 0.2) 42%, rgba(7, 127, 194, 0.06) 100%);
+  filter: blur(10px);
+  animation: logoWaveLift 8.6s ease-in-out infinite alternate;
+}
+
+.logo-wave-bg::after {
+  bottom: 13vh;
+  opacity: 0.34;
+  background:
+    radial-gradient(ellipse 42% 52% at 78% 72%, rgba(255, 255, 255, 0.42), transparent 68%),
+    linear-gradient(180deg, rgba(225, 250, 255, 0.48), rgba(34, 178, 234, 0.13) 54%, transparent 100%);
+  filter: blur(16px);
+  animation: logoWaveLift 11s ease-in-out -2.4s infinite alternate-reverse;
+}
+
+.logo-wave-bg__glow {
+  position: absolute;
+  width: 48vmax;
+  height: 48vmax;
+  border-radius: 50%;
+  opacity: 0.42;
+  filter: blur(28px);
+  pointer-events: none;
+  will-change: transform;
+}
+
+.logo-wave-bg__glow--left {
+  left: -18vmax;
+  top: -16vmax;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.94) 0%, rgba(175, 241, 255, 0.56) 34%, transparent 68%);
+  animation: logoGlowDrift 15s ease-in-out infinite alternate;
+}
+
+.logo-wave-bg__glow--right {
+  right: -16vmax;
+  top: 8vh;
+  background: radial-gradient(circle, rgba(139, 230, 255, 0.7) 0%, rgba(34, 178, 234, 0.34) 42%, transparent 70%);
+  animation: logoGlowDrift 18s ease-in-out -5s infinite alternate-reverse;
+}
+
+.logo-wave-bg__caustics {
+  position: absolute;
+  inset: -18% -12%;
+  opacity: 0.24;
+  mix-blend-mode: screen;
+  background-image:
+    repeating-radial-gradient(ellipse at 20% 30%, rgba(255, 255, 255, 0.36) 0 1px, transparent 2px 18px),
+    repeating-linear-gradient(112deg, rgba(255, 255, 255, 0.22) 0 1px, transparent 2px 38px),
+    repeating-linear-gradient(64deg, rgba(255, 255, 255, 0.14) 0 1px, transparent 2px 46px);
+  background-size: 680px 360px, 520px 520px, 620px 620px;
+  animation: logoCaustics 18s linear infinite;
+  pointer-events: none;
+}
+
+.logo-wave-bg__swell {
+  position: absolute;
+  left: 50%;
+  width: 170vw;
+  min-width: 1500px;
+  height: 44vh;
+  transform: translate3d(-50%, 0, 0);
+  pointer-events: none;
+  will-change: transform;
+}
+
+.logo-wave-bg__swell--back {
+  bottom: 2vh;
+  opacity: 0.36;
+  background:
+    radial-gradient(ellipse 34% 48% at 12% 12%, rgba(255, 255, 255, 0.46), transparent 68%),
+    radial-gradient(ellipse 30% 44% at 38% 18%, rgba(255, 255, 255, 0.38), transparent 70%),
+    radial-gradient(ellipse 32% 50% at 66% 10%, rgba(255, 255, 255, 0.34), transparent 68%),
+    radial-gradient(ellipse 28% 42% at 88% 16%, rgba(255, 255, 255, 0.44), transparent 72%);
+  filter: blur(8px);
+  animation: logoSwellBack 10.5s ease-in-out infinite alternate;
+}
+
+.logo-wave-bg__swell--front {
+  bottom: -8vh;
+  opacity: 0.44;
+  background:
+    radial-gradient(ellipse 24% 50% at 8% 16%, rgba(250, 255, 255, 0.68), transparent 70%),
+    radial-gradient(ellipse 28% 48% at 31% 12%, rgba(232, 252, 255, 0.56), transparent 72%),
+    radial-gradient(ellipse 26% 54% at 56% 18%, rgba(255, 255, 255, 0.52), transparent 70%),
+    radial-gradient(ellipse 24% 46% at 78% 10%, rgba(255, 255, 255, 0.58), transparent 72%),
+    radial-gradient(ellipse 24% 50% at 96% 18%, rgba(250, 255, 255, 0.62), transparent 70%);
+  filter: blur(12px);
+  animation: logoSwellFront 7.8s ease-in-out -1.6s infinite alternate;
+}
+
+.logo-wave-bg__sparkle {
+  position: absolute;
+  inset: 0;
+  opacity: 0.28;
+  mix-blend-mode: screen;
+  background-image:
+    radial-gradient(circle at 14% 24%, rgba(255, 255, 255, 0.82) 0 1px, transparent 2px),
+    radial-gradient(circle at 34% 16%, rgba(255, 255, 255, 0.76) 0 1px, transparent 2px),
+    radial-gradient(circle at 52% 30%, rgba(255, 255, 255, 0.7) 0 1px, transparent 2px),
+    radial-gradient(circle at 72% 18%, rgba(255, 255, 255, 0.82) 0 1px, transparent 2px),
+    radial-gradient(circle at 88% 38%, rgba(255, 255, 255, 0.66) 0 1px, transparent 2px);
+  animation: logoSparkle 5.4s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+@keyframes logoWaveLift {
+  0%   { transform: translate3d(-51.5%, 1.2vh, 0) rotate(-1deg) scaleY(0.96); }
+  50%  { transform: translate3d(-49.4%, -1.4vh, 0) rotate(0.7deg) scaleY(1.04); }
+  100% { transform: translate3d(-50.8%, 0.6vh, 0) rotate(-0.4deg) scaleY(0.99); }
+}
+
+@keyframes logoGlowDrift {
+  0%   { transform: translate3d(-2vw, -1vh, 0) scale(0.96); }
+  100% { transform: translate3d(4vw, 3vh, 0) scale(1.08); }
+}
+
+@keyframes logoCaustics {
+  0%   { transform: translate3d(-2%, -1%, 0) rotate(0deg); background-position: 0 0, 0 0, 0 0; }
+  100% { transform: translate3d(2%, 1%, 0) rotate(1deg); background-position: 680px 120px, 520px -160px, -260px 220px; }
+}
+
+@keyframes logoSwellBack {
+  0%   { transform: translate3d(-52%, 1.5vh, 0) scaleX(0.98); }
+  100% { transform: translate3d(-48%, -1vh, 0) scaleX(1.03); }
+}
+
+@keyframes logoSwellFront {
+  0%   { transform: translate3d(-48.5%, 2vh, 0) scaleX(1.02); }
+  100% { transform: translate3d(-52%, -1.6vh, 0) scaleX(0.98); }
+}
+
+@keyframes logoSparkle {
+  0%   { transform: translate3d(0, 0, 0); opacity: 0.18; }
+  100% { transform: translate3d(1.5vw, -1.2vh, 0); opacity: 0.34; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo-wave-bg,
+  .logo-wave-bg::before,
+  .logo-wave-bg::after,
+  .logo-wave-bg__glow,
+  .logo-wave-bg__caustics,
+  .logo-wave-bg__swell,
+  .logo-wave-bg__sparkle {
+    animation: none;
+  }
+}
+
+/* =============================================================
+   BUSINESS OVERVIEW PAGE (business.html) — 전용 스타일
+   (기존 business.html 인라인 <style> 에서 이전. body 규칙만 .biz-page 로 한정)
+   ============================================================= */
+body.biz-page {
+  font-family: var(--font-kr);
+  background:
+    linear-gradient(
+      180deg,
+      #22b2ea 0,
+      #ffffff 760px,
+      #ffffff calc(100% - 900px),
+      #22b2ea 100%
+    );
+}
+
+.biz-page {
+  overflow-x: hidden;
+}
+
+.biz-page .gnb {
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom: none;
+}
+
+.biz-page .gnb.is-scrolled {
+  background: linear-gradient(to bottom, rgba(34, 178, 234, 0.55) 0%, transparent 100%);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.biz-page .gnb.is-hidden {
+  transform: none;
+}
+
+.biz-page main {
+  padding-top: 0;
+}
+
+/* 공통 컨테이너 — 페이지의 60% (GNB/footer 제외 모든 섹션 콘텐츠가 이 안에) */
+.biz-container {
+  width: 70%;
+  margin: 0 auto;
+}
+
+/* 섹션 가운데 라벨 (Business Area & Vision / Capabilities & Cases) */
+.biz-sec-label {
+  text-align: center;
+  font-family: var(--font-kr);
+  font-weight: 600;
+  font-size: clamp(20px, 2vw, 26px);
+  color: #1a1a1a;
+  letter-spacing: -0.02em;
+  margin-bottom: 68px;
+}
+
+.biz-sec-label::after {
+  content: "";
+  display: block;
+  width: 84px;
+  height: 1.2px;
+  background: #000000;
+  margin: 8px auto 0;
+  border-radius: 2px;
+}
+
+/* ── 1) HERO ───────────────────────────────────────────── */
+.biz-hero {
+  position: relative;
+  padding: 140px 0 0;
+  text-align: center;
+  background: transparent;
+}
+
+.biz-hero__title {
+  font-family: var(--font-serif);
+  font-size: 42px;
+  /* 일반 글자(Overview) */
+  font-weight: 500;
+  color: #1a1a1a;
+  letter-spacing: -0.01em;
+}
+
+.biz-hero__title em {
+  font-style: italic;
+  font-weight: 500;
+  font-size: 48px;
+  /* em(Business) */
+  margin-right: 8px;
+}
+
+.biz-hero__desc {
+  max-width: 620px;
+  margin: 34px auto 0;
+  font-size: 15px;
+  line-height: 1.9;
+  color: #1a1a1a;
+  font-weight: 500;
+}
+
+/* ── 2) BUSINESS AREA & VISION ─────────────────────────── */
+.biz-areas {
+  padding: 80px 0 0;
+}
+
+.biz-sec-label {
+  font-size: 32px;
+}
+
+.biz-areas__head h3 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #1a1a1a;
+  letter-spacing: -0.48px;
+  margin-bottom: 12px;
+}
+
+.biz-areas__head p {
+  font-size: 18px;
+  color: #1a1a1a;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: -0.36px;
+}
+
+/* 사업분야 블록 — Figma node 1485:911 디자인 (좌우 교차 배치) */
+.biz-banner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  /* 기본: 좌측 */
+  gap: 16px;
+  margin-top: 120px;
+  background: none;
+  box-shadow: none;
+  border-radius: 0;
+  text-align: left;
+}
+
+/* 교차 배치: Design·Operation 은 우측 (Planning·Construction·Acquisition 은 좌측) */
+.biz-banner[data-name="design"],
+.biz-banner[data-name="operation"] {
+  align-items: flex-end;
+  text-align: right;
+}
+
+.biz-banner__title {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-family: var(--font-en);
+  /* Poppins — 대형 워드 */
+  font-size: clamp(48px, 9vw, 128px);
+  font-weight: 400;
+  color: #1a1a1a;
+  line-height: 1;
+  letter-spacing: -5.12px;
+  padding: 12px 12px 14px;
+  transition: background 0.6s ease, color 0.6s ease;
+}
+/* 활성(스크롤로 가운데 도달 시 / Figma 1485:926): 파란 배경 + 흰 글자 + EB Garamond */
+.biz-banner.is-active .biz-banner__title {
+  background: #22b2ea;
+  color: #fff;
+  font-family: var(--font-serif);   /* EB Garamond */
+  font-size: clamp(56px, 9.6vw, 134px);
+  line-height: 1.12;
+  padding: 16px 16px 20px;
+}
+.biz-banner.is-active .biz-banner__title span { color: #fff; }
+
+.biz-banner__title span {
+  font-family: var(--font-kr);
+  /* Pretendard — ": 설계" */
+  font-size: clamp(20px, 2.6vw, 36px);
+  font-weight: 400;
+  color: #1a1a1a;
+  line-height: 1.4;
+  letter-spacing: -0.72px;
+  margin: 0;
+  opacity: 1;
+}
+
+/* 각 사업분야 블록 */
+.biz-area {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 30px 0;
+  border-bottom: 1px solid rgba(34, 178, 234, 0.16);
+  transition: opacity var(--tr-base), filter var(--tr-base);
+}
+
+.biz-area--right {
+  align-items: flex-end;
+  text-align: right;
+}
+
+.biz-area__word {
+  font-family: var(--font-serif);
+  font-size: clamp(44px, 6vw, 88px);
+  font-weight: 500;
+  color: #14283a;
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+
+.biz-area__word span {
+  font-family: var(--font-kr);
+  font-size: clamp(16px, 1.6vw, 22px);
+  font-weight: 600;
+  color: var(--clr-primary);
+  margin-left: 14px;
+  letter-spacing: 0;
+}
+
+.biz-area__desc {
+  font-size: 15px;
+  color: #5a7686;
+  font-weight: 500;
+  max-width: 520px;
+}
+
+.biz-area__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.biz-area--right .biz-area__tags {
+  justify-content: flex-end;
+}
+
+.biz-tag {
+  display: inline-flex;
+  align-items: center;
+  height: 32px;
+  padding: 0 16px;
+  border: 1px solid rgba(34, 178, 234, 0.55);
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--clr-primary);
+  background: rgba(34, 178, 234, 0.04);
+  transition: background var(--tr-base), color var(--tr-base);
+}
+
+.biz-tag:hover {
+  background: var(--clr-primary);
+  color: #fff;
+}
+
+/* 검색으로 숨김 처리된 블록 */
+.biz-area.is-dimmed {
+  opacity: 0.18;
+  filter: grayscale(0.6);
+}
+
+/* ── 3) VISION (4-circle) ──────────────────────────────── */
+.biz-vision {
+  padding: 294px 0;
+  margin: 0 auto;
+}
+
+.biz-vision__head {
+  margin-bottom: 8px;
+}
+
+.biz-vision__head h3 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.biz-vision__head p {
+  margin-top: 12px;
+  font-size: 18px;
+  color: #1a1a1a;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: -0.36px;
+}
+
+.biz-diagram4 {
+  position: relative;
+  margin-top: 184px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 박스(flex) 구조 — 2×2 그리드, 항상 가운데. 화면 크기 변해도 중앙 유지 */
+.diagram4-wrap {
+  position: relative;                /* 원(biz-ring)의 기준 */
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+  column-gap: 140px;                 /* 좌우 노드 사이 간격 */
+  row-gap: 60px;                     /* 위아래 행 간격 */
+}
+
+.biz-diagram4 svg.biz-links {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* 노드를 잇는 원형 선 — 그리드(=노드 군집) 정중앙에 배치, 노드 뒤(z-index 1) */
+.biz-ring {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 430px;
+  height: 430px;
+  transform: translate(-50%, -50%);
+  border: 2px solid #9bd6f1;
+  border-radius: 50%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* 각 박스: 노드 + 라벨 가로 배치(세로 중앙), 사이 40px */
+.box {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+.box--l { flex-direction: row-reverse; }   /* 왼쪽 열: 라벨 바깥(좌) · 노드 안쪽(우) */
+/* .box--r 은 기본 row: 노드 안쪽(좌) · 라벨 바깥(우) */
+
+.biz-node {
+  flex: none;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: #22b2ea;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-weight: 600;
+  font-size: 26px;
+  line-height: 1.4;
+  letter-spacing: -0.52px;
+  z-index: 2;
+}
+
+.biz-label {
+  flex: none;
+  width: 470px;          /* p 가 아래줄로 내려가지 않도록 넉넉히 */
+  z-index: 3;
+  /* 기본 숨김(공간은 유지) → 노드 hover/클릭 시 표시 */
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+/* 노드를 hover 하거나, 클릭(.is-active)하면 해당 라벨 표시 */
+.box .biz-node:hover ~ .biz-label,
+.box.is-active .biz-label {
+  opacity: 1;
+  visibility: visible;
+}
+
+.biz-label h4 {
+  font-family: var(--font-en);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: -0.36px;
+  color: #1a1a1a;
+  margin-bottom: 16px;
+}
+
+.biz-label p {
+  font-size: 16px;
+  line-height: 1.7;
+  color: #1a1a1a;
+  font-weight: 500;
+}
+
+.biz-label--l {
+  text-align: right;
+}
+
+.biz-label--r {
+  text-align: left;
+}
+
+.biz-goal-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.biz-goal-cols {
+  display: flex;
+  gap: 32px;
+  justify-content: flex-end;
+}
+.biz-goal-list li {
+  display: flex;
+  align-items: baseline;
+  font-size: 16px;
+  color: #1a1a1a;
+  font-weight: 400;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+}
+.biz-goal-list li h4 {
+  display: inline-block;
+  margin: 0 5px 0 0;
+}
+
+.biz-core-grid {
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  gap: 10px 16px;
+  font-size: 13px;
+  color: #3a5b6e;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.biz-core-grid h4 { margin: 0; }
+
+.biz-label--r .biz-core-grid {
+  justify-content: start;
+}
+
+/* ── 4) CAPABILITIES (5-circle) ────────────────────────── */
+.biz-caps {
+  padding: 36px 0;
+}
+
+.biz-caps__head {
+  margin-bottom: 184px;
+}
+
+.biz-caps__head h3 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #1a1a1a;
+  letter-spacing: -0.48px;
+}
+
+.biz-caps__head p {
+  margin-top: 12px;
+  font-size: 18px;
+  color: #1a1a1a;
+  font-weight: 400;
+  max-width: 720px;
+}
+
+/* ── 역량 다이어그램(펜타곤) — 박스 구조, 반응형 ── */
+/* 왼쪽 상세패널 + 오른쪽 펜타곤 2단 */
+.biz-diagram5 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin: 60px auto 0;
+  min-height: 620px;
+  transition: gap 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.biz-diagram5.is-detail-open {
+  justify-content: space-between;
+  gap: 48px;
+}
+
+/* ── 왼쪽: 노드 클릭 시 전환되는 상세패널 (한 번에 하나만 .is-active) ── */
+.caps-detail {
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 0;
+  opacity: 0;
+  transform: translateX(-42px);
+  pointer-events: none;
+  overflow: hidden;
+  transition:
+    max-width 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.35s ease,
+    transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.biz-diagram5.is-detail-open .caps-detail {
+  max-width: 760px;
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+}
+.caps-panel {
+  display: none;
+  align-items: center;
+  gap: 28px;
+  animation: capsPanelIn 0.46s ease both;
+}
+.caps-panel.is-active { display: flex; }
+
+.caps-panel__text { flex: 1 1 0; min-width: 0; }
+.caps-panel__title {
+  font-family: var(--font-en);
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.36px;
+  color: #1a1a1a;
+  margin-bottom: 14px;
+}
+.caps-panel__desc {
+  font-size: 15px;
+  line-height: 1.55;
+  letter-spacing: -0.3px;
+  color: #1a1a1a;
+  margin-bottom: 22px;
+}
+.caps-panel__tags {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, max-content);
+  gap: 12px 12px;
+}
+.caps-panel__tags li {
+  border: 0.6px solid #22b2ea;
+  border-radius: 50px;
+  padding: 8px 16px;
+  align-items: center;
+  font-size: 18px;
+  line-height: 1.4;
+  letter-spacing: -0.36px;
+  color: #1a1a1a;
+  white-space: nowrap;
+}
+
+/* 이미지 슬롯 — src 비어 있으면 회색 플레이스홀더만 보임 */
+.caps-panel__img {
+  flex: none;
+  width: 320px;
+  aspect-ratio: 16 / 10;
+  margin: 0;
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+}
+.caps-panel__img::after {
+  content: "이미지";
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #9bb7c4;
+  font-size: 14px;
+  letter-spacing: -0.28px;
+}
+.caps-panel__img img {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.caps-panel__img img[src=""],
+.caps-panel__img img:not([src]) { display: none; }   /* 경로 입력 전엔 숨김 */
+
+/* ── 오른쪽: 펜타곤(노드 5개) — 가운데 원의 기준 ── */
+.pentagon5 {
+  flex: none;
+  position: relative;
+  width: 590px;
+  height: 590px;
+}
+
+.pentagon5__orbit {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% 50%;
+}
+
+.biz-node5 {
+  position: absolute;
+  left: var(--node-left);
+  top: var(--node-top);
+  width: 180px;
+  height: 180px;
+  border: 0;
+  padding: 0;
+  border-radius: 50%;
+  background: #22b2ea;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-weight: 600;
+  font-size: 26px;
+  font-family: var(--font-kr);
+  letter-spacing: -0.52px;
+  white-space: nowrap;
+  z-index: 2;
+  cursor: pointer;
+  transform: translate(-50%, -50%) scale(var(--node-scale, 1));
+  transform-origin: 50% 50%;
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease;
+}
+
+.biz-node5[data-cap="기획"] { --node-left: 50%; --node-top: 14%; }
+.biz-node5[data-cap="설계"] { --node-left: 86%; --node-top: 40%; }
+.biz-node5[data-cap="시공"] { --node-left: 72%; --node-top: 82%; }
+.biz-node5[data-cap="생물수급"] { --node-left: 28%; --node-top: 82%; }
+.biz-node5[data-cap="운영"] { --node-left: 14%; --node-top: 40%; }
+
+/* 선택된 노드 강조 */
+.biz-node5.is-active { --node-scale: 1.06; }
+.biz-node5:hover,
+.biz-node5:focus-visible {
+  box-shadow: 0 18px 34px rgba(34, 178, 234, 0.24);
+  outline: none;
+}
+
+/* 외접원 — 정오각형 5개 노드 중심을 지나는 원 (외심 위치 = 박스 높이의 46.4%) */
+.ring5 {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 430px;
+  height: 430px;
+  border: 2px solid #9bd6f1;
+  border-radius: 50%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+@keyframes capsPanelIn {
+  from {
+    opacity: 0;
+    transform: translateX(-24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ── 5) 사업 예시 ──────────────────────────────────────── */
+.biz-case {
+  padding-top: 262px;
+}
+
+.biz-case__head {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 24px;
+}
+
+.biz-case__figure {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  aspect-ratio: 1364 / 570;   /* 이미지 원본 비율 고정 (폭이 변해도 비율 유지) */
+}
+
+/* 슬라이드 트랙: 가로로 늘어선 슬라이드를 translateX 로 이동 */
+.biz-case__track {
+  display: flex;
+  height: 100%;
+  transition: transform 0.5s ease;
+}
+
+.biz-case__slide {
+  position: relative;
+  flex: 0 0 100%;
+  height: 100%;
+}
+
+.biz-case__slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Figma(1485:1005) — 슬라이드 하단만 어둡게(캡션 가독성). 상단은 이미지 그대로 */
+.biz-case__slide::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(30, 36, 44, 0) 55%,
+    rgba(30, 36, 44, 0.4) 82%,
+    rgba(30, 36, 44, 0.62) 100%
+  );
+}
+
+.biz-case__caption {
+  position: absolute;
+  left: 36px;
+  bottom: 30px;
+  max-width: 60%;
+  color: #fff;
+  z-index: 2;          /* 그라데이션 오버레이 위에 */
+}
+
+.biz-case__caption h4 {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+.biz-case__caption p {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+/* ── 6) FOOTER (faded logo) — 현재는 메인 footer 사용, 잔여 스타일 ── */
+.biz-footer {
+  position: relative;
+  padding: 90px 0 70px;
+  text-align: center;
+  background: transparent;
+}
+
+.biz-footer__mark {
+  width: 120px;
+  height: auto;
+  opacity: 0.45;
+  margin: 0 auto 18px;
+  display: block;
+  filter: brightness(1.4);
+}
+
+.biz-footer__word {
+  font-family: var(--font-serif);
+  font-size: clamp(48px, 8vw, 120px);
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.85);
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+.biz-footer__copy {
+  margin-top: 26px;
+  font-size: 12px;
+  color: #6a96ac;
+  font-weight: 500;
+}
+
+/* 스크롤 등장 */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ── 반응형: 다이어그램/큰 글자 정리 ── */
+@media (max-width: 1024px) {
+  /* 비전 다이어그램: 1열로 스택, 각 박스는 세로(노드 위 · 텍스트 아래) */
+  .diagram4-wrap {
+    grid-template-columns: 1fr;
+    column-gap: 0;
+    row-gap: 40px;
+    justify-items: center;
+  }
+
+  .biz-ring { display: none; }
+
+  .biz-diagram4 svg.biz-links {
+    display: none;
+  }
+
+  .box,
+  .box--l {
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+  }
+
+  .biz-label {
+    width: min(420px, 88vw);
+    text-align: center !important;
+  }
+
+  .biz-label--l,
+  .biz-label--r {
+    text-align: center;
+  }
+
+  .biz-core-grid {
+    justify-content: center;
+  }
+
+  /* 역량 다이어그램: 모바일은 펜타곤 위 / 상세패널 아래로 세로 스택 */
+  .biz-diagram5 { flex-direction: column-reverse; gap: 32px; }
+  .caps-panel { flex-direction: column; align-items: flex-start; }
+  .caps-panel__img { width: 100%; }
+
+  .pentagon5 {
+    width: min(590px, 92vw);
+    height: min(590px, 92vw);
+  }
+  .ring5 { display: none; }
+
+  .biz-area--right {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .biz-area--right .biz-area__tags {
+    justify-content: flex-start;
+  }
+}
+
+
+/* 히어로 타이틀 보조 문구 / 강조 */
+.biz-hero__title {
+  margin-top: 80px;
+}
+
+.biz-hero__title .title {
+  font-family: var(--font-kr);
+  font-size: clamp(14px, 1.4vw, 18px);
+  font-weight: 500;
+  color: #1a1a1a;
+  margin-top: 12px;
+}
+
+.biz-hero__desc {
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+/* Business Area 컨테이너 — biz-container(70%)와 동일 너비로 헤드 선상 맞춤 */
+.areas-wrap {
+  width: 70%;
+  margin: 0 auto;
+}
+
+/* 배너 설명 (Figma: Pretendard 20px, #1a1a1a, 우측 정렬) */
+.biz-banner .text {
+  font-family: var(--font-kr);
+  font-size: clamp(15px, 1.4vw, 20px);
+  font-weight: 400;
+  color: #1a1a1a;
+  line-height: 1.4;
+  letter-spacing: -0.02em;
+}
+
+/* 태그 pill (Figma: #22b2ea 0.6px 테두리, radius 50px, #1a1a1a 18px) */
+.biz-banner .list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  margin: 0;
+  list-style: none;
+}
+
+/* text·list 기본 숨김 → 배너 활성(스크롤로 가운데 도달) 시 등장 */
+.biz-banner .text,
+.biz-banner .list {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.biz-banner.is-active .text,
+.biz-banner.is-active .list {
+  opacity: 1;
+  transform: none;
+}
+
+/* 교차 배치: 우측 블록은 태그도 우측 정렬 */
+.biz-banner[data-name="design"] .list,
+.biz-banner[data-name="operation"] .list {
+  justify-content: flex-end;
+}
+
+.biz-banner .list li {
+  padding: 8px 16px;
+  border: 0.6px solid #22b2ea;
+  border-radius: 50px;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-kr);
+  font-size: clamp(14px, 1.3vw, 18px);
+  font-weight: 400;
+  color: #1a1a1a;
+  line-height: 1.4;
+  letter-spacing: -0.36px;
+  background: none;
+}
+
+@media (max-width: 1024px) {
+  /* 모바일: 큰 워드가 넘치지 않게 살짝 줄임 */
+  .biz-banner__title {
+    font-size: clamp(40px, 13vw, 88px);
+  }
 }

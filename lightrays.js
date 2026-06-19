@@ -68,6 +68,7 @@ uniform vec2  mousePos;
 uniform float mouseInfluence;
 uniform float noiseAmount;
 uniform float distortion;
+uniform float uIntensity;   // 전체 광선 밝기 배율 (맥에서 너무 밝아 낮출 때 사용)
 
 varying vec2 vUv;
 
@@ -127,6 +128,7 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     intensity *= (1.0 - noiseAmount + noiseAmount * n);
   }
 
+  intensity *= uIntensity;               // 전체 밝기 배율
   intensity = clamp(intensity, 0.0, 1.0);
 
   // rgb 는 항상 광선 색(흰색)으로 두고, 강도는 알파로만 표현한다.
@@ -165,6 +167,7 @@ export function initLightRays(container, options = {}) {
     mouseInfluence = 0.1,
     noiseAmount = 0.0,
     distortion = 0.0,
+    intensity = 1.0,
   } = options;
 
   const mouse = { x: 0.5, y: 0.5 };
@@ -253,6 +256,7 @@ export function initLightRays(container, options = {}) {
       mouseInfluence: { value: mouseInfluence },
       noiseAmount: { value: noiseAmount },
       distortion: { value: distortion },
+      uIntensity: { value: intensity },
     };
 
     const geometry = new Triangle(gl);

@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initScrollIndicator();
   initLogoScrollGate();
   initIntroReveal();
+  initHeroFadeIn();
   initIntroScrollGate();
   initSmoothScroll();
   initSectionScrollAnim();
@@ -455,6 +456,28 @@ function initIntroReveal() {
 
 
 /* =============================================================
+   3-D. HERO 텍스트 순차 페이드인
+        #sec-intro가 화면에 들어올 때 hero-active 클래스를 붙여
+        CSS animation-play-state: paused → running 전환.
+   ============================================================= */
+function initHeroFadeIn() {
+  const section = document.getElementById('sec-intro');
+  if (!section) return;
+
+  const observer = new IntersectionObserver(
+    ([entry]) => {
+      if (entry.isIntersecting) {
+        section.classList.add('hero-active');
+        observer.disconnect();
+      }
+    },
+    { threshold: 0.3 }
+  );
+  observer.observe(section);
+}
+
+
+/* =============================================================
    4. 잠수 전환 — 전화면 물결 왜곡 (unseen.co 스타일)
    ============================================================= */
 let diveActive = false;
@@ -498,16 +521,30 @@ function initIntroScrollGate() {
     return window.scrollY >= introTop - 4;
   }
 
+  function isAtCrewStart() {
+    const crewTop = sectionTop(crew);
+    return window.scrollY >= crewTop - 4 && window.scrollY <= crewTop + 28;
+  }
+
   function shouldBlockDown() {
     return !crewScrollUnlocked && !diveActive && !isTransitioning && isAtOrAfterIntro() && isBeforeCrew();
+  }
+
+  function shouldBlockUp() {
+    return crewScrollUnlocked && !diveActive && !isTransitioning && isAtCrewStart();
   }
 
   window.addEventListener('wheel', (e) => {
     if (e.deltaY > 0 && shouldBlockDown()) {
       e.preventDefault();
+      e.stopImmediatePropagation();
       triggerDive();
+    } else if (e.deltaY < 0 && shouldBlockUp()) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      triggerDiveBack();
     }
-  }, { passive: false });
+  }, { passive: false, capture: true });
 
   window.addEventListener('touchstart', (e) => {
     touchStartY = e.touches[0]?.clientY ?? 0;
@@ -517,15 +554,24 @@ function initIntroScrollGate() {
     const y = e.touches[0]?.clientY ?? touchStartY;
     if (touchStartY - y > 30 && shouldBlockDown()) {
       e.preventDefault();
+      e.stopImmediatePropagation();
       triggerDive();
+    } else if (y - touchStartY > 30 && shouldBlockUp()) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      triggerDiveBack();
     }
-  }, { passive: false });
+  }, { passive: false, capture: true });
 
   window.addEventListener('keydown', (e) => {
     const downKeys = ['ArrowDown', 'PageDown', ' ', 'End'];
+    const upKeys = ['ArrowUp', 'PageUp', 'Home'];
     if (downKeys.includes(e.key) && shouldBlockDown()) {
       e.preventDefault();
       triggerDive();
+    } else if (upKeys.includes(e.key) && shouldBlockUp()) {
+      e.preventDefault();
+      triggerDiveBack();
     }
   });
 
@@ -762,17 +808,20 @@ function initCrewFishMatte() {
  * @returns {gsap.core.Timeline|null}
  */
 function useSectionTransitionLegacy({ from, to, onPeak, onDone } = {}) {
-  const dispMap  = document.getElementById('dive-disp-map');
-  const turbEl   = document.getElementById('dive-turbulence');
-  const vignette = document.getElementById('dive-vignette');
-  const mainEl   = document.getElementById('main');
+  const dispMap    = document.getElementById('dive-disp-map');
+  const turbEl     = document.getElementById('dive-turbulence');
+  const mainEl     = document.getElementById('main');
+  const crewCanvas = document.getElementById('crew-3d-canvas');
 
-  if (!dispMap || !turbEl || !vignette || !mainEl || !from || !to) return null;
+  if (!dispMap || !turbEl || !mainEl || !from || !to) return null;
 
-  /* 필터를 #main 전체에 적용 */
-  gsap.set(mainEl, { filter: 'url(#dive-warp)' });
+  gsap.killTweensOf(dispMap);
+  dispMap.setAttribute('scale', '0');
+  turbEl.setAttribute('baseFrequency', '0.004 0.007');
 
-  /* rAF — baseFrequency를 미세하게 흔들어 파동이 살아있게 함 */
+  const filterTargets = [mainEl, crewCanvas].filter(Boolean);
+  gsap.set(filterTargets, { filter: 'url(#dive-warp)' });
+
   let rafId;
   const t0 = performance.now();
   (function tickTurbulence() {
@@ -785,24 +834,28 @@ function useSectionTransitionLegacy({ from, to, onPeak, onDone } = {}) {
 
   const tl = gsap.timeline({
     defaults: { overwrite: 'auto' },
+    onStart() {
+      isTransitioning = true;
+      document.body.classList.add('is-transitioning');
+    },
     onComplete() {
       cancelAnimationFrame(rafId);
-      turbEl.setAttribute('baseFrequency', '0.004 0.007'); /* 원래 값 복원 */
-      gsap.set([mainEl, vignette], { clearProps: 'all' });
+      turbEl.setAttribute('baseFrequency', '0.004 0.007');
+      dispMap.setAttribute('scale', '0');
+      gsap.set(filterTargets, { clearProps: 'filter' });
+      isTransitioning = false;
+      document.body.classList.remove('is-transitioning');
       onDone?.();
     },
   });
 
-  /* 변위 스케일  0 → 35 → 0  (인트로·크루 동시에 같은 파동으로 덮임) */
-  tl.to(dispMap, { attr: { scale: 35 }, duration: 1.1,  ease: 'power2.in'  }, 0)
-    .to(dispMap, { attr: { scale:  0 }, duration: 2.0,  ease: 'expo.out'   }, 1.1)
-
-  /* 브라이트 플래시 */
-  tl.to(vignette, { opacity: 0.35, duration: 1.0, ease: 'power2.in'  }, 0)
-    .to(vignette, { opacity: 0,    duration: 1.8, ease: 'power2.out' }, 1.1)
-
-  /* t=0.8s 스크롤 점프 — 왜곡이 최고조에 달하는 중이라 점프가 가려짐 */
-  tl.call(() => onPeak?.(), null, 0.8);
+  /* 인트로→크루 전환 일렁임:
+     0 → 0.90s : 왜곡 빌드업 (인트로가 일렁이며 사라짐)
+     0.72s     : 크루 섹션으로 스크롤 — 파동이 절정일 때 크루가 화면에 등장
+     0.90 → 1.80s : 왜곡 소멸 (크루 섹션 도달 후 ~1.1s 안에 완전히 정지) */
+  tl.to(dispMap, { attr: { scale: 36 }, duration: 0.90, ease: 'power2.in'  }, 0)
+    .call(() => onPeak?.(), null, 0.72)
+    .to(dispMap, { attr: { scale:  0 }, duration: 0.90, ease: 'power2.out' }, 0.90);
 
   return tl;
 }
@@ -1370,6 +1423,7 @@ function triggerDive() {
   if (diveActive || isTransitioning) return;
   diveActive = true;
   crewScrollUnlocked = true;
+  window.__syncSmoothScroll?.();
 
   if (typeof gsap === 'undefined') {
     isTransitioning = true;
@@ -1387,7 +1441,7 @@ function triggerDive() {
 
   if (!fromEl || !toEl) { diveActive = false; return; }
 
-  const transition = useSectionTransition({
+  const transition = useSectionTransitionLegacy({
     from:   fromEl,
     to:     toEl,
     onPeak: () => {
@@ -1410,6 +1464,58 @@ function triggerDive() {
       document.dispatchEvent(new CustomEvent('crew-force-enter'));
     },
     onDone: () => { diveActive = false; },
+  });
+
+  if (!transition) {
+    diveActive = false;
+    isTransitioning = false;
+    document.body.classList.remove('is-transitioning');
+  }
+}
+
+function triggerDiveBack() {
+  if (diveActive || isTransitioning) return;
+  diveActive = true;
+  window.__syncSmoothScroll?.();
+
+  const introEl = document.getElementById('sec-intro');
+  const crewSticky = document.querySelector('.crew-sticky');
+
+  if (typeof gsap === 'undefined') {
+    isTransitioning = true;
+    introEl?.scrollIntoView({ behavior: 'smooth' });
+    setTimeout(() => {
+      crewScrollUnlocked = false;
+      window.__syncSmoothScroll?.();
+      isTransitioning = false;
+      diveActive = false;
+    }, 450);
+    return;
+  }
+
+  if (!introEl || !crewSticky) { diveActive = false; return; }
+
+  const transition = useSectionTransitionLegacy({
+    from: crewSticky,
+    to: introEl,
+    onPeak: () => {
+      const top = Math.round(introEl.getBoundingClientRect().top + window.scrollY);
+      const html = document.documentElement;
+      html.style.scrollBehavior = 'auto';
+      document.body.style.scrollBehavior = 'auto';
+      try {
+        window.scrollTo({ top, behavior: 'instant' });
+      } catch (_) {
+        window.scrollTo(0, top);
+      }
+      html.style.scrollBehavior = '';
+      document.body.style.scrollBehavior = '';
+      crewScrollUnlocked = false;
+      window.__syncSmoothScroll?.();
+    },
+    onDone: () => {
+      diveActive = false;
+    },
   });
 
   if (!transition) {
@@ -1793,7 +1899,16 @@ function initStickySequenceSection(sectionId) {
     return Math.min(Math.max(sectionTop - vh + progress * scrollSpan, 0), maxScroll);
   }
 
+  let rafPending = false;
   function onScroll() {
+    if (rafPending) return;
+    rafPending = true;
+    requestAnimationFrame(() => {
+      rafPending = false;
+      _onScrollImpl();
+    });
+  }
+  function _onScrollImpl() {
     const { rect, vh, scrollSpan, progress, rawProgress } = getSectionMetrics();
     const nextOverlapExit = 1 - smoothstep(vh * 0.42, vh * 0.82, rect.bottom);
     const bottomExit = clamp01((vh * 0.18 - rect.bottom) / (vh * 0.18));
@@ -1816,7 +1931,7 @@ function initStickySequenceSection(sectionId) {
     section.style.setProperty('--seq-content-opacity', contentOpacity.toFixed(3));
 
     if (!isInRange && !isPast) {
-      section.classList.remove('is-title-visible', 'is-content-visible', 'is-exiting');
+      section.classList.remove('is-title-visible', 'is-content-visible', 'is-exiting', 'is-content-animating');
       contentWasVisible = false;
       holdWheelCount = 0;
       lastProgress = progress;
@@ -1826,10 +1941,12 @@ function initStickySequenceSection(sectionId) {
     const titleVisible = titleOpacity > 0.01 && !isPast;
     const contentVisible = contentOpacity > 0.01 && !isPast;
     const exiting = exitProgress > 0 || isPast;
+    const contentAnimating = titleOpacity > 0 || contentOpacity > 0;
 
     section.classList.toggle('is-title-visible', titleVisible);
     section.classList.toggle('is-content-visible', contentVisible);
     section.classList.toggle('is-exiting', exiting);
+    section.classList.toggle('is-content-animating', contentAnimating);
 
     if (contentOpacity > 0.3 && !contentWasVisible && !exiting && scrollingDown && sectionId === 'sec-location') {
       playSequenceWave(section);

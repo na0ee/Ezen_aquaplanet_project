@@ -99,6 +99,7 @@
       position: relative;
       z-index: 1;
       padding-top: 80px;
+      transition: opacity 0.4s ease, transform 0.4s ease, filter 0.4s ease;
     }
 
     .loc-hero__title-wrap {
@@ -258,7 +259,6 @@
       box-sizing: border-box;
     }
 
-    .loc-hero__content,
     .loc-scroll,
     .loc-branch-tabs,
     .loc-info__card,
@@ -299,7 +299,6 @@
         filter 0.52s ease;
     }
 
-    .loc-hero.is-title-visible .loc-hero__content,
     .loc-hero.is-title-visible .loc-branch-tabs,
     .loc-hero.is-content-visible .loc-scroll,
     .loc-info.is-title-visible .loc-branch-tabs,
@@ -374,6 +373,25 @@
 
     .loc-hero.loc-section-exiting .loc-scroll {
       transform: translate(-50%, -44px);
+    }
+
+    /* ── 히어로 텍스트 순차 페이드인 (인덱스 페이지와 동일) ── */
+    .loc-hero__eyebrow,
+    .loc-hero__title,
+    .loc-hero__sub {
+      opacity: 0;
+      animation: heroFadeUp 0.9s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+      animation-play-state: paused;
+    }
+
+    .loc-hero__eyebrow { animation-delay: 0.1s; }
+    .loc-hero__title   { animation-delay: 0.5s; }
+    .loc-hero__sub     { animation-delay: 1.0s; }
+
+    .loc-hero.is-title-visible .loc-hero__eyebrow,
+    .loc-hero.is-title-visible .loc-hero__title,
+    .loc-hero.is-title-visible .loc-hero__sub {
+      animation-play-state: running;
     }
 
     .loc-info {
@@ -1272,7 +1290,7 @@
         <div class="gnb__nav-item" data-nav="about">
           <span class="gnb__link gnb__link--active">About us</span>
           <div class="gnb__dropdown">
-            <a href="#" class="gnb__dropdown-item">Business</a>
+            <a href="business.html" class="gnb__dropdown-item">Business</a>
             <a href="marinlab.html" class="gnb__dropdown-item">Marin Lab</a>
             <a href="location.html" class="gnb__dropdown-item gnb__dropdown-item--active">Location</a>
           </div>

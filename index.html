@@ -38,7 +38,7 @@
         <div class="gnb__nav-item" data-nav="about">
           <span class="gnb__link">About us</span>
           <div class="gnb__dropdown">
-            <a href="#" class="gnb__dropdown-item">Business</a>
+            <a href="business.html" class="gnb__dropdown-item">Business</a>
             <a href="marinlab.html" class="gnb__dropdown-item">Marin Lab</a>
             <a href="location.html" class="gnb__dropdown-item gnb__dropdown-item--active">Location</a>
           </div>
@@ -69,10 +69,14 @@
   <main id="main">
 
     <section id="sec-logo" class="section section--logo" aria-label="Aqua Planet logo">
-      <video class="section__video-bg section__video-bg--first" autoplay muted loop playsinline preload="auto" aria-hidden="true">
-        <source src="assets/images/first.webm" type="video/webm">
-        <source src="assets/images/first.mp4" type="video/mp4">
-      </video>
+      <div class="logo-wave-bg" aria-hidden="true">
+        <div class="logo-wave-bg__glow logo-wave-bg__glow--left"></div>
+        <div class="logo-wave-bg__glow logo-wave-bg__glow--right"></div>
+        <div class="logo-wave-bg__caustics"></div>
+        <div class="logo-wave-bg__swell logo-wave-bg__swell--back"></div>
+        <div class="logo-wave-bg__swell logo-wave-bg__swell--front"></div>
+        <div class="logo-wave-bg__sparkle"></div>
+      </div>
 
       <!-- 로고 뒤로 헤엄쳐 지나가는 물고기 떼 (비디오 위 · 로고 캔버스 아래) -->
       <div class="fish-drift fish-drift--1" aria-hidden="true"></div>
@@ -168,7 +172,7 @@
                 <h3 class="creature-info__name">Walrus</h3>
                 <span class="creature-info__name-kr">: 바다코끼리</span>
               </header>
-              <dl class="creature-info__meta">
+              <dl class="creature-info__meta"></dl>
                 <div><dt>Name</dt><dd>: 메리, 바랴</dd></div>
                 <div><dt>Location</dt><dd>: 아쿠아플라넷 일산</dd></div>
               </dl>
@@ -406,7 +410,7 @@
                 <p>위치 정보</p>
               </div>
               <p class="location-hover-card__desc">위치 정보</p>
-              <a href="#sec-booking" class="location-hover-card__btn btn-cta btn-cta--primary">예매하기</a>
+              <a href="#sec-booking" class="location-hover-card__btn btn-cta btn-cta--fill-white">예매하기</a>
             </div>
             <div class="location-hover-card__image" aria-label="지점 사진">
               <img class="location-hover-card__img" src="" alt="">
