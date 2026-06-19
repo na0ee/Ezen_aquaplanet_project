@@ -48,21 +48,37 @@
       <h1 class="hero__title" style="display:none;">aqua planet</h1>
     </div>
 
-    <!-- GNB — 메인과 동일 (재사용). 우측 버튼은 홈으로 돌아가기 -->
-    <header class="gnb">
+    <header id="gnb" class="gnb">
       <div class="gnb__inner">
         <nav class="gnb__nav" aria-label="메인 메뉴">
-          <a href="program/program.html" class="gnb__link" data-nav="program">Program</a>
-          <a href="Oceanfriends.html"    class="gnb__link" data-nav="crew">Ocean friends</a>
-          <a href="location.html"        class="gnb__link" data-nav="about">About us</a>
+          <div class="gnb__nav-item">
+            <a href="program/program.html" class="gnb__link" data-nav="program">Program</a>
+            <div class="gnb__dropdown">
+              <a href="program/program.html?loc=Jeju"     class="gnb__dropdown-item">Jeju</a>
+              <a href="program/program.html?loc=Yeosu"    class="gnb__dropdown-item">Yeosu</a>
+              <a href="program/program.html?loc=Ilsan"    class="gnb__dropdown-item">Ilsan</a>
+              <a href="program/program.html?loc=Gwanggyo" class="gnb__dropdown-item">Gwanggyo</a>
+            </div>
+          </div>
+          <a href="Oceanfriends.html" class="gnb__link" data-nav="crew">Ocean friends</a>
+          <div class="gnb__nav-item" data-nav="about">
+            <span class="gnb__link">About us</span>
+            <div class="gnb__dropdown">
+              <a href="business.html" class="gnb__dropdown-item">Business</a>
+              <a href="marinlab.html" class="gnb__dropdown-item">Marin Lab</a>
+              <a href="location.html" class="gnb__dropdown-item">Location</a>
+            </div>
+          </div>
         </nav>
+
         <a href="index.html" class="gnb__logo-wrap" aria-label="Aqua Planet 홈">
           <img class="gnb__logo" src="assets/images/headerLogo.png" alt="" aria-hidden="true">
         </a>
-        <a href="index.html" class="gnb__ticket btn-pill" aria-label="홈으로 돌아가기">
-          Close
+
+        <a href="ticket.html" class="gnb__ticket btn-pill" aria-label="티켓 예매">
+          Ticket
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M6 6L18 18M18 6L6 18" stroke="white" stroke-width="1.5"
+            <path d="M7 17L17 7M17 7H7M17 7V17" stroke="white" stroke-width="1.5"
                   stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </a>
@@ -182,11 +198,11 @@
     </video>
     <div class="footer__inner">
       <nav class="footer__nav" aria-label="푸터 메뉴">
-        <a href="#sec-program" class="footer__link">Program</a>
-        <a href="#sec-crew" class="footer__link">Ocean friends</a>
-        <a href="#sec-logo" class="footer__link">About us</a>
+        <a href="program/program.html" class="footer__link">Program</a>
+        <a href="Oceanfriends.html" class="footer__link">Ocean friends</a>
+        <a href="location.html" class="footer__link">About us</a>
         <a href="location.html" class="footer__link">Location</a>
-        <a href="#sec-booking" class="footer__link">Ticket</a>
+        <a href="ticket.html" class="footer__link">Ticket</a>
       </nav>
 
       <div class="footer__brand">
@@ -227,6 +243,7 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="./gnb-scroll.js"></script>
   <script type="module" src="./ticket.js"></script>
   <script type="module" src="./logo3d.js"></script>
 </body>

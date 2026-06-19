@@ -761,6 +761,7 @@
     .loc-footer {
       background-color: var(--clr-primary);
       width: 100%;
+      min-height: 810px;
     }
 
     /* ── 흰색 배경 위 파란 커서 ── */
@@ -1276,17 +1277,19 @@
 </head>
 <body class="is-logo-at-header">
 
-  <!-- ================================================
-       GNB — 고정 네비게이션 바
-  ================================================ -->
   <header id="gnb" class="gnb">
     <div class="gnb__inner">
-      <!-- 왼쪽 메뉴 -->
       <nav class="gnb__nav" aria-label="메인 메뉴">
-
-        <a href="index.html#sec-program" class="gnb__link" data-nav="program">Program</a>
+        <div class="gnb__nav-item">
+          <a href="program/program.html" class="gnb__link" data-nav="program">Program</a>
+          <div class="gnb__dropdown">
+            <a href="program/program.html?loc=Jeju"     class="gnb__dropdown-item">Jeju</a>
+            <a href="program/program.html?loc=Yeosu"    class="gnb__dropdown-item">Yeosu</a>
+            <a href="program/program.html?loc=Ilsan"    class="gnb__dropdown-item">Ilsan</a>
+            <a href="program/program.html?loc=Gwanggyo" class="gnb__dropdown-item">Gwanggyo</a>
+          </div>
+        </div>
         <a href="Oceanfriends.html" class="gnb__link" data-nav="crew">Ocean friends</a>
-
         <div class="gnb__nav-item" data-nav="about">
           <span class="gnb__link gnb__link--active">About us</span>
           <div class="gnb__dropdown">
@@ -1297,19 +1300,17 @@
         </div>
       </nav>
 
-      <!-- 중앙 로고 -->
       <a href="index.html" class="gnb__logo-wrap" aria-label="Aqua Planet 홈">
         <img class="gnb__logo" src="assets/images/headerLogo.png" alt="" aria-hidden="true">
       </a>
 
-      <!-- 오른쪽 티켓 버튼 -->
-      <button class="gnb__ticket btn-pill" type="button" aria-label="티켓 예매" onclick="location.href='ticket.html'">
+      <a href="ticket.html" class="gnb__ticket btn-pill" aria-label="티켓 예매">
         Ticket
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path d="M7 17L17 7M17 7H7M17 7V17" stroke="white" stroke-width="1.5"
                 stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-      </button>
+      </a>
     </div>
   </header>
 
@@ -1576,11 +1577,11 @@
     <footer id="footer" class="loc-footer footer" aria-label="푸터">
       <div class="footer__inner">
         <nav class="footer__nav" aria-label="푸터 메뉴">
-          <a href="#sec-program" class="footer__link">Program</a>
-          <a href="#sec-crew" class="footer__link">Ocean friends</a>
-          <a href="#sec-logo" class="footer__link">About us</a>
+          <a href="program/program.html" class="footer__link">Program</a>
+          <a href="Oceanfriends.html" class="footer__link">Ocean friends</a>
+          <a href="location.html" class="footer__link">About us</a>
           <a href="location.html" class="footer__link">Location</a>
-          <a href="#sec-booking" class="footer__link">Ticket</a>
+          <a href="ticket.html" class="footer__link">Ticket</a>
         </nav>
 
         <div class="footer__brand">
@@ -1647,39 +1648,8 @@
   <!-- 커스텀 커서 (원형만, 물결 없음) -->
   <div id="custom-cursor" aria-hidden="true"></div>
 
+  <script src="gnb-scroll.js"></script>
   <script>
-    /* ── GNB: 업스크롤 시에만 표시 ── */
-    (function () {
-      const gnb = document.getElementById('gnb');
-      if (!gnb) return;
-      const THRESHOLD = 80;
-      const LIGHT_SELS = '.loc-info, .loc-programs, .loc-map, .loc-opening, .exhibit-modal__card';
-      let lastY = window.scrollY;
-
-      function syncGnbBg() {
-        const x = Math.round(window.innerWidth / 2);
-        const y = Math.min(96, window.innerHeight - 1);
-        const stack = document.elementsFromPoint ? document.elementsFromPoint(x, y) : [document.elementFromPoint(x, y)];
-        const onLightBg = stack.some(function (node) {
-          return node && !node.closest('#gnb') && node.closest(LIGHT_SELS);
-        });
-        gnb.classList.toggle('gnb--light-bg', onLightBg);
-      }
-
-      window.addEventListener('scroll', function () {
-        const y = window.scrollY;
-        gnb.classList.toggle('is-scrolled', y > THRESHOLD);
-        if (y > THRESHOLD) {
-          gnb.classList.toggle('is-hidden', y > lastY);
-        } else {
-          gnb.classList.remove('is-hidden');
-        }
-        lastY = y;
-        syncGnbBg();
-      }, { passive: true });
-      window.addEventListener('resize', syncGnbBg, { passive: true });
-      syncGnbBg();
-    })();
 
     /* ── Location continuous scroll reveal ── */
     (function () {

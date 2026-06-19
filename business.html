@@ -17,14 +17,19 @@
 </head>
 <body class="biz-page">
 
-  <!-- ================================================
-       GNB — 메인과 동일 (재사용). About us > Business 활성
-  ================================================ -->
   <header id="gnb" class="gnb">
     <div class="gnb__inner">
       <nav class="gnb__nav" aria-label="메인 메뉴">
-        <a href="index.html#sec-program" class="gnb__link" data-nav="program">Program</a>
-        <a href="index.html#sec-crew"    class="gnb__link" data-nav="crew">Ocean friends</a>
+        <div class="gnb__nav-item">
+          <a href="program/program.html" class="gnb__link" data-nav="program">Program</a>
+          <div class="gnb__dropdown">
+            <a href="program/program.html?loc=Jeju"      class="gnb__dropdown-item">Jeju</a>
+            <a href="program/program.html?loc=Yeosu"     class="gnb__dropdown-item">Yeosu</a>
+            <a href="program/program.html?loc=Ilsan"     class="gnb__dropdown-item">Ilsan</a>
+            <a href="program/program.html?loc=Gwanggyo"  class="gnb__dropdown-item">Gwanggyo</a>
+          </div>
+        </div>
+        <a href="Oceanfriends.html" class="gnb__link" data-nav="crew">Ocean friends</a>
         <div class="gnb__nav-item" data-nav="about">
           <span class="gnb__link gnb__link--active">About us</span>
           <div class="gnb__dropdown">
@@ -39,7 +44,7 @@
         <img class="gnb__logo" src="assets/images/headerLogo.png" alt="" aria-hidden="true">
       </a>
 
-      <a class="gnb__ticket btn-pill" href="ticket.html" aria-label="티켓 예매">
+      <a href="ticket.html" class="gnb__ticket btn-pill" aria-label="티켓 예매">
         Ticket
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path d="M5 12H19M13 6L19 12L13 18" stroke="white" stroke-width="1.5"
@@ -473,9 +478,9 @@
   <footer id="footer" class="footer">
     <div class="footer__inner">
       <nav class="footer__nav" aria-label="푸터 메뉴">
-        <a href="index.html#sec-program" class="footer__link">Program</a>
-        <a href="index.html#sec-crew" class="footer__link">Ocean friends</a>
-        <a href="index.html#sec-logo" class="footer__link">About us</a>
+        <a href="program/program.html" class="footer__link">Program</a>
+        <a href="Oceanfriends.html" class="footer__link">Ocean friends</a>
+        <a href="location.html" class="footer__link">About us</a>
         <a href="location.html" class="footer__link">Location</a>
         <a href="ticket.html" class="footer__link">Ticket</a>
       </nav>
@@ -512,6 +517,7 @@
   <!-- 커스텀 커서 (location 페이지와 동일) -->
   <div id="custom-cursor" aria-hidden="true"></div>
 
+  <script src="./gnb-scroll.js"></script>
   <script src="./business.js"></script>
 
   <script>
