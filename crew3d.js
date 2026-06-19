@@ -5,6 +5,7 @@
 
 import * as THREE from 'three';
 import { GLTFLoader }    from 'three/addons/loaders/GLTFLoader.js';
+import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
 
 
 /* ---------------------------------------------------------------
@@ -365,6 +366,7 @@ scene.add(bottomLight);
    GLB 로드
 --------------------------------------------------------------- */
 const loader    = new GLTFLoader();
+loader.setMeshoptDecoder(MeshoptDecoder);
 const models    = new Array(CREATURES.length).fill(null);
 let   loadedN   = 0;
 let   pendingIdx = -1;  /* 로드 완료 전 스크롤된 인덱스 보관 */
@@ -669,6 +671,15 @@ const clock = new THREE.Clock();
   requestAnimationFrame(animate);
   const dt = clock.getDelta();
 
+  const crewState = getCrewScrollState();
+  const forceEntryNow = performance.now() < forceCrewEntryUntil;
+
+  /* 크루 섹션 범위 밖이고 애니메이션도 없으면 믹서/렌더 전부 스킵 */
+  if (!crewInView && !entryActive && !exitActive && !forceEntryNow) {
+    if (crewCanvas.style.opacity !== '0' || currentIdx >= 0) hideCrewCanvas();
+    return;
+  }
+
   /* 애니메이션 믹서 업데이트 */
   models.forEach(m => m?.mixer?.update(dt));
 
@@ -726,21 +737,13 @@ const clock = new THREE.Clock();
     }
   }
 
-  const crewState = getCrewScrollState();
-  const forceEntryNow = performance.now() < forceCrewEntryUntil;
   if (!crewState.inPanelRange && !entryActive && !exitActive && !forceEntryNow) {
-    if (crewCanvas.style.opacity !== '0' || currentIdx >= 0) {
-      hideCrewCanvas();
-    }
+    hideCrewCanvas();
+    return;
   }
-
-  if (!crewInView && !entryActive && !exitActive) return;
 
   /* 클립 경로 항상 갱신 (스크롤 복귀 대응) */
   clampCanvasToSticky();
-
-  /* 패널 구간 이탈 + 애니메이션 없음 → 렌더 스킵 (프로그램 섹션 진입 시 GPU 경쟁 방지) */
-  if (!crewState.inPanelRange && !entryActive && !exitActive && !forceEntryNow) return;
 
   if (controlsActive && currentSettled) {
     camera.position.y = 0.3;
