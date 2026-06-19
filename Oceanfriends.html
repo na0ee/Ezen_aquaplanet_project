@@ -23,218 +23,6 @@
       background-image: none;
     }
 
-    /* ── GNB ── */
-    .oceanfriends-page .gnb {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      width: 100%;
-      backdrop-filter: blur(15px);
-      z-index: 1000;
-      padding: 24px 32px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      transition: transform 0.35s ease;
-    }
-
-    .oceanfriends-page .gnb--hidden {
-      transform: translateY(-100%);
-    }
-
-    .oceanfriends-page .gnb__inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 100%;
-      position: relative;
-    }
-
-    .oceanfriends-page .gnb__nav {
-      display: flex;
-      gap: 44px;
-      align-items: center;
-    }
-
-    .oceanfriends-page .gnb__link {
-      color: rgba(255, 255, 255, 0.50);
-      font-family: "Poppins";
-      font-size: 18px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: normal;
-      letter-spacing: -0.96px;
-      transition: transform 0.2s ease;
-      text-decoration: none;
-    }
-
-    .oceanfriends-page .gnb__link--active {
-      color: #FFF;
-      font-family: "EB Garamond";
-      font-size: 20px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: normal;
-      letter-spacing: -1.04px;
-    }
-
-    .oceanfriends-page .gnb__link:hover {
-      color: rgba(255, 255, 255, 0.50);
-      transform: scale(1.1);
-    }
-
-    .oceanfriends-page .gnb__link--active:hover {
-      color: #FFF;
-    }
-
-    .oceanfriends-page .gnb--scrolled .gnb__link {
-      color: rgba(34, 178, 234, 0.50);
-    }
-
-    .oceanfriends-page .gnb--scrolled .gnb__link--active {
-      color: var(--Brand-Primary, #22B2EA);
-    }
-
-    .oceanfriends-page .gnb--scrolled .gnb__link:hover {
-      color: rgba(34, 178, 234, 0.50);
-    }
-
-    .oceanfriends-page .gnb--scrolled .gnb__link--active:hover {
-      color: var(--Brand-Primary, #22B2EA);
-    }
-
-    .oceanfriends-page .gnb__nav-item {
-      position: relative;
-      display: flex;
-      align-items: center;
-    }
-
-    .oceanfriends-page .gnb__dropdown {
-      position: absolute;
-      top: 48px;
-      left: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 3px;
-      border-radius: 14px;
-      background-color: rgba(255, 255, 255, 0.3);
-      backdrop-filter: blur(15px);
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity 0.25s ease, visibility 0.25s ease;
-      z-index: 100;
-      pointer-events: none;
-    }
-
-    .oceanfriends-page .gnb__nav-item:hover .gnb__dropdown {
-      pointer-events: auto;
-    }
-
-    .oceanfriends-page .gnb--scrolled .gnb__dropdown {
-      background-color: #F8F8F8;
-    }
-
-    .oceanfriends-page .gnb__nav-item:hover .gnb__dropdown {
-      opacity: 1;
-      visibility: visible;
-    }
-
-    .oceanfriends-page .gnb__dropdown-item {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 153px;
-      height: 48px;
-      border-radius: 12px;
-      font-family: "Poppins";
-      font-size: 16px;
-      font-weight: 400;
-      letter-spacing: -0.64px;
-      color: rgba(255, 255, 255, 0.5);
-      white-space: nowrap;
-      transition: all 0.2s ease;
-      background: none;
-      border: none;
-      cursor: pointer;
-    }
-
-    .oceanfriends-page .gnb__dropdown-item--active,
-    .oceanfriends-page .gnb__dropdown-item:hover {
-      background-color: #ffffff;
-      color: #22b2ea;
-      font-family: "EB Garamond";
-      font-size: 18px;
-      letter-spacing: -0.72px;
-    }
-
-    .oceanfriends-page .gnb--scrolled .gnb__dropdown-item {
-      color: rgba(34, 178, 234, 0.50);
-    }
-
-    .oceanfriends-page .gnb__dropdown:hover .gnb__dropdown-item:not(:hover) {
-      background-color: transparent;
-      color: rgba(255, 255, 255, 0.5);
-      font-family: "Poppins";
-      font-size: 16px;
-      letter-spacing: -0.64px;
-    }
-
-    .oceanfriends-page .gnb--scrolled .gnb__dropdown:hover .gnb__dropdown-item:not(:hover) {
-      color: rgba(34, 178, 234, 0.50);
-    }
-
-    .oceanfriends-page .gnb__logo-wrap {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 10;
-    }
-
-    .oceanfriends-page .gnb__logo {
-      width: 60px;
-      height: 60px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .oceanfriends-page .gnb__logo img {
-      width: 100%;
-      opacity: 0.8;
-    }
-
-    .oceanfriends-page .gnb__ticket {
-      height: 44px;
-      padding: 0 14px;
-      border-radius: 100px;
-      background-color: rgba(255, 255, 255, 0.3);
-      border: 1px solid rgba(255, 255, 255, 0.4);
-      gap: 10px;
-      color: #ffffff;
-      font-size: 18px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: normal;
-      letter-spacing: -0.96px;
-      cursor: pointer;
-      transition: background-color 0.2s ease;
-    }
-
-    .oceanfriends-page .gnb--scrolled .gnb__ticket {
-      border-color: rgba(34, 178, 234, 0.4);
-      color: var(--Brand-Primary, #22B2EA);
-    }
-
-    .oceanfriends-page .gnb__ticket:hover {
-      background-color: rgba(34, 178, 234, 0.4);
-    }
-
     /* ── 메인 레이아웃 ── */
     .of-main {
       overflow-x: clip;
@@ -885,7 +673,7 @@
 
     /* ── 브랜드 섹션 ── */
     .of-brand {
-      min-height: 900px;
+      min-height: 1080px;
       display: flex;
       align-items: end;
       justify-content: center;
@@ -1322,41 +1110,38 @@
 
   <header id="gnb" class="gnb">
     <div class="gnb__inner">
-      <!-- 왼쪽 메뉴 -->
-      <div class="gnb__nav" aria-label="메인 메뉴">
+      <nav class="gnb__nav" aria-label="메인 메뉴">
         <div class="gnb__nav-item">
           <a href="program/program.html" class="gnb__link">Program</a>
           <div class="gnb__dropdown">
-            <a href="program/program.html" class="gnb__dropdown-item gnb__dropdown-item--active">Jeju</a>
-            <a href="program/program.html" class="gnb__dropdown-item">Yeosu</a>
-            <a href="program/program.html" class="gnb__dropdown-item">Ilsan</a>
-            <a href="program/program.html" class="gnb__dropdown-item">Gwanggyo</a>
+            <a href="program/program.html?loc=Jeju"     class="gnb__dropdown-item">Jeju</a>
+            <a href="program/program.html?loc=Yeosu"    class="gnb__dropdown-item">Yeosu</a>
+            <a href="program/program.html?loc=Ilsan"    class="gnb__dropdown-item">Ilsan</a>
+            <a href="program/program.html?loc=Gwanggyo" class="gnb__dropdown-item">Gwanggyo</a>
           </div>
         </div>
-        <a href="Oceanfriends.html" class="gnb__link gnb__link--active">Ocean Friends</a>
+        <a href="Oceanfriends.html" class="gnb__link gnb__link--active">Ocean friends</a>
         <div class="gnb__nav-item">
-          <a href="location.html" class="gnb__link">About us</a>
+          <span class="gnb__link">About us</span>
           <div class="gnb__dropdown">
             <a href="business.html" class="gnb__dropdown-item">Business</a>
             <a href="marinlab.html" class="gnb__dropdown-item">Marin Lab</a>
             <a href="location.html" class="gnb__dropdown-item">Location</a>
           </div>
         </div>
-      </div>
+      </nav>
 
-      <!-- 중앙 로고 -->
       <a href="index.html" class="gnb__logo-wrap" aria-label="Aqua Planet 홈">
         <img class="gnb__logo" src="assets/images/headerLogo.png" alt="" aria-hidden="true">
       </a>
 
-      <!-- 오른쪽 티켓 버튼 -->
-      <button class="gnb__ticket btn-pill" type="button" aria-label="티켓 예매" onclick="location.href='ticket.html'">
+      <a href="ticket.html" class="gnb__ticket btn-pill" aria-label="티켓 예매">
         Ticket
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M7 17L17 7M17 7H7M17 7V17" stroke="white" stroke-width="1.5" stroke-linecap="round"
-            stroke-linejoin="round" />
+          <path d="M7 17L17 7M17 7H7M17 7V17" stroke="white" stroke-width="1.5"
+            stroke-linecap="round" stroke-linejoin="round" />
         </svg>
-      </button>
+      </a>
     </div>
   </header>
 
@@ -3367,36 +3152,8 @@
 
   <div id="custom-cursor" aria-hidden="true"></div>
 
+  <script src="gnb-scroll.js"></script>
   <script>
-    /* ── GNB: 페이지 10% 이상 스크롤 시 색상 전환 ── */
-    (function () {
-      const gnb = document.querySelector('.gnb');
-      if (!gnb) return;
-
-      let lastScrollY = window.scrollY;
-
-      function updateGnbScrolled() {
-        const y = window.scrollY;
-        const max = document.documentElement.scrollHeight - window.innerHeight;
-        const progress = max > 0 ? y / max : 0;
-        const scrolled = progress >= 0.1;
-
-        gnb.classList.toggle('gnb--scrolled', scrolled);
-
-        // 10% 넘은 뒤: 아래로 스크롤하면 숨기고, 위로 스크롤하면 다시 표시
-        if (scrolled && y > lastScrollY) {
-          gnb.classList.add('gnb--hidden');
-        } else {
-          gnb.classList.remove('gnb--hidden');
-        }
-        lastScrollY = y;
-      }
-
-      window.addEventListener('scroll', updateGnbScrolled);
-      window.addEventListener('resize', updateGnbScrolled);
-      updateGnbScrolled();
-    })();
-
     /* ── 섹션 타이틀/콘텐츠 순차 페이드인 ── */
     (function () {
       const groups = [

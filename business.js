@@ -181,19 +181,7 @@
   banners.forEach(function (b) { io.observe(b); });
 })();
 
-/* ── ① GNB: 업스크롤 시에만 표시 ───────────────────────────── */
-(function () {
-  const gnb = document.getElementById('gnb');
-  if (!gnb) return;
-  const THRESHOLD = 80;
-  let lastY = window.scrollY;
-  window.addEventListener('scroll', function () {
-    const y = window.scrollY;
-    gnb.classList.toggle('is-scrolled', y > THRESHOLD);
-    gnb.classList.remove('is-hidden');
-    lastY = y;
-  }, { passive: true });
-})();
+/* ── ① GNB: gnb-scroll.js에서 처리 ─────────────────────────── */
 
 /* ── 커스텀 커서 (location 페이지와 동일) ───────────────────── */
 (function () {
