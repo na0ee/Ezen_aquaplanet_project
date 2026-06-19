@@ -153,7 +153,7 @@ button {
 }
 
 /* 배경 위에 콘텐츠 올리기 (.crew-sticky, .scroll-indicator, .section__video-bg는 제외) */
-.section>*:not(.section__bg):not(.section__video-bg):not(.crew-sticky):not(.scroll-indicator):not(.bubble-layer) {
+.section>*:not(.section__bg):not(.section__video-bg):not(.crew-sticky):not(.scroll-indicator):not(.bubble-layer):not(.location-fish-bg-source):not(.location-fish-bg):not(.location-fish-bg--left) {
   position: relative;
   z-index: 1;
 }
@@ -168,6 +168,15 @@ button {
 .bubble-section-wrapper>.section {
   position: relative;
   z-index: 2;
+}
+
+.content-bg-wrap {
+  position: relative;
+  background-color: #22BBFF;
+  background-image: url('assets/images/contentBg.png');
+  background-position: top center;
+  background-size: 100% calc(100% + 60vh);
+  background-repeat: no-repeat;
 }
 
 .bubble-layer {
@@ -905,41 +914,21 @@ body.is-logo-at-header .gnb__logo {
 /* 로고 섹션 = 스크롤 트랜지션 길이 (스크럽 거리 확보).
    이 구간을 스크롤하는 동안 3D 로고가 흩어졌다 모이며 헤더로 안착한다. */
 .section--logo {
-  min-height: 150vh;
-  min-height: 150svh;
+  min-height: 200vh;
+  min-height: 200svh;
+  display: block;
   /* iOS 주소창 변동 대응 */
   isolation: isolate;
   overflow: hidden;
+  background: transparent;
 }
-
-.section--logo .section__video-bg {
-  inset: 0;
-  width: 100vw;
-  height: 100%;
-  object-position: center top;
-}
-
-/* 비디오 배경은 첫 화면(100vh)에만 고정 노출, 이후 스크롤로 자연 이탈 */
-.section--logo .section__video-bg {
-  height: 100vh;
-  height: 100svh;
-}
-
-.section__video-bg--first {
-  object-fit: cover;
-  background: #22bbff;
-  mask-image: linear-gradient(to bottom, black 0%, black 58%, rgba(0, 0, 0, 0.5) 78%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to bottom, black 0%, black 58%, rgba(0, 0, 0, 0.5) 78%, transparent 100%);
-  transform: translate3d(0, 0, 0);
-  backface-visibility: hidden;
-  filter: none;
-}
-
 
 /* 인트로 섹션: 섹션 자체는 고정하고 내부 텍스트만 reveal 처리 */
 #sec-intro {
   min-height: 100vh;
   min-height: 100svh;
+  position: relative;
+  z-index: 2;
 }
 
 .section--hero {
@@ -1190,7 +1179,7 @@ body.is-logo-at-header .gnb__logo {
   background: none;
 }
 
-.crew-fish-source {
+.crew-fish-bg-video-source {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -1198,58 +1187,15 @@ body.is-logo-at-header .gnb__logo {
   pointer-events: none;
 }
 
-.crew-fish-bg {
+.crew-fish-bg-video {
   position: absolute;
-  left: 0;
-  bottom: 0;
-  width: clamp(270px, 34vw, 600px);
-  height: auto;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   z-index: 1;
-  opacity: calc(0.24 * var(--crew-fish-loop-opacity));
-  --crew-fish-loop-opacity: 1;
+  opacity: 0.2;
   pointer-events: none;
-  mix-blend-mode: normal;
-  filter: saturate(1.08) contrast(0.92) brightness(1.04) blur(0.45px);
-  -webkit-mask-image: radial-gradient(ellipse at center, black 0 48%, rgba(0, 0, 0, 0.62) 64%, transparent 82%);
-  mask-image: radial-gradient(ellipse at center, black 0 48%, rgba(0, 0, 0, 0.62) 64%, transparent 82%);
-  transform: translate3d(-48vw, 36vh, 0) scale(0.9);
-  animation: crewFishSwim 20s linear infinite;
-  will-change: transform, opacity;
-  backface-visibility: hidden;
-  contain: paint;
-}
-
-.crew-fish-bg--small {
-  width: clamp(150px, 18vw, 320px);
-  z-index: 0;
-  opacity: calc(0.2 * var(--crew-fish-loop-opacity));
-  --crew-fish-loop-opacity: 1;
-  filter: saturate(0.96) contrast(0.9) brightness(1.02) blur(1.1px);
-  transform: translate3d(-48vw, 48vh, 0) rotate(3deg) scale(0.6);
-  animation: crewFishSwimSmall 38s linear infinite;
-  animation-delay: -8s;
-}
-
-.crew-fish-bg--top {
-  top: 178px;
-  bottom: auto;
-  left: 8vw;
-  width: clamp(145px, 16vw, 290px);
-  z-index: 1;
-  opacity: calc(0.22 * var(--crew-fish-loop-opacity));
-  --crew-fish-loop-opacity: 1;
-  filter: saturate(0.94) contrast(0.88) brightness(1.04) blur(1.2px);
-  transform: translate3d(-28vw, 18px, 0) rotate(2deg) scale(0.56);
-  animation: crewFishSwimTop 36s linear infinite;
-  animation-delay: -9s;
-}
-
-.section--crew-scroll:not(.is-content-visible) .crew-fish-bg {
-  visibility: hidden;
-}
-
-.section--crew-scroll:not(.is-fish-top-visible) .crew-fish-bg--top {
-  visibility: hidden;
+  filter: saturate(1.08) contrast(0.9) brightness(0.86);
 }
 
 .crew-sticky::before,
@@ -1285,132 +1231,7 @@ body.is-logo-at-header .gnb__logo {
   }
 }
 
-@keyframes crewFishSwim {
-  0% {
-    opacity: 0;
-    transform: translate3d(-60vw, 46vh, 0) rotate(-7deg) scale(0.78);
-  }
-  6% {
-    opacity: calc(0.24 * var(--crew-fish-loop-opacity, 1));
-    transform: translate3d(-48vw, 33vh, 0) rotate(-5deg) scale(0.80);
-  }
-  17% {
-    transform: translate3d(-30vw, 17vh, 0) rotate(-1deg) scale(0.84);
-  }
-  28% {
-    transform: translate3d(-10vw, 27vh, 0) rotate(4deg) scale(0.88);
-  }
-  40% {
-    transform: translate3d(10vw, 9vh, 0) rotate(-2deg) scale(0.92);
-  }
-  52% {
-    transform: translate3d(30vw, -1vh, 0) rotate(-6deg) scale(0.95);
-  }
-  63% {
-    transform: translate3d(48vw, -11vh, 0) rotate(-3deg) scale(0.97);
-  }
-  74% {
-    transform: translate3d(64vw, -27vh, 0) rotate(-7deg) scale(0.99);
-  }
-  83% {
-    opacity: calc(0.18 * var(--crew-fish-loop-opacity, 1));
-    transform: translate3d(81vw, -42vh, 0) rotate(-5deg) scale(1.00);
-  }
-  93% {
-    opacity: calc(0.08 * var(--crew-fish-loop-opacity, 1));
-    transform: translate3d(99vw, -55vh, 0) rotate(-2deg) scale(1.00);
-  }
-  100% {
-    opacity: 0;
-    transform: translate3d(117vw, -66vh, 0) rotate(2deg) scale(1.00);
-  }
-}
-
-@keyframes crewFishSwimSmall {
-  0% {
-    opacity: 0;
-    transform: translate3d(-50vw, 52vh, 0) rotate(5deg) scale(0.52);
-  }
-  10% {
-    opacity: calc(0.2 * var(--crew-fish-loop-opacity, 1));
-    transform: translate3d(-36vw, 41vh, 0) rotate(-1deg) scale(0.54);
-  }
-  22% {
-    transform: translate3d(-18vw, 50vh, 0) rotate(5deg) scale(0.57);
-  }
-  35% {
-    transform: translate3d(0vw, 36vh, 0) rotate(-3deg) scale(0.60);
-  }
-  48% {
-    transform: translate3d(18vw, 44vh, 0) rotate(4deg) scale(0.62);
-  }
-  62% {
-    transform: translate3d(40vw, 22vh, 0) rotate(-6deg) scale(0.65);
-  }
-  76% {
-    transform: translate3d(62vw, 4vh, 0) rotate(-4deg) scale(0.68);
-  }
-  88% {
-    opacity: calc(0.14 * var(--crew-fish-loop-opacity, 1));
-    transform: translate3d(80vw, -12vh, 0) rotate(-2deg) scale(0.70);
-  }
-  100% {
-    opacity: 0;
-    transform: translate3d(108vw, -36vh, 0) rotate(3deg) scale(0.72);
-  }
-}
-
-@keyframes crewFishSwimTop {
-  0% {
-    opacity: 0;
-    transform: translate3d(-30vw, 34px, 0) rotate(5deg) scale(0.50);
-  }
-
-  12% {
-    opacity: calc(0.22 * var(--crew-fish-loop-opacity, 1));
-    transform: translate3d(-20vw, 6px, 0) rotate(-1deg) scale(0.53);
-  }
-  24% {
-    transform: translate3d(-10vw, -20px, 0) rotate(-5deg) scale(0.55);
-  }
-  36% {
-    transform: translate3d(-1vw, -6px, 0) rotate(3deg) scale(0.57);
-  }
-  50% {
-    transform: translate3d(8vw, -54px, 0) rotate(-6deg) scale(0.59);
-  }
-  64% {
-    transform: translate3d(15vw, -36px, 0) rotate(2deg) scale(0.61);
-  }
-
-  78% {
-    opacity: calc(0.16 * var(--crew-fish-loop-opacity, 1));
-    transform: translate3d(22vw, -112px, 0) rotate(-5deg) scale(0.62);
-  }
-
-  100% {
-    opacity: 0;
-    transform: translate3d(32vw, -150px, 0) rotate(2deg) scale(0.64);
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .crew-fish-bg {
-    animation: none;
-    opacity: 0.2;
-    transform: translate3d(12vw, -8vh, 0) rotate(-4deg) scale(0.78);
-  }
-
-  .crew-fish-bg--small {
-    opacity: 0.14;
-    transform: translate3d(2vw, 12vh, 0) rotate(3deg) scale(0.58);
-  }
-
-  .crew-fish-bg--top {
-    opacity: 0.12;
-    transform: translate3d(-8vw, -24px, 0) rotate(-5deg) scale(0.56);
-  }
-
   .crew-sticky::after {
     animation: none;
   }
@@ -1955,6 +1776,17 @@ body.is-logo-at-header .gnb__logo {
   padding-top: var(--title-top);
 }
 
+.section--program .section-seq-sticky {
+  position: static !important;
+  top: auto !important;
+  height: auto !important;
+  overflow: visible !important;
+  display: block !important;
+  align-items: stretch !important;
+  justify-content: flex-start !important;
+  padding-top: 0 !important;
+}
+
 .section-seq-sticky > .container {
   position: relative;
   z-index: 1;
@@ -2271,6 +2103,34 @@ body.is-logo-at-header .gnb__logo {
 
 .section--location .section__bg {
   background: none;
+}
+
+.location-fish-bg-source {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.location-fish-bg {
+  position: absolute;
+  right: clamp(18px, 4vw, 72px);
+  top: 50%;
+  transform: translateY(-50%);
+  width: clamp(420px, 52vw, 900px);
+  aspect-ratio: 16 / 9;
+  height: auto;
+  z-index: 0;
+  opacity: 0.2;
+  pointer-events: none;
+  filter: saturate(1.08) contrast(0.9) brightness(0.86);
+}
+
+.location-fish-bg--left {
+  right: auto;
+  left: clamp(18px, 4vw, 72px);
+  top: 20%;
 }
 
 .section--location .container {

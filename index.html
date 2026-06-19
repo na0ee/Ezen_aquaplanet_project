@@ -76,19 +76,12 @@
 
   <main id="main">
 
-    <section id="sec-logo" class="section section--logo" aria-label="Aqua Planet logo">
-      <video class="section__video-bg section__video-bg--first"
-             src="assets/images/first.mp4?v=2"
-             autoplay loop muted playsinline
-             preload="auto"
-             aria-hidden="true"></video>
-
-    </section>
-
     <!-- ================================================
-        CONTENT BG WRAP — intro ~ booking 공통 배경
+        CONTENT BG WRAP — logo ~ booking 공통 배경
     ================================================ -->
     <div class="content-bg-wrap">
+
+    <section id="sec-logo" class="section section--logo" aria-label="Aqua Planet logo"></section>
 
     <!-- ================================================
         SECTION 01 · Hero / Intro
@@ -130,12 +123,10 @@
 
       <div class="crew-sticky">
         <div class="crew-bg" aria-hidden="true"></div>
-        <video class="crew-fish-source" id="crew-fish-source" autoplay muted loop playsinline preload="auto" aria-hidden="true">
+        <video class="crew-fish-bg-video-source" id="crew-fish-bg-video-source" autoplay muted loop playsinline preload="auto" aria-hidden="true">
           <source src="assets/images/fishBg.mp4" type="video/mp4">
         </video>
-        <canvas class="crew-fish-bg crew-fish-bg--top" id="crew-fish-bg-top" aria-hidden="true"></canvas>
-        <canvas class="crew-fish-bg crew-fish-bg--small" id="crew-fish-bg-small" aria-hidden="true"></canvas>
-        <canvas class="crew-fish-bg" id="crew-fish-bg" aria-hidden="true"></canvas>
+        <canvas class="crew-fish-bg-video" id="crew-fish-bg-video" aria-hidden="true"></canvas>
 
         <!-- Our Crew 헤더 -->
         <div class="crew-header">
@@ -353,6 +344,11 @@
     ================================================ -->
     <section id="sec-location" class="section section--location" aria-label="지점 안내">
       <div class="section__bg section__bg--location" aria-hidden="true"></div>
+      <video class="location-fish-bg-source" id="location-fish-bg-source" autoplay muted loop playsinline preload="auto" aria-hidden="true">
+        <source src="assets/images/fishBg2.mp4" type="video/mp4">
+      </video>
+      <canvas class="location-fish-bg location-fish-bg--left" id="location-fish-bg-left" aria-hidden="true"></canvas>
+      <canvas class="location-fish-bg" id="location-fish-bg" aria-hidden="true"></canvas>
       <div class="section-seq-sticky">
 
       <div class="container">

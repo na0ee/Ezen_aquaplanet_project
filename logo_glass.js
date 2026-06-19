@@ -581,7 +581,11 @@ async function initLogo3D() {
   const textEl = document.querySelector('.logo3d-text');
 
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const lowPowerMode = reduceMotion || window.devicePixelRatio > 2 || (navigator.deviceMemory && navigator.deviceMemory < 4);
   const profile = profileFor(await detectTier());
+  if (lowPowerMode) {
+    profile.dprCap = Math.min(profile.dprCap, 1.25);
+  }
 
   const loader = new GLTFLoader();
   loader.setMeshoptDecoder(MeshoptDecoder);
@@ -706,7 +710,9 @@ async function initLogo3D() {
   let footerActive = false;      // footer ScrollTrigger 활성 여부
   let footerHold = false;        // footer 애니메이션 종료 후에도 로고 유지
   let needsRender = true;
-  const requestRender = () => { needsRender = true; };
+  let renderRAF = null;
+  const scheduleRender = () => { if (!renderRAF) renderRAF = requestAnimationFrame(tick); };
+  const requestRender = () => { needsRender = true; scheduleRender(); };
   let symbolSize = null;
   let textSize = null;
   let footerEl = null;
@@ -932,15 +938,18 @@ async function initLogo3D() {
   }).catch((e) => console.warn('[logo3d] 로고 로드 실패:', e));
 
   function tick() {
-    requestAnimationFrame(tick);
+    renderRAF = null;
     // footer 활성이면 그 progress, 아니면 첫 화면 progress 로 안무 구동
     const animP = isFooterMode() ? footerProg : progress.v;
     hoverPower += (hoverTarget - hoverPower) * 0.12;
     if (hoverPower < 0.001) hoverPower = 0;
     const shouldHover = !reduceMotion && hoverPower > 0 && floatAnim;
     const shouldFloat = !reduceMotion && animP < 0.98 && floatAnim;
-    // 굴절 모드는 비디오 프레임이 계속 바뀌므로 idle 최적화를 건너뛰고 항상 렌더.
-    if (!active && !isFooterMode() && !needsRender && !shouldFloat && !shouldHover && !STYLE.refract) return;
+    const activeRender = active || isFooterMode() || shouldFloat || shouldHover || STYLE.refract || needsRender;
+    if (!activeRender) {
+      needsRender = false;
+      return;
+    }
 
     const elapsed = performance.now() * 0.001;
     if (mixer && duration > 0) mixer.setTime(animP * duration);
@@ -950,9 +959,10 @@ async function initLogo3D() {
     updateBackdropUniforms(symbolBackdrop, wrap);
     updateBackdropUniforms(footerBackdrop, wrap);
     renderer.render(scene, camera);
-    if (!active && !isFooterMode() && !shouldFloat && !shouldHover && !STYLE.refract) needsRender = false;
+    needsRender = false;
+    scheduleRender();
   }
-  tick();
+  scheduleRender();
 
   /* =============================================================
      ② 글자 캔버스 (.logo3d-text) — 위치/크기 고정, 정적 1회 렌더 + 페이드

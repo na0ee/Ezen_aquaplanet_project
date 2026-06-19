@@ -17,7 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initCrewScroll();
   initBookingBgVideo();
   initGlassBubbles();
-  initCrewFishMatte();
+  initCrewFishBgMatte();
+  initLocationFishBgMatte();
   initMapMarkers();
   initTopBtn();
   initCustomCursor();
@@ -233,6 +234,7 @@ function initGlassBubbles() {
   if (!roots.length) return;
 
   const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const powerSaving = motionQuery.matches || window.devicePixelRatio > 2 || (navigator.deviceMemory && navigator.deviceMemory < 4);
   let resizeTimer = null;
 
   function random(min, max) {
@@ -247,7 +249,7 @@ function initGlassBubbles() {
     roots.forEach(root => {
       const sides = root.querySelectorAll('[data-bubble-side]');
       const rootHeight = Math.max(root.offsetHeight, window.innerHeight);
-      const bubblesPerSide = Math.min(30, Math.max(16, Math.round(rootHeight / 260)));
+      const bubblesPerSide = Math.min(powerSaving ? 14 : 30, Math.max(powerSaving ? 10 : 16, Math.round(rootHeight / (powerSaving ? 360 : 260))));
 
       sides.forEach(side => {
         const sideWidth = Math.max(side.clientWidth, 72);
@@ -499,6 +501,7 @@ let crewPanelActive = false;
 function initIntroScrollGate() {
   const intro = document.getElementById('sec-intro');
   const crew  = document.getElementById('sec-crew');
+  const logo  = document.getElementById('sec-logo');
   if (!intro || !crew) return;
 
   const indicator = document.querySelector('.scroll-indicator');
@@ -532,13 +535,19 @@ function initIntroScrollGate() {
     return window.scrollY >= introTop - 4;
   }
 
+  function isAfterLogoTransition() {
+    if (!logo) return true;
+    const logoEnd = sectionTop(logo) + logo.offsetHeight;
+    return window.scrollY >= logoEnd - 4;
+  }
+
   function isAtCrewStart() {
     const crewTop = sectionTop(crew);
     return window.scrollY >= crewTop - 4 && window.scrollY <= crewTop + 28;
   }
 
   function shouldBlockDown() {
-    return !crewScrollUnlocked && !diveActive && !isTransitioning && isAtOrAfterIntro() && isBeforeCrew();
+    return !crewScrollUnlocked && !diveActive && !isTransitioning && isAfterLogoTransition() && isAtOrAfterIntro() && isBeforeCrew();
   }
 
   function shouldBlockUp() {
@@ -598,29 +607,27 @@ function initIntroScrollGate() {
 
 
 /* =============================================================
-   0-C. CREW FISH VIDEO MATTE
+   0-C. CREW FISH BACKGROUND MATTE
    ============================================================= */
-function initCrewFishMatte() {
-  const video = document.getElementById('crew-fish-source');
-  const canvas = document.getElementById('crew-fish-bg');
-  const smallCanvas = document.getElementById('crew-fish-bg-small');
-  const topCanvas = document.getElementById('crew-fish-bg-top');
-  if (!video || !canvas) return;
+function initCrewFishBgMatte() {
+  const video = document.getElementById('crew-fish-bg-video-source');
+  const canvas = document.getElementById('crew-fish-bg-video');
+  const crewSection = document.getElementById('sec-crew');
+  if (!video || !canvas || !crewSection) return;
 
   const ctx = canvas.getContext('2d', { willReadFrequently: true });
   if (!ctx) return;
-  const smallCtx = smallCanvas ? smallCanvas.getContext('2d') : null;
-  const topCtx = topCanvas ? topCanvas.getContext('2d') : null;
 
-  const processWidth = 420;
-  let processHeight = 236;
+  const LOW_POWER = window.matchMedia('(prefers-reduced-motion: reduce)').matches || window.devicePixelRatio > 2 || (navigator.deviceMemory && navigator.deviceMemory < 4);
+  const MAX_LONG_EDGE = LOW_POWER ? 520 : 720;
+  const FRAME_INTERVAL = LOW_POWER ? 1000 / 16 : 1000 / 24;
+  const LOOP_FADE_SECONDS = 0.9;
+  let rafId = null;
   let running = true;
   let sectionVisible = false;
-  let matteRafId = null;
-  let fadeRafId = null;
-  let lastMatteTime = 0;
-  const MATTE_INTERVAL = 1000 / 24;
-  const LOOP_FADE_SECONDS = 1.2;
+  let lastFrameAt = 0;
+  let canvasW = 1;
+  let canvasH = 1;
 
   function clamp01(value) {
     return Math.max(0, Math.min(1, value));
@@ -631,39 +638,62 @@ function initCrewFishMatte() {
     return t * t * (3 - 2 * t);
   }
 
+  function getLoopOpacity() {
+    const duration = video.duration;
+    if (!Number.isFinite(duration) || duration <= 0) return 1;
+
+    const edgeDistance = Math.min(video.currentTime, Math.max(duration - video.currentTime, 0));
+    return smoothstep(0, LOOP_FADE_SECONDS, edgeDistance);
+  }
+
   function resizeCanvas() {
-    const vw = video.videoWidth || 1280;
-    const vh = video.videoHeight || 720;
-    processHeight = Math.max(1, Math.round(processWidth * (vh / vw)));
-    canvas.width = processWidth;
-    canvas.height = processHeight;
-    if (smallCanvas) {
-      smallCanvas.width = processWidth;
-      smallCanvas.height = processHeight;
-    }
-    if (topCanvas) {
-      topCanvas.width = processWidth;
-      topCanvas.height = processHeight;
+    const rect = canvas.getBoundingClientRect();
+    const cssW = Math.max(1, Math.round(rect.width || window.innerWidth));
+    const cssH = Math.max(1, Math.round(rect.height || window.innerHeight));
+    const scale = Math.min(1, MAX_LONG_EDGE / Math.max(cssW, cssH));
+    canvasW = Math.max(1, Math.round(cssW * scale));
+    canvasH = Math.max(1, Math.round(cssH * scale));
+
+    if (canvas.width !== canvasW || canvas.height !== canvasH) {
+      canvas.width = canvasW;
+      canvas.height = canvasH;
     }
   }
 
+  function drawVideoCover() {
+    const vw = video.videoWidth;
+    const vh = video.videoHeight;
+    if (!vw || !vh) return false;
+
+    const scale = Math.max(canvasW / vw, canvasH / vh);
+    const drawW = vw * scale;
+    const drawH = vh * scale;
+    const dx = (canvasW - drawW) * 0.5;
+    const dy = (canvasH - drawH) * 0.5;
+    ctx.drawImage(video, dx, dy, drawW, drawH);
+    return true;
+  }
+
   function sampleBackground(data, width, height) {
-    const box = Math.max(6, Math.round(Math.min(width, height) * 0.055));
+    const box = Math.max(8, Math.round(Math.min(width, height) * 0.06));
     const points = [
       [0, 0],
       [width - box, 0],
       [0, height - box],
       [width - box, height - box]
     ];
-    let r = 0, g = 0, b = 0, count = 0;
+    let r = 0;
+    let g = 0;
+    let b = 0;
+    let count = 0;
 
     points.forEach(([sx, sy]) => {
       for (let y = sy; y < sy + box; y += 1) {
         for (let x = sx; x < sx + box; x += 1) {
-          const i = (y * width + x) * 4;
-          r += data[i];
-          g += data[i + 1];
-          b += data[i + 2];
+          const idx = (y * width + x) * 4;
+          r += data[idx];
+          g += data[idx + 1];
+          b += data[idx + 2];
           count += 1;
         }
       }
@@ -676,96 +706,65 @@ function initCrewFishMatte() {
     };
   }
 
-  function matteFrame() {
-    matteRafId = null;
+  function renderFrame(now = performance.now()) {
+    rafId = null;
     if (!running || !sectionVisible) return;
 
-    const now = performance.now();
-    if (now - lastMatteTime < MATTE_INTERVAL) {
-      scheduleMatte();
+    if (now - lastFrameAt < FRAME_INTERVAL) {
+      scheduleFrame();
       return;
     }
-    lastMatteTime = now;
+    lastFrameAt = now;
 
     if (video.readyState < 2 || !video.videoWidth) {
-      scheduleMatte();
+      scheduleFrame();
       return;
     }
-    if (
-      canvas.width !== processWidth ||
-      (smallCanvas && smallCanvas.width !== processWidth) ||
-      (topCanvas && topCanvas.width !== processWidth)
-    ) resizeCanvas();
+
+    resizeCanvas();
+    ctx.clearRect(0, 0, canvasW, canvasH);
+    if (!drawVideoCover()) {
+      scheduleFrame();
+      return;
+    }
 
     let frame;
     try {
-      ctx.drawImage(video, 0, 0, processWidth, processHeight);
-      frame = ctx.getImageData(0, 0, processWidth, processHeight);
+      frame = ctx.getImageData(0, 0, canvasW, canvasH);
     } catch (err) {
+      console.warn('[crew fish matte] frame processing stopped:', err);
       running = false;
-      console.warn('[crew fish] 영상 누끼 처리 중단:', err);
       return;
     }
 
     const data = frame.data;
-    const bg = sampleBackground(data, processWidth, processHeight);
+    const bg = sampleBackground(data, canvasW, canvasH);
+    const loopOpacity = getLoopOpacity();
 
     for (let i = 0; i < data.length; i += 4) {
       const r = data[i];
       const g = data[i + 1];
       const b = data[i + 2];
-      const dist = Math.hypot(r - bg.r, g - bg.g, b - bg.b);
+      const colorDistance = Math.hypot(r - bg.r, g - bg.g, b - bg.b);
       const luma = r * 0.2126 + g * 0.7152 + b * 0.0722;
-      const alpha = smoothstep(30, 112, dist) * smoothstep(10, 34, luma);
-
-      data[i + 3] = Math.round(255 * alpha);
+      const alpha = smoothstep(24, 118, colorDistance) * smoothstep(8, 28, luma);
+      data[i + 3] = Math.round(255 * alpha * loopOpacity);
     }
 
     ctx.putImageData(frame, 0, 0);
-    if (smallCtx) smallCtx.putImageData(frame, 0, 0);
-    if (topCtx) topCtx.putImageData(frame, 0, 0);
-
-    scheduleMatte();
+    scheduleFrame();
   }
 
-  function scheduleMatte() {
-    if (matteRafId || !running || !sectionVisible) return;
-    matteRafId = requestAnimationFrame(matteFrame);
-  }
-
-  function setLoopOpacity(value) {
-    const opacity = String(value.toFixed(3));
-    canvas.style.setProperty('--crew-fish-loop-opacity', opacity);
-    if (smallCanvas) smallCanvas.style.setProperty('--crew-fish-loop-opacity', opacity);
-    if (topCanvas) topCanvas.style.setProperty('--crew-fish-loop-opacity', opacity);
-  }
-
-  function updateLoopFade() {
-    fadeRafId = null;
-    if (!running || !sectionVisible) return;
-
-    const duration = video.duration;
-    const currentTime = video.currentTime || 0;
-
-    if (Number.isFinite(duration) && duration > 0) {
-      const edgeDistance = Math.min(currentTime, Math.max(duration - currentTime, 0));
-      const raw = clamp01(edgeDistance / LOOP_FADE_SECONDS);
-      setLoopOpacity(raw * raw * (3 - 2 * raw));
-    } else {
-      setLoopOpacity(1);
-    }
-    scheduleLoopFade();
-  }
-
-  function scheduleLoopFade() {
-    if (fadeRafId || !running || !sectionVisible) return;
-    fadeRafId = requestAnimationFrame(updateLoopFade);
+  function scheduleFrame() {
+    if (rafId || !running || !sectionVisible) return;
+    rafId = requestAnimationFrame(renderFrame);
   }
 
   function keepVideoPlaying() {
     if (document.hidden) return;
     video.muted = true;
     video.playsInline = true;
+    video.playbackRate = 0.85;
     if (video.paused || video.ended) {
       video.play().catch(() => {});
     }
@@ -773,42 +772,274 @@ function initCrewFishMatte() {
 
   video.addEventListener('loadedmetadata', () => {
     resizeCanvas();
-    setLoopOpacity(1);
+    keepVideoPlaying();
+    scheduleFrame();
   }, { once: true });
   video.addEventListener('canplay', keepVideoPlaying);
   video.addEventListener('stalled', keepVideoPlaying);
   video.addEventListener('waiting', keepVideoPlaying);
   video.addEventListener('pause', keepVideoPlaying);
-  video.play().catch(() => {});
+
+  window.addEventListener('resize', () => {
+    resizeCanvas();
+    scheduleFrame();
+  }, { passive: true });
 
   document.addEventListener('visibilitychange', () => {
     running = !document.hidden;
     if (running) {
       keepVideoPlaying();
-      scheduleMatte();
-      scheduleLoopFade();
-    } else {
-      if (matteRafId) cancelAnimationFrame(matteRafId);
-      if (fadeRafId) cancelAnimationFrame(fadeRafId);
-      matteRafId = null;
-      fadeRafId = null;
+      scheduleFrame();
+      return;
     }
+    if (rafId) cancelAnimationFrame(rafId);
+    rafId = null;
   });
 
-  const crewSection = document.getElementById('sec-crew');
-  if (crewSection) {
-    new IntersectionObserver(([entry]) => {
-      sectionVisible = entry.isIntersecting;
-      if (sectionVisible && running) {
-        keepVideoPlaying();
-        scheduleMatte();
-        scheduleLoopFade();
-      } else {
-        setLoopOpacity(1);
-      }
-    }, { rootMargin: '100px' }).observe(crewSection);
-  }
+  new IntersectionObserver(([entry]) => {
+    sectionVisible = entry.isIntersecting;
+    if (sectionVisible && running) {
+      keepVideoPlaying();
+      scheduleFrame();
+    } else if (rafId) {
+      cancelAnimationFrame(rafId);
+      rafId = null;
+    }
+  }, { rootMargin: '100px' }).observe(crewSection);
+
+  resizeCanvas();
+  keepVideoPlaying();
 }
+
+
+/* =============================================================
+   0-D. LOCATION FISH BACKGROUND MATTE
+   ============================================================= */
+function initLocationFishBgMatte() {
+  const video = document.getElementById('location-fish-bg-source');
+  const canvas = document.getElementById('location-fish-bg');
+  const leftCanvas = document.getElementById('location-fish-bg-left');
+  const section = document.getElementById('sec-location');
+  if (!video || !canvas || !leftCanvas || !section) return;
+
+  const ctx = canvas.getContext('2d', { willReadFrequently: true });
+  const leftCtx = leftCanvas.getContext('2d', { willReadFrequently: true });
+  if (!ctx || !leftCtx) return;
+
+  const LOW_POWER = window.matchMedia('(prefers-reduced-motion: reduce)').matches || window.devicePixelRatio > 2 || (navigator.deviceMemory && navigator.deviceMemory < 4);
+  const MAX_LONG_EDGE = LOW_POWER ? 520 : 720;
+  const FRAME_INTERVAL = LOW_POWER ? 1000 / 16 : 1000 / 24;
+  const LOOP_FADE_SECONDS = 0.9;
+  let rafId = null;
+  let running = true;
+  let sectionVisible = false;
+  let lastFrameAt = 0;
+  let canvasW = 1;
+  let canvasH = 1;
+
+  function clamp01(value) {
+    return Math.max(0, Math.min(1, value));
+  }
+
+  function smoothstep(edge0, edge1, value) {
+    const t = clamp01((value - edge0) / (edge1 - edge0));
+    return t * t * (3 - 2 * t);
+  }
+
+  function getLoopOpacity() {
+    const duration = video.duration;
+    if (!Number.isFinite(duration) || duration <= 0) return 1;
+
+    const edgeDistance = Math.min(video.currentTime, Math.max(duration - video.currentTime, 0));
+    return smoothstep(0, LOOP_FADE_SECONDS, edgeDistance);
+  }
+
+  function resizeCanvas() {
+    const rect = canvas.getBoundingClientRect();
+    const cssW = Math.max(1, Math.round(rect.width || window.innerWidth));
+    const cssH = Math.max(1, Math.round(rect.height || window.innerHeight));
+    const scale = Math.min(1, MAX_LONG_EDGE / Math.max(cssW, cssH));
+    canvasW = Math.max(1, Math.round(cssW * scale));
+    canvasH = Math.max(1, Math.round(cssH * scale));
+
+    if (canvas.width !== canvasW || canvas.height !== canvasH) {
+      canvas.width = canvasW;
+      canvas.height = canvasH;
+    }
+    if (leftCanvas.width !== canvasW || leftCanvas.height !== canvasH) {
+      leftCanvas.width = canvasW;
+      leftCanvas.height = canvasH;
+    }
+  }
+
+  function drawVideoCover(targetCtx, flipped = false) {
+    const vw = video.videoWidth;
+    const vh = video.videoHeight;
+    if (!vw || !vh) return false;
+
+    const scale = Math.max(canvasW / vw, canvasH / vh);
+    const drawW = vw * scale;
+    const drawH = vh * scale;
+    const dx = (canvasW - drawW) * 0.5;
+    const dy = (canvasH - drawH) * 0.5;
+
+    targetCtx.save();
+    if (flipped) {
+      targetCtx.translate(canvasW, 0);
+      targetCtx.scale(-1, 1);
+    }
+    targetCtx.drawImage(video, dx, dy, drawW, drawH);
+    targetCtx.restore();
+    return true;
+  }
+
+  function sampleBackground(data, width, height) {
+    const box = Math.max(8, Math.round(Math.min(width, height) * 0.06));
+    const points = [
+      [0, 0],
+      [width - box, 0],
+      [0, height - box],
+      [width - box, height - box]
+    ];
+    let r = 0;
+    let g = 0;
+    let b = 0;
+    let count = 0;
+
+    points.forEach(([sx, sy]) => {
+      for (let y = sy; y < sy + box; y += 1) {
+        for (let x = sx; x < sx + box; x += 1) {
+          const idx = (y * width + x) * 4;
+          r += data[idx];
+          g += data[idx + 1];
+          b += data[idx + 2];
+          count += 1;
+        }
+      }
+    });
+
+    return {
+      r: r / count,
+      g: g / count,
+      b: b / count
+    };
+  }
+
+  function renderFrame(now = performance.now()) {
+    rafId = null;
+    if (!running || !sectionVisible) return;
+
+    if (now - lastFrameAt < FRAME_INTERVAL) {
+      scheduleFrame();
+      return;
+    }
+    lastFrameAt = now;
+
+    if (video.readyState < 2 || !video.videoWidth) {
+      scheduleFrame();
+      return;
+    }
+
+    function applyMatte(targetCtx, loopOpacity) {
+      let frame;
+      try {
+        frame = targetCtx.getImageData(0, 0, canvasW, canvasH);
+      } catch (err) {
+        console.warn('[location fish matte] frame processing stopped:', err);
+        running = false;
+        return false;
+      }
+
+      const data = frame.data;
+      const bg = sampleBackground(data, canvasW, canvasH);
+
+      for (let i = 0; i < data.length; i += 4) {
+        const r = data[i];
+        const g = data[i + 1];
+        const b = data[i + 2];
+        const colorDistance = Math.hypot(r - bg.r, g - bg.g, b - bg.b);
+        const luma = r * 0.2126 + g * 0.7152 + b * 0.0722;
+        const alpha = smoothstep(24, 118, colorDistance) * smoothstep(8, 28, luma);
+        data[i + 3] = Math.round(255 * alpha * loopOpacity);
+      }
+
+      targetCtx.putImageData(frame, 0, 0);
+      return true;
+    }
+
+    resizeCanvas();
+    ctx.clearRect(0, 0, canvasW, canvasH);
+    leftCtx.clearRect(0, 0, canvasW, canvasH);
+    const loopOpacity = getLoopOpacity();
+
+    if (!drawVideoCover(ctx, true) || !applyMatte(ctx, loopOpacity)) {
+      scheduleFrame();
+      return;
+    }
+    if (!drawVideoCover(leftCtx, false) || !applyMatte(leftCtx, loopOpacity)) {
+      scheduleFrame();
+      return;
+    }
+
+    scheduleFrame();
+  }
+
+  function scheduleFrame() {
+    if (rafId || !running || !sectionVisible) return;
+    rafId = requestAnimationFrame(renderFrame);
+  }
+
+  function keepVideoPlaying() {
+    if (document.hidden) return;
+    video.muted = true;
+    video.playsInline = true;
+    video.playbackRate = 0.85;
+    if (video.paused || video.ended) {
+      video.play().catch(() => {});
+    }
+  }
+
+  video.addEventListener('loadedmetadata', () => {
+    resizeCanvas();
+    keepVideoPlaying();
+    scheduleFrame();
+  }, { once: true });
+  video.addEventListener('canplay', keepVideoPlaying);
+  video.addEventListener('stalled', keepVideoPlaying);
+  video.addEventListener('waiting', keepVideoPlaying);
+  video.addEventListener('pause', keepVideoPlaying);
+
+  window.addEventListener('resize', () => {
+    resizeCanvas();
+    scheduleFrame();
+  }, { passive: true });
+
+  document.addEventListener('visibilitychange', () => {
+    running = !document.hidden;
+    if (running) {
+      keepVideoPlaying();
+      scheduleFrame();
+      return;
+    }
+    if (rafId) cancelAnimationFrame(rafId);
+    rafId = null;
+  });
+
+  new IntersectionObserver(([entry]) => {
+    sectionVisible = entry.isIntersecting;
+    if (sectionVisible && running) {
+      keepVideoPlaying();
+      scheduleFrame();
+    } else if (rafId) {
+      cancelAnimationFrame(rafId);
+      rafId = null;
+    }
+  }, { rootMargin: '100px' }).observe(section);
+
+  resizeCanvas();
+  keepVideoPlaying();
+}
+
 
 /**
  * useSectionTransition
@@ -1852,15 +2083,10 @@ function initBookingBgVideo() {
     };
 
     const section = video.closest('.section--booking');
-    if (section) {
-      const observer = new IntersectionObserver(([entry]) => {
-        if (entry.isIntersecting) restartMotion();
-      }, { threshold: 0.16 });
-
-      observer.observe(section);
-    }
-
     const fadeSeconds = Number(video.dataset.loopFadeSeconds || 0.9);
+    let loopFadeRaf = null;
+    let sectionVisible = false;
+
     const updateLoopFade = () => {
       const duration = video.duration;
       if (Number.isFinite(duration) && duration > 0 && fadeSeconds > 0) {
@@ -1869,10 +2095,42 @@ function initBookingBgVideo() {
         const easedOpacity = rawOpacity * rawOpacity * (3 - 2 * rawOpacity);
         video.style.setProperty('--booking-video-loop-opacity', easedOpacity.toFixed(3));
       }
-      requestAnimationFrame(updateLoopFade);
+      loopFadeRaf = requestAnimationFrame(updateLoopFade);
     };
 
-    updateLoopFade();
+    const startLoopFade = () => {
+      if (!loopFadeRaf && sectionVisible) loopFadeRaf = requestAnimationFrame(updateLoopFade);
+    };
+
+    const stopLoopFade = () => {
+      if (loopFadeRaf) cancelAnimationFrame(loopFadeRaf);
+      loopFadeRaf = null;
+    };
+
+    if (section) {
+      const observer = new IntersectionObserver(([entry]) => {
+        sectionVisible = entry.isIntersecting;
+        if (entry.isIntersecting) {
+          restartMotion();
+          startLoopFade();
+        } else {
+          stopLoopFade();
+        }
+      }, { threshold: 0.16 });
+
+      observer.observe(section);
+    } else {
+      sectionVisible = true;
+      startLoopFade();
+    }
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        stopLoopFade();
+      } else if (sectionVisible) {
+        startLoopFade();
+      }
+    });
   });
 }
 
