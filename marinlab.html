@@ -1739,12 +1739,20 @@
   <header id="gnb" class="gnb">
     <div class="gnb__inner">
       <nav class="gnb__nav" aria-label="메인 메뉴">
-        <a href="program/program.html" class="gnb__link" data-nav="program">Program</a>
+        <div class="gnb__nav-item">
+          <a href="program.html" class="gnb__link" data-nav="program">Program</a>
+          <div class="gnb__dropdown">
+            <a href="program.html?loc=Jeju"     class="gnb__dropdown-item">Jeju</a>
+            <a href="program.html?loc=Yeosu"    class="gnb__dropdown-item">Yeosu</a>
+            <a href="program.html?loc=Ilsan"    class="gnb__dropdown-item">Ilsan</a>
+            <a href="program.html?loc=Gwanggyo" class="gnb__dropdown-item">Gwanggyo</a>
+          </div>
+        </div>
         <a href="Oceanfriends.html" class="gnb__link" data-nav="crew">Ocean friends</a>
         <div class="gnb__nav-item" data-nav="about">
           <span class="gnb__link gnb__link--active">About us</span>
           <div class="gnb__dropdown">
-            <a href="#" class="gnb__dropdown-item">Business</a>
+            <a href="business.html" class="gnb__dropdown-item">Business</a>
             <a href="marinlab.html" class="gnb__dropdown-item gnb__dropdown-item--active">Marin Lab</a>
             <a href="location.html" class="gnb__dropdown-item">Location</a>
           </div>
@@ -2305,11 +2313,11 @@
   <footer id="footer" class="footer">
     <div class="footer__inner">
       <nav class="footer__nav" aria-label="푸터 메뉴">
-        <a href="index.html#sec-program" class="footer__link">Program</a>
-        <a href="index.html#sec-crew" class="footer__link">Ocean friends</a>
-        <a href="index.html" class="footer__link">About us</a>
+        <a href="program.html" class="footer__link">Program</a>
+        <a href="Oceanfriends.html" class="footer__link">Ocean friends</a>
+        <a href="location.html" class="footer__link">About us</a>
         <a href="location.html" class="footer__link">Location</a>
-        <a href="index.html#sec-booking" class="footer__link">Ticket</a>
+        <a href="ticket.html" class="footer__link">Ticket</a>
       </nav>
 
       <div class="footer__brand">
@@ -2343,6 +2351,7 @@
 
   <div id="custom-cursor" aria-hidden="true"></div>
 
+  <script src="js/gnb-scroll.js"></script>
   <script>
     (function () {
       var scale = 1;
@@ -2353,7 +2362,7 @@
       var caseTabs = Array.from(document.querySelectorAll('[data-case-category]'));
       var casesCopy = document.querySelector('.m-cases-copy');
       var shell = document.querySelector('.marin-shell');
-      var currentStageHeight = 6769;
+      var currentStageHeight = 5664;
       var gnb = document.getElementById('gnb');
       var wheelTarget = window.scrollY;
       var wheelRaf = 0;

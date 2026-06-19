@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,500&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="css/style.css" />
 
   <!-- Three.js importmap (ES module) -->
   <script type="importmap">
@@ -33,13 +33,21 @@
     <div class="gnb__inner">
       <!-- 왼쪽 메뉴 -->
       <nav class="gnb__nav" aria-label="메인 메뉴">
-        <a href="program/program.html" class="gnb__link" data-nav="program">Program</a>
+        <div class="gnb__nav-item" data-nav="program">
+          <a href="program.html" class="gnb__link">Program</a>
+          <div class="gnb__dropdown">
+            <a href="program.html?loc=Jeju"     class="gnb__dropdown-item">Jeju</a>
+            <a href="program.html?loc=Yeosu"    class="gnb__dropdown-item">Yeosu</a>
+            <a href="program.html?loc=Ilsan"    class="gnb__dropdown-item">Ilsan</a>
+            <a href="program.html?loc=Gwanggyo" class="gnb__dropdown-item">Gwanggyo</a>
+          </div>
+        </div>
         <a href="Oceanfriends.html" class="gnb__link" data-nav="crew">Ocean friends</a>
         <div class="gnb__nav-item" data-nav="about">
           <span class="gnb__link">About us</span>
           <div class="gnb__dropdown">
             <a href="business.html" class="gnb__dropdown-item">Business</a>
-            <a href="#" class="gnb__dropdown-item">Marin Lab</a>
+            <a href="marinlab.html" class="gnb__dropdown-item">Marin Lab</a>
             <a href="location.html" class="gnb__dropdown-item gnb__dropdown-item--active">Location</a>
           </div>
         </div>
@@ -61,32 +69,19 @@
     </div>
   </header>
 
-  <!-- 3D 심볼 로고 캔버스 — 화면 중앙 고정, 스크롤 시 헤더 슬롯으로 이동/축소 (logo3d.js) -->
+  <!-- 3D 심볼 로고 캔버스 — 화면 중앙 고정, 스크롤 시 헤더 슬롯으로 이동/축소 (logo_glass.js) -->
   <div class="logo3d-wrap" aria-hidden="true"></div>
-  <!-- 'aqua planet' 글자 캔버스 — 위치/크기 고정, 트랜지션 중 페이드아웃만 (logo3d.js) -->
+  <!-- 'aqua planet' 글자 캔버스 — 위치/크기 고정, 트랜지션 중 페이드아웃만 (logo_glass.js) -->
   <div class="logo3d-text" aria-hidden="true"></div>
 
   <main id="main">
 
-    <section id="sec-logo" class="section section--logo" aria-label="Aqua Planet logo">
-      <div class="logo-wave-bg" aria-hidden="true">
-        <div class="logo-wave-bg__glow logo-wave-bg__glow--left"></div>
-        <div class="logo-wave-bg__glow logo-wave-bg__glow--right"></div>
-        <div class="logo-wave-bg__caustics"></div>
-        <div class="logo-wave-bg__swell logo-wave-bg__swell--back"></div>
-        <div class="logo-wave-bg__swell logo-wave-bg__swell--front"></div>
-        <div class="logo-wave-bg__sparkle"></div>
-      </div>
-
-      <!-- 로고 뒤로 헤엄쳐 지나가는 물고기 떼 (비디오 위 · 로고 캔버스 아래) -->
-      <div class="fish-drift fish-drift--1" aria-hidden="true"></div>
-      <div class="fish-drift fish-drift--2" aria-hidden="true"></div>
-    </section>
-
     <!-- ================================================
-        CONTENT BG WRAP — intro ~ booking 공통 배경
+        CONTENT BG WRAP — logo ~ booking 공통 배경
     ================================================ -->
     <div class="content-bg-wrap">
+
+    <section id="sec-logo" class="section section--logo" aria-label="Aqua Planet logo"></section>
 
     <!-- ================================================
         SECTION 01 · Hero / Intro
@@ -128,12 +123,10 @@
 
       <div class="crew-sticky">
         <div class="crew-bg" aria-hidden="true"></div>
-        <video class="crew-fish-source" id="crew-fish-source" autoplay muted loop playsinline preload="auto" aria-hidden="true">
+        <video class="crew-fish-bg-video-source" id="crew-fish-bg-video-source" autoplay muted loop playsinline preload="auto" aria-hidden="true">
           <source src="assets/images/fishBg.mp4" type="video/mp4">
         </video>
-        <canvas class="crew-fish-bg crew-fish-bg--top" id="crew-fish-bg-top" aria-hidden="true"></canvas>
-        <canvas class="crew-fish-bg crew-fish-bg--small" id="crew-fish-bg-small" aria-hidden="true"></canvas>
-        <canvas class="crew-fish-bg" id="crew-fish-bg" aria-hidden="true"></canvas>
+        <canvas class="crew-fish-bg-video" id="crew-fish-bg-video" aria-hidden="true"></canvas>
 
         <!-- Our Crew 헤더 -->
         <div class="crew-header">
@@ -172,7 +165,7 @@
                 <h3 class="creature-info__name">Walrus</h3>
                 <span class="creature-info__name-kr">: 바다코끼리</span>
               </header>
-              <dl class="creature-info__meta">
+              <dl class="creature-info__meta"></dl>
                 <div><dt>Name</dt><dd>: 메리, 바랴</dd></div>
                 <div><dt>Location</dt><dd>: 아쿠아플라넷 일산</dd></div>
               </dl>
@@ -351,6 +344,11 @@
     ================================================ -->
     <section id="sec-location" class="section section--location" aria-label="지점 안내">
       <div class="section__bg section__bg--location" aria-hidden="true"></div>
+      <video class="location-fish-bg-source" id="location-fish-bg-source" autoplay muted loop playsinline preload="auto" aria-hidden="true">
+        <source src="assets/images/fishBg2.mp4" type="video/mp4">
+      </video>
+      <canvas class="location-fish-bg location-fish-bg--left" id="location-fish-bg-left" aria-hidden="true"></canvas>
+      <canvas class="location-fish-bg" id="location-fish-bg" aria-hidden="true"></canvas>
       <div class="section-seq-sticky">
 
       <div class="container">
@@ -502,11 +500,11 @@
     </video>
     <div class="footer__inner">
       <nav class="footer__nav" aria-label="푸터 메뉴">
-        <a href="#sec-program" class="footer__link">Program</a>
-        <a href="#sec-crew" class="footer__link">Ocean friends</a>
-        <a href="#sec-logo" class="footer__link">About us</a>
+        <a href="program.html" class="footer__link">Program</a>
+        <a href="Oceanfriends.html" class="footer__link">Ocean friends</a>
+        <a href="location.html" class="footer__link">About us</a>
         <a href="location.html" class="footer__link">Location</a>
-        <a href="#sec-booking" class="footer__link">Ticket</a>
+        <a href="ticket.html" class="footer__link">Ticket</a>
       </nav>
 
       <div class="footer__brand">
@@ -585,8 +583,8 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script src="main.js"></script>
-  <script src="crew3d.js" type="module"></script>
-  <script src="logo3d.js?v=20260617-14" type="module"></script>
+  <script src="js/main.js"></script>
+  <script src="js/crew3d.js" type="module"></script>
+  <script src="js/logo_glass.js?v=20260619-06" type="module"></script>
 </body>
 </html>
