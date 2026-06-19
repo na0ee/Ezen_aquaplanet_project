@@ -199,7 +199,7 @@
 
     .m-pill-tabs {
       left: 813px;
-      top: 151px;
+      top: 140px;
       width: 295px;
       height: 54px;
       padding: 3px;
@@ -208,6 +208,14 @@
       justify-content: center;
       border-radius: 14px;
       background: rgba(255,255,255,0.3);
+    }
+
+    .marin-stage > .m-pill-tabs:not(.m-pill-tabs--cases) .m-pill {
+      color: rgba(255,255,255,0.5);
+    }
+
+    .marin-stage > .m-pill-tabs:not(.m-pill-tabs--cases) .m-pill--active {
+      color: var(--brand);
     }
 
     .m-pill-tabs--cases {
@@ -254,8 +262,9 @@
 
     .m-title--hero {
       left: 649px;
-      top: 280px;
+      top: 274px;
       width: 622px;
+      color: #ffffff;
     }
 
     .m-title--cases {
@@ -301,13 +310,14 @@
     }
 
     .m-hero-copy {
-      left: 570px;
-      top: 394px;
-      width: 780px;
+      left: 452px;
+      top: 400px;
+      width: 1016px;
       text-align: center;
-      font-size: 16px;
-      line-height: 1.45;
-      letter-spacing: -0.32px;
+      font-size: 20px;
+      line-height: 1.4;
+      letter-spacing: -0.4px;
+      color: #1a1a1a;
     }
 
     .m-hero-copy strong {
@@ -321,7 +331,7 @@
         filter 0.46s ease;
     }
 
-    .m-word:not(.is-active) {
+    .m-word:not(.m-care-card):not(.is-active) {
       opacity: 0.22;
       filter: saturate(0.75);
     }
@@ -448,6 +458,147 @@
     .m-word.is-active .m-word__desc {
       opacity: 1;
       filter: blur(0);
+    }
+
+    .m-care-card {
+      left: 50%;
+      top: calc(997px + var(--care-pin-offset, 0px));
+      width: 1083px;
+      height: 415.055px;
+      display: flex;
+      align-items: center;
+      gap: 45px;
+      color: #000000;
+      opacity: 0;
+      visibility: hidden;
+      filter: blur(8px);
+      transform: translateX(-50%) translateY(24px);
+      z-index: 3;
+      pointer-events: none;
+      transition:
+        opacity 0.5s ease,
+        filter 0.5s ease,
+        transform 0.5s ease;
+    }
+
+    .m-care-card.is-active {
+      opacity: 1;
+      visibility: visible;
+      filter: none;
+      transform: translateX(-50%) translateY(0);
+      pointer-events: auto;
+    }
+
+    .m-care-card:not(.is-active) {
+      opacity: 0 !important;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .m-care-card[data-step="1"],
+    .m-care-card[data-step="3"] {
+      width: 1320px;
+    }
+
+    .m-care-card[data-step="2"] {
+      width: 1371px;
+    }
+
+    .m-care-card__media {
+      width: 620px;
+      height: 415.055px;
+      flex: 0 0 620px;
+      overflow: hidden;
+      border-radius: 14px;
+      background: #e8f4f8;
+      margin: 0;
+    }
+
+    .m-care-card__media img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .m-care-card__body {
+      position: relative;
+      flex: 0 0 auto;
+      width: max-content;
+      height: 295px;
+      background: transparent;
+    }
+
+    .m-care-card__num {
+      position: absolute;
+      left: 0;
+      top: 0;
+      margin: 0;
+      font-family: var(--font-en);
+      font-size: 100px;
+      font-weight: 400;
+      line-height: normal;
+      letter-spacing: -2.56px;
+      color: #000000;
+      white-space: nowrap;
+    }
+
+    .m-care-card__content {
+      position: absolute;
+      left: 6px;
+      top: 110px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .m-care-card__title {
+      margin: 0;
+      font-family: var(--font-en);
+      font-size: 100px;
+      font-weight: 400;
+      line-height: 1;
+      letter-spacing: -4px;
+      color: #000000;
+      white-space: nowrap;
+    }
+
+    .m-care-card__desc {
+      margin: 0;
+      font-family: var(--font-kr);
+      font-size: 20px;
+      font-weight: 400;
+      line-height: 1.4;
+      letter-spacing: -0.4px;
+      color: #1a1a1a;
+      white-space: nowrap;
+    }
+
+    .m-care-card__tags {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .m-care-card__tags li {
+      min-width: 94px;
+      height: 33px;
+      padding: 4px 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 0.6px solid var(--brand);
+      border-radius: 50px;
+      color: #1a1a1a;
+      font-size: 18px;
+      line-height: 1.4;
+      letter-spacing: -0.36px;
+      white-space: nowrap;
     }
 
     .marin-stage > .m-pill-tabs:not(.m-pill-tabs--cases),
@@ -1990,28 +2141,81 @@
           <h1 class="m-title__main">
             <span class="m-title__serif">Rescue </span><span class="m-title__plain">&amp; </span><span class="m-title__serif">Care Activities</span>
           </h1>
-          <p class="m-title__sub">구조부터 방사까지, 생명의 회복</p>
+          <p class="m-title__sub">구조부터 방사까지, 회복의 여정</p>
         </div>
         <p class="marin-node m-hero-copy">
-          아쿠아플라넷은 해양수산부 지정 해양동물전문구조ㆍ치료기관으로서 좌초 및 부상 해양생물을 구조하고 치료합니다.<br>
-          전문 인력과 보호시설을 통해 회복을 거쳐 건강하게 바다로 돌아갈 수 있도록 지원합니다.
+          아쿠아플라넷은 <strong>해양수산부 지정 해양동물전문구조·치료기관</strong>으로서 <strong>부상 및 조난 해양생물을 구조하고 치료</strong>합니다<br>
+          전문 인력의 보호와 재활 과정을 거쳐 건강하게 바다로 돌아갈 수 있도록 지원합니다
         </p>
 
-        <article class="marin-node m-word m-word--rescue is-active" data-step="0">
-          <div class="m-word__head"><span class="m-word__en">Rescue</span><span class="m-word__kr">: 구조</span></div>
-          <p class="m-word__desc">아쿠아플라넷은 다친 해양동물에게 첫 번째 손길을 전하며 체계적이고 신속한 구조 활동을 펼쳐 왔습니다.</p>
+        <article class="marin-node m-word m-care-card is-active" data-step="0">
+          <figure class="m-care-card__media">
+            <img src="assets/images/sec.aboutus/marinlab/figma-rescue-care-01.png" alt="해양생물 긴급 구조 현장">
+          </figure>
+          <div class="m-care-card__body">
+            <p class="m-care-card__num">01</p>
+            <div class="m-care-card__content">
+              <h2 class="m-care-card__title">RESCUE</h2>
+              <p class="m-care-card__desc">생명의 가치를 지키는 긴급 구조 시스템</p>
+              <ul class="m-care-card__tags" aria-label="Rescue keywords">
+                <li>긴급구조</li>
+                <li>현장출동</li>
+                <li>생명보호</li>
+                <li>시설관리</li>
+              </ul>
+            </div>
+          </div>
         </article>
-        <article class="marin-node m-word m-word--treatment" data-step="1">
-          <div class="m-word__head"><span class="m-word__en">Treatment</span><span class="m-word__kr">: 치료</span></div>
-          <p class="m-word__desc">구조, 진단 및 치료, 회복 과정 모두 맞춤형 관리가 이어지며<br>전문적인 치료와 재활 과정을 통해 해양생물의 건강한 회복을 돕습니다.</p>
+        <article class="marin-node m-word m-care-card" data-step="1">
+          <figure class="m-care-card__media">
+            <img src="assets/images/sec.aboutus/marinlab/figma-rescue-care-02.png" alt="해양생물 치료 현장">
+          </figure>
+          <div class="m-care-card__body">
+            <p class="m-care-card__num">02</p>
+            <div class="m-care-card__content">
+              <h2 class="m-care-card__title">TREATMENT</h2>
+              <p class="m-care-card__desc">전문 의료진의 정밀 진단과 맞춤형 치유 솔루션</p>
+              <ul class="m-care-card__tags" aria-label="Treatment keywords">
+                <li>정밀진단</li>
+                <li>맞춤치료</li>
+                <li>건강회복</li>
+              </ul>
+            </div>
+          </div>
         </article>
-        <article class="marin-node m-word m-word--rehab" data-step="2">
-          <div class="m-word__head"><span class="m-word__en">Rehabilitation</span><span class="m-word__kr">: 재활</span></div>
-          <p class="m-word__desc">구조, 진단 및 치료, 적응 훈련 등을 거쳐, 야생 복귀까지<br>전문적인 치료와 재활 과정을 통해 해양생물의 건강한 회복을 돕습니다.</p>
+        <article class="marin-node m-word m-care-card" data-step="2">
+          <figure class="m-care-card__media">
+            <img src="assets/images/sec.aboutus/marinlab/figma-rescue-care-03.png" alt="해양생물 재활 프로그램">
+          </figure>
+          <div class="m-care-card__body">
+            <p class="m-care-card__num">03</p>
+            <div class="m-care-card__content">
+              <h2 class="m-care-card__title">REHABILITATION</h2>
+              <p class="m-care-card__desc">야생성 회복을 위한 체계적이고 과학적인 재활 프로그램</p>
+              <ul class="m-care-card__tags" aria-label="Rehabilitation keywords">
+                <li>재활훈련</li>
+                <li>야생성복원</li>
+                <li>체계적관리</li>
+              </ul>
+            </div>
+          </div>
         </article>
-        <article class="marin-node m-word m-word--release" data-step="3">
-          <div class="m-word__head"><span class="m-word__en">Release</span><span class="m-word__kr">: 야생 방사</span></div>
-          <p class="m-word__desc">구조, 진단 및 치료, 회복 이후 방사 여부를 검토하며<br>전문적인 치료와 재활 과정을 통해 해양생물의 건강한 회복을 돕습니다.</p>
+        <article class="marin-node m-word m-care-card" data-step="3">
+          <figure class="m-care-card__media">
+            <img src="assets/images/sec.aboutus/marinlab/figma-rescue-care-04.png" alt="해양생물 자연 방사">
+          </figure>
+          <div class="m-care-card__body">
+            <p class="m-care-card__num">04</p>
+            <div class="m-care-card__content">
+              <h2 class="m-care-card__title">RELEASE</h2>
+              <p class="m-care-card__desc">자연의 품으로 완벽하게 돌아가는 건강한 복귀</p>
+              <ul class="m-care-card__tags" aria-label="Release keywords">
+                <li>자연방사</li>
+                <li>완전복귀</li>
+                <li>생태복원</li>
+              </ul>
+            </div>
+          </div>
         </article>
       </section>
 
@@ -2323,6 +2527,7 @@
       }
 
       function setActiveWord(nextIndex) {
+        if (words.length) nextIndex = Math.min(nextIndex, words.length - 1);
         setActive(words, 'data-step', nextIndex);
         activeWordIndex = nextIndex;
       }
@@ -2417,16 +2622,20 @@
         var designY = window.scrollY / scale;
 
         if (gnb) gnb.classList.toggle('is-scrolled', window.scrollY > 80);
-        document.body.classList.toggle('marin-header-light', designY > 2100 && designY < 6420);
-        document.body.classList.toggle('marin-activities-exiting', designY > 1760);
-        document.body.classList.toggle('marin-cases-title-visible', designY > 1860);
-        document.body.classList.toggle('marin-cases-content-visible', designY > 2140);
+        document.body.classList.toggle('marin-header-light', designY > 2350 && designY < 6420);
+        document.body.classList.toggle('marin-activities-exiting', designY > 2060);
+        document.body.classList.toggle('marin-cases-title-visible', designY > 2160);
+        document.body.classList.toggle('marin-cases-content-visible', designY > 2440);
 
-        var activityMarkerY = designY + (window.innerHeight / scale) * 0.56;
+        var carePinStart = 650;
+        var carePinEnd = 2060;
+        var carePinOffset = Math.min(Math.max(designY - carePinStart, 0), carePinEnd - carePinStart);
+        document.documentElement.style.setProperty('--care-pin-offset', carePinOffset.toFixed(2) + 'px');
+
         var wordIndex = 0;
-        if (activityMarkerY > 874) wordIndex = 1;
-        if (activityMarkerY > 1212) wordIndex = 2;
-        if (activityMarkerY > 1587) wordIndex = 3;
+        if (designY > 880) wordIndex = 1;
+        if (designY > 1180) wordIndex = 2;
+        if (designY > 1480) wordIndex = 3;
         setActiveWord(wordIndex);
 
         var viewportCenterY = designY + (window.innerHeight / scale) * 0.5;
