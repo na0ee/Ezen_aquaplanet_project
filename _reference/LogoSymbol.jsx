@@ -16,7 +16,7 @@ export default function LogoSymbol({ progress }) {
   const { scene, animations } = useGLTF('/logo_symbol.glb')
 
   // 수동 mixer
-  const mixer = useMemo(() => new THREE.AnimationMixer(scene), [scene])
+  const mixer = useMemo(() => new THREE.AnimationMixer(scene), [scene]) 
   const duration = useRef(0)
 
   useEffect(() => {

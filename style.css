@@ -562,7 +562,15 @@ button {
   transform: translateY(-100%);
 }
 
+.gnb.gnb--hidden {
+  transform: translateY(-100%);
+}
+
 .gnb.gnb--light-bg {
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.86) 0%, rgba(255, 255, 255, 0) 100%);
+}
+
+.gnb.gnb--scrolled {
   background: linear-gradient(to bottom, rgba(255, 255, 255, 0.86) 0%, rgba(255, 255, 255, 0) 100%);
 }
 
@@ -580,6 +588,12 @@ button {
   gap: 44px;
 }
 
+.gnb__category {
+  display: flex;
+  align-items: center;
+  gap: 44px;
+}
+
 .gnb__link {
   font-family: var(--font-en);
   font-weight: 400;
@@ -590,7 +604,22 @@ button {
   white-space: nowrap;
 }
 
+.gnb__item {
+  font-family: var(--font-en);
+  font-weight: 400;
+  font-size: var(--fs-nav);
+  letter-spacing: var(--ls-tight);
+  color: var(--clr-text-muted);
+  transition: color var(--tr-base);
+  white-space: nowrap;
+  text-decoration: none;
+}
+
 .gnb__link:hover {
+  color: var(--clr-text);
+}
+
+.gnb__item:hover {
   color: var(--clr-text);
 }
 
@@ -601,7 +630,23 @@ button {
   color: var(--clr-text);
 }
 
+.gnb__item.gnb__item--active {
+  font-family: var(--font-serif);
+  font-size: var(--fs-nav-active);
+  font-weight: 400;
+  color: var(--clr-text);
+}
+
 .gnb.gnb--light-bg .gnb__link {
+  color: rgba(17, 118, 158, 0.58);
+}
+
+.gnb.gnb--scrolled .gnb__link {
+  color: rgba(17, 118, 158, 0.58);
+}
+
+.gnb.gnb--scrolled .gnb__item,
+.gnb.gnb--light-bg .gnb__item {
   color: rgba(17, 118, 158, 0.58);
 }
 
@@ -610,7 +655,25 @@ button {
   color: var(--clr-primary);
 }
 
+.gnb.gnb--scrolled .gnb__link:hover,
+.gnb.gnb--scrolled .gnb__link.gnb__link--active {
+  color: var(--clr-primary);
+}
+
+.gnb.gnb--scrolled .gnb__item:hover,
+.gnb.gnb--scrolled .gnb__item.gnb__item--active,
+.gnb.gnb--light-bg .gnb__item:hover,
+.gnb.gnb--light-bg .gnb__item.gnb__item--active {
+  color: var(--clr-primary);
+}
+
 .gnb.gnb--light-bg .btn-pill {
+  color: var(--clr-primary);
+  background: rgba(255, 255, 255, 0.72);
+  border-color: rgba(34, 178, 234, 0.18);
+}
+
+.gnb.gnb--scrolled .btn-pill {
   color: var(--clr-primary);
   background: rgba(255, 255, 255, 0.72);
   border-color: rgba(34, 178, 234, 0.18);
@@ -621,8 +684,70 @@ button {
   border-color: rgba(34, 178, 234, 0.34);
 }
 
+.gnb.gnb--scrolled .btn-pill:hover {
+  background: #ffffff;
+  border-color: rgba(34, 178, 234, 0.34);
+}
+
 .gnb.gnb--light-bg .btn-pill svg path {
   stroke: var(--clr-primary);
+}
+
+.gnb.gnb--scrolled .btn-pill svg path {
+  stroke: var(--clr-primary);
+}
+
+.btn--ticket {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 44px;
+  padding: 0 14px 0 20px;
+  border-radius: var(--radius-btn-pill);
+  color: var(--clr-text);
+  background: var(--clr-glass-02);
+  border: 1px solid var(--clr-glass-10);
+  text-decoration: none;
+  transition: background var(--tr-base), border-color var(--tr-base);
+}
+
+.btn--ticket:hover {
+  background: var(--clr-glass-10);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.btn--ticket p {
+  margin: 0;
+  font-family: var(--font-en);
+  font-weight: 400;
+  font-size: var(--fs-nav);
+  letter-spacing: var(--ls-tight);
+  color: inherit;
+}
+
+.btn--ticket .btn__icon {
+  display: inline-flex;
+  width: 24px;
+  height: 24px;
+}
+
+.btn--ticket .btn__icon img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.gnb.gnb--scrolled .btn--ticket,
+.gnb.gnb--light-bg .btn--ticket {
+  color: var(--clr-primary);
+  background: rgba(255, 255, 255, 0.72);
+  border-color: rgba(34, 178, 234, 0.18);
+}
+
+.gnb.gnb--scrolled .btn--ticket:hover,
+.gnb.gnb--light-bg .btn--ticket:hover {
+  background: #ffffff;
+  border-color: rgba(34, 178, 234, 0.34);
 }
 
 /* 중앙 로고 — 절대 중앙 배치 */
@@ -631,6 +756,25 @@ button {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+}
+
+.gnb__logo-center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.gnb__logo-center a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gnb__logo-center img {
+  width: 60px;
+  height: auto;
+  object-fit: contain;
 }
 
 /* 3D 심볼 로고가 와서 안착하는 '빈 슬롯' — 보이지 않지만 크기/위치는 차지. */
@@ -2017,7 +2161,7 @@ body.is-logo-at-header .gnb__logo {
 }
 
 .program-card__img--2 {
-  background-image: url('assets/images/Frame%20139.png');
+  background-image: url('assets/images/Frame139.webp');
 }
 
 .program-card__img--3 {
@@ -3499,7 +3643,7 @@ body,
   align-items: center;
 }
 
-.gnb__nav-item>.gnb__link {
+.gnb__nav-item>span.gnb__link {
   cursor: default;
 }
 
@@ -3537,32 +3681,33 @@ body,
   z-index: -1;
 }
 
+.gnb.gnb--scrolled .gnb__dropdown::after,
 .gnb.gnb--light-bg .gnb__dropdown::after,
 body.marin-header-light .gnb .gnb__dropdown::after {
   background:
-    linear-gradient(145deg, rgba(247, 253, 255, 0.82), rgba(216, 245, 255, 0.52)),
-    rgba(229, 248, 255, 0.58);
+    linear-gradient(145deg, rgba(255, 255, 255, 0.9), rgba(238, 238, 238, 0.72)),
+    rgba(242, 242, 242, 0.78);
   backdrop-filter: blur(22px) saturate(1.22);
   -webkit-backdrop-filter: blur(22px) saturate(1.22);
-  border: 1px solid rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(210, 210, 210, 0.72);
   border-radius: 16px;
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.92),
-    inset 0 -18px 36px rgba(174, 231, 255, 0.22);
+    0 18px 40px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.86);
 }
 
 /* About us 호버 시 드롭다운 표시 */
 .gnb__nav-item:hover .gnb__dropdown {
   opacity: 1;
   pointer-events: auto;
-  transform: translateY(0);
+  transform: translateX(-50%) translateY(0);
 }
 
 /* 드롭다운 자체에 호버해도 유지 */
 .gnb__dropdown:hover {
   opacity: 1;
   pointer-events: auto;
-  transform: translateY(0);
+  transform: translateX(-50%) translateY(0);
 }
 
 .gnb__dropdown-item {
@@ -3604,11 +3749,13 @@ body.marin-header-light .gnb .gnb__dropdown::after {
   color: var(--clr-primary) !important;
 }
 
+.gnb.gnb--scrolled .gnb__dropdown-item,
 .gnb.gnb--light-bg .gnb__dropdown-item,
 body.marin-header-light .gnb .gnb__dropdown-item {
   color: rgba(17, 118, 158, 0.72);
 }
 
+.gnb.gnb--scrolled .gnb__dropdown-item:hover,
 .gnb.gnb--light-bg .gnb__dropdown-item:hover,
 body.marin-header-light .gnb .gnb__dropdown-item:hover {
   background: rgba(255, 255, 255, 0.76);
@@ -3616,6 +3763,7 @@ body.marin-header-light .gnb .gnb__dropdown-item:hover {
   box-shadow: inset 0 0 0 1px rgba(34, 178, 234, 0.12);
 }
 
+.gnb.gnb--scrolled .gnb__dropdown-item--active,
 .gnb.gnb--light-bg .gnb__dropdown-item--active,
 body.marin-header-light .gnb .gnb__dropdown-item--active {
   background: rgba(255, 255, 255, 0.48);
@@ -3623,6 +3771,7 @@ body.marin-header-light .gnb .gnb__dropdown-item--active {
   box-shadow: inset 0 0 0 1px rgba(34, 178, 234, 0.12);
 }
 
+.gnb.gnb--scrolled .gnb__dropdown-item--active:hover,
 .gnb.gnb--light-bg .gnb__dropdown-item--active:hover,
 body.marin-header-light .gnb .gnb__dropdown-item--active:hover {
   background: rgba(255, 255, 255, 0.86);
