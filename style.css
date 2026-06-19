@@ -4858,7 +4858,7 @@ body.biz-page {
 
 /* ── 3) VISION (4-circle) ──────────────────────────────── */
 .biz-vision {
-  padding: 294px 0;
+  padding: 0 0 294px;
   margin: 0 auto;
 }
 
@@ -5032,7 +5032,7 @@ body.biz-page {
 
 /* ── 4) CAPABILITIES (5-circle) ────────────────────────── */
 .biz-caps {
-  padding: 36px 0;
+  padding: 100px 0;
 }
 
 .biz-caps__head {
@@ -5513,5 +5513,150 @@ body.biz-page {
   /* 모바일: 큰 워드가 넘치지 않게 살짝 줄임 */
   .biz-banner__title {
     font-size: clamp(40px, 13vw, 88px);
+  }
+}
+
+/* ====================================================
+   BIZ BANNERS — STICKY SCROLL
+   ==================================================== */
+
+/* 외부 컨테이너: 5슬라이드 × 100vh 스크롤 공간 + 100vh 고정 = 600vh */
+.biz-banners-sticky {
+  position: relative;
+  height: 600vh;
+}
+
+/* 고정 패널 */
+.biz-banners-pin {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.biz-banners-pin.is-visible {
+  opacity: 1;
+}
+
+/* 각 슬라이드 — absolute 중첩, 기본 숨김 */
+.biz-banner-slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 60px;
+  padding: 0 80px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(24px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.biz-banner-slide.is-active {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.biz-banner-slide.is-prev {
+  opacity: 0;
+  transform: translateY(-24px);
+}
+
+/* 이미지 */
+.biz-banner-slide__img {
+  width: 620px;
+  height: 415.055px;
+  flex-shrink: 0;
+  aspect-ratio: 121/81;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.biz-banner-slide__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* 텍스트 영역 — 고정 너비로 레이아웃 일관성 유지 */
+.biz-banner-slide__content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 500px;
+  flex-shrink: 0;
+}
+
+.biz-banner-slide__num {
+  font-family: "Poppins", sans-serif;
+  font-size: 100px;
+  font-style: normal;
+  font-weight: 400;
+  color: #000;
+  line-height: 80px;
+  letter-spacing: -2.56px;
+}
+
+.biz-banner-slide__title {
+  font-family: "Poppins", sans-serif;
+  font-size: 100px;
+  font-style: normal;
+  font-weight: 400;
+  color: #000;
+  line-height: 100%;
+  letter-spacing: -4px;
+  margin-top: -9px; /* num과의 간격 10px → 1px */
+}
+
+.biz-banner-slide__desc {
+  font-family: var(--font-kr);
+  font-size: 15px;
+  font-weight: 400;
+  color: #5a7686;
+  margin-top: 10px;
+}
+
+.biz-banner-slide__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  list-style: none;
+  margin-top: 6px;
+}
+
+.biz-banner-slide__tags li {
+  padding: 6px 16px;
+  border: 0.6px solid #22b2ea;
+  border-radius: 50px;
+  font-family: var(--font-kr);
+  font-size: 14px;
+  font-weight: 400;
+  color: #1a1a1a;
+  background: none;
+}
+
+
+/* 반응형 */
+@media (max-width: 1024px) {
+  .biz-banner-slide {
+    flex-direction: column;
+    gap: 28px;
+    padding: 40px 24px;
+  }
+  .biz-banner-slide__img {
+    width: 100%;
+    height: 200px;
+    border-radius: 12px;
+  }
+  .biz-banner-slide__content {
+    width: 100%;
   }
 }
