@@ -134,12 +134,23 @@ function initSectionScrollAnim() {
     return t * t * (3 - 2 * t);
   }
 
+  let animRafId = null;
+
   function onScroll() {
+    if (animRafId) return;
+    animRafId = requestAnimationFrame(runAnim);
+  }
+
+  function runAnim() {
+    animRafId = null;
     const vh = window.innerHeight;
 
-    items.forEach(item => {
+    /* 읽기 일괄 선행 — write 사이에 getBoundingClientRect 재호출 시 발생하는 강제 리플로우 방지 */
+    const rects = items.map(item => item.section.getBoundingClientRect());
+
+    items.forEach((item, i) => {
       const { section, cfg } = item;
-      const rect = section.getBoundingClientRect();
+      const rect = rects[i];
       const scrollSpan = vh + Math.max(0, rect.height - vh);
       const rawProgress = (vh - rect.top) / scrollSpan;
       const progress = clamp01(rawProgress);
@@ -176,7 +187,7 @@ function initSectionScrollAnim() {
   }
 
   window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
+  runAnim();
 }
 
 function triggerContentRipple(el) {
@@ -1419,6 +1430,7 @@ function useSectionTransition({ from, to, onPeak, onDone } = {}) {
   return tl;
 }
 
+
 function triggerDive() {
   if (diveActive || isTransitioning) return;
   diveActive = true;
@@ -1440,6 +1452,7 @@ function triggerDive() {
   const toEl   = document.querySelector('.crew-sticky');
 
   if (!fromEl || !toEl) { diveActive = false; return; }
+
 
   const transition = useSectionTransitionLegacy({
     from:   fromEl,
@@ -1525,6 +1538,10 @@ function triggerDiveBack() {
   }
 }
 
+
+/* =============================================================
+   4-B. 크루 섹션 스크롤 진입 시 왜곡 효과 + 페이드인
+   ============================================================= */
 
 /* =============================================================
    5. Our Crew — 스크롤 드리븐 패널 전환

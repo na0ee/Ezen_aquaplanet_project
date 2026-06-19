@@ -38,7 +38,7 @@
     .marin-shell {
       position: relative;
       width: 100%;
-      height: calc(6769px * var(--marin-scale));
+      height: calc(5664px * var(--marin-scale));
       min-height: 100vh;
       background: var(--brand);
       overflow: visible;
@@ -49,11 +49,11 @@
       top: 0;
       left: 50%;
       width: 1920px;
-      height: 6769px;
+      height: 5664px;
       transform: translateX(-50%) scale(var(--marin-scale));
       transform-origin: top center;
       overflow: hidden;
-      background: linear-gradient(180deg, #22b2ea 0%, #ffffff 9.6154%, #ffffff 86%, #22b2ea 100%);
+      background: linear-gradient(180deg, #22b2ea 0%, #ffffff 12.4%, #ffffff 93%, #22b2ea 100%);
     }
 
     .marin-node,
@@ -211,7 +211,7 @@
     }
 
     .m-pill-tabs--cases {
-      top: 2725px;
+      top: 2925px;
       background: #f8f8f8;
       opacity: 0;
       transform: translateY(44px);
@@ -260,7 +260,7 @@
 
     .m-title--cases {
       left: 749px;
-      top: 2450px;
+      top: 2650px;
       width: 422px;
       opacity: 0;
       transform: translateY(42px);
@@ -470,7 +470,7 @@
 
     .m-con02 {
       left: 0;
-      top: 2260px;
+      top: 2460px;
       width: 1920px;
       height: 2904px;
       overflow: hidden;
@@ -478,7 +478,7 @@
 
     .m-cases-copy {
       left: 687px;
-      top: 2638px;
+      top: 2838px;
       width: 546px;
       text-align: center;
       font-size: 20px;
@@ -713,11 +713,11 @@
       filter: blur(7px);
     }
 
-    .m-img--a { left: 1170px; top: 2894px; width: 450px; height: 270px; }
-    .m-img--b { left: 1172px; top: 3290px; width: 450px; height: 270px; }
-    .m-img--c { left: 1172px; top: 3714px; width: 450px; height: 214px; }
-    .m-img--d { left: 1172px; top: 4110px; width: 450px; height: 214px; }
-    .m-img--e { left: 1172px; top: 4506px; width: 450px; height: 214px; }
+    .m-img--a { left: 1170px; top: 3094px; width: 450px; height: 270px; }
+    .m-img--b { left: 1172px; top: 3490px; width: 450px; height: 270px; }
+    .m-img--c { left: 1172px; top: 3914px; width: 450px; height: 214px; }
+    .m-img--d { left: 1172px; top: 4310px; width: 450px; height: 214px; }
+    .m-img--e { left: 1172px; top: 4706px; width: 450px; height: 214px; }
 
     .m-conservation-view {
       display: none;
@@ -1522,9 +1522,9 @@
 
     .m-footer-blank {
       left: 0;
-      top: 5064px;
+      top: 5464px;
       width: 1920px;
-      height: 1605px;
+      height: 200px;
       background: transparent;
     }
 
@@ -1534,6 +1534,10 @@
 
     .m-mobile-note {
       display: none;
+    }
+
+    #footer.footer {
+      min-height: 500px;
     }
 
     #custom-cursor.is-over-light {
@@ -2149,7 +2153,7 @@
       var caseTabs = Array.from(document.querySelectorAll('[data-case-category]'));
       var casesCopy = document.querySelector('.m-cases-copy');
       var shell = document.querySelector('.marin-shell');
-      var currentStageHeight = 6769;
+      var currentStageHeight = 5664;
       var gnb = document.getElementById('gnb');
       var wheelTarget = window.scrollY;
       var wheelRaf = 0;
