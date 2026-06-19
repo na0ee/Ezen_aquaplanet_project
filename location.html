@@ -15,6 +15,9 @@
   <link rel="stylesheet" href="style.css" />
   <style>
     /* ── Location Hero Page ───────────────────────────── */
+    html {
+      scroll-behavior: smooth;
+    }
     body {
       background-color: var(--clr-primary);
       background-image: none;
@@ -32,60 +35,58 @@
       overflow: hidden;
     }
 
+    /* ── 히어로 섹션 내 지점 탭 (상단 절대 배치) ── */
+    .loc-hero .loc-branch-tabs {
+      position: absolute;
+      top: 110px;
+      left: 0;
+      right: 0;
+      width: 355px;
+      margin: 0 auto;
+      z-index: 1;
+    }
+
     /* ── 지점 탭 바 — loc-info 섹션 내 카테고리 ── */
     .loc-branch-tabs {
       width: 355px;
       margin: 0 auto 40px;
-      background: linear-gradient(135deg, rgba(240, 251, 255, 0.56), rgba(201, 239, 253, 0.24));
-      backdrop-filter: blur(18px) saturate(1.12);
-      -webkit-backdrop-filter: blur(18px) saturate(1.12);
-      border: 1px solid rgba(34, 178, 234, 0.22);
+      background: rgba(255, 255, 255, 0.3);
       border-radius: 14px;
       padding: 3px;
       display: flex;
       align-items: center;
-      gap: 8px;
-      box-shadow:
-        0 16px 36px rgba(0, 98, 150, 0.09),
-        inset 0 1px 0 rgba(255, 255, 255, 0.7),
-        inset 0 -1px 0 rgba(34, 178, 234, 0.08);
     }
 
     .loc-branch-tabs__item {
       font-family: var(--font-en);
       font-size: var(--fs-body);
       letter-spacing: var(--ls-tight);
-      color: rgba(0, 91, 142, 0.52);
+      color: rgba(255, 255, 255, 0.5);
       cursor: pointer;
-      padding: 0 16px;
+      padding: 0 20px;
       height: 48px;
       display: flex;
       align-items: center;
       justify-content: center;
       white-space: nowrap;
       text-decoration: none;
-      border-radius: 10px;
-      transition: color var(--tr-base), background var(--tr-base), box-shadow var(--tr-base);
+      border-radius: 12px;
+      transition: color var(--tr-base), background var(--tr-base);
     }
 
     .loc-branch-tabs__item:hover {
-      color: #005b8e;
-      background: rgba(255, 255, 255, 0.28);
-      box-shadow: inset 0 0 0 1px rgba(34, 178, 234, 0.1);
+      color: rgba(255, 255, 255, 0.8);
     }
 
     .loc-branch-tabs__item.is-active {
-      background: linear-gradient(135deg, #0087c9, var(--clr-primary));
+      background: #ffffff;
       font-family: var(--font-serif);
       font-weight: 400;
       font-size: 18px;
       letter-spacing: -0.72px;
-      color: #ffffff;
-      border-radius: 10px;
-      padding: 0 22px;
-      box-shadow:
-        0 12px 26px rgba(0, 98, 150, 0.24),
-        inset 0 1px 0 rgba(255, 255, 255, 0.28);
+      color: #22b2ea;
+      border-radius: 12px;
+      padding: 0 20px;
     }
 
     /* ── 히어로 텍스트 ── */
@@ -98,6 +99,7 @@
       position: relative;
       z-index: 1;
       padding-top: 80px;
+      transition: opacity 0.4s ease, transform 0.4s ease, filter 0.4s ease;
     }
 
     .loc-hero__title-wrap {
@@ -240,8 +242,8 @@
     .loc-content-wrap {
       background: linear-gradient(180deg,
         #22b2ea 0%,
-        #ffffff 11.058%,
-        #ffffff 96%,
+        #ffffff 22%,
+        #ffffff 95%,
         #22b2ea 100%
       );
     }
@@ -250,14 +252,13 @@
     .loc-info,
     .loc-programs,
     .loc-map,
+    .loc-opening,
     .loc-footer {
-      height: 100vh;
       min-height: 100vh;
-      overflow: hidden;
+      overflow: visible;
       box-sizing: border-box;
     }
 
-    .loc-hero__content,
     .loc-scroll,
     .loc-branch-tabs,
     .loc-info__card,
@@ -268,18 +269,37 @@
     .loc-floor-tabs,
     .loc-map__img-wrap,
     .loc-map__notice,
-    .loc-thumbs-wrap {
+    .loc-thumbs-wrap,
+    .loc-opening .loc-sec-title-box,
+    .loc-opening__time-block,
+    .loc-opening__note {
       opacity: 0;
       transform: translateY(38px);
       filter: blur(8px);
       transition:
-        opacity 0.78s ease,
-        transform 0.92s cubic-bezier(0.16, 1, 0.3, 1),
-        filter 0.78s ease;
+        opacity 0.62s ease,
+        transform 0.74s cubic-bezier(0.16, 1, 0.3, 1),
+        filter 0.62s ease;
       will-change: opacity, transform, filter;
     }
 
-    .loc-hero.is-title-visible .loc-hero__content,
+    .loc-scroll,
+    .loc-info__card,
+    .loc-programs__desc,
+    .loc-programs__cards,
+    .loc-floor-tabs,
+    .loc-map__img-wrap,
+    .loc-map__notice,
+    .loc-thumbs-wrap,
+    .loc-opening__time-block,
+    .loc-opening__note {
+      transition:
+        opacity 0.52s ease,
+        transform 0.62s cubic-bezier(0.16, 1, 0.3, 1),
+        filter 0.52s ease;
+    }
+
+    .loc-hero.is-title-visible .loc-branch-tabs,
     .loc-hero.is-content-visible .loc-scroll,
     .loc-info.is-title-visible .loc-branch-tabs,
     .loc-info.is-content-visible .loc-info__card,
@@ -290,7 +310,10 @@
     .loc-map.is-content-visible .loc-floor-tabs,
     .loc-map.is-content-visible .loc-map__img-wrap,
     .loc-map.is-content-visible .loc-map__notice,
-    .loc-map.is-content-visible .loc-thumbs-wrap {
+    .loc-map.is-content-visible .loc-thumbs-wrap,
+    .loc-opening.is-title-visible .loc-sec-title-box,
+    .loc-opening.is-content-visible .loc-opening__time-block,
+    .loc-opening.is-content-visible .loc-opening__note {
       opacity: 1;
       transform: translateY(0);
       filter: blur(0);
@@ -299,24 +322,27 @@
     .loc-hero.is-content-visible .loc-scroll,
     .loc-info.is-content-visible .loc-info__card,
     .loc-programs.is-content-visible .loc-programs__desc,
-    .loc-map.is-content-visible .loc-floor-tabs {
-      transition-delay: 0.24s;
+    .loc-map.is-content-visible .loc-floor-tabs,
+    .loc-opening.is-content-visible .loc-opening__time-block {
+      transition-delay: 0.12s;
     }
 
     .loc-programs.is-content-visible .loc-programs__cards,
-    .loc-map.is-content-visible .loc-map__img-wrap {
-      transition-delay: 0.42s;
+    .loc-map.is-content-visible .loc-map__img-wrap,
+    .loc-opening.is-content-visible .loc-opening__note {
+      transition-delay: 0.24s;
     }
 
     .loc-map.is-content-visible .loc-map__notice {
-      transition-delay: 0.54s;
+      transition-delay: 0.32s;
     }
 
     .loc-map.is-content-visible .loc-thumbs-wrap {
-      transition-delay: 0.66s;
+      transition-delay: 0.40s;
     }
 
     .loc-hero.loc-section-exiting .loc-hero__content,
+    .loc-hero.loc-section-exiting .loc-branch-tabs,
     .loc-hero.loc-section-exiting .loc-scroll,
     .loc-info.loc-section-exiting .loc-branch-tabs,
     .loc-info.loc-section-exiting .loc-info__card,
@@ -327,7 +353,10 @@
     .loc-map.loc-section-exiting .loc-floor-tabs,
     .loc-map.loc-section-exiting .loc-map__img-wrap,
     .loc-map.loc-section-exiting .loc-map__notice,
-    .loc-map.loc-section-exiting .loc-thumbs-wrap {
+    .loc-map.loc-section-exiting .loc-thumbs-wrap,
+    .loc-opening.loc-section-exiting .loc-sec-title-box,
+    .loc-opening.loc-section-exiting .loc-opening__time-block,
+    .loc-opening.loc-section-exiting .loc-opening__note {
       opacity: 0;
       transform: translateY(-44px);
       filter: blur(8px);
@@ -346,6 +375,25 @@
       transform: translate(-50%, -44px);
     }
 
+    /* ── 히어로 텍스트 순차 페이드인 (인덱스 페이지와 동일) ── */
+    .loc-hero__eyebrow,
+    .loc-hero__title,
+    .loc-hero__sub {
+      opacity: 0;
+      animation: heroFadeUp 0.9s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+      animation-play-state: paused;
+    }
+
+    .loc-hero__eyebrow { animation-delay: 0.1s; }
+    .loc-hero__title   { animation-delay: 0.5s; }
+    .loc-hero__sub     { animation-delay: 1.0s; }
+
+    .loc-hero.is-title-visible .loc-hero__eyebrow,
+    .loc-hero.is-title-visible .loc-hero__title,
+    .loc-hero.is-title-visible .loc-hero__sub {
+      animation-play-state: running;
+    }
+
     .loc-info {
       background: transparent;
       display: flex;
@@ -362,21 +410,20 @@
       border-radius: 14px;
       box-shadow: 0 16px 42px rgba(0, 58, 98, 0.08);
       transition:
-        opacity 0.34s ease,
-        transform 0.42s cubic-bezier(0.16, 1, 0.3, 1),
-        filter 0.34s ease,
-        box-shadow 0.34s ease;
-    }
-    .loc-info.is-content-visible .loc-info__card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 24px 58px rgba(0, 58, 98, 0.15);
+        opacity 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.40s cubic-bezier(0.16, 1, 0.3, 1),
+        filter 0.32s ease;
     }
     .loc-info.is-content-visible .loc-info__card.is-switching,
     .loc-info__card.is-switching {
-      opacity: 0.26;
-      transform: translateY(14px) scale(0.985);
-      filter: blur(7px);
+      opacity: 0;
+      transform: translateY(10px) scale(0.98);
+      filter: blur(5px);
       pointer-events: none;
+      transition:
+        opacity 0.18s ease,
+        transform 0.22s ease,
+        filter 0.18s ease;
     }
     .loc-info__img-wrap {
       flex-shrink: 0;
@@ -569,6 +616,16 @@
         transform 0.42s cubic-bezier(0.16, 1, 0.3, 1),
         filter 0.34s ease;
     }
+    .loc-hero__content.is-switching {
+      opacity: 0;
+      transform: translateY(14px) scale(0.98);
+      filter: blur(8px);
+      pointer-events: none;
+      transition:
+        opacity 0.18s ease,
+        transform 0.22s ease,
+        filter 0.18s ease;
+    }
     .loc-programs__desc.is-switching,
     .loc-programs__card-img.is-switching,
     .loc-programs__card-title.is-switching {
@@ -590,7 +647,7 @@
       height: 32px;
       background: #ffffff;
       border-radius: 24px;
-      border: none;
+      border: 1.5px solid #ffffff;
       font-family: var(--font-kr);
       font-weight: 500;
       font-size: 16px;
@@ -613,9 +670,9 @@
       z-index: 1;
       width: 94px;
       height: 32px;
-      background: transparent;
+      background: var(--clr-primary);
       border-radius: 24px;
-      border: 0.6px solid #ffffff;
+      border: 1.5px solid var(--clr-primary);
       box-shadow: 0 4px 4px rgba(0,0,0,0.25);
       font-family: var(--font-kr);
       font-weight: 500;
@@ -625,6 +682,14 @@
       cursor: pointer;
       white-space: nowrap;
       line-height: 1.2;
+      transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .loc-btn-outline:hover {
+      background: #ffffff;
+      border-color: #ffffff;
+      color: var(--clr-primary);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 10px rgba(0,0,0,0.35);
     }
 
     /* ═══════════════════════════════════════════════
@@ -637,6 +702,57 @@
       align-items: center;
       justify-content: center;
       padding: 78px 0 48px;
+    }
+
+    /* ═══════════════════════════════════════════════
+       섹션 4 — 이용 시간
+    ═══════════════════════════════════════════════ */
+    .loc-opening {
+      background: transparent;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 0 60px;
+    }
+
+    .loc-opening__time-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      margin-top: 64px;
+    }
+
+    .loc-opening__status {
+      font-family: var(--font-kr);
+      font-weight: 700;
+      font-size: 28px;
+      letter-spacing: -0.56px;
+      color: #1a1a1a;
+      text-align: center;
+    }
+
+    .loc-opening__time {
+      font-family: var(--font-kr);
+      font-weight: 700;
+      font-size: 88px;
+      letter-spacing: -2px;
+      color: #1a1a1a;
+      line-height: 1.1;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .loc-opening__note {
+      margin-top: 52px;
+      font-family: var(--font-kr);
+      font-weight: 400;
+      font-size: 18px;
+      letter-spacing: -0.36px;
+      color: #1a1a1a;
+      text-align: center;
+      line-height: 1.5;
     }
 
     /* ═══════════════════════════════════════════════
@@ -692,6 +808,8 @@
     .loc-map__img-wrap {
       margin-top: 28px;
       width: clamp(320px, 64vw, 920px);
+      max-height: 780px;
+      overflow: hidden;
       cursor: pointer;
     }
     .loc-map__img-wrap,
@@ -714,7 +832,15 @@
       width: 100%;
       height: auto;
       display: block;
-      transition: transform 0.52s cubic-bezier(0.16, 1, 0.3, 1);
+      transition:
+        transform 0.52s cubic-bezier(0.16, 1, 0.3, 1),
+        opacity 0.34s ease,
+        filter 0.34s ease;
+    }
+    .loc-map__img.is-switching {
+      opacity: 0;
+      transform: scale(0.97) translateY(8px);
+      filter: blur(5px);
     }
     .loc-map__notice {
       display: flex;
@@ -746,6 +872,13 @@
       scroll-behavior: smooth;
       padding-bottom: 8px;
       scrollbar-width: none;
+      cursor: grab;
+      user-select: none;
+      touch-action: pan-y;
+    }
+    .loc-map__thumbs.is-dragging {
+      cursor: grabbing;
+      scroll-behavior: auto;
     }
     .loc-map__thumbs::-webkit-scrollbar { display: none; }
     /* 투명 마스크 페이드 — 흰 오버레이 없이 썸네일 자체가 페이드 */
@@ -815,8 +948,9 @@
       animation-delay: calc(var(--thumb-index, 0) * 34ms);
       box-shadow: 0 10px 24px rgba(0, 58, 98, 0.08);
       transition:
-        box-shadow 0.28s ease,
-        filter 0.28s ease;
+        box-shadow 0.30s ease,
+        filter 0.30s ease,
+        transform 0.34s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .loc-map__thumb-card img {
       position: absolute;
@@ -825,13 +959,16 @@
       height: 100%;
       object-fit: cover;
       display: block;
-      transition: transform 0.4s ease;
+      pointer-events: none;
+      -webkit-user-drag: none;
+      transition: transform 0.42s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .loc-map__thumb-card:hover img {
-      transform: scale(1.08);
+      transform: scale(1.06);
     }
     .loc-map__thumb-card:hover {
-      box-shadow: 0 18px 34px rgba(0, 58, 98, 0.16);
+      transform: translateY(-6px);
+      box-shadow: 0 20px 36px rgba(0, 58, 98, 0.18);
       filter: saturate(1.05) brightness(1.02);
     }
     .loc-map__thumb-grad {
@@ -1076,9 +1213,68 @@
       transition: background 0.2s ease;
     }
     .exhibit-modal__close:hover { background: #1a9fd4; }
+
+    /* ── 섹션 사이드 내비게이션 ── */
+    .loc-side-nav {
+      position: fixed;
+      right: 40px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 50;
+      display: flex;
+      flex-direction: column;
+      gap: 26px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+    .loc-side-nav.is-visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .loc-side-nav__item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+    }
+    .loc-side-nav__label {
+      font-family: var(--font-kr);
+      font-weight: 400;
+      font-size: 13px;
+      letter-spacing: -0.26px;
+      color: #BEDBF4;
+      white-space: nowrap;
+      line-height: 1;
+      transition: color 0.3s ease;
+      display: inline-block;
+      width: 80px;
+      text-align: right;
+    }
+    .loc-side-nav__line {
+      flex-shrink: 0;
+      width: 40px;
+      height: 1px;
+      background: #BEDBF4;
+      transition: width 0.3s ease, background 0.3s ease;
+    }
+    .loc-side-nav__item.is-active .loc-side-nav__label,
+    .loc-side-nav__item:hover .loc-side-nav__label {
+      color: #22B2EA;
+    }
+    .loc-side-nav__item.is-active .loc-side-nav__line,
+    .loc-side-nav__item:hover .loc-side-nav__line {
+      background: #22B2EA;
+    }
+    .loc-side-nav__item.is-active .loc-side-nav__line {
+      width: 56px;
+    }
   </style>
 </head>
-<body>
+<body class="is-logo-at-header">
 
   <!-- ================================================
        GNB — 고정 네비게이션 바
@@ -1087,13 +1283,15 @@
     <div class="gnb__inner">
       <!-- 왼쪽 메뉴 -->
       <nav class="gnb__nav" aria-label="메인 메뉴">
+
         <a href="index.html#sec-program" class="gnb__link" data-nav="program">Program</a>
-        <a href="index.html#sec-crew"    class="gnb__link" data-nav="crew">Ocean friends</a>
+        <a href="Oceanfriends.html" class="gnb__link" data-nav="crew">Ocean friends</a>
+
         <div class="gnb__nav-item" data-nav="about">
           <span class="gnb__link gnb__link--active">About us</span>
           <div class="gnb__dropdown">
-            <a href="#" class="gnb__dropdown-item">Business</a>
-            <a href="#" class="gnb__dropdown-item">Marin Lab</a>
+            <a href="business.html" class="gnb__dropdown-item">Business</a>
+            <a href="marinlab.html" class="gnb__dropdown-item">Marin Lab</a>
             <a href="location.html" class="gnb__dropdown-item gnb__dropdown-item--active">Location</a>
           </div>
         </div>
@@ -1105,7 +1303,7 @@
       </a>
 
       <!-- 오른쪽 티켓 버튼 -->
-      <button class="gnb__ticket btn-pill" type="button" aria-label="티켓 예매">
+      <button class="gnb__ticket btn-pill" type="button" aria-label="티켓 예매" onclick="location.href='ticket.html'">
         Ticket
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path d="M7 17L17 7M17 7H7M17 7V17" stroke="white" stroke-width="1.5"
@@ -1115,11 +1313,35 @@
     </div>
   </header>
 
+  <!-- 섹션 사이드 내비게이션 -->
+  <nav class="loc-side-nav" aria-label="섹션 이동">
+    <button class="loc-side-nav__item" type="button" data-target="2">
+      <span class="loc-side-nav__label">메인프로그램</span>
+      <span class="loc-side-nav__line"></span>
+    </button>
+    <button class="loc-side-nav__item" type="button" data-target="3">
+      <span class="loc-side-nav__label">가이드맵</span>
+      <span class="loc-side-nav__line"></span>
+    </button>
+    <button class="loc-side-nav__item" type="button" data-target="4">
+      <span class="loc-side-nav__label">운영시간</span>
+      <span class="loc-side-nav__line"></span>
+    </button>
+  </nav>
+
   <!-- ================================================
        히어로 섹션
   ================================================ -->
   <main>
     <section class="loc-hero" aria-label="제주 지점 히어로">
+
+      <!-- 지점 토글 탭 -->
+      <nav class="loc-branch-tabs" aria-label="지점 선택">
+        <a href="#" class="loc-branch-tabs__item is-active" data-loc="jeju">Jeju</a>
+        <a href="#" class="loc-branch-tabs__item" data-loc="yeosu">Yeosu</a>
+        <a href="#" class="loc-branch-tabs__item" data-loc="ilsan">Ilsan</a>
+        <a href="#" class="loc-branch-tabs__item" data-loc="gwanggyo">Gwanggyo</a>
+      </nav>
 
       <!-- 히어로 텍스트 -->
       <div class="loc-hero__content">
@@ -1197,8 +1419,12 @@
         <div class="loc-programs__card">
           <img src="assets/images/image 140.png" alt="오션 아레나 특별 공연" class="loc-programs__card-img" id="loc-prog-img-1">
           <div class="loc-programs__card-grad"></div>
-          <div class="loc-programs__card-footer">
+          <div class="loc-programs__card-footer loc-programs__card-footer--row">
             <p class="loc-programs__card-title" id="loc-prog-title-1">오션 아레나 특별 공연</p>
+            <div class="loc-programs__card-btns">
+              <button class="loc-btn-white" type="button">보러가기</button>
+              <button class="loc-btn-outline" type="button">보러가기</button>
+            </div>
           </div>
         </div>
         <div class="loc-programs__card">
@@ -1325,12 +1551,65 @@
       </div>
     </section>
 
+    <!-- ================================================
+         이용 시간 섹션
+    ================================================ -->
+    <section class="loc-opening" aria-label="이용 시간">
+      <div class="loc-sec-title-box">
+        <h2 class="loc-sec-title">
+          <em class="loc-sec-title__serif">Opening </em><span class="loc-sec-title__light">Hours</span>
+        </h2>
+        <p class="loc-sec-sub" id="loc-sec-sub-opening">아쿠아플라넷 제주의 운영 시간을 알려드립니다</p>
+      </div>
+      <div class="loc-opening__time-block">
+        <p class="loc-opening__status" id="loc-opening-status">연중 무휴</p>
+        <p class="loc-opening__time" id="loc-opening-time">09:30 - 18:00</p>
+      </div>
+      <p class="loc-opening__note" id="loc-opening-note">매표 마감시간은 17:00이며, 입장 마감시간은 17:30이오니 이용에 참고 부탁드립니다</p>
+    </section>
+
     </div><!-- /.loc-content-wrap -->
 
     <!-- ================================================
          푸터 섹션
     ================================================ -->
-    <footer class="loc-footer" aria-label="푸터">
+    <footer id="footer" class="loc-footer footer" aria-label="푸터">
+      <div class="footer__inner">
+        <nav class="footer__nav" aria-label="푸터 메뉴">
+          <a href="#sec-program" class="footer__link">Program</a>
+          <a href="#sec-crew" class="footer__link">Ocean friends</a>
+          <a href="#sec-logo" class="footer__link">About us</a>
+          <a href="location.html" class="footer__link">Location</a>
+          <a href="#sec-booking" class="footer__link">Ticket</a>
+        </nav>
+
+        <div class="footer__brand">
+          <div class="footer__socials" aria-label="소셜 링크">
+            <a href="https://www.instagram.com/aquaplanet_official" class="footer__social" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <rect x="4" y="4" width="16" height="16" rx="5"></rect>
+                <circle cx="12" cy="12" r="3.4"></circle>
+                <circle cx="17.2" cy="6.8" r="1"></circle>
+              </svg>
+            </a>
+            <a href="https://www.youtube.com/@aquaplanetstory" class="footer__social" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M5.2 7.2C5.6 6.5 6.3 6 7.1 5.9C8.4 5.7 10.5 5.6 12 5.6C13.5 5.6 15.6 5.7 16.9 5.9C17.7 6 18.4 6.5 18.8 7.2C19.2 8.1 19.4 10.2 19.4 12C19.4 13.8 19.2 15.9 18.8 16.8C18.4 17.5 17.7 18 16.9 18.1C15.6 18.3 13.5 18.4 12 18.4C10.5 18.4 8.4 18.3 7.1 18.1C6.3 18 5.6 17.5 5.2 16.8C4.8 15.9 4.6 13.8 4.6 12C4.6 10.2 4.8 8.1 5.2 7.2Z"></path>
+                <path d="M10.4 9.3L14.7 12L10.4 14.7V9.3Z" class="footer__social-play"></path>
+              </svg>
+            </a>
+            <a href="https://www.aquaplanet.co.kr/index.html" class="footer__social" target="_blank" rel="noopener noreferrer" aria-label="Google">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M19.6 12.2C19.6 11.6 19.5 11.1 19.4 10.6H12.2V13.5H16.3C16.1 14.5 15.5 15.3 14.7 15.8V17.7H17.2C18.7 16.4 19.6 14.5 19.6 12.2Z"></path>
+                <path d="M12.2 19.7C14.3 19.7 16.1 19 17.2 17.7L14.7 15.8C14 16.3 13.1 16.6 12.2 16.6C10.2 16.6 8.5 15.2 7.9 13.4H5.3V15.3C6.5 17.9 9.1 19.7 12.2 19.7Z"></path>
+                <path d="M7.9 13.4C7.7 12.9 7.6 12.5 7.6 12C7.6 11.5 7.7 11.1 7.9 10.6V8.7H5.3C4.8 9.7 4.5 10.8 4.5 12C4.5 13.2 4.8 14.3 5.3 15.3L7.9 13.4Z"></path>
+                <path d="M12.2 7.4C13.3 7.4 14.4 7.8 15.2 8.6L17.3 6.5C16 5.3 14.3 4.6 12.2 4.6C9.1 4.6 6.5 6.3 5.3 8.7L7.9 10.6C8.5 8.8 10.2 7.4 12.2 7.4Z"></path>
+              </svg>
+            </a>
+          </div>
+          <p class="footer__copy">Aqua Planet. ©2026 All rights reserved.</p>
+        </div>
+      </div>
     </footer>
 
   </main>
@@ -1374,7 +1653,19 @@
       const gnb = document.getElementById('gnb');
       if (!gnb) return;
       const THRESHOLD = 80;
+      const LIGHT_SELS = '.loc-info, .loc-programs, .loc-map, .loc-opening, .exhibit-modal__card';
       let lastY = window.scrollY;
+
+      function syncGnbBg() {
+        const x = Math.round(window.innerWidth / 2);
+        const y = Math.min(96, window.innerHeight - 1);
+        const stack = document.elementsFromPoint ? document.elementsFromPoint(x, y) : [document.elementFromPoint(x, y)];
+        const onLightBg = stack.some(function (node) {
+          return node && !node.closest('#gnb') && node.closest(LIGHT_SELS);
+        });
+        gnb.classList.toggle('gnb--light-bg', onLightBg);
+      }
+
       window.addEventListener('scroll', function () {
         const y = window.scrollY;
         gnb.classList.toggle('is-scrolled', y > THRESHOLD);
@@ -1384,179 +1675,80 @@
           gnb.classList.remove('is-hidden');
         }
         lastY = y;
+        syncGnbBg();
       }, { passive: true });
+      window.addEventListener('resize', syncGnbBg, { passive: true });
+      syncGnbBg();
     })();
 
-    /* ── Location full-page section scroll ── */
+    /* ── Location continuous scroll reveal ── */
     (function () {
-      const sections = Array.from(document.querySelectorAll('.loc-hero, .loc-info, .loc-programs, .loc-map, .loc-footer'));
+      const sections = Array.from(document.querySelectorAll('.loc-hero, .loc-info, .loc-programs, .loc-map, .loc-opening, .loc-footer'));
       if (!sections.length) return;
+      let ticking = false;
 
-      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      let currentIndex = 0;
-      let animating = false;
-      let touchStartY = null;
-      let wheelDelta = 0;
-      let wheelTimer = 0;
-      let enterTimer = 0;
-      let contentTimer = 0;
-
-      function easeOutQuint(t) {
-        return 1 - Math.pow(1 - t, 5);
+      function reveal(section) {
+        section.classList.remove('loc-section-exiting');
+        section.classList.add('is-title-visible', 'is-content-visible');
       }
 
-      function sectionTop(section) {
-        return Math.round(window.scrollY + section.getBoundingClientRect().top);
-      }
-
-      function nearestIndex() {
-        let nearest = currentIndex;
-        let nearestDistance = Infinity;
-        sections.forEach(function (section, index) {
-          const distance = Math.abs(sectionTop(section) - window.scrollY);
-          if (distance < nearestDistance) {
-            nearest = index;
-            nearestDistance = distance;
-          }
-        });
-        return nearest;
-      }
-
-      function resetSection(section) {
+      function resetReveal(section) {
         section.classList.remove('is-title-visible', 'is-content-visible', 'loc-section-exiting');
       }
 
-      function revealSection(index, immediate) {
-        window.clearTimeout(enterTimer);
-        window.clearTimeout(contentTimer);
+      function updateActiveSection() {
+        const vh = window.innerHeight || document.documentElement.clientHeight || 1;
+        let activeIndex = 0;
+        let bestDistance = Infinity;
 
-        sections.forEach(function (section, sectionIndex) {
-          if (sectionIndex !== index) resetSection(section);
+        sections.forEach(function (section, index) {
+          const rect = section.getBoundingClientRect();
+          const center = rect.top + rect.height / 2;
+          const distance = Math.abs(center - vh / 2);
+          const isInView = rect.top < vh * 0.82 && rect.bottom > vh * 0.12;
+          const isOutOfReplayRange = rect.bottom < vh * -0.08 || rect.top > vh * 1.08;
+
+          if (isInView) reveal(section);
+          else if (isOutOfReplayRange) resetReveal(section);
+
+          if (distance < bestDistance) {
+            bestDistance = distance;
+            activeIndex = index;
+          }
         });
 
-        const section = sections[index];
-        resetSection(section);
-
-        enterTimer = window.setTimeout(function () {
-          section.classList.add('is-title-visible');
-        }, immediate ? 40 : 260);
-
-        contentTimer = window.setTimeout(function () {
-          section.classList.add('is-content-visible');
-        }, immediate ? 260 : 520);
+        if (typeof window.locSideNavUpdate === 'function') window.locSideNavUpdate(activeIndex);
       }
 
-      function animateTo(index) {
-        if (animating || index < 0 || index >= sections.length || index === currentIndex) return;
-        const fromSection = sections[currentIndex];
-        const toSection = sections[index];
-        animating = true;
-        wheelDelta = 0;
-        window.clearTimeout(enterTimer);
-        window.clearTimeout(contentTimer);
-
-        fromSection.classList.add('loc-section-exiting');
-        resetSection(toSection);
-
-        const startY = window.scrollY;
-        const targetY = sectionTop(toSection);
-        const distance = targetY - startY;
-
-        if (reduceMotion || Math.abs(distance) < 4) {
-          window.scrollTo(0, targetY);
-          currentIndex = index;
-          animating = false;
-          revealSection(currentIndex, true);
-          return;
-        }
-
-        const duration = 1100;
-        const startTime = performance.now();
-        const prevHtmlBehavior = document.documentElement.style.scrollBehavior;
-        const prevBodyBehavior = document.body.style.scrollBehavior;
-        document.documentElement.style.scrollBehavior = 'auto';
-        document.body.style.scrollBehavior = 'auto';
-
-        window.setTimeout(function () {
-          toSection.classList.add('is-title-visible');
-        }, 430);
-
-        window.setTimeout(function () {
-          toSection.classList.add('is-content-visible');
-        }, 780);
-
-        function step(now) {
-          const progress = Math.min((now - startTime) / duration, 1);
-          const eased = easeOutQuint(progress);
-          window.scrollTo(0, startY + distance * eased);
-
-          if (progress < 1) {
-            requestAnimationFrame(step);
-            return;
-          }
-
-          document.documentElement.style.scrollBehavior = prevHtmlBehavior;
-          document.body.style.scrollBehavior = prevBodyBehavior;
-          resetSection(fromSection);
-          currentIndex = index;
-          animating = false;
-        }
-
-        requestAnimationFrame(step);
+      function requestUpdate() {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(function () {
+          ticking = false;
+          updateActiveSection();
+        });
       }
 
-      function goByDirection(direction) {
-        currentIndex = nearestIndex();
-        const nextIndex = currentIndex + direction;
-        if (nextIndex < 0 || nextIndex >= sections.length) return;
-        animateTo(nextIndex);
+      function scrollToSection(index) {
+        if (index < 0 || index >= sections.length) return;
+        sections[index].scrollIntoView({ behavior: 'smooth', block: 'start' });
+        reveal(sections[index]);
+        if (typeof window.locSideNavUpdate === 'function') window.locSideNavUpdate(index);
       }
 
-      window.addEventListener('wheel', function (e) {
-        if (document.querySelector('.exhibit-modal.is-open')) return;
-        e.preventDefault();
-        wheelDelta += e.deltaY;
-        window.clearTimeout(wheelTimer);
-        wheelTimer = window.setTimeout(function () { wheelDelta = 0; }, 180);
-        if (Math.abs(wheelDelta) < 70) return;
-        goByDirection(wheelDelta > 0 ? 1 : -1);
-      }, { passive: false });
+      window.locAnimateTo = scrollToSection;
+      window.locForceAnimateTo = scrollToSection;
 
-      window.addEventListener('touchstart', function (e) {
-        touchStartY = e.touches && e.touches.length ? e.touches[0].clientY : null;
-      }, { passive: true });
-
-      window.addEventListener('touchmove', function (e) {
-        if (document.querySelector('.exhibit-modal.is-open')) return;
-        if (touchStartY === null) return;
-        const currentY = e.touches && e.touches.length ? e.touches[0].clientY : touchStartY;
-        const diff = touchStartY - currentY;
-        if (Math.abs(diff) < 34) return;
-        e.preventDefault();
-        touchStartY = null;
-        goByDirection(diff > 0 ? 1 : -1);
-      }, { passive: false });
-
-      window.addEventListener('keydown', function (e) {
-        if (document.querySelector('.exhibit-modal.is-open')) return;
-        const nextKeys = ['ArrowDown', 'PageDown', ' ', 'Spacebar'];
-        const prevKeys = ['ArrowUp', 'PageUp'];
-        if (!nextKeys.includes(e.key) && !prevKeys.includes(e.key)) return;
-        e.preventDefault();
-        goByDirection(nextKeys.includes(e.key) ? 1 : -1);
-      });
-
-      window.addEventListener('resize', function () {
-        window.scrollTo(0, sectionTop(sections[currentIndex]));
-      }, { passive: true });
+      window.addEventListener('scroll', requestUpdate, { passive: true });
+      window.addEventListener('resize', requestUpdate, { passive: true });
 
       const indicator = document.querySelector('.loc-scroll');
       if (indicator) {
-        indicator.addEventListener('click', function () { animateTo(1); });
+        indicator.addEventListener('click', function () { scrollToSection(1); });
       }
 
-      window.scrollTo(0, sectionTop(sections[0]));
-      revealSection(0, true);
+      reveal(sections[0]);
+      updateActiveSection();
     })();
 
     /* ── 커스텀 커서 ── */
@@ -1565,7 +1757,7 @@
       const el = document.getElementById('custom-cursor');
       if (!el) return;
       const HALF = 17;
-      const LIGHT_SELS = '.loc-info, .loc-programs, .loc-map, .exhibit-modal__card';
+      const LIGHT_SELS = '.loc-info, .loc-programs, .loc-map, .loc-opening, .exhibit-modal__card';
       let tx = -200, ty = -200, cx = -200, cy = -200, firstMove = false;
       window.addEventListener('mousemove', function (e) {
         tx = e.clientX; ty = e.clientY;
@@ -1597,6 +1789,12 @@
       if (!track) return;
 
       const STEP = 230;
+      const DRAG_THRESHOLD = 5;
+      let isPointerDown = false;
+      let startX = 0;
+      let startScrollLeft = 0;
+      let didDrag = false;
+      let suppressClick = false;
 
       function updateState() {
         const sl       = track.scrollLeft;
@@ -1615,6 +1813,52 @@
 
       prevBtn.addEventListener('click', function () { track.scrollLeft -= STEP; });
       nextBtn.addEventListener('click', function () { track.scrollLeft += STEP; });
+
+      track.addEventListener('pointerdown', function (e) {
+        if (e.pointerType === 'mouse' && e.button !== 0) return;
+        isPointerDown = true;
+        didDrag = false;
+        startX = e.clientX;
+        startScrollLeft = track.scrollLeft;
+        track.classList.add('is-dragging');
+        track.setPointerCapture(e.pointerId);
+      });
+
+      track.addEventListener('pointermove', function (e) {
+        if (!isPointerDown) return;
+        const dx = e.clientX - startX;
+        if (Math.abs(dx) > DRAG_THRESHOLD) didDrag = true;
+        if (didDrag) {
+          e.preventDefault();
+          track.scrollLeft = startScrollLeft - dx;
+        }
+      });
+
+      function endDrag(e) {
+        if (!isPointerDown) return;
+        isPointerDown = false;
+        track.classList.remove('is-dragging');
+        if (track.hasPointerCapture && track.hasPointerCapture(e.pointerId)) {
+          track.releasePointerCapture(e.pointerId);
+        }
+        if (didDrag) {
+          suppressClick = true;
+          window.setTimeout(function () { suppressClick = false; }, 80);
+        }
+      }
+
+      track.addEventListener('pointerup', endDrag);
+      track.addEventListener('pointercancel', endDrag);
+      track.addEventListener('lostpointercapture', function () {
+        isPointerDown = false;
+        track.classList.remove('is-dragging');
+      });
+      track.addEventListener('click', function (e) {
+        if (!suppressClick) return;
+        e.preventDefault();
+        e.stopImmediatePropagation();
+      }, true);
+
       track.addEventListener('scroll', updateState, { passive: true });
       updateState();
     })();
@@ -1635,7 +1879,7 @@
     var CAT_ORDER_BY_LOC = {
       jeju:     ['특별전시', '아쿠아리움', '부대시설'],
       yeosu:    ['특별전시', '오션라이프', '마린라이프', '아쿠아포리스트', '부대시설'],
-      ilsan:    ['특별전시', '아쿠아리움', '나무쉼터', '부대시설'],
+      ilsan:    ['특별전시', '다흑 기획전2', '아쿠아리움', '나무쉼터', '부대시설'],
       gwanggyo: ['특별전시', '아쿠아리움', '부대시설']
     };
 
@@ -1755,7 +1999,14 @@
           { key: 'restaurant', badge: 'E', color: '#934ebb', category: '부대시설', name: '레스토랑',           floor: '1F', thumbImg: 'assets/images/ilsan_guide_thum30.jpg', mapImg: 'assets/images/ilsan_guide_map30.jpg',
             desc: ['맛있는 식사를 즐길 수 있는 레스토랑입니다.', '관람 전후로 가족과 함께 즐거운 식사 시간을 가져보세요.'] }
         ],
-        'B1F': []
+        'B1F': [
+          { key: 'insect-hall',   badge: 'A', color: '#ff822f', category: '다흑 기획전2', name: '곤충관',    floor: 'B1F', thumbImg: 'assets/images/ilsan_guide_thum29.jpg', mapImg: 'assets/images/ilsan_guide_map29.jpg',
+            desc: ['한국에 서식하는 곤충들을 만나보고', '실제 곤충 표본도 만들어보세요!'] },
+          { key: 'reptile-hall',  badge: 'B', color: '#ff822f', category: '다흑 기획전2', name: '파충류관',  floor: 'B1F', thumbImg: 'assets/images/ilsan_guide_thum31.jpg', mapImg: 'assets/images/ilsan_guide_map31.jpg',
+            desc: ['전 세계 각지에 분포한 이색적인 파충류들이 모여있어요!'] },
+          { key: 'vivarium-hall', badge: 'C', color: '#ff822f', category: '다흑 기획전2', name: '비바리움관', floor: 'B1F', thumbImg: 'assets/images/ilsan_guide_thum32.jpg', mapImg: 'assets/images/ilsan_guide_map32.jpg',
+            desc: ['국내 유명 비바리움 업체의 전시를 만나볼 수 있습니다.'] }
+        ]
       },
       yeosu: {
         '1F': [
@@ -1838,9 +2089,10 @@
 
     function animateGuideMapChange(updateFn) {
       var mapWrap = document.querySelector('.loc-map__img-wrap');
+      var mapImg  = document.querySelector('.loc-map__img');
       var track   = document.getElementById('thumb-track');
       var floors  = document.querySelector('.loc-floor-tabs');
-      var targets = [mapWrap, track, floors].filter(Boolean);
+      var targets = [mapWrap, mapImg, track, floors].filter(Boolean);
 
       targets.forEach(function (el) { el.classList.add('is-switching'); });
 
@@ -2040,6 +2292,29 @@
 
     bindFloorTabEvents();
 
+    /* ── 섹션 사이드 내비게이션 ── */
+    (function () {
+      var items = document.querySelectorAll('.loc-side-nav__item[data-target]');
+
+      var nav = document.querySelector('.loc-side-nav');
+
+      window.locSideNavUpdate = function (index) {
+        if (nav) nav.classList.toggle('is-visible', index >= 2 && index <= 4);
+        items.forEach(function (item) {
+          item.classList.toggle('is-active', +item.getAttribute('data-target') === index);
+        });
+      };
+
+      items.forEach(function (item) {
+        item.addEventListener('click', function () {
+          var target = +item.getAttribute('data-target');
+          if (typeof window.locSideNavUpdate === 'function') window.locSideNavUpdate(target);
+          var fn = window.locForceAnimateTo || window.locAnimateTo;
+          if (typeof fn === 'function') fn(target);
+        });
+      });
+    })();
+
     /* ── 지점 탭 전환 ── */
     (function () {
       var LOCS = {
@@ -2058,7 +2333,11 @@
           desc: [
             '아시아 최대 규모(연면적 2만 5600m², 1만 800톤)를 자랑하며, 단일 수조로는 세계 최대급을 보유하고 있습니다.',
             '아쿠아플라넷 제주의 전시생물은 500여 종 2만 8000마리이며, 제주의 앞 바다를 재현한 초대형 수조 \'제주의 바다\'를 비롯해 \'해양과학 체험관, 대형 해양공연장\' 등 운영하고 있습니다.'
-          ]
+          ],
+          openingSub: '아쿠아플라넷 제주의 운영 시간을 알려드립니다',
+          openingStatus: '연중 무휴',
+          openingTime: '09:30 - 18:00',
+          openingNote: '매표 마감시간은 17:00이며, 입장 마감시간은 17:30이오니 이용에 참고 부탁드립니다'
         },
         yeosu: {
           img: 'assets/images/Frame 22.png',
@@ -2075,7 +2354,11 @@
           desc: [
             '전남 여수시 여수 신항 제2부두 인근에 자리한 국내 2위 규모의 아쿠아리움으로 특히, 국내에서는 처음으로 지상(4층 규모)에 들어선다는 점이 특징입니다.',
             '300여 종 5만 5000여마리의 해양생물이 살고 있고, \'벨루가(흰 고래)\', \'푸른바다거북\' 등 멸종위기 생물들의 종보전 연구를 진행하고 있습니다.'
-          ]
+          ],
+          openingSub: '아쿠아플라넷 여수의 운영 시간을 알려드립니다',
+          openingStatus: '연중 무휴',
+          openingTime: '09:30 - 19:00',
+          openingNote: '매표 및 입장 마감시간은 18:00이오니 이용에 참고 부탁드립니다'
         },
         ilsan: {
           img: 'assets/images/Frame 19.png',
@@ -2092,7 +2375,11 @@
           desc: [
             '초대형 규모(연면적 1만 4660m², 수조량 4300톤)를 자랑하며 최대 규모 2000톤에 달하는 대형수조를 비롯해 수조 44개, 동물사 9개와 조류방사장 등 관람과 체험을 동시에 즐길 수 있는 \'도심 속 체험형 복합관람시설\'을 표방하고 있습니다.',
             '특히 대형수조 \'딥 블루오션\'에서의 신기한 마술공연, 다양한 생태설명회가 열리는 \'오션 아레나\', 정글에 사는 동물친구들을 만나는 \'나무 쉼터\' 등을 운영하여 재미와 교육을 동시에 느낄 수 있는 다양한 콘텐츠들을 접할 수 있습니다.'
-          ]
+          ],
+          openingSub: '아쿠아플라넷 일산의 운영 시간을 알려드립니다',
+          openingStatus: '연중 무휴',
+          openingTime: '10:00 - 18:00',
+          openingNote: '매표 및 입장 마감시간은 17:00이오니 이용에 참고 부탁드립니다'
         },
         gwanggyo: {
           img: 'assets/images/Frame 20.png',
@@ -2110,7 +2397,11 @@
             '지금까지 경험해보지 못했던 Funny한 체험과 Fantasy한 바닷속 세상, 아쿠아플라넷 광교입니다.',
             '도심 속 바다에 살고 있는 210여종 30,000마리의 해양 및 육지 생물들을 가장 가까운 거리에서 생생하게 만나보세요.',
             '빛과 생물이 어우러진, 환상의 아쿠아리움, 아쿠아플라넷 광교에서 바닷속 탐험의 즐거움을 느껴보세요.'
-          ]
+          ],
+          openingSub: '아쿠아플라넷 광교의 운영 시간을 알려드립니다',
+          openingStatus: '연중 무휴',
+          openingTime: '10:30 - 19:30',
+          openingNote: '매표 및 입장 마감시간은 18:30이오니 이용에 참고 부탁드립니다'
         }
       };
 
@@ -2130,11 +2421,17 @@
       var progImg2       = document.getElementById('loc-prog-img-2');
       var progTitle2     = document.getElementById('loc-prog-title-2');
       var cardImg        = document.querySelector('.loc-info__img');
+      var secSubOpening  = document.getElementById('loc-sec-sub-opening');
+      var openingStatus  = document.getElementById('loc-opening-status');
+      var openingTime    = document.getElementById('loc-opening-time');
+      var openingNote    = document.getElementById('loc-opening-note');
 
       function animateBranchContentChange(updateFn) {
         var infoCard = document.querySelector('.loc-info__card');
+        var heroContent = document.querySelector('.loc-hero__content');
         var programContent = [programsDesc, progImg1, progTitle1, progImg2, progTitle2].filter(Boolean);
-        var targets = [infoCard].concat(programContent);
+        var openingContent = [secSubOpening, openingStatus, openingTime, openingNote].filter(Boolean);
+        var targets = [infoCard, heroContent].concat(programContent).concat(openingContent).filter(Boolean);
 
         targets.forEach(function (el) { el.classList.add('is-switching'); });
 
@@ -2145,17 +2442,23 @@
               targets.forEach(function (el) { el.classList.remove('is-switching'); });
             });
           });
-        }, 170);
+        }, 200);
       }
+
+      var isBranchSwitching = false;
 
       tabs.forEach(function (tab) {
         tab.addEventListener('click', function (e) {
           e.preventDefault();
           var locKey = tab.getAttribute('data-loc');
+          if (locKey === currentGuideMapLoc) return;
+          if (isBranchSwitching) return;
           var loc    = LOCS[locKey];
           if (!loc) return;
+          isBranchSwitching = true;
+          window.setTimeout(function () { isBranchSwitching = false; }, 1000);
           tabs.forEach(function (t) { t.classList.remove('is-active'); });
-          tab.classList.add('is-active');
+          document.querySelectorAll('.loc-branch-tabs__item[data-loc="' + locKey + '"]').forEach(function (t) { t.classList.add('is-active'); });
           animateBranchContentChange(function () {
             if (cardImg && loc.img) { cardImg.src = loc.img; cardImg.alt = '아쿠아플라넷 ' + loc.kr + ' 전경'; }
             if (cityEn)         cityEn.textContent         = loc.en;
@@ -2174,6 +2477,10 @@
               if (progImg2)   { progImg2.src = loc.programs[1].img;   progImg2.alt = loc.programs[1].title; }
               if (progTitle2) { progTitle2.textContent = loc.programs[1].title; }
             }
+            if (secSubOpening) secSubOpening.textContent = loc.openingSub;
+            if (openingStatus) openingStatus.textContent  = loc.openingStatus;
+            if (openingTime)   openingTime.textContent    = loc.openingTime;
+            if (openingNote)   openingNote.textContent    = loc.openingNote;
           });
 
           /* 가이드맵 썸네일 & 모달 데이터 전환 */

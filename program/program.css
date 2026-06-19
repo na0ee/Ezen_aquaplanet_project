@@ -1,0 +1,1350 @@
+﻿@charset "utf-8";
+
+/* CSS Variables */
+:root {
+  --Brand-Primary: #22B2EA;
+  --Brand-Borderline: var(--Brand-Borderline, #BEDBF4);
+}
+
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, tbody, tfoot, thead, tr, th, td {
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+li {
+  list-style: none;
+}
+
+address, em, i {
+  font-style: normal;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+a:hover {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font: inherit;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+/* Base Styles */
+body {
+  background: linear-gradient(180deg, #22B2EA 0%, #ffffff 15%, #ffffff 85%, #22B2EA 100%);
+  color: #1a1a1a;
+  font-family: "Pretendard", sans-serif;
+  padding-top: 102px;
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+/* GNB Navigation */
+.gnb {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 102px;
+  background-color: ;
+  backdrop-filter: blur(15px);
+  z-index: 1000;
+  padding: 24px 32px;
+  display: flex;
+  justify-content: center;
+  transition: transform 0.35s ease;
+}
+
+/* 아래로 스크롤 시 위로 숨김, 위로 스크롤 시 다시 표시 */
+.gnb--hidden {
+  transform: translateY(-100%);
+}
+
+.gnb__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  position: relative;
+}
+
+.gnb__category {
+  display: flex;
+  gap: 44px;
+  align-items: center;
+}
+
+.gnb__item {
+    color: rgba(255, 255, 255, 0.50);
+    font-family: "Poppins";
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: -0.96px;
+    transition: transform 0.2s ease;
+}
+
+.gnb__item--active {
+    color: #FFF;
+    font-family: "EB Garamond";
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: -1.04px;
+}
+
+/* 호버 시 폰트/색 변경 없이 살짝 확대만 (레이아웃 흔들림 없음) */
+.gnb__item:hover {
+    color: rgba(255, 255, 255, 0.50);
+    transform: scale(1.1);
+}
+
+.gnb__item--active:hover {
+    color: #FFF;
+}
+
+/* 페이지 10% 이상 스크롤 시: 흰 텍스트 대신 primary 계열로 전환 */
+.gnb--scrolled .gnb__item {
+    color: rgba(34, 178, 234, 0.50);
+}
+
+.gnb--scrolled .gnb__item--active {
+    color: var(--Brand-Primary, #22B2EA);
+}
+
+.gnb--scrolled .gnb__item:hover {
+    color: rgba(34, 178, 234, 0.50);
+}
+
+.gnb--scrolled .gnb__item--active:hover {
+    color: var(--Brand-Primary, #22B2EA);
+}
+
+/* 스크롤 시 드롭다운 배경도 밝은 회색으로 + 항목 텍스트 가독성 확보 */
+.gnb--scrolled .gnb__dropdown {
+    background-color: #F8F8F8;
+}
+
+.gnb--scrolled .gnb__dropdown-item {
+    color: rgba(34, 178, 234, 0.50);
+}
+
+.gnb--scrolled .gnb__dropdown:hover .gnb__dropdown-item:not(:hover) {
+    color: rgba(34, 178, 234, 0.50);
+}
+
+/* gnb 하위 드롭다운 (호버 시 표시) */
+.gnb__nav-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.gnb__dropdown {
+    position: absolute;
+    top: 48px;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 3px;
+    border-radius: 14px;
+    background-color: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(15px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.gnb__nav-item:hover .gnb__dropdown {
+    opacity: 1;
+    visibility: visible;
+}
+
+.gnb__dropdown-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 153px;
+    height: 48px;
+    border-radius: 12px;
+    font-family: "Poppins";
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: -0.64px;
+    color: rgba(255, 255, 255, 0.5);
+    white-space: nowrap;
+    transition: all 0.2s ease;
+}
+
+/* active 항목과 호버 항목에 동일한 강조 스타일 적용 */
+.gnb__dropdown-item--active,
+.gnb__dropdown-item:hover {
+    background-color: #ffffff;
+    color: #22b2ea;
+    font-family: "EB Garamond";
+    font-size: 18px;
+    letter-spacing: -0.72px;
+}
+
+/* 드롭다운에 호버 중일 때: 호버하지 않은 항목(기본 active 포함)은 기본 스타일로 */
+.gnb__dropdown:hover .gnb__dropdown-item:not(:hover) {
+    background-color: transparent;
+    color: rgba(255, 255, 255, 0.5);
+    font-family: "Poppins";
+    font-size: 16px;
+    letter-spacing: -0.64px;
+}
+
+.gnb__logo {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60px;
+  height: 60px;
+  z-index: 10;
+}
+
+.gnb__logo img {
+  width: 100%;
+  opacity: 0.8;
+}
+
+/* Button Styles */
+.btn {
+  border-radius: 24px;
+  font-family: "Pretendard", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: -0.32px;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn--sm {
+  height: 32px;
+  padding: 6px 16px;
+  border-radius: 24px;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 500;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* program-slot 내 태그 (button 아님, 클릭 동작 없음) */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 8px;
+  margin-bottom: 4px;
+  align-self: flex-start;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-family: "Pretendard", sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: -0.32px;
+  color: #fff;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.tag--performance {
+  background-color: #22B2EA;
+}
+
+.tag--education {
+  background-color: #002D72;
+}
+
+.tag--experience {
+  background-color: #BEDBF4;
+}
+
+.btn--ticket {
+  height: 44px;
+  padding: 0 14px 0 20px;
+  border-radius: 100px;
+  background-color: rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  gap: 10px;
+}
+
+.btn--ticket p {
+    color: #ffffff;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: -0.96px;
+}
+
+/* 10% 이상 스크롤 시 티켓 버튼 텍스트/테두리 primary로 전환 */
+.gnb--scrolled .btn--ticket {
+    border-color: rgba(34, 178, 234, 0.4);
+}
+
+.gnb--scrolled .btn--ticket p {
+    color: var(--Brand-Primary, #22B2EA);
+}
+
+.btn--ticket .btn__icon {
+    width: 24px;
+    height: 24px;
+}
+
+.btn--ticket .btn__icon img {
+    width: 100%;
+}
+
+.btn--ticket:hover {
+  background-color: rgba(34, 178, 234, 0.4);
+}
+
+/* Section Styles */
+.section {
+  position: relative;
+  padding: 160px 0;
+}
+
+.section--schedule {
+  padding-top: 0px;
+}
+
+/* 지역 탭으로 선택되지 않은 섹션 숨김 */
+.section.is-hidden {
+  display: none;
+}
+
+.section__header {
+  text-align: center;
+  margin-bottom: 80px;
+}
+
+.section__title {
+  font-family: "Poppins", sans-serif;
+  font-size: 36px;
+  font-weight: 300;
+  letter-spacing: -1.68px;
+  line-height: 1.4;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+}
+
+.section__title-emphasis {
+  font-family: "EB Garamond", serif;
+  font-size: 40px;
+  font-weight: 500;
+  font-style: italic;
+  letter-spacing: -1.92px;
+  margin-left: 8px;
+  color: #1a1a1a;
+}
+
+.section__sub {
+  font-family: "Pretendard", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: -0.36px;
+  line-height: normal;
+  color: #1a1a1a;
+  margin-bottom: 34px;
+}
+
+.section__description {
+    color: #1A1A1A;
+    text-align: center;
+    font-family: Pretendard;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 140%; /* 33.6px */
+    letter-spacing: -0.48px;
+}
+
+.section__description span {
+    font-weight: 600;
+}
+
+/* Location Tabs */
+.cartegory-tabs-a {
+  margin: 38px 0;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  background-color: rgba(255, 255, 255, 0.3);
+  padding: 3px;
+  border-radius: 14px;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cartegory-tabs-a__item {
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-family: "Pretendard", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -0.64px;
+  color: rgba(255, 255, 255, 0.5);
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.cartegory-tabs-a__item--active {
+    background-color: #ffffff;
+    color: var(--Brand-Primary, #22B2EA);
+    font-family: "EB Garamond";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: -0.72px;
+}
+
+/* Category Tabs */
+.cartegory-tabs-b {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 80px;
+  flex-wrap: wrap;
+  background-color: #F8F8F8;
+  padding: 3px;
+  border-radius: 14px;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cartegory-tabs-b__item {
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-family: "Pretendard", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -0.32px;
+  color: rgba(34, 178, 234, 0.50);
+  background-color: transparent;
+  border: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.cartegory-tabs-b__item--active {
+  background-color: #ffffff;
+  color: var(--Brand-Primary, #22B2EA);
+  border: none;
+  font-weight: 500;
+}
+
+/* Schedule Table */
+.schedule-table {
+  width: 100%;
+  margin-bottom: 40px;
+  position: relative; /* 커스텀 스크롤바(absolute 오버레이) 기준 */
+  padding-bottom: 44px; /* 스크롤바 오버레이 공간 */
+}
+
+.schedule-date {
+  font-family: "Pretendard", sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -1.44px;
+  color: #1a1a1a;
+  margin-bottom: 60px;
+}
+
+/* Hour Rows */
+.schedule-hours-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 50px;
+  padding-bottom: 12px;
+  border-bottom: 1.6px solid var(--Brand-Borderline, #BEDBF4);
+}
+
+.schedule-hours-row--full {
+  gap: 60px;
+    margin-bottom: 12px;
+}
+
+.schedule-hours-row--half {
+  gap: 420px;
+  padding-left: 180px;
+  padding-bottom: 12px;
+  border-bottom: 1.6px solid var(--Brand-Borderline, #BEDBF4);
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.schedule-hours-row--half::-webkit-scrollbar {
+  height: 0;
+}
+
+.schedule-hours-row--half::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.schedule-hours-row--half::-webkit-scrollbar-thumb {
+  background: transparent;
+}
+
+.schedule-hour {
+  font-family: "Pretendard", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: -1.04px;
+  color: #1a1a1a;
+  white-space: nowrap;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.schedule-hour--highlight {
+  color: #22b2ea;
+}
+
+.schedule-hour--active {
+  color: #22b2ea;
+  font-weight: 600;
+}
+
+/* Sections */
+.schedule-sections {
+  display: flex;
+  margin-top: 6px;
+  align-items: flex-start;
+}
+
+.schedule-section__labels {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  width: 180px;
+  flex-shrink: 0;
+}
+
+.schedule-section__label {
+  font-family: "Pretendard", sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: -1.04px;
+  color: #1a1a1a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  border-bottom: 1.6px solid var(--Brand-Borderline, #BEDBF4);
+}
+
+.schedule-section__contents {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow-x: auto;
+  scrollbar-width: none; /* 네이티브 스크롤바 숨김 (커스텀 오버레이 사용) */
+}
+
+/* 네이티브 가로 스크롤바 숨김 */
+.schedule-section__contents::-webkit-scrollbar {
+  height: 0;
+}
+
+/* 커스텀 가로 스크롤바: schedule-table 기준 absolute 오버레이 (다른 영역 레이아웃에 영향 없음) */
+.cscrollbar {
+  position: absolute;
+  left: 180px; /* 라벨 폭 제외, contents 영역과 정렬 */
+  right: 0;
+  bottom: 0;
+  height: 34px;
+}
+
+/* 안 지나간 부분(트랙 바탕): #BEDBF4, 가운데 4px 막대 */
+.cscrollbar::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 4px;
+  border-radius: 2px;
+  background: #BEDBF4;
+}
+
+/* 지나간 부분: primary, 손잡이 위치까지 */
+.cscrollbar__progress {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 4px;
+  width: 0;
+  border-radius: 2px;
+  background: var(--Brand-Primary, #22B2EA);
+}
+
+/* 손잡이: 캐릭터 아이콘 고정 크기 */
+.cscrollbar__thumb {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  width: 34px;
+  height: 34px;
+  background: url('../assets/images/jeju_character_icon.svg') no-repeat center / contain;
+  cursor: grab;
+  touch-action: none;
+}
+
+.cscrollbar__thumb:active {
+  cursor: grabbing;
+}
+
+.schedule-section__programs {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: max-content;
+  height: fit-content;
+}
+
+.schedule-section__programs::-webkit-scrollbar {
+  height: 4px;
+}
+
+.schedule-section__programs::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.schedule-section__programs::-webkit-scrollbar-thumb {
+  background: rgba(34, 178, 234, 0.3);
+  border-radius: 2px;
+}
+
+.program-group {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+  width: 100%;
+  padding-bottom: 6px;
+  margin-bottom: 6px;
+  border-bottom: 1px solid var(--Brand-Borderline, #BEDBF4);
+}
+
+.schedule-section__programs .program-group:last-child {
+  border-bottom-width: 1.6px;
+}
+
+.program-slot {
+  background-color: #F7FCFE;
+  border: none;
+  border-radius: 14px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+/* 슬롯 클릭으로 스크롤할 때 고정 gnb에 가리지 않도록 여백 */
+.program-card {
+  scroll-margin-top: 140px;
+}
+
+.program-slot--highlighted {
+  background-color: #22b2ea;
+}
+
+.program-slot--active, .program-slot:hover {
+  background-color: var(--Brand-Primary, #22B2EA);
+}
+
+.program-slot--highlighted .tag {
+  background-color: #ffffff;
+  padding: 4px 12px;
+  font-size: 14px;
+}
+
+.program-slot--highlighted .program-name,
+.program-slot--active .program-name, .program-slot:hover .program-name {
+  color: #ffffff;
+}
+
+.program-slot--highlighted .program-time,
+.program-slot--active .program-time, .program-slot:hover .program-time {
+  color: #ffffff;
+}
+
+/* 교육 프로그램(.tag--education) 슬롯 하이라이트: 흰 배경 + #002D72 텍스트 */
+.program-slot--highlighted:has(.tag--education) .tag--education,
+.program-slot--active:has(.tag--education) .tag--education, .program-slot:hover:has(.tag--education) .tag--education {
+  background-color: #ffffff;
+  color: #002D72;
+}
+
+/* 체험 프로그램(.tag--experience) 슬롯 하이라이트: 흰 배경 + #BEDBF4 텍스트 */
+.program-slot--highlighted:has(.tag--experience) .tag--experience,
+.program-slot--active:has(.tag--experience) .tag--experience, .program-slot:hover:has(.tag--experience) .tag--experience {
+  background-color: #ffffff;
+  color: #BEDBF4;
+}
+
+
+/* 공연 프로그램(.tag--performance) 슬롯 하이라이트: 흰 배경 + primary 텍스트 */
+.program-slot--highlighted:has(.tag--performance) .tag--performance,
+.program-slot--active:has(.tag--performance) .tag--performance, .program-slot:hover:has(.tag--performance) .tag--performance {
+  background-color: #ffffff;
+  color: var(--Brand-Primary, #22B2EA);
+}
+
+.program-name {
+  font-family: "Pretendard", sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: -0.72px;
+  color: #1a1a1a;
+  line-height: normal;
+}
+
+.program-time {
+  font-family: "Pretendard", sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: -0.32px;
+  color: #3a3a3a;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  line-height: 1.2;
+}
+
+.program-time__icon {
+  width: 10px;
+  height: 10px;
+  flex-shrink: 0;
+}
+
+/* Schedule Toggle: 화면 세로 중앙, 오른쪽 50px 고정 */
+.schedule-toggle {
+  position: fixed;
+  top: 50%;
+  right: 50px;
+  transform: translateY(-50%);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.schedule-toggle__item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+/* 호버 시 왼쪽으로 살짝 이동 (벗어나면 원위치) */
+.schedule-toggle__item:hover {
+  transform: translateX(-8px);
+}
+
+.schedule-toggle__text {
+  font-family: "Pretendard", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: -0.56px;
+  color: #BEDBF4;
+  white-space: nowrap;
+  transition: all 0.3s ease;
+}
+
+.schedule-toggle__line {
+  width: 50px;
+  height: 1px;
+  background-color: #BEDBF4;
+  transition: all 0.3s ease;
+}
+
+.schedule-toggle__item--active .schedule-toggle__text {
+  font-weight: 600;
+  color: var(--Brand-Primary, #22B2EA);
+}
+
+.schedule-toggle__item--active .schedule-toggle__line {
+  width: 60px;
+  background-color: var(--Brand-Primary, #22B2EA);
+}
+
+/* Program List */
+.program-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-bottom: 40px;
+}
+
+/* Program Card */
+.program-card {
+  margin: 0 auto;
+  width: 1138px;
+  height: 80px;
+  border-radius: 14px;
+  padding: 0 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: height 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+              padding 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+              margin 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.4s ease,
+              transform 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+              background-color 0.3s ease;
+}
+
+.program-card:hover {
+  background-color: var(--Brand-Primary);
+}
+
+/* 클릭한 카드: 위로 접히며 사라짐 (상세가 같은 자리로 올라옴) */
+.program-card--active {
+  height: 0;
+  min-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  border: 0;
+  opacity: 0;
+  transform: translateY(-30px);
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* 호버/활성 시 텍스트 흰색 + chevron-down 아이콘 흰색 (img 아이콘은 JS로 src 전환) */
+.program-card:hover .program-card__title,
+.program-card:hover .program-card__duration,
+.program-card:hover .program-card__location,
+.program-card--active .program-card__title,
+.program-card--active .program-card__duration,
+.program-card--active .program-card__location {
+  color: #fff;
+}
+
+.program-card:hover .program-card__meta::after {
+  background-image: url('../assets/images/chevron_down_white.svg');
+}
+
+/* 상세가 펼쳐진 카드는 위쪽 화살표 (호버 중에도 유지) */
+.program-card--active .program-card__meta::after,
+.program-card--active:hover .program-card__meta::after {
+  background-image: url('../assets/images/chevron_up_white.svg');
+}
+
+/* 호버/활성 시 아이콘(img) 항상 흰색 */
+.program-card:hover img,
+.program-card--active img {
+  filter: brightness(0) invert(1);
+}
+
+/* 호버/활성 시 배지(.tag) 색: program-slot active와 동일 (흰 배경 + 카테고리 색 텍스트) */
+.program-card:hover .tag--education,
+.program-card--active .tag--education {
+  background-color: #ffffff;
+  color: #002D72;
+}
+
+.program-card:hover .tag--experience,
+.program-card--active .tag--experience {
+  background-color: #ffffff;
+  color: #BEDBF4;
+}
+
+.program-card:hover .tag--performance,
+.program-card--active .tag--performance {
+  background-color: #ffffff;
+  color: var(--Brand-Primary, #22B2EA);
+}
+
+/* 왼쪽: 배지 + 제목 */
+.program-card__info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* program-card 배지 (Figma: h32, 14px) */
+.program-card .tag {
+  height: 28px;
+  padding: 0 10px;
+  font-size: 12px;
+  letter-spacing: -0.28px;
+  margin-bottom: 0;
+  align-self: auto;
+}
+
+.program-card__title {
+  font-family: "Pretendard", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: -0.72px;
+  color: #1a1a1a;
+  white-space: nowrap;
+}
+
+/* 오른쪽: 소요시간 + 위치 + 펼치기 아이콘 */
+.program-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 46px;
+}
+
+/* 끝 펼치기(chevron-down) 아이콘 */
+.program-card__meta::after {
+  content: "";
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  margin-left: 28px; /* gap 46 + 28 = Figma 74px 간격 */
+  background: url('../assets/images/chevron_down_grey.svg') no-repeat center / contain;
+}
+
+.program-card__duration {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 120px; /* Figma 고정폭 → 카드 간 정렬 */
+  font-family: "Pretendard", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -0.32px;
+  color: #3A3A3A;
+  white-space: nowrap;
+}
+
+.program-card__location {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 300px; /* Figma 고정폭 → 카드 간 정렬 */
+  font-family: "Pretendard", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: -0.32px;
+  color: #3A3A3A;
+  white-space: nowrap;
+}
+
+.program-card__location span {
+  font-weight: 500;
+}
+
+/* 위치 구분자(chevron-right) 아이콘 */
+.program-card__chevron {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+}
+
+/* ===== 프로그램 상세 (인라인 아코디언) ===== */
+.detail-modal {
+  width: 1120px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 4px;
+  justify-self: center;
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition: max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.detail-modal.is-open {
+  max-height: 460px;
+  opacity: 1;
+}
+
+.detail-modal__panel {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  background: #ffffff;
+  border-radius: 14px;
+  /* 아래에서 위로 올라오며 나타나는 모션 */
+  transform: translateY(30px);
+  opacity: 0;
+  transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.detail-modal.is-open .detail-modal__panel {
+  opacity: 1;
+}
+
+.detail-modal.is-open .detail-modal__panel {
+  transform: translateY(0);
+}
+
+.detail-modal__close {
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  font-size: 28px;
+  line-height: 1;
+  color: #1a1a1a;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.detail-modal__info {
+  width: 448px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 16px;
+  padding-left: 16px;
+}
+
+.detail-modal__header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* 모달 배지 (Figma: h32, 16px) */
+.detail-modal__tag {
+  height: 32px;
+  padding: 0 14px;
+  font-size: 16px;
+  letter-spacing: -0.32px;
+  margin-bottom: 0;
+  align-self: auto;
+}
+
+.detail-modal__title {
+  font-family: "Pretendard", sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: -0.8px;
+  color: #000;
+  white-space: nowrap;
+}
+
+.detail-modal__body {
+  padding-left: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+}
+
+.detail-modal__parts {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  font-size: 14px;
+}
+
+.detail-modal__part {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.detail-modal__part-label {
+  font-family: "Pretendard", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -0.32px;
+  color: #000;
+}
+
+.detail-modal__part-text {
+  font-family: "Pretendard", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: -0.32px;
+  color: #000;
+  line-height: 1.4;
+}
+
+.detail-modal__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.detail-modal__meta-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+/* 세로 정렬 행 (유의사항 등 라벨 위 + 내용 아래) */
+.detail-modal__meta-row--column {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.detail-modal__meta-row--column .detail-modal__meta-value {
+  font-size: 14px;
+}
+
+.detail-modal__meta-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: "Pretendard", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.32px;
+  color: #1a1a1a;
+  line-height: 1.4;
+}
+
+.detail-modal__meta-label .img {width: 16px; height: 16px;}
+
+.detail-modal__meta-label .img img {width: 100%;}
+
+.detail-modal__meta-value {
+  font-family: "Pretendard", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: -0.32px;
+  color: #1a1a1a;
+  line-height: 1.4;
+}
+
+.detail-modal__location {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: "Pretendard", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: -0.32px;
+  color: #3a3a3a;
+  white-space: nowrap;
+}
+
+.detail-modal__location span {
+  font-weight: 500;
+}
+/* 이미지 영역 (회색 박스) */
+.detail-modal__image {
+  flex-shrink: 0;
+  width: 570px;
+  height: 340px;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.detail-modal__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .container {
+    padding: 0 24px;
+  }
+
+  .gnb {
+    padding: 24px 24px;
+  }
+
+  .gnb__inner {
+    max-width: calc(100% - 48px);
+  }
+
+  .section {
+    padding: 120px 0;
+  }
+
+  .section__title {
+    font-size: 36px;
+    letter-spacing: -1.44px;
+  }
+
+  .section__title-emphasis {
+    font-size: 40px;
+    letter-spacing: -1.6px;
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    padding-top: 80px;
+  }
+
+  .gnb {
+    height: auto;
+    padding: 12px 16px;
+  }
+
+  .gnb__inner {
+    flex-direction: column;
+    height: auto;
+    gap: 12px;
+    max-width: calc(100% - 32px);
+  }
+
+  .gnb__category {
+    gap: 16px;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .gnb__item {
+    font-size: 16px;
+  }
+
+  .gnb__item--active {
+    font-size: 18px;
+  }
+
+  .container {
+    padding: 0 16px;
+  }
+
+  .section {
+    padding: 80px 0;
+  }
+
+  .section__header {
+    margin-bottom: 40px;
+  }
+
+  .section__title {
+    font-size: 28px;
+    letter-spacing: -1.12px;
+  }
+
+  .section__title-emphasis {
+    display: block;
+    font-size: 32px;
+    letter-spacing: -1.28px;
+    margin-left: 0;
+    margin-top: 8px;
+  }
+
+  .section__sub {
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+
+  .cartegory-tabs-a {
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+  }
+
+  .cartegory-tabs-b {
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+  }
+
+  .schedule-table {
+    padding: 24px;
+    overflow-x: auto;
+  }
+
+  .schedule-content {
+    gap: 20px;
+    flex-direction: column;
+  }
+
+  .schedule-programs {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    max-height: none;
+  }
+
+  .program-card {
+    width: 100%;
+    height: auto;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px;
+    gap: 8px;
+  }
+
+  .program-card__meta {
+    gap: 20px;
+  }
+
+  .program-card__location {
+    text-align: left;
+  }
+
+  .schedule-toggle {
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 40px;
+  }
+}
+
+.logo-end {
+  height: 1080px;
+}
+
+/* detail card top-right icon */
+.detail-modal__icon {
+  position: absolute;
+  top: 30px;
+  right: 36px;
+  z-index: 2;
+}

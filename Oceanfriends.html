@@ -1,14 +1,18 @@
 ﻿<!DOCTYPE html>
 <html lang="ko">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ocean Friends — aqua planet</title>
 
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@latest/dist/web/static/pretendard.css" />
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@latest/dist/web/static/pretendard.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,500&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,500&family=Poppins:wght@300;400;500&display=swap"
+    rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 
   <style>
@@ -19,19 +23,222 @@
       background-image: none;
     }
 
+    /* ── GNB ── */
     .oceanfriends-page .gnb {
-      position: absolute;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      backdrop-filter: blur(15px);
+      z-index: 1000;
+      padding: 24px 32px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: transform 0.35s ease;
     }
 
-    .oceanfriends-page .gnb__link[data-nav="crew"] {
-      font-family: var(--font-serif);
-      font-size: var(--fs-nav-active);
+    .oceanfriends-page .gnb--hidden {
+      transform: translateY(-100%);
+    }
+
+    .oceanfriends-page .gnb__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      position: relative;
+    }
+
+    .oceanfriends-page .gnb__nav {
+      display: flex;
+      gap: 44px;
+      align-items: center;
+    }
+
+    .oceanfriends-page .gnb__link {
+      color: rgba(255, 255, 255, 0.50);
+      font-family: "Poppins";
+      font-size: 18px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+      letter-spacing: -0.96px;
+      transition: transform 0.2s ease;
+      text-decoration: none;
+    }
+
+    .oceanfriends-page .gnb__link--active {
+      color: #FFF;
+      font-family: "EB Garamond";
+      font-size: 20px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+      letter-spacing: -1.04px;
+    }
+
+    .oceanfriends-page .gnb__link:hover {
+      color: rgba(255, 255, 255, 0.50);
+      transform: scale(1.1);
+    }
+
+    .oceanfriends-page .gnb__link--active:hover {
+      color: #FFF;
+    }
+
+    .oceanfriends-page .gnb--scrolled .gnb__link {
+      color: rgba(34, 178, 234, 0.50);
+    }
+
+    .oceanfriends-page .gnb--scrolled .gnb__link--active {
+      color: var(--Brand-Primary, #22B2EA);
+    }
+
+    .oceanfriends-page .gnb--scrolled .gnb__link:hover {
+      color: rgba(34, 178, 234, 0.50);
+    }
+
+    .oceanfriends-page .gnb--scrolled .gnb__link--active:hover {
+      color: var(--Brand-Primary, #22B2EA);
+    }
+
+    .oceanfriends-page .gnb__nav-item {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .oceanfriends-page .gnb__dropdown {
+      position: absolute;
+      top: 48px;
+      left: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 3px;
+      border-radius: 14px;
+      background-color: rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(15px);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.25s ease, visibility 0.25s ease;
+      z-index: 100;
+      pointer-events: none;
+    }
+
+    .oceanfriends-page .gnb__nav-item:hover .gnb__dropdown {
+      pointer-events: auto;
+    }
+
+    .oceanfriends-page .gnb--scrolled .gnb__dropdown {
+      background-color: #F8F8F8;
+    }
+
+    .oceanfriends-page .gnb__nav-item:hover .gnb__dropdown {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .oceanfriends-page .gnb__dropdown-item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 153px;
+      height: 48px;
+      border-radius: 12px;
+      font-family: "Poppins";
+      font-size: 16px;
+      font-weight: 400;
+      letter-spacing: -0.64px;
+      color: rgba(255, 255, 255, 0.5);
+      white-space: nowrap;
+      transition: all 0.2s ease;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    .oceanfriends-page .gnb__dropdown-item--active,
+    .oceanfriends-page .gnb__dropdown-item:hover {
+      background-color: #ffffff;
+      color: #22b2ea;
+      font-family: "EB Garamond";
+      font-size: 18px;
+      letter-spacing: -0.72px;
+    }
+
+    .oceanfriends-page .gnb--scrolled .gnb__dropdown-item {
+      color: rgba(34, 178, 234, 0.50);
+    }
+
+    .oceanfriends-page .gnb__dropdown:hover .gnb__dropdown-item:not(:hover) {
+      background-color: transparent;
+      color: rgba(255, 255, 255, 0.5);
+      font-family: "Poppins";
+      font-size: 16px;
+      letter-spacing: -0.64px;
+    }
+
+    .oceanfriends-page .gnb--scrolled .gnb__dropdown:hover .gnb__dropdown-item:not(:hover) {
+      color: rgba(34, 178, 234, 0.50);
+    }
+
+    .oceanfriends-page .gnb__logo-wrap {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+    }
+
+    .oceanfriends-page .gnb__logo {
+      width: 60px;
+      height: 60px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .oceanfriends-page .gnb__logo img {
+      width: 100%;
+      opacity: 0.8;
+    }
+
+    .oceanfriends-page .gnb__ticket {
+      height: 44px;
+      padding: 0 14px;
+      border-radius: 100px;
+      background-color: rgba(255, 255, 255, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      gap: 10px;
       color: #ffffff;
+      font-size: 18px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+      letter-spacing: -0.96px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .oceanfriends-page .gnb--scrolled .gnb__ticket {
+      border-color: rgba(34, 178, 234, 0.4);
+      color: var(--Brand-Primary, #22B2EA);
+    }
+
+    .oceanfriends-page .gnb__ticket:hover {
+      background-color: rgba(34, 178, 234, 0.4);
     }
 
     /* ── 메인 레이아웃 ── */
     .of-main {
-      overflow: hidden;
+      overflow-x: clip;
+      overflow-y: visible;
     }
 
     .of-container {
@@ -40,15 +247,34 @@
     }
 
     /* ── 히어로 ── */
+    .intro__content {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      text-align: center;
+      color: #ffffff;
+      background: #22b8ee;
+      z-index: 1;
+      padding-top: 26vh;
+    }
+
+    .intro__content-inner {
+      width: fit-content;
+      max-width: calc(100% - 48px);
+      margin: 0 auto;
+    }
+
     .of-hero {
       position: relative;
-      min-height: 760px;
+      min-height: auto;
       display: flex;
       align-items: center;
       justify-content: center;
       text-align: center;
       color: #ffffff;
-      padding: 120px 24px 140px;
       background: #22b8ee;
     }
 
@@ -65,7 +291,7 @@
       height: 620px;
       left: 7%;
       top: 18%;
-      background: radial-gradient(circle, rgba(255,255,255,0.24), transparent 62%);
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.24), transparent 62%);
       filter: blur(10px);
     }
 
@@ -74,14 +300,8 @@
       height: 760px;
       right: -10%;
       bottom: -22%;
-      background: radial-gradient(circle, rgba(255,255,255,0.18), transparent 64%);
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.18), transparent 64%);
       filter: blur(12px);
-    }
-
-    .of-hero__content {
-      position: relative;
-      z-index: 1;
-      transform: translateY(18px);
     }
 
     .of-eyebrow {
@@ -90,15 +310,15 @@
       font-style: italic;
       font-weight: 500;
       font-size: clamp(18px, 2vw, 32px);
-      margin-bottom: -8px;
     }
 
     .of-title {
       margin: 0;
       font-family: var(--font-en);
-      font-weight: 300;
+      font-weight: 500;
       font-size: clamp(56px, 8.6vw, 128px);
-      line-height: 1.12;
+      line-height: 1;
+      letter-spacing: -2%;
       color: #ffffff;
     }
 
@@ -109,36 +329,48 @@
     }
 
     .of-hero__lead {
-      margin: 18px auto 0;
+      margin: 30px auto 0;
       max-width: 760px;
       font-family: var(--font-kr);
       font-size: clamp(15px, 1.25vw, 22px);
       font-weight: 400;
-      line-height: 1.75;
-      color: rgba(255,255,255,0.86);
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.86);
     }
 
     .of-scroll {
       position: absolute;
       left: 50%;
-      bottom: 54px;
+      bottom: 14vh;
       transform: translateX(-50%);
       display: grid;
       justify-items: center;
-      gap: 18px;
-      color: rgba(255,255,255,0.86);
+      gap: 24px;
+      color: rgba(255, 255, 255, 0.86);
     }
 
     .of-scroll__line {
       width: 1px;
-      height: 116px;
-      background: linear-gradient(180deg, transparent, rgba(255,255,255,0.75));
+      height: 180px;
+      background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.75));
     }
 
     .of-scroll__text {
       font-family: var(--font-serif);
       font-style: italic;
-      font-size: 18px;
+      font-size: 32px;
+    }
+
+    .of-scroll__text-lets {
+      font-family: "Poppins", sans-serif;
+      font-weight: 300;
+      letter-spacing: -2%;
+      font-style: normal;
+    }
+
+    .of-scroll__text-explore {
+      font-family: var(--font-serif);
+      font-style: italic;
     }
 
     /* ── 섹션 공통 ── */
@@ -154,28 +386,103 @@
     }
 
     .of-section-title span {
-      font-family: var(--font-en);
+      font-family: "Poppins", sans-serif;
       font-size: clamp(30px, 3.1vw, 42px);
       font-weight: 300;
+      letter-spacing: -1.68px;
+      line-height: 1.4;
     }
 
     .of-section-title em {
-      font-family: var(--font-serif);
+      font-family: "EB Garamond", serif;
       font-size: clamp(34px, 3.5vw, 48px);
       font-weight: 500;
       font-style: italic;
+      letter-spacing: -1.92px;
+      line-height: 1.4;
     }
 
     .of-section-sub {
-      margin-top: 10px;
+      margin-top: 12px;
       font-family: var(--font-kr);
       font-size: 16px;
-      color: rgba(0,0,0,0.62);
+      color: #1a1a1a;
+    }
+
+    .of-scroll-hint {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      justify-content: center;
+      width: 100%;
+      margin: -42px 0 12px;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .of-scroll-hint::before,
+    .of-scroll-hint::after {
+      content: none;
+    }
+
+    .of-scroll-hint svg {
+      width: 46px;
+      height: 14px;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    /* ── 섹션 순차 페이드인 ── */
+    .oceanfriends-page .of-reveal {
+      opacity: 0;
+      transform: translate3d(0, 28px, 0);
+      transition:
+        opacity 1.05s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 1.05s cubic-bezier(0.22, 1, 0.36, 1);
+      transition-delay: var(--reveal-delay, 0ms);
+      will-change: opacity, transform;
+    }
+
+    .oceanfriends-page .of-reveal.is-visible {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+
+    .oceanfriends-page .of-detail-card.of-reveal {
+      transform: translate3d(0, 42px, 0);
+    }
+
+    .oceanfriends-page .of-detail-card.of-reveal.is-visible {
+      transform: translate3d(0, 0, 0);
+    }
+
+    .oceanfriends-page .of-hero .of-reveal {
+      transform: translate3d(0, 38px, 0);
+    }
+
+    .oceanfriends-page .of-hero .of-reveal.is-visible {
+      transform: translate3d(0, 0, 0);
+    }
+
+    /* of-scroll은 translateX(-50%) 중앙 정렬이 있으므로 reveal 시 함께 유지 */
+    .oceanfriends-page .of-hero .of-scroll.of-reveal {
+      transform: translateX(-50%) translateY(38px);
+    }
+
+    .oceanfriends-page .of-hero .of-scroll.of-reveal.is-visible {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .oceanfriends-page .of-reveal {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
     }
 
     /* ── 시그니처 섹션 ── */
     .of-signature {
-      padding: 88px 0 140px;
+      min-height: 90svh;
+      padding: clamp(110px, 14vh, 170px) 0 clamp(80px, 10vh, 140px);
       background: linear-gradient(180deg, #22b8ee 0%, #7dd5f0 35%, #c8f0fb 65%, #ffffff 100%);
     }
 
@@ -209,20 +516,24 @@
       transition: transform 0.7s ease;
     }
 
-    .of-species-card:nth-child(1) { --img-x: 54%; --img-y: 42%; }
-    .of-species-card:nth-child(2) { --img-x: 50%; --img-y: 50%; }
-    .of-species-card:nth-child(3) { --img-x: 50%; --img-y: 44%; }
-    .of-species-card:nth-child(4) { --img-x: 55%; --img-y: 50%; }
-    .of-species-card:nth-child(5) { --img-x: 58%; --img-y: 48%; }
-    .of-species-card:nth-child(6) { --img-x: 50%; --img-y: 48%; }
-    .of-species-card:nth-child(7) { --img-x: 52%; --img-y: 48%; }
+    /* 카드별 이미지 피사체 중심 — data-species 속성으로 각각 지정 */
+    [data-species="beluga"]      { --img-x: 50%; --img-y: 36%; }
+    [data-species="walrus"]      { --img-x: 30%; --img-y: 50%; }
+    [data-species="penguin"]     { --img-x: 50%; --img-y: 38%; }
+    [data-species="shark"]       { --img-x: 95%; --img-y: 50%; }
+    [data-species="ray"]         { --img-x: 50%; --img-y: 50%; }
+    [data-species="otter"]       { --img-x: 50%; --img-y: 42%; }
+    [data-species="sea-turtle"]  { --img-x: 68%; --img-y: 50%; }
+    [data-species="harbor-seal"] { --img-x: 30%; --img-y: 32%; }
+    [data-species="jellyfish"]   { --img-x: 50%; --img-y: 50%; }
+    [data-species="clownfish"]   { --img-x: 65%; --img-y: 50%; }
 
     .of-species-card::after {
       content: "";
       position: absolute;
       inset: 0;
       z-index: 1;
-      background: linear-gradient(180deg, rgba(0,0,0,0.08) 35%, rgba(0,0,0,0.68) 100%);
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0.08) 35%, rgba(0, 0, 0, 0.68) 100%);
     }
 
     .of-species-card:hover img {
@@ -240,7 +551,7 @@
       left: 14px;
       font-family: var(--font-en);
       font-size: 13px;
-      color: rgba(255,255,255,0.78);
+      color: rgba(255, 255, 255, 0.78);
     }
 
     .of-species-card__text {
@@ -256,7 +567,7 @@
       font-weight: 500;
       line-height: 1;
       color: #fff;
-      text-shadow: 0 1px 6px rgba(0,0,0,0.45);
+      text-shadow: 0 1px 6px rgba(0, 0, 0, 0.45);
       -webkit-font-smoothing: antialiased;
     }
 
@@ -264,7 +575,7 @@
       display: block;
       margin-top: 7px;
       font-size: 12px;
-      color: rgba(255,255,255,0.7);
+      color: rgba(255, 255, 255, 0.7);
     }
 
     /* ── 페이저 ── */
@@ -285,7 +596,7 @@
       padding: 0;
       border: 0;
       background: transparent;
-      color: rgba(26,26,26,0.50);
+      color: rgba(26, 26, 26, 0.50);
       font-family: "Pretendard Variable", var(--font-kr);
       font-size: 15px;
       font-style: normal;
@@ -297,12 +608,12 @@
 
     .of-pager button:hover,
     .of-pager button:focus-visible {
-      color: rgba(26,26,26,0.72);
+      color: rgba(26, 26, 26, 0.72);
       outline: none;
     }
 
     .of-pager__more {
-      color: rgba(26,26,26,0.50);
+      color: rgba(26, 26, 26, 0.50);
       font-family: "Pretendard Variable", var(--font-kr);
       font-size: 15px;
     }
@@ -314,43 +625,61 @@
 
     /* ── 디테일 섹션 ── */
     .of-detail {
-      padding: 72px 0 260px;
+      min-height: 100svh;
+      padding: clamp(80px, 10vh, 120px) 0 260px;
       background: #ffffff;
+    }
+
+    .of-detail__sticky {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      padding: 28px 0 22px;
+      margin-top: -28px;
+      margin-bottom: 64px;
+      background:
+        linear-gradient(180deg, #ffffff 0%, #ffffff 82%, rgba(255, 255, 255, 0) 100%);
+    }
+
+    .of-detail__sticky .of-section-head {
+      margin-bottom: 26px;
     }
 
     .of-filter {
       position: relative;
-      display: flex;
+      display: grid;
+      justify-items: center;
+      gap: 18px;
       align-items: center;
       justify-content: center;
       width: min(1060px, calc(100% - 48px));
-      margin: -42px auto 64px;
+      margin: 0 auto;
     }
 
-    .of-filter__chips {
+    .cartegory-tabs-b {
       display: flex;
-      align-items: center;
-      gap: 4px;
-      padding: 4px;
-      border-radius: 12px;
-      background: rgba(235, 238, 240, 0.88);
+      justify-content: center;
+      margin-bottom: 0;
+      flex-wrap: wrap;
+      background-color: #F8F8F8;
+      padding: 3px;
+      border-radius: 14px;
+      width: fit-content;
+      margin-left: auto;
+      margin-right: auto;
     }
 
     .of-search {
-      position: absolute;
-      right: 0;
-    }
-
-    .of-search {
+      position: relative;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 10px;
+      width: min(420px, 100%);
       height: 38px;
-      padding: 0 14px;
+      padding: 0 18px;
       border-radius: 999px;
-      border: 1px solid rgba(34, 178, 234, 0.22);
-      background: #ffffff;
-      box-shadow: 0 4px 14px rgba(34, 178, 234, 0.08);
+      border: 1px solid rgba(34, 178, 234, 0.26);
+      background: rgba(255, 255, 255, 0.96);
     }
 
     .of-search svg {
@@ -363,40 +692,46 @@
       outline: none;
       background: transparent;
       font-family: var(--font-kr);
-      font-size: 13px;
-      color: rgba(20, 32, 42, 0.6);
-      width: 100px;
+      font-size: 15px;
+      color: rgba(20, 32, 42, 0.72);
+      width: 100%;
     }
 
     .of-search input::placeholder {
       color: rgba(20, 32, 42, 0.34);
     }
 
-    .of-chip {
-      min-width: 74px;
-      height: 30px;
-      padding: 0 16px;
-      border-radius: 9px;
-      border: 0;
-      background: transparent;
-      color: rgba(20, 32, 42, 0.34);
-      font-family: var(--font-en);
-      font-size: 12px;
-      font-weight: 400;
-      letter-spacing: 0;
+    .cartegory-tabs-b__item {
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-family: "Pretendard", sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: -0.64px;
+      color: rgba(34, 178, 234, 0.5);
+      background-color: transparent;
+      border: none;
       cursor: pointer;
-      transition: color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+      display: flex;
+      align-items: center;
     }
 
-    .of-chip.is-active {
-      background: #ffffff;
-      color: #22b2ea;
+    .cartegory-tabs-b__item--active {
+      background-color: #ffffff;
+      color: var(--Brand-Primary, #22B2EA);
+      font-family: "EB Garamond";
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+      letter-spacing: -0.72px;
+      border: none;
     }
 
-    .of-chip:hover,
-    .of-chip:focus-visible {
+    .cartegory-tabs-b__item:hover,
+    .cartegory-tabs-b__item:focus-visible {
       color: #22b2ea;
-      background: rgba(255,255,255,0.52);
+      background: rgba(255, 255, 255, 0.52);
       outline: none;
     }
 
@@ -405,6 +740,8 @@
       gap: 88px;
       width: min(1060px, calc(100% - 48px));
       margin: 0 auto;
+      position: relative;
+      z-index: 1;
     }
 
     .of-detail-list.is-visible {
@@ -416,6 +753,11 @@
       grid-template-columns: minmax(340px, 1.15fr) minmax(280px, 1fr);
       align-items: center;
       gap: 64px;
+      scroll-margin-top: 180px;
+    }
+
+    .of-detail-card.is-jump-target .of-detail-card__media {
+      box-shadow: 0 14px 42px rgba(34, 178, 234, 0.26), 0 0 0 2px rgba(34, 178, 234, 0.28);
     }
 
     .of-detail-card:nth-child(even) {
@@ -447,7 +789,7 @@
       font-weight: 300;
       color: #111;
       padding-bottom: 16px;
-      border-bottom: 1px solid rgba(0,0,0,0.12);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.12);
     }
 
     .of-section-label em {
@@ -469,7 +811,7 @@
       min-height: 22px;
       padding: 0 10px;
       border-radius: 999px;
-      border: 1px solid rgba(34,178,234,0.28);
+      border: 1px solid rgba(34, 178, 234, 0.28);
       font-size: 11px;
       color: #22b2ea;
       background: #ffffff;
@@ -495,7 +837,7 @@
       margin-top: 6px;
       font-family: var(--font-serif);
       font-size: 18px;
-      color: rgba(0,0,0,0.66);
+      color: rgba(0, 0, 0, 0.66);
     }
 
     .of-detail-card p {
@@ -503,7 +845,7 @@
       font-family: var(--font-kr);
       font-size: 15px;
       line-height: 1.8;
-      color: rgba(0,0,0,0.64);
+      color: rgba(0, 0, 0, 0.64);
     }
 
     .of-more {
@@ -535,7 +877,7 @@
       justify-content: center;
       padding: 120px 24px 70px;
       background:
-        radial-gradient(circle at 50% 18%, rgba(255,255,255,0.68) 0 6%, transparent 23%),
+        radial-gradient(circle at 50% 18%, rgba(255, 255, 255, 0.68) 0 6%, transparent 23%),
         linear-gradient(180deg, #ffffff 0%, #d9f7ff 20%, #52cdf2 68%, #22b8ee 100%);
       text-align: center;
       color: #ffffff;
@@ -559,6 +901,7 @@
       width: min(320px, 55vw);
       margin-top: -12px;
       margin-bottom: 60px;
+      filter: brightness(0) invert(1);
     }
 
     .of-meet {
@@ -571,7 +914,7 @@
       gap: 24px;
     }
 
-    .of-meet > div {
+    .of-meet>div {
       display: flex;
       flex-direction: column;
       gap: 8px;
@@ -614,7 +957,7 @@
       justify-content: space-between;
       width: 100%;
       padding: 28px 80px;
-      border-top: 1px solid rgba(255,255,255,0.22);
+      border-top: 1px solid rgba(255, 255, 255, 0.22);
       box-sizing: border-box;
     }
 
@@ -692,178 +1035,122 @@
     #custom-cursor.is-over-light {
       border-color: rgba(34, 178, 234, 0.9);
     }
+
     #custom-cursor.is-over-light.is-hovering {
       border-color: rgba(34, 178, 234, 1);
       background: rgba(34, 178, 234, 0.08);
     }
+
     #custom-cursor.is-over-light.is-clicking {
       background: rgba(34, 178, 234, 0.2);
       border-color: rgba(34, 178, 234, 1);
     }
 
-    /* ── 1100px 이하 grid 조정 ── */
+    /* ── 1100px 이하 카드 높이 조정 ── */
     @media (max-width: 1100px) {
-      .of-species.is-carousel-ready {
-        grid-template-columns: repeat(4, minmax(150px, 1fr));
-      }
-
       .of-species-card {
         min-height: 300px;
       }
     }
 
-    /* ── 3D 캐러셀 (데스크톱) ── */
+    /* ── Signature Species — draggable infinite gallery ── */
     @media (min-width: 761px) {
-      .of-species {
-        --gallery-glow-x: 50%;
-        --gallery-glow-y: 50%;
-        --gallery-glow-opacity: 0.20;
-        position: relative;
+      .signature-gallery-viewport {
         display: block;
-        width: min(1520px, calc(100% - 48px));
-        height: clamp(580px, 46vw, 660px);
-        margin: 0 auto;
-        perspective: 2200px;
-        perspective-origin: 50% 50%;
-        transform-style: preserve-3d;
-        isolation: isolate;
-        overflow: visible;
-        outline: none;
+        width: 100%;
+        margin: 0;
+        overflow: hidden;
+        padding: 24px 0 112px;
+        box-sizing: border-box;
+        cursor: grab;
+        perspective: 900px;
+        perspective-origin: center center;
         touch-action: pan-y;
         user-select: none;
       }
 
-      .of-species.is-carousel-ready::before,
-      .of-species.is-carousel-ready::after {
-        content: "";
-        position: absolute;
-        pointer-events: none;
-        border-radius: 999px;
+      .signature-gallery-viewport.is-dragging {
+        cursor: grabbing;
       }
 
-      .of-species.is-carousel-ready::before {
-        inset: -12% -2% -18%;
-        z-index: 0;
-        background:
-          radial-gradient(circle at var(--gallery-glow-x) var(--gallery-glow-y), rgba(143, 183, 232, var(--gallery-glow-opacity)), transparent 40%),
-          radial-gradient(circle at 50% 60%, rgba(184, 211, 244, 0.32), transparent 50%),
-          linear-gradient(180deg, rgba(219, 238, 255, 0.14), rgba(143, 183, 232, 0.12));
-        filter: blur(40px);
-        transition: background 0.7s ease, opacity 0.7s ease;
-      }
-
-      .of-species.is-carousel-ready::after {
-        inset: 6% 8%;
-        z-index: 1;
-        background:
-          linear-gradient(112deg, transparent 0 28%, rgba(255,255,255,0.16) 43%, transparent 58% 100%),
-          repeating-linear-gradient(105deg, rgba(255,255,255,0.08) 0 1px, transparent 1px 18px);
-        mix-blend-mode: screen;
-        opacity: 0.20;
-        animation: ofSpeciesWaterLight 8s ease-in-out infinite alternate;
-      }
-
-      .of-species.is-carousel-ready .of-species-card {
-        --x: 0px;
-        --z: 0px;
-        --rot: 0deg;
-        --scale: 1;
-        --card-opacity: 1;
-        --card-brightness: 1;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        z-index: var(--card-z, 1);
-        width: clamp(260px, 22vw, 360px);
-        height: 460px;
-        min-height: 0;
-        transform:
-          translate3d(calc(-50% + var(--x)), -50%, var(--z))
-          rotateY(var(--rot))
-          scale(var(--scale));
-        transform-style: preserve-3d;
-        opacity: var(--card-opacity);
-        filter: brightness(var(--card-brightness)) saturate(1.02);
-        box-shadow: 0 20px 60px rgba(44, 93, 141, 0.18);
-        transition:
-          transform 0.72s cubic-bezier(0.22, 1, 0.36, 1),
-          opacity 0.52s ease,
-          filter 0.52s ease,
-          box-shadow 0.52s ease;
-        will-change: transform, opacity;
-      }
-
-      .of-species.is-carousel-ready .of-species-card::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        z-index: 2;
-        pointer-events: none;
-        background:
-          linear-gradient(115deg, transparent 0 25%, rgba(255,255,255,0.22) 41%, transparent 57% 100%),
-          repeating-linear-gradient(98deg, rgba(255,255,255,0.075) 0 1px, transparent 1px 17px);
-        mix-blend-mode: screen;
-        opacity: 0.22;
-        transform: translateX(-28%) skewX(-6deg);
-        animation: ofSpeciesCardRipple 7.5s ease-in-out infinite;
-      }
-
-      .of-species.is-carousel-ready .of-species-card::after {
-        z-index: 3;
-        background:
-          radial-gradient(circle at 50% 0%, rgba(219, 238, 255, 0.18), transparent 34%),
-          linear-gradient(180deg, rgba(0,0,0,0.04) 30%, rgba(0,0,0,0.70) 100%);
-      }
-
-      .of-species.is-carousel-ready .of-species-card img {
-        transform: scale(1.01);
-      }
-
-      .of-species.is-carousel-ready .of-species-card:hover img,
-      .of-species.is-carousel-ready .of-species-card.is-active:hover img {
-        transform: scale(1.065);
-      }
-
-      .of-species.is-carousel-ready .of-species-card.is-active {
-        --card-brightness: 1.04;
-        box-shadow:
-          0 24px 72px rgba(68, 117, 166, 0.26),
-          0 0 36px rgba(184, 211, 244, 0.20);
-      }
-
-      .of-species.is-carousel-ready .of-species-card.is-active::before {
-        opacity: 0.34;
-      }
-
-      .of-species.is-carousel-ready .of-species-card__num,
-      .of-species.is-carousel-ready .of-species-card__text {
-        z-index: 4;
-      }
-
-      .of-pager {
-        position: relative;
-        z-index: 4;
+      .signature-gallery-track {
+        display: flex;
         align-items: center;
+        gap: 8px;
+        width: max-content;
+        padding: 0;
+        box-sizing: border-box;
+        transform-style: preserve-3d;
+        will-change: transform;
       }
 
-      @keyframes ofSpeciesWaterLight {
-        0%   { transform: translate3d(-20px,  9px, -80px) rotate(-1deg); opacity: 0.18; }
-        100% { transform: translate3d( 20px, -8px, -80px) rotate( 1deg); opacity: 0.34; }
+      .signature-gallery-track img {
+        pointer-events: none;
+        -webkit-user-drag: none;
       }
 
-      @keyframes ofSpeciesCardRipple {
-        0%   { transform: translateX(-42%) skewX(-6deg); opacity: 0.14; }
-        52%  { opacity: 0.32; }
-        100% { transform: translateX( 40%) skewX(-6deg); opacity: 0.18; }
+      .signature-gallery-track .species-card,
+      .signature-gallery-track .of-species-card {
+        --closed-w: clamp(184px, 13.5vw, 212px);
+        flex: 0 0 var(--closed-w);
+        width: var(--closed-w);
+        height: clamp(320px, 27vw, 380px);
+        min-height: 0;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        box-shadow: 0 18px 46px rgba(0, 60, 90, 0.22);
+        transform-origin: center center;
+        transform-style: preserve-3d;
+        will-change: transform, opacity;
+        transition:
+          border-color 0.35s ease,
+          box-shadow   0.35s ease;
+        cursor: pointer;
+      }
+
+      .signature-gallery-track .of-species-card:hover {
+        border-color: rgba(255, 255, 255, 0.75);
+        box-shadow:   0 28px 70px rgba(0, 80, 120, 0.30);
+      }
+
+      .of-species-card img {
+        filter: brightness(0.75) saturate(0.90);
+        transition: transform 0.7s ease, filter 0.4s ease;
+      }
+
+      .of-species-card:hover img {
+        filter: brightness(1.0) saturate(1.06);
+        transform: scale(1.06);
+      }
+
+      .of-species-card::after {
+        opacity: 0;
+        transition: opacity 0.4s ease;
+      }
+      .of-species-card:hover::after {
+        opacity: 1;
+      }
+
+      /* 번호·텍스트: hover 시 fade-in. position:absolute → layout 불변. */
+      .of-species-card__num,
+      .of-species-card__text {
+        opacity: 0;
+        transition: opacity 0.35s ease 0.1s;
+      }
+      .of-species-card:hover .of-species-card__num,
+      .of-species-card:hover .of-species-card__text {
+        opacity: 1;
       }
     }
 
     /* ── 모션 감소 ── */
     @media (prefers-reduced-motion: reduce) {
+
       .of-species::after,
       .of-species-card::before {
         animation: none;
       }
+
       .of-species-card,
       .of-pager button {
         transition-duration: 0.01ms;
@@ -899,8 +1186,9 @@
       }
 
       .of-hero {
-        min-height: 680px;
+        min-height: 880px;
         padding-top: 112px;
+        padding-bottom: 220px;
       }
 
       .of-title {
@@ -912,35 +1200,80 @@
       }
 
       .of-signature {
-        padding: 64px 0 96px;
+        min-height: 108svh;
+        padding: 180px 0 180px;
       }
 
       .of-section-head {
         margin-bottom: 44px;
       }
 
-      .of-species {
+      .signature-gallery-viewport {
+        display: block;
+        width: 100%;
+        margin: 0 auto;
+        overflow: hidden;
+        padding: 16px 0 84px;
+        perspective: 900px;
+        perspective-origin: center center;
+        touch-action: pan-y;
+        user-select: none;
+      }
+
+      .signature-gallery-track {
         display: flex;
-        width: calc(100% - 24px);
-        overflow-x: auto;
-        scroll-snap-type: x mandatory;
-        padding-bottom: 12px;
+        align-items: center;
+        gap: 8px;
+        padding: 0;
+        width: max-content;
+        transform-style: preserve-3d;
+        will-change: transform;
       }
 
       .of-species-card {
-        min-width: 210px;
+        --closed-w: 220px;
+        flex: 0 0 var(--closed-w);
+        width: var(--closed-w);
         min-height: 310px;
-        scroll-snap-align: center;
+        transform-origin: center center;
+        transform-style: preserve-3d;
+        will-change: transform, opacity;
       }
 
       .of-detail {
+        padding-top: 132px;
         padding-bottom: 160px;
       }
 
+      .of-detail__sticky {
+        padding: 22px 0 18px;
+        margin-top: -22px;
+        margin-bottom: 48px;
+      }
+
+      .of-detail__sticky .of-section-head {
+        margin-bottom: 20px;
+      }
+
       .of-filter {
-        flex-wrap: wrap;
-        margin-top: -24px;
+        gap: 14px;
+        margin: 0 auto;
         width: calc(100% - 32px);
+      }
+
+      .of-search {
+        width: min(360px, 100%);
+        height: 38px;
+      }
+
+      .cartegory-tabs-b {
+        max-width: 100%;
+        overflow-x: auto;
+        scrollbar-width: none;
+      }
+
+      .cartegory-tabs-b::-webkit-scrollbar {
+        display: none;
       }
 
       .of-detail-card,
@@ -971,23 +1304,31 @@
   </style>
 </head>
 
-<body class="oceanfriends-page">
+<body class="oceanfriends-page is-logo-at-header">
 
   <header id="gnb" class="gnb">
     <div class="gnb__inner">
       <!-- 왼쪽 메뉴 -->
-      <nav class="gnb__nav" aria-label="메인 메뉴">
-        <a href="index.html#sec-program" class="gnb__link" data-nav="program">Program</a>
-        <a href="Oceanfriends.html" class="gnb__link gnb__link--active" data-nav="crew">Ocean Friends</a>
-        <div class="gnb__nav-item" data-nav="about">
-          <span class="gnb__link">About us</span>
+      <div class="gnb__nav" aria-label="메인 메뉴">
+        <div class="gnb__nav-item">
+          <a href="program/program.html" class="gnb__link">Program</a>
           <div class="gnb__dropdown">
-            <a href="#" class="gnb__dropdown-item">Business</a>
-            <a href="#" class="gnb__dropdown-item">Marin Lab</a>
+            <a href="program/program.html" class="gnb__dropdown-item gnb__dropdown-item--active">Jeju</a>
+            <a href="program/program.html" class="gnb__dropdown-item">Yeosu</a>
+            <a href="program/program.html" class="gnb__dropdown-item">Ilsan</a>
+            <a href="program/program.html" class="gnb__dropdown-item">Gwanggyo</a>
+          </div>
+        </div>
+        <a href="Oceanfriends.html" class="gnb__link gnb__link--active">Ocean Friends</a>
+        <div class="gnb__nav-item">
+          <a href="location.html" class="gnb__link">About us</a>
+          <div class="gnb__dropdown">
+            <a href="business.html" class="gnb__dropdown-item">Business</a>
+            <a href="marinlab.html" class="gnb__dropdown-item">Marin Lab</a>
             <a href="location.html" class="gnb__dropdown-item">Location</a>
           </div>
         </div>
-      </nav>
+      </div>
 
       <!-- 중앙 로고 -->
       <a href="index.html" class="gnb__logo-wrap" aria-label="Aqua Planet 홈">
@@ -998,8 +1339,8 @@
       <button class="gnb__ticket btn-pill" type="button" aria-label="티켓 예매" onclick="location.href='ticket.html'">
         Ticket
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M7 17L17 7M17 7H7M17 7V17" stroke="white" stroke-width="1.5"
-                stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M7 17L17 7M17 7H7M17 7V17" stroke="white" stroke-width="1.5" stroke-linecap="round"
+            stroke-linejoin="round" />
         </svg>
       </button>
     </div>
@@ -1007,9 +1348,9 @@
 
   <main class="of-main">
 
-    <!-- 히어로 -->
-    <section class="of-hero" aria-label="Ocean Friends 소개">
-      <div class="of-hero__content">
+    <!-- 인트로 콘텐츠 -->
+    <section class="intro__content">
+      <div class="intro__content-inner">
         <span class="of-eyebrow">Welcome</span>
         <h1 class="of-title">Meet Our <em>Ocean Friends</em></h1>
         <p class="of-hero__lead">
@@ -1019,8 +1360,14 @@
       </div>
       <a class="of-scroll" href="#signature" aria-label="대표 생물 바로가기">
         <span class="of-scroll__line"></span>
-        <span class="of-scroll__text">Let's Explore</span>
+        <span class="of-scroll__text">
+          <span class="of-scroll__text-lets">Let's </span><span class="of-scroll__text-explore">Explore</span>
+        </span>
       </a>
+    </section>
+
+    <!-- 히어로 -->
+    <section class="of-hero" aria-label="Ocean Friends 소개">
     </section>
 
     <!-- 시그니처 생물 캐러셀 -->
@@ -1030,66 +1377,93 @@
         <p class="of-section-sub">아쿠아플라넷의 대표 생물을 소개합니다</p>
       </div>
 
-      <div class="of-species" aria-label="생물 카드 목록">
-        <article class="of-species-card">
-          <img src="assets/images/strip · Beluga.png" alt="벨루가">
-          <span class="of-species-card__num">01</span>
-          <div class="of-species-card__text"><strong>Beluga</strong><span>white whale</span></div>
-        </article>
-        <article class="of-species-card">
-          <img src="assets/images/strip · Walrus.png" alt="바다코끼리">
-          <span class="of-species-card__num">02</span>
-          <div class="of-species-card__text"><strong>Walrus</strong><span>marine mammal</span></div>
-        </article>
-        <article class="of-species-card">
-          <img src="assets/images/strip · Penguin.png" alt="펭귄">
-          <span class="of-species-card__num">03</span>
-          <div class="of-species-card__text"><strong>Penguin</strong><span>flightless bird</span></div>
-        </article>
-        <article class="of-species-card">
-          <img src="assets/images/strip · Shark.png" alt="상어">
-          <span class="of-species-card__num">04</span>
-          <div class="of-species-card__text"><strong>Shark</strong><span>sand tiger shark</span></div>
-        </article>
-        <article class="of-species-card">
-          <img src="assets/images/strip · Ray.png" alt="가오리">
-          <span class="of-species-card__num">05</span>
-          <div class="of-species-card__text"><strong>Ray</strong><span>manta ray</span></div>
-        </article>
-        <article class="of-species-card">
-          <img src="assets/images/strip · Otter.png" alt="수달">
-          <span class="of-species-card__num">06</span>
-          <div class="of-species-card__text"><strong>Otter</strong><span>small-clawed otter</span></div>
-        </article>
-        <article class="of-species-card">
-          <img src="assets/images/strip · Sea Turtle.png" alt="바다거북">
-          <span class="of-species-card__num">07</span>
-          <div class="of-species-card__text"><strong>Sea Turtle</strong><span>green turtle</span></div>
-        </article>
+      <span class="of-scroll-hint" aria-hidden="true">
+        <svg viewBox="0 0 46 14" fill="none">
+          <path d="M1 7H45" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+          <path d="M7 1L1 7L7 13" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M39 1L45 7L39 13" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </span>
+
+      <div class="of-species signature-gallery-viewport" aria-label="생물 카드 목록">
+        <div class="of-species-list signature-gallery-track">
+          <article class="of-species-card species-card" data-species="beluga">
+            <img src="assets/images/yeosu/10_벨루가(흰고래).jpg" alt="벨루가">
+            <span class="of-species-card__num">01</span>
+            <div class="of-species-card__text"><strong>Beluga</strong><span>벨루가</span></div>
+          </article>
+          <article class="of-species-card species-card" data-species="walrus">
+            <img src="assets/images/ilsan/05_바다코끼리.jpg" alt="바다코끼리">
+            <span class="of-species-card__num">02</span>
+            <div class="of-species-card__text"><strong>Walrus</strong><span>바다코끼리</span></div>
+          </article>
+          <article class="of-species-card species-card" data-species="penguin">
+            <img src="assets/images/ilsan/10_아프리카펭귄.jpg" alt="펭귄">
+            <span class="of-species-card__num">03</span>
+            <div class="of-species-card__text"><strong>Penguin</strong><span>아프리칸 펭귄</span></div>
+          </article>
+          <article class="of-species-card species-card" data-species="shark">
+            <img src="assets/images/ilsan/08_샌드타이거샤크.jpg" alt="상어">
+            <span class="of-species-card__num">04</span>
+            <div class="of-species-card__text"><strong>Sand Tiger Shark</strong><span>샌드타이거샤크</span></div>
+          </article>
+          <article class="of-species-card species-card" data-species="ray">
+            <img src="assets/images/ilsan/22_흑가오리.jpg" alt="가오리">
+            <span class="of-species-card__num">05</span>
+            <div class="of-species-card__text"><strong>Black Ray</strong><span>흑가오리</span></div>
+          </article>
+          <article class="of-species-card species-card" data-species="otter">
+            <img src="assets/images/yeosu/24_작은발톱수달.jpg" alt="수달">
+            <span class="of-species-card__num">06</span>
+            <div class="of-species-card__text"><strong>Asian Small-Clawed Otter</strong><span>작은발톱수달</span></div>
+          </article>
+          <article class="of-species-card species-card" data-species="sea-turtle">
+            <img src="assets/images/yeosu/바다거북.jpg" alt="바다거북">
+            <span class="of-species-card__num">07</span>
+            <div class="of-species-card__text"><strong>Sea Turtle</strong><span>바다거북</span></div>
+          </article>
+          <article class="of-species-card species-card" data-species="harbor-seal">
+            <img src="assets/images/yeosu/26_참물범.jpg" alt="참물범">
+            <span class="of-species-card__num">08</span>
+            <div class="of-species-card__text"><strong>Harbor Seal</strong><span>참물범</span></div>
+          </article>
+          <article class="of-species-card species-card" data-species="jellyfish">
+            <img src="assets/images/yeosu/11_보름달물해파리.jpg" alt="보름달물해파리">
+            <span class="of-species-card__num">09</span>
+            <div class="of-species-card__text"><strong>Moon Jellyfish</strong><span>보름달물해파리</span></div>
+          </article>
+          <article class="of-species-card species-card" data-species="clownfish">
+            <img src="assets/images/yeosu/28_퍼큘라클라운피쉬.jpg" alt="흰동가리">
+            <span class="of-species-card__num">10</span>
+            <div class="of-species-card__text"><strong>Clownfish</strong><span>퍼큘라클라운피쉬</span></div>
+          </article>
+        </div>
       </div>
       <div class="of-pager" aria-label="생물 상세 소개 더 보기"></div>
     </section>
 
     <!-- 생물 상세 -->
     <section class="of-detail" aria-label="생물 상세 소개">
-      <div class="of-section-head">
-        <h2 class="of-section-title"><span>Creature </span><em>Detail</em></h2>
-        <p class="of-section-sub">선택한 생물의 서식 층, 학명, 분류와 이야기를 자세히 소개합니다</p>
-      </div>
-
-      <div class="of-filter" aria-label="생물 필터">
-        <div class="of-filter__chips">
-          <button class="of-chip is-active" type="button">Jeju</button>
-          <button class="of-chip" type="button">Yeosu</button>
-          <button class="of-chip" type="button">Ilsan</button>
-          <button class="of-chip" type="button">Gwanggyo</button>
+      <div class="of-detail__sticky">
+        <div class="of-section-head">
+          <h2 class="of-section-title"><span>Creature </span><em>Detail</em></h2>
+          <p class="of-section-sub">선택한 생물의 서식 층, 학명, 분류와 이야기를 자세히 소개합니다</p>
         </div>
-        <div class="of-search">
-          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-            <circle cx="6.5" cy="6.5" r="5" stroke="currentColor" stroke-width="1.6"/>
-            <path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-          </svg>
-          <input type="text" placeholder="검색하기" aria-label="생물 검색">
+
+        <div class="of-filter" aria-label="생물 필터">
+          <div class="of-search">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <circle cx="6.5" cy="6.5" r="5" stroke="currentColor" stroke-width="1.6" />
+              <path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+            </svg>
+            <input type="text" placeholder="검색하기" aria-label="생물 검색">
+          </div>
+          <div class="cartegory-tabs-b">
+            <button class="cartegory-tabs-b__item cartegory-tabs-b__item--active" type="button">Jeju</button>
+            <button class="cartegory-tabs-b__item" type="button">Yeosu</button>
+            <button class="cartegory-tabs-b__item" type="button">Ilsan</button>
+            <button class="cartegory-tabs-b__item" type="button">Gwanggyo</button>
+          </div>
         </div>
       </div>
 
@@ -1786,7 +2160,8 @@
             </div>
             <h3>바다코끼리</h3>
             <i>Odobenus rosmarus</i>
-            <p>큰 덩치와 커다란 엄니를 자랑하지만, 외모와는 다르게 온순한 성격을 가졌습니다. 큰 엄니는 자신을 지키는 든든한 무기이자, 얼음에서 미끄러지지 않도록 하는 지팡이 역할도 한답니다. 긴 엄니의 길이로 바다코끼리의 서열이 정해진다고 합니다.</p>
+            <p>큰 덩치와 커다란 엄니를 자랑하지만, 외모와는 다르게 온순한 성격을 가졌습니다. 큰 엄니는 자신을 지키는 든든한 무기이자, 얼음에서 미끄러지지 않도록 하는 지팡이 역할도 한답니다. 긴
+              엄니의 길이로 바다코끼리의 서열이 정해진다고 합니다.</p>
             <a class="of-more" href="#">자세히 보기</a>
           </div>
         </article>
@@ -1818,7 +2193,8 @@
             </div>
             <h3>샌드타이거샤크</h3>
             <i>Sand Tiger Shark</i>
-            <p>무시무시한 죠스 노래가 떠오르는 샌드타이거 샤크는, 다 자라면 몸의 길이가 3m가 넘는 대형상어랍니다! 평소에는 천천히 유영하는 모습을 볼 수 있지만 먹잇감을 발견하면 겹겹이 날카로운 이빨과 강력한 턱힘으로 사냥해요.</p>
+            <p>무시무시한 죠스 노래가 떠오르는 샌드타이거 샤크는, 다 자라면 몸의 길이가 3m가 넘는 대형상어랍니다! 평소에는 천천히 유영하는 모습을 볼 수 있지만 먹잇감을 발견하면 겹겹이 날카로운
+              이빨과 강력한 턱힘으로 사냥해요.</p>
             <a class="of-more" href="#">자세히 보기</a>
           </div>
         </article>
@@ -1834,7 +2210,8 @@
             </div>
             <h3>참물범</h3>
             <i>Phoca vitulina</i>
-            <p>참물범은 강과 바다에 사는 물개입니다. 항상 머리를 잠수 위로 내밀고 사람을 경계하는 습성이 있습니다. 평균 몸길이는 1.5m, 몸무게는 70kg 정도이며, 먹이는 생선으로 주로 청어, 숭어, 밴댕이 등입니다.</p>
+            <p>참물범은 강과 바다에 사는 물개입니다. 항상 머리를 잠수 위로 내밀고 사람을 경계하는 습성이 있습니다. 평균 몸길이는 1.5m, 몸무게는 70kg 정도이며, 먹이는 생선으로 주로 청어,
+              숭어, 밴댕이 등입니다.</p>
             <a class="of-more" href="#">자세히 보기</a>
           </div>
         </article>
@@ -1850,7 +2227,8 @@
             </div>
             <h3>퍼큘라클라운피쉬</h3>
             <i>Amphiprion percula</i>
-            <p>흰색과 주황색 줄무늬를 가진 물고기입니다. 아네모네와 공생 관계를 이루며 생활합니다. 아네모네는 클라운피쉬로부터 도움을 받고, 클라운피쉬는 아네모네의 촉수에 있는 자극 세포로부터 보호를 받습니다.</p>
+            <p>흰색과 주황색 줄무늬를 가진 물고기입니다. 아네모네와 공생 관계를 이루며 생활합니다. 아네모네는 클라운피쉬로부터 도움을 받고, 클라운피쉬는 아네모네의 촉수에 있는 자극 세포로부터 보호를
+              받습니다.</p>
             <a class="of-more" href="#">자세히 보기</a>
           </div>
         </article>
@@ -2111,7 +2489,8 @@
             </div>
             <h3>아프리칸펭귄</h3>
             <i>Spheniscus demersus</i>
-            <p>따뜻한 지방인 아프리카에 사는 펭귄입니다. 펭귄은 털이 2중으로 되어있습니다. 안쪽 털은 보온역할을, 바깥쪽 털은 방수역할을 해줍니다. 새끼는 머리 부분에 검은 털이 나고, 자라면서 몇 번의 털갈이를 한 뒤 하얀 줄무늬를 갖게 됩니다.</p>
+            <p>따뜻한 지방인 아프리카에 사는 펭귄입니다. 펭귄은 털이 2중으로 되어있습니다. 안쪽 털은 보온역할을, 바깥쪽 털은 방수역할을 해줍니다. 새끼는 머리 부분에 검은 털이 나고, 자라면서 몇
+              번의 털갈이를 한 뒤 하얀 줄무늬를 갖게 됩니다.</p>
             <a class="of-more" href="#">자세히 보기</a>
           </div>
         </article>
@@ -2127,7 +2506,8 @@
             </div>
             <h3>알락꼬리여우원숭이</h3>
             <i>Lemur catta</i>
-            <p>알락꼬리여우원숭이의 가장 특징적인 부분은 검은색과 흰색으로 이루어진 줄무늬 꼬리입니다. 긴 꼬리는 나뭇가지를 잡을 때나 몸의 균형을 잡을 때 사용됩니다. 수컷의 꼬리 가장자리에 향선이 있어 자신의 영역임을 표시합니다.</p>
+            <p>알락꼬리여우원숭이의 가장 특징적인 부분은 검은색과 흰색으로 이루어진 줄무늬 꼬리입니다. 긴 꼬리는 나뭇가지를 잡을 때나 몸의 균형을 잡을 때 사용됩니다. 수컷의 꼬리 가장자리에 향선이 있어
+              자신의 영역임을 표시합니다.</p>
             <a class="of-more" href="#">자세히 보기</a>
           </div>
         </article>
@@ -2143,7 +2523,8 @@
             </div>
             <h3>푸른목금강앵무</h3>
             <i>Ara glaucogularis</i>
-            <p>푸른목금강앵무는 검은색 몸과 푸른색 목이 특징인 앵무새입니다. 큰 부리는 매우 강력하여 나무껍질을 벗기고 씨앗을 깨물 수 있습니다. 매우 지능이 높아 인간처럼 도구를 사용하기도 합니다.</p>
+            <p>푸른목금강앵무는 검은색 몸과 푸른색 목이 특징인 앵무새입니다. 큰 부리는 매우 강력하여 나무껍질을 벗기고 씨앗을 깨물 수 있습니다. 매우 지능이 높아 인간처럼 도구를 사용하기도 합니다.
+            </p>
             <a class="of-more" href="#">자세히 보기</a>
           </div>
         </article>
@@ -2175,7 +2556,764 @@
             </div>
             <h3>히야신스금강앵무</h3>
             <i>Anodorhynchus hyacinthinus</i>
-            <p>히야신스금강앵무는 세계에서 가장 큰 앵무새입니다. 몸길이가 1m가 넘고 몸무게는 1.5kg 정도입니다. 아름다운 파란색 깃털로 유명하며, 강력한 부리로 단단한 야자열매도 쉽게 깨물 수 있습니다. 현재 멸종위기종으로 보호되고 있습니다.</p>
+            <p>히야신스금강앵무는 세계에서 가장 큰 앵무새입니다. 몸길이가 1m가 넘고 몸무게는 1.5kg 정도입니다. 아름다운 파란색 깃털로 유명하며, 강력한 부리로 단단한 야자열매도 쉽게 깨물 수
+              있습니다. 현재 멸종위기종으로 보호되고 있습니다.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+      </div>
+
+      <div class="of-detail-list" data-list="yeosu">
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/yeosu/골든트레벌리.jpg" alt="골든트레발리">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">2F · 오션라이프</span>
+              <span class="of-badge of-badge--fill">해수연골어류</span>
+            </div>
+            <h3>골든트레발리</h3>
+            <i>Gnathanodon speciosus</i>
+            <p>황금빛 바탕에 검은 줄무늬가 있으며, 큰 물고기에 붙어 다니거나 여럿이 같이 헤엄치는 것을 좋아해요.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/yeosu/02_괴도라치.jpg" alt="괴도라치">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">2F · 오션라이프</span>
+              <span class="of-badge of-badge--fill">Fringed Blenny</span>
+            </div>
+            <h3>괴도라치</h3>
+            <i>Chirolophis japonicus</i>
+            <p>생김새가 괴물을 닮아서 '괴도라치'라고 불리지만 실제로는 숨는 것을 좋아하는 부끄럼쟁이랍니다.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/yeosu/04_등꼬리치.jpg" alt="등꼬리치">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">2F · 오션라이프</span>
+              <span class="of-badge of-badge--fill">Razor Fish</span>
+            </div>
+            <h3>등꼬리치</h3>
+            <i>Aeoliscus strigatus</i>
+            <p>물구나무 서서 헤엄쳐요. 면도날처럼 날씬한 몸으로 긴가시성게의 독가시 사이에 숨어 공격을 피한답니다.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/yeosu/바다거북.jpg" alt="바다거북">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">2F · 오션라이프</span>
+              <span class="of-badge of-badge--fill">양서파충류</span>
+            </div>
+            <h3>바다거북</h3>
+            <i>Lepidochelys olivacea</i>
+            <p>다른 바다거북들보다 작은 체구를 지닌 친구랍니다. 예쁜 하트 모양의 올리브색 등갑을 가지고 있어요. 서식지 파괴와 남획으로 개체수가 줄어들어 멸종위기종(CITES Ⅰ)으로 지정되어 보호받고
+              있어요.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/yeosu/09_뱅가이카디날.jpg" alt="뱅가이카디날">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">2F · 오션라이프</span>
+              <span class="of-badge of-badge--fill">Banggai Cardinalfish</span>
+            </div>
+            <h3>뱅가이카디날</h3>
+            <i>Pterapogon kauderni</i>
+            <p>뱅가이 군도에서만 살아요. 화려하게 장식된 지느러미가 인상적이랍니다.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/yeosu/12_부채제비활치.jpg" alt="부채제비할치">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">2F · 오션라이프</span>
+              <span class="of-badge of-badge--fill">Orbicular Batfish</span>
+            </div>
+            <h3>부채제비할치</h3>
+            <i>Platax orbicularis</i>
+            <p>옆으로 납작한 몸이 마치 부채를 활짝 펼친 것 같아요. 은빛 비늘 위 흑갈색 줄무늬가 인상적인 물고기랍니다.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/yeosu/블랙백나비고기.jpg" alt="블랙백나비고기">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">2F · 오션라이프</span>
+              <span class="of-badge of-badge--fill">해수연골어류</span>
+            </div>
+            <h3>블랙백나비고기</h3>
+            <i>Chaetodon melannotus</i>
+            <p>몸통을 가로지르는 까만 줄무늬는 포식자의 눈을 금빛 꼬리로 혼란스럽게 하기 위한 위장이랍니다.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/yeosu/13_블로치드팬테일레이.jpg" alt="블로치드판테일레이">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">2F · 오션라이프</span>
+              <span class="of-badge of-badge--fill">Blotched Fantail Ray</span>
+            </div>
+            <h3>블로치드판테일레이</h3>
+            <i>Taeniura meyeni</i>
+            <p>다 자라면 너비가 1.8m, 무게가 120kg이나 나가는 큰 몸집을 자랑해요. 몸 전체에 퍼져있는 검은색과 회색의 반점들이 특징이에요.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/yeosu/14_블루탱.jpg" alt="블루탱">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">2F · 오션라이프</span>
+              <span class="of-badge of-badge--fill">Blue Tang</span>
+            </div>
+            <h3>블루탱</h3>
+            <i>Paracanthurus hepatus</i>
+            <p>새파란 바탕에 노란 꼬리와 검정색 무늬가 섞인 그림같은 물고기예요. 어여쁜 외모와 달리 성격이 무척 예민하고 공격적이에요. 지느러미에는 독샘을 지닌 날카로운 가시가 있어요.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/yeosu/15_샌드타이거샤크.jpg" alt="샌드타이거샤크">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">2F · 오션라이프</span>
+              <span class="of-badge of-badge--fill">해수연골어류</span>
+            </div>
+            <h3>샌드타이거샤크</h3>
+            <i>Carcharias taurus</i>
+            <p>다 자라면 몸의 길이가 3m가 넘는 대형상어랍니다. 평소에는 천천히 유영하는 모습을 볼 수 있지만 먹잇감을 발견하면 날카로운 이빨과 강력한 턱힘으로 사냥해요.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/yeosu/19_얼룩매가오리.jpg" alt="얼룩매가오리">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">2F · 오션라이프</span>
+              <span class="of-badge of-badge--fill">Spotted Eagle Ray</span>
+            </div>
+            <h3>얼룩매가오리</h3>
+            <i>Aetobatus narinari</i>
+            <p>머리의 모양이 매처럼 생겨서 '매가오리'라고 불려요. 모랫바닥을 흘으며 활발하게 먹이를 찾아다닌답니다.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/yeosu/카우노즈레이.jpg" alt="카우노즈레이">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">2F · 오션라이프</span>
+              <span class="of-badge of-badge--fill">해수연골어류</span>
+            </div>
+            <h3>카우노즈레이</h3>
+            <i>Rhinoptera bonasus</i>
+            <p>머리뼈가 옴폭 들어가 있으며, 소의 얼굴을 닮은 가오리랍니다.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/yeosu/03_남아메리카 바다사자.jpg" alt="남아메리카바다사자">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">3F · 마린라이프</span>
+              <span class="of-badge of-badge--fill">포유류</span>
+            </div>
+            <h3>남아메리카바다사자</h3>
+            <i>Otaria flavescens</i>
+            <p>암수의 생김새가 많이 달라요. 수컷은 암컷보다 덩치가 크고, 몸무게도 두 배 이상 많이 나가요. 머리도 훨씬 크고, 사자처럼 목덜미에 갈기가 발달되어 있지요.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/yeosu/07_물총고기.jpg" alt="물총고기">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">3F · 마린라이프</span>
+              <span class="of-badge of-badge--fill">Archer Fish</span>
+            </div>
+            <h3>물총고기</h3>
+            <i>Toxotes jaculatrix</i>
+            <p>물고기세계의 스나이퍼인 물총고기는 뛰어난 시력과 독특한 구강구조를 가지고 있어 수면 위의 먹잇감을 정확히 겨냥하여 입으로 물을 쏘아 떨어뜨린 후 잡아 먹습니다.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/yeosu/08_바이칼 물범.jpg" alt="바이칼물범">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">3F · 마린라이프</span>
+              <span class="of-badge of-badge--fill">포유류</span>
+            </div>
+            <h3>바이칼물범</h3>
+            <i>Pusa sibirica</i>
+            <p>강아지를 닮은 순한 얼굴과 아담한 체구를 가진 귀여운 물범이에요. 주로 물고기를 잡아 먹고, 한 번 잠수하면 20분 정도 물 속에서 머물 수 있어요.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/yeosu/18_아프리칸 펭귄.jpg" alt="아프리칸펭귄">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">3F · 마린라이프</span>
+              <span class="of-badge of-badge--fill">조류</span>
+            </div>
+            <h3>아프리칸펭귄</h3>
+            <i>Spheniscus demersus</i>
+            <p>아담한 키에 뒤뚱뒤뚱 걷는 모습이 사랑스럽죠? 울음소리가 당나귀와 비슷해 '자카스펭귄'이라고 부르기도 해요. 새까만 발에는 핑크빛 무늬가 있고, 발톱도 까맣답니다.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/yeosu/24_작은발톱수달.jpg" alt="작은발톱수달">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">3F · 마린라이프</span>
+              <span class="of-badge of-badge--fill">Oriental Small-Clawed Otter</span>
+            </div>
+            <h3>작은발톱수달</h3>
+            <i>Aonyx cinereus</i>
+            <p>물 속 날쌘돌이 사냥꾼 '수영의 달인' 수달은 몸을 위아래로 흔들면서 빠르게 물살을 가르며 헤엄쳐요. 수염이 예민하게 발달해서 사냥감을 귀신같이 찾아냅니다. 입으로 바로 물지 않고 앞발을
+              이용해서 먹이를 잡아요.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/yeosu/26_참물범.jpg" alt="참물범">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">3F · 마린라이프</span>
+              <span class="of-badge of-badge--fill">포유류</span>
+            </div>
+            <h3>참물범</h3>
+            <i>Phoca vitulina</i>
+            <p>동글동글 동자승과 같은 머리를 가진 귀여운 참물범이에요. 온 몸에 거친 털이 빽빽하게 나 있고, 참깨를 흩뿌린 듯 반점이 많아요. 안타깝게도 무분별한 포획과 서식지 파괴로 수가 빠르게
+              줄어들고 있답니다.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/yeosu/10_벨루가(흰고래).jpg" alt="흰고래(벨루가)">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">3F · 마린라이프</span>
+              <span class="of-badge of-badge--fill">포유류</span>
+            </div>
+            <h3>흰고래(벨루가)</h3>
+            <i>Delphinapterus leucas</i>
+            <p>툭 튀어나온 이마, 하얗고 매끈한 몸, 항상 웃고 있는 듯한 표정이 신비로운 느낌을 주는 희귀한 고래지요. 새소리 같은 미성을 지니고 있어 '바다의 카나리아'라 불리기도 해요.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/yeosu/05_디스커스.jpg" alt="디스커스">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">2F · 아쿠아포리스트</span>
+              <span class="of-badge of-badge--fill">Red Discus</span>
+            </div>
+            <h3>디스커스</h3>
+            <i>Symphysodon discus</i>
+            <p>디스커스는 새끼를 정성껏 돌보기로 유명해요. 알에서 태어난 새끼는 부모의 몸에 찰싹 붙어서 포식자도 피하고, 부모의 몸에서 나오는 '밀크'라는 분비물을 먹으며 성장해요.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/yeosu/11_보름달물해파리.jpg" alt="보름달해파리">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">2F · 아쿠아포리스트</span>
+              <span class="of-badge of-badge--fill">Moon Jellyfish</span>
+            </div>
+            <h3>보름달해파리</h3>
+            <i>Aurelia aurita</i>
+            <p>전 세계적으로 가장 널리 서식하며 우리나라 연안에서도 쉽게 만나볼 수 있는 해파리예요. 아주 작은 갑각류나 동물성 플랑크톤을 먹고 살아요.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/yeosu/17_아시안아로와나.jpg" alt="아시안아로와나">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">2F · 아쿠아포리스트</span>
+              <span class="of-badge of-badge--fill">Asian Arowana</span>
+            </div>
+            <h3>아시안아로와나</h3>
+            <i>Scleropages formosus</i>
+            <p>알을 입으로 품는 습성이 있습니다. 이 습성이 마치 여의주를 물고 있는 용과 같다고 하여 '용'이라는 별칭이 생기게 되었답니다.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/yeosu/30_피라니아.jpg" alt="피라니아">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">2F · 아쿠아포리스트</span>
+              <span class="of-badge of-badge--fill">Red-Bellied Piranha</span>
+            </div>
+            <h3>피라니아</h3>
+            <i>Pygocentrus nattereri</i>
+            <p>피라니아는 '이빨이 있는 물고기'란 뜻을 가지고 있습니다. 무리를 지어 사냥을 하며, 거대한 소도 순식간에 뼈만 남겨버리는 무시무시한 물고기예요.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+      </div>
+
+      <div class="of-detail-list" data-list="gwanggyo">
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/Gwanggyo/02_레드투스트리거.jpg" alt="레드투스트리거">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">B2F · Aqua Bubble</span>
+              <span class="of-badge of-badge--fill">해수연골어류</span>
+            </div>
+            <h3>레드투스트리거</h3>
+            <i>Red-Toothed Triggerfish</i>
+            <p>드라큘라처럼 뾰족하고 빨간 이빨이 오싹하게 뻗어 있어요. 몸 색깔도 청록색이나 보라색으로 바꿀 수 있다니 마술을 부리는 것 같아요.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/Gwanggyo/03_리본일.jpg" alt="리본일">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">B2F · Aqua Bubble</span>
+              <span class="of-badge of-badge--fill">해수연골어류</span>
+            </div>
+            <h3>리본일</h3>
+            <i>Ribbon Eel</i>
+            <p>어릴 때는 파란색을 띠고 수컷으로 지내다가 다 자라면 다시 노란색으로 변하면서 암컷이 되는 정말 신비로운 물고기예요.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/Gwanggyo/06_부채제비활치.jpg" alt="부채제비할치">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">B2F · Aqua Bubble</span>
+              <span class="of-badge of-badge--fill">해수연골어류</span>
+            </div>
+            <h3>부채제비할치</h3>
+            <i>Platax orbicularis</i>
+            <p>옆으로 납작한 몸이 마치 부채를 활짝 펼친 것 같아요. 은빛 비늘 위 흑갈색 줄무늬가 인상적인 물고기랍니다.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/Gwanggyo/07_블루탱.jpg" alt="블루탱">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">B2F · Aqua Bubble</span>
+              <span class="of-badge of-badge--fill">해수연골어류</span>
+            </div>
+            <h3>블루탱</h3>
+            <i>Paracanthurus hepatus</i>
+            <p>새파란 바탕에 노란 꼬리와 검정색 무늬가 섞인 그림같은 물고기예요. 어여쁜 외모와 달리 성격이 무척 예민하고 공격적이에요. 지느러미에는 독샘을 지닌 날카로운 가시가 있어요.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/Gwanggyo/10_스톤피쉬.jpg" alt="스톤피쉬">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">B2F · Aqua Bubble</span>
+              <span class="of-badge of-badge--fill">해수연골어류</span>
+            </div>
+            <h3>스톤피쉬</h3>
+            <i>Stone Fish</i>
+            <p>울퉁불퉁 돌덩이처럼 생긴 외모와 보호색으로 감쪽같이 위장할 수 있어요. 무시무시한 독침도 있으니 조심!</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/Gwanggyo/13_옐로탱.jpg" alt="옐로탱">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">B2F · Aqua Bubble</span>
+              <span class="of-badge of-badge--fill">해수연골어류</span>
+            </div>
+            <h3>옐로탱</h3>
+            <i>Yellow Tang</i>
+            <p>선명한 노란색이 시선을 사로잡아요. 밤이 되면 노란색이 옅어지지만 해가 뜨면 다시 선명한 노란색을 자랑해요. 채식을 좋아해서 바다거북의 등에 붙은 이끼를 먹어 청소해주기도 해요.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/Gwanggyo/18_팬더그루퍼.jpg" alt="팬더그루퍼">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">B2F · Aqua Bubble</span>
+              <span class="of-badge of-badge--fill">해수연골어류</span>
+            </div>
+            <h3>팬더그루퍼</h3>
+            <i>Panther Grouper</i>
+            <p>하얀 바탕에 검은 밥풀 무늬가 콕콕 박혀있어요. 자랄수록 반점의 숫자는 많아지고, 크기는 줄어들어요.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/Gwanggyo/24_흑점꺼끌복.jpg" alt="흑점꺼끌복">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">B2F · Aqua Bubble</span>
+              <span class="of-badge of-badge--fill">해수연골어류</span>
+            </div>
+            <h3>흑점꺼끌복</h3>
+            <i>Blackspotted Puffer</i>
+            <p>몸에 박힌 검은 점, 꺼끌꺼끌한 피부때문에 '흑점꺼끌복'이라 불려요. 위협을 느끼면 주둥이로 물을 뿌리거나 독을 내뿜어 자신을 보호합니다. 육식을 좋아해서 이빨이 날카롭지만 이러한 이빨로
+              자신을 보호하기도 한답니다.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/Gwanggyo/11_얼룩매가오리.jpg" alt="얼룩매가오리">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">B2F · Rainbow Reef</span>
+              <span class="of-badge of-badge--fill">해수연골어류</span>
+            </div>
+            <h3>얼룩매가오리</h3>
+            <i>Aetobatus narinari</i>
+            <p>까만 등에 수많은 하얀 점들이 콕콕 박혀 있어요. 볼록 튀어나온 주둥이와 무아하게 해맑아지는 모습이 마치 하늘을 나는 한 마리의 매 같아요.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/Gwanggyo/12_엠퍼러엔젤.jpg" alt="엠퍼러엔젤">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">B2F · Rainbow Reef</span>
+              <span class="of-badge of-badge--fill">해수경골어류</span>
+            </div>
+            <h3>엠퍼러엔젤</h3>
+            <i>Emperor Angelfish</i>
+            <p>신기하게도 어릴 때와 어른이 된 후의 생김새가 완전히 달라요. 어릴 때에는 동그라미 곡선의 무늬를 보이지만 자라면서 검은 고급을 쓴 듯한 얼굴과 샛노란 꼬리를 갖게 된답니다.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/Gwanggyo/17_파이어고비.jpg" alt="파이어고비">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">B2F · Rainbow Reef</span>
+              <span class="of-badge of-badge--fill">해수경골어류</span>
+            </div>
+            <h3>파이어고비</h3>
+            <i>Fire Goby</i>
+            <p>일부일처제로 짝을 이루어 평생 함께 살아가는 잉꼬부부 같은 물고기랍니다. 위협을 느끼면 모래속으로 파고 들어가 숨어버려요.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/Gwanggyo/04_매부리바다거북.jpg" alt="매부리바다거북">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">B2F · Play with Rays</span>
+              <span class="of-badge of-badge--fill">양서파충류</span>
+            </div>
+            <h3>매부리바다거북</h3>
+            <i>Hawksbill Sea Turtle</i>
+            <p>매부리바다거북은 매의 부리를 닮은 뾰족한 주둥이를 가지고 있어요. 해면동물을 주식으로 하지만 갑각류, 해조류뿐만 아니라 독이 있는 해파리까지도 잘 먹어요.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/Gwanggyo/05_보름달물해파리.jpg" alt="보름달물해파리">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">B2F · Jellyfish World</span>
+              <span class="of-badge of-badge--fill">자포동물</span>
+            </div>
+            <h3>보름달물해파리</h3>
+            <i>Aurelia aurita</i>
+            <p>동실동실 바다에 떠 수많은 보름달, 황홀하지요? 전 세계적으로 가장 널리 서식하며 우리나라 연안에서도 쉽게 만나볼 수 있는 해파리예요. 아주 작은 갑각류나, 동물성 플랑크톤을 먹고 살아요.
+            </p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/Gwanggyo/08_뿔닭새우.png" alt="뿔닭새우">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">B2F · Crab Island</span>
+              <span class="of-badge of-badge--fill">해수연골어류</span>
+            </div>
+            <h3>뿔닭새우</h3>
+            <i>Japanese Spider Crab</i>
+            <p>몸 길이의 2배가 넘는 굵은 다리들이 갖고 있어요. 껍질은 엎대기로 몸을 감싸고, 복부에는 흰색 반점이 있지요. 주로 바닥의 동이나 바위로 이루어진 얕은 바다에 살며, 낮에는 바위에 몸을
+              숨겼다가 밤에 활동을 한답니다.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/Gwanggyo/09_샌드타이거샤크.jpg" alt="샌드타이거샤크">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">B2F · Into the Ocean</span>
+              <span class="of-badge of-badge--fill">해수연골어류</span>
+            </div>
+            <h3>샌드타이거샤크</h3>
+            <i>Carcharias taurus</i>
+            <p>입안 가득 날카로운 이빨이 돋아나 있어요. 이빨이 입 안쪽을 향해 잡아있어 먹잇감을 물면 절대 놓지 않고 통째로 집어삼켜요. 하지만 평소에는 온순해서 사람과 마주치더라도 먼저 공격하는
+              경우는 드물답니다.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/Gwanggyo/23_흉상어.jpg" alt="홍상어">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">B2F · Into the Ocean</span>
+              <span class="of-badge of-badge--fill">해수연골어류</span>
+            </div>
+            <h3>홍상어</h3>
+            <i>Carcharhinus plumbeus</i>
+            <p>중간 크기의 상어류로 몸이 길고 잘십이 있으며, 머리가 위아래로 납작하고 꼬리 부분으로 갈수록 옆으로 납작해져요. 주둥이가 짧고 몽툭하며 입이 큰 편이에요.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/Gwanggyo/22_훔볼트 펭귄.jpg" alt="훔볼트펭귄">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">B2F · Penguin Village</span>
+              <span class="of-badge of-badge--fill">조류</span>
+            </div>
+            <h3>훔볼트펭귄</h3>
+            <i>Spheniscus humboldti</i>
+            <p>따뜻한 남아메리카에 사는 펭귄이에요. 눈과 가까운 부리 이쪽에 흰색 선이 있어요. 하늘을 날지는 못하지만 앞 날개를 동반하고 물속을 빠른 속도로 헤엄칠 수 있는 다양한 능력이 있답니다.
+            </p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/Gwanggyo/14_우파루파.jpg" alt="우파루파">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">B1F · Aqua Friends</span>
+              <span class="of-badge of-badge--fill">양서파충류</span>
+            </div>
+            <h3>우파루파</h3>
+            <i>Ambystoma mexicanum</i>
+            <p>뽀얀 피부를 가진 우파루파는 신체의 일부가 잘려도 쉽게 재생되는 신기한 동물이에요! 일반적인 도롱뇽과 달리 올챙이 모습 그대로 성장하기 때문에 성체가 되어서도 갈 아가미와 지느러미 모양의
+              꼬리를 가지고 있어요.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/Gwanggyo/15_자이언트모레이.jpg" alt="자이언트모레이">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">B1F · Aqua Friends</span>
+              <span class="of-badge of-badge--fill">자이언트모레이</span>
+            </div>
+            <h3>자이언트모레이</h3>
+            <i>Gymnothorax javanicus</i>
+            <p>다 자라면 몸길이가 3m나 되는 큰 곰치에요. 이빨이 날카롭고, 사나워 다이버를 공격하기도 합니다. 물고기나 갑각류 먹이를 좋아하지만 가끔 커다란 문어와 씨움을 벌여 잡아먹기도 해요.
+            </p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/Gwanggyo/16_작은발톱수달.jpg" alt="작은발톱수달">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">B1F · Aqua Friends</span>
+              <span class="of-badge of-badge--fill">포유류</span>
+            </div>
+            <h3>작은발톱수달</h3>
+            <i>Aonyx cinereus</i>
+            <p>'수영의 달인' 수달은 몸을 위아래로 흔들면서 빠르게 물살을 가르며 헤엄칩니다. 수염이 예민하게 발달해서 사냥감을 귀신같이 찾아냅니다. 입으로 바로 물지 않고 앞발을 이용해서 먹이를
+              잡아요. 이빨이 날카롭고 단단해서 딱딱한 껍질도 잘 깨부술 수 있어요.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/Gwanggyo/19_퍼큘라클라운피쉬.jpg" alt="퍼큘라클라운피쉬">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">B1F · Aqua Friends</span>
+              <span class="of-badge of-badge--fill">해수연골어류</span>
+            </div>
+            <h3>퍼큘라클라운피쉬</h3>
+            <i>Amphiprion ocellaris</i>
+            <p>'니모'로 유명한 퍼큘라클라운피쉬는 겁이 없어서 말미잘과 함께 살아가요. 말미잘은 퍼큘라클라운피쉬가 잡아 먹히지 않도록 포식자로부터 보호해주고, 퍼큘라클라운피쉬는 말미잘의 먹이를 유인해주는
+              사이좋은 친구들이랍니다.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/Gwanggyo/20_푸른바다거북.jpg" alt="푸른바다거북">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">B1F · Aqua Friends</span>
+              <span class="of-badge of-badge--fill">양서파충류</span>
+            </div>
+            <h3>푸른바다거북</h3>
+            <i>Chelonia mydas</i>
+            <p>전 세계의 따뜻한 바다에 서식하며 우리나라 연안에서도 가끔 만나볼 수 있는 손님이에요. 어린 때는 물고기나 갑각류를 먹고 살지만 성장하면서 해조류로 식성이 바뀌는 초식성 거북이에요.</p>
+            <a class="of-more" href="#">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <img src="assets/images/Gwanggyo/21_피라니아.jpg" alt="피라니아">
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">B1F · Aqua Friends</span>
+              <span class="of-badge of-badge--fill">민물어류</span>
+            </div>
+            <h3>피라니아</h3>
+            <i>Pygocentrus nattereri</i>
+            <p>피라니아는 '이빨이 있는 물고기'란 뜻을 가지고 있습니다. 무리를 지어 사냥을 하며, 거대한 소도 순식간에 뼈만 남겨버리는 무시무시한 물고기예요.</p>
             <a class="of-more" href="#">자세히 보기</a>
           </div>
         </article>
@@ -2216,22 +3354,117 @@
   <div id="custom-cursor" aria-hidden="true"></div>
 
   <script>
-    /* ── GNB: 업스크롤 시에만 표시 ── */
+    /* ── GNB: 페이지 10% 이상 스크롤 시 색상 전환 ── */
     (function () {
-      const gnb = document.getElementById('gnb');
+      const gnb = document.querySelector('.gnb');
       if (!gnb) return;
-      const THRESHOLD = 80;
-      let lastY = window.scrollY;
-      window.addEventListener('scroll', function () {
+
+      let lastScrollY = window.scrollY;
+
+      function updateGnbScrolled() {
         const y = window.scrollY;
-        gnb.classList.toggle('is-scrolled', y > THRESHOLD);
-        if (y > THRESHOLD) {
-          gnb.classList.toggle('is-hidden', y > lastY);
+        const max = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = max > 0 ? y / max : 0;
+        const scrolled = progress >= 0.1;
+
+        gnb.classList.toggle('gnb--scrolled', scrolled);
+
+        // 10% 넘은 뒤: 아래로 스크롤하면 숨기고, 위로 스크롤하면 다시 표시
+        if (scrolled && y > lastScrollY) {
+          gnb.classList.add('gnb--hidden');
         } else {
-          gnb.classList.remove('is-hidden');
+          gnb.classList.remove('gnb--hidden');
         }
-        lastY = y;
-      }, { passive: true });
+        lastScrollY = y;
+      }
+
+      window.addEventListener('scroll', updateGnbScrolled);
+      window.addEventListener('resize', updateGnbScrolled);
+      updateGnbScrolled();
+    })();
+
+    /* ── 섹션 타이틀/콘텐츠 순차 페이드인 ── */
+    (function () {
+      const groups = [
+        ['.of-hero', ['.of-eyebrow', '.of-title', '.of-hero__lead', '.of-scroll']],
+        ['.of-signature', ['.of-section-head', '.signature-gallery-viewport', '.of-pager']],
+        ['.of-detail', ['.of-section-head', '.of-filter', '.of-detail-card']],
+        ['.of-brand', ['.of-brand__mark', '.of-brand__text', '.of-meet', '.of-footer-note']]
+      ];
+
+      const revealItems = [];
+
+      groups.forEach(function ([sectionSelector, itemSelectors]) {
+        const section = document.querySelector(sectionSelector);
+        if (!section) return;
+
+        itemSelectors.forEach(function (selector, index) {
+          section.querySelectorAll(selector).forEach(function (item, itemIndex) {
+            const listCards = item.closest('.of-detail-list')?.querySelectorAll('.of-detail-card');
+            const cardIndex = listCards ? Array.prototype.indexOf.call(listCards, item) : itemIndex;
+            const delay = selector === '.of-detail-card' ? Math.min(cardIndex % 3, 2) * 130 : index * 170;
+            item.classList.add('of-reveal');
+            item.style.setProperty('--reveal-delay', delay + 'ms');
+            revealItems.push(item);
+          });
+        });
+      });
+
+      if (!revealItems.length) return;
+
+      if (!('IntersectionObserver' in window)) {
+        revealItems.forEach(function (item) {
+          item.classList.add('is-visible');
+        });
+        return;
+      }
+
+      const observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        });
+      }, {
+        threshold: 0.18,
+        rootMargin: '0px 0px -12% 0px'
+      });
+
+      revealItems.forEach(function (item) {
+        observer.observe(item);
+      });
+    })();
+
+    /* ── Let's Explore: 부드러운 섹션 이동 ── */
+    (function () {
+      const trigger = document.querySelector('.of-scroll[href="#signature"]');
+      const target = document.getElementById('signature');
+      if (!trigger || !target) return;
+
+      function easeInOutCubic(t) {
+        return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+      }
+
+      function smoothScrollTo(to, duration) {
+        const start = window.scrollY;
+        const distance = to - start;
+        const startTime = performance.now();
+
+        function step(now) {
+          const elapsed = now - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          window.scrollTo(0, start + distance * easeInOutCubic(progress));
+          if (progress < 1) requestAnimationFrame(step);
+        }
+
+        requestAnimationFrame(step);
+      }
+
+      trigger.addEventListener('click', function (e) {
+        e.preventDefault();
+        const targetY = target.getBoundingClientRect().top + window.scrollY;
+        smoothScrollTo(targetY, 1200);
+      });
     })();
 
     /* ── 커스텀 커서 ── */
@@ -2250,8 +3483,8 @@
       }, { passive: true });
       document.addEventListener('mouseleave', function () { el.style.opacity = '0'; });
       document.addEventListener('mouseenter', function () { if (firstMove) el.style.opacity = '1'; });
-      document.addEventListener('mousedown',  function () { el.classList.add('is-clicking'); });
-      document.addEventListener('mouseup',    function () { el.classList.remove('is-clicking'); });
+      document.addEventListener('mousedown', function () { el.classList.add('is-clicking'); });
+      document.addEventListener('mouseup', function () { el.classList.remove('is-clicking'); });
       document.addEventListener('mouseover', function (e) {
         const over = e.target.closest('a, button, [role="button"]');
         el.classList.toggle('is-hovering', !!over);
@@ -2265,230 +3498,355 @@
     })();
   </script>
 
-  <!-- 필터 칩 활성화 + 리스트 전환 -->
+  <!-- 필터 칩 활성화 + 리스트 전환 + 검색 -->
   <script>
     (function () {
-      const chips = document.querySelectorAll('.of-filter__chips .of-chip');
+      const chips = document.querySelectorAll('.cartegory-tabs-b .cartegory-tabs-b__item');
       const lists = document.querySelectorAll('.of-detail-list[data-list]');
+      const searchInput = document.querySelector('.of-search input');
 
       function showList(key) {
         lists.forEach(function (list) {
           list.classList.toggle('is-visible', list.dataset.list === key);
         });
+        if (searchInput) {
+          searchInput.value = '';
+          filterCards('');
+        }
+      }
+
+      function filterCards(query) {
+        const q = query.trim().toLowerCase();
+        const visibleList = document.querySelector('.of-detail-list.is-visible');
+        if (!visibleList) return;
+        visibleList.querySelectorAll('.of-detail-card').forEach(function (card) {
+          const name = (card.querySelector('h3') || {}).textContent || '';
+          const sci = (card.querySelector('i') || {}).textContent || '';
+          const badge = (card.querySelector('.of-badge.of-badge--fill') || {}).textContent || '';
+          const match = !q || (name + sci + badge).toLowerCase().includes(q);
+          card.style.display = match ? '' : 'none';
+        });
       }
 
       chips.forEach(function (chip) {
         chip.addEventListener('click', function () {
-          chips.forEach(function (c) { c.classList.remove('is-active'); });
-          chip.classList.add('is-active');
+          chips.forEach(function (c) { c.classList.remove('cartegory-tabs-b__item--active'); });
+          chip.classList.add('cartegory-tabs-b__item--active');
           showList(chip.textContent.trim().toLowerCase());
         });
       });
+
+      if (searchInput) {
+        searchInput.addEventListener('input', function () {
+          filterCards(searchInput.value);
+        });
+      }
 
       /* 초기 상태: Jeju 표시 */
       showList('jeju');
     })();
   </script>
 
-  <!-- 3D 캐러셀 -->
+  <!-- Signature Species 갤러리 — draggable infinite gallery -->
   <script>
     (function () {
-      const carousel = document.querySelector('#signature .of-species');
-      const pager    = document.querySelector('#signature .of-pager');
-      if (!carousel || !pager) return;
+      const viewport = document.querySelector('#signature .signature-gallery-viewport');
+      const track = document.querySelector('#signature .signature-gallery-track');
+      const pager = document.querySelector('#signature .of-pager');
+      if (!viewport || !track) return;
 
-      const cards = Array.from(carousel.querySelectorAll('.of-species-card'));
-      if (!cards.length) return;
-
-      const desktopQuery      = window.matchMedia('(min-width: 761px)');
-      const reduceMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-      const startIndex   = 0; // Beluga 시작
-      const dragThreshold = 44;
-      let activeIndex = startIndex;
-      let isEnabled   = false;
-      let isDragging  = false;
-      let dragStartX  = 0;
-      let wheelLocked = false;
-
-      function shortestOffset(index) {
-        let offset = index - activeIndex;
-        const half = cards.length / 2;
-        if (offset >  half) offset -= cards.length;
-        if (offset < -half) offset += cards.length;
-        return offset;
-      }
-
-      function clampIndex(index) {
-        return (index + cards.length) % cards.length;
-      }
-
-      function getPose(offset) {
-        const abs  = Math.abs(offset);
-        const sign = Math.sign(offset);
-        const slot = Math.min(abs, 3);
-
-        const distance = [0,   480,  860, 1200][slot] || 1400;
-        const depth    = [80,   20,  -40,  -80][slot] || -100;
-        const scale    = [1.02, 0.92, 0.85, 0.76][slot] || 0.68;
-        const opacity  = [1,    1,    0.82, 0.55][slot] || 0.28;
-        const rotate   = [0,    3,    6,    8][slot]    || 9;
-
-        return {
-          x:      `${sign * distance}px`,
-          z:      `${depth}px`,
-          rot:    `${sign * -rotate}deg`,
-          scale:  String(scale),
-          opacity: String(opacity),
-          zIndex: String(100 - slot)
-        };
-      }
-
-      function render() {
-        cards.forEach((card, index) => {
-          const offset   = shortestOffset(index);
-          const pose     = getPose(offset);
-          const isActive = index === activeIndex;
-
-          card.style.setProperty('--x',            pose.x);
-          card.style.setProperty('--z',            pose.z);
-          card.style.setProperty('--rot',          pose.rot);
-          card.style.setProperty('--scale',        pose.scale);
-          card.style.setProperty('--card-opacity', pose.opacity);
-          card.style.setProperty('--card-z',       pose.zIndex);
-          card.classList.toggle('is-active', isActive);
-          card.setAttribute('aria-current', isActive ? 'true' : 'false');
-        });
-
-        const progress = cards.length <= 1 ? 0.5 : activeIndex / (cards.length - 1);
-        carousel.style.setProperty('--gallery-glow-x',       `${26 + progress * 48}%`);
-        carousel.style.setProperty('--gallery-glow-y',       activeIndex % 2 ? '43%' : '56%');
-        carousel.style.setProperty('--gallery-glow-opacity', `${0.19 + (activeIndex % 3) * 0.025}`);
-      }
-
-      function goTo(index) { activeIndex = clampIndex(index); render(); }
-      function goNext()    { goTo(activeIndex + 1); }
-      function goPrev()    { goTo(activeIndex - 1); }
-
-      function buildPager() {
+      /* more 버튼 */
+      if (pager) {
         pager.replaceChildren();
-        const btn      = document.createElement('button');
-        btn.type       = 'button';
-        const moreText = document.createElement('span');
-        moreText.className   = 'of-pager__more';
-        moreText.textContent = 'more';
-        const arrow    = document.createElement('span');
-        arrow.className   = 'of-pager__arrow';
-        arrow.setAttribute('aria-hidden', 'true');
-        arrow.textContent = '↓';
-        btn.append(moreText, arrow);
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.innerHTML = '<span class="of-pager__more">more</span><span class="of-pager__arrow" aria-hidden="true">↓</span>';
         btn.setAttribute('aria-label', '생물 상세 소개 더 보기');
         btn.addEventListener('click', () => {
-          document.querySelector('.of-detail')?.scrollIntoView({
-            behavior: reduceMotionQuery.matches ? 'auto' : 'smooth',
-            block: 'start'
-          });
+          document.querySelector('.of-detail')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
         pager.appendChild(btn);
       }
 
-      function enable() {
-        if (isEnabled) return;
-        isEnabled = true;
-        carousel.classList.add('is-carousel-ready');
-        carousel.setAttribute('tabindex', '0');
-        carousel.setAttribute('role', 'region');
-        carousel.setAttribute('aria-roledescription', '3D gallery carousel');
+      const originals = Array.from(track.querySelectorAll('.species-card'));
+      const originalCount = originals.length;
+      if (!originalCount) return;
 
-        cards.forEach((card) => {
-          card.setAttribute('tabindex', '0');
-          card.addEventListener('click',  onCardClick);
-          card.addEventListener('focus',  onCardFocus);
+      const detailTargets = {
+        beluga: { list: 'yeosu', name: '흰고래(벨루가)' },
+        walrus: { list: 'ilsan', name: '바다코끼리' },
+        penguin: { list: 'jeju', name: '아프리칸펭귄' },
+        shark: { list: 'jeju', name: '샌드타이거샤크' },
+        ray: { list: 'jeju', name: '흑가오리' },
+        otter: { list: 'jeju', name: '작은발톱수달' },
+        'sea-turtle': { list: 'yeosu', name: '바다거북' },
+        'harbor-seal': { list: 'jeju', name: '참물범' },
+        jellyfish: { list: 'jeju', name: '보름달물해파리' },
+        clownfish: { list: 'jeju', name: '퍼큘라클라운피쉬' }
+      };
+
+      for (let setIndex = 1; setIndex < 3; setIndex += 1) {
+        originals.forEach(card => {
+          const clone = card.cloneNode(true);
+          clone.setAttribute('aria-hidden', 'true');
+          clone.dataset.cloneSet = String(setIndex);
+          track.appendChild(clone);
         });
+      }
 
+      let cards = Array.from(track.querySelectorAll('.species-card'));
+      cards.forEach(card => {
+        card.setAttribute('role', 'button');
+        card.setAttribute('tabindex', '0');
+      });
+      let singleSetWidth = 0;
+      let centerOffset = 0;
+      let current = 0;
+      let target = 0;
+      let momentum = 0;
+      let isDragging = false;
+      let lastX = 0;
+      let lastMoveTime = 0;
+      let dragDistance = 0;
+      let pressedCard = null;
+      let rafId = 0;
+      let baseCardWidth = 0;
+      let baseGap = 8;
+      let curveStrength = 0;
+
+      function lerp(a, b, t) {
+        return a + (b - a) * t;
+      }
+
+      function clamp(value, min, max) {
+        return Math.min(Math.max(value, min), max);
+      }
+
+      function measure() {
+        cards = Array.from(track.querySelectorAll('.species-card'));
+        const first = cards[0];
+        if (!first) return;
+
+        const styles = window.getComputedStyle(track);
+        baseGap = parseFloat(styles.columnGap || styles.gap || '8') || 8;
+        const firstStyles = window.getComputedStyle(first);
+        baseCardWidth = parseFloat(firstStyles.flexBasis) || first.getBoundingClientRect().width;
+        singleSetWidth = originalCount * baseCardWidth + originalCount * baseGap;
+        centerOffset = (viewport.clientWidth - baseCardWidth) / 2;
+        current = -singleSetWidth + centerOffset;
+        target = current;
+        momentum = 0;
         render();
       }
 
-      function disable() {
-        if (!isEnabled) return;
-        isEnabled  = false;
-        isDragging = false;
-        carousel.classList.remove('is-carousel-ready', 'is-dragging');
-        carousel.removeAttribute('tabindex');
-        carousel.removeAttribute('role');
-        carousel.removeAttribute('aria-roledescription');
-        carousel.style.removeProperty('--gallery-glow-x');
-        carousel.style.removeProperty('--gallery-glow-y');
-        carousel.style.removeProperty('--gallery-glow-opacity');
+      function wrapPosition() {
+        if (!singleSetWidth) return;
+        const min = -singleSetWidth * 2 + centerOffset;
+        const max = centerOffset;
 
-        cards.forEach((card) => {
-          card.classList.remove('is-active');
-          card.removeAttribute('tabindex');
-          card.removeAttribute('aria-current');
-          ['--x','--z','--rot','--scale','--card-opacity','--card-z'].forEach(p => card.style.removeProperty(p));
-          card.removeEventListener('click', onCardClick);
-          card.removeEventListener('focus', onCardFocus);
-        });
-      }
-
-      function syncMode() {
-        if (desktopQuery.matches) enable();
-        else disable();
-      }
-
-      function onCardClick(e) {
-        if (!isEnabled) return;
-        const index = cards.indexOf(e.currentTarget);
-        if (index >= 0) goTo(index);
-      }
-
-      function onCardFocus(e) {
-        if (!isEnabled) return;
-        const index = cards.indexOf(e.currentTarget);
-        if (index >= 0) goTo(index);
-      }
-
-      function onPointerDown(e) {
-        if (!isEnabled || e.button !== 0) return;
-        isDragging = true;
-        dragStartX = e.clientX;
-        carousel.classList.add('is-dragging');
-        carousel.setPointerCapture?.(e.pointerId);
-      }
-
-      function onPointerUp(e) {
-        if (!isEnabled || !isDragging) return;
-        const deltaX = e.clientX - dragStartX;
-        isDragging = false;
-        carousel.classList.remove('is-dragging');
-        if (Math.abs(deltaX) > dragThreshold) {
-          deltaX < 0 ? goNext() : goPrev();
+        if (current < min) {
+          current += singleSetWidth;
+          target += singleSetWidth;
+        } else if (current > max) {
+          current -= singleSetWidth;
+          target -= singleSetWidth;
         }
       }
 
-      function onWheel(e) {
-        if (!isEnabled || wheelLocked) return;
+      function render() {
+        const velocity = target - current;
+        const viewportRect = viewport.getBoundingClientRect();
+        const viewportCenter = viewportRect.left + viewportRect.width / 2;
+        const halfViewport = Math.max(viewportRect.width / 2, 1);
+        const velocityRotate = clamp(velocity * 0.018, -3.5, 3.5) * curveStrength;
+
+        track.style.transform = 'translate3d(' + current.toFixed(3) + 'px,0,0)';
+
+        cards.forEach(card => {
+          const cardCenter = viewportRect.left + current + card.offsetLeft + card.offsetWidth / 2;
+          const distance = cardCenter - viewportCenter;
+          const signed = clamp(distance / halfViewport, -1, 1);
+          const normalized = Math.abs(signed);
+          const curve = Math.pow(normalized, 1.25);
+          const isHovering = card.matches(':hover');
+
+          const rotateY = -signed * 72 * curveStrength;
+          const translateX = -signed * curve * 96 * curveStrength;
+          const translateZ = -curve * 340 * curveStrength;
+          const scale = 1 - curve * 0.24 * curveStrength;
+          const opacity = 1 - curve * 0.55 * curveStrength;
+          const settleY = 0;
+          const cardRotateZ = velocityRotate * (0.25 + curve * 0.75);
+
+          card.style.transform =
+            'translate3d(' + translateX.toFixed(2) + 'px,' + settleY.toFixed(2) + 'px,' + translateZ.toFixed(2) + 'px) ' +
+            'rotateY(' + rotateY.toFixed(3) + 'deg) ' +
+            'scale(' + scale.toFixed(4) + ') ' +
+            'rotateZ(' + cardRotateZ.toFixed(3) + 'deg)';
+          card.style.opacity = opacity.toFixed(3);
+          card.style.zIndex = isHovering ? '5' : String(Math.round((1 - curve) * 3));
+        });
+      }
+
+      function animate() {
+        target += momentum;
+        momentum *= isDragging ? 0.82 : 0.935;
+        if (Math.abs(momentum) < 0.015) momentum = 0;
+
+        current = lerp(current, target, 0.085);
+        const motion = Math.abs(target - current) + Math.abs(momentum) * 8;
+        const targetCurveStrength = clamp(motion / 140, 0, 1);
+        curveStrength = lerp(
+          curveStrength,
+          targetCurveStrength,
+          targetCurveStrength > curveStrength ? 0.22 : 0.075
+        );
+        if (curveStrength < 0.002 && targetCurveStrength === 0) curveStrength = 0;
+        wrapPosition();
+        render();
+        rafId = requestAnimationFrame(animate);
+      }
+
+      function pushTarget(delta) {
+        target += delta;
+        momentum = lerp(momentum, delta * 0.12, 0.35);
+      }
+
+      function normalizeText(text) {
+        return (text || '').replace(/\s+/g, '').toLowerCase();
+      }
+
+      function showDetailList(key) {
+        const lists = document.querySelectorAll('.of-detail-list[data-list]');
+        const chips = document.querySelectorAll('.cartegory-tabs-b .cartegory-tabs-b__item');
+        const searchInput = document.querySelector('.of-search input');
+
+        lists.forEach(list => {
+          list.classList.toggle('is-visible', list.dataset.list === key);
+          list.querySelectorAll('.of-detail-card').forEach(card => {
+            card.style.display = '';
+          });
+        });
+
+        chips.forEach(chip => {
+          chip.classList.toggle('cartegory-tabs-b__item--active', chip.textContent.trim().toLowerCase() === key);
+        });
+
+        if (searchInput) searchInput.value = '';
+      }
+
+      function findDetailCard(targetInfo) {
+        const list = document.querySelector('.of-detail-list[data-list="' + targetInfo.list + '"]');
+        if (!list) return null;
+        const targetName = normalizeText(targetInfo.name);
+
+        return Array.from(list.querySelectorAll('.of-detail-card')).find(card => {
+          const title = card.querySelector('h3');
+          return title && normalizeText(title.textContent) === targetName;
+        }) || null;
+      }
+
+      function scrollToDetailTarget(target) {
+        const offset = Math.min(Math.max(window.innerHeight * 0.18, 140), 220);
+        const top = target.getBoundingClientRect().top + window.scrollY - offset;
+        window.scrollTo({
+          top: Math.max(top, 0),
+          behavior: 'smooth'
+        });
+      }
+
+      function goToDetail(species) {
+        const targetInfo = detailTargets[species];
+        if (!targetInfo) {
+          document.querySelector('.of-detail')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          return;
+        }
+
+        showDetailList(targetInfo.list);
+        const targetCard = findDetailCard(targetInfo);
+        const scrollTarget = targetCard || document.querySelector('.of-detail');
+        if (!scrollTarget) return;
+
+        document.querySelectorAll('.of-detail-card.is-jump-target').forEach(card => {
+          card.classList.remove('is-jump-target');
+        });
+
+        window.requestAnimationFrame(() => {
+          scrollToDetailTarget(scrollTarget);
+          if (targetCard) {
+            targetCard.classList.add('is-jump-target');
+            window.setTimeout(() => targetCard.classList.remove('is-jump-target'), 1600);
+          }
+        });
+      }
+
+      viewport.addEventListener('pointerdown', e => {
+        if (e.button !== undefined && e.button !== 0) return;
+        isDragging = true;
+        pressedCard = e.target.closest('.species-card');
+        lastX = e.clientX;
+        lastMoveTime = performance.now();
+        dragDistance = 0;
+        momentum = 0;
+        viewport.classList.add('is-dragging');
+        viewport.setPointerCapture?.(e.pointerId);
+      });
+
+      viewport.addEventListener('pointermove', e => {
+        if (!isDragging) return;
+        const now = performance.now();
+        const dx = e.clientX - lastX;
+        const dt = Math.max(now - lastMoveTime, 16);
+        dragDistance += Math.abs(dx);
+        target += dx;
+        momentum = dx * clamp(18 / dt, 0.65, 1.8);
+        lastX = e.clientX;
+        lastMoveTime = now;
+      });
+
+      function endDrag(e) {
+        if (!isDragging) return;
+        const hit = e && document.elementFromPoint ? document.elementFromPoint(e.clientX, e.clientY) : null;
+        const releasedCard = hit ? hit.closest('.species-card') : (e && e.target ? e.target.closest('.species-card') : null);
+        const shouldOpen = e && e.type === 'pointerup' && dragDistance <= 8 && pressedCard && pressedCard === releasedCard;
+        isDragging = false;
+        viewport.classList.remove('is-dragging');
+        if (e && e.pointerId !== undefined) viewport.releasePointerCapture?.(e.pointerId);
+        if (shouldOpen) {
+          goToDetail(pressedCard.dataset.species);
+        }
+        pressedCard = null;
+      }
+
+      viewport.addEventListener('pointerup', endDrag);
+      viewport.addEventListener('pointercancel', endDrag);
+      viewport.addEventListener('lostpointercapture', endDrag);
+
+      viewport.addEventListener('wheel', e => {
         e.preventDefault();
-        wheelLocked = true;
-        e.deltaX > 0 || e.deltaY > 0 ? goNext() : goPrev();
-        setTimeout(() => { wheelLocked = false; }, 600);
-      }
+        const dominant = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+        pushTarget(-dominant * 0.95);
+      }, { passive: false });
 
-      function onKeyDown(e) {
-        if (!isEnabled) return;
-        if (e.key === 'ArrowRight') { e.preventDefault(); goNext(); }
-        if (e.key === 'ArrowLeft')  { e.preventDefault(); goPrev(); }
-      }
+      track.addEventListener('keydown', e => {
+        if (e.key !== 'Enter' && e.key !== ' ') return;
+        const card = e.target.closest('.species-card');
+        if (!card) return;
+        e.preventDefault();
+        goToDetail(card.dataset.species);
+      });
 
-      buildPager();
-      syncMode();
-      desktopQuery.addEventListener('change', syncMode);
+      window.addEventListener('resize', () => {
+        window.cancelAnimationFrame(rafId);
+        measure();
+        rafId = requestAnimationFrame(animate);
+      }, { passive: true });
 
-      carousel.addEventListener('pointerdown', onPointerDown);
-      carousel.addEventListener('pointerup',   onPointerUp);
-      carousel.addEventListener('wheel',       onWheel, { passive: false });
-      carousel.addEventListener('keydown',     onKeyDown);
+      measure();
+      rafId = requestAnimationFrame(animate);
     })();
   </script>
 
 </body>
+
 </html>
