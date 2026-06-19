@@ -1,16 +1,16 @@
-document.addEventListener('DOMContentLoaded', function() {
+﻿document.addEventListener('DOMContentLoaded', function() {
   const LOCATIONS = ['Jeju', 'Yeosu', 'Ilsan', 'Gwanggyo'];
 
   // ===== 페이지 10% 이상 스크롤 시 GNB 색상 전환 (흰색 → primary 계열) =====
   const gnb = document.querySelector('.gnb');
   if (gnb) {
     const ticketIcon = gnb.querySelector('.btn--ticket .btn__icon img');
-    const ticketIconWhite = '../assets/images/ticket_icon_white.svg';
-    const ticketIconBlue = '../assets/images/ticket_icon_blue.svg';
+    const ticketIconWhite = 'assets/images/ticket_icon_white.svg';
+    const ticketIconBlue = 'assets/images/ticket_icon_blue.svg';
 
     const logoImg = gnb.querySelector('.gnb__logo img');
-    const logoWhite = '../assets/images/headerLogo.png';
-    const logoBlue = '../assets/images/headerLogo_blue.png';
+    const logoWhite = 'assets/images/headerLogo.png';
+    const logoBlue = 'assets/images/headerLogo_blue.png';
 
     let lastScrollY = window.scrollY;
 
@@ -61,8 +61,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // ----- 선택된 시간대 프로그램 하이라이트 -----
     function highlightProgramsByTime(selectedHour) {
-      const greyIcon = '../assets/images/time_icon_grey.svg';
-      const whiteIcon = '../assets/images/time_icon_white.svg';
+      const greyIcon = 'assets/images/time_icon_grey.svg';
+      const whiteIcon = 'assets/images/time_icon_white.svg';
 
       // 이 테이블의 모든 program-slot 하이라이트 제거 + 아이콘 grey 복원
       table.querySelectorAll('.program-slot').forEach(slot => {
@@ -295,8 +295,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // 슬롯 호버 시 시간 아이콘을 흰색으로 (active처럼). 떼면 active가 아닐 때만 grey로 복원
-    const greyIcon = '../assets/images/time_icon_grey.svg';
-    const whiteIcon = '../assets/images/time_icon_white.svg';
+    const greyIcon = 'assets/images/time_icon_grey.svg';
+    const whiteIcon = 'assets/images/time_icon_white.svg';
     table.querySelectorAll('.program-slot').forEach(slot => {
       const icon = slot.querySelector('.program-time__icon img');
       if (!icon) return;
