@@ -40,17 +40,17 @@
   --gutter-side: 380px;
 
   /* Typography scale */
-  --fs-hero: 128px;
-  --fs-eyebrow: 32px;
-  --fs-hero-sub: 32px;
-  --fs-sec-en: 42px;
-  --fs-sec-serif: 48px;
-  --fs-creature: 48px;
-  --fs-nav: 24px;
-  --fs-nav-active: 26px;
-  --fs-caption: 20px;
-  --fs-sub: 18px;
-  --fs-body: 16px;
+  --fs-hero:       128px;
+  --fs-eyebrow:     32px;
+  --fs-hero-sub:    32px;
+  --fs-sec-en:      42px;
+  --fs-sec-serif:   48px;
+  --fs-creature:    48px;
+  --fs-nav:         18px;
+  --fs-nav-active:  20px;
+  --fs-caption:     20px;
+  --fs-sub:         18px;
+  --fs-body:        16px;
 
   /* Letter spacing */
   --ls-tight: -0.04em;
@@ -512,8 +512,8 @@ button {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  height: 54px;
-  padding: 0 22px;
+  height: 44px;
+  padding: 0 14px 0 20px;
   border-radius: var(--radius-btn-pill);
   font-family: var(--font-en);
   font-weight: 400;
@@ -3514,7 +3514,8 @@ body,
   background: transparent;
   display: flex;
   flex-direction: column;
-  width: 159px;
+  /* 위쪽 23px는 트리거와 패널을 잇는 투명 호버 다리 (마우스 이동 중 hover 유지) */
+  padding: 23px 3px 3px;
   /* 기본: 숨김 */
   opacity: 0;
   pointer-events: none;
@@ -3526,7 +3527,8 @@ body,
 .gnb__dropdown::after {
   content: '';
   position: absolute;
-  inset: 14px 0 0 0;
+  /* 위 호버 다리(23px)는 비우고, 패널은 콘텐츠만 감싸도록 (상하 3px 여백) */
+  inset: 20px 0 0 0;
   background: rgba(255, 255, 255, 0.3);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
@@ -3553,14 +3555,14 @@ body.marin-header-light .gnb .gnb__dropdown::after {
 .gnb__nav-item:hover .gnb__dropdown {
   opacity: 1;
   pointer-events: auto;
-  transform: translateX(-50%) translateY(0);
+  transform: translateY(0);
 }
 
 /* 드롭다운 자체에 호버해도 유지 */
 .gnb__dropdown:hover {
   opacity: 1;
   pointer-events: auto;
-  transform: translateX(-50%) translateY(0);
+  transform: translateY(0);
 }
 
 .gnb__dropdown-item {
@@ -3568,6 +3570,7 @@ body.marin-header-light .gnb .gnb__dropdown::after {
   align-items: center;
   justify-content: center;
   height: 48px;
+  width: 153px;
   border-radius: 12px;
   font-family: var(--font-en);
   font-size: var(--fs-body);
@@ -3581,6 +3584,10 @@ body.marin-header-light .gnb .gnb__dropdown::after {
 .gnb__dropdown-item:hover {
   background: #ffffff;
   color: var(--clr-primary);
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 18px;
+  letter-spacing: -0.72px;
 }
 
 .gnb__dropdown-item--active {
