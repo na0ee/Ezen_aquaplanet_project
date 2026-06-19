@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 
 <head>
@@ -19,12 +19,17 @@
     /* ── 기본 ── */
     body.oceanfriends-page {
       background: #ffffff;
-      color: #111;
+      color: #1a1a1a;
       background-image: none;
     }
 
     .oceanfriends-page .gnb {
       position: absolute;
+    }
+
+    /* 이 페이지는 3D 로고 연출이 없으므로 헤더 중앙 로고를 항상 표시 */
+    .oceanfriends-page .gnb__logo {
+      opacity: 0.8;
     }
 
     .oceanfriends-page .gnb__link[data-nav="crew"] {
@@ -44,27 +49,31 @@
     }
 
     /* ── 히어로 ── */
-    .of-hero {
+    .of-intro {
       position: relative;
-      min-height: 760px;
+      /* 화면을 꽉 채우되 너무 낮은 화면에선 콘텐츠 잘림 방지 (하한 640px) */
+      min-height: 760px;            /* dvh 미지원 브라우저 폴백 */
+      min-height: max(640px, 100vh);
+      min-height: max(640px, 100dvh);
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
       text-align: center;
       color: #ffffff;
-      padding: 120px 24px 140px;
+      padding-top: 270px;
       background: #22b8ee;
     }
 
-    .of-hero::before,
-    .of-hero::after {
+    .of-intro::before,
+    .of-intro::after {
       content: "";
       position: absolute;
       border-radius: 50%;
       pointer-events: none;
     }
 
-    .of-hero::before {
+    .of-intro::before {
       width: 620px;
       height: 620px;
       left: 7%;
@@ -73,7 +82,7 @@
       filter: blur(10px);
     }
 
-    .of-hero::after {
+    .of-intro::after {
       width: 760px;
       height: 760px;
       right: -10%;
@@ -82,10 +91,9 @@
       filter: blur(12px);
     }
 
-    .of-hero__content {
+    .of-intro__content {
       position: relative;
       z-index: 1;
-      transform: translateY(18px);
     }
 
     .of-eyebrow {
@@ -95,15 +103,17 @@
       font-weight: 500;
       font-size: clamp(18px, 2vw, 32px);
       margin-bottom: -8px;
+      letter-spacing: -0.64px;
     }
 
     .of-title {
       margin: 0;
       font-family: var(--font-en);
-      font-weight: 300;
+      font-weight: 500;
       font-size: clamp(56px, 8.6vw, 128px);
       line-height: 1.12;
       color: #ffffff;
+      letter-spacing: -2.56px;
     }
 
     .of-title em {
@@ -112,21 +122,23 @@
       font-style: italic;
     }
 
-    .of-hero__lead {
+    .of-intro__lead {
       margin: 18px auto 0;
       max-width: 760px;
       font-family: var(--font-kr);
       font-size: clamp(15px, 1.25vw, 22px);
       font-weight: 400;
-      line-height: 1.75;
+      line-height: 1.6;
       color: rgba(255, 255, 255, 0.86);
     }
 
     .of-scroll {
       position: absolute;
       left: 50%;
-      bottom: 54px;
       transform: translateX(-50%);
+      /* 하단으로부터 175px(@1080) — 화면 높이에 맞춰 반응형, 105~195px로 제한 */
+      bottom: clamp(105px, 16.2vh, 195px);
+      bottom: clamp(105px, 16.2dvh, 195px);
       display: grid;
       justify-items: center;
       gap: 18px;
@@ -140,27 +152,44 @@
     }
 
     .of-scroll__text {
-      font-family: var(--font-serif);
+      font-size: 32px;
+      line-height: 140%;
+      letter-spacing: -0.64px;
+      color: #fff;
+    }
+
+    /* "Let's" — Poppins Light */
+    .of-scroll__text-lets {
+      font-family: "Poppins";
+      font-style: normal;
+      font-weight: 300;
+    }
+
+    /* "Explore" — EB Garamond Italic */
+    .of-scroll__text-explore {
+      font-family: "EB Garamond";
       font-style: italic;
-      font-size: 18px;
+      font-weight: 500;
     }
 
     /* ── 섹션 공통 ── */
     .of-section-head {
       text-align: center;
-      margin-bottom: 84px;
+      margin-bottom: 80px;
     }
 
     .of-section-title {
       margin: 0;
       font-size: 0;
-      color: #111;
+      color: #1a1a1a;
+      letter-spacing: -1.68px;
     }
 
     .of-section-title span {
       font-family: var(--font-en);
       font-size: clamp(30px, 3.1vw, 42px);
       font-weight: 300;
+      letter-spacing: -1.92px;
     }
 
     .of-section-title em {
@@ -171,10 +200,11 @@
     }
 
     .of-section-sub {
-      margin-top: 10px;
+      margin-top: 12px;
       font-family: var(--font-kr);
-      font-size: 16px;
+      font-size: 14px;
       color: rgba(0, 0, 0, 0.62);
+      letter-spacing: -0.36px;
     }
 
     /* ── 시그니처 섹션 ── */
@@ -200,7 +230,6 @@
       color: #ffffff;
       isolation: isolate;
       background: linear-gradient(180deg, #c9f1fb, #0a75a6);
-      box-shadow: 0 18px 40px rgba(0, 79, 126, 0.18);
     }
 
     .of-species-card img {
@@ -252,8 +281,7 @@
     }
 
     .of-species-card__text {
-      left: 16px;
-      right: 16px;
+      left: 18px;
       bottom: 18px;
     }
 
@@ -332,16 +360,15 @@
       align-items: center;
       justify-content: center;
       width: min(1060px, calc(100% - 48px));
-      margin: -42px auto 64px;
+      margin: 0 auto 80px;
     }
 
     .of-filter__chips {
       display: flex;
       align-items: center;
-      gap: 4px;
-      padding: 4px;
-      border-radius: 12px;
-      background: rgba(235, 238, 240, 0.88);
+      border-radius: 14px;
+      background: #F8F8F8;
+      padding: 3px;
     }
 
     .of-search {
@@ -370,7 +397,7 @@
       outline: none;
       background: transparent;
       font-family: var(--font-kr);
-      font-size: 13px;
+      font-size: 12px;
       color: rgba(20, 32, 42, 0.6);
       width: 100px;
     }
@@ -380,36 +407,35 @@
     }
 
     .of-chip {
-      min-width: 74px;
-      height: 30px;
-      padding: 0 16px;
-      border-radius: 9px;
-      border: 0;
-      background: transparent;
-      color: rgba(20, 32, 42, 0.34);
+      padding: 12px 20px;
+      border-radius: 12px;
+      color: rgba(34, 178, 234, 0.50);
       font-family: var(--font-en);
-      font-size: 12px;
+      font-size: 14px;
       font-weight: 400;
-      letter-spacing: 0;
+      letter-spacing: -0.64px;
       cursor: pointer;
-      transition: color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
     }
 
     .of-chip.is-active {
       background: #ffffff;
       color: #22b2ea;
+      font-family: "EB Garamond";
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 400;
+      letter-spacing: -0.72px;
     }
 
     .of-chip:hover,
     .of-chip:focus-visible {
       color: #22b2ea;
-      background: rgba(255, 255, 255, 0.52);
       outline: none;
     }
 
     .of-detail-list {
       display: none;
-      gap: 88px;
+      gap: 80px;
       width: min(1060px, calc(100% - 48px));
       margin: 0 auto;
     }
@@ -423,6 +449,7 @@
       grid-template-columns: minmax(340px, 1.15fr) minmax(280px, 1fr);
       align-items: center;
       gap: 64px;
+      margin-top: 4px;
     }
 
     .of-detail-card:nth-child(even) {
@@ -434,7 +461,8 @@
     }
 
     .of-detail-card__media {
-      aspect-ratio: 4 / 3;
+      width: 520px;
+      height: 390px;
       border-radius: 14px;
       overflow: hidden;
       background: #d8f4fb;
@@ -447,12 +475,17 @@
       object-fit: cover;
     }
 
+    .of-detail-card__body {
+      width: 460px;
+      /* height는 내용에 따름 */
+    }
+
     .of-section-label {
       grid-column: 1 / -1;
       font-family: var(--font-en);
       font-size: 26px;
       font-weight: 300;
-      color: #111;
+      color: #1a1a1a;
       padding-bottom: 16px;
       border-bottom: 1px solid rgba(0, 0, 0, 0.12);
     }
@@ -467,7 +500,7 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
 
     .of-badge {
@@ -476,10 +509,11 @@
       min-height: 22px;
       padding: 0 10px;
       border-radius: 999px;
-      border: 1px solid rgba(34, 178, 234, 0.28);
-      font-size: 11px;
+      border: 1px solid rgba(34, 178, 234, 0.22);
+      font-size: 12px;
       color: #22b2ea;
       background: #ffffff;
+      letter-spacing: --ls-tight: -0.04em;
     }
 
     .of-badge--fill {
@@ -493,7 +527,7 @@
       font-family: var(--font-kr);
       font-size: clamp(24px, 2vw, 34px);
       font-weight: 600;
-      color: #111;
+      color: #1a1a1a;
       line-height: 1.25;
     }
 
@@ -502,31 +536,34 @@
       margin-top: 6px;
       font-family: var(--font-serif);
       font-size: 18px;
-      color: rgba(0, 0, 0, 0.66);
+      font-style: normal;
+      color: rgba(0, 0, 0, 0.62);
     }
 
     .of-detail-card p {
-      margin: 24px 0 18px;
+      margin: 24px 0 24px;
       font-family: var(--font-kr);
-      font-size: 15px;
-      line-height: 1.8;
-      color: rgba(0, 0, 0, 0.64);
+      font-size: 16px;
+      line-height: 1.6;
+      letter-spacing: var(--ls-tight);
+      color: #1a1a1a;
     }
 
     .of-more {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      height: 30px;
+      height: 32px;
       padding: 0 16px;
       border-radius: 999px;
-      background: #22b2ea;
+      background: #ffffff;
       border: 1px solid #22b2ea;
-      color: #ffffff;
-      font-size: 12px;
+      color: #22b2ea;
+      font-size: 16px;
       font-weight: 500;
       text-decoration: none;
       transition: background 0.2s, color 0.2s;
+      letter-spacing: var(--ls-tight);
     }
 
     .of-more:hover {
@@ -857,16 +894,19 @@
         width: min(100% - 32px, 1320px);
       }
 
-      .of-hero {
-        min-height: 680px;
-        padding-top: 112px;
+      .of-intro {
+        /* 모바일: 화면 꽉 채움, 하한 560px */
+        min-height: 560px;            /* dvh 미지원 폴백 */
+        min-height: max(560px, 100vh);
+        min-height: max(560px, 100dvh);
+        padding-top: 108px;
       }
 
       .of-title {
         font-size: clamp(46px, 15vw, 72px);
       }
 
-      .of-hero__lead {
+      .of-intro__lead {
         max-width: 320px;
       }
 
@@ -944,12 +984,20 @@
     <div class="gnb__inner">
       <!-- 왼쪽 메뉴 -->
       <nav class="gnb__nav" aria-label="메인 메뉴">
-        <a href="program/program.html" class="gnb__link" data-nav="program">Program</a>
+        <div class="gnb__nav-item" data-nav="program">
+          <a href="program/program.html" class="gnb__link">Program</a>
+          <div class="gnb__dropdown">
+            <a href="program/program.html?loc=Jeju" class="gnb__dropdown-item">Jeju</a>
+            <a href="program/program.html?loc=Yeosu" class="gnb__dropdown-item">Yeosu</a>
+            <a href="program/program.html?loc=Ilsan" class="gnb__dropdown-item">Ilsan</a>
+            <a href="program/program.html?loc=Gwanggyo" class="gnb__dropdown-item">Gwanggyo</a>
+          </div>
+        </div>
         <a href="Oceanfriends.html" class="gnb__link gnb__link--active" data-nav="crew">Ocean Friends</a>
         <div class="gnb__nav-item" data-nav="about">
           <span class="gnb__link">About us</span>
           <div class="gnb__dropdown">
-            <a href="#" class="gnb__dropdown-item">Business</a>
+            <a href="business.html" class="gnb__dropdown-item">Business</a>
             <a href="marinlab.html" class="gnb__dropdown-item">Marin Lab</a>
             <a href="location.html" class="gnb__dropdown-item">Location</a>
           </div>
@@ -958,16 +1006,13 @@
 
       <!-- 중앙 로고 -->
       <a href="index.html" class="gnb__logo-wrap" aria-label="Aqua Planet 홈">
-        <img class="gnb__logo" src="assets/images/headerLogo.png" alt="" aria-hidden="true">
+        <img class="gnb__logo" src="assets/images/headerLogo.png" alt="" aria-hidden="false">
       </a>
 
       <!-- 오른쪽 티켓 버튼 -->
       <button class="gnb__ticket btn-pill" type="button" aria-label="티켓 예매" onclick="location.href='ticket.html'">
         Ticket
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M7 17L17 7M17 7H7M17 7V17" stroke="white" stroke-width="1.5" stroke-linecap="round"
-            stroke-linejoin="round" />
-        </svg>
+        <img src="assets/images/ticket_icon_white.svg" width="24" height="24" alt="" aria-hidden="true">
       </button>
     </div>
   </header>
@@ -975,18 +1020,18 @@
   <main class="of-main">
 
     <!-- 히어로 -->
-    <section class="of-hero" aria-label="Ocean Friends 소개">
-      <div class="of-hero__content">
+    <section class="of-intro" aria-label="Ocean Friends 소개">
+      <div class="of-intro__content">
         <span class="of-eyebrow">Welcome</span>
         <h1 class="of-title">Meet Our <em>Ocean Friends</em></h1>
-        <p class="of-hero__lead">
+        <p class="of-intro__lead">
           아쿠아플라넷의 다양한 해양생물들을 만나보세요<br>
           바닷속 친구들의 생태와 유전, 흥미로운 이야기를 통해 더욱 깊이 있는 경험을 제공합니다
         </p>
       </div>
       <a class="of-scroll" href="#signature" aria-label="대표 생물 바로가기">
         <span class="of-scroll__line"></span>
-        <span class="of-scroll__text">Let's Explore</span>
+        <span class="of-scroll__text"><span class="of-scroll__text-lets">Let's</span> <span class="of-scroll__text-explore">Explore</span></span>
       </a>
     </section>
 
@@ -3153,6 +3198,10 @@
         }
       }, { passive: false });
     })();
+
+    $(document).on('click', 'a[href="#"]', function(e){
+    e.preventDefault();
+    });
   </script>
 
 </body>

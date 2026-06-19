@@ -393,8 +393,15 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   if (locationTabs.length) {
-    const activeTab = document.querySelector('.cartegory-tabs-a__item--active') || locationTabs[0];
-    selectLocation(activeTab.textContent.trim());
+    // URL 파라미터(?loc=Yeosu 등)가 있으면 해당 지역으로 진입 (다른 페이지 GNB 드롭다운에서 연결)
+    const locParam = new URLSearchParams(window.location.search).get('loc');
+    const fromUrl = LOCATIONS.find(l => l.toLowerCase() === (locParam || '').toLowerCase());
+    if (fromUrl) {
+      selectLocation(fromUrl);
+    } else {
+      const activeTab = document.querySelector('.cartegory-tabs-a__item--active') || locationTabs[0];
+      selectLocation(activeTab.textContent.trim());
+    }
   }
 
   // 리사이즈 시 보이는 일정표만 재계산
