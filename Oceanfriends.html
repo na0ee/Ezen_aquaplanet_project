@@ -454,21 +454,28 @@
       transform: translate3d(0, 0, 0);
     }
 
-    .oceanfriends-page .intro__content .of-reveal {
-      transform: translate3d(0, 38px, 0);
+    /* ── 인트로 타이틀: CSS 애니메이션 (JS 타이밍 불필요) ── */
+    @keyframes of-intro-rise {
+      from { opacity: 0; transform: translate3d(0, 38px, 0); }
+      to   { opacity: 1; transform: translate3d(0, 0, 0); }
     }
 
-    .oceanfriends-page .intro__content .of-reveal.is-visible {
-      transform: translate3d(0, 0, 0);
+    @keyframes of-intro-rise-scroll {
+      from { opacity: 0; transform: translateX(-50%) translateY(38px); }
+      to   { opacity: 1; transform: translateX(-50%) translateY(0); }
     }
 
-    /* of-scroll은 translateX(-50%) 중앙 정렬이 있으므로 reveal 시 함께 유지 */
-    .oceanfriends-page .intro__content .of-scroll.of-reveal {
-      transform: translateX(-50%) translateY(38px);
+    .oceanfriends-page .intro__content .of-eyebrow {
+      animation: of-intro-rise 1.05s cubic-bezier(0.22, 1, 0.36, 1) 0ms both;
     }
-
-    .oceanfriends-page .intro__content .of-scroll.of-reveal.is-visible {
-      transform: translateX(-50%) translateY(0);
+    .oceanfriends-page .intro__content .of-title {
+      animation: of-intro-rise 1.05s cubic-bezier(0.22, 1, 0.36, 1) 170ms both;
+    }
+    .oceanfriends-page .intro__content .of-hero__lead {
+      animation: of-intro-rise 1.05s cubic-bezier(0.22, 1, 0.36, 1) 340ms both;
+    }
+    .oceanfriends-page .intro__content .of-scroll {
+      animation: of-intro-rise-scroll 1.05s cubic-bezier(0.22, 1, 0.36, 1) 510ms both;
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -476,6 +483,13 @@
         opacity: 1;
         transform: none;
         transition: none;
+      }
+      .oceanfriends-page .intro__content .of-eyebrow,
+      .oceanfriends-page .intro__content .of-title,
+      .oceanfriends-page .intro__content .of-hero__lead,
+      .oceanfriends-page .intro__content .of-scroll {
+        animation: none;
+        opacity: 1;
       }
     }
 
@@ -3381,32 +3395,6 @@
       window.addEventListener('scroll', updateGnbScrolled);
       window.addEventListener('resize', updateGnbScrolled);
       updateGnbScrolled();
-    })();
-
-    /* ── 인트로 타이틀 페이드인 (페이지 로드 시 이미 뷰포트에 있으므로 별도 처리) ── */
-    (function () {
-      const introSection = document.querySelector('.intro__content');
-      if (!introSection) return;
-
-      const introSelectors = ['.of-eyebrow', '.of-title', '.of-hero__lead', '.of-scroll'];
-      const introElems = [];
-
-      introSelectors.forEach(function (selector, index) {
-        introSection.querySelectorAll(selector).forEach(function (el) {
-          el.classList.add('of-reveal');
-          el.style.setProperty('--reveal-delay', (index * 170) + 'ms');
-          introElems.push(el);
-        });
-      });
-
-      /* double rAF: 브라우저가 opacity:0 상태를 한 번 paint한 뒤 트랜지션 시작 */
-      requestAnimationFrame(function () {
-        requestAnimationFrame(function () {
-          introElems.forEach(function (el) {
-            el.classList.add('is-visible');
-          });
-        });
-      });
     })();
 
     /* ── 섹션 타이틀/콘텐츠 순차 페이드인 ── */

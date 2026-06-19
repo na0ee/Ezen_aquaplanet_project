@@ -5061,8 +5061,7 @@ body.biz-page {
 }
 
 .biz-diagram5.is-detail-open {
-  justify-content: space-between;
-  gap: 48px;
+  gap: 250px;
 }
 
 /* ── 왼쪽: 노드 클릭 시 전환되는 상세패널 (한 번에 하나만 .is-active) ── */
