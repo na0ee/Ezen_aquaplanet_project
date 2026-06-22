@@ -55,7 +55,7 @@
 
       <!-- 중앙 로고 -->
       <a href="index.html" class="gnb__logo-wrap" aria-label="Aqua Planet 홈">
-        <img class="gnb__logo" src="assets/images/headerLogo.png" alt="" aria-hidden="true">
+        <img class="gnb__logo" src="assets/images/headerLogo.webp" alt="" aria-hidden="true">
       </a>
 
       <!-- 오른쪽 티켓 버튼 → 예매 페이지로 이동 -->
@@ -123,10 +123,6 @@
 
       <div class="crew-sticky">
         <div class="crew-bg" aria-hidden="true"></div>
-        <video class="crew-fish-bg-video-source" id="crew-fish-bg-video-source" autoplay muted loop playsinline preload="auto" aria-hidden="true">
-          <source src="assets/images/fishBg.mp4" type="video/mp4">
-        </video>
-        <canvas class="crew-fish-bg-video" id="crew-fish-bg-video" aria-hidden="true"></canvas>
 
         <!-- Our Crew 헤더 -->
         <div class="crew-header">
@@ -344,11 +340,12 @@
     ================================================ -->
     <section id="sec-location" class="section section--location" aria-label="지점 안내">
       <div class="section__bg section__bg--location" aria-hidden="true"></div>
-      <video class="location-fish-bg-source" id="location-fish-bg-source" autoplay muted loop playsinline preload="auto" aria-hidden="true">
-        <source src="assets/images/fishBg2.mp4" type="video/mp4">
+      <video class="location-fish-bg location-fish-bg--left" autoplay muted loop playsinline preload="auto" aria-hidden="true">
+        <source src="assets/images/fishBg2_alpha.webm" type="video/webm">
       </video>
-      <canvas class="location-fish-bg location-fish-bg--left" id="location-fish-bg-left" aria-hidden="true"></canvas>
-      <canvas class="location-fish-bg" id="location-fish-bg" aria-hidden="true"></canvas>
+      <video class="location-fish-bg" autoplay muted loop playsinline preload="auto" aria-hidden="true">
+        <source src="assets/images/fishBg2_alpha.webm" type="video/webm">
+      </video>
       <div class="section-seq-sticky">
 
       <div class="container">
@@ -363,13 +360,13 @@
       <!-- 지도 + 마커 -->
       <div class="location-map-wrap location-seq-content">
         <div class="location-map">
-          <img class="korea-map" src="assets/images/map.png" alt="한국 지도">
+          <img class="korea-map" src="assets/images/map.webp" alt="한국 지도">
 
           <!-- 지점 마커 (위치: --mx / --my CSS 변수) -->
           <button class="map-marker" data-branch="일산"
                   style="--mx:46%;--my:27%" type="button" aria-label="아쿠아플라넷 일산">
             <span class="map-marker__dot"></span>
-            <img class="map-marker__logo" src="assets/images/ilsanLogo.png" alt="아쿠아플라넷 일산" aria-hidden="true">
+            <img class="map-marker__logo" src="assets/images/ilsanLogo.webp" alt="아쿠아플라넷 일산" aria-hidden="true">
           </button>
 
           <button class="map-marker" data-branch="코엑스"
@@ -381,13 +378,13 @@
           <button class="map-marker" data-branch="여수"
                   style="--mx:44%;--my:73%" type="button" aria-label="아쿠아플라넷 여수">
             <span class="map-marker__dot"></span>
-            <img class="map-marker__logo" src="assets/images/yeosuLogo.png" alt="아쿠아플라넷 여수" aria-hidden="true">
+            <img class="map-marker__logo" src="assets/images/yeosuLogo.webp" alt="아쿠아플라넷 여수" aria-hidden="true">
           </button>
 
           <button class="map-marker" data-branch="제주"
                   style="--mx:32%;--my:94%" type="button" aria-label="아쿠아플라넷 제주">
             <span class="map-marker__dot"></span>
-            <img class="map-marker__logo" src="assets/images/jejuLogo.png" alt="아쿠아플라넷 제주" aria-hidden="true">
+            <img class="map-marker__logo" src="assets/images/jejuLogo.webp" alt="아쿠아플라넷 제주" aria-hidden="true">
           </button>
         </div>
 
@@ -585,6 +582,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="js/main.js"></script>
   <script src="js/crew3d.js" type="module"></script>
-  <script src="js/logo_glass.js?v=20260619-06" type="module"></script>
+  <script src="js/logo_glass.js?v=20260622-01" type="module"></script>
 </body>
 </html>

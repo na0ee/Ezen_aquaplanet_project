@@ -448,6 +448,7 @@ function enterCrewSection() {
   crewCanvas.style.opacity    = '1';
 
   setCrewTitleVisible(true);
+  setCrewInfoVisible(true);
   hideCanvasAfterExit = false;
   clearTimeout(crewContentTimer);
   clearTimeout(crewFishTopTimer);
@@ -554,7 +555,6 @@ function showCreature(idx, immediate = false) {
 
   hideCanvasAfterExit = false;
   crewCanvas.style.opacity = '1';
-  setCrewInfoVisible(false);
   currentSettled = false;
   disableControls();
 
