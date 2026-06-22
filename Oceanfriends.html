@@ -13,1093 +13,56 @@
   <link
     href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,500&family=Poppins:wght@300;400;500&display=swap"
     rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/oceanfriends.css" />
 
-  <style>
-    /* ── 기본 ── */
-    body.oceanfriends-page {
-      background: #ffffff;
-      color: #111;
-      background-image: none;
-    }
-
-    /* ── 메인 레이아웃 ── */
-    .of-main {
-      overflow-x: clip;
-      overflow-y: visible;
-    }
-
-    .of-container {
-      width: min(1320px, calc(100% - 64px));
-      margin-inline: auto;
-    }
-
-    /* ── 히어로 ── */
-    .of-hero {
-      position: relative;
-      min-height: max(920px, 108svh);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      color: #ffffff;
-      padding: 120px 24px 120px;
-      background: #22b8ee;
-    }
-
-    .of-hero::before,
-    .of-hero::after {
-      content: "";
-      position: absolute;
-      border-radius: 50%;
-      pointer-events: none;
-    }
-
-    .of-hero::before {
-      width: 620px;
-      height: 620px;
-      left: 7%;
-      top: 18%;
-      background: radial-gradient(circle, rgba(255, 255, 255, 0.24), transparent 62%);
-      filter: blur(10px);
-    }
-
-    .of-hero::after {
-      width: 760px;
-      height: 760px;
-      right: -10%;
-      bottom: -22%;
-      background: radial-gradient(circle, rgba(255, 255, 255, 0.18), transparent 64%);
-      filter: blur(12px);
-    }
-
-    .of-hero__content {
-      position: relative;
-      z-index: 1;
-      transform: translateY(18px);
-    }
-
-    .of-eyebrow {
-      display: block;
-      font-family: var(--font-serif);
-      font-style: italic;
-      font-weight: 500;
-      font-size: clamp(18px, 2vw, 32px);
-      margin-bottom: -8px;
-    }
-
-    .of-title {
-      margin: 0;
-      font-family: var(--font-en);
-      font-weight: 300;
-      font-size: clamp(56px, 8.6vw, 128px);
-      line-height: 1.12;
-      color: #ffffff;
-    }
-
-    .of-title em {
-      font-family: var(--font-serif);
-      font-weight: 500;
-      font-style: italic;
-    }
-
-    .of-hero__lead {
-      margin: 18px auto 0;
-      max-width: 760px;
-      font-family: var(--font-kr);
-      font-size: clamp(15px, 1.25vw, 22px);
-      font-weight: 400;
-      line-height: 1.75;
-      color: rgba(255, 255, 255, 0.86);
-    }
-
-    .of-scroll {
-      position: absolute;
-      left: 50%;
-      bottom: 300px;
-      transform: translateX(-50%);
-      display: grid;
-      justify-items: center;
-      gap: 18px;
-      color: rgba(255, 255, 255, 0.86);
-    }
-
-    .of-scroll__line {
-      width: 1px;
-      height: 116px;
-      background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.75));
-    }
-
-    .of-scroll__text {
-      font-family: var(--font-serif);
-      font-style: italic;
-      font-size: 18px;
-    }
-
-    /* ── 섹션 공통 ── */
-    .of-section-head {
-      text-align: center;
-      margin-bottom: 84px;
-    }
-
-    .of-section-title {
-      margin: 0;
-      font-size: 0;
-      color: #111;
-    }
-
-    .of-section-title span {
-      font-family: var(--font-en);
-      font-size: clamp(30px, 3.1vw, 42px);
-      font-weight: 300;
-    }
-
-    .of-section-title em {
-      font-family: var(--font-serif);
-      font-size: clamp(34px, 3.5vw, 48px);
-      font-weight: 500;
-      font-style: italic;
-    }
-
-    .of-section-sub {
-      margin-top: 10px;
-      font-family: var(--font-kr);
-      font-size: 16px;
-      color: rgba(0, 0, 0, 0.62);
-    }
-
-    .of-scroll-hint {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      justify-content: center;
-      width: 100%;
-      margin: -42px 0 12px;
-      color: rgba(255, 255, 255, 0.9);
-    }
-
-    .of-scroll-hint::before,
-    .of-scroll-hint::after {
-      content: none;
-    }
-
-    .of-scroll-hint svg {
-      width: 46px;
-      height: 14px;
-      color: rgba(255, 255, 255, 0.9);
-    }
-
-    /* ── 섹션 순차 페이드인 ── */
-    .oceanfriends-page .of-reveal {
-      opacity: 0;
-      transform: translate3d(0, 28px, 0);
-      transition:
-        opacity 1.05s cubic-bezier(0.22, 1, 0.36, 1),
-        transform 1.05s cubic-bezier(0.22, 1, 0.36, 1);
-      transition-delay: var(--reveal-delay, 0ms);
-      will-change: opacity, transform;
-    }
-
-    .oceanfriends-page .of-reveal.is-visible {
-      opacity: 1;
-      transform: translate3d(0, 0, 0);
-    }
-
-    .oceanfriends-page .of-detail-card.of-reveal {
-      transform: translate3d(0, 42px, 0);
-    }
-
-    .oceanfriends-page .of-detail-card.of-reveal.is-visible {
-      transform: translate3d(0, 0, 0);
-    }
-
-    .oceanfriends-page .of-hero .of-reveal {
-      transform: translate3d(0, 38px, 0);
-    }
-
-    .oceanfriends-page .of-hero .of-reveal.is-visible {
-      transform: translate3d(0, 0, 0);
-    }
-
-    /* of-scroll은 translateX(-50%) 중앙 정렬이 있으므로 reveal 시 함께 유지 */
-    .oceanfriends-page .of-hero .of-scroll.of-reveal {
-      transform: translateX(-50%) translateY(38px);
-    }
-
-    .oceanfriends-page .of-hero .of-scroll.of-reveal.is-visible {
-      transform: translateX(-50%) translateY(0);
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .oceanfriends-page .of-reveal {
-        opacity: 1;
-        transform: none;
-        transition: none;
-      }
-    }
-
-    /* ── 시그니처 섹션 ── */
-    .of-signature {
-      min-height: 90svh;
-      padding: clamp(110px, 14vh, 170px) 0 clamp(80px, 10vh, 140px);
-      background: linear-gradient(180deg, #22b8ee 0%, #7dd5f0 35%, #c8f0fb 65%, #ffffff 100%);
-    }
-
-    /* ── 종 카드 (grid 기본) ── */
-    .of-species {
-      display: grid;
-      grid-template-columns: repeat(7, minmax(126px, 1fr));
-      gap: 12px;
-      width: min(1480px, calc(100% - 24px));
-      margin: 0 auto;
-    }
-
-    .of-species-card {
-      position: relative;
-      min-height: 360px;
-      border-radius: 8px;
-      overflow: hidden;
-      color: #ffffff;
-      isolation: isolate;
-      background: linear-gradient(180deg, #c9f1fb, #0a75a6);
-      box-shadow: 0 18px 40px rgba(0, 79, 126, 0.18);
-    }
-
-    .of-species-card img {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: var(--img-x, 50%) var(--img-y, 50%);
-      transition: transform 0.7s ease;
-    }
-
-    /* 카드별 이미지 피사체 중심 — data-species 속성으로 각각 지정 */
-    [data-species="beluga"]      { --img-x: 50%; --img-y: 36%; }
-    [data-species="walrus"]      { --img-x: 30%; --img-y: 50%; }
-    [data-species="penguin"]     { --img-x: 50%; --img-y: 38%; }
-    [data-species="shark"]       { --img-x: 95%; --img-y: 50%; }
-    [data-species="ray"]         { --img-x: 50%; --img-y: 50%; }
-    [data-species="otter"]       { --img-x: 50%; --img-y: 42%; }
-    [data-species="sea-turtle"]  { --img-x: 68%; --img-y: 50%; }
-    [data-species="harbor-seal"] { --img-x: 30%; --img-y: 32%; }
-    [data-species="jellyfish"]   { --img-x: 50%; --img-y: 50%; }
-    [data-species="clownfish"]   { --img-x: 65%; --img-y: 50%; }
-
-    .of-species-card::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      z-index: 1;
-      background: linear-gradient(180deg, rgba(0, 0, 0, 0.08) 35%, rgba(0, 0, 0, 0.68) 100%);
-    }
-
-    .of-species-card:hover img {
-      transform: scale(1.06);
-    }
-
-    .of-species-card__num,
-    .of-species-card__text {
-      position: absolute;
-      z-index: 2;
-    }
-
-    .of-species-card__num {
-      top: 14px;
-      left: 14px;
-      font-family: var(--font-en);
-      font-size: 13px;
-      color: rgba(255, 255, 255, 0.78);
-    }
-
-    .of-species-card__text {
-      left: 16px;
-      right: 16px;
-      bottom: 18px;
-    }
-
-    .of-species-card__text strong {
-      display: block;
-      font-family: var(--font-serif);
-      font-size: 22px;
-      font-weight: 500;
-      line-height: 1;
-      color: #fff;
-      text-shadow: 0 1px 6px rgba(0, 0, 0, 0.45);
-      -webkit-font-smoothing: antialiased;
-    }
-
-    .of-species-card__text span {
-      display: block;
-      margin-top: 7px;
-      font-size: 12px;
-      color: rgba(255, 255, 255, 0.7);
-    }
-
-    /* ── 페이저 ── */
-    .of-pager {
-      margin: 54px auto 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .of-pager button {
-      display: flex;
-      width: max-content;
-      height: 18px;
-      justify-content: center;
-      align-items: center;
-      gap: 12px;
-      padding: 0;
-      border: 0;
-      background: transparent;
-      color: rgba(26, 26, 26, 0.50);
-      font-family: "Pretendard Variable", var(--font-kr);
-      font-size: 15px;
-      font-style: normal;
-      font-weight: 400;
-      letter-spacing: 0;
-      line-height: 140%;
-      cursor: pointer;
-    }
-
-    .of-pager button:hover,
-    .of-pager button:focus-visible {
-      color: rgba(26, 26, 26, 0.72);
-      outline: none;
-    }
-
-    .of-pager__more {
-      color: rgba(26, 26, 26, 0.50);
-      font-family: "Pretendard Variable", var(--font-kr);
-      font-size: 15px;
-    }
-
-    .of-pager__arrow {
-      font-size: 14px;
-      color: #22b2ea;
-    }
-
-    /* ── 디테일 섹션 ── */
-    .of-detail {
-      min-height: 100svh;
-      padding: clamp(80px, 10vh, 120px) 0 260px;
-      background: #ffffff;
-    }
-
-    .of-detail__sticky {
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      padding: 28px 0 22px;
-      margin-top: -28px;
-      margin-bottom: 64px;
-      background:
-        linear-gradient(180deg, #ffffff 0%, #ffffff 82%, rgba(255, 255, 255, 0) 100%);
-    }
-
-    .of-detail__sticky .of-section-head {
-      margin-bottom: 26px;
-    }
-
-    .of-filter {
-      position: relative;
-      display: grid;
-      justify-items: center;
-      gap: 18px;
-      align-items: center;
-      justify-content: center;
-      width: min(1060px, calc(100% - 48px));
-      margin: 0 auto;
-    }
-
-    .of-filter__chips {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-wrap: wrap;
-      background-color: rgba(235, 238, 240, 0.88);
-      padding: 3px;
-      border-radius: 14px;
-      width: fit-content;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .of-search {
-      position: relative;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      width: min(420px, 100%);
-      height: 38px;
-      padding: 0 18px;
-      border-radius: 999px;
-      border: 1px solid rgba(34, 178, 234, 0.26);
-      background: rgba(255, 255, 255, 0.96);
-    }
-
-    .of-search svg {
-      flex-shrink: 0;
-      color: #22b2ea;
-    }
-
-    .of-search input {
-      border: none;
-      outline: none;
-      background: transparent;
-      font-family: var(--font-kr);
-      font-size: 15px;
-      color: rgba(20, 32, 42, 0.72);
-      width: 100%;
-    }
-
-    .of-search input::placeholder {
-      color: rgba(20, 32, 42, 0.34);
-    }
-
-    .of-chip {
-      padding: 12px 20px;
-      border-radius: 12px;
-      border: none;
-      background-color: transparent;
-      color: rgba(20, 32, 42, 0.34);
-      font-family: var(--font-kr);
-      font-size: 16px;
-      font-weight: 500;
-      letter-spacing: -0.64px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      transition: all 0.3s ease;
-    }
-
-    .of-chip.is-active {
-      background-color: #ffffff;
-      color: #22b2ea;
-      font-family: var(--font-serif);
-      font-size: 18px;
-      font-weight: 400;
-      letter-spacing: -0.72px;
-    }
-
-    .of-chip:hover,
-    .of-chip:focus-visible {
-      color: #22b2ea;
-      background: rgba(255, 255, 255, 0.52);
-      outline: none;
-    }
-
-    .of-detail-list {
-      display: none;
-      gap: 88px;
-      width: min(1060px, calc(100% - 48px));
-      margin: 0 auto;
-      position: relative;
-      z-index: 1;
-    }
-
-    .of-detail-list.is-visible {
-      display: grid;
-    }
-
-    .of-detail-card {
-      display: grid;
-      grid-template-columns: minmax(340px, 1.15fr) minmax(280px, 1fr);
-      align-items: center;
-      gap: 64px;
-      scroll-margin-top: 180px;
-    }
-
-    .of-detail-card.is-jump-target .of-detail-card__media {
-      box-shadow: 0 14px 42px rgba(34, 178, 234, 0.26), 0 0 0 2px rgba(34, 178, 234, 0.28);
-    }
-
-    .of-detail-card:nth-child(even) {
-      grid-template-columns: minmax(280px, 1fr) minmax(340px, 1.15fr);
-    }
-
-    .of-detail-card:nth-child(even) .of-detail-card__media {
-      order: 2;
-    }
-
-    .of-detail-card__media {
-      aspect-ratio: 4 / 3;
-      border-radius: 14px;
-      overflow: hidden;
-      background: #d8f4fb;
-      box-shadow: 0 8px 32px rgba(34, 100, 154, 0.10);
-    }
-
-    .of-detail-card__media img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .of-section-label {
-      grid-column: 1 / -1;
-      font-family: var(--font-en);
-      font-size: 26px;
-      font-weight: 300;
-      color: #111;
-      padding-bottom: 16px;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-    }
-
-    .of-section-label em {
-      font-family: var(--font-serif);
-      font-style: italic;
-      font-weight: 500;
-    }
-
-    .of-detail-card__meta {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 14px;
-    }
-
-    .of-badge {
-      display: inline-flex;
-      align-items: center;
-      min-height: 22px;
-      padding: 0 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(34, 178, 234, 0.28);
-      font-size: 11px;
-      color: #22b2ea;
-      background: #ffffff;
-    }
-
-    .of-badge--fill {
-      color: #ffffff;
-      background: #22b2ea;
-      border-color: #22b2ea;
-    }
-
-    .of-detail-card h3 {
-      margin: 0;
-      font-family: var(--font-kr);
-      font-size: clamp(24px, 2vw, 34px);
-      font-weight: 600;
-      color: #111;
-      line-height: 1.25;
-    }
-
-    .of-detail-card i {
-      display: block;
-      margin-top: 6px;
-      font-family: var(--font-serif);
-      font-size: 18px;
-      color: rgba(0, 0, 0, 0.66);
-    }
-
-    .of-detail-card p {
-      margin: 24px 0 18px;
-      font-family: var(--font-kr);
-      font-size: 15px;
-      line-height: 1.8;
-      color: rgba(0, 0, 0, 0.64);
-    }
-
-    .of-more {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      height: 30px;
-      padding: 0 16px;
-      border-radius: 999px;
-      background: #22b2ea;
-      border: 1px solid #22b2ea;
-      color: #ffffff;
-      font-size: 12px;
-      font-weight: 500;
-      text-decoration: none;
-      transition: background 0.2s, color 0.2s;
-    }
-
-    .of-more:hover {
-      background: #22b2ea;
-      color: #ffffff;
-    }
-
-    /* ── 브랜드 섹션 ── */
-    .of-brand {
-      min-height: 900px;
-      display: flex;
-      align-items: end;
-      justify-content: center;
-      padding: 120px 24px 70px;
-      background:
-        radial-gradient(circle at 50% 18%, rgba(255, 255, 255, 0.68) 0 6%, transparent 23%),
-        linear-gradient(180deg, #ffffff 0%, #d9f7ff 20%, #52cdf2 68%, #22b8ee 100%);
-      text-align: center;
-      color: #ffffff;
-    }
-
-    .of-brand__inner {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0;
-    }
-
-    .of-brand__mark {
-      width: min(420px, 55vw);
-      opacity: 0.55;
-      margin-top: 20px;
-    }
-
-    .of-brand__text {
-      width: min(320px, 55vw);
-      margin-top: -12px;
-      margin-bottom: 60px;
-      filter: brightness(0) invert(1);
-    }
-
-    .of-meet {
-      width: 100%;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
-      padding: 48px 80px;
-      gap: 24px;
-    }
-
-    .of-meet>div {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      text-align: left;
-    }
-
-    .of-meet h2 {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      font-size: 56px;
-      font-weight: 300;
-      line-height: 115%;
-      letter-spacing: -1.68px;
-      color: #1A1A1A;
-    }
-
-    .of-meet h2 em {
-      font-family: 'EB Garamond', serif;
-      font-style: italic;
-      font-size: 60px;
-      font-weight: 500;
-      line-height: 115%;
-      letter-spacing: -1.8px;
-      color: #1A1A1A;
-    }
-
-    .of-meet p {
-      margin: 0;
-      font-family: 'Pretendard Variable', 'Pretendard', sans-serif;
-      font-size: 15px;
-      font-weight: 400;
-      line-height: 140%;
-      letter-spacing: -0.3px;
-      color: rgba(26, 26, 26, 0.55);
-    }
-
-    .of-footer-note {
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      width: 100%;
-      padding: 28px 80px;
-      border-top: 1px solid rgba(255, 255, 255, 0.22);
-      box-sizing: border-box;
-    }
-
-    .of-footer-note__left {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 6px;
-    }
-
-    .of-footer-note__left .fn-title {
-      color: #1A1A1A;
-      font-family: 'Poppins', sans-serif;
-      font-size: 16px;
-      font-weight: 500;
-      line-height: 1;
-      letter-spacing: 0.32px;
-    }
-
-    .of-footer-note__left .fn-sub {
-      color: rgba(26, 26, 26, 0.45);
-      font-family: 'Poppins', sans-serif;
-      font-size: 12px;
-      font-weight: 400;
-      line-height: 1;
-      letter-spacing: 0.24px;
-    }
-
-    .of-footer-note__left .fn-copy {
-      color: rgba(26, 26, 26, 0.35);
-      font-family: 'Noto Sans KR', sans-serif;
-      font-size: 12px;
-      font-weight: 400;
-      line-height: 1;
-    }
-
-    .of-footer-note__right {
-      display: flex;
-      gap: 28px;
-      font-family: 'Poppins', sans-serif;
-      font-size: 12px;
-      font-weight: 400;
-      line-height: 1;
-      letter-spacing: 0.24px;
-    }
-
-    .of-footer-note__right a {
-      color: rgba(26, 26, 26, 0.60);
-      text-decoration: none;
-    }
-
-    .of-footer-note__right a:hover {
-      color: #22b2ea;
-    }
-
-    .of-meet .btn-cta {
-      display: flex;
-      height: 54px;
-      padding: 0 28px;
-      justify-content: center;
-      align-items: center;
-      border-radius: 100px;
-      background: #22B2EA;
-      color: #05141C;
-      font-family: 'Poppins', sans-serif;
-      font-size: 14px;
-      font-weight: 500;
-      line-height: 1;
-      letter-spacing: 0.14px;
-      text-decoration: none;
-      white-space: nowrap;
-    }
-
-    /* ── 흰색 배경 위 파란 커서 ── */
-    #custom-cursor.is-over-light {
-      border-color: rgba(34, 178, 234, 0.9);
-    }
-
-    #custom-cursor.is-over-light.is-hovering {
-      border-color: rgba(34, 178, 234, 1);
-      background: rgba(34, 178, 234, 0.08);
-    }
-
-    #custom-cursor.is-over-light.is-clicking {
-      background: rgba(34, 178, 234, 0.2);
-      border-color: rgba(34, 178, 234, 1);
-    }
-
-    /* ── 1100px 이하 카드 높이 조정 ── */
-    @media (max-width: 1100px) {
-      .of-species-card {
-        min-height: 300px;
-      }
-    }
-
-    /* ── Signature Species — draggable infinite gallery ── */
-    @media (min-width: 761px) {
-      .signature-gallery-viewport {
-        display: block;
-        width: 100%;
-        margin: 0;
-        overflow: hidden;
-        padding: 24px 0 112px;
-        box-sizing: border-box;
-        cursor: grab;
-        perspective: 900px;
-        perspective-origin: center center;
-        touch-action: pan-y;
-        user-select: none;
-      }
-
-      .signature-gallery-viewport.is-dragging {
-        cursor: grabbing;
-      }
-
-      .signature-gallery-track {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        width: max-content;
-        padding: 0;
-        box-sizing: border-box;
-        transform-style: preserve-3d;
-        will-change: transform;
-      }
-
-      .signature-gallery-track img {
-        pointer-events: none;
-        -webkit-user-drag: none;
-      }
-
-      .signature-gallery-track .species-card,
-      .signature-gallery-track .of-species-card {
-        --closed-w: clamp(184px, 13.5vw, 212px);
-        flex: 0 0 var(--closed-w);
-        width: var(--closed-w);
-        height: clamp(320px, 27vw, 380px);
-        min-height: 0;
-        border-radius: 12px;
-        border: 1px solid rgba(255, 255, 255, 0.15);
-        box-shadow: 0 18px 46px rgba(0, 60, 90, 0.22);
-        transform-origin: center center;
-        transform-style: preserve-3d;
-        will-change: transform, opacity;
-        transition:
-          border-color 0.35s ease,
-          box-shadow   0.35s ease;
-        cursor: pointer;
-      }
-
-      .signature-gallery-track .of-species-card:hover {
-        border-color: rgba(255, 255, 255, 0.75);
-        box-shadow:   0 28px 70px rgba(0, 80, 120, 0.30);
-      }
-
-      .of-species-card img {
-        filter: brightness(0.75) saturate(0.90);
-        transition: transform 0.7s ease, filter 0.4s ease;
-      }
-
-      .of-species-card:hover img {
-        filter: brightness(1.0) saturate(1.06);
-        transform: scale(1.06);
-      }
-
-      .of-species-card::after {
-        opacity: 0;
-        transition: opacity 0.4s ease;
-      }
-      .of-species-card:hover::after {
-        opacity: 1;
-      }
-
-      /* 번호·텍스트: hover 시 fade-in. position:absolute → layout 불변. */
-      .of-species-card__num,
-      .of-species-card__text {
-        opacity: 0;
-        transition: opacity 0.35s ease 0.1s;
-      }
-      .of-species-card:hover .of-species-card__num,
-      .of-species-card:hover .of-species-card__text {
-        opacity: 1;
-      }
-    }
-
-    /* ── 모션 감소 ── */
-    @media (prefers-reduced-motion: reduce) {
-
-      .of-species::after,
-      .of-species-card::before {
-        animation: none;
-      }
-
-      .of-species-card,
-      .of-pager button {
-        transition-duration: 0.01ms;
-      }
-    }
-
-    /* ── 모바일 ── */
-    @media (max-width: 760px) {
-      .oceanfriends-page .gnb {
-        padding-inline: 18px;
-      }
-
-      .oceanfriends-page .gnb__nav {
-        gap: 16px;
-      }
-
-      .oceanfriends-page .gnb__link {
-        font-size: 15px;
-      }
-
-      .oceanfriends-page .gnb__logo {
-        width: 44px;
-      }
-
-      .oceanfriends-page .gnb__ticket {
-        height: 40px;
-        padding-inline: 14px;
-        font-size: 13px;
-      }
-
-      .of-container {
-        width: min(100% - 32px, 1320px);
-      }
-
-      .of-hero {
-        min-height: 880px;
-        padding-top: 112px;
-        padding-bottom: 220px;
-      }
-
-      .of-title {
-        font-size: clamp(46px, 15vw, 72px);
-      }
-
-      .of-hero__lead {
-        max-width: 320px;
-      }
-
-      .of-signature {
-        min-height: 108svh;
-        padding: 180px 0 180px;
-      }
-
-      .of-section-head {
-        margin-bottom: 44px;
-      }
-
-      .signature-gallery-viewport {
-        display: block;
-        width: 100%;
-        margin: 0 auto;
-        overflow: hidden;
-        padding: 16px 0 84px;
-        perspective: 900px;
-        perspective-origin: center center;
-        touch-action: pan-y;
-        user-select: none;
-      }
-
-      .signature-gallery-track {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 0;
-        width: max-content;
-        transform-style: preserve-3d;
-        will-change: transform;
-      }
-
-      .of-species-card {
-        --closed-w: 220px;
-        flex: 0 0 var(--closed-w);
-        width: var(--closed-w);
-        min-height: 310px;
-        transform-origin: center center;
-        transform-style: preserve-3d;
-        will-change: transform, opacity;
-      }
-
-      .of-detail {
-        padding-top: 132px;
-        padding-bottom: 160px;
-      }
-
-      .of-detail__sticky {
-        padding: 22px 0 18px;
-        margin-top: -22px;
-        margin-bottom: 48px;
-      }
-
-      .of-detail__sticky .of-section-head {
-        margin-bottom: 20px;
-      }
-
-      .of-filter {
-        gap: 14px;
-        margin: 0 auto;
-        width: calc(100% - 32px);
-      }
-
-      .of-search {
-        width: min(360px, 100%);
-        height: 38px;
-      }
-
-      .of-filter__chips {
-        max-width: 100%;
-        overflow-x: auto;
-        scrollbar-width: none;
-      }
-
-      .of-filter__chips::-webkit-scrollbar {
-        display: none;
-      }
-
-      .of-detail-card,
-      .of-detail-card:nth-child(even) {
-        grid-template-columns: 1fr;
-        gap: 24px;
-      }
-
-      .of-detail-card:nth-child(even) .of-detail-card__media {
-        order: 0;
-      }
-
-      .of-detail-list.is-visible {
-        gap: 68px;
-      }
-
-      .of-brand {
-        min-height: 760px;
-        padding-bottom: 44px;
-      }
-
-      .of-meet,
-      .of-footer-note {
-        flex-direction: column;
-        align-items: center;
-      }
-    }
-  </style>
+  
 </head>
 
 <body class="oceanfriends-page is-logo-at-header">
 
   <header id="gnb" class="gnb">
     <div class="gnb__inner">
-      <!-- 왼쪽 메뉴 -->
       <nav class="gnb__nav" aria-label="메인 메뉴">
-        <a href="program/program.html" class="gnb__link" data-nav="program">Program</a>
-        <a href="Oceanfriends.html" class="gnb__link gnb__link--active" data-nav="crew">Ocean Friends</a>
-        <div class="gnb__nav-item" data-nav="about">
+        <div class="gnb__nav-item">
+          <a href="program.html" class="gnb__link">Program</a>
+          <div class="gnb__dropdown">
+            <a href="program.html?loc=Jeju"     class="gnb__dropdown-item">Jeju</a>
+            <a href="program.html?loc=Yeosu"    class="gnb__dropdown-item">Yeosu</a>
+            <a href="program.html?loc=Ilsan"    class="gnb__dropdown-item">Ilsan</a>
+            <a href="program.html?loc=Gwanggyo" class="gnb__dropdown-item">Gwanggyo</a>
+          </div>
+        </div>
+        <a href="Oceanfriends.html" class="gnb__link gnb__link--active">Ocean friends</a>
+        <div class="gnb__nav-item">
           <span class="gnb__link">About us</span>
           <div class="gnb__dropdown">
             <a href="business.html" class="gnb__dropdown-item">Business</a>
-            <a href="#" class="gnb__dropdown-item">Marin Lab</a>
+            <a href="marinlab.html" class="gnb__dropdown-item">Marin Lab</a>
             <a href="location.html" class="gnb__dropdown-item">Location</a>
           </div>
         </div>
       </nav>
 
-      <!-- 중앙 로고 -->
       <a href="index.html" class="gnb__logo-wrap" aria-label="Aqua Planet 홈">
         <img class="gnb__logo" src="assets/images/headerLogo.png" alt="" aria-hidden="true">
       </a>
 
-      <!-- 오른쪽 티켓 버튼 -->
-      <button class="gnb__ticket btn-pill" type="button" aria-label="티켓 예매" onclick="location.href='ticket.html'">
+      <a href="ticket.html" class="gnb__ticket btn-pill" aria-label="티켓 예매">
         Ticket
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M7 17L17 7M17 7H7M17 7V17" stroke="white" stroke-width="1.5" stroke-linecap="round"
-            stroke-linejoin="round" />
+          <path d="M7 17L17 7M17 7H7M17 7V17" stroke="white" stroke-width="1.5"
+            stroke-linecap="round" stroke-linejoin="round" />
         </svg>
-      </button>
+      </a>
     </div>
   </header>
 
   <main class="of-main">
 
-    <!-- 히어로 -->
-    <section class="of-hero" aria-label="Ocean Friends 소개">
-      <div class="of-hero__content">
+    <!-- 인트로 콘텐츠 -->
+    <section class="intro__content">
+      <div class="intro__content-inner">
         <span class="of-eyebrow">Welcome</span>
         <h1 class="of-title">Meet Our <em>Ocean Friends</em></h1>
         <p class="of-hero__lead">
@@ -1109,8 +72,14 @@
       </div>
       <a class="of-scroll" href="#signature" aria-label="대표 생물 바로가기">
         <span class="of-scroll__line"></span>
-        <span class="of-scroll__text">Let's Explore</span>
+        <span class="of-scroll__text">
+          <span class="of-scroll__text-lets">Let's </span><span class="of-scroll__text-explore">Explore</span>
+        </span>
       </a>
+    </section>
+
+    <!-- 히어로 -->
+    <section class="of-hero" aria-label="Ocean Friends 소개">
     </section>
 
     <!-- 시그니처 생물 캐러셀 -->
@@ -1201,11 +170,11 @@
             </svg>
             <input type="text" placeholder="검색하기" aria-label="생물 검색">
           </div>
-          <div class="of-filter__chips">
-            <button class="of-chip is-active" type="button">Jeju</button>
-            <button class="of-chip" type="button">Yeosu</button>
-            <button class="of-chip" type="button">Ilsan</button>
-            <button class="of-chip" type="button">Gwanggyo</button>
+          <div class="cartegory-tabs-b">
+            <button class="cartegory-tabs-b__item cartegory-tabs-b__item--active" type="button">Jeju</button>
+            <button class="cartegory-tabs-b__item" type="button">Yeosu</button>
+            <button class="cartegory-tabs-b__item" type="button">Ilsan</button>
+            <button class="cartegory-tabs-b__item" type="button">Gwanggyo</button>
           </div>
         </div>
       </div>
@@ -3096,44 +2065,11 @@
 
   <div id="custom-cursor" aria-hidden="true"></div>
 
+  <script src="js/gnb-scroll.js"></script>
   <script>
-    /* ── GNB: 업스크롤 시에만 표시 ── */
-    (function () {
-      const gnb = document.getElementById('gnb');
-      if (!gnb) return;
-      const THRESHOLD = 80;
-      const LIGHT_SELS = '.of-detail, .of-filter, .of-detail-card, .of-brand, .of-meet, .of-footer-note';
-      let lastY = window.scrollY;
-
-      function syncGnbBg() {
-        const x = Math.round(window.innerWidth / 2);
-        const y = Math.min(96, window.innerHeight - 1);
-        const stack = document.elementsFromPoint ? document.elementsFromPoint(x, y) : [document.elementFromPoint(x, y)];
-        const onLightBg = stack.some(function (node) {
-          return node && !node.closest('#gnb') && node.closest(LIGHT_SELS);
-        });
-        gnb.classList.toggle('gnb--light-bg', onLightBg);
-      }
-
-      window.addEventListener('scroll', function () {
-        const y = window.scrollY;
-        gnb.classList.toggle('is-scrolled', y > THRESHOLD);
-        if (y > THRESHOLD) {
-          gnb.classList.toggle('is-hidden', y > lastY);
-        } else {
-          gnb.classList.remove('is-hidden');
-        }
-        lastY = y;
-        syncGnbBg();
-      }, { passive: true });
-      window.addEventListener('resize', syncGnbBg, { passive: true });
-      syncGnbBg();
-    })();
-
     /* ── 섹션 타이틀/콘텐츠 순차 페이드인 ── */
     (function () {
       const groups = [
-        ['.of-hero', ['.of-eyebrow', '.of-title', '.of-hero__lead', '.of-scroll']],
         ['.of-signature', ['.of-section-head', '.signature-gallery-viewport', '.of-pager']],
         ['.of-detail', ['.of-section-head', '.of-filter', '.of-detail-card']],
         ['.of-brand', ['.of-brand__mark', '.of-brand__text', '.of-meet', '.of-footer-note']]
@@ -3248,7 +2184,7 @@
   <!-- 필터 칩 활성화 + 리스트 전환 + 검색 -->
   <script>
     (function () {
-      const chips = document.querySelectorAll('.of-filter__chips .of-chip');
+      const chips = document.querySelectorAll('.cartegory-tabs-b .cartegory-tabs-b__item');
       const lists = document.querySelectorAll('.of-detail-list[data-list]');
       const searchInput = document.querySelector('.of-search input');
 
@@ -3277,8 +2213,8 @@
 
       chips.forEach(function (chip) {
         chip.addEventListener('click', function () {
-          chips.forEach(function (c) { c.classList.remove('is-active'); });
-          chip.classList.add('is-active');
+          chips.forEach(function (c) { c.classList.remove('cartegory-tabs-b__item--active'); });
+          chip.classList.add('cartegory-tabs-b__item--active');
           showList(chip.textContent.trim().toLowerCase());
         });
       });
@@ -3465,7 +2401,7 @@
 
       function showDetailList(key) {
         const lists = document.querySelectorAll('.of-detail-list[data-list]');
-        const chips = document.querySelectorAll('.of-filter__chips .of-chip');
+        const chips = document.querySelectorAll('.cartegory-tabs-b .cartegory-tabs-b__item');
         const searchInput = document.querySelector('.of-search input');
 
         lists.forEach(list => {
@@ -3476,7 +2412,7 @@
         });
 
         chips.forEach(chip => {
-          chip.classList.toggle('is-active', chip.textContent.trim().toLowerCase() === key);
+          chip.classList.toggle('cartegory-tabs-b__item--active', chip.textContent.trim().toLowerCase() === key);
         });
 
         if (searchInput) searchInput.value = '';
