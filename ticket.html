@@ -76,13 +76,13 @@
           <img class="gnb__logo" src="assets/images/headerLogo.png" alt="" aria-hidden="true">
         </a>
 
-        <a href="ticket.html" class="gnb__ticket btn-pill" aria-label="티켓 예매">
-          Ticket
+        <button type="button" class="gnb__ticket btn-pill" id="ticket-close-btn" aria-label="닫기">
+          Close
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M7 17L17 7M17 7H7M17 7V17" stroke="white" stroke-width="1.5"
+            <path d="M18 6L6 18M6 6L18 18" stroke="white" stroke-width="1.5"
                   stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
-        </a>
+        </button>
       </div>
     </header>
 
@@ -109,7 +109,7 @@
           <span class="deco-bubble" style="--x:20%; --y:26%; --s:120px; --d:8s;"></span>
           <span class="deco-bubble" style="--x:33%; --y:75%; --s:80px;  --d:10s;"></span>
           <span class="deco-bubble" style="--x:50%; --y:52%; --s:100px; --d:12s;"></span>
-          <span class="deco-bubble" style="--x:63%; --y:26%; --s:130px; --d:9s;"></span>
+          <span class="deco-bubble" style="--x:50%; --y:26%; --s:130px; --d:9s;"></span>
           <span class="deco-bubble" style="--x:88%; --y:52%; --s:100px; --d:10.5s;"></span>
           <span class="deco-bubble" style="--x:75%; --y:82%; --s:110px; --d:7s;"></span>
           <!-- 작은 거품(떠다니는 장식) — --ty 로 최종 세로 위치 고정 -->
@@ -178,62 +178,6 @@
 
       </section>
     </main>
-
-    <!-- =========================================================
-         스크롤 다운 구역 — 흰색 → #22B2EA 그라데이션
-         (티켓 섹션 하단 흰색 그라데이션과 자연스럽게 이어짐)
-         로고 영역은 추후 main 페이지 업데이트 시 추가 예정
-    ========================================================== -->
-    <section class="ticket-scroll-below" aria-label="하단 영역">
-      <!-- 로고: 추후 추가 -->
-      <div class="ticket-scroll-below__logo-placeholder" aria-hidden="true"></div>
-    </section>
-
-    <!-- FOOTER — 메인과 동일 (내용 업데이트) -->
-    <!-- ================================================
-      FOOTER
-  ================================================ -->
-  <footer id="footer" class="footer">
-    <video class="footer__video-bg" autoplay muted loop playsinline aria-hidden="true">
-      <source src="assets/images/KakaoTalk_Video_2026-06-13-21-54-21.mp4" type="video/mp4">
-    </video>
-    <div class="footer__inner">
-      <nav class="footer__nav" aria-label="푸터 메뉴">
-        <a href="program.html" class="footer__link">Program</a>
-        <a href="Oceanfriends.html" class="footer__link">Ocean friends</a>
-        <a href="location.html" class="footer__link">About us</a>
-        <a href="location.html" class="footer__link">Location</a>
-        <a href="ticket.html" class="footer__link">Ticket</a>
-      </nav>
-
-      <div class="footer__brand">
-        <div class="footer__socials" aria-label="소셜 링크">
-          <a href="https://www.instagram.com/aquaplanet_official" class="footer__social" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <rect x="4" y="4" width="16" height="16" rx="5"></rect>
-              <circle cx="12" cy="12" r="3.4"></circle>
-              <circle cx="17.2" cy="6.8" r="1"></circle>
-            </svg>
-          </a>
-          <a href="https://www.youtube.com/@aquaplanetstory" class="footer__social" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M5.2 7.2C5.6 6.5 6.3 6 7.1 5.9C8.4 5.7 10.5 5.6 12 5.6C13.5 5.6 15.6 5.7 16.9 5.9C17.7 6 18.4 6.5 18.8 7.2C19.2 8.1 19.4 10.2 19.4 12C19.4 13.8 19.2 15.9 18.8 16.8C18.4 17.5 17.7 18 16.9 18.1C15.6 18.3 13.5 18.4 12 18.4C10.5 18.4 8.4 18.3 7.1 18.1C6.3 18 5.6 17.5 5.2 16.8C4.8 15.9 4.6 13.8 4.6 12C4.6 10.2 4.8 8.1 5.2 7.2Z"></path>
-              <path d="M10.4 9.3L14.7 12L10.4 14.7V9.3Z" class="footer__social-play"></path>
-            </svg>
-          </a>
-          <a href="https://www.aquaplanet.co.kr/index.html" class="footer__social" target="_blank" rel="noopener noreferrer" aria-label="Google">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M19.6 12.2C19.6 11.6 19.5 11.1 19.4 10.6H12.2V13.5H16.3C16.1 14.5 15.5 15.3 14.7 15.8V17.7H17.2C18.7 16.4 19.6 14.5 19.6 12.2Z"></path>
-              <path d="M12.2 19.7C14.3 19.7 16.1 19 17.2 17.7L14.7 15.8C14 16.3 13.1 16.6 12.2 16.6C10.2 16.6 8.5 15.2 7.9 13.4H5.3V15.3C6.5 17.9 9.1 19.7 12.2 19.7Z"></path>
-              <path d="M7.9 13.4C7.7 12.9 7.6 12.5 7.6 12C7.6 11.5 7.7 11.1 7.9 10.6V8.7H5.3C4.8 9.7 4.5 10.8 4.5 12C4.5 13.2 4.8 14.3 5.3 15.3L7.9 13.4Z"></path>
-              <path d="M12.2 7.4C13.3 7.4 14.4 7.8 15.2 8.6L17.3 6.5C16 5.3 14.3 4.6 12.2 4.6C9.1 4.6 6.5 6.3 5.3 8.7L7.9 10.6C8.5 8.8 10.2 7.4 12.2 7.4Z"></path>
-            </svg>
-          </a>
-        </div>
-        <p class="footer__copy">Aqua Planet. ©2026 All rights reserved.</p>
-      </div>
-    </div>
-  </footer>
 
     </div><!-- /.ticket-bg -->
 

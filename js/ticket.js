@@ -155,12 +155,45 @@ function selectSpot(selected) {
 }
 
 
+function deselectSpot() {
+  ticketSection.classList.remove('is-selected');
+  selectedBranch = null;
+
+  spots.forEach((spot) => {
+    spot.classList.remove('is-selected', 'is-top', 'slot-0', 'slot-1', 'slot-2', 'slot-3');
+  });
+
+  if (survivorBubble) {
+    survivorBubble.style.removeProperty('left');
+    survivorBubble.style.removeProperty('--rise');
+  }
+
+  const stage = document.querySelector('.ticket-stage');
+  if (stage) stage.classList.remove('scroll-reveal');
+}
+
 spots.forEach((spot) => {
   spot.addEventListener('click', (e) => {
     e.preventDefault();
-    selectSpot(spot);
+    if (spot.classList.contains('is-selected')) {
+      deselectSpot();
+    } else {
+      selectSpot(spot);
+    }
   });
 });
+
+// Close 버튼 → 이전 페이지로 이동
+const closeBtn = document.getElementById('ticket-close-btn');
+if (closeBtn) {
+  closeBtn.addEventListener('click', () => {
+    if (document.referrer && !document.referrer.includes('ticket.html')) {
+      history.back();
+    } else {
+      window.location.href = 'index.html';
+    }
+  });
+}
 
 // 예매하기 버튼 → 선택된 지점의 구매 페이지로 이동
 const bookingBtn = document.querySelector('.ticket-booking__btn');
