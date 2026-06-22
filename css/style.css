@@ -955,8 +955,8 @@ body.is-logo-at-header .gnb__logo {
 /* 인트로 섹션: 100vh보다 긴 호흡을 주고, 히어로 화면은 그 안에서 고정 */
 #sec-intro {
   height: auto;
-  min-height: 170vh;
-  min-height: 170svh;
+  min-height: 140vh;
+  min-height: 140svh;
   position: relative;
   z-index: 2;
   display: block;
@@ -965,8 +965,8 @@ body.is-logo-at-header .gnb__logo {
 
 #sec-intro.section--hero {
   height: auto;
-  min-height: 130vh;
-  min-height: 130svh;
+  min-height: 140vh;
+  min-height: 140svh;
   display: block;
   overflow: visible;
 }

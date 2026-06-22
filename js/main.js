@@ -548,13 +548,19 @@ function initIntroScrollGate() {
 
   function isInsideIntroHold() {
     const y = window.scrollY;
-    return y >= getIntroTop() - 4 && y < getIntroEnd() - INTRO_DIVE_EDGE_OFFSET;
+    return (
+      isAfterLogoTransition() &&
+      y >= getIntroTop() - 4 &&
+      y < getIntroEnd() - INTRO_DIVE_EDGE_OFFSET
+    );
   }
 
   function scrollIntroBy(deltaY) {
+    const maxStep = 90;
+    const step = Math.sign(deltaY) * Math.min(Math.abs(deltaY), maxStep);
     const nextY = Math.max(
       getIntroTop(),
-      Math.min(getIntroEnd(), window.scrollY + Math.sign(deltaY) * Math.min(Math.abs(deltaY), 64))
+      Math.min(getIntroEnd(), window.scrollY + step)
     );
     window.scrollTo(0, nextY);
     window.__syncSmoothScroll?.();
@@ -594,7 +600,7 @@ function initIntroScrollGate() {
       return;
     }
 
-    if (e.deltaY > 0 && isAfterLogoTransition() && isInsideIntroHold()) {
+    if (e.deltaY > 0 && isInsideIntroHold()) {
       e.preventDefault();
       e.stopImmediatePropagation();
       scrollIntroBy(e.deltaY);
