@@ -181,6 +181,144 @@
   banners.forEach(function (b) { io.observe(b); });
 })();
 
+/* ── Business Area 카드: 흰 배경 섹션처럼 한 위치에서 01 → 05 전환 ── */
+(function () {
+  const section = document.querySelector('.biz-areas');
+  if (!section) return;
+
+  const pin = section.querySelector('.biz-blue-stack');
+  const slides = Array.from(section.querySelectorAll('.biz-blue-card'))
+    .sort(function (a, b) {
+      return Number(a.dataset.slide || 0) - Number(b.dataset.slide || 0);
+    });
+  if (!pin || !slides.length) return;
+
+  let current = -1;
+
+  function activate(index) {
+    if (index === current) return;
+    const prev = current;
+    current = index;
+
+    slides.forEach(function (slide, i) {
+      slide.classList.remove('is-active', 'is-prev');
+      if (i === index) {
+        slide.classList.add('is-active');
+      } else if (i === prev) {
+        slide.classList.add('is-prev');
+      }
+    });
+  }
+
+  function update() {
+    const rect = section.getBoundingClientRect();
+    const startDelay = Math.min(1480, window.innerHeight * 1.35);
+    const slideStep = Math.max(520, window.innerHeight * 0.5);
+
+    if (rect.top > 0 || -rect.top < startDelay) {
+      activate(0);
+      return;
+    }
+
+    const index = Math.min(slides.length - 1, Math.floor((-rect.top - startDelay) / slideStep));
+    activate(index);
+  }
+
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  activate(0);
+  update();
+})();
+
+/* ── Vision: 스크롤에 맞춰 원형 다이어그램 회전 + 내용 전환 ── */
+(function () {
+  const pin = document.querySelector('[data-vision-section]');
+  const section = pin && pin.closest('.biz-vision');
+  if (!section || !pin) return;
+
+  const nodes = Array.from(pin.querySelectorAll('.biz-vision-node'));
+  const copies = Array.from(pin.querySelectorAll('.biz-vision-copy'));
+  const order = ['mission', 'vision', 'goal', 'core'];
+  const slots = [
+    { x: 1076, y: 540, scale: 1.333333 },
+    { x: 1338, y: 150, scale: 1 },
+    { x: 1770, y: -14, scale: 1 },
+    { x: 1342, y: 960, scale: 1 },
+  ];
+
+  function clamp(value, min, max) {
+    return Math.min(max, Math.max(min, value));
+  }
+
+  function smooth(t) {
+    return t * t * (3 - 2 * t);
+  }
+
+  function activeDistance(relative) {
+    const wrapped = ((relative % order.length) + order.length) % order.length;
+    return Math.min(wrapped, order.length - wrapped);
+  }
+
+  function wrapIndex(index) {
+    return (index + slots.length) % slots.length;
+  }
+
+  function slotAt(position) {
+    const base = Math.floor(position);
+    const t = smooth(position - base);
+    const from = slots[wrapIndex(base)];
+    const to = slots[wrapIndex(base + 1)];
+    return {
+      x: from.x + (to.x - from.x) * t,
+      y: from.y + (to.y - from.y) * t,
+      scale: from.scale + (to.scale - from.scale) * t,
+    };
+  }
+
+  function render(progress) {
+    const activeIndex = Math.min(order.length - 1, Math.round(progress));
+
+    nodes.forEach(function (node) {
+      const nodeIndex = Math.max(0, order.indexOf(node.dataset.visionNode));
+      const relative = (nodeIndex - progress + order.length) % order.length;
+      const slot = slotAt(relative);
+      const focus = smooth(clamp(1 - activeDistance(relative), 0, 1));
+      const scale = Math.max(slot.scale, 1 + focus * 0.333333);
+      const fontSize = 42 + focus * 18;
+      const tracking = -0.84 + focus * -0.36;
+
+      node.style.left = (slot.x - 150).toFixed(2) + 'px';
+      node.style.top = (slot.y - 150).toFixed(2) + 'px';
+      node.style.setProperty('--vision-scale', scale.toFixed(6));
+      node.style.setProperty('--vision-font-size', fontSize.toFixed(2) + 'px');
+      node.style.setProperty('--vision-letter-spacing', tracking.toFixed(3) + 'px');
+      node.classList.toggle('is-active', node.dataset.visionNode === order[activeIndex]);
+    });
+
+    copies.forEach(function (copy) {
+      copy.classList.toggle('is-active', copy.dataset.visionCopy === order[activeIndex]);
+    });
+  }
+
+  function update() {
+    const rect = section.getBoundingClientRect();
+    const scrollable = section.offsetHeight - window.innerHeight;
+
+    if (rect.top > 0 || scrollable <= 0) {
+      render(0);
+      return;
+    }
+
+    const progress = clamp((-rect.top / scrollable) * (order.length - 1), 0, order.length - 1);
+    render(progress);
+  }
+
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  render(0);
+  update();
+})();
+
 /* ── ① GNB: gnb-scroll.js에서 처리 ─────────────────────────── */
 
 /* ── 커스텀 커서 (location 페이지와 동일) ───────────────────── */

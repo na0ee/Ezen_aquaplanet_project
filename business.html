@@ -10,7 +10,7 @@
   <!-- Poppins + EB Garamond (영문) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Poppins:wght@200;300;400;500;600&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/business.css" />
@@ -21,6 +21,15 @@
   <header id="gnb" class="gnb">
     <div class="gnb__inner">
       <nav class="gnb__nav" aria-label="메인 메뉴">
+        <a href="location.html" class="gnb__link" data-nav="location">Location</a>
+        <a href="Oceanfriends.html" class="gnb__link" data-nav="crew">Ocean friends</a>
+        <div class="gnb__nav-item" data-nav="about">
+          <span class="gnb__link gnb__link--active">About us</span>
+          <div class="gnb__dropdown">
+            <a href="business.html" class="gnb__dropdown-item gnb__dropdown-item--active">Business</a>
+            <a href="marinlab.html" class="gnb__dropdown-item">Marin Lab</a>
+          </div>
+        </div>
         <div class="gnb__nav-item">
           <a href="program.html" class="gnb__link" data-nav="program">Program</a>
           <div class="gnb__dropdown">
@@ -28,15 +37,6 @@
             <a href="program.html?loc=Yeosu"     class="gnb__dropdown-item">Yeosu</a>
             <a href="program.html?loc=Ilsan"     class="gnb__dropdown-item">Ilsan</a>
             <a href="program.html?loc=Gwanggyo"  class="gnb__dropdown-item">Gwanggyo</a>
-          </div>
-        </div>
-        <a href="Oceanfriends.html" class="gnb__link" data-nav="crew">Ocean friends</a>
-        <div class="gnb__nav-item" data-nav="about">
-          <span class="gnb__link gnb__link--active">About us</span>
-          <div class="gnb__dropdown">
-            <a href="business.html" class="gnb__dropdown-item gnb__dropdown-item--active">Business</a>
-            <a href="marinlab.html" class="gnb__dropdown-item">Marin Lab</a>
-            <a href="location.html" class="gnb__dropdown-item">Location</a>
           </div>
         </div>
       </nav>
@@ -47,10 +47,7 @@
 
       <a href="ticket.html" class="gnb__ticket btn-pill" aria-label="티켓 예매">
         Ticket
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M5 12H19M13 6L19 12L13 18" stroke="white" stroke-width="1.5"
-                stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
+        <img class="gnb__ticket-icon" src="assets/images/sec.aboutus/business/ticket-arrow.svg" alt="" aria-hidden="true">
       </a>
     </div>
   </header>
@@ -60,181 +57,187 @@
     <!-- ── 1) HERO ───────────────────────────────────────── -->
     
     <section class="biz-hero">
-          <!-- /* bisiness 카테고리 */     -->
+      <div class="biz-hero__figma-title" aria-label="Business page title">
+        <div class="biz-hero__copy">
+          <p class="biz-hero__welcome">Welcome</p>
           <h1 class="biz-hero__title">
-        <em>Business</em>Overview
-        <p class="title">생명이 역동하는 새로운 바다로의 초대</p>
-      </h1>
-      <p class="biz-hero__desc">
-        <b>해양생태계의 가치</b>와 <b>아름다움</b>을 전달하는 복합 해양문화 공간입니다<br />
-        전시와 연구를 통해 생물다양성 보전과 지속 가능한 미래에 기여합니다.
-      </p>
+            <span class="biz-hero__brand">aqua planet</span>
+            <em>Business</em>
+          </h1>
+          <p class="biz-hero__desc">제주의 바다를 담은 국내 최대 규모 아쿠아리움</p>
+        </div>
 
+        <div class="biz-hero__scroll" aria-hidden="true">
+          <span class="biz-hero__scroll-line"></span>
+          <p class="biz-hero__scroll-text"><span>Let’s</span> Explore</p>
+        </div>
+      </div>
     </section>
 
     <!-- ── 2) BUSINESS AREA & VISION ─────────────────────── -->
     <section class="biz-areas">
-      <div class="areas-wrap">
-        <h2 class="biz-sec-label reveal">Business Area &amp; Vision</h2>
-
-        <div class="biz-areas__head reveal">
-          <h3>아쿠아리움 사업분야</h3>
-          <p>해저생물의 신비로움, 지적 상상력을 충족시켜 줄 최고의 프리미엄 컨텐츠를 제공하는 아쿠아리움</p>
+      <div class="biz-figma-panel" data-node-id="106:3277">
+        <div class="biz-overview-tabs" data-node-id="106:3282" aria-label="Business section tabs">
+          <a href="#business-overview" class="biz-overview-tabs__item biz-overview-tabs__item--active" data-node-id="106:3283">
+            Business Overview
+          </a>
+          <a href="#special-services" class="biz-overview-tabs__item" data-node-id="106:3285">
+            Special Services
+          </a>
         </div>
 
-      </div>
-    </section>
-
-    <!-- ── 2-2) STICKY BANNERS ─────────────────────────────── -->
-    <section class="biz-banners-sticky">
-      <div class="biz-banners-pin">
-
-        <!-- 01 PLANNING -->
-        <div class="biz-banner-slide" data-slide="0">
-          <div class="biz-banner-slide__img">
-            <img src="assets/images/business_01.png" alt="Planning">
-          </div>
-          <div class="biz-banner-slide__content">
-            <p class="biz-banner-slide__num">01</p>
-            <h3 class="biz-banner-slide__title">PLANNING</h3>
-            <p class="biz-banner-slide__desc">프로젝트 성공을 위한 완벽한 전략설계</p>
-            <ul class="biz-banner-slide__tags">
-              <li>사업발굴</li>
-              <li>사업성분석</li>
-              <li>프로젝트재무</li>
-              <li>수요예측</li>
-            </ul>
-          </div>
+        <div class="biz-overview-head" id="business-overview" data-node-id="106:3278">
+          <h2 class="biz-overview-head__title" data-node-id="106:3280">
+            <em>Business </em><span>Overview</span>
+          </h2>
+          <p class="biz-overview-head__desc" data-node-id="106:3281">
+            <strong>해양생태계의 가치</strong>와 <strong>아름다움</strong>을 전달하는 복합 해양문화 공간입니다<br />
+            전시와 연구를 통해 생물다양성 보전과 지속 가능한 미래에 기여합니다
+          </p>
         </div>
 
-        <!-- 02 DESIGN -->
-        <div class="biz-banner-slide" data-slide="1">
-          <div class="biz-banner-slide__img">
-            <img src="assets/images/business_02.png" alt="Design">
-          </div>
-          <div class="biz-banner-slide__content">
-            <p class="biz-banner-slide__num">02</p>
-            <h3 class="biz-banner-slide__title">DESIGN</h3>
-            <p class="biz-banner-slide__desc">공간의 가치를 높이는 독보적인 설계</p>
-            <ul class="biz-banner-slide__tags">
-              <li>개념설계</li>
-              <li>기본설계</li>
-              <li>실시설계</li>
-            </ul>
-          </div>
+        <div class="biz-area-vision-label" data-node-id="106:3301">
+          <p data-node-id="106:3303">Business Area &amp; Vision</p>
+          <span data-node-id="106:3304" aria-hidden="true"></span>
         </div>
 
-        <!-- 03 CONSTRUCTION -->
-        <div class="biz-banner-slide" data-slide="2">
-          <div class="biz-banner-slide__img">
-            <img src="assets/images/business_03.png" alt="Construction">
+        <div class="biz-blue-stack" data-blue-stack>
+          <article class="biz-blue-card biz-blue-card--light is-active" data-slide="0" data-node-id="106:3435">
+            <div class="biz-blue-card__image" data-node-id="106:3436">
+              <img src="assets/images/sec.aboutus/business/business-planning.png" alt="Planning">
+            </div>
+            <div class="biz-blue-card__content" data-node-id="108:3542">
+              <p class="biz-blue-card__num" data-node-id="106:3451">01</p>
+              <div class="biz-blue-card__body" data-node-id="106:3438">
+                <h3 data-node-id="106:3440">PLANNING</h3>
+                <p data-node-id="106:3441">프로젝트 성공을 위한 완벽한 전략설계</p>
+                <ul class="biz-blue-card__tags biz-blue-card__tags--glass" data-node-id="108:3541">
+                  <li data-node-id="108:3527"><span data-node-id="108:3531">사업발굴</span></li>
+                  <li data-node-id="108:3532"><span data-node-id="108:3534">사업성분석</span></li>
+                  <li data-node-id="108:3535"><span data-node-id="108:3537">프로젝트재무</span></li>
+                  <li data-node-id="108:3538"><span data-node-id="108:3540">수요예측</span></li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+        <article class="biz-blue-card" data-slide="1" data-node-id="106:3452">
+          <div class="biz-blue-card__image" data-node-id="106:3453">
+            <img src="assets/images/sec.aboutus/business/business-design.png" alt="Design">
           </div>
-          <div class="biz-banner-slide__content">
-            <p class="biz-banner-slide__num">03</p>
-            <h3 class="biz-banner-slide__title">CONSTRUCTION</h3>
-            <p class="biz-banner-slide__desc">압도적인 기술력으로 완성하는 건축시공</p>
-            <ul class="biz-banner-slide__tags">
-              <li>사업발굴</li>
-              <li>사업성분석</li>
-              <li>프로젝트재무</li>
-              <li>수요예측</li>
-            </ul>
+          <div class="biz-blue-card__content" data-node-id="106:3454">
+            <p class="biz-blue-card__num" data-node-id="106:3466">02</p>
+            <div class="biz-blue-card__body" data-node-id="106:3455">
+              <h3 data-node-id="106:3457">DESIGN</h3>
+              <p data-node-id="106:3458">공간의 가치를 높이는 독보적인 설계</p>
+              <ul class="biz-blue-card__tags" data-node-id="106:3459">
+                <li data-node-id="106:3460">개념설계</li>
+                <li data-node-id="106:3462">기념설계</li>
+                <li data-node-id="106:3464">실사설계</li>
+              </ul>
+            </div>
           </div>
+        </article>
+
+        <article class="biz-blue-card" data-slide="2" data-node-id="106:3467">
+          <div class="biz-blue-card__image" data-node-id="106:3468">
+            <img src="assets/images/sec.aboutus/business/business-construction.png" alt="Construction">
+          </div>
+          <div class="biz-blue-card__content biz-blue-card__content--wide" data-node-id="106:3469">
+            <p class="biz-blue-card__num" data-node-id="106:3483">03</p>
+            <div class="biz-blue-card__body" data-node-id="106:3470">
+              <h3 data-node-id="106:3472">CONSTRUCTION</h3>
+              <p data-node-id="106:3473">압도적인 기술력으로 완성하는 완벽시공</p>
+              <ul class="biz-blue-card__tags" data-node-id="106:3474">
+                <li data-node-id="106:3475">사업발굴</li>
+                <li data-node-id="106:3477">사업성분석</li>
+                <li data-node-id="106:3479">프로젝트재무</li>
+                <li data-node-id="106:3481">수요예측</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <article class="biz-blue-card" data-slide="3" data-node-id="106:3484">
+          <div class="biz-blue-card__image" data-node-id="106:3485">
+            <img src="assets/images/sec.aboutus/business/business-operation.png" alt="Operation">
+          </div>
+          <div class="biz-blue-card__content" data-node-id="106:3486">
+            <p class="biz-blue-card__num" data-node-id="106:3500">04</p>
+            <div class="biz-blue-card__body" data-node-id="106:3487">
+              <h3 data-node-id="106:3489">OPERATION</h3>
+              <p data-node-id="106:3490">25년의 노하우가 만든 차별화된 운영 솔루션</p>
+              <ul class="biz-blue-card__tags" data-node-id="106:3491">
+                <li data-node-id="106:3492">운영대행</li>
+                <li data-node-id="106:3494">마케팅</li>
+                <li data-node-id="106:3496">생물관리</li>
+                <li data-node-id="106:3498">시설관리</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+          <article class="biz-blue-card" data-slide="4" data-node-id="106:3501">
+            <div class="biz-blue-card__image" data-node-id="106:3502">
+              <img src="assets/images/sec.aboutus/business/business-aquisition.png" alt="Aquisition">
+            </div>
+            <div class="biz-blue-card__content" data-node-id="106:3503">
+              <p class="biz-blue-card__num" data-node-id="106:3513">05</p>
+              <div class="biz-blue-card__body" data-node-id="106:3504">
+                <h3 data-node-id="106:3506">AQUISITION</h3>
+                <p data-node-id="106:3507">최적의 환경을 고려한 전문 생물 수급 시스템</p>
+                <ul class="biz-blue-card__tags" data-node-id="106:3508">
+                  <li data-node-id="106:3509">국내/해외 수급</li>
+                  <li data-node-id="106:3511">순치</li>
+                </ul>
+              </div>
+            </div>
+          </article>
         </div>
-
-        <!-- 04 OPERATION -->
-        <div class="biz-banner-slide" data-slide="3">
-          <div class="biz-banner-slide__img">
-            <img src="assets/images/business_04.png" alt="Operation">
-          </div>
-          <div class="biz-banner-slide__content">
-            <p class="biz-banner-slide__num">04</p>
-            <h3 class="biz-banner-slide__title">OPERATION</h3>
-            <p class="biz-banner-slide__desc">25년의 노하우가 만든 차별화된 운영 솔루션</p>
-            <ul class="biz-banner-slide__tags">
-              <li>운영대행</li>
-              <li>마케팅</li>
-              <li>생물관리</li>
-              <li>시설관리</li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- 05 AQUISITION -->
-        <div class="biz-banner-slide" data-slide="4">
-          <div class="biz-banner-slide__img">
-            <img src="assets/images/business_05.png" alt="Aquisition">
-          </div>
-          <div class="biz-banner-slide__content">
-            <p class="biz-banner-slide__num">05</p>
-            <h3 class="biz-banner-slide__title">AQUISITION</h3>
-            <p class="biz-banner-slide__desc">최적의 환경을 고려한 전문 생물 수급 시스템</p>
-            <ul class="biz-banner-slide__tags">
-              <li>국내/해외 수급</li>
-              <li>순치</li>
-            </ul>
-          </div>
-        </div>
-
-
       </div>
     </section>
 
     <!-- ── 3) VISION (4-circle) ──────────────────────────── -->
     <section class="biz-vision">
-      <div class="biz-container">
-        <div class="biz-vision__head reveal">
-          <h3>아쿠아리움 개발사업 비전</h3>
-          <p>지속성장 기반을 갖춘 Global Aquarium 전문 기업을 목표로 오늘도 힘찬 도전</p>
+      <div class="biz-vision-pin" data-vision-section data-node-id="106:3320">
+        <div class="biz-vision-content">
+          <article class="biz-vision-copy is-active" data-vision-copy="mission" data-node-id="106:3330">
+            <h3 data-node-id="106:3332">Happy-Ocean Happy-Future Happy-people</h3>
+            <p data-node-id="106:3334">해양생물의 소중함을 공유하고, 이를 지키고 보전하며<br>인간과 자연이 공생하며 느낄 수 있는 최고의 즐거움을 제공하는 기업</p>
+          </article>
+          <article class="biz-vision-copy" data-vision-copy="vision">
+            <h3>No.1 Global Aquarium Development Company</h3>
+            <p>세계 최고의 아쿠아리움 개발 회사로 도약합니다.</p>
+          </article>
+          <article class="biz-vision-copy" data-vision-copy="goal">
+            <h3>Global Aquarium 전문 기업을 향한 목표</h3>
+            <p>No.1 NETWORK POWER · ECO COMPANY<br>No.1 BRAND POWER · MARKET SHARE · TECHNICAL SKILLS</p>
+          </article>
+          <article class="biz-vision-copy" data-vision-copy="core">
+            <h3>고객중심 · 해양보존 · 창조의힘 · 사회책임</h3>
+            <p>행복경영, 녹색경영, 창의경영, 지속경영을 통해<br>사람과 자연이 함께하는 미래를 만듭니다.</p>
+          </article>
         </div>
 
-        <div class="biz-diagram4 reveal" aria-label="비전 다이어그램">
-          <div class="diagram4-wrap">
-            <!-- 연결선 — 원형 (430×430, 중앙, 노드 뒤) -->
-            <div class="biz-ring" aria-hidden="true"></div>
-            <div class="box box--l">
-              <div class="biz-node">MISSON</div>
-              <div class="biz-label biz-label--l">
-                <h4>Happy-Ocean Happy-Future Happy-people</h4>
-                <p>해양생물의 소중함을 공유하고, 이를 지키고 보전하며<br>인간과 자연이 공생하며 느낄 수 있는 최고의 즐거움을 제공하는 기업</p>
-              </div>
-            </div>
-            <div class="box box--r">
-              <div class="biz-node">VISION<br>STATEMENT</div>
-              <div class="biz-label biz-label--r">
-                <h4>No.1&nbsp; Global Aquarium <br> Development Company</h4>
-                <p>세계 최고의 아쿠아리움 개발 회사로 도약합니다.</p>
-              </div>
-            </div>
-            <div class="box box--l">
-              <div class="biz-node">GOAL</div>
-              <div class="biz-label biz-label--l">
-                <div class="biz-goal-cols">
-                  <ul class="biz-goal-list">
-                    <li><h4>No.1</h4>&nbsp; NETWORK POWER</li>
-                    <li><h4>No.1</h4>&nbsp; ECO COMPANY</li>
-                  </ul>
-                  <ul class="biz-goal-list">
-                    <li><h4>No.1</h4>&nbsp; BRAND POWER</li>
-                    <li><h4>No.1</h4>&nbsp; MARKET SHARE</li>
-                    <li><h4>No.1</h4>&nbsp; TECHNICAL SKILLS</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div class="box box--r">
-              <div class="biz-node">CORE<br>VALUE</div>
-              <div class="biz-label biz-label--r">
-                <div class="biz-core-grid">
-                  <h4>고객중심</h4><p>행복경영</p>
-                  <h4>해양보존</h4><p>녹색경영</p>
-                  <h4>창조의힘</h4><p>창의경영</p>
-                  <h4>사회책임</h4><p>지속경영</p>
-                </div>
-              </div>
-            </div>
+        <div class="biz-vision-intro" data-node-id="106:3321">
+          <h3 data-node-id="106:3323">아쿠아리움 개발사업 비전</h3>
+          <p data-node-id="106:3325">지속성장 기반을 갖춘 Global Aquarium 전문 기업을<br>목표로 오늘도 힘찬 도전</p>
+        </div>
+
+        <div class="biz-vision-orbit" aria-label="비전 다이어그램">
+          <div class="biz-vision-ring" aria-hidden="true"></div>
+          <div class="biz-vision-node is-active" data-vision-node="mission" data-node-id="106:3335">
+            <span data-node-id="106:3336">MISSON</span>
           </div>
-          
+          <div class="biz-vision-node" data-vision-node="vision" data-node-id="106:3326">
+            <span data-node-id="106:3327">VISION<br>STATEMENT</span>
+          </div>
+          <div class="biz-vision-node" data-vision-node="goal" data-node-id="106:3328">
+            <span data-node-id="106:3329">GOAL</span>
+          </div>
+          <div class="biz-vision-node" data-vision-node="core" data-node-id="125:3600">
+            <span data-node-id="125:3601">CORE<br>VALUE</span>
+          </div>
         </div>
       </div>
     </section>
@@ -520,49 +523,5 @@
 
   <script src="js/gnb-scroll.js"></script>
   <script src="js/business.js"></script>
-
-  <script>
-    /* ── Sticky Banner Scroll ── */
-    (function () {
-      const sticky = document.querySelector('.biz-banners-sticky');
-      if (!sticky) return;
-
-      const pin    = sticky.querySelector('.biz-banners-pin');
-      const slides = Array.from(sticky.querySelectorAll('.biz-banner-slide'));
-      const total  = slides.length;
-      let current  = -1;
-
-      function setSlide(idx) {
-        if (idx === current) return;
-        const prev = current;
-        current = idx;
-
-        slides.forEach((s, i) => {
-          s.classList.remove('is-active', 'is-prev');
-          if (i === idx)  s.classList.add('is-active');
-          else if (i === prev) s.classList.add('is-prev');
-        });
-
-      }
-
-      function onScroll() {
-        const rect     = sticky.getBoundingClientRect();
-        const scrolled = -rect.top;                                      // sticky 진입 후 스크롤 양
-        const panelH   = (sticky.offsetHeight - window.innerHeight) / total; // 슬라이드 1개당 스크롤 높이
-
-        if (rect.top > 0 || panelH <= 0) {
-          pin.classList.remove('is-visible');
-          return;
-        }
-        pin.classList.add('is-visible');
-
-        const idx = Math.max(0, Math.min(total - 1, Math.floor(scrolled / panelH)));
-        setSlide(idx);
-      }
-
-      window.addEventListener('scroll', onScroll, { passive: true });
-      onScroll();
-    })();
-  </script>
 </body>
 </html>
