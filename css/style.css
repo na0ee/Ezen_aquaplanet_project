@@ -3871,41 +3871,37 @@ body.ticket-open {
 .ticket-spot--ilsan {
   left: 8%;
   top: 46%;
-  width: clamp(210px, 27vw, 500px);
-  opacity: 0.88;
+  width: clamp(250px, 32vw, 580px);
 }
 .ticket-spot--ilsan .ticket-spot__bubble {
-  filter: drop-shadow(0 14px 42px rgba(0, 60, 110, 0.26));
+  filter: drop-shadow(0 20px 56px rgba(0, 60, 110, 0.36));
 }
 
 .ticket-spot--yeosu {
   left: 26%;
   top: 23%;
-  width: clamp(170px, 21vw, 390px);
-  opacity: 0.72;
+  width: clamp(120px, 15vw, 270px);
 }
 .ticket-spot--yeosu .ticket-spot__bubble {
-  filter: drop-shadow(0 6px 18px rgba(0, 60, 110, 0.12));
+  filter: drop-shadow(0 4px 12px rgba(0, 60, 110, 0.10));
 }
 
 .ticket-spot--jeju {
-  left: 54%;
-  top: 50%;
-  width: clamp(230px, 29vw, 520px);
-  opacity: 1;
+  left: 52%;
+  top: 58%;
+  width: clamp(175px, 21vw, 385px);
 }
 .ticket-spot--jeju .ticket-spot__bubble {
-  filter: drop-shadow(0 20px 56px rgba(0, 60, 110, 0.34));
+  filter: drop-shadow(0 8px 24px rgba(0, 60, 110, 0.16));
 }
 
 .ticket-spot--gwanggyo {
-  left: 65%;
+  left: 62%;
   top: 23%;
-  width: clamp(185px, 24vw, 440px);
-  opacity: 0.78;
+  width: clamp(190px, 23vw, 420px);
 }
 .ticket-spot--gwanggyo .ticket-spot__bubble {
-  filter: drop-shadow(0 8px 24px rgba(0, 60, 110, 0.14));
+  filter: drop-shadow(0 10px 30px rgba(0, 60, 110, 0.20));
 }
 
 /* 지점별 동물 크기/회전 — 모두 버블 정중앙(translate -50%,-50%)에 배치 */
@@ -4334,7 +4330,7 @@ body.ticket-open {
 .ticket-discount__row:hover .ticket-discount__val,
 .ticket-discount__row.is-active .ticket-discount__name,
 .ticket-discount__row.is-active .ticket-discount__val {
-  color: #fff;
+  color: #1a1a1a;
 }
 
 @keyframes ticket-dropdown {
@@ -4349,7 +4345,7 @@ body.ticket-open {
   }
 }
 
-/* 예매하기 버튼 — #22b2ea, 94×32, radius 24 */
+/* 예매하기 버튼 — 글래스모피즘 */
 .ticket-booking__btn {
   display: flex;
   align-items: center;
@@ -4358,21 +4354,25 @@ body.ticket-open {
   width: 94px;
   height: 32px;
   padding: 6px 16px;
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.45);
   border-radius: 24px;
-  background: #22b2ea;
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   color: #fff;
   font-family: var(--font-kr);
   font-weight: 500;
   font-size: 16px;
   letter-spacing: -0.32px;
   cursor: pointer;
-  transition: background 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 4px 16px rgba(0, 100, 180, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
 }
 
 .ticket-booking__btn:hover {
-  background: #1b9fd2;
+  background: rgba(255, 255, 255, 0.30);
   transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 100, 180, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.45);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -4410,7 +4410,7 @@ body.ticket-open {
    일반 흐름이라 콘텐츠 전체 높이에 맞춰 그라데이션이 잡히고 함께 스크롤된다. */
 .ticket-bg {
   position: relative;
-  background: #00A9FF;
+  background: url('../assets/images/ticketBg.png') center center / cover no-repeat;
   height: 100vh;
   overflow: hidden;
 }
