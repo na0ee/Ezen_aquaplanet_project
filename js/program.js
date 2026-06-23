@@ -1,43 +1,6 @@
 ﻿document.addEventListener('DOMContentLoaded', function() {
   const LOCATIONS = ['Jeju', 'Yeosu', 'Ilsan', 'Gwanggyo'];
 
-  // ===== 페이지 10% 이상 스크롤 시 GNB 색상 전환 (흰색 → primary 계열) =====
-  const gnb = document.querySelector('.gnb');
-  if (gnb) {
-    const ticketIcon = gnb.querySelector('.btn--ticket .btn__icon img');
-    const ticketIconWhite = '../assets/images/ticket_icon_white.svg';
-    const ticketIconBlue = '../assets/images/ticket_icon_blue.svg';
-
-    const logoImg = gnb.querySelector('.gnb__logo img');
-    const logoWhite = '../assets/images/headerLogo.png';
-    const logoBlue = '../assets/images/headerLogo_blue.png';
-
-    let lastScrollY = window.scrollY;
-
-    function updateGnbScrolled() {
-      const y = window.scrollY;
-      const max = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = max > 0 ? y / max : 0;
-      const scrolled = progress >= 0.1;
-
-      gnb.classList.toggle('gnb--scrolled', scrolled);
-      // 티켓 아이콘도 스크롤 상태에 맞춰 흰색/파란색 전환
-      if (ticketIcon) ticketIcon.src = scrolled ? ticketIconBlue : ticketIconWhite;
-      // 로고도 스크롤 상태에 맞춰 전환
-      if (logoImg) logoImg.src = scrolled ? logoBlue : logoWhite;
-
-      // 10% 넘은 뒤: 아래로 스크롤하면 숨기고, 위로 스크롤하면 다시 표시
-      if (scrolled && y > lastScrollY) {
-        gnb.classList.add('gnb--hidden');
-      } else {
-        gnb.classList.remove('gnb--hidden');
-      }
-      lastScrollY = y;
-    }
-    window.addEventListener('scroll', updateGnbScrolled);
-    window.addEventListener('resize', updateGnbScrolled);
-    updateGnbScrolled();
-  }
 
   // 각 지역의 일정표(.schedule-table)를 독립적으로 초기화한다.
   // (querySelector 단일 요소가 아니라 테이블별 스코프로 동작 → 지역 전환해도 기능/모션 유지)

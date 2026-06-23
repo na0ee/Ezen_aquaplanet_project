@@ -238,7 +238,7 @@
 
   const nodes = Array.from(pin.querySelectorAll('.biz-vision-node'));
   const copies = Array.from(pin.querySelectorAll('.biz-vision-copy'));
-  const order = ['mission', 'vision', 'goal', 'core'];
+  const order = ['vision', 'mission', 'core', 'goal'];
   const slots = [
     { x: 1076, y: 540, scale: 1.333333 },
     { x: 1338, y: 150, scale: 1 },
@@ -259,15 +259,12 @@
     return Math.min(wrapped, order.length - wrapped);
   }
 
-  function wrapIndex(index) {
-    return (index + slots.length) % slots.length;
-  }
-
   function slotAt(position) {
     const base = Math.floor(position);
     const t = smooth(position - base);
-    const from = slots[wrapIndex(base)];
-    const to = slots[wrapIndex(base + 1)];
+    const from = slots[((base % slots.length) + slots.length) % slots.length];
+    const to = slots[(((base + 1) % slots.length) + slots.length) % slots.length];
+
     return {
       x: from.x + (to.x - from.x) * t,
       y: from.y + (to.y - from.y) * t,
@@ -297,6 +294,119 @@
 
     copies.forEach(function (copy) {
       copy.classList.toggle('is-active', copy.dataset.visionCopy === order[activeIndex]);
+    });
+  }
+
+  function update() {
+    const rect = section.getBoundingClientRect();
+    const scrollable = section.offsetHeight - window.innerHeight;
+
+    if (rect.top > 0 || scrollable <= 0) {
+      render(0);
+      return;
+    }
+
+    const progress = clamp((-rect.top / scrollable) * (order.length - 1), 0, order.length - 1);
+    render(progress);
+  }
+
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  render(0);
+  update();
+})();
+
+/* ── Capabilities: 비전 다이어그램을 좌우 반전한 스크롤 전환 ── */
+(function () {
+  const pin = document.querySelector('[data-caps-section]');
+  const section = pin && pin.closest('.biz-caps');
+  if (!section || !pin) return;
+
+  const nodes = Array.from(pin.querySelectorAll('.biz-caps-node'));
+  const copies = Array.from(pin.querySelectorAll('.biz-caps-copy'));
+  const images = Array.from(pin.querySelectorAll('.biz-caps-visual__img'));
+  const order = ['creativity', 'network', 'staffs', 'technology', 'management'];
+  const centerSlotIndex = 2;
+  const positionIndexByKey = {
+    staffs: 0,
+    network: 1,
+    creativity: 2,
+    technology: 3,
+    management: 4,
+  };
+  const slots = [
+    { x: 150, y: -14, scale: 1 },
+    { x: 582, y: 150, scale: 1 },
+    { x: 844, y: 540, scale: 1.333333 },
+    { x: 578, y: 960, scale: 1 },
+    { x: 150, y: 1090, scale: 1 },
+  ];
+
+  function clamp(value, min, max) {
+    return Math.min(max, Math.max(min, value));
+  }
+
+  function smooth(t) {
+    return t * t * (3 - 2 * t);
+  }
+
+  function wrapPosition(position) {
+    return ((position % order.length) + order.length) % order.length;
+  }
+
+  function circularDistance(from, to) {
+    const wrapped = Math.abs(wrapPosition(from) - wrapPosition(to));
+    return Math.min(wrapped, order.length - wrapped);
+  }
+
+  function activeKeyAt(progress) {
+    return order.reduce(function (activeKey, key) {
+      const activeDistanceValue = circularDistance(positionIndexByKey[activeKey] + progress, centerSlotIndex);
+      const distance = circularDistance(positionIndexByKey[key] + progress, centerSlotIndex);
+      return distance < activeDistanceValue ? key : activeKey;
+    }, order[0]);
+  }
+
+  function slotAt(position) {
+    const base = Math.floor(position);
+    const t = smooth(position - base);
+    const from = slots[wrapPosition(base)];
+    const to = slots[wrapPosition(base + 1)];
+
+    return {
+      x: from.x + (to.x - from.x) * t,
+      y: from.y + (to.y - from.y) * t,
+      scale: from.scale + (to.scale - from.scale) * t,
+    };
+  }
+
+  function render(progress) {
+    const activeKey = activeKeyAt(progress);
+
+    nodes.forEach(function (node) {
+      const nodeKey = node.dataset.capsNode;
+      const nodeIndex = positionIndexByKey[nodeKey] ?? centerSlotIndex;
+      const position = nodeIndex + progress;
+      const slot = slotAt(position);
+      const focus = smooth(clamp(1 - circularDistance(position, centerSlotIndex), 0, 1));
+      const scale = Math.max(slot.scale, 1 + focus * 0.333333);
+      const fontSize = 42 + focus * 18;
+      const tracking = -0.84 + focus * -0.36;
+
+      node.style.left = (slot.x - 150).toFixed(2) + 'px';
+      node.style.top = (slot.y - 150).toFixed(2) + 'px';
+      node.style.setProperty('--caps-scale', scale.toFixed(6));
+      node.style.setProperty('--caps-font-size', fontSize.toFixed(2) + 'px');
+      node.style.setProperty('--caps-letter-spacing', tracking.toFixed(3) + 'px');
+      node.classList.toggle('is-active', nodeKey === activeKey);
+    });
+
+    copies.forEach(function (copy) {
+      copy.classList.toggle('is-active', copy.dataset.capsCopy === activeKey);
+    });
+
+    images.forEach(function (image) {
+      image.classList.toggle('is-active', image.dataset.capsImage === activeKey);
     });
   }
 

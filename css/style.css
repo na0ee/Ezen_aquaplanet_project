@@ -46,8 +46,8 @@
   --fs-sec-en:      42px;
   --fs-sec-serif:   48px;
   --fs-creature:    48px;
-  --fs-nav:         18px;
-  --fs-nav-active:  20px;
+  --fs-nav:         24px;
+  --fs-nav-active:  28px;
   --fs-caption:     20px;
   --fs-sub:         18px;
   --fs-body:        16px;
@@ -526,22 +526,24 @@ button {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  height: 44px;
-  padding: 0 14px 0 20px;
+  height: 54px;
+  padding: 0 22px;
   border-radius: var(--radius-btn-pill);
   font-family: var(--font-en);
   font-weight: 400;
   font-size: var(--fs-nav);
   letter-spacing: var(--ls-tight);
   color: var(--clr-text);
-  background: var(--clr-glass-02);
-  border: 1px solid var(--clr-glass-10);
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   transition: background var(--tr-base), border-color var(--tr-base);
 }
 
 .btn-pill:hover {
-  background: var(--clr-glass-10);
-  border-color: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.44);
 }
 
 
@@ -558,10 +560,8 @@ button {
   transition: background var(--tr-base), backdrop-filter var(--tr-base), transform 0.35s ease, opacity 0.6s ease;
 }
 
-/* 로고 섹션 진행 중 — GNB 완전 숨김 (initGnb가 클래스 제거 시 0.6s fade-in) */
+/* 로고 섹션 진행 중 — 스크롤로 숨겨지지 않도록 transform 고정, GNB 자체는 표시 */
 .gnb--logo-mode {
-  opacity: 0 !important;
-  pointer-events: none !important;
   transform: none !important;
 }
 
@@ -580,12 +580,12 @@ button {
   transform: translateY(-100%);
 }
 
-.gnb.gnb--light-bg {
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.86) 0%, rgba(255, 255, 255, 0) 100%);
-}
-
+.gnb.gnb--glass,
+.gnb.gnb--light-bg,
 .gnb.gnb--scrolled {
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.86) 0%, rgba(255, 255, 255, 0) 100%);
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(20px) saturate(1.12);
+  -webkit-backdrop-filter: blur(20px) saturate(1.12);
 }
 
 .gnb__inner {
@@ -651,65 +651,6 @@ button {
   color: var(--clr-text);
 }
 
-.gnb.gnb--light-bg .gnb__link {
-  color: rgba(17, 118, 158, 0.58);
-}
-
-.gnb.gnb--scrolled .gnb__link {
-  color: rgba(17, 118, 158, 0.58);
-}
-
-.gnb.gnb--scrolled .gnb__item,
-.gnb.gnb--light-bg .gnb__item {
-  color: rgba(17, 118, 158, 0.58);
-}
-
-.gnb.gnb--light-bg .gnb__link:hover,
-.gnb.gnb--light-bg .gnb__link.gnb__link--active {
-  color: var(--clr-primary);
-}
-
-.gnb.gnb--scrolled .gnb__link:hover,
-.gnb.gnb--scrolled .gnb__link.gnb__link--active {
-  color: var(--clr-primary);
-}
-
-.gnb.gnb--scrolled .gnb__item:hover,
-.gnb.gnb--scrolled .gnb__item.gnb__item--active,
-.gnb.gnb--light-bg .gnb__item:hover,
-.gnb.gnb--light-bg .gnb__item.gnb__item--active {
-  color: var(--clr-primary);
-}
-
-.gnb.gnb--light-bg .btn-pill {
-  color: var(--clr-primary);
-  background: rgba(255, 255, 255, 0.72);
-  border-color: rgba(34, 178, 234, 0.18);
-}
-
-.gnb.gnb--scrolled .btn-pill {
-  color: var(--clr-primary);
-  background: rgba(255, 255, 255, 0.72);
-  border-color: rgba(34, 178, 234, 0.18);
-}
-
-.gnb.gnb--light-bg .btn-pill:hover {
-  background: #ffffff;
-  border-color: rgba(34, 178, 234, 0.34);
-}
-
-.gnb.gnb--scrolled .btn-pill:hover {
-  background: #ffffff;
-  border-color: rgba(34, 178, 234, 0.34);
-}
-
-.gnb.gnb--light-bg .btn-pill svg path {
-  stroke: var(--clr-primary);
-}
-
-.gnb.gnb--scrolled .btn-pill svg path {
-  stroke: var(--clr-primary);
-}
 
 .btn--ticket {
   display: inline-flex;
@@ -3585,29 +3526,17 @@ body,
 .gnb__dropdown::after {
   content: '';
   position: absolute;
-  /* 위 호버 다리(23px)는 비우고, 패널은 콘텐츠만 감싸도록 (상하 3px 여백) */
   inset: 20px 0 0 0;
-  background: rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(24px) saturate(1.2);
+  -webkit-backdrop-filter: blur(24px) saturate(1.2);
+  border: 1px solid rgba(255, 255, 255, 0.26);
   border-radius: 14px;
+  box-shadow:
+    0 8px 32px rgba(0, 20, 60, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
   pointer-events: none;
   z-index: -1;
-}
-
-.gnb.gnb--scrolled .gnb__dropdown::after,
-.gnb.gnb--light-bg .gnb__dropdown::after,
-body.marin-header-light .gnb .gnb__dropdown::after {
-  background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.9), rgba(238, 238, 238, 0.72)),
-    rgba(242, 242, 242, 0.78);
-  backdrop-filter: blur(22px) saturate(1.22);
-  -webkit-backdrop-filter: blur(22px) saturate(1.22);
-  border: 1px solid rgba(210, 210, 210, 0.72);
-  border-radius: 16px;
-  box-shadow:
-    0 18px 40px rgba(0, 0, 0, 0.08),
-    inset 0 1px 0 rgba(255, 255, 255, 0.86);
 }
 
 /* About us 호버 시 드롭다운 표시 */
@@ -3663,34 +3592,6 @@ body.marin-header-light .gnb .gnb__dropdown::after {
   color: var(--clr-primary) !important;
 }
 
-.gnb.gnb--scrolled .gnb__dropdown-item,
-.gnb.gnb--light-bg .gnb__dropdown-item,
-body.marin-header-light .gnb .gnb__dropdown-item {
-  color: rgba(17, 118, 158, 0.72);
-}
-
-.gnb.gnb--scrolled .gnb__dropdown-item:hover,
-.gnb.gnb--light-bg .gnb__dropdown-item:hover,
-body.marin-header-light .gnb .gnb__dropdown-item:hover {
-  background: rgba(255, 255, 255, 0.76);
-  color: var(--clr-primary);
-  box-shadow: inset 0 0 0 1px rgba(34, 178, 234, 0.12);
-}
-
-.gnb.gnb--scrolled .gnb__dropdown-item--active,
-.gnb.gnb--light-bg .gnb__dropdown-item--active,
-body.marin-header-light .gnb .gnb__dropdown-item--active {
-  background: rgba(255, 255, 255, 0.48);
-  color: rgba(14, 139, 189, 0.86) !important;
-  box-shadow: inset 0 0 0 1px rgba(34, 178, 234, 0.12);
-}
-
-.gnb.gnb--scrolled .gnb__dropdown-item--active:hover,
-.gnb.gnb--light-bg .gnb__dropdown-item--active:hover,
-body.marin-header-light .gnb .gnb__dropdown-item--active:hover {
-  background: rgba(255, 255, 255, 0.86);
-  color: var(--clr-primary) !important;
-}
 
 @media (prefers-reduced-motion: reduce) {
   .booking-bg-video {
