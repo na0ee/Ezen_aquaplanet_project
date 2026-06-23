@@ -1,1261 +1,1228 @@
-﻿
-    /* ── Location Hero Page ───────────────────────────── */
-    html {
-      scroll-behavior: smooth;
-    }
-    body {
-      background-color: var(--clr-primary);
-      background-image: none;
-    }
+/* ================================================================
+   location.css — Figma node 278:26 (location, 1920×10914) 기준
+   Hero 섹션 (278:327, 1920×1200) 우선 구현
+   ================================================================ */
 
-    .loc-hero {
-      position: relative;
-      width: 100%;
-      min-height: 100vh;
-      height: 100vh;
-      background-color: var(--clr-primary);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-    }
+:root {
+  --bg-detail: var(--bg-detail); /* 상세페이지 배경색 */
+}
 
-    /* ── 히어로 섹션 내 지점 탭 (상단 절대 배치) ── */
-    .loc-hero .loc-branch-tabs {
-      position: absolute;
-      top: 110px;
-      left: 0;
-      right: 0;
-      width: 355px;
-      margin: 0 auto;
-      z-index: 1;
-    }
+html {
+  scroll-behavior: smooth;
+}
 
-    /* ── 지점 탭 바 — loc-info 섹션 내 카테고리 ── */
-    .loc-branch-tabs {
-      width: 355px;
-      margin: 0 auto 40px;
-      background: rgba(255, 255, 255, 0.3);
-      border-radius: 14px;
-      padding: 3px;
-      display: flex;
-      align-items: center;
-    }
+body {
+  background-color: var(--bg-detail);
+}
 
-    .loc-branch-tabs__item {
-      font-family: var(--font-en);
-      font-size: var(--fs-body);
-      letter-spacing: var(--ls-tight);
-      color: rgba(255, 255, 255, 0.5);
-      cursor: pointer;
-      padding: 0 20px;
-      height: 48px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      white-space: nowrap;
-      text-decoration: none;
-      border-radius: 12px;
-      transition: color var(--tr-base), background var(--tr-base);
-    }
+/* ----------------------------------------------------------------
+   Sticky 래퍼 — hero(1200) + con1(1080) = 2280px
+   hero가 상단 고정, con1이 위로 올라오는 전환 효과
+---------------------------------------------------------------- */
+.loc-sticky-wrap {
+  position: relative;
+  height: 2280px; /* 1200 + 1080 */
+}
 
-    .loc-branch-tabs__item:hover {
-      color: rgba(255, 255, 255, 0.8);
-    }
+/* ----------------------------------------------------------------
+   Hero 섹션  (Figma 278:327)
+   전체: 1920×1200, overflow hidden
+---------------------------------------------------------------- */
+.loc-hero {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 1200px;
+  overflow: hidden;
+  z-index: 1;
+}
 
-    .loc-branch-tabs__item.is-active {
-      background: #ffffff;
-      font-family: var(--font-serif);
-      font-weight: 400;
-      font-size: 18px;
-      letter-spacing: -0.72px;
-      color: #22b2ea;
-      border-radius: 12px;
-      padding: 0 20px;
-    }
+/* 배경 이미지 (Figma: img_name_20240305175381206 2, x=-132, w=2274) */
+.loc-hero__bg {
+  position: absolute;
+  inset: 0;
+}
 
-    /* ── 히어로 텍스트 ── */
-    .loc-hero__content {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 30px;
-      text-align: center;
-      position: relative;
-      z-index: 1;
-      padding-top: 80px;
-      transition: opacity 0.4s ease, transform 0.4s ease, filter 0.4s ease;
-    }
+.loc-hero__bg-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  pointer-events: none;
+}
 
-    .loc-hero__title-wrap {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
 
-    .loc-hero__eyebrow {
-      font-family: var(--font-serif);
-      font-weight: 500;
-      font-style: italic;
-      font-size: var(--fs-eyebrow);
-      letter-spacing: var(--ls-normal);
-      line-height: 1.4;
-      color: var(--clr-text);
-      margin-bottom: -18px;
-    }
+/* ----------------------------------------------------------------
+   히어로 콘텐츠 중앙 배치
+   (Figma: Frame 1707483132, left: 50%, top=306px, translate -50%)
+---------------------------------------------------------------- */
+.loc-hero__content {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 306px;          /* Figma: content frame y=306 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;           /* Figma: gap between text group and scroll */
+}
 
-    .loc-hero__title {
-      font-family: var(--font-en);
-      font-weight: 500;
-      font-size: var(--fs-hero);
-      letter-spacing: -0.02em;
-      line-height: 1.4;
-      color: var(--clr-text);
-      margin: 0;
-      white-space: nowrap;
-    }
+/* 텍스트 그룹 (Figma: Frame 330, flex-col, gap=22) */
+.loc-hero__text-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;           /* Figma: gap between title-wrap and sub */
+}
 
-    .loc-hero__title em {
-      font-family: var(--font-serif);
-      font-weight: 500;
-      font-style: italic;
-    }
+/* 타이틀 래퍼 (Figma: Frame 331, flex-col, items-center) */
+.loc-hero__title-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-    .loc-hero__sub {
-      font-family: var(--font-kr);
-      font-weight: 500;
-      font-size: var(--fs-hero-sub);
-      letter-spacing: var(--ls-normal);
-      line-height: 1.4;
-      color: var(--clr-text);
-      white-space: nowrap;
-    }
+/* "Welcome"  (Figma: EB Garamond Medium Italic, 32px, rgba(255,255,255,0.9)) */
+.loc-hero__eyebrow {
+  font-family: var(--font-serif); /* EB Garamond */
+  font-weight: 500;
+  font-style: italic;
+  font-size: 32px;                /* Figma: 32px */
+  color: rgba(255, 255, 255, 0.9);
+  letter-spacing: -0.64px;       /* -0.02em @ 32px */
+  line-height: 1.4;
+  margin-bottom: -18px;          /* Figma: mb-[-18px] — 타이틀 위에 겹침 */
+  position: relative;
+  z-index: 1;
+}
 
-    /* ── 스크롤 인디케이터 ── */
-    .loc-scroll {
-      position: absolute;
-      bottom: 60px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 24px;
-      z-index: 1;
-    }
+/* "aqua planet" + "Jeju" 가로 정렬 (Figma: items-end, gap=16) */
+.loc-hero__title-line {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;           /* Figma: gap=16 */
+}
 
-    .loc-scroll__line {
-      width: 1px;
-      height: 80px;
-      background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.6));
-      animation: scrollPulse 2s ease-in-out infinite;
-    }
+/* "aqua planet"  (Figma: Poppins ExtraLight 200, 100px, tracking -4px) */
+.loc-hero__title-main {
+  font-family: var(--font-en); /* Poppins */
+  font-weight: 200;            /* ExtraLight */
+  font-size: 100px;            /* Figma: 100px */
+  color: #ffffff;
+  letter-spacing: -4px;        /* Figma: tracking-[-4px] */
+  line-height: 1;
+  margin: 0;
+  white-space: nowrap;
+}
 
-    .loc-scroll__text {
-      font-family: var(--font-en);
-      font-weight: 300;
-      font-size: 32px;
-      letter-spacing: var(--ls-normal);
-      line-height: 1.4;
-      color: var(--clr-text);
-      text-align: center;
-    }
+/* "Jeju"  (Figma: EB Garamond Medium Italic, 128px, tracking -2.56px) */
+.loc-hero__title-city {
+  font-family: var(--font-serif); /* EB Garamond */
+  font-weight: 500;
+  font-style: italic;
+  font-size: 128px;              /* Figma: 128px */
+  color: #ffffff;
+  letter-spacing: -2.56px;      /* Figma: tracking-[-2.56px] */
+  line-height: 1;
+  white-space: nowrap;
+}
 
-    .loc-scroll__text em {
-      font-family: var(--font-serif);
-      font-weight: 500;
-      font-style: italic;
-    }
+/* 서브텍스트  (Figma: Pretendard Light 300, 24px, tracking -0.48px, center) */
+.loc-hero__sub {
+  font-family: var(--font-kr); /* Pretendard */
+  font-weight: 300;            /* Light */
+  font-size: 24px;             /* Figma: 24px */
+  color: #ffffff;
+  letter-spacing: -0.48px;    /* Figma: tracking-[-0.48px] */
+  line-height: 1.4;
+  text-align: center;
+  margin: 0;
+  white-space: nowrap;
+}
 
-    @keyframes scrollPulse {
-      0%, 100% { opacity: 0.4; transform: scaleY(0.95); }
-      50%       { opacity: 1;   transform: scaleY(1); }
-    }
+/* ----------------------------------------------------------------
+   스크롤 인디케이터  (Figma: Frame 338, 180×118)
+---------------------------------------------------------------- */
+.loc-scroll {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: 180px;        /* Figma: w=180 */
+}
 
-    /* ═══════════════════════════════════════════════
-       공통 섹션 타이틀 (Main Programs / Guide Map)
-    ═══════════════════════════════════════════════ */
-    .loc-sec-title-box {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      align-items: center;
-      justify-content: center;
-      width: 327px;
-      margin: 0 auto;
-    }
-    .loc-sec-title {
-      font-size: 0;         /* 부모 크기 0, 자식에서 각각 지정 */
-      letter-spacing: -1.92px;
-      color: #1a1a1a;
-      white-space: nowrap;
-    }
-    .loc-sec-title__light {
-      font-family: var(--font-en);
-      font-weight: 300;
-      font-style: normal;
-      font-size: 42px;
-      line-height: normal;
-    }
-    .loc-sec-title__serif {
-      font-family: var(--font-serif);
-      font-weight: 500;
-      font-style: italic;
-      font-size: 48px;
-      line-height: normal;
-    }
-    .loc-sec-sub {
-      font-family: var(--font-kr);
-      font-weight: 400;
-      font-size: 18px;
-      letter-spacing: -0.36px;
-      color: #1a1a1a;
-      text-align: center;
-      white-space: nowrap;
-      line-height: normal;
-    }
+/* 수직선  (Figma: Line 1, h=80) */
+.loc-scroll__line {
+  width: 1px;
+  height: 80px;        /* Figma: 80px */
+  background: rgba(255, 255, 255, 0.7);
+}
 
-    /* ═══════════════════════════════════════════════
-       섹션 1 — 지점 소개 카드
-    ═══════════════════════════════════════════════ */
-    /* ═══════════════════════════════════════════════
-       콘텐츠 전체 그라데이션 래퍼
-       Figma 원본: 0%→11.058% 파랑→흰, 75.962%→100% 흰→파랑
-       (Figma는 logo-ending 섹션 포함 전체 기준 — 현재 구현에서
-        thumbs 아래부터 그라데이션 시작되도록 90%로 조정)
-    ═══════════════════════════════════════════════ */
-    .loc-content-wrap {
-      background: linear-gradient(180deg,
-        #22b2ea 0%,
-        #ffffff 22%,
-        #ffffff 95%,
-        #22b2ea 100%
-      );
-    }
+/* "Let's Explore"  (Figma: Poppins Light + EB Garamond Medium Italic, 32px) */
+.loc-scroll__text {
+  font-family: var(--font-en); /* Poppins — "Let's" */
+  font-weight: 300;            /* Light */
+  font-size: 32px;             /* Figma: 32px */
+  color: #ffffff;
+  letter-spacing: -0.64px;
+  line-height: 1.4;
+  text-align: center;
+  margin: 0;
+  white-space: nowrap;
+}
 
-    .loc-hero,
-    .loc-info,
-    .loc-programs,
-    .loc-map,
-    .loc-opening,
-    .loc-footer {
-      min-height: 100vh;
-      overflow: visible;
-      box-sizing: border-box;
-    }
+/* "Explore"  (Figma: EB Garamond Medium Italic) */
+.loc-scroll__text em {
+  font-family: var(--font-serif); /* EB Garamond */
+  font-weight: 500;
+  font-style: italic;
+}
 
-    .loc-scroll,
-    .loc-branch-tabs,
-    .loc-info__card,
-    .loc-programs .loc-sec-title-box,
-    .loc-programs__desc,
-    .loc-programs__cards,
-    .loc-map .loc-sec-title-box,
-    .loc-floor-tabs,
-    .loc-map__img-wrap,
-    .loc-map__notice,
-    .loc-thumbs-wrap,
-    .loc-opening .loc-sec-title-box,
-    .loc-opening__time-block,
-    .loc-opening__note {
-      opacity: 0;
-      transform: translateY(38px);
-      filter: blur(8px);
-      transition:
-        opacity 0.62s ease,
-        transform 0.74s cubic-bezier(0.16, 1, 0.3, 1),
-        filter 0.62s ease;
-      will-change: opacity, transform, filter;
-    }
+/* ================================================================
+   con1 섹션  (Figma 278:306 — 1920×1080)
+   아쿠아플라넷 제주 지점 소개
+   ================================================================ */
 
-    .loc-scroll,
-    .loc-info__card,
-    .loc-programs__desc,
-    .loc-programs__cards,
-    .loc-floor-tabs,
-    .loc-map__img-wrap,
-    .loc-map__notice,
-    .loc-thumbs-wrap,
-    .loc-opening__time-block,
-    .loc-opening__note {
-      transition:
-        opacity 0.52s ease,
-        transform 0.62s cubic-bezier(0.16, 1, 0.3, 1),
-        filter 0.52s ease;
-    }
+.loc-intro {
+  position: relative;
+  width: 100%;
+  height: 1080px;      /* Figma: 1080px */
+  overflow: hidden;
+  z-index: 2;          /* hero(z-index:1) 위로 슬라이드 */
+}
 
-    .loc-hero.is-title-visible .loc-branch-tabs,
-    .loc-hero.is-content-visible .loc-scroll,
-    .loc-info.is-title-visible .loc-branch-tabs,
-    .loc-info.is-content-visible .loc-info__card,
-    .loc-programs.is-title-visible .loc-sec-title-box,
-    .loc-programs.is-content-visible .loc-programs__desc,
-    .loc-programs.is-content-visible .loc-programs__cards,
-    .loc-map.is-title-visible .loc-sec-title-box,
-    .loc-map.is-content-visible .loc-floor-tabs,
-    .loc-map.is-content-visible .loc-map__img-wrap,
-    .loc-map.is-content-visible .loc-map__notice,
-    .loc-map.is-content-visible .loc-thumbs-wrap,
-    .loc-opening.is-title-visible .loc-sec-title-box,
-    .loc-opening.is-content-visible .loc-opening__time-block,
-    .loc-opening.is-content-visible .loc-opening__note {
-      opacity: 1;
-      transform: translateY(0);
-      filter: blur(0);
-    }
+/* 배경 이미지 (Figma: 140679_106309_1757 1) */
+.loc-intro__bg {
+  position: absolute;
+  inset: 0;
+}
 
-    .loc-hero.is-content-visible .loc-scroll,
-    .loc-info.is-content-visible .loc-info__card,
-    .loc-programs.is-content-visible .loc-programs__desc,
-    .loc-map.is-content-visible .loc-floor-tabs,
-    .loc-opening.is-content-visible .loc-opening__time-block {
-      transition-delay: 0.12s;
-    }
+.loc-intro__bg-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 159.27%;     /* Figma: 이미지 높이 비율 */
+  top: -29.63%;        /* Figma: top 오프셋 */
+  object-fit: cover;
+  object-position: center;
+  pointer-events: none;
+}
 
-    .loc-programs.is-content-visible .loc-programs__cards,
-    .loc-map.is-content-visible .loc-map__img-wrap,
-    .loc-opening.is-content-visible .loc-opening__note {
-      transition-delay: 0.24s;
-    }
+/* 그라데이션 오버레이
+   Figma: from rgba(217,217,217,0) → via rgba(77,77,77,0.64) 50.962% → to black
+   위치: 섹션 상단 302px ~ 하단(1080px) */
+.loc-intro__grad {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 302px;          /* 계산값: calc(50% + 151.16px) - 778px/2 */
+  height: 778px;       /* Figma: h=778.322px */
+  background: linear-gradient(
+    to bottom,
+    rgba(217, 217, 217, 0)    0%,
+    rgba(77,  77,  77,  0.64) 50.962%,
+    #000000               100%
+  );
+  pointer-events: none;
+}
 
-    .loc-map.is-content-visible .loc-map__notice {
-      transition-delay: 0.32s;
-    }
+/* 콘텐츠 박스 (Figma: 278:309, left=74, top=677, w=428, flex-col gap=20) */
+.loc-intro__content {
+  position: absolute;
+  left: 74px;          /* Figma: x=74 */
+  top: 677px;          /* Figma: y=677 */
+  width: 428px;        /* Figma: w=428 */
+  display: flex;
+  flex-direction: column;
+  gap: 20px;           /* Figma: gap=20 */
+}
 
-    .loc-map.is-content-visible .loc-thumbs-wrap {
-      transition-delay: 0.40s;
-    }
+/* 구분선 (Figma: Vector 100/101, w=423, thin horizontal rule) */
+.loc-intro__rule {
+  width: 423px;        /* Figma: w=423 */
+  height: 1px;
+  background: rgba(255, 255, 255, 0.4);
+}
 
-    .loc-hero.loc-section-exiting .loc-hero__content,
-    .loc-hero.loc-section-exiting .loc-branch-tabs,
-    .loc-hero.loc-section-exiting .loc-scroll,
-    .loc-info.loc-section-exiting .loc-branch-tabs,
-    .loc-info.loc-section-exiting .loc-info__card,
-    .loc-programs.loc-section-exiting .loc-sec-title-box,
-    .loc-programs.loc-section-exiting .loc-programs__desc,
-    .loc-programs.loc-section-exiting .loc-programs__cards,
-    .loc-map.loc-section-exiting .loc-sec-title-box,
-    .loc-map.loc-section-exiting .loc-floor-tabs,
-    .loc-map.loc-section-exiting .loc-map__img-wrap,
-    .loc-map.loc-section-exiting .loc-map__notice,
-    .loc-map.loc-section-exiting .loc-thumbs-wrap,
-    .loc-opening.loc-section-exiting .loc-sec-title-box,
-    .loc-opening.loc-section-exiting .loc-opening__time-block,
-    .loc-opening.loc-section-exiting .loc-opening__note {
-      opacity: 0;
-      transform: translateY(-44px);
-      filter: blur(8px);
-      transition-delay: 0s;
-    }
+/* 내부 콘텐츠 그룹 (Figma: Frame 311, flex-col, gap=24) */
+.loc-intro__body {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;           /* Figma: gap=24 */
+}
 
-    .loc-scroll {
-      transform: translate(-50%, 38px);
-    }
+/* 브랜드 그룹 (Figma: Frame 312, flex-col, gap=8) */
+.loc-intro__brand-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;            /* Figma: gap=8 */
+}
 
-    .loc-hero.is-content-visible .loc-scroll {
-      transform: translate(-50%, 0);
-    }
+/* 로고 + 지점명 가로 배치 (Figma: Frame 314, gap=10, items-center) */
+.loc-intro__brand-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;           /* Figma: gap=10 */
+}
 
-    .loc-hero.loc-section-exiting .loc-scroll {
-      transform: translate(-50%, -44px);
-    }
+/* logo_vector (Figma: 224×38) */
+.loc-intro__logo {
+  width: 224px;        /* Figma: w=224 */
+  height: 38px;        /* Figma: h=38 */
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+}
 
-    /* ── 히어로 텍스트 순차 페이드인 (인덱스 페이지와 동일) ── */
-    .loc-hero__eyebrow,
-    .loc-hero__title,
-    .loc-hero__sub {
-      opacity: 0;
-      animation: heroFadeUp 0.9s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
-      animation-play-state: paused;
-    }
+/* "제주" (Figma: Pretendard SemiBold, 36px, white) */
+.loc-intro__branch-name {
+  font-family: var(--font-kr);   /* Pretendard */
+  font-weight: 600;              /* SemiBold */
+  font-size: 36px;               /* Figma: 36px */
+  color: #ffffff;
+  line-height: 1;
+  white-space: nowrap;
+}
 
-    .loc-hero__eyebrow { animation-delay: 0.1s; }
-    .loc-hero__title   { animation-delay: 0.5s; }
-    .loc-hero__sub     { animation-delay: 1.0s; }
+/* 주소 (Figma: Frame 317, Pretendard Regular 12px, gap=4) */
+.loc-intro__address {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;            /* Figma: gap=4 */
+  font-family: var(--font-kr);
+  font-weight: 400;
+  font-size: 12px;     /* Figma: 12px */
+  color: #ffffff;
+  letter-spacing: -0.24px; /* Figma: tracking=-0.24px */
+  line-height: normal;
+}
 
-    .loc-hero.is-title-visible .loc-hero__eyebrow,
-    .loc-hero.is-title-visible .loc-hero__title,
-    .loc-hero.is-title-visible .loc-hero__sub {
-      animation-play-state: running;
-    }
+.loc-intro__address p {
+  margin: 0;
+}
 
-    .loc-info {
-      background: transparent;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 86px 0 56px;
-    }
-    .loc-info__card {
-      display: flex;
-      flex-direction: row;
-      width: 1320px;
-      margin: 0 auto;
-      background: #f5f5f5;
-      border-radius: 14px;
-      box-shadow: 0 16px 42px rgba(0, 58, 98, 0.08);
-      transition:
-        opacity 0.32s cubic-bezier(0.16, 1, 0.3, 1),
-        transform 0.40s cubic-bezier(0.16, 1, 0.3, 1),
-        filter 0.32s ease;
-    }
-    .loc-info.is-content-visible .loc-info__card.is-switching,
-    .loc-info__card.is-switching {
-      opacity: 0;
-      transform: translateY(10px) scale(0.98);
-      filter: blur(5px);
-      pointer-events: none;
-      transition:
-        opacity 0.18s ease,
-        transform 0.22s ease,
-        filter 0.18s ease;
-    }
-    .loc-info__img-wrap {
-      flex-shrink: 0;
-      width: 790px;
-      height: 538px;
-      border-radius: 14px;
-      overflow: hidden;
-    }
-    .loc-info__img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-    .loc-info__text {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
-      padding-top: 90px;
-      padding-left: 50px;
-      padding-right: 40px;
-      padding-bottom: 40px;
-    }
-    .loc-info__brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .loc-info__logo {
-      width: 224px;
-      height: 38px;
-      object-fit: contain;
-      display: block;
-    }
-    .loc-info__branch-name {
-      font-family: var(--font-kr);
-      font-weight: 600;
-      font-size: 36px;
-      color: #1a1a1a;
-      line-height: normal;
-      white-space: nowrap;
-    }
-    .loc-info__address {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      font-family: var(--font-kr);
-      font-weight: 400;
-      font-size: 12px;
-      letter-spacing: -0.24px;
-      color: #1a1a1a;
-      line-height: normal;
-    }
-    .loc-info__address p:first-child {
-      width: 266px;
-    }
-    .loc-info__quote {
-      font-family: var(--font-kr);
-      font-weight: 400;
-      font-size: 24px;
-      letter-spacing: -0.48px;
-      color: #1a1a1a;
-      line-height: 1.4;
-    }
-    .loc-info__quote p { margin: 0; }
-    .loc-info__qm {
-      font-family: 'Nanum Myeongjo', serif;
-      font-weight: 700;
-    }
-    .loc-info__qm--close {
-      font-weight: 400;
-    }
-    .loc-info__quote strong {
-      font-family: var(--font-kr);
-      font-weight: 600;
-    }
-    .loc-info__desc {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      width: 428px;
-    }
-    .loc-info__desc p {
-      font-family: var(--font-kr);
-      font-weight: 400;
-      font-size: 16px;
-      letter-spacing: -0.32px;
-      color: #1a1a1a;
-      line-height: 1.4;
-      text-align: justify;
-    }
+/* 인용문 (Figma: Frame 320, Pretendard, 24px, white, tracking=-0.48px) */
+.loc-intro__quote {
+  margin: 0;
+  padding: 0;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  font-family: var(--font-kr);
+  font-size: 24px;             /* Figma: 24px */
+  font-weight: 400;
+  color: #ffffff;
+  letter-spacing: -0.48px;    /* Figma: tracking=-0.48px */
+  line-height: 1.4;
+}
 
-    /* ═══════════════════════════════════════════════
-       섹션 2 — 주요 프로그램
-    ═══════════════════════════════════════════════ */
-    .loc-programs {
-      background: transparent;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 84px 0 64px;
-    }
-    .loc-programs__desc {
-      margin-top: 34px;
-      font-family: var(--font-kr);
-      font-size: 26px;
-      font-weight: 400;
-      letter-spacing: -0.52px;
-      color: #1a1a1a;
-      text-align: center;
-      line-height: 1.4;
-      transition:
-        opacity 0.34s ease,
-        transform 0.42s cubic-bezier(0.16, 1, 0.3, 1),
-        filter 0.34s ease;
-    }
-    .loc-programs__desc strong {
-      font-weight: 600;
-    }
-    .loc-programs__cards {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 1320px;
-      margin-top: 68px;
-      gap: 20px;
-    }
-    .loc-programs__card {
-      position: relative;
-      width: 644px;
-      height: 400px;
-      border-radius: 14px;
-      overflow: hidden;
-      background: #ffffff;
-      flex-shrink: 0;
-      box-shadow: 0 16px 38px rgba(0, 58, 98, 0.08);
-      transition:
-        transform 0.42s cubic-bezier(0.16, 1, 0.3, 1),
-        box-shadow 0.34s ease,
-        filter 0.34s ease;
-    }
-    .loc-programs__card:hover {
-      box-shadow: 0 26px 58px rgba(0, 58, 98, 0.18);
-      filter: saturate(1.04);
-    }
-    .loc-programs__card-img {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      transition:
-        opacity 0.34s ease,
-        transform 0.52s cubic-bezier(0.16, 1, 0.3, 1),
-        filter 0.34s ease;
-    }
-    .loc-programs__card:hover .loc-programs__card-img {
-      transform: scale(1.045);
-    }
-    .loc-programs__card-grad {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(0,0,0,0.56) 100%);
-    }
-    .loc-programs__card-footer {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      padding: 0 24px 24px;
-      display: flex;
-      align-items: flex-end;
-    }
-    .loc-programs__card-footer--row {
-      justify-content: space-between;
-      align-items: flex-end;
-    }
-    .loc-programs__card-title {
-      font-family: var(--font-kr);
-      font-weight: 500;
-      font-size: 24px;
-      color: #ffffff;
-      line-height: normal;
-      white-space: nowrap;
-      transition:
-        opacity 0.34s ease,
-        transform 0.42s cubic-bezier(0.16, 1, 0.3, 1),
-        filter 0.34s ease;
-    }
-    .loc-hero__content.is-switching {
-      opacity: 0;
-      transform: translateY(14px) scale(0.98);
-      filter: blur(8px);
-      pointer-events: none;
-      transition:
-        opacity 0.18s ease,
-        transform 0.22s ease,
-        filter 0.18s ease;
-    }
-    .loc-programs__desc.is-switching,
-    .loc-programs__card-img.is-switching,
-    .loc-programs__card-title.is-switching {
-      opacity: 0.24;
-      transform: translateY(12px) scale(0.985);
-      filter: blur(6px);
-    }
-    .loc-programs__card-btns {
-      position: relative;
-      width: 94px;
-      height: 32px;
-      flex-shrink: 0;
-    }
-    .loc-btn-white {
-      position: absolute;
-      inset: 0;
-      z-index: 2;
-      width: 94px;
-      height: 32px;
-      background: #ffffff;
-      border-radius: 24px;
-      border: 1.5px solid #ffffff;
-      font-family: var(--font-kr);
-      font-weight: 500;
-      font-size: 16px;
-      letter-spacing: -0.32px;
-      color: var(--clr-primary);
-      cursor: pointer;
-      white-space: nowrap;
-      line-height: 1.2;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s ease;
-    }
-    .loc-programs__card:hover .loc-btn-white {
-      opacity: 1;
-      pointer-events: auto;
-    }
-    .loc-btn-outline {
-      position: absolute;
-      inset: 0;
-      z-index: 1;
-      width: 94px;
-      height: 32px;
-      background: var(--clr-primary);
-      border-radius: 24px;
-      border: 1.5px solid var(--clr-primary);
-      box-shadow: 0 4px 4px rgba(0,0,0,0.25);
-      font-family: var(--font-kr);
-      font-weight: 500;
-      font-size: 16px;
-      letter-spacing: -0.32px;
-      color: #ffffff;
-      cursor: pointer;
-      white-space: nowrap;
-      line-height: 1.2;
-      transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
-    }
-    .loc-btn-outline:hover {
-      background: #ffffff;
-      border-color: #ffffff;
-      color: var(--clr-primary);
-      transform: translateY(-1px);
-      box-shadow: 0 6px 10px rgba(0,0,0,0.35);
-    }
+.loc-intro__quote p {
+  margin: 0;
+}
 
-    /* ═══════════════════════════════════════════════
-       섹션 3 — 가이드 맵
-    ═══════════════════════════════════════════════ */
-    .loc-map {
-      background: transparent;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 78px 0 48px;
-    }
+.loc-intro__quote strong {
+  font-weight: 600;            /* Pretendard SemiBold */
+}
 
-    /* ═══════════════════════════════════════════════
-       섹션 4 — 이용 시간
-    ═══════════════════════════════════════════════ */
-    .loc-opening {
-      background: transparent;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 80px 0 60px;
-    }
+/* 따옴표 (Figma: Pretendard 사용) */
+.loc-intro__qm {
+  font-weight: 700;
+}
 
-    .loc-opening__time-block {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 14px;
-      margin-top: 64px;
-    }
+/* 설명 텍스트 (Figma: Frame 321, Pretendard Regular 16px, gap=8, text-justify, w=428) */
+.loc-intro__desc {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;            /* Figma: gap=8 */
+}
 
-    .loc-opening__status {
-      font-family: var(--font-kr);
-      font-weight: 700;
-      font-size: 28px;
-      letter-spacing: -0.56px;
-      color: #1a1a1a;
-      text-align: center;
-    }
+.loc-intro__desc p {
+  margin: 0;
+  font-family: var(--font-kr);
+  font-weight: 400;
+  font-size: 16px;             /* Figma: 16px */
+  color: #ffffff;
+  letter-spacing: -0.32px;    /* Figma: tracking=-0.32px */
+  line-height: 1.4;
+  text-align: justify;         /* Figma: text-justify */
+  width: 428px;                /* Figma: w=428 */
+}
 
-    .loc-opening__time {
-      font-family: var(--font-kr);
-      font-weight: 700;
-      font-size: 88px;
-      letter-spacing: -2px;
-      color: #1a1a1a;
-      line-height: 1.1;
-      text-align: center;
-      white-space: nowrap;
-    }
+/* ================================================================
+   con02 섹션  (Figma 278:27 — 1920×1134)
+   Main Programs
+   ================================================================ */
 
-    .loc-opening__note {
-      margin-top: 52px;
-      font-family: var(--font-kr);
-      font-weight: 400;
-      font-size: 18px;
-      letter-spacing: -0.36px;
-      color: #1a1a1a;
-      text-align: center;
-      line-height: 1.5;
-    }
+.loc-programs {
+  position: relative;
+  width: 100%;
+  height: 1134px;              /* Figma: 1134px */
+  background: var(--bg-detail);
+  overflow: hidden;
+}
 
-    /* ═══════════════════════════════════════════════
-       푸터
-    ═══════════════════════════════════════════════ */
-    .loc-footer {
-      background-color: var(--clr-primary);
-      width: 100%;
-      min-height: 810px;
-    }
+/* 타이틀 + 서브텍스트 (Figma: 278:58, centered, top=160, flex-col gap=14) */
+.loc-programs__header {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 160px;                  /* Figma: y=160 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;                   /* Figma: gap=14 */
+  white-space: nowrap;
+}
 
-    /* ── 흰색 배경 위 파란 커서 ── */
-    #custom-cursor.is-over-light {
-      border-color: rgba(34, 178, 234, 0.9);
-    }
-    #custom-cursor.is-over-light.is-hovering {
-      border-color: rgba(34, 178, 234, 1);
-      background: rgba(34, 178, 234, 0.08);
-    }
-    #custom-cursor.is-over-light.is-clicking {
-      background: rgba(34, 178, 234, 0.2);
-      border-color: rgba(34, 178, 234, 1);
-    }
-    .loc-floor-tabs {
-      margin-top: 34px;
-      display: flex;
-      align-items: center;
-      background: #f8f8f8;
-      border-radius: 14px;
-      padding: 3px;
-    }
-    .loc-floor-tab {
-      height: 48px;
-      padding: 0 20px;
-      border: none;
-      background: transparent;
-      border-radius: 12px;
-      font-family: var(--font-en);
-      font-size: 16px;
-      letter-spacing: -0.64px;
-      color: rgba(34,178,234,0.5);
-      cursor: pointer;
-      transition: all 0.2s ease;
-      white-space: nowrap;
-    }
-    .loc-floor-tab.is-active {
-      background: #ffffff;
-      font-family: var(--font-serif);
-      font-size: 18px;
-      letter-spacing: -0.72px;
-      color: var(--clr-primary);
-      font-weight: 400;
-    }
-    .loc-map__img-wrap {
-      margin-top: 28px;
-      width: clamp(320px, 64vw, 920px);
-      max-height: 780px;
-      overflow: hidden;
-      cursor: pointer;
-    }
-    .loc-map__img-wrap,
-    .loc-map__thumbs,
-    .loc-floor-tabs {
-      transition:
-        opacity 0.34s ease,
-        transform 0.42s cubic-bezier(0.16, 1, 0.3, 1),
-        filter 0.34s ease;
-    }
-    .loc-map__img-wrap.is-switching,
-    .loc-map__thumbs.is-switching,
-    .loc-floor-tabs.is-switching {
-      opacity: 0.24;
-      transform: translateY(12px) scale(0.985);
-      filter: blur(6px);
-      pointer-events: none;
-    }
-    .loc-map__img {
-      width: 100%;
-      height: auto;
-      display: block;
-      transition:
-        transform 0.52s cubic-bezier(0.16, 1, 0.3, 1),
-        opacity 0.34s ease,
-        filter 0.34s ease;
-    }
-    .loc-map__img.is-switching {
-      opacity: 0;
-      transform: scale(0.97) translateY(8px);
-      filter: blur(5px);
-    }
-    .loc-map__notice {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      margin-top: 12px;
-      width: clamp(320px, 64vw, 920px);
-      font-family: var(--font-kr);
-      font-weight: 400;
-      font-size: 14px;
-      letter-spacing: -0.28px;
-      color: #000000;
-      white-space: nowrap;
-    }
-    .loc-map__notice svg {
-      flex-shrink: 0;
-    }
-    /* ── 썸네일 래퍼 & 화살표 ── */
-    .loc-thumbs-wrap {
-      position: relative;
-      width: clamp(320px, 64vw, 920px);
-      margin-top: 24px;
-    }
-    .loc-map__thumbs {
-      display: flex;
-      align-items: flex-end;
-      gap: 20px;
-      overflow-x: scroll;
-      scroll-behavior: smooth;
-      padding-bottom: 8px;
-      scrollbar-width: none;
-      cursor: grab;
-      user-select: none;
-      touch-action: pan-y;
-    }
-    .loc-map__thumbs.is-dragging {
-      cursor: grabbing;
-      scroll-behavior: auto;
-    }
-    .loc-map__thumbs::-webkit-scrollbar { display: none; }
-    /* 투명 마스크 페이드 — 흰 오버레이 없이 썸네일 자체가 페이드 */
-    #thumb-track {
-      -webkit-mask-image: linear-gradient(to right, black 0%, black 87%, transparent 100%);
-              mask-image: linear-gradient(to right, black 0%, black 87%, transparent 100%);
-    }
-    #thumb-track.mask-both {
-      -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 87%, transparent 100%);
-              mask-image: linear-gradient(to right, transparent 0%, black 10%, black 87%, transparent 100%);
-    }
-    #thumb-track.mask-left {
-      -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 100%);
-              mask-image: linear-gradient(to right, transparent 0%, black 10%, black 100%);
-    }
-    #thumb-track.mask-none {
-      -webkit-mask-image: none;
-              mask-image: none;
-    }
-    .loc-thumbs-arrow {
-      position: absolute;
-      bottom: calc(150px / 2 + 8px);
-      transform: translateY(50%);
-      z-index: 3;
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      background: #ffffff;
-      border: 1px solid rgba(0, 0, 0, 0.1);
-      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #1a1a1a;
-      transition: box-shadow 0.2s ease, opacity 0.25s ease;
-    }
-    .loc-thumbs-arrow:hover { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.22); }
-    .loc-thumbs-arrow--prev { left: -22px; }
-    .loc-thumbs-arrow--next { right: -22px; }
-    .loc-thumbs-arrow.is-hidden { opacity: 0; pointer-events: none; }
-    .loc-map__thumb-group {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      align-items: flex-start;
-      flex-shrink: 0;
-      width: 150px;
-    }
-    .loc-map__thumb-cat {
-      font-family: var(--font-kr);
-      font-weight: 600;
-      font-size: 18px;
-      letter-spacing: -0.36px;
-      white-space: nowrap;
-      line-height: normal;
-    }
-    .loc-map__thumb-card {
-      position: relative;
-      width: 150px;
-      height: 150px;
-      border-radius: 14px;
-      overflow: hidden;
-      background: #ffffff;
-      flex-shrink: 0;
-      animation: locGuideThumbIn 0.48s cubic-bezier(0.16, 1, 0.3, 1) both;
-      animation-delay: calc(var(--thumb-index, 0) * 34ms);
-      box-shadow: 0 10px 24px rgba(0, 58, 98, 0.08);
-      transition:
-        box-shadow 0.30s ease,
-        filter 0.30s ease,
-        transform 0.34s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .loc-map__thumb-card img {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      pointer-events: none;
-      -webkit-user-drag: none;
-      transition: transform 0.42s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .loc-map__thumb-card:hover img {
-      transform: scale(1.06);
-    }
-    .loc-map__thumb-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 20px 36px rgba(0, 58, 98, 0.18);
-      filter: saturate(1.05) brightness(1.02);
-    }
-    .loc-map__thumb-grad {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 82px;
-      background: linear-gradient(180deg, rgba(26,26,26,0) 0%, rgba(26,26,26,0.6) 100%);
-    }
-    .loc-map__thumb-badge {
-      position: absolute;
-      top: 14px;
-      right: 14px;
-      width: 24px;
-      height: 24px;
-      border-radius: 50px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: var(--font-kr);
-      font-weight: 500;
-      font-size: 14px;
-      letter-spacing: -0.28px;
-      color: #ffffff;
-      text-align: center;
-    }
-    .loc-map__thumb-name {
-      position: absolute;
-      left: 14px;
-      bottom: 14px;
-      font-family: var(--font-kr);
-      font-weight: 600;
-      font-size: 16px;
-      letter-spacing: -0.32px;
-      color: #ffffff;
-      white-space: nowrap;
-      line-height: normal;
-    }
+/* "Main Programs" 타이틀 */
+.loc-programs__title {
+  margin: 0;
+  line-height: 0;
+  letter-spacing: -1.68px;    /* Figma: tracking-[-1.68px] */
+}
 
-    /* ── 썸네일 카드 클릭 ── */
-    .loc-map__thumb-card { cursor: pointer; }
+/* "Main" — Poppins Light, 42px */
+.loc-programs__title-light {
+  font-family: var(--font-en);
+  font-weight: 300;
+  font-size: 42px;             /* Figma: 42px */
+  color: #ffffff;
+  line-height: 1.2;
+}
 
-    @keyframes locGuideThumbIn {
-      from {
-        opacity: 0;
-        transform: translateY(18px) scale(0.96);
-        filter: blur(5px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-        filter: blur(0);
-      }
-    }
+/* " Programs" — EB Garamond Medium Italic, 48px */
+.loc-programs__title-serif {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-style: italic;
+  font-size: 48px;             /* Figma: 48px */
+  color: #ffffff;
+  line-height: 1.2;
+}
 
-    /* ═══════════════════════════════════════════════
-       전시관 상세 모달
-    ═══════════════════════════════════════════════ */
-    .exhibit-modal {
-      position: fixed;
-      inset: 0;
-      z-index: 500;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s ease;
-    }
-    .exhibit-modal.is-open {
-      opacity: 1;
-      pointer-events: auto;
-    }
-    .exhibit-modal.is-content-entering .exhibit-modal__header,
-    .exhibit-modal.is-content-entering .exhibit-modal__body {
-      animation: locModalContentIn 0.36s cubic-bezier(0.16, 1, 0.3, 1) both;
-    }
-    .exhibit-modal.is-content-entering .exhibit-modal__body {
-      animation-delay: 0.05s;
-    }
-    @keyframes locModalContentIn {
-      from {
-        opacity: 0;
-        transform: translateY(14px);
-        filter: blur(5px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-        filter: blur(0);
-      }
-    }
-    .exhibit-modal__backdrop {
-      position: absolute;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.6);
-    }
-    .exhibit-modal__card {
-      position: relative;
-      background: #ffffff;
-      border-radius: 14px;
-      padding: 30px 40px;
-      width: 1058px;
-      display: flex;
-      flex-direction: column;
-      gap: 46px;
-      z-index: 1;
-      overflow: visible;
-    }
-    .exhibit-modal__header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 100%;
-    }
-    .exhibit-modal__title-group {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-    .exhibit-modal__badge {
-      width: 30px;
-      height: 30px;
-      border-radius: 50px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: var(--font-kr);
-      font-weight: 600;
-      font-size: 16px;
-      letter-spacing: -0.32px;
-      color: #ffffff;
-      text-align: center;
-      flex-shrink: 0;
-    }
-    .exhibit-modal__name {
-      font-family: var(--font-kr);
-      font-weight: 600;
-      font-size: 32px;
-      letter-spacing: -0.64px;
-      color: #000000;
-      white-space: nowrap;
-      margin: 0;
-    }
-    .exhibit-modal__floor {
-      font-family: var(--font-kr);
-      font-weight: 600;
-      font-size: 32px;
-      letter-spacing: -0.64px;
-      color: #000000;
-      white-space: nowrap;
-      margin: 0;
-    }
-    .exhibit-modal__body {
-      display: flex;
-      gap: 90px;
-      align-items: flex-start;
-    }
-    .exhibit-modal__left {
-      display: flex;
-      flex-direction: column;
-      gap: 30px;
-      width: 640px;
-      flex-shrink: 0;
-    }
-    .exhibit-modal__img-wrap {
-      width: 100%;
-      height: 360px;
-      overflow: hidden;
-      background: #f0f0f0;
-    }
-    .exhibit-modal__img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-    .exhibit-modal__desc {
-      font-family: var(--font-kr);
-      font-weight: 400;
-      font-size: 16px;
-      letter-spacing: -0.32px;
-      color: #000000;
-      line-height: 1.5;
-      min-height: calc(16px * 1.5 * 3);
-    }
-    .exhibit-modal__desc p { margin: 0; }
-    .exhibit-modal__right {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      flex-shrink: 0;
-      min-width: 190px;
-    }
-    .exhibit-modal__cat-group {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-    .exhibit-modal__cat-title {
-      font-family: var(--font-kr);
-      font-weight: 600;
-      font-size: 26px;
-      letter-spacing: -0.52px;
-      color: #3d3d3d;
-      white-space: nowrap;
-      margin: 0;
-    }
-    .exhibit-modal__cat-title.is-active { color: #000000; }
-    .exhibit-modal__cat-items {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      padding-left: 6px;
-    }
-    .exhibit-modal__cat-item {
-      font-family: var(--font-kr);
-      font-weight: 400;
-      font-size: 18px;
-      letter-spacing: -0.36px;
-      color: #3d3d3d;
-      margin: 0;
-      cursor: pointer;
-      transition: opacity 0.15s ease;
-    }
-    .exhibit-modal__cat-item:hover { opacity: 0.7; }
-    .exhibit-modal__close {
-      position: absolute;
-      top: -20px;
-      right: -20px;
-      width: 40px;
-      height: 40px;
-      border-radius: 22px;
-      background: #22b2ea;
-      border: none;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      transition: background 0.2s ease;
-    }
-    .exhibit-modal__close:hover { background: #1a9fd4; }
+/* 서브텍스트 (Figma: 278:62, Pretendard 18px, center, tracking -0.36px) */
+.loc-programs__sub {
+  margin: 0;
+  font-family: var(--font-kr);
+  font-weight: 400;
+  font-size: 18px;             /* Figma: 18px */
+  color: #ffffff;
+  letter-spacing: -0.36px;    /* Figma: tracking-[-0.36px] */
+  line-height: 1.4;
+  text-align: center;
+}
 
-    /* ── 섹션 사이드 내비게이션 ── */
-    .loc-side-nav {
-      position: fixed;
-      right: 40px;
-      top: 50%;
-      transform: translateY(-50%);
-      z-index: 50;
-      display: flex;
-      flex-direction: column;
-      gap: 26px;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.4s ease;
-    }
-    .loc-side-nav.is-visible {
-      opacity: 1;
-      pointer-events: auto;
-    }
-    .loc-side-nav__item {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 0;
-    }
-    .loc-side-nav__label {
-      font-family: var(--font-kr);
-      font-weight: 400;
-      font-size: 13px;
-      letter-spacing: -0.26px;
-      color: #BEDBF4;
-      white-space: nowrap;
-      line-height: 1;
-      transition: color 0.3s ease;
-      display: inline-block;
-      width: 80px;
-      text-align: right;
-    }
-    .loc-side-nav__line {
-      flex-shrink: 0;
-      width: 40px;
-      height: 1px;
-      background: #BEDBF4;
-      transition: width 0.3s ease, background 0.3s ease;
-    }
-    .loc-side-nav__item.is-active .loc-side-nav__label,
-    .loc-side-nav__item:hover .loc-side-nav__label {
-      color: #22B2EA;
-    }
-    .loc-side-nav__item.is-active .loc-side-nav__line,
-    .loc-side-nav__item:hover .loc-side-nav__line {
-      background: #22B2EA;
-    }
-    .loc-side-nav__item.is-active .loc-side-nav__line {
-      width: 56px;
-    }
-  
+.loc-programs__sub strong {
+  font-weight: 600;            /* SemiBold */
+}
+
+/* 카드 컨테이너 (Figma: 278:39, centered, top=462, p=16, gap=20)
+   glass: index .program-grid::before 와 동일한 레시피 */
+.loc-programs__cards {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 462px;                  /* Figma: y=462 */
+  display: flex;
+  gap: 20px;                   /* Figma: gap=20 */
+  align-items: center;
+  padding: 16px;               /* Figma: p=16 */
+  border-radius: 28px;
+  border: 2px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 8px 32px rgba(0, 20, 60, 0.18);
+}
+
+/* 개별 카드 (Figma: 633~635×400, bg white, rounded-14, overflow-hidden) */
+.loc-programs__card {
+  position: relative;
+  width: 633px;                /* Figma: 633~635px (거의 동일) */
+  height: 400px;               /* Figma: 400px */
+  background: #ffffff;
+  border-radius: 14px;         /* Figma: rounded-[14px] */
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+/* 카드 이미지 */
+.loc-programs__card-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* 하단 그라데이션 오버레이 (Figma: 278:42, h=86, top=314, transparent→rgba(0,0,0,0.56)) */
+.loc-programs__card-grad {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 314px;                  /* Figma: top=314 */
+  height: 86px;                /* Figma: h=86 */
+  background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(0,0,0,0.56));
+  backdrop-filter: blur(2px);
+}
+
+/* 카드 하단 바 (Figma: 278:43, top=344, pb=24, px=24, flex justify-between) */
+.loc-programs__card-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 344px;                  /* Figma: top=344 */
+  bottom: 0;
+  padding: 0 24px 24px;        /* Figma: pb=24, px=24 */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* 카드 타이틀 (Figma: Pretendard Medium 24px, white) */
+.loc-programs__card-title {
+  margin: 0;
+  font-family: var(--font-kr);
+  font-weight: 500;            /* Medium */
+  font-size: 24px;             /* Figma: 24px */
+  color: #ffffff;
+  line-height: normal;
+  white-space: nowrap;
+}
+
+/* "보러가기" 버튼 (Figma: 278:47, h=32, px=16, rounded-100, bg rgba(255,255,255,0.02)) */
+.loc-programs__card-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;                /* Figma: h=32 */
+  padding: 0 16px;             /* Figma: px=16 */
+  border-radius: 100px;        /* Figma: rounded-[100px] */
+  background: rgba(255, 255, 255, 0.02);
+  font-family: var(--font-kr);
+  font-weight: 500;
+  font-size: 16px;             /* Figma: 16px */
+  color: #ffffff;
+  letter-spacing: -0.32px;
+  text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ================================================================
+   con3_1 섹션  (Figma 278:200 — 1920×1542)
+   Guide Map — 기본 상태
+   ================================================================ */
+
+/* sticky 래퍼 — 섹션 높이 + 여분 스크롤 공간 */
+.loc-map-wrap {
+  position: relative;
+  height: calc(1542px + 100vh);
+}
+
+.loc-map {
+  position: sticky;
+  /* 버블 그룹 중심(1011px)을 뷰포트 중앙에 고정:
+     Figma 버블 Y범위 605~1416 → 중심≈1011 */
+  top: calc(50vh - 1011px);
+  width: 100%;
+  height: 1542px;
+  background: var(--bg-detail);
+  overflow: hidden;
+}
+
+/* 타이틀 + 층탭 (Figma: 278:241, centered, top=160, flex-col gap=80) */
+.loc-map__header {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 160px;                  /* Figma: y=160 */
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 80px;                   /* Figma: gap=80 */
+  pointer-events: none;
+}
+
+/* "Guide Map" 타이틀 */
+.loc-map__title {
+  margin: 0;
+  line-height: 0;              /* Figma: leading-[0] */
+  white-space: nowrap;
+  letter-spacing: -1.68px;    /* Figma: tracking-[-1.68px] */
+}
+
+/* "Guide" — Poppins Light, 42px */
+.loc-map__title-light {
+  font-family: var(--font-en);
+  font-weight: 300;            /* Light */
+  font-size: 42px;             /* Figma: 42px */
+  color: #ffffff;
+  line-height: 1.2;
+}
+
+/* " Map" — EB Garamond Medium Italic, 48px */
+.loc-map__title-serif {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-style: italic;
+  font-size: 48px;             /* Figma: 48px */
+  color: #ffffff;
+  line-height: 1.2;
+}
+
+/* 층 탭 컨테이너 (Figma: 278:244, bg rgba(255,255,255,0.02), rounded-14, p=3, h=54) */
+.loc-map__floor-tabs {
+  display: flex;
+  align-items: center;
+  height: 54px;                /* Figma: h=54 */
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 14px;         /* Figma: rounded-[14px] */
+  padding: 3px;                /* Figma: p=3 */
+  position: relative;
+  z-index: 31;
+  pointer-events: auto;
+  isolation: isolate;
+  transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.25s ease;
+}
+
+/* 버블 노출 시 축소된 맵 스테이지의 상단 중앙으로 이동 */
+.loc-map.is-hovering .loc-map__floor-tabs {
+  transform: translate(-331px, 516px);
+}
+
+/* 상세 카드 노출 시 지도와 함께 층 탭 숨김 */
+.loc-map.has-detail .loc-map__floor-tabs {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* 층 탭 개별 항목 */
+.loc-map__floor-tab {
+  height: 48px;                /* Figma: h=48 */
+  padding: 0 20px;             /* Figma: px=20 */
+  border-radius: 12px;         /* Figma: rounded-[12px] */
+  border: none;
+  background: transparent;
+  font-family: var(--font-en); /* Poppins */
+  font-weight: 500;            /* Medium */
+  font-size: 16px;             /* Figma: 16px */
+  color: #ffffff;
+  letter-spacing: -0.64px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  white-space: nowrap;
+}
+
+/* 활성 탭 — 2F (Figma: bg white, #22B2EA, EB Garamond Medium 20px) */
+.loc-map__floor-tab.is-active {
+  background: #ffffff;
+  color: var(--clr-primary);
+  font-family: var(--font-serif); /* EB Garamond */
+  font-weight: 500;
+  font-style: normal;
+  font-size: 20px;             /* Figma: 20px */
+  letter-spacing: -0.8px;
+}
+
+/* 맵 + 마커 스테이지 (맵 이미지 기준 좌표계) */
+.loc-map__stage {
+  position: absolute;
+  left: 301px;                 /* Figma: x=301 */
+  top: 512px;                  /* Figma: y=512 */
+  width: 1320px;               /* Figma: w=1320 */
+  height: 790px;               /* Figma: h=790 */
+  transform-origin: 50% 50%;
+  transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity   0.25s ease;
+}
+
+/* hover/click 공통 — 지도 왼쪽으로 축소
+   stage center(961,907) → target center(630,1011)
+   dy=+104 → 뷰포트 중앙(section-y=1011)에 지도 중심 고정
+   dx=-331  dy=+104  scale=658÷1320≈0.499 */
+.loc-map.is-hovering .loc-map__stage,
+.loc-map.has-detail   .loc-map__stage {
+  transform: translate(-331px, 104px) scale(0.499);
+}
+
+/* click — 지도 페이드아웃 (카드로 교체) */
+.loc-map.has-detail .loc-map__stage {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* 맵 이미지 래퍼 (마커 포지셔닝 기준) */
+.loc-map__img-wrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* 가이드맵 이미지 (Figma: opacity 90%) */
+.loc-map__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.9;                /* Figma: opacity-90 */
+  border-radius: 8px;
+}
+
+/* 마커 레이어 */
+.loc-map__markers {
+  position: absolute;
+  inset: 0;
+}
+
+/* 마커 공통 (Figma: 278:205~212, 66×66, bg #22B2EA, rounded-50px) */
+.loc-map__marker {
+  position: absolute;
+  width: 66px;                 /* Figma: 66px */
+  height: 66px;                /* Figma: 66px */
+  border-radius: 50%;          /* Figma: rounded-[50px] */
+  background: var(--clr-primary); /* #22B2EA */
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-kr); /* Pretendard */
+  font-weight: 400;
+  font-size: 30px;             /* Figma: 30px */
+  color: #ffffff;
+  letter-spacing: -0.6px;     /* Figma: tracking-[-0.6px] */
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.loc-map__marker:hover {
+  transform: scale(1.1);
+}
+
+.loc-map__marker.is-active {
+  background: #ffffff;
+  color: var(--clr-primary);
+}
+
+/* 안내 문구 (Figma: 278:213, left=1216, top=512 → stage 기준 left=915, top=0) */
+.loc-map__hint {
+  position: absolute;
+  left: 915px;                 /* 1216 - 301 */
+  top: 0;                      /* 512 - 512 */
+  display: flex;
+  align-items: center;
+  gap: 6px;                    /* Figma: gap=6 */
+  margin: 0;
+  font-family: var(--font-kr);
+  font-weight: 400;
+  font-size: 14px;             /* Figma: 14px */
+  color: #ffffff;
+  letter-spacing: -0.28px;    /* Figma: tracking-[-0.28px] */
+  white-space: nowrap;
+}
+
+.loc-map__hint-icon {
+  flex-shrink: 0;
+}
+
+/* 일산 지도는 마커 작업 전까지 지도와 층 탭만 노출합니다. */
+.loc-map.is-static-map .loc-map__markers,
+.loc-map.is-static-map .loc-map__bubbles,
+.loc-map.is-static-map .loc-map__detail,
+.loc-map.is-static-map .loc-map__hint {
+  display: none;
+}
+
+.loc-map.is-hovering .loc-map__hint,
+.loc-map.has-detail .loc-map__hint {
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+/* ================================================================
+   Guide Map — 전시관 버블 (con3_2)
+   Figma X 좌표 그대로, Y범위 ~65% 압축 (섹션 중심 1011 기준)
+   ================================================================ */
+
+.loc-map__bubbles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.loc-map__bubble {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  opacity: 0;
+  transform: scale(0.4);
+  transform-origin: center center;
+  z-index: 1;
+  transition: opacity  0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
+              transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
+              transition-delay 0s;
+}
+
+/* is-hovering → 버블 팝인, 클릭 가능 */
+.loc-map.is-hovering .loc-map__bubble {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+/* 층별 개수와 무관하게 같은 규칙으로 순차 등장 */
+.loc-map.is-hovering:not(.has-detail) .loc-map__bubble {
+  transition-delay: calc(var(--bubble-index, 0) * 0.045s);
+}
+
+/* has-detail — 비선택 버블: 자리 유지, 살짝 dim (클릭 가능) */
+.loc-map.has-detail .loc-map__bubble:not(.is-selected) {
+  opacity: 0.4;
+  pointer-events: auto;
+  cursor: pointer;
+  transition-delay: 0s;
+}
+
+/* has-detail — 선택된 버블: transform은 inline JS가 제어 */
+.loc-map.has-detail .loc-map__bubble.is-selected {
+  z-index: 10;
+  pointer-events: auto;
+}
+
+/* 이동 중인 버블의 라벨(뱃지+이름) 즉시 숨김 */
+.loc-map.has-detail .loc-map__bubble.is-selected .loc-map__bubble-label {
+  opacity: 0;
+  transition: opacity 0.12s ease;
+}
+
+/* 원형 이미지 래퍼 */
+.loc-map__bubble-circle {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #fff;
+}
+
+.loc-map__bubble-circle img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+/* 모든 버블의 크기와 위치를 그대로 따르는 투명 질감 오버레이 */
+.loc-map__bubble-circle::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  background: url("../assets/images/bubble_transparent.png") center / 100% 100% no-repeat;
+  pointer-events: none;
+}
+
+/* 영역 뱃지 — 이름 좌측에 나란히 */
+.loc-map__bubble-badge {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #1BA5FA;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-kr);
+  font-weight: 500;
+  font-size: 11px;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+/* 뱃지 + 이름 가로 묶음 */
+.loc-map__bubble-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* 버블 이름 */
+.loc-map__bubble-name {
+  margin: 0;
+  font-family: var(--font-kr);
+  font-weight: 600;
+  font-size: 14px;
+  color: #fff;
+  letter-spacing: -0.28px;
+  white-space: nowrap;
+}
+
+/* ================================================================
+   Guide Map — 상세 카드 (con3_3)
+   마커 클릭 시 노출 — 화면 고정 중심축 y=1011에 세로 중앙 정렬
+   ================================================================ */
+
+/* ── 상세 카드: Figma node 278:153 (670×537) ── */
+.loc-map__detail {
+  position: absolute;
+  left: 300px;
+  top: 1011px;
+  box-sizing: border-box;
+  width: 670px;
+  height: 537px;
+  padding: 19px 13px 7px;
+  border: 2px solid rgba(255, 255, 255, 0.18);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 8px 32px rgba(0, 20, 60, 0.18);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-12px, -50%);
+  transition: opacity   0.35s ease 0.3s,
+              transform 0.35s ease 0.3s;
+}
+
+.loc-map.has-detail .loc-map__detail {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(0, -50%);
+}
+
+/* 닫기 버튼 */
+.loc-map__detail-close {
+  position: absolute;
+  top: -48px;
+  right: 0;
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(255,255,255,0.38);
+  background: rgba(255,255,255,0.14);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s;
+  z-index: 1;
+}
+
+.loc-map__detail-close:hover {
+  background: rgba(255,255,255,0.3);
+}
+
+/* 상세 이미지 */
+.loc-map__detail-img-wrap {
+  width: 640px;
+  height: 360px;
+  overflow: hidden;
+  margin-bottom: 30px;
+}
+
+.loc-map__detail-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 이름 + 층 */
+.loc-map__detail-header {
+  display: flex;
+  align-items: center;
+  height: 29px;
+  gap: 18px;
+  margin-bottom: 16px;
+}
+
+.loc-map__detail-name {
+  font-family: var(--font-kr);
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 29px;
+  color: #fff;
+  letter-spacing: -0.48px;
+  white-space: nowrap;
+}
+
+.loc-map__detail-floor {
+  font-family: var(--font-kr);
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 29px;
+  color: #fff;
+  letter-spacing: -0.48px;
+  white-space: nowrap;
+}
+
+/* 설명 텍스트 (Figma: Pretendard Regular 16px, lh=24px) */
+.loc-map__detail-desc {
+  min-height: 72px;
+  margin: 0;
+  font-family: var(--font-kr);
+  font-weight: 400;
+  font-size: 16px;
+  color: #fff;
+  letter-spacing: -0.32px;
+  line-height: 24px;
+  white-space: pre-line;
+}
+
+/* ================================================================
+   con04 섹션  (Figma 278:251 — 1920×1112)
+   Opening Hours
+   ================================================================ */
+
+.loc-hours {
+  position: relative;
+  width: 100%;
+  height: 1112px;              /* Figma: 1112px */
+  background: var(--bg-detail);         /* Figma: var(--bg-detail) (con3와 다른 톤) */
+  overflow: hidden;
+}
+
+/* 타이틀 (Figma: 278:289, centered, top=160, w=325) */
+.loc-hours__header {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 160px;                  /* Figma: y=160 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+.loc-hours__title {
+  margin: 0;
+  line-height: 0;
+  letter-spacing: -1.68px;    /* Figma: tracking-[-1.68px] */
+}
+
+/* "Opening" — EB Garamond Medium Italic, 48px */
+.loc-hours__title-serif {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-style: italic;
+  font-size: 48px;             /* Figma: 48px */
+  color: #ffffff;
+  line-height: 1.2;
+}
+
+/* "Hours" — Poppins Light, 42px */
+.loc-hours__title-light {
+  font-family: var(--font-en);
+  font-weight: 300;
+  font-size: 42px;             /* Figma: 42px */
+  color: #ffffff;
+  line-height: 1.2;
+}
+
+/* 운영시간 카드 (Figma: 278:252, left=391, top=378, 1139×222, rounded=20)
+   glass: backdrop-blur 2px, border rgba(255,255,255,0.6), gradient */
+.loc-hours__card {
+  position: absolute;
+  left: 391px;                 /* Figma: x=391 */
+  top: 378px;                  /* Figma: y=378 */
+  width: 1139px;               /* Figma: w=1139 */
+  height: 222px;               /* Figma: h=222 */
+  border-radius: 20px;         /* Figma: rounded-[20px] */
+  border: 2px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 8px 32px rgba(0, 20, 60, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 36px;                   /* Figma: gap=36 */
+}
+
+/* "09:30 - 18:00" (Figma: Pretendard SemiBold, 64px, tracking -1.28px) */
+.loc-hours__time {
+  margin: 0;
+  font-family: var(--font-kr);
+  font-weight: 600;            /* SemiBold */
+  font-size: 64px;             /* Figma: 64px */
+  color: #ffffff;
+  letter-spacing: -1.28px;    /* Figma: tracking-[-1.28px] */
+  white-space: nowrap;
+}
+
+/* 세로 구분선 (Figma: Line 18, rotate 90deg, h=184) */
+.loc-hours__divider {
+  width: 1px;
+  height: 184px;               /* Figma: 184px */
+  background: rgba(255, 255, 255, 0.6);
+  flex-shrink: 0;
+}
+
+/* 우측 텍스트 그룹 (Figma: 278:256, flex-col gap=16, w=513) */
+.loc-hours__info {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;                   /* Figma: gap=16 */
+  width: 513px;                /* Figma: w=513 */
+}
+
+/* "연중 무휴" (Figma: Pretendard Medium, 24px, tracking -0.48px) */
+.loc-hours__label {
+  margin: 0;
+  font-family: var(--font-kr);
+  font-weight: 500;            /* Medium */
+  font-size: 24px;             /* Figma: 24px */
+  color: #ffffff;
+  letter-spacing: -0.48px;
+  text-align: center;
+}
+
+/* 카드 내 안내 문구 (Figma: Pretendard Regular, 16px, tracking -0.32px) */
+.loc-hours__note {
+  margin: 0;
+  font-family: var(--font-kr);
+  font-weight: 400;
+  font-size: 16px;             /* Figma: 16px */
+  color: #ffffff;
+  letter-spacing: -0.32px;
+  text-align: center;
+  line-height: normal;
+}
+
+/* 이용안내 전체 래퍼 (Figma: 278:271, left=391, top=660, flex-col gap=30) */
+.loc-hours__notice {
+  position: absolute;
+  left: 391px;                 /* 카드와 좌측 정렬 */
+  top: 660px;                  /* Figma: y=660 */
+  display: flex;
+  flex-direction: column;
+  gap: 30px;                   /* Figma: gap=30 */
+}
+
+/* 상단 캡션 (Figma: Pretendard Regular, 14px, tracking -0.28px) */
+.loc-hours__notice-caption {
+  margin: 0;
+  font-family: var(--font-kr);
+  font-weight: 400;
+  font-size: 14px;             /* Figma: 14px */
+  color: #ffffff;
+  letter-spacing: -0.28px;
+}
+
+/* 레이블 + 목록 가로 배치 (Figma: 278:273, gap=30) */
+.loc-hours__notice-row {
+  display: flex;
+  gap: 30px;                   /* Figma: gap=30 */
+  align-items: flex-start;
+}
+
+/* "이용 안내" 레이블 (Figma: 278:274, alert-circle + text, gap=6) */
+.loc-hours__notice-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;                    /* Figma: gap=6 */
+  font-family: var(--font-kr);
+  font-weight: 400;
+  font-size: 14px;
+  color: #ffffff;
+  letter-spacing: -0.28px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  padding-top: 1px;
+}
+
+/* 안내 목록 (Figma: 278:282, flex-col gap=12, 14px, tracking -0.28px) */
+.loc-hours__notice-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;                   /* Figma: gap=12 */
+  font-family: var(--font-kr);
+  font-weight: 400;
+  font-size: 14px;             /* Figma: 14px */
+  color: #ffffff;
+  letter-spacing: -0.28px;
+  max-width: 783px;            /* Figma: 가장 긴 항목 w=783px */
+}
+
+.loc-hours__notice-list li::before {
+  content: '· ';
+}
+
+.loc-hours__notice-list li {
+  line-height: 1.4;
+}
+
+/* ----------------------------------------------------------------
+   섹션 사이드 내비게이션 (Figma: Frame 1707482962, x=1744, right side)
+   Hero + con1 구간에는 미표시 → JS로 스크롤 진입 시 is-visible 부여
+---------------------------------------------------------------- */
+.loc-side-nav {
+  position: fixed;
+  right: 32px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 29px;           /* Figma: 항목 간격 (y 좌표 차이 기반) */
+  z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+
+.loc-side-nav.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.loc-side-nav__item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.5);
+  font-family: var(--font-kr);
+  font-size: 14px;     /* Figma: 17px 기준, 약간 축소 */
+  letter-spacing: var(--ls-tight);
+  transition: color 0.2s;
+}
+
+.loc-side-nav__item.is-active {
+  color: #ffffff;
+  font-weight: 600; /* SemiBold — Figma active 상태 */
+}
+
+.loc-side-nav__label {
+  white-space: nowrap;
+}
+
+/* 수평선 — inactive: 50px, active: 60px (Figma 수치) */
+.loc-side-nav__line {
+  display: inline-block;
+  width: 50px;
+  height: 1px;
+  background: currentColor;
+  transition: width 0.3s;
+}
+
+.loc-side-nav__item.is-active .loc-side-nav__line {
+  width: 60px;
+}
