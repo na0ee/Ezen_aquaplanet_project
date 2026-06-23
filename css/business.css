@@ -1,12 +1,12 @@
 ﻿/* aqua planet — business.css */
 
 body.biz-page {
-  background: #1ba5fa !important;
+  background: #2686E7 !important;
   background-image: none !important;
 }
 
 .biz-page main {
-  background: #1ba5fa;
+  background: #2686E7;
 }
 
 /* Figma nodes 106:3258 and 106:3245 */
@@ -284,7 +284,7 @@ body.biz-page {
   height: 600vh;
   padding: 0;
   overflow: visible;
-  background: #1ba5fa;
+  background: #2686E7;
 }
 
 .biz-figma-panel {
@@ -294,7 +294,7 @@ body.biz-page {
   height: 100vh;
   min-height: 1080px;
   overflow: hidden;
-  background: #1ba5fa;
+  background: #2686E7;
 }
 
 .biz-overview-head {
@@ -625,9 +625,10 @@ body.biz-page {
   position: relative;
   margin-top: 401px;
   height: 400vh;
+  min-height: 1080px;
   padding: 0;
   overflow: visible;
-  background: #1ba5fa;
+  background: #2686E7;
 }
 
 .biz-vision-pin {
@@ -638,10 +639,11 @@ body.biz-page {
   height: 100vh;
   min-height: 760px;
   overflow: visible;
-  background: #1ba5fa;
+  background: #2686E7;
 }
 
 .biz-vision-content {
+  display: none;
   position: absolute;
   top: 490px;
   left: calc(50% - 608px);
@@ -699,13 +701,14 @@ body.biz-page {
 
 .biz-vision-intro {
   position: absolute;
-  top: 507px;
-  left: calc(50% + 529px);
+  top: calc(50% - 518px);
+  left: 50%;
   z-index: 2;
   width: 361px;
   height: 96px;
   color: #fff;
   text-align: center;
+  transform: translateX(-50%);
 }
 
 .biz-vision-intro h3 {
@@ -737,6 +740,7 @@ body.biz-page {
 }
 
 .biz-vision-orbit {
+  display: none;
   position: absolute;
   top: 120px;
   left: 50%;
@@ -744,6 +748,155 @@ body.biz-page {
   height: 1110px;
   transform: translateX(-50%) scale(0.72);
   transform-origin: top center;
+}
+
+.biz-vision-media {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 1;
+  width: min(1167px, calc(100vw - 80px));
+  aspect-ratio: 1167 / 778;
+  overflow: visible;
+  border-radius: 0;
+  transform: translate(-50%, -42%);
+}
+
+.biz-vision-media > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+  object-fit: cover;
+}
+
+.biz-vision-main-image,
+.biz-vision-side-image,
+.biz-vision-feature-card h3,
+.biz-vision-feature-card p {
+  transition: opacity 0.28s ease;
+}
+
+.biz-vision-media.is-switching .biz-vision-main-image,
+.biz-vision-media.is-switching .biz-vision-side-image,
+.biz-vision-media.is-switching .biz-vision-feature-card h3,
+.biz-vision-media.is-switching .biz-vision-feature-card p {
+  opacity: 0.58;
+}
+
+.biz-vision-side-image {
+  position: absolute;
+  z-index: 2;
+  display: block;
+  max-width: none;
+  border-radius: 0;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.biz-vision-side-image--large {
+  top: 24.036%;
+  left: 75.835%;
+  width: 51.928%;
+  aspect-ratio: 606 / 404;
+}
+
+.biz-vision-side-image--small {
+  top: 30.977%;
+  left: 103.941%;
+  width: 35.047%;
+  aspect-ratio: 409 / 273;
+}
+
+.biz-vision-feature-card {
+  position: absolute;
+  z-index: 3;
+  left: 4.456%;
+  bottom: -12.982%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 43.188%;
+  min-width: 360px;
+  aspect-ratio: 504 / 259;
+  box-sizing: border-box;
+  padding: 53px 28px;
+  overflow: hidden;
+  border-radius: 50px;
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.045) 38%, rgba(255, 255, 255, 0.12)),
+    rgba(255, 255, 255, 0.035);
+  backdrop-filter: blur(18px) saturate(150%);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.42),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.12),
+    inset 18px 18px 38px rgba(255, 255, 255, 0.08),
+    inset -18px -18px 44px rgba(0, 83, 150, 0.1),
+    0 18px 42px rgba(0, 72, 132, 0.16);
+  color: #fff;
+}
+
+.biz-vision-feature-card::before,
+.biz-vision-feature-card::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+
+.biz-vision-feature-card::before {
+  inset: 1px;
+  border-radius: inherit;
+  background:
+    radial-gradient(circle at 22% 12%, rgba(255, 255, 255, 0.34), transparent 30%),
+    linear-gradient(100deg, rgba(255, 255, 255, 0.22), transparent 28%, transparent 74%, rgba(255, 255, 255, 0.14));
+  opacity: 0.72;
+}
+
+.biz-vision-feature-card::after {
+  top: 13px;
+  left: 48px;
+  width: 72%;
+  height: 1px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.58);
+  filter: blur(0.4px);
+  opacity: 0.68;
+}
+
+.biz-vision-feature-card h3 {
+  position: absolute;
+  z-index: 1;
+  top: 20.463%;
+  left: 5.556%;
+  width: 61.111%;
+  height: 42.085%;
+  margin: 0;
+  color: #fff;
+  font-family: "Pretendard", sans-serif;
+  font-size: clamp(54px, 6.86vw, 80px);
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: -1.6px;
+  text-align: center;
+  transform: none;
+}
+
+.biz-vision-feature-card p {
+  position: absolute;
+  z-index: 1;
+  top: 62.548%;
+  left: 5.556%;
+  width: 88.889%;
+  margin: 0;
+  color: #fff;
+  font-family: "Pretendard", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: -0.32px;
+  white-space: nowrap;
 }
 
 .biz-vision-ring {
@@ -912,7 +1065,7 @@ body.biz-page {
   height: 400vh;
   padding: 0;
   overflow: visible;
-  background: #1ba5fa;
+  background: #2686E7;
 }
 
 .biz-caps-pin {
@@ -923,7 +1076,7 @@ body.biz-page {
   height: 100vh;
   min-height: 760px;
   overflow: visible;
-  background: #1ba5fa;
+  background: #2686E7;
 }
 
 .biz-caps-intro {
@@ -1315,7 +1468,7 @@ body.biz-page {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #1ba5fa;
+  background: #2686E7;
 }
 
 .biz-case .biz-container {
@@ -1411,6 +1564,46 @@ body.biz-page {
 }
 
 @media (max-width: 900px) {
+  .biz-vision {
+    min-height: 760px;
+  }
+
+  .biz-vision-intro {
+    top: 110px;
+  }
+
+  .biz-vision-media {
+    width: calc(100vw - 32px);
+    transform: translate(-50%, -32%);
+  }
+
+  .biz-vision-feature-card {
+    left: 16px;
+    bottom: -70px;
+    width: min(504px, calc(100vw - 64px));
+    min-width: 0;
+    padding: 32px 20px;
+  }
+
+  .biz-vision-feature-card h3 {
+    top: 20.463%;
+    left: 5.556%;
+    width: 61.111%;
+    font-size: clamp(42px, 12vw, 64px);
+  }
+
+  .biz-vision-feature-card p {
+    top: 62.548%;
+    left: 5.556%;
+    width: 88.889%;
+    font-size: 13px;
+    white-space: normal;
+  }
+
+  .biz-vision-side-image {
+    display: none;
+  }
+
   .biz-case {
     min-height: 760px;
     padding: 70px 16px;
@@ -1434,7 +1627,7 @@ body.biz-page {
   min-height: 0;
   padding: 0;
   overflow: visible;
-  background: #1ba5fa;
+  background: #2686E7;
 }
 
 .biz-caps-stage,
@@ -1452,7 +1645,7 @@ body.biz-page {
   height: 100vh;
   min-height: 760px;
   overflow: visible;
-  background: #1ba5fa;
+  background: #2686E7;
 }
 
 .biz-caps-intro {
