@@ -731,6 +731,14 @@ body {
   flex-shrink: 0;
 }
 
+/* 일산 지도는 마커 작업 전까지 지도와 층 탭만 노출합니다. */
+.loc-map.is-static-map .loc-map__markers,
+.loc-map.is-static-map .loc-map__bubbles,
+.loc-map.is-static-map .loc-map__detail,
+.loc-map.is-static-map .loc-map__hint {
+  display: none;
+}
+
 .loc-map.is-hovering .loc-map__hint,
 .loc-map.has-detail .loc-map__hint {
   opacity: 0;

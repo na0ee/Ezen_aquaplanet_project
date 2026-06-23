@@ -37,6 +37,132 @@
   'use strict';
 
   /* ================================================================
+     지점별 페이지 콘텐츠
+     제주 레이아웃을 공통으로 사용하고 URL의 ?loc= 값으로 전환합니다.
+     ================================================================ */
+  var locationParam = new URLSearchParams(window.location.search).get('loc');
+  var currentLocation = locationParam ? locationParam.toLowerCase() : 'jeju';
+  if (currentLocation !== 'ilsan') currentLocation = 'jeju';
+  var isIlsan = currentLocation === 'ilsan';
+
+  var LOCATION_PAGES = {
+    ilsan: {
+      en: 'Ilsan',
+      kr: '일산',
+      sub: '일산 호수공원 옆 국내 대표 아쿠아리움',
+      address: '경기도 고양시 일산동구 장항동 838',
+      tel: '1833-7001',
+      heroImage: 'assets/images/locationIlsan_hero.gif',
+      introImage: 'assets/images/locationIlsan_intro_bg_1.jpg',
+      quote: '<p><span class="loc-intro__qm">&quot;</span>국내에서 처음으로 실내동물원이 결합된</p><p><strong>컨버전스 아쿠아리움</strong>을 만나보세요<span class="loc-intro__qm">&quot;</span></p>',
+      description: [
+        '초대형 규모(연면적 1만 4660m², 수조량 4300톤)를 자랑하며 최대 규모 2000톤에 달하는 대형수조를 비롯해 수조 44개, 동물사 9개와 조류방사장 등 관람과 체험을 동시에 즐길 수 있는 도심 속 체험형 복합관람시설입니다.'
+      ],
+      programDescription: '도심 가까이에서 바다를 경험할 수 있는 수도권 대표 아쿠아리움입니다<br><strong>국내 유일 바다코끼리</strong>와 다양한 생물 전시를 통해 교육과 체험이 결합된 해양문화공간을 제공합니다',
+      programs: [
+        { image: 'assets/images/image 136.png', title: '국내 유일! 바다코끼리 자매 메리&바랴 생태설명회' },
+        { image: 'assets/images/programIL.png', title: '메인수조 투명보트 탑승 체험' }
+      ],
+      floors: ['B1F', '1F', '2F', '3F', '5F'],
+      defaultFloor: '1F',
+      maps: {
+        'B1F': 'assets/images/locationIlsan_map_b1f.png',
+        '1F': 'assets/images/locationIlsan_map_f1.png',
+        '2F': 'assets/images/locationIlsan_map_f2.png',
+        '3F': 'assets/images/locationIlsan_map_f3.png',
+        '5F': 'assets/images/locationIlsan_map_f5.png'
+      },
+      openingTime: '10:00 - 18:00',
+      openingLabel: '연중 무휴',
+      openingNote: '매표 및 입장 마감시간은 17:00이오니 이용에 참고 부탁드립니다'
+    }
+  };
+
+  function setText(selector, value) {
+    var element = document.querySelector(selector);
+    if (element) element.textContent = value;
+  }
+
+  function applyLocationPage() {
+    document.body.dataset.location = currentLocation;
+    document.querySelectorAll('[data-gnb-loc]').forEach(function (link) {
+      link.classList.toggle('gnb__dropdown-item--active', link.dataset.gnbLoc === currentLocation);
+    });
+
+    if (!isIlsan) return;
+    var page = LOCATION_PAGES.ilsan;
+    document.title = 'aqua planet — Ilsan';
+
+    setText('#loc-city-en', page.en);
+    setText('#loc-city-sub', page.sub);
+    setText('#loc-city-kr', page.kr);
+    setText('#loc-city-addr', page.address);
+    setText('#loc-city-tel', 'TEL. ' + page.tel);
+
+    var heroImage = document.querySelector('.loc-hero__bg-img');
+    var introImage = document.querySelector('.loc-intro__bg-img');
+    if (heroImage) heroImage.src = page.heroImage;
+    if (introImage) introImage.src = page.introImage;
+
+    var heroSection = document.querySelector('.loc-hero');
+    var introSection = document.querySelector('.loc-intro');
+    if (heroSection) heroSection.setAttribute('aria-label', 'Location 일산 히어로');
+    if (introSection) introSection.setAttribute('aria-label', '일산 지점 소개');
+
+    var quote = document.getElementById('loc-city-quote');
+    var description = document.getElementById('loc-city-desc');
+    if (quote) quote.innerHTML = page.quote;
+    if (description) {
+      description.innerHTML = page.description.map(function (paragraph) {
+        return '<p>' + paragraph + '</p>';
+      }).join('');
+    }
+
+    var programDescription = document.querySelector('.loc-programs__sub');
+    if (programDescription) programDescription.innerHTML = page.programDescription;
+    document.querySelectorAll('.loc-programs__card').forEach(function (card, index) {
+      var program = page.programs[index];
+      if (!program) return;
+      var image = card.querySelector('.loc-programs__card-img');
+      var title = card.querySelector('.loc-programs__card-title');
+      var link = card.querySelector('.loc-programs__card-btn');
+      if (image) {
+        image.src = program.image;
+        image.alt = program.title;
+      }
+      if (title) title.textContent = program.title;
+      if (link) link.href = 'program.html?loc=Ilsan';
+    });
+
+    var tabs = document.querySelector('.loc-map__floor-tabs');
+    if (tabs) {
+      tabs.innerHTML = page.floors.map(function (floor) {
+        var active = floor === page.defaultFloor;
+        return '<button class="loc-map__floor-tab' + (active ? ' is-active' : '') + '" role="tab" data-floor="' + floor + '" aria-selected="' + (active ? 'true' : 'false') + '">' + floor + '</button>';
+      }).join('');
+    }
+
+    var mapSection = document.querySelector('.loc-map');
+    var mapHint = document.querySelector('.loc-map__hint');
+    var markerLayer = document.querySelector('.loc-map__markers');
+    var bubbleLayer = document.querySelector('.loc-map__bubbles');
+    var detailCard = document.querySelector('.loc-map__detail');
+    if (mapSection) mapSection.classList.add('is-static-map');
+    if (mapHint) mapHint.hidden = true;
+    if (markerLayer) markerLayer.replaceChildren();
+    if (bubbleLayer) bubbleLayer.replaceChildren();
+    if (detailCard) detailCard.hidden = true;
+
+    setText('.loc-hours__time', page.openingTime);
+    setText('.loc-hours__label', page.openingLabel);
+    setText('.loc-hours__note', page.openingNote);
+    var firstNotice = document.querySelector('.loc-hours__notice-list li');
+    if (firstNotice) firstNotice.textContent = page.openingNote;
+  }
+
+  applyLocationPage();
+
+  /* ================================================================
      사이드 내비게이션 스크롤 연동
      ================================================================ */
   const sideNav  = document.querySelector('.loc-side-nav');
@@ -99,7 +225,7 @@
   var detailEl    = document.getElementById('loc-map-detail');
   var closeBtn    = document.getElementById('loc-map-close');
   var mapBubbles  = [];
-  var currentFloor = '2F';
+  var currentFloor = isIlsan ? LOCATION_PAGES.ilsan.defaultFloor : '2F';
   var currentDataByKey = {};
   var currentExhibits = [];
   var activeZone = '';
@@ -113,6 +239,8 @@
     '1F':  'assets/images/locationJeju_map_1f.png',
     'B1F': 'assets/images/locationJeju_map_b1f.png'
   };
+
+  var ACTIVE_MAPS = isIlsan ? LOCATION_PAGES.ilsan.maps : JEJU_MAPS;
 
   var JEJU_EXHIBITS = {
     '2F': [
@@ -296,6 +424,22 @@
   }
 
   function renderFloor(floor) {
+    if (isIlsan) {
+      currentFloor = floor;
+      if (markerWrap) markerWrap.replaceChildren();
+      if (bubbleWrap) bubbleWrap.replaceChildren();
+      if (mapImg && ACTIVE_MAPS[floor]) {
+        mapImg.src = ACTIVE_MAPS[floor];
+        mapImg.alt = '아쿠아플라넷 일산 가이드 맵 ' + floor;
+      }
+      floorTabs.forEach(function (tab) {
+        var active = tab.dataset.floor === floor;
+        tab.classList.toggle('is-active', active);
+        tab.setAttribute('aria-selected', active ? 'true' : 'false');
+      });
+      return;
+    }
+
     var exhibits = JEJU_EXHIBITS[floor];
     if (!exhibits || !bubbleWrap) return;
 
@@ -323,6 +467,10 @@
 
   function updateMapPin() {
     if (!mapWrap || !mapSection) return;
+    if (isIlsan) {
+      mapSection.classList.remove('is-hovering', 'has-detail');
+      return;
+    }
     var wrapTop   = mapWrap.getBoundingClientRect().top;
     var stickyTop = window.innerHeight / 2 - 1011;
     if (wrapTop <= stickyTop) mapSection.classList.add('is-hovering');
@@ -509,7 +657,7 @@
     floorTabs.forEach(function (tab) {
       tab.addEventListener('click', function () {
         var floor = tab.dataset.floor;
-        if (floor === currentFloor || !JEJU_EXHIBITS[floor]) return;
+        if (floor === currentFloor || (!isIlsan && !JEJU_EXHIBITS[floor])) return;
         renderFloor(floor);
       });
     });
