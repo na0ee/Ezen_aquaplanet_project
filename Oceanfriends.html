@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 
 <head>
@@ -2282,6 +2282,16 @@
       let baseGap = 8;
       let curveStrength = 0;
 
+      let wheelDistanceDown = 0;
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) {
+            wheelDistanceDown = 0;
+          }
+        });
+      }, { threshold: 0 });
+      observer.observe(viewport);
+
       function lerp(a, b, t) {
         return a + (b - a) * t;
       }
@@ -2491,8 +2501,25 @@
       viewport.addEventListener('lostpointercapture', endDrag);
 
       viewport.addEventListener('wheel', e => {
+        const isVerticalScroll = Math.abs(e.deltaY) > Math.abs(e.deltaX);
+        const dominant = isVerticalScroll ? e.deltaY : e.deltaX;
+
+        if (isVerticalScroll) {
+          if (e.deltaY < 0) {
+            // 위로 스크롤 시 인터랙션 없이 바로 페이지 이동
+            return;
+          }
+
+          if (e.deltaY > 0) {
+            wheelDistanceDown += e.deltaY;
+            // 한 바퀴(singleSetWidth) 이상 돌았으면 아래로 스크롤 허용
+            if (wheelDistanceDown > singleSetWidth) {
+              return;
+            }
+          }
+        }
+
         e.preventDefault();
-        const dominant = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
         pushTarget(-dominant * 0.95);
       }, { passive: false });
 
