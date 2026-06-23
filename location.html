@@ -27,6 +27,9 @@
 </head>
 <body class="is-logo-at-header">
 
+  <!-- 커스텀 커서 (style.css: cursor: none !important 전역 적용) -->
+  <div id="custom-cursor" aria-hidden="true"></div>
+
   <!-- ================================================
        GNB
   ================================================ -->
@@ -36,7 +39,7 @@
         <div class="gnb__nav-item" data-nav="location">
           <a href="location.html" class="gnb__link gnb__link--active">Location</a>
           <div class="gnb__dropdown">
-            <a href="location.html?loc=Jeju"     class="gnb__dropdown-item" data-gnb-loc="jeju">Jeju</a>
+            <a href="location.html?loc=Jeju"     class="gnb__dropdown-item gnb__dropdown-item--active" data-gnb-loc="jeju">Jeju</a>
             <a href="location.html?loc=Yeosu"    class="gnb__dropdown-item" data-gnb-loc="yeosu">Yeosu</a>
             <a href="location.html?loc=Ilsan"    class="gnb__dropdown-item" data-gnb-loc="ilsan">Ilsan</a>
             <a href="location.html?loc=Gwanggyo" class="gnb__dropdown-item" data-gnb-loc="gwanggyo">Gwanggyo</a>
@@ -65,7 +68,7 @@
         <img class="gnb__logo" src="assets/images/headerLogo.png" alt="" aria-hidden="true">
       </a>
 
-      <a class="gnb__ticket btn-pill" href="ticket.html" aria-label="티켓 예매">
+      <a href="ticket.html" class="gnb__ticket btn-pill" aria-label="티켓 예매">
         Ticket
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path d="M7 17L17 7M17 7H7M17 7V17" stroke="white" stroke-width="1.5"
@@ -93,7 +96,20 @@
 
   <main>
 
-      <!-- 히어로 텍스트 -->
+    <!-- hero + con1을 감싸는 sticky 래퍼 -->
+    <div class="loc-sticky-wrap">
+
+    <!-- ================================================
+         Hero 섹션 (Figma node 278:327 — 1920×1200)
+    ================================================ -->
+    <section class="loc-hero" aria-label="Location 히어로">
+
+      <!-- 배경 이미지 (Figma: img_name_20240305175381206 2) -->
+      <div class="loc-hero__bg" aria-hidden="true">
+        <img src="assets/images/locationJeju_hero.gif" alt="" class="loc-hero__bg-img">
+      </div>
+
+      <!-- 히어로 콘텐츠 — 중앙 (Figma: Frame 1707483132, x=576, y=306, 768×384) -->
       <div class="loc-hero__content">
 
         <!-- 텍스트 그룹 (Figma: Frame 330, 768×250) -->
@@ -130,19 +146,40 @@
          con1 섹션 (Figma node 278:306 — 1920×1080)
          아쿠아플라넷 제주 지점 소개
     ================================================ -->
-    <section class="loc-info" aria-label="제주 지점 소개">
-      <div class="loc-info__card">
-        <div class="loc-info__img-wrap">
-          <img src="assets/images/jeju.png" alt="아쿠아플라넷 제주 전경" class="loc-info__img">
-        </div>
-        <div class="loc-info__text">
-          <div class="loc-info__brand">
-            <img src="assets/images/logo_vector.png" alt="" class="loc-info__logo" aria-hidden="true">
-            <span class="loc-info__branch-name" id="loc-city-kr">제주</span>
-          </div>
-          <div class="loc-info__address">
-            <p id="loc-city-addr">제주특별자치도 서귀포시 성산읍 섭지코지로 95</p>
-            <p id="loc-city-tel">TEL. 1833-7001</p>
+    <section class="loc-intro" aria-label="제주 지점 소개">
+
+      <!-- 배경 이미지 (Figma: 140679_106309_1757 1) -->
+      <div class="loc-intro__bg" aria-hidden="true">
+        <img src="assets/images/locationJeju_intro_bg.jpg" alt="" class="loc-intro__bg-img">
+      </div>
+
+      <!-- 그라데이션 오버레이 (Figma: 140679_106309_1757 2) -->
+      <div class="loc-intro__grad" aria-hidden="true"></div>
+
+      <!-- 콘텐츠 (Figma: Frame 278:309, left=74, top=677, w=428) -->
+      <div class="loc-intro__content">
+
+        <!-- 상단 구분선 (Figma: Vector 100, w=423) -->
+        <div class="loc-intro__rule" aria-hidden="true"></div>
+
+        <div class="loc-intro__body">
+
+          <!-- 로고 + 지점명 + 주소 -->
+          <div class="loc-intro__brand-group">
+            <div class="loc-intro__brand-row">
+              <!-- logo_vector (Figma: 224×38) -->
+              <img
+                src="assets/images/logo_vector.png"
+                alt="aqua planet"
+                class="loc-intro__logo"
+              >
+              <!-- "제주" (Figma: Pretendard SemiBold, 36px) -->
+              <span class="loc-intro__branch-name" id="loc-city-kr">제주</span>
+            </div>
+            <div class="loc-intro__address" id="loc-city-addr-wrap">
+              <p id="loc-city-addr">제주특별자치도 서귀포시 성산읍 섭지코지로 95</p>
+              <p id="loc-city-tel">TEL. 1833-7001</p>
+            </div>
           </div>
 
           <!-- 인용문 (Figma: Pretendard, 24px) -->
@@ -165,6 +202,8 @@
       </div><!-- /.loc-intro__content -->
 
     </section><!-- /.loc-intro -->
+
+    </div><!-- /.loc-sticky-wrap -->
 
     <!-- ================================================
          con02 섹션 (Figma node 278:27 — 1920×1134)
@@ -189,7 +228,7 @@
         <!-- 카드 1 (Figma: 278:40, 633×400, rounded-14, overflow-hidden) -->
         <div class="loc-programs__card">
           <img
-            src="assets/images/location_prog_01.jpg"
+            src="assets/images/locationJeju_prog_01.jpg"
             alt="오션 아레나 특별 공연"
             class="loc-programs__card-img"
           >
@@ -205,7 +244,7 @@
         <!-- 카드 2 (Figma: 278:49, 635×400, rounded-14, overflow-hidden) -->
         <div class="loc-programs__card">
           <img
-            src="assets/images/location_prog_02.png"
+            src="assets/images/locationJeju_prog_02.png"
             alt="해녀 할망의 바당 이야기"
             class="loc-programs__card-img"
           >
@@ -224,7 +263,8 @@
          con3_1 섹션 (Figma node 278:200 — 1920×1542)
          Guide Map — 기본 상태 (2F 선택)
     ================================================ -->
-    <section class="loc-map" id="guidemap" aria-label="가이드맵">
+    <div class="loc-map-wrap" id="guidemap">
+    <section class="loc-map" aria-label="가이드맵">
 
       <!-- 타이틀 + 층 탭 (Figma: Frame 278:241, centered, top=160) -->
       <div class="loc-map__header">
@@ -246,23 +286,14 @@
         <!-- 가이드맵 이미지 (Figma: 278:203, 1320×790, opacity 90%) -->
         <div class="loc-map__img-wrap">
           <img
-            src="assets/images/location_map_2f.png"
+            src="assets/images/locationJeju_map_2f.png"
             alt="아쿠아플라넷 가이드 맵 2F"
             class="loc-map__img"
             id="loc-map-img"
           >
 
-          <!-- 마커 (Figma: 278:205~212 — 66×66, bg #22B2EA, 맵 기준 절대위치) -->
-          <div class="loc-map__markers">
-            <!-- A: left=95, top=160 (섹션좌표 396-301, 672-512) -->
-            <button class="loc-map__marker" data-zone="A" style="left:95px; top:160px" aria-label="A구역">A</button>
-            <!-- D: left=303, top=260 -->
-            <button class="loc-map__marker" data-zone="D" style="left:303px; top:260px" aria-label="D구역">D</button>
-            <!-- C: left=162, top=376 -->
-            <button class="loc-map__marker" data-zone="C" style="left:162px; top:376px" aria-label="C구역">C</button>
-            <!-- B: left=678, top=420 -->
-            <button class="loc-map__marker" data-zone="B" style="left:678px; top:420px" aria-label="B구역">B</button>
-          </div>
+          <!-- 층별 마커는 전시 데이터와 함께 생성됩니다. -->
+          <div class="loc-map__markers"></div>
         </div>
 
         <!-- 안내 문구 (Figma: 278:213, left=1216-301=915 map기준, top=512-512=0) -->
@@ -277,7 +308,29 @@
 
       </div><!-- /.loc-map__stage -->
 
+      <!-- 전시관 버블은 층별 데이터로 생성됩니다. -->
+      <div class="loc-map__bubbles" aria-live="polite"></div>
+
+      <!-- ── 상세 카드 (Figma node 278:153 — 670×537) ── -->
+      <div class="loc-map__detail" id="loc-map-detail">
+        <button class="loc-map__detail-close" id="loc-map-close" aria-label="닫기">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+            <line x1="3" y1="3" x2="15" y2="15" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="15" y1="3" x2="3" y2="15" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <div class="loc-map__detail-header">
+          <span class="loc-map__detail-name"></span>
+          <span class="loc-map__detail-floor"></span>
+        </div>
+        <div class="loc-map__detail-img-wrap">
+          <img class="loc-map__detail-img" src="" alt="">
+        </div>
+        <p class="loc-map__detail-desc"></p>
+      </div><!-- /.loc-map__detail -->
+
     </section><!-- /.loc-map -->
+    </div><!-- /.loc-map-wrap -->
 
     <!-- ================================================
          con04 섹션 (Figma node 278:251 — 1920×1112)
@@ -385,839 +438,7 @@
   </main>
 
   <script src="js/gnb-scroll.js"></script>
-  <script>
-
-    /* ── Location continuous scroll reveal ── */
-    (function () {
-      const sections = Array.from(document.querySelectorAll('.loc-hero, .loc-info, .loc-programs, .loc-map, .loc-opening, .loc-footer'));
-      if (!sections.length) return;
-      let ticking = false;
-
-      function reveal(section) {
-        section.classList.remove('loc-section-exiting');
-        section.classList.add('is-title-visible', 'is-content-visible');
-      }
-
-      function resetReveal(section) {
-        section.classList.remove('is-title-visible', 'is-content-visible', 'loc-section-exiting');
-      }
-
-      function updateActiveSection() {
-        const vh = window.innerHeight || document.documentElement.clientHeight || 1;
-        let activeIndex = 0;
-        let bestDistance = Infinity;
-
-        sections.forEach(function (section, index) {
-          const rect = section.getBoundingClientRect();
-          const center = rect.top + rect.height / 2;
-          const distance = Math.abs(center - vh / 2);
-          const isInView = rect.top < vh * 0.82 && rect.bottom > vh * 0.12;
-          const isOutOfReplayRange = rect.bottom < vh * -0.08 || rect.top > vh * 1.08;
-
-          if (isInView) reveal(section);
-          else if (isOutOfReplayRange) resetReveal(section);
-
-          if (distance < bestDistance) {
-            bestDistance = distance;
-            activeIndex = index;
-          }
-        });
-
-        if (typeof window.locSideNavUpdate === 'function') window.locSideNavUpdate(activeIndex);
-      }
-
-      function requestUpdate() {
-        if (ticking) return;
-        ticking = true;
-        requestAnimationFrame(function () {
-          ticking = false;
-          updateActiveSection();
-        });
-      }
-
-      function scrollToSection(index) {
-        if (index < 0 || index >= sections.length) return;
-        sections[index].scrollIntoView({ behavior: 'smooth', block: 'start' });
-        reveal(sections[index]);
-        if (typeof window.locSideNavUpdate === 'function') window.locSideNavUpdate(index);
-      }
-
-      window.locAnimateTo = scrollToSection;
-      window.locForceAnimateTo = scrollToSection;
-
-      window.addEventListener('scroll', requestUpdate, { passive: true });
-      window.addEventListener('resize', requestUpdate, { passive: true });
-
-      const indicator = document.querySelector('.loc-scroll');
-      if (indicator) {
-        indicator.addEventListener('click', function () { scrollToSection(1); });
-      }
-
-      reveal(sections[0]);
-      updateActiveSection();
-    })();
-
-    /* ── 커스텀 커서 ── */
-    (function () {
-      if (window.matchMedia('(hover: none)').matches) return;
-      const el = document.getElementById('custom-cursor');
-      if (!el) return;
-      const HALF = 17;
-      const LIGHT_SELS = '.loc-info, .loc-programs, .loc-map, .loc-opening, .exhibit-modal__card';
-      let tx = -200, ty = -200, cx = -200, cy = -200, firstMove = false;
-      window.addEventListener('mousemove', function (e) {
-        tx = e.clientX; ty = e.clientY;
-        if (!firstMove) { firstMove = true; cx = tx; cy = ty; el.style.opacity = '1'; }
-        const hit = document.elementFromPoint(e.clientX, e.clientY);
-        el.classList.toggle('is-over-light', !!(hit && hit.closest(LIGHT_SELS)));
-      }, { passive: true });
-      document.addEventListener('mouseleave', function () { el.style.opacity = '0'; });
-      document.addEventListener('mouseenter', function () { if (firstMove) el.style.opacity = '1'; });
-      document.addEventListener('mousedown',  function () { el.classList.add('is-clicking'); });
-      document.addEventListener('mouseup',    function () { el.classList.remove('is-clicking'); });
-      document.addEventListener('mouseover', function (e) {
-        const over = e.target.closest('a, button, [role="button"]');
-        el.classList.toggle('is-hovering', !!over);
-      });
-      (function loop() {
-        cx += (tx - cx) * 0.2;
-        cy += (ty - cy) * 0.2;
-        el.style.transform = 'translate(' + (cx - HALF).toFixed(1) + 'px,' + (cy - HALF).toFixed(1) + 'px)';
-        requestAnimationFrame(loop);
-      })();
-    })();
-
-    /* ── 썸네일 화살표 스크롤 ── */
-    (function () {
-      const track   = document.getElementById('thumb-track');
-      const prevBtn = document.getElementById('thumb-prev');
-      const nextBtn = document.getElementById('thumb-next');
-      if (!track) return;
-
-      const STEP = 230;
-      const DRAG_THRESHOLD = 5;
-      let isPointerDown = false;
-      let startX = 0;
-      let startScrollLeft = 0;
-      let didDrag = false;
-      let suppressClick = false;
-
-      function updateState() {
-        const sl       = track.scrollLeft;
-        const max      = track.scrollWidth - track.clientWidth;
-        const hasLeft  = sl > 2;
-        const hasRight = sl < max - 2;
-
-        prevBtn.classList.toggle('is-hidden', !hasLeft);
-        nextBtn.classList.toggle('is-hidden', !hasRight);
-
-        track.classList.remove('mask-both', 'mask-left', 'mask-none');
-        if (hasLeft && hasRight)  track.classList.add('mask-both');
-        else if (hasLeft)         track.classList.add('mask-left');
-        else if (!hasRight)       track.classList.add('mask-none');
-      }
-
-      prevBtn.addEventListener('click', function () { track.scrollLeft -= STEP; });
-      nextBtn.addEventListener('click', function () { track.scrollLeft += STEP; });
-
-      track.addEventListener('pointerdown', function (e) {
-        if (e.pointerType === 'mouse' && e.button !== 0) return;
-        isPointerDown = true;
-        didDrag = false;
-        startX = e.clientX;
-        startScrollLeft = track.scrollLeft;
-        track.classList.add('is-dragging');
-        track.setPointerCapture(e.pointerId);
-      });
-
-      track.addEventListener('pointermove', function (e) {
-        if (!isPointerDown) return;
-        const dx = e.clientX - startX;
-        if (Math.abs(dx) > DRAG_THRESHOLD) didDrag = true;
-        if (didDrag) {
-          e.preventDefault();
-          track.scrollLeft = startScrollLeft - dx;
-        }
-      });
-
-      function endDrag(e) {
-        if (!isPointerDown) return;
-        isPointerDown = false;
-        track.classList.remove('is-dragging');
-        if (track.hasPointerCapture && track.hasPointerCapture(e.pointerId)) {
-          track.releasePointerCapture(e.pointerId);
-        }
-        if (didDrag) {
-          suppressClick = true;
-          window.setTimeout(function () { suppressClick = false; }, 80);
-        }
-      }
-
-      track.addEventListener('pointerup', endDrag);
-      track.addEventListener('pointercancel', endDrag);
-      track.addEventListener('lostpointercapture', function () {
-        isPointerDown = false;
-        track.classList.remove('is-dragging');
-      });
-      track.addEventListener('click', function (e) {
-        if (!suppressClick) return;
-        e.preventDefault();
-        e.stopImmediatePropagation();
-      }, true);
-
-      track.addEventListener('scroll', updateState, { passive: true });
-      updateState();
-    })();
-
-    /* ═══════════════════════════════════════════════
-       가이드맵 전시 데이터 (지점별 · 층별)
-    ═══════════════════════════════════════════════ */
-    var currentGuideMapLoc = 'jeju';
-    var currentFloor = '2F';
-
-    var FLOOR_TABS_BY_LOC = {
-      jeju:     { tabs: ['2F', '1F', 'B1F'], default: '2F' },
-      yeosu:    { tabs: ['1F', '2F', '3F'],  default: '2F' },
-      ilsan:    { tabs: ['B1F', '1F', '2F', '3F', '5F'], default: '1F' },
-      gwanggyo: { tabs: ['B1F', 'B2F'], default: 'B1F' }
-    };
-
-    var CAT_ORDER_BY_LOC = {
-      jeju:     ['특별전시', '아쿠아리움', '부대시설'],
-      yeosu:    ['특별전시', '오션라이프', '마린라이프', '아쿠아포리스트', '부대시설'],
-      ilsan:    ['특별전시', '다흑 기획전2', '아쿠아리움', '나무쉼터', '부대시설'],
-      gwanggyo: ['특별전시', '아쿠아리움', '부대시설']
-    };
-
-    var FLOOR_MAP_IMGS = {
-      jeju: {
-        '2F':  'assets/images/jeju_map 1.png',
-        '1F':  'assets/images/f1_map_jeju.png',
-        'B1F': 'assets/images/f1b_map_jeju.png'
-      },
-      yeosu: {
-        '1F': 'assets/images/yeosu_f1_map.png',
-        '2F': 'assets/images/yeosu_f2_map.png',
-        '3F': 'assets/images/yeosu_f3_map.png'
-      },
-      ilsan: {
-        '5F':  'assets/images/ilsan_f5_map.png',
-        '3F':  'assets/images/ilsan_f3_map.png',
-        '2F':  'assets/images/ilsan_f2_map.png',
-        '1F':  'assets/images/ilsan_f1_map.png',
-        'B1F': 'assets/images/ilsan_b1f_map.png'
-      },
-      gwanggyo: {
-        'B1F': 'assets/images/gwanggyo_b1_map.png',
-        'B2F': 'assets/images/gwanggyo_b2_map.png'
-      }
-    };
-
-    var EXHIBITS_BY_FLOOR = {
-      jeju: {
-        '2F': [
-          { key: 'haenyeo',     badge: 'A', color: '#ff822f', category: '특별전시',   name: '해녀 전시',               floor: '2F', thumbImg: 'assets/images/jeju_guide_thum47 1.png', mapImg: 'assets/images/jeju_guide_map47.jpg', desc: ['"물 그리고 숨 : 제주 해녀의 바다"', '이번 전시에서는 실제 해녀 활동을 하는 작가를 비롯해', '여러 예술가들이 담아낸 작품을 통해 해녀의 삶을 들여다봅니다.'] },
-          { key: 'munseom',     badge: 'A', color: '#002d72', category: '아쿠아리움', name: '문섬',                    floor: '2F', thumbImg: 'assets/images/jeju_guide_thum01 1.png', mapImg: 'assets/images/jeju_guide_map01.jpg', desc: ['제주 앞 바다의 문섬이 화려한 산호초와', '열대어로 여러분을 맞이합니다.'] },
-          { key: 'world-island',badge: 'B', color: '#002d72', category: '아쿠아리움', name: '세계의 섬',               floor: '2F', thumbImg: 'assets/images/jeju_guide_thum02 1.png', mapImg: 'assets/images/jeju_guide_map02.jpg', desc: ['세계의 섬 곳곳에 있는 물고기들의 총집합'] },
-          { key: 'harbor',      badge: 'C', color: '#002d72', category: '아쿠아리움', name: '물범(상부) / 하버플라넷',  floor: '2F', thumbImg: 'assets/images/jeju_guide_thum03 1.png', mapImg: 'assets/images/jeju_guide_map03.jpg', desc: ['동글 동글한 생김새가 귀여운 잔점박이 물범'] },
-          { key: 'penguin',     badge: 'D', color: '#002d72', category: '아쿠아리움', name: '펭귄(상부) / 펭귄플라넷',  floor: '2F', thumbImg: 'assets/images/jeju_guide_thum04 1.png', mapImg: 'assets/images/jeju_guide_map04.jpg', desc: ['펭귄은 추운 남극에만 산다? 아니죠!', '눈 없이도 사는 아프리카 펭귄친구들'] },
-          { key: 'tunnel',      badge: 'E', color: '#002d72', category: '아쿠아리움', name: '주상절리터널',             floor: '2F', thumbImg: 'assets/images/jeju_guide_thum05 1.png', mapImg: 'assets/images/jeju_guide_map05.jpg', desc: ['모양마다 네모 반듯 제주 바다에서 볼 수 있는', '주상절리의 신비함을 느껴보세요.'] }
-        ],
-        '1F': [
-          { key: 'jeju-sea',    badge: 'A', color: '#002d72', category: '아쿠아리움', name: '물범(하부) - 댄싱 물범',              floor: '1F', thumbImg: 'assets/images/jeju_guide_thum20.jpg', mapImg: 'assets/images/jeju_guide_map20.jpg', desc: ['실린더 관을 유연한 몸짓으로 이리 저리 누비는 Dancing 물범'] },
-          { key: 'coral',       badge: 'B', color: '#002d72', category: '아쿠아리움', name: '펭귄(하부) - 플라잉 펭귄',                   floor: '1F', thumbImg: 'assets/images/jeju_guide_thum21.jpg', mapImg: 'assets/images/jeju_guide_map21.jpg', desc: ['제주 바다를 물들이는 화려한 연산호를 감상하세요.'] },
-          { key: 'jellyfish',   badge: 'C', color: '#002d72', category: '아쿠아리움', name: '아쿠아 사파리',               floor: '1F', thumbImg: 'assets/images/jeju_guide_thum22.jpg', mapImg: 'assets/images/jeju_guide_map22.jpg', desc: ['몽환적인 빛을 발하는 해파리들이 신비로운 분위기를 연출합니다.'] },
-          { key: 'sea-life',    badge: 'D', color: '#002d72', category: '아쿠아리움', name: '리빙오션',        floor: '1F', thumbImg: 'assets/images/jeju_guide_thum23.jpg', mapImg: 'assets/images/jeju_guide_map23.jpg', desc: ['독특하고 신기한 바다생물들을 만나보세요.'] },
-          { key: 'shark',       badge: 'E', color: '#002d72', category: '아쿠아리움', name: '대형상어',                 floor: '1F', thumbImg: 'assets/images/jeju_guide_thum24.jpg', mapImg: 'assets/images/jeju_guide_map24.jpg', desc: ['다양한 종류의 상어를 유리 너머 가까이서 관찰하세요.'] },
-          { key: 'ray',         badge: 'F', color: '#002d72', category: '아쿠아리움', name: '해저터널',               floor: '1F', thumbImg: 'assets/images/jeju_guide_thum25.jpg', mapImg: 'assets/images/jeju_guide_map25.jpg', desc: ['우아하게 유영하는 가오리를 감상하세요.'] },
-          { key: 'tropical',    badge: 'G', color: '#002d72', category: '아쿠아리움', name: '바다 놀이터(터치풀)',                   floor: '1F', thumbImg: 'assets/images/jeju_guide_thum26.jpg', mapImg: 'assets/images/jeju_guide_map26.jpg', desc: ['형형색색 아름다운 열대어들이 가득합니다.'] },
-          { key: 'otter',       badge: 'H', color: '#002d72', category: '아쿠아리움', name: '바이칼물범',                     floor: '1F', thumbImg: 'assets/images/jeju_guide_thum27.jpg', mapImg: 'assets/images/jeju_guide_map27.jpg', desc: ['재롱둥이 수달을 만나보세요.'] },
-          { key: 'submarine',   badge: 'C', color: '#002d72', category: '', name: '던킨',               floor: '1F', thumbImg: 'assets/images/jeju_guide_thum29.jpg', mapImg: 'assets/images/jeju_guide_map29.jpg', desc: ['잠수함 탐험을 테마로 한 특별한 체험 존입니다.'] }
-        ],
-        'B1F': [
-          { key: 'ocean-arena',  badge: 'A', color: '#ff822f', category: '특별전시',   name: '오션 아레나',     floor: 'B1F', thumbImg: 'assets/images/jeju_guide_thum28.jpg',      mapImg: 'assets/images/jeju_guide_thum28.jpg',      desc: ['아쿠아플라넷 제주의 대형 공연장 오션 아레나에서 화려한 퍼포먼스를 즐겨보세요.', '※ 내부 사정에 따라 공연 시간이 변동될 수 있습니다.'] },
-          { key: 'jeju-sea-b1',  badge: 'A', color: '#002d72', category: '아쿠아리움', name: '제주의 바다',     floor: 'B1F', thumbImg: 'assets/images/jeju_guide_thum30.jpg',      mapImg: 'assets/images/jeju_guide_map30.jpg',       desc: ['국내 최대 규모의 메인 수조에서 상어, 가오리 등 다양한 해양생물을 만나보세요.', '360° VR로도 제주의 바다를 생생하게 체험하실 수 있습니다.'] },
-          { key: 'manatee',      badge: 'B', color: '#002d72', category: '아쿠아리움', name: '매너티',         floor: 'B1F', thumbImg: 'assets/images/jeju_guide_thum31.jpg',      mapImg: 'assets/images/jeju_guide_map31.jpg',       desc: ['온순하고 느린 움직임이 인상적인 매너티를 가까이서 관찰해보세요.'] },
-          { key: 'jellyfish-b1', badge: 'C', color: '#002d72', category: '아쿠아리움', name: '해파리관',       floor: 'B1F', thumbImg: 'assets/images/jeju_guide_thum32.jpg',      mapImg: 'assets/images/jeju_guide_map32.jpg',       desc: ['몽환적인 빛을 발하는 해파리들의 신비로운 세계를 감상하세요.'] },
-          { key: 'giftshop-b1',  badge: 'A', color: '#934ebb', category: '부대시설',   name: '기프트샵',       floor: 'B1F', thumbImg: 'assets/images/jeju_guide_thum34.jpg',      mapImg: 'assets/images/jeju_guide_map34.jpg',       desc: ['아쿠아플라넷 공식 캐릭터 굿즈와 다양한 기념품을 구매할 수 있습니다.'] },
-          { key: 'aquacafe-b1',  badge: 'B', color: '#934ebb', category: '부대시설',   name: '아쿠아카페',     floor: 'B1F', thumbImg: 'assets/images/jeju_guide_map33.jpg',       mapImg: 'assets/images/jeju_guide_map33.jpg',       desc: ['관람 중 편안하게 쉴 수 있는 아쿠아카페입니다.', '다양한 음료와 간식을 즐기며 여유로운 시간을 보내보세요.'] },
-          { key: 'aquaterrace',  badge: 'C', color: '#934ebb', category: '부대시설',   name: '아쿠아이테라스', floor: 'B1F', thumbImg: 'assets/images/jeju_guide_thum36.jpg',      mapImg: 'assets/images/jeju_guide_map36.jpg',       desc: ['제주의 아름다운 풍경을 바라보며 다양한 식사를 즐길 수 있는 푸드코트입니다.'] },
-          { key: 'weenybeeny',   badge: 'D', color: '#934ebb', category: '부대시설',   name: 'Weeny Beeny',  floor: 'B1F', thumbImg: 'assets/images/jeju_guide_thum48 1.png',   mapImg: 'assets/images/jeju_guide_map48.jpg',       desc: ['달콤한 사탕과 다양한 과자들을 만나볼 수 있는 캔디샵입니다.'] },
-          { key: 'gs25-jeju',    badge: 'E', color: '#934ebb', category: '부대시설',   name: 'GS25',          floor: 'B1F', thumbImg: 'assets/images/jeju_guide_thum18 1.png',   mapImg: 'assets/images/jeju_guide_thum18 1.png',    desc: ['24시간 운영하는 편의점 GS25에서 간편하게 필요한 물건을 구매하세요.'] }
-        ]
-      },
-      ilsan: {
-        '5F': [
-          { key: 'deep-blue',  badge: 'A', color: '#002d72', category: '아쿠아리움', name: '딥 블루오션',     floor: '5F', thumbImg: 'assets/images/ilsan_guide_thum05.jpg', mapImg: 'assets/images/ilsan_guide_map05.jpg',
-            desc: ['아쿠아플라넷 일산의 메인 수조 딥 블루오션입니다.', '최대 수량 2,000톤 규모의 대형 수조에서 신비로운 해양생물들의 유영을 감상해보세요.'] },
-          { key: 'walrus',     badge: 'B', color: '#002d72', category: '아쿠아리움', name: '바다코끼리',       floor: '5F', thumbImg: 'assets/images/ilsan_guide_thum14.jpg', mapImg: 'assets/images/ilsan_guide_thum14.jpg',
-            desc: ['국내 유일 바다코끼리를 만나볼 수 있는 특별한 공간입니다.', '생동감 넘치는 바다코끼리 공연과 생태 해설을 즐겨보세요.'] },
-          { key: 'tree-play',  badge: 'C', color: '#002d72', category: '아쿠아리움', name: '나무쉼터',         floor: '5F', thumbImg: 'assets/images/ilsan_guide_thum16.jpg', mapImg: 'assets/images/ilsan_guide_map16.jpg',
-            desc: ['실내 대형 정글을 테마로 한 어린이 복합 놀이 체험 공간입니다.', '자연 친화적인 놀이기구와 체험 시설이 가득합니다.'] }
-        ],
-        '3F': [
-          { key: 'tunnel',     badge: 'A', color: '#002d72', category: '아쿠아리움', name: '터널 수조',        floor: '3F', thumbImg: 'assets/images/ilsan_guide_thum12.jpg', mapImg: 'assets/images/ilsan_guide_map12.jpg',
-            desc: ['수중 터널을 걸으며 다양한 해양생물을 360도로 감상할 수 있습니다.', '머리 위를 유유히 헤엄치는 물고기들의 압도적인 장관을 경험해보세요.'] },
-          { key: 'shark',      badge: 'B', color: '#002d72', category: '아쿠아리움', name: '상어 수조',        floor: '3F', thumbImg: 'assets/images/ilsan_guide_thum03.jpg', mapImg: 'assets/images/ilsan_guide_map03.jpg',
-            desc: ['다양한 종류의 상어를 유리 너머 가까이서 관찰할 수 있습니다.', '신비롭고 강인한 상어들의 유영을 가까이서 만나보세요.'] },
-          { key: 'jellyfish',  badge: 'C', color: '#002d72', category: '아쿠아리움', name: '해파리 터널',      floor: '3F', thumbImg: 'assets/images/ilsan_guide_thum06.jpg', mapImg: 'assets/images/ilsan_guide_map06.jpg',
-            desc: ['몽환적인 빛으로 가득한 해파리 터널입니다.', '크리스탈처럼 투명한 아치형 수조 안에서 다양한 해파리를 감상해보세요.'] },
-          { key: 'humboldt',   badge: 'D', color: '#002d72', category: '아쿠아리움', name: '훔볼트 펭귄',      floor: '3F', thumbImg: 'assets/images/ilsan_guide_thum11.jpg', mapImg: 'assets/images/ilsan_guide_map11.jpg',
-            desc: ['남미 해안에 서식하는 훔볼트 펭귄을 가까이서 만나보세요.', '활발하게 움직이는 펭귄 친구들의 일상을 관찰할 수 있습니다.'] },
-          { key: 'af-penguin', badge: 'E', color: '#002d72', category: '아쿠아리움', name: '아프리카 펭귄',    floor: '3F', thumbImg: 'assets/images/ilsan_guide_thum13.jpg', mapImg: 'assets/images/ilsan_guide_map13.jpg',
-            desc: ['아프리카 펭귄은 추운 남극이 아닌 아프리카 해안에 서식합니다.', '독특한 생태를 가진 아프리카 펭귄의 매력을 느껴보세요.'] },
-          { key: 'touch-pool', badge: 'F', color: '#002d72', category: '아쿠아리움', name: '터치풀',           floor: '3F', thumbImg: 'assets/images/ilsan_guide_thum15.jpg', mapImg: 'assets/images/ilsan_guide_map15.jpg',
-            desc: ['바다생물을 직접 손으로 만져볼 수 있는 체험 공간입니다.', '불가사리, 성게 등 다양한 생물과 직접 교감해보세요.'] }
-        ],
-        '2F': [
-          { key: 'jungle',     badge: 'A', color: '#3d8b37', category: '나무쉼터', name: '나무쉼터 정글',     floor: '2F', thumbImg: 'assets/images/ilsan_guide_thum07.jpg', mapImg: 'assets/images/ilsan_guide_map07.jpg',
-            desc: ['열대 정글을 그대로 재현한 나무쉼터 정글관입니다.', '웅장한 폭포와 울창한 나무들 사이에서 신비로운 생물들을 만나보세요.'] },
-          { key: 'adventure',  badge: 'B', color: '#3d8b37', category: '나무쉼터', name: '나무쉼터 어드벤처', floor: '2F', thumbImg: 'assets/images/ilsan_guide_thum17.jpg', mapImg: 'assets/images/ilsan_guide_map17.jpg',
-            desc: ['자연을 담은 나무쉼터 어드벤처 체험 구역입니다.', '통나무 구조물과 다양한 탐험 시설을 즐겨보세요.'] },
-          { key: 'iguana',     badge: 'C', color: '#3d8b37', category: '나무쉼터', name: '이구아나',           floor: '2F', thumbImg: 'assets/images/ilsan_guide_thum31.jpg', mapImg: 'assets/images/ilsan_guide_map31.jpg',
-            desc: ['이국적인 이구아나와 파충류를 만날 수 있는 공간입니다.', '신기하고 독특한 파충류 친구들을 가까이서 관찰해보세요.'] },
-          { key: 'rainforest', badge: 'D', color: '#3d8b37', category: '나무쉼터', name: '레인포레스트',       floor: '2F', thumbImg: 'assets/images/ilsan_guide_thum32.jpg', mapImg: 'assets/images/ilsan_guide_map32.jpg',
-            desc: ['열대우림의 다채로운 식물과 양서류를 만날 수 있는 공간입니다.', '신비롭고 다양한 열대 생태계를 탐험해보세요.'] },
-          { key: 'donkey',     badge: 'E', color: '#3d8b37', category: '나무쉼터', name: '당나귀',             floor: '2F', thumbImg: 'assets/images/ilsan_guide_thum19.jpg', mapImg: 'assets/images/ilsan_guide_map19.jpg',
-            desc: ['귀여운 당나귀를 가까이서 만날 수 있는 동물 체험 공간입니다.'] },
-          { key: 'duck',       badge: 'F', color: '#3d8b37', category: '나무쉼터', name: '오리',               floor: '2F', thumbImg: 'assets/images/ilsan_guide_thum20.jpg', mapImg: 'assets/images/ilsan_guide_map20.jpg',
-            desc: ['다양한 종류의 귀여운 오리들이 자유롭게 노니는 공간입니다.'] },
-          { key: 'pony',       badge: 'G', color: '#3d8b37', category: '나무쉼터', name: '미니포니',           floor: '2F', thumbImg: 'assets/images/ilsan_guide_thum21.jpg', mapImg: 'assets/images/ilsan_guide_map21.jpg',
-            desc: ['앙증맞은 미니 포니를 만나볼 수 있는 공간입니다.', '포니와 함께 행복한 시간을 보내보세요.'] },
-          { key: 'sheep',      badge: 'H', color: '#3d8b37', category: '나무쉼터', name: '양',                 floor: '2F', thumbImg: 'assets/images/ilsan_guide_thum22.jpg', mapImg: 'assets/images/ilsan_guide_map22.jpg',
-            desc: ['복슬복슬 귀여운 양과 교감할 수 있는 체험 공간입니다.', '먹이주기 체험을 통해 특별한 추억을 만들어보세요.'] },
-          { key: 'goat',       badge: 'I', color: '#3d8b37', category: '나무쉼터', name: '염소',               floor: '2F', thumbImg: 'assets/images/ilsan_guide_thum23.jpg', mapImg: 'assets/images/ilsan_guide_map23.jpg',
-            desc: ['활발하고 귀여운 염소를 만나볼 수 있는 동물 체험 공간입니다.'] },
-          { key: 'rabbit',     badge: 'J', color: '#3d8b37', category: '나무쉼터', name: '토끼',               floor: '2F', thumbImg: 'assets/images/ilsan_guide_thum24.jpg', mapImg: 'assets/images/ilsan_guide_map24.jpg',
-            desc: ['포근하고 사랑스러운 토끼와 교감할 수 있는 공간입니다.'] },
-          { key: 'beetle',     badge: 'K', color: '#3d8b37', category: '나무쉼터', name: '장수풍뎅이',         floor: '2F', thumbImg: 'assets/images/ilsan_guide_thum29.jpg', mapImg: 'assets/images/ilsan_guide_map29.jpg',
-            desc: ['신기하고 다양한 곤충을 만나볼 수 있는 곤충 체험관입니다.', '장수풍뎅이를 직접 만져볼 수도 있습니다.'] }
-        ],
-        '1F': [
-          { key: 'entrance',   badge: 'A', color: '#934ebb', category: '부대시설', name: '입구 / 안내 데스크', floor: '1F', thumbImg: 'assets/images/ilsan_guide_thum01.jpg', mapImg: 'assets/images/ilsan_guide_map01.jpg',
-            desc: ['아쿠아플라넷 일산의 입구 및 안내 데스크입니다.', '티켓 구매 및 방문 관련 안내를 받을 수 있습니다.'] },
-          { key: 'nursing',    badge: 'B', color: '#934ebb', category: '부대시설', name: '수유실',             floor: '1F', thumbImg: 'assets/images/ilsan_guide_thum02.jpg', mapImg: 'assets/images/ilsan_guide_map02.jpg',
-            desc: ['영유아 동반 가족을 위한 쾌적한 수유실입니다.'] },
-          { key: 'aquacafe',   badge: 'C', color: '#934ebb', category: '부대시설', name: '아쿠아카페',         floor: '1F', thumbImg: 'assets/images/ilsan_guide_thum09.jpg', mapImg: 'assets/images/ilsan_guide_map09.jpg',
-            desc: ['관람 중 편안하게 쉴 수 있는 아쿠아카페입니다.', '다양한 음료와 간식을 즐기며 여유로운 시간을 보내보세요.'] },
-          { key: 'aquashop',   badge: 'D', color: '#934ebb', category: '부대시설', name: '아쿠아샵',           floor: '1F', thumbImg: 'assets/images/ilsan_guide_thum10.jpg', mapImg: 'assets/images/ilsan_guide_map10.jpg',
-            desc: ['아쿠아플라넷 공식 굿즈와 다양한 기념품을 구매할 수 있는 아쿠아샵입니다.'] },
-          { key: 'restaurant', badge: 'E', color: '#934ebb', category: '부대시설', name: '레스토랑',           floor: '1F', thumbImg: 'assets/images/ilsan_guide_thum30.jpg', mapImg: 'assets/images/ilsan_guide_map30.jpg',
-            desc: ['맛있는 식사를 즐길 수 있는 레스토랑입니다.', '관람 전후로 가족과 함께 즐거운 식사 시간을 가져보세요.'] }
-        ],
-        'B1F': [
-          { key: 'insect-hall',   badge: 'A', color: '#ff822f', category: '다흑 기획전2', name: '곤충관',    floor: 'B1F', thumbImg: 'assets/images/ilsan_guide_thum29.jpg', mapImg: 'assets/images/ilsan_guide_map29.jpg',
-            desc: ['한국에 서식하는 곤충들을 만나보고', '실제 곤충 표본도 만들어보세요!'] },
-          { key: 'reptile-hall',  badge: 'B', color: '#ff822f', category: '다흑 기획전2', name: '파충류관',  floor: 'B1F', thumbImg: 'assets/images/ilsan_guide_thum31.jpg', mapImg: 'assets/images/ilsan_guide_map31.jpg',
-            desc: ['전 세계 각지에 분포한 이색적인 파충류들이 모여있어요!'] },
-          { key: 'vivarium-hall', badge: 'C', color: '#ff822f', category: '다흑 기획전2', name: '비바리움관', floor: 'B1F', thumbImg: 'assets/images/ilsan_guide_thum32.jpg', mapImg: 'assets/images/ilsan_guide_map32.jpg',
-            desc: ['국내 유명 비바리움 업체의 전시를 만나볼 수 있습니다.'] }
-        ]
-      },
-      yeosu: {
-        '1F': [
-          { key: 'monet',      badge: 'A', color: '#ff822f', category: '특별전시', name: '클로드 모네, 빛의 순간들 展', floor: '1F', thumbImg: 'assets/images/yeosu_guide_thum35.jpg', mapImg: 'assets/images/yeosu_guide_map35.jpg', desc: ['인상파의 거장 클로드 모네의 작품 세계를', '빛과 영상으로 재해석한 몰입형 미디어 아트 특별 전시입니다.'] },
-          { key: 'giftshop',   badge: 'A', color: '#934ebb', category: '부대시설', name: '기프트샵',          floor: '1F', thumbImg: 'assets/images/yeosu_guide_thum03.jpg', mapImg: 'assets/images/yeosu_guide_map03.jpg', desc: [] },
-          { key: 'artshop',    badge: 'B', color: '#934ebb', category: '부대시설', name: '아트샵',            floor: '1F', thumbImg: 'assets/images/yeosu_guide_thum36.jpg', mapImg: 'assets/images/yeosu_guide_map36.jpg', desc: [] },
-          { key: 'aquaterrace',badge: 'C', color: '#934ebb', category: '부대시설', name: '아쿠아 테라스',     floor: '1F', thumbImg: 'assets/images/yeosu_guide_thum34.jpg', mapImg: 'assets/images/yeosu_guide_map34.jpg', desc: [] },
-          { key: 'samdaeok',   badge: 'D', color: '#934ebb', category: '부대시설', name: '삼대옥',            floor: '1F', thumbImg: 'assets/images/yeosu_guide_thum37.jpg', mapImg: 'assets/images/yeosu_guide_map37.jpg', desc: [] },
-          { key: 'nyangchike', badge: 'E', color: '#934ebb', category: '부대시설', name: '냥치케 여수',       floor: '1F', thumbImg: 'assets/images/yeosu_guide_thum38.jpg', mapImg: 'assets/images/yeosu_guide_map38.jpg', desc: [] },
-          { key: 'aquacafe1f', badge: 'F', color: '#934ebb', category: '부대시설', name: '아쿠아카페 (1F)',   floor: '1F', thumbImg: 'assets/images/yeosu_guide_thum05.jpg', mapImg: 'assets/images/yeosu_guide_map05.jpg', desc: [] },
-          { key: 'aquacafe2f', badge: 'G', color: '#934ebb', category: '부대시설', name: '아쿠아카페 (2F)',   floor: '1F', thumbImg: 'assets/images/yeosu_guide_thum04.jpg', mapImg: 'assets/images/yeosu_guide_map04.jpg', desc: [] }
-        ],
-        '2F': [
-          { key: 'ocean',      badge: 'A', color: '#006bac', category: '오션라이프',    name: '지구의 바다',    floor: '2F', thumbImg: 'assets/images/yeosu_guide_thum02.jpg', mapImg: 'assets/images/yeosu_guide_map02.jpg', desc: ['국내 최대 규모의 메인 수조에서 펼쳐지는 웅장한 해양 생태계입니다.', '상어, 가오리, 바다거북 등 다양한 대형 해양생물을 한눈에 만나보세요.'] },
-          { key: 'coral2f',    badge: 'B', color: '#006bac', category: '오션라이프',    name: '산호초관',       floor: '2F', thumbImg: 'assets/images/yeosu_guide_thum25.jpg', mapImg: 'assets/images/yeosu_guide_map25.jpg', desc: ['형형색색의 산호와 열대어들이 만들어내는 아름다운 수중 정원을 감상하세요.'] },
-          { key: 'seaturtle',  badge: 'C', color: '#006bac', category: '오션라이프',    name: '바다거북관',     floor: '2F', thumbImg: 'assets/images/yeosu_guide_thum26.jpg', mapImg: 'assets/images/yeosu_guide_map26.jpg', desc: ['멸종위기 해양생물인 바다거북을 가까이서 만날 수 있는 특별한 공간입니다.'] },
-          { key: 'tunnel2f',   badge: 'D', color: '#006bac', category: '오션라이프',    name: '해저터널',       floor: '2F', thumbImg: 'assets/images/yeosu_guide_thum15.jpg', mapImg: 'assets/images/yeosu_guide_map15.jpg', desc: ['바다 속을 걷는 듯한 터널형 수조를 통과하며 수중 생물들을 360도로 감상해보세요.'] },
-          { key: 'sharktank',  badge: 'E', color: '#006bac', category: '오션라이프',    name: '상어수조',       floor: '2F', thumbImg: 'assets/images/yeosu_guide_thum24.jpg', mapImg: 'assets/images/yeosu_guide_map24.jpg', desc: ['다양한 종류의 상어들을 유리 너머로 가까이 관찰할 수 있습니다.'] },
-          { key: 'otter',      badge: 'A', color: '#00936a', category: '마린라이프',    name: '수달',           floor: '2F', thumbImg: 'assets/images/yeosu_guide_thum18.jpg', mapImg: 'assets/images/yeosu_guide_map18.jpg', desc: ['귀엽고 장난기 넘치는 수달의 일상을 가까이서 관찰해보세요.'] },
-          { key: 'penguin2f',  badge: 'B', color: '#00936a', category: '마린라이프',    name: '펭귄',           floor: '2F', thumbImg: 'assets/images/yeosu_guide_thum19.jpg', mapImg: 'assets/images/yeosu_guide_map19.jpg', desc: ['아프리카 펭귄을 비롯한 귀여운 펭귄 친구들과 함께하세요.'] },
-          { key: 'amazon',     badge: 'A', color: '#5ba134', category: '아쿠아포리스트', name: '아마존 정글',   floor: '2F', thumbImg: 'assets/images/yeosu_guide_thum06.jpg', mapImg: 'assets/images/yeosu_guide_map06.jpg', desc: ['열대우림 아마존의 다양한 동식물과 민물 생물들이 사는 신비로운 공간입니다.'] },
-          { key: 'lightforest',badge: 'B', color: '#5ba134', category: '아쿠아포리스트', name: '빛의 숲',       floor: '2F', thumbImg: 'assets/images/yeosu_guide_thum07.jpg', mapImg: 'assets/images/yeosu_guide_map07.jpg', desc: ['색색의 빛으로 물든 환상적인 숲 속 생태계를 경험하세요.'] },
-          { key: 'piranha',    badge: 'C', color: '#5ba134', category: '아쿠아포리스트', name: '피라냐관',      floor: '2F', thumbImg: 'assets/images/yeosu_guide_thum08.jpg', mapImg: 'assets/images/yeosu_guide_map08.jpg', desc: ['아마존의 강력한 포식자 피라냐와 다채로운 민물고기들을 만나보세요.'] },
-          { key: 'cave',       badge: 'D', color: '#5ba134', category: '아쿠아포리스트', name: '동굴탐험',      floor: '2F', thumbImg: 'assets/images/yeosu_guide_thum09.jpg', mapImg: 'assets/images/yeosu_guide_map09.jpg', desc: ['종유석 동굴을 테마로 한 신비로운 생태 전시 공간입니다.'] },
-          { key: 'discus',     badge: 'E', color: '#5ba134', category: '아쿠아포리스트', name: '디스커스관',    floor: '2F', thumbImg: 'assets/images/yeosu_guide_thum10.jpg', mapImg: 'assets/images/yeosu_guide_map10.jpg', desc: ['화려한 색채의 열대 민물고기 디스커스의 아름다움을 감상하세요.'] },
-          { key: 'arowana',    badge: 'F', color: '#5ba134', category: '아쿠아포리스트', name: '아로와나관',    floor: '2F', thumbImg: 'assets/images/yeosu_guide_thum11.jpg', mapImg: 'assets/images/yeosu_guide_map11.jpg', desc: ['황금빛 비늘이 빛나는 아로와나의 우아한 유영을 감상하세요.'] },
-          { key: 'jungletank', badge: 'G', color: '#5ba134', category: '아쿠아포리스트', name: '정글 원통수조', floor: '2F', thumbImg: 'assets/images/yeosu_guide_thum12.jpg', mapImg: 'assets/images/yeosu_guide_map12.jpg', desc: ['정글 한가운데 세워진 원통형 수조 속 다양한 열대 어종을 관찰하세요.'] },
-          { key: 'coralcave',  badge: 'H', color: '#5ba134', category: '아쿠아포리스트', name: '코랄 동굴',     floor: '2F', thumbImg: 'assets/images/yeosu_guide_thum13.jpg', mapImg: 'assets/images/yeosu_guide_map13.jpg', desc: ['신비로운 산호 동굴 속에서 형형색색의 해양생물들을 만나보세요.'] },
-          { key: 'reptile',    badge: 'I', color: '#5ba134', category: '아쿠아포리스트', name: '파충류관',      floor: '2F', thumbImg: 'assets/images/yeosu_guide_thum39.jpg', mapImg: 'assets/images/yeosu_guide_map39.jpg', desc: ['다양한 파충류와 양서류가 사는 생태 전시관입니다.'] },
-          { key: 'aquazium',   badge: 'J', color: '#5ba134', category: '아쿠아포리스트', name: '아쿠아지움',    floor: '2F', thumbImg: 'assets/images/yeosu_guide_thum40.jpg', mapImg: 'assets/images/yeosu_guide_map40.jpg', desc: ['수십 개의 소형 수조가 줄지어 펼쳐지는 미니 아쿠아리움입니다.'] }
-        ],
-        '3F': [
-          { key: 'beluga',      badge: 'A', color: '#00936a', category: '마린라이프', name: '아크틱 (벨루가)',     floor: '3F', thumbImg: 'assets/images/yeosu_guide_thum20.jpg', mapImg: 'assets/images/yeosu_guide_map20.jpg', desc: ['국내 유일 벨루가 고래가 사는 아크틱 존입니다.', '순백의 벨루가와 교감하는 특별한 경험을 해보세요.'] },
-          { key: 'sealion',     badge: 'B', color: '#00936a', category: '마린라이프', name: '바다사자관',          floor: '3F', thumbImg: 'assets/images/yeosu_guide_thum22.jpg', mapImg: 'assets/images/yeosu_guide_map22.jpg', desc: ['대형 수조 속에서 바다사자의 힘차고 우아한 유영을 관찰하세요.'] },
-          { key: 'sealtank',    badge: 'C', color: '#00936a', category: '마린라이프', name: '물범 원통수조',       floor: '3F', thumbImg: 'assets/images/yeosu_guide_thum23.jpg', mapImg: 'assets/images/yeosu_guide_map23.jpg', desc: ['원통형 수조 속 귀여운 물범을 다양한 각도에서 만나보세요.'] },
-          { key: 'sharktunnel', badge: 'D', color: '#00936a', category: '마린라이프', name: '상어 터널',           floor: '3F', thumbImg: 'assets/images/yeosu_guide_thum27.jpg', mapImg: 'assets/images/yeosu_guide_map27.jpg', desc: ['머리 위로 지나다니는 대형 상어들과 함께하는 압도적인 경험입니다.'] },
-          { key: 'oceanroom',   badge: 'E', color: '#00936a', category: '마린라이프', name: '지구의 바다 상부',    floor: '3F', thumbImg: 'assets/images/yeosu_guide_thum28.jpg', mapImg: 'assets/images/yeosu_guide_map28.jpg', desc: ['메인 수조의 돔형 천장에서 내려다보는 웅장한 수중 세계입니다.'] },
-          { key: 'tunnel3f',    badge: 'F', color: '#00936a', category: '마린라이프', name: '해저터널 (3F)',       floor: '3F', thumbImg: 'assets/images/yeosu_guide_thum29.jpg', mapImg: 'assets/images/yeosu_guide_map29.jpg', desc: ['해저터널을 걸으며 360도로 펼쳐지는 바다 속 세계를 감상하세요.'] },
-          { key: 'spottedseal', badge: 'G', color: '#00936a', category: '마린라이프', name: '잔점박이물범',        floor: '3F', thumbImg: 'assets/images/yeosu_guide_thum30.jpg', mapImg: 'assets/images/yeosu_guide_map30.jpg', desc: ['사랑스러운 잔점박이물범의 수중 생활을 가까이서 관찰해보세요.'] },
-          { key: 'belugashow',  badge: 'H', color: '#00936a', category: '마린라이프', name: '벨루가 체험',         floor: '3F', thumbImg: 'assets/images/yeosu_guide_thum31.jpg', mapImg: 'assets/images/yeosu_guide_map31.jpg', desc: ['벨루가 고래와 함께하는 특별한 체험 프로그램입니다.'] },
-          { key: 'sealionshow', badge: 'I', color: '#00936a', category: '마린라이프', name: '바다사자 생태설명회', floor: '3F', thumbImg: 'assets/images/yeosu_guide_thum32.jpg', mapImg: 'assets/images/yeosu_guide_map32.jpg', desc: ['바다사자의 생태와 특징을 배울 수 있는 교육적인 생태설명회입니다.'] },
-          { key: 'sealshow',    badge: 'J', color: '#00936a', category: '마린라이프', name: '점박이물범 생태설명회', floor: '3F', thumbImg: 'assets/images/yeosu_guide_thum33.jpg', mapImg: 'assets/images/yeosu_guide_map33.jpg', desc: ['점박이물범의 생태와 삶을 가까이서 배울 수 있는 생태설명회입니다.'] }
-        ]
-      },
-      gwanggyo: {
-        'B1F': [
-          { key: 'gw-aqua-friends', badge: 'A', color: '#22b2ea', category: '아쿠아리움', name: '아쿠아 프렌즈',    floor: 'B1F', thumbImg: 'assets/images/gwanggyo_guide_thum11.jpg', mapImg: 'assets/images/gwanggyo_guide_map11.png', desc: ['귀여운 수달의 재기발랄한 모습을 가까이서 만나보세요.', '활달한 성격의 수달이 장난치며 노는 모습을 직접 관찰할 수 있습니다.'] },
-          { key: 'gw-axolotl',      badge: 'B', color: '#22b2ea', category: '아쿠아리움', name: '아홀로틀',          floor: 'B1F', thumbImg: 'assets/images/gwanggyo_guide_thum09.jpg', mapImg: 'assets/images/gwanggyo_guide_map09.jpg', desc: ['신비로운 "영원의 동물" 아홀로틀을 만나보세요.', '물 속에서 생활하면서도 폐로 숨 쉬는 독특한 생태를 관찰해보세요.'] },
-          { key: 'gw-ray',          badge: 'C', color: '#22b2ea', category: '아쿠아리움', name: '플레이 위드 레이',  floor: 'B1F', thumbImg: 'assets/images/gwanggyo_guide_thum12.jpg', mapImg: 'assets/images/gwanggyo_guide_map12.jpg', desc: ['가오리와 함께하는 이색 수중 체험!', '수조 위의 투명한 공간에서 가오리를 바로 아래에서 생생하게 관찰해보세요.'] }
-        ],
-        'B2F': [
-          { key: 'gw-rainbow-reef', badge: 'A', color: '#002d72', category: '아쿠아리움', name: '레인보우 리프',    floor: 'B2F', thumbImg: 'assets/images/gwanggyo_guide_thum01.jpg', mapImg: 'assets/images/gwanggyo_guide_map01.jpg', desc: ['형형색색 열대어와 화려한 산호초가 빛나는 레인보우 리프!', '황제 엔젤피시를 비롯한 아름다운 열대어들이 여러분을 맞이합니다.'] },
-          { key: 'gw-into-ocean',   badge: 'B', color: '#002d72', category: '아쿠아리움', name: '인투 더 오션',     floor: 'B2F', thumbImg: 'assets/images/gwanggyo_guide_thum03.jpg', mapImg: 'assets/images/gwanggyo_guide_map03.jpg', desc: ['상어수조 투명보트 체험!', '투명 보트를 타고 상어 수조 위를 이동하며 상어를 바로 아래에서 생생하게 관찰하세요.'] },
-          { key: 'gw-penguin',      badge: 'C', color: '#002d72', category: '아쿠아리움', name: '펭귄 빌리지',      floor: 'B2F', thumbImg: 'assets/images/gwanggyo_guide_thum04.jpg', mapImg: 'assets/images/gwanggyo_guide_map04.jpg', desc: ['귀여운 아프리카 펭귄들이 사는 펭귄 마을!', '도도하면서도 귀여운 펭귄들의 일상을 가까이서 만나보세요.'] },
-          { key: 'gw-aqua-island',  badge: 'D', color: '#002d72', category: '아쿠아리움', name: '아쿠아 아일랜드',  floor: 'B2F', thumbImg: 'assets/images/gwanggyo_guide_thum05.jpg', mapImg: 'assets/images/gwanggyo_guide_map05.jpg', desc: ['세계 각지의 바다를 테마로 한 다채로운 해양생물 전시관입니다.'] },
-          { key: 'gw-jellyfish',    badge: 'E', color: '#002d72', category: '아쿠아리움', name: '해파리 월드',      floor: 'B2F', thumbImg: 'assets/images/gwanggyo_guide_thum07.jpg', mapImg: 'assets/images/gwanggyo_guide_map07.jpg', desc: ['형형색색 빛을 발하는 해파리의 신비로운 세계!', '해파리 연구실에서 다양한 종류의 해파리를 가까이서 관찰해보세요.'] },
-          { key: 'gw-aqua-bubble',  badge: 'F', color: '#002d72', category: '아쿠아리움', name: '아쿠아 비블',      floor: 'B2F', thumbImg: 'assets/images/gwanggyo_guide_thum08.jpg', mapImg: 'assets/images/gwanggyo_guide_map08.jpg', desc: ['반구형 버블 속에서 주변을 둘러싼 바다 생물들을 360도로 감상하는 특별한 공간입니다.'] },
-          { key: 'gw-sea-turtle',   badge: 'G', color: '#002d72', category: '아쿠아리움', name: '바다거북',         floor: 'B2F', thumbImg: 'assets/images/gwanggyo_guide_thum10.jpg', mapImg: 'assets/images/gwanggyo_guide_map10.png', desc: ['유유자적 헤엄치는 바다거북을 가까이서 만나보세요.', '멸종위기종 바다거북의 생태연구도 함께 진행하고 있습니다.'] },
-          { key: 'gw-amazon',       badge: 'H', color: '#002d72', category: '아쿠아리움', name: '아마존',           floor: 'B2F', thumbImg: 'assets/images/gwanggyo_guide_thum16.jpg', mapImg: 'assets/images/gwanggyo_guide_map16.jpg', desc: ['아마존 강의 피라냐를 비롯한 열대 민물 생물들의 세계로 빠져보세요.'] },
-          { key: 'gw-playground',   badge: 'A', color: '#934ebb', category: '부대시설',   name: '놀이터',           floor: 'B2F', thumbImg: 'assets/images/gwanggyo_guide_thum02.jpg', mapImg: 'assets/images/gwanggyo_guide_map02.jpg', desc: ['잠수함 모양의 아쿠아 키즈 놀이터에서 아이들이 즐거운 해양 탐험을 즐길 수 있습니다.'] }
-        ]
-      }
-    };
-
-    var EXHIBITS_BY_LOC = {
-      jeju: EXHIBITS_BY_FLOOR.jeju['2F'],
-      yeosu: EXHIBITS_BY_FLOOR.yeosu['2F'],
-      ilsan:     EXHIBITS_BY_FLOOR.ilsan['5F'],
-      gwanggyo:  EXHIBITS_BY_FLOOR.gwanggyo['B1F']
-    };
-
-    function makeThumbCardHtml(ex) {
-      return '<div class="loc-map__thumb-card" data-key="' + ex.key + '">'
-        + '<img src="' + ex.thumbImg + '" alt="' + ex.name + '">'
-        + '<div class="loc-map__thumb-grad"></div>'
-        + '<span class="loc-map__thumb-badge" style="background:' + ex.color + '">' + ex.badge + '</span>'
-        + '<p class="loc-map__thumb-name">' + ex.name + '</p>'
-        + '</div>';
-    }
-
-    function animateGuideMapChange(updateFn) {
-      var mapWrap = document.querySelector('.loc-map__img-wrap');
-      var mapImg  = document.querySelector('.loc-map__img');
-      var track   = document.getElementById('thumb-track');
-      var floors  = document.querySelector('.loc-floor-tabs');
-      var targets = [mapWrap, mapImg, track, floors].filter(Boolean);
-
-      targets.forEach(function (el) { el.classList.add('is-switching'); });
-
-      window.setTimeout(function () {
-        updateFn();
-        window.requestAnimationFrame(function () {
-          window.requestAnimationFrame(function () {
-            targets.forEach(function (el) { el.classList.remove('is-switching'); });
-          });
-        });
-      }, 170);
-    }
-
-    function renderGuideMapThumbs(locKey) {
-      var track   = document.getElementById('thumb-track');
-      var prevBtn = document.getElementById('thumb-prev');
-      var nextBtn = document.getElementById('thumb-next');
-      if (!track) return;
-
-      var exhibits = EXHIBITS_BY_LOC[locKey];
-      if (!exhibits || !exhibits.length) return;
-
-      var catOrder  = CAT_ORDER_BY_LOC[locKey] || [];
-      var grouped   = {};
-      catOrder.forEach(function (c) { grouped[c] = []; });
-      exhibits.forEach(function (ex) { grouped[ex.category] = grouped[ex.category] || []; grouped[ex.category].push(ex); });
-
-      var html = '';
-      catOrder.forEach(function (catName) {
-        var items = grouped[catName];
-        if (!items.length) return;
-        var first = items[0];
-        html += '<div class="loc-map__thumb-group">';
-        html += '<p class="loc-map__thumb-cat" style="color:' + first.color + '">' + catName + '</p>';
-        html += makeThumbCardHtml(first);
-        html += '</div>';
-        for (var i = 1; i < items.length; i++) { html += makeThumbCardHtml(items[i]); }
-      });
-
-      track.innerHTML = html;
-
-      track.querySelectorAll('.loc-map__thumb-card').forEach(function (card, index) {
-        card.style.setProperty('--thumb-index', index);
-        card.addEventListener('click', function () {
-          var key = card.getAttribute('data-key');
-          var ex  = (EXHIBITS_BY_LOC[currentGuideMapLoc] || []).find(function (e) { return e.key === key; });
-          if (ex && typeof openGuideMapModal === 'function') openGuideMapModal(ex);
-        });
-      });
-
-      track.scrollLeft = 0;
-      if (prevBtn) prevBtn.classList.add('is-hidden');
-      setTimeout(function () {
-        var max = track.scrollWidth - track.clientWidth;
-        if (nextBtn) nextBtn.classList.toggle('is-hidden', max <= 2);
-        track.classList.remove('mask-both', 'mask-left', 'mask-none');
-      }, 0);
-    }
-
-    /* ── 전시관 상세 모달 ── */
-    var openGuideMapModal;
-    (function () {
-      var modal      = document.getElementById('exhibit-modal');
-      var backdrop   = document.getElementById('modal-backdrop');
-      var closeBtn   = document.getElementById('modal-close');
-      var modalBadge = document.getElementById('modal-badge');
-      var modalName  = document.getElementById('modal-name');
-      var modalFloor = document.getElementById('modal-floor');
-      var modalImg   = document.getElementById('modal-img');
-      var modalDesc  = document.getElementById('modal-desc');
-      var modalSide  = document.getElementById('modal-sidebar');
-
-      openGuideMapModal = function (exhibit) {
-        var activeExhibits = EXHIBITS_BY_LOC[currentGuideMapLoc] || [];
-
-        modalBadge.textContent = exhibit.badge;
-        modalBadge.style.background = exhibit.color;
-        modalName.textContent  = exhibit.name;
-        modalFloor.textContent = exhibit.floor;
-        modalImg.src = exhibit.mapImg;
-        modalImg.alt = exhibit.name;
-        modalDesc.innerHTML = exhibit.desc.map(function (l) { return '<p>' + l + '</p>'; }).join('');
-
-        var html = '';
-        var catOrder = CAT_ORDER_BY_LOC[currentGuideMapLoc] || [];
-        catOrder.forEach(function (catName) {
-          var items = activeExhibits.filter(function (e) { return e.category === catName; });
-          if (!items.length) return;
-          var isCatActive = catName === exhibit.category;
-          html += '<div class="exhibit-modal__cat-group">';
-          html += '<p class="exhibit-modal__cat-title' + (isCatActive ? ' is-active' : '') + '">' + catName + '</p>';
-          html += '<div class="exhibit-modal__cat-items">';
-          items.forEach(function (item) {
-            var active = item.key === exhibit.key;
-            html += '<p class="exhibit-modal__cat-item" data-key="' + item.key + '"'
-              + (active ? ' style="color:' + item.color + '"' : '')
-              + '>' + item.badge + '. ' + item.name + '</p>';
-          });
-          html += '</div></div>';
-        });
-        modalSide.innerHTML = html;
-
-        modal.classList.remove('is-content-entering');
-        void modal.offsetWidth;
-        modal.classList.add('is-content-entering');
-        modal.classList.add('is-open');
-        modal.setAttribute('aria-hidden', 'false');
-        document.body.style.overflow = 'hidden';
-      };
-
-      function closeModal() {
-        modal.classList.remove('is-open');
-        modal.setAttribute('aria-hidden', 'true');
-        document.body.style.overflow = '';
-      }
-
-      /* 초기 Jeju 썸네일 클릭 바인딩 */
-      document.querySelectorAll('.loc-map__thumb-card').forEach(function (card) {
-        card.addEventListener('click', function () {
-          var key     = card.getAttribute('data-key');
-          var exhibit = (EXHIBITS_BY_LOC[currentGuideMapLoc] || []).find(function (e) { return e.key === key; });
-          if (exhibit) openGuideMapModal(exhibit);
-        });
-      });
-
-      /* 가이드 맵 이미지 클릭 → 첫 번째 전시 모달 */
-      var mapImgWrap = document.querySelector('.loc-map__img-wrap');
-      if (mapImgWrap) {
-        mapImgWrap.addEventListener('click', function () {
-          var exhibits = EXHIBITS_BY_LOC[currentGuideMapLoc] || [];
-          if (exhibits.length) openGuideMapModal(exhibits[0]);
-        });
-      }
-
-      /* 사이드바 항목 클릭 → 해당 전시로 전환 */
-      modalSide.addEventListener('click', function (e) {
-        var item = e.target.closest('.exhibit-modal__cat-item[data-key]');
-        if (!item) return;
-        var key     = item.getAttribute('data-key');
-        var exhibit = (EXHIBITS_BY_LOC[currentGuideMapLoc] || []).find(function (e) { return e.key === key; });
-        if (exhibit) openGuideMapModal(exhibit);
-      });
-
-      closeBtn.addEventListener('click', closeModal);
-      backdrop.addEventListener('click', closeModal);
-      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeModal(); });
-    })();
-
-    /* ── 층 탭 전환 ── */
-    function bindFloorTabEvents() {
-      var floorTabs = document.querySelectorAll('.loc-floor-tab');
-      var mapImg    = document.querySelector('.loc-map__img');
-
-      floorTabs.forEach(function (tab) {
-        tab.addEventListener('click', function () {
-          var floor = tab.textContent.trim();
-          if (floor === currentFloor) return;
-
-          animateGuideMapChange(function () {
-            floorTabs.forEach(function (t) { t.classList.remove('is-active'); });
-            tab.classList.add('is-active');
-
-            currentFloor = floor;
-
-            var imgs = (FLOOR_MAP_IMGS[currentGuideMapLoc] || {});
-            if (imgs[floor] && mapImg) {
-              mapImg.src = imgs[floor];
-              mapImg.alt = '아쿠아플라넷 가이드 맵 ' + floor;
-            }
-
-            var floorExhibits = (EXHIBITS_BY_FLOOR[currentGuideMapLoc] || {})[floor];
-            if (floorExhibits !== undefined) {
-              EXHIBITS_BY_LOC[currentGuideMapLoc] = floorExhibits;
-            }
-            if (EXHIBITS_BY_LOC[currentGuideMapLoc] && EXHIBITS_BY_LOC[currentGuideMapLoc].length) {
-              renderGuideMapThumbs(currentGuideMapLoc);
-            } else {
-              var track = document.getElementById('thumb-track');
-              if (track) track.innerHTML = '';
-            }
-          });
-        });
-      });
-    }
-
-    function updateFloorTabs(locKey) {
-      var locDef    = FLOOR_TABS_BY_LOC[locKey] || {};
-      var floors    = locDef.tabs || ['2F', '1F', 'B1F'];
-      var defFloor  = locDef.default || floors[0];
-      var container = document.querySelector('.loc-floor-tabs');
-      if (!container) return;
-      container.innerHTML = floors.map(function (f) {
-        return '<button class="loc-floor-tab' + (f === defFloor ? ' is-active' : '') + '" type="button">' + f + '</button>';
-      }).join('');
-      bindFloorTabEvents();
-    }
-
-    bindFloorTabEvents();
-
-    /* ── 섹션 사이드 내비게이션 ── */
-    (function () {
-      var items = document.querySelectorAll('.loc-side-nav__item[data-target]');
-
-      var nav = document.querySelector('.loc-side-nav');
-
-      window.locSideNavUpdate = function (index) {
-        if (nav) nav.classList.toggle('is-visible', index >= 2 && index <= 4);
-        items.forEach(function (item) {
-          item.classList.toggle('is-active', +item.getAttribute('data-target') === index);
-        });
-      };
-
-      items.forEach(function (item) {
-        item.addEventListener('click', function () {
-          var target = +item.getAttribute('data-target');
-          if (typeof window.locSideNavUpdate === 'function') window.locSideNavUpdate(target);
-          var fn = window.locForceAnimateTo || window.locAnimateTo;
-          if (typeof fn === 'function') fn(target);
-        });
-      });
-    })();
-
-    /* ── 지점 탭 전환 ── */
-    (function () {
-      var LOCS = {
-        jeju: {
-          img: 'assets/images/jeju.png',
-          en: 'Jeju', kr: '제주',
-          sub: '제주의 바다를 담은 국내 최대 규모 아쿠아리움',
-          addr: '제주특별자치도 서귀포시 성산읍 섭지코지로 95', tel: '1833-7001',
-          quote: '<p><span class="loc-info__qm">"</span><strong>유네스코 인류무형문화유산에</strong> 등재된</p><p><strong>제주 해녀의 감동</strong>을 바로 눈앞에서 느껴보세요<span class="loc-info__qm loc-info__qm--close">"</span></p>',
-          secSub: '아쿠아플라넷 제주의 주요 프로그램을 소개합니다',
-          programDesc: '<strong>제주의 푸른 바다</strong>와 <strong>해양 생태계</strong>를 테마로 구성된 국내 대표 아쿠아리움입니다<br><strong>대형 메인수조</strong>와 <strong>다양한 해양생물 전시</strong>를 통해 <strong>제주 바다의 아름다움</strong>과 <strong>생명의 가치</strong>를 경험할 수 있습니다',
-          programs: [
-            { img: 'assets/images/image 140.png',    title: '오션 아레나 특별 공연' },
-            { img: 'assets/images/jejuProgram1.png', title: '해녀 할망의 바당 이야기' }
-          ],
-          desc: [
-            '아시아 최대 규모(연면적 2만 5600m², 1만 800톤)를 자랑하며, 단일 수조로는 세계 최대급을 보유하고 있습니다.',
-            '아쿠아플라넷 제주의 전시생물은 500여 종 2만 8000마리이며, 제주의 앞 바다를 재현한 초대형 수조 \'제주의 바다\'를 비롯해 \'해양과학 체험관, 대형 해양공연장\' 등 운영하고 있습니다.'
-          ],
-          openingSub: '아쿠아플라넷 제주의 운영 시간을 알려드립니다',
-          openingStatus: '연중 무휴',
-          openingTime: '09:30 - 18:00',
-          openingNote: '매표 마감시간은 17:00이며, 입장 마감시간은 17:30이오니 이용에 참고 부탁드립니다'
-        },
-        yeosu: {
-          img: 'assets/images/Frame 22.png',
-          en: 'Yeosu', kr: '여수',
-          sub: '여수의 바다를 담은 남해 대표 아쿠아리움',
-          addr: '전라남도 여수시 오동도로 61-11', tel: '1833-7001',
-          quote: '<p><span class="loc-info__qm">"</span>세계의 바다를 담은 이곳에서 경외감을 넘어,</p><p><strong>생명 보존에 대한 필요성</strong>을 느껴보세요<span class="loc-info__qm loc-info__qm--close">"</span></p>',
-          secSub: '아쿠아플라넷 여수의 주요 프로그램을 소개합니다',
-          programDesc: '국내 최대 규모급 아쿠아리움으로 다양한 해양생물과 공연 콘텐츠를 선보입니다<br>벨루가와 대형 메인수조를 비롯해 여수 바다를 배경으로 한 차별화된 관람 경험을 제공합니다',
-          programs: [
-            { img: 'assets/images/Frame 139.png', title: "최초 수중 아이돌 퍼포먼스 '시크릿 에이전트 뉴이브'" },
-            { img: 'assets/images/image 138.png', title: '오션라이프 만찬-메인수조 친구들 식사시간' }
-          ],
-          desc: [
-            '전남 여수시 여수 신항 제2부두 인근에 자리한 국내 2위 규모의 아쿠아리움으로 특히, 국내에서는 처음으로 지상(4층 규모)에 들어선다는 점이 특징입니다.',
-            '300여 종 5만 5000여마리의 해양생물이 살고 있고, \'벨루가(흰 고래)\', \'푸른바다거북\' 등 멸종위기 생물들의 종보전 연구를 진행하고 있습니다.'
-          ],
-          openingSub: '아쿠아플라넷 여수의 운영 시간을 알려드립니다',
-          openingStatus: '연중 무휴',
-          openingTime: '09:30 - 19:00',
-          openingNote: '매표 및 입장 마감시간은 18:00이오니 이용에 참고 부탁드립니다'
-        },
-        ilsan: {
-          img: 'assets/images/Frame 19.png',
-          en: 'Ilsan', kr: '일산',
-          sub: '일산 호수공원 옆 국내 대표 아쿠아리움',
-          addr: '경기도 고양시 일산동구 장항동 838', tel: '1833-7001',
-          quote: '<p><span class="loc-info__qm">"</span>국내에서 처음으로 실내동물원이 결합된</p><p><strong>컨버전스 아쿠아리움</strong>을 만나보세요<span class="loc-info__qm loc-info__qm--close">"</span></p>',
-          secSub: '아쿠아플라넷 일산의 주요 프로그램을 소개합니다',
-          programDesc: '도심 가까이에서 바다를 경험할 수 있는 수도권 대표 아쿠아리움입니다<br>국내 유일 바다코끼리와 다양한 생물 전시를 통해 교육과 체험이 결합된 해양문화공간을 제공합니다',
-          programs: [
-            { img: 'assets/images/image 136.png', title: '국내 유일! 바다코끼리 자매 메리&바랴 생태설명회' },
-            { img: 'assets/images/programIL.png', title: '메인수조 투명보트 탑승 체험' }
-          ],
-          desc: [
-            '초대형 규모(연면적 1만 4660m², 수조량 4300톤)를 자랑하며 최대 규모 2000톤에 달하는 대형수조를 비롯해 수조 44개, 동물사 9개와 조류방사장 등 관람과 체험을 동시에 즐길 수 있는 \'도심 속 체험형 복합관람시설\'을 표방하고 있습니다.',
-            '특히 대형수조 \'딥 블루오션\'에서의 신기한 마술공연, 다양한 생태설명회가 열리는 \'오션 아레나\', 정글에 사는 동물친구들을 만나는 \'나무 쉼터\' 등을 운영하여 재미와 교육을 동시에 느낄 수 있는 다양한 콘텐츠들을 접할 수 있습니다.'
-          ],
-          openingSub: '아쿠아플라넷 일산의 운영 시간을 알려드립니다',
-          openingStatus: '연중 무휴',
-          openingTime: '10:00 - 18:00',
-          openingNote: '매표 및 입장 마감시간은 17:00이오니 이용에 참고 부탁드립니다'
-        },
-        gwanggyo: {
-          img: 'assets/images/Frame 20.png',
-          en: 'Gwanggyo', kr: '광교',
-          sub: '광교 수변도시의 아름다운 아쿠아리움',
-          addr: '경기도 수원시 영통구 광교호수공원로 300 포레나 광교 B1F', tel: '1833-7001',
-          quote: '<p><span class="loc-info__qm">"</span>다양한 교육&amp;체험 프로그램과 다양한 공연 등</p><p><strong>기존 아쿠아리움과 차별화된 환상적인 콘텐츠</strong>를 365일 체험해보세요<span class="loc-info__qm loc-info__qm--close">"</span></p>',
-          secSub: '아쿠아플라넷 광교의 주요 프로그램을 소개합니다',
-          programDesc: '쇼핑과 문화, 체험이 결합된 도심형 아쿠아리움입니다<br>생물 관람뿐 아니라 체험 콘텐츠와 다양한 테마 공간을 통해 새로운 해양문화 경험을 제공합니다',
-          programs: [
-            { img: 'assets/images/gwanggyo_guide_map04.jpg', title: "아쿠아플라넷 광교의 마스코트! '펭귄' 생태설명회" },
-            { img: 'assets/images/programIl2.png',           title: '머메이드쇼' }
-          ],
-          desc: [
-            '지금까지 경험해보지 못했던 Funny한 체험과 Fantasy한 바닷속 세상, 아쿠아플라넷 광교입니다.',
-            '도심 속 바다에 살고 있는 210여종 30,000마리의 해양 및 육지 생물들을 가장 가까운 거리에서 생생하게 만나보세요.',
-            '빛과 생물이 어우러진, 환상의 아쿠아리움, 아쿠아플라넷 광교에서 바닷속 탐험의 즐거움을 느껴보세요.'
-          ],
-          openingSub: '아쿠아플라넷 광교의 운영 시간을 알려드립니다',
-          openingStatus: '연중 무휴',
-          openingTime: '10:30 - 19:30',
-          openingNote: '매표 및 입장 마감시간은 18:30이오니 이용에 참고 부탁드립니다'
-        }
-      };
-
-      var cityEn         = document.getElementById('loc-city-en');
-      var citySub        = document.getElementById('loc-city-sub');
-      var cityKr         = document.getElementById('loc-city-kr');
-      var cityAddr       = document.getElementById('loc-city-addr');
-      var cityTel        = document.getElementById('loc-city-tel');
-      var cityQuote      = document.getElementById('loc-city-quote');
-      var cityDesc       = document.getElementById('loc-city-desc');
-      var programsDesc   = document.getElementById('loc-programs-desc');
-      var secSubPrograms = document.getElementById('loc-sec-sub-programs');
-      var secSubMap      = document.getElementById('loc-sec-sub-map');
-      var progImg1       = document.getElementById('loc-prog-img-1');
-      var progTitle1     = document.getElementById('loc-prog-title-1');
-      var progImg2       = document.getElementById('loc-prog-img-2');
-      var progTitle2     = document.getElementById('loc-prog-title-2');
-      var cardImg        = document.querySelector('.loc-info__img');
-      var secSubOpening  = document.getElementById('loc-sec-sub-opening');
-      var openingStatus  = document.getElementById('loc-opening-status');
-      var openingTime    = document.getElementById('loc-opening-time');
-      var openingNote    = document.getElementById('loc-opening-note');
-
-      function animateBranchContentChange(updateFn) {
-        var infoCard = document.querySelector('.loc-info__card');
-        var heroContent = document.querySelector('.loc-hero__content');
-        var programContent = [programsDesc, progImg1, progTitle1, progImg2, progTitle2].filter(Boolean);
-        var openingContent = [secSubOpening, openingStatus, openingTime, openingNote].filter(Boolean);
-        var targets = [infoCard, heroContent].concat(programContent).concat(openingContent).filter(Boolean);
-
-        targets.forEach(function (el) { el.classList.add('is-switching'); });
-
-        window.setTimeout(function () {
-          updateFn();
-          window.requestAnimationFrame(function () {
-            window.requestAnimationFrame(function () {
-              targets.forEach(function (el) { el.classList.remove('is-switching'); });
-            });
-          });
-        }, 200);
-      }
-
-      /* ── URL 파라미터로 지점 자동 선택 ── */
-      function applyLocKey(locKey) {
-        var loc = LOCS[locKey];
-        if (!loc || locKey === currentGuideMapLoc) return;
-
-        /* GNB 드롭다운 활성 상태 업데이트 */
-        document.querySelectorAll('[data-gnb-loc]').forEach(function (el) {
-          el.classList.toggle('gnb__dropdown-item--active', el.getAttribute('data-gnb-loc') === locKey);
-        });
-
-        /* 컨텐츠 즉시 교체 (페이지 진입 시 애니메이션 없음) */
-        if (cardImg && loc.img) { cardImg.src = loc.img; cardImg.alt = '아쿠아플라넷 ' + loc.kr + ' 전경'; }
-        if (cityEn)         cityEn.textContent         = loc.en;
-        if (citySub)        citySub.textContent        = loc.sub;
-        if (cityKr)         cityKr.textContent         = loc.kr;
-        if (cityAddr)       cityAddr.textContent       = loc.addr;
-        if (cityTel)        cityTel.textContent        = 'TEL. ' + loc.tel;
-        if (cityQuote)      cityQuote.innerHTML        = loc.quote;
-        if (cityDesc)       cityDesc.innerHTML         = loc.desc.map(function (p) { return '<p>' + p + '</p>'; }).join('');
-        if (programsDesc)   programsDesc.innerHTML     = loc.programDesc;
-        if (secSubPrograms) secSubPrograms.textContent = loc.secSub;
-        if (secSubMap)      secSubMap.textContent      = loc.secSub;
-        if (loc.programs) {
-          if (progImg1)   { progImg1.src = loc.programs[0].img;   progImg1.alt = loc.programs[0].title; }
-          if (progTitle1) { progTitle1.textContent = loc.programs[0].title; }
-          if (progImg2)   { progImg2.src = loc.programs[1].img;   progImg2.alt = loc.programs[1].title; }
-          if (progTitle2) { progTitle2.textContent = loc.programs[1].title; }
-        }
-        if (secSubOpening) secSubOpening.textContent = loc.openingSub;
-        if (openingStatus) openingStatus.textContent  = loc.openingStatus;
-        if (openingTime)   openingTime.textContent    = loc.openingTime;
-        if (openingNote)   openingNote.textContent    = loc.openingNote;
-
-        /* 가이드맵 전환 */
-        currentGuideMapLoc = locKey;
-        updateFloorTabs(locKey);
-        var defaultFloor = (FLOOR_TABS_BY_LOC[locKey] || {}).default || '2F';
-        currentFloor = defaultFloor;
-        var mapImgEl  = document.querySelector('.loc-map__img');
-        var floorImgs = (FLOOR_MAP_IMGS[locKey] || {});
-        if (floorImgs[defaultFloor] && mapImgEl) {
-          mapImgEl.src = floorImgs[defaultFloor];
-          mapImgEl.alt = '아쿠아플라넷 가이드 맵 ' + defaultFloor;
-        }
-        if (EXHIBITS_BY_FLOOR[locKey]) {
-          EXHIBITS_BY_LOC[locKey] = EXHIBITS_BY_FLOOR[locKey][defaultFloor] || [];
-        }
-        if (EXHIBITS_BY_LOC[locKey] && EXHIBITS_BY_LOC[locKey].length) {
-          renderGuideMapThumbs(locKey);
-        } else {
-          var mapTrack = document.getElementById('thumb-track');
-          if (mapTrack) mapTrack.innerHTML = '';
-        }
-      }
-
-      /* URL 파라미터 읽기 */
-      var urlParam = new URLSearchParams(window.location.search).get('loc');
-      var initLoc  = urlParam ? urlParam.toLowerCase() : 'jeju';
-      if (initLoc !== 'jeju' && LOCS[initLoc]) {
-        applyLocKey(initLoc);
-      } else {
-        /* 기본 제주 - GNB 드롭다운 활성 표시 */
-        document.querySelectorAll('[data-gnb-loc]').forEach(function (el) {
-          el.classList.toggle('gnb__dropdown-item--active', el.getAttribute('data-gnb-loc') === 'jeju');
-        });
-      }
-    })();
-  </script>
-
+  <script src="js/location.js"></script>
+  <script type="module" src="js/footer_logo.js"></script>
 </body>
 </html>
