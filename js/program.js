@@ -374,24 +374,15 @@
     });
   });
 
-  if (locationTabs.length || gnbLocationItems.length) {
-    // URL 파라미터(?loc=Yeosu 등)가 있으면 해당 지역으로 진입
+  if (locationTabs.length) {
+    // URL 파라미터(?loc=Yeosu 등)가 있으면 해당 지역으로 진입 (다른 페이지 GNB 드롭다운에서 연결)
     const locParam = new URLSearchParams(window.location.search).get('loc');
     const fromUrl = LOCATIONS.find(l => l.toLowerCase() === (locParam || '').toLowerCase());
     if (fromUrl) {
       selectLocation(fromUrl);
     } else {
-      const activeTab = document.querySelector('.cartegory-tabs-a__item--active');
-      const activeGnb = document.querySelector('.gnb__dropdown-item--active[data-location]');
-      if (activeTab) {
-        selectLocation(activeTab.textContent.trim());
-      } else if (activeGnb) {
-        selectLocation(activeGnb.dataset.location);
-      } else if (locationTabs.length) {
-        selectLocation(locationTabs[0].textContent.trim());
-      } else if (gnbLocationItems.length) {
-        selectLocation(gnbLocationItems[0].dataset.location);
-      }
+      const activeTab = document.querySelector('.cartegory-tabs-a__item--active') || locationTabs[0];
+      selectLocation(activeTab.textContent.trim());
     }
   }
 
@@ -578,31 +569,36 @@
       }
 
       slot.addEventListener('click', function() {
-        openByKey(slot.dataset.program);
+        const key = slot.dataset.program;
+        if (!key) return;
+        const card = guideSection.querySelector('.program-card[data-program="' + key + '"]');
+        if (!card || !openDetail) return;
+        openDetail(card);
+        if (smoothScrollTo) {
+          requestAnimationFrame(() => {
+            const top = card.getBoundingClientRect().top + window.scrollY - 140;
+            smoothScrollTo(top, 900);
+          });
+        }
       });
     });
 
-    // 새 카드형 레이아웃 .time-block__item → 모달 열기
+    // 새 카드형 레이아웃 .time-block__item → 같은 지역 가이드 카드 연결
     scheduleSection.querySelectorAll('.time-block__item[data-program]').forEach(item => {
       item.addEventListener('click', function() {
-        openByKey(item.dataset.program);
+        const key = item.dataset.program;
+        if (!key) return;
+        const card = guideSection.querySelector('.program-card[data-program="' + key + '"]');
+        if (!card || !openDetail) return;
+        openDetail(card);
+        if (smoothScrollTo) {
+          requestAnimationFrame(() => {
+            const top = card.getBoundingClientRect().top + window.scrollY - 140;
+            smoothScrollTo(top, 900);
+          });
+        }
       });
     });
-
-    function openByKey(key) {
-      if (!key || !guideSection) return;
-      const card = guideSection.querySelector('.program-card[data-program="' + key + '"]');
-      if (!card) return;
-      const nameEl = card.querySelector('.program-card__title');
-      const tagEl  = card.querySelector('.tag');
-      const imgEl  = card.querySelector('.program-card__detail-img');
-      openDetailModal({
-        key,
-        name:    nameEl ? nameEl.textContent.trim() : '',
-        tagText: tagEl  ? tagEl.textContent.trim()  : '',
-        imgSrc:  imgEl  ? imgEl.getAttribute('src') : ''
-      }, guideSection);
-    }
   });
 
   // ============================================================
@@ -622,511 +618,6 @@
         programCards.forEach(card => {
           const show = !filter || card.querySelector('.' + filter);
           card.style.display = show ? '' : 'none';
-        });
-      });
-    });
-  });
-
-  // ============================================================
-  // Program Detail Modal (싱글톤 — 모든 캐러셀 공유)
-  // ============================================================
-  const detailOverlay = document.createElement('div');
-  detailOverlay.className = 'program-detail-overlay';
-  detailOverlay.innerHTML = `
-    <div class="program-detail-modal">
-      <button class="program-detail-modal__close" aria-label="닫기">
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-          <line x1="3" y1="3" x2="17" y2="17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          <line x1="17" y1="3" x2="3" y2="17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-      </button>
-      <div class="program-detail-modal__img-wrap">
-        <img class="program-detail-modal__img" src="" alt="">
-      </div>
-      <div class="program-detail-modal__body">
-        <span class="program-detail-modal__tag tag"></span>
-        <h2 class="program-detail-modal__title"></h2>
-        <div class="program-detail-modal__content"></div>
-      </div>
-    </div>
-  `;
-  document.body.appendChild(detailOverlay);
-
-  function openDetailModal(prog, guideSection) {
-    const modalImg     = detailOverlay.querySelector('.program-detail-modal__img');
-    const modalTag     = detailOverlay.querySelector('.program-detail-modal__tag');
-    const modalTitle   = detailOverlay.querySelector('.program-detail-modal__title');
-    const modalContent = detailOverlay.querySelector('.program-detail-modal__content');
-
-    modalTag.className = 'program-detail-modal__tag tag';
-    if (prog.tagText === '생태설명회')   modalTag.classList.add('tag--education');
-    else if (prog.tagText === '공연프로그램') modalTag.classList.add('tag--performance');
-    else if (prog.tagText === '체험프로그램') modalTag.classList.add('tag--experience');
-    modalTag.textContent = prog.tagText;
-    modalTitle.textContent = prog.name;
-    modalImg.src = prog.imgSrc || '';
-    modalImg.alt = prog.name;
-
-    modalContent.innerHTML = '';
-    if (guideSection && prog.key) {
-      const programCard = guideSection.querySelector(`.program-card[data-program="${prog.key}"]`);
-      if (programCard) {
-        const detail = programCard.querySelector('.program-card__detail');
-        if (detail) {
-          Array.from(detail.children).forEach(child => {
-            if (!child.classList.contains('program-card__detail-img')) {
-              modalContent.appendChild(child.cloneNode(true));
-            }
-          });
-        }
-      }
-    }
-
-    // 클론된 이미지 교체
-    modalContent.querySelectorAll('.detail-modal__location img').forEach(img => {
-      img.src = 'assets/images/chevron_right_white.svg';
-    });
-    modalContent.querySelectorAll('.detail-modal__meta-label .img img').forEach(img => {
-      img.src = 'assets/images/alert_white.svg';
-    });
-
-    detailOverlay.classList.add('program-detail-overlay--open');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function closeDetailModal() {
-    detailOverlay.classList.remove('program-detail-overlay--open');
-    document.body.style.overflow = '';
-  }
-
-  detailOverlay.addEventListener('click', e => {
-    if (e.target === detailOverlay) closeDetailModal();
-  });
-  detailOverlay.querySelector('.program-detail-modal__close').addEventListener('click', closeDetailModal);
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') closeDetailModal();
-  });
-
-  // ============================================================
-  // Program Preview Carousel — .schedule-time-grid 데이터 기반 동적 생성
-  // ============================================================
-  document.querySelectorAll('.section--schedule').forEach(scheduleSection => {
-    const previewEls = scheduleSection.querySelectorAll('.program-preview');
-    if (!previewEls.length) return;
-
-    const loc = LOCATIONS.find(l => scheduleSection.classList.contains(l));
-    const guideSection = document.querySelector(`.section--guide${loc ? '.' + loc : ''}`);
-
-    // 고유 프로그램 수집 (schedule-time-grid 순서 기준)
-    const seen = new Set();
-    const programs = [];
-    scheduleSection.querySelectorAll('.schedule-time-grid .time-block__item[data-program]').forEach(item => {
-      const key = item.dataset.program;
-      if (seen.has(key)) return;
-      seen.add(key);
-
-      const nameEl = item.querySelector('.time-block__item-name');
-      const tagEl  = item.querySelector('.tag');
-      let imgSrc = '';
-
-      if (guideSection) {
-        const card = guideSection.querySelector(`.program-card[data-program="${key}"]`);
-        const img  = card && card.querySelector('.program-card__detail-img');
-        if (img) imgSrc = img.getAttribute('src');
-      }
-
-      programs.push({
-        key,
-        name:    nameEl ? nameEl.textContent.trim() : '',
-        tagText: tagEl  ? tagEl.textContent.trim()  : '',
-        imgSrc
-      });
-    });
-
-    if (programs.length < 2) return;
-
-    // 모든 프로그램 이미지 미리 캐시
-    programs.forEach(prog => {
-      if (prog.imgSrc) { const img = new Image(); img.src = prog.imgSrc; }
-    });
-
-    previewEls.forEach(previewEl => {
-    let carouselPrograms = programs.slice();
-    let total = carouselPrograms.length;
-    const defaultName = previewEl.dataset.defaultProgram || '';
-    const defaultIdx = defaultName ? carouselPrograms.findIndex(p => p.name === defaultName) : -1;
-    let currentIndex = defaultIdx >= 0 ? defaultIdx : 0;
-    let animating = false;
-
-    function setCardTransform(card, cPct) {
-      const dist  = Math.abs(cPct - 50);
-      const t     = Math.min(1, dist / STEP);
-      const scale = 1 - t * (1 - SW / CW);
-      const tx    = (cPct - 50) * (100 / CW);
-      // 슬롯 근처(STEP*1.2 이내)에서만 페이드인/아웃 — 전환 중 외부 카드 안 보임
-      const farT  = Math.max(0, (dist - STEP) / (STEP * 0.2));
-      const op    = dist >= STEP * 1.2 ? 0 : dist > STEP ? 0.85 * (1 - farT) : 1 - t * 0.15;
-      const z     = dist < STEP * 0.5 ? 2 : dist >= STEP * 2 ? 0 : 1;
-      card.style.transform = `translateY(-50%) translateX(${tx.toFixed(3)}%) scale(${scale.toFixed(4)})`;
-      card.style.opacity   = op.toFixed(3);
-      card.style.zIndex    = String(z);
-    }
-
-    const TAG_CLASS = { '생태설명회': 'tag--education', '공연프로그램': 'tag--performance', '체험프로그램': 'tag--experience' };
-
-    function makeCard(prog) {
-      const div = document.createElement('div');
-      div.className = 'program-preview__card';
-      const tagCls = TAG_CLASS[prog.tagText] || '';
-      div.innerHTML = `
-        <img src="${prog.imgSrc}" alt="${prog.name}">
-        <div class="program-preview__info">
-          <span class="program-preview__tag ${tagCls}">${prog.tagText}</span>
-          <p class="program-preview__title">${prog.name}</p>
-        </div>`;
-      return div;
-    }
-
-    function fillCard(card, prog) {
-      card.querySelector('img').src = prog.imgSrc || '';
-      card.querySelector('img').alt = prog.name;
-      const tagEl = card.querySelector('.program-preview__tag');
-      tagEl.className = 'program-preview__tag ' + (TAG_CLASS[prog.tagText] || '');
-      tagEl.textContent  = prog.tagText;
-      card.querySelector('.program-preview__title').textContent = prog.name;
-    }
-
-    let cards     = [];
-    let extraCard = null; // 항상 DOM에 존재, 드래그 시 재사용
-
-    function buildCarousel() {
-      previewEl.innerHTML = '';
-      extraCard = null;
-
-      if (total === 1) {
-        const C = makeCard(carouselPrograms[0]);
-        C.style.transition = 'none';
-        setCardTransform(C, 50);
-        previewEl.append(C);
-        cards = [null, C, null];
-        requestAnimationFrame(() => requestAnimationFrame(() => { C.style.transition = ''; }));
-        return;
-      }
-
-      const prevIdx  = (currentIndex - 1 + total) % total;
-      const nextIdx  = (currentIndex + 1) % total;
-      const extraIdx = (currentIndex + 2) % total;
-
-      const L = makeCard(carouselPrograms[prevIdx]);
-      const C = makeCard(carouselPrograms[currentIndex]);
-      const R = makeCard(carouselPrograms[nextIdx]);
-      extraCard = makeCard(carouselPrograms[extraIdx]);
-
-      [L, C, R, extraCard].forEach(el => { el.style.transition = 'none'; });
-      setCardTransform(L, 24.5);
-      setCardTransform(C, 50);
-      setCardTransform(R, 75.5);
-      setCardTransform(extraCard, 101 + STEP);
-
-      previewEl.append(L, C, R, extraCard);
-      cards = [L, C, R];
-
-      requestAnimationFrame(() => requestAnimationFrame(() => {
-        [L, C, R].forEach(el => { el.style.transition = ''; });
-      }));
-    }
-
-    // ── 트랙 슬라이딩 방식 ──────────────────────────────────────
-    // 카드들이 드래그와 함께 물리적으로 이동하면서 중심 거리에 따라 크기 변화
-    //
-    // 슬롯 center 위치(컨테이너 너비 %):
-    //   L=24.5  C=50  R=75.5  (간격 25.5%)
-    // width: center(63%)  side(49%)  diff=14%
-    //
-    const STEP     = 25.5; // 슬롯 간 center 간격 (%)
-    const CW       = 63;   // center 카드 width %
-    let SW         = parseInt(previewEl.dataset.sw ?? '57', 10); // side 카드 width %
-    const SNAP_PX  = 160;  // 전환 확정 최소 드래그 픽셀
-
-    let dragActive   = false;
-    let dragDir      = 0;
-    let dragPrepared = false;
-    let dragStartX   = 0;
-    let track        = [];   // 드래그 중 4장의 카드 배열
-
-    // offsetPct 만큼 이동 (transition 없이, 직접 transform 적용)
-    function applyTrack(offsetPct) {
-      const bases = dragDir > 0
-        ? [24.5, 50, 75.5, 101]
-        : [-1, 24.5, 50, 75.5];
-
-      track.forEach((card, i) => {
-        const c = bases[i] - offsetPct * dragDir;
-        setCardTransform(card, c);
-      });
-    }
-
-    // 드래그 방향 확정 시: extraCard를 재사용해 화면 밖에 배치 (DOM 삽입 없음)
-    function prepareTrack(dir) {
-      const [L, C, R] = cards;
-      [L, C, R, extraCard].forEach(el => { el.style.transition = 'none'; });
-
-      fillCard(extraCard, carouselPrograms[
-        dir > 0
-          ? (currentIndex + 2) % total
-          : (currentIndex - 2 + total) % total
-      ]);
-
-      if (dir > 0) {
-        setCardTransform(extraCard, 101 + STEP); // 오른쪽 밖 (opacity=0)
-        track = [L, C, R, extraCard];
-      } else {
-        setCardTransform(extraCard, -1 - STEP); // 왼쪽 밖 (opacity=0)
-        track = [extraCard, L, C, R];
-      }
-    }
-
-    // 손 뗄 때: 확정 또는 복귀 스냅
-    let pendingDir     = 0;
-    let moveRafId      = null;
-    let stepsCommitted = 0;
-
-    function snapTrack(commit, dur = 280) {
-      animating = true;
-      const dir    = dragDir;
-      const DUR    = dur;
-      const target = commit ? STEP : 0;
-
-      track.forEach(el => {
-        el.style.transition = `transform ${DUR}ms cubic-bezier(0.25,0.46,0.45,0.94), opacity ${DUR}ms ease`;
-      });
-      applyTrack(target);
-
-      setTimeout(() => {
-        track.forEach(el => { el.style.transition = ''; });
-
-        if (commit) {
-          if (dir > 0) {
-            currentIndex = (currentIndex + 1) % total;
-            const [oldL, newL, newC, newR] = track;
-            // oldL을 제거하지 않고 새 extraCard로 재사용
-            extraCard = oldL;
-            setCardTransform(extraCard, 101 + STEP);
-            cards = [newL, newC, newR];
-          } else {
-            currentIndex = (currentIndex - 1 + total) % total;
-            const [newL, newC, newR, oldR] = track;
-            extraCard = oldR;
-            setCardTransform(extraCard, -1 - STEP);
-            cards = [newL, newC, newR];
-          }
-          track = cards;
-        } else {
-          // 복귀: extraCard를 다시 원래 자리로
-          setCardTransform(extraCard, dir > 0 ? 101 + STEP : -1 - STEP);
-          track = cards;
-        }
-
-        // 큐에 다음 방향이 있으면 바로 실행
-        if (pendingDir !== 0) {
-          const next = pendingDir;
-          pendingDir = 0;
-          dragDir = next;
-          prepareTrack(dragDir);
-          snapTrack(true, 220);
-          dragDir = 0;
-        } else {
-          animating = false;
-        }
-      }, DUR + 16);
-    }
-
-    // 드래그 중 한 스텝을 transition 없이 즉시 확정
-    function commitInstant(dir) {
-      track.forEach(el => { el.style.transition = 'none'; });
-      applyTrack(STEP);
-      if (dir > 0) {
-        currentIndex = (currentIndex + 1) % total;
-        const [oldL, newL, newC, newR] = track;
-        extraCard = oldL;
-        cards = [newL, newC, newR];
-      } else {
-        currentIndex = (currentIndex - 1 + total) % total;
-        const [newL, newC, newR, oldR] = track;
-        extraCard = oldR;
-        cards = [newL, newC, newR];
-      }
-      track = cards;
-    }
-
-    previewEl.style.userSelect = 'none';
-    previewEl.style.touchAction = 'pan-y';
-
-    previewEl.addEventListener('pointerdown', e => {
-      if (animating || total <= 1) return;
-      dragStartX      = e.clientX;
-      dragActive      = true;
-      dragDir         = 0;
-      dragPrepared    = false;
-      stepsCommitted  = 0;
-      previewEl.setPointerCapture(e.pointerId);
-    });
-
-    previewEl.addEventListener('pointermove', e => {
-      if (!dragActive || animating) return;
-      const delta = e.clientX - dragStartX;
-
-      if (!dragPrepared) {
-        if (Math.abs(delta) < 6) return;
-        dragDir = delta < 0 ? 1 : -1;
-        prepareTrack(dragDir);
-        dragPrepared = true;
-      }
-
-      const pxTotal = Math.abs(delta);
-      if (moveRafId) cancelAnimationFrame(moveRafId);
-      moveRafId = requestAnimationFrame(() => {
-        moveRafId = null;
-        // 드래그 거리가 SNAP_PX 배수를 넘을 때마다 즉시 커밋 → 연속 슬라이드
-        let pxRem = pxTotal - stepsCommitted * SNAP_PX;
-        while (pxRem >= SNAP_PX) {
-          commitInstant(dragDir);
-          stepsCommitted++;
-          prepareTrack(dragDir);
-          pxRem -= SNAP_PX;
-        }
-        applyTrack(pxRem / SNAP_PX * STEP);
-      });
-    });
-
-    previewEl.addEventListener('pointerup', e => {
-      if (!dragActive) return;
-      dragActive = false;
-      if (moveRafId) { cancelAnimationFrame(moveRafId); moveRafId = null; }
-      if (!dragPrepared) {
-        stepsCommitted = 0;
-        // setPointerCapture로 e.target이 previewEl이 되므로 elementFromPoint로 실제 요소 확인
-        const el = document.elementFromPoint(e.clientX, e.clientY);
-        const tappedCard = el && el.closest('.program-preview__card');
-        if (tappedCard && tappedCard === cards[1]) {
-          openDetailModal(carouselPrograms[currentIndex], guideSection);
-        }
-        return;
-      }
-
-      const pxTotal = Math.abs(e.clientX - dragStartX);
-      const pxRem   = pxTotal - stepsCommitted * SNAP_PX;
-      snapTrack(pxRem >= SNAP_PX * 0.3);
-      dragDir = 0; dragPrepared = false; stepsCommitted = 0;
-    });
-
-    previewEl.addEventListener('pointercancel', () => {
-      if (moveRafId) { cancelAnimationFrame(moveRafId); moveRafId = null; }
-      if (dragActive && dragPrepared) snapTrack(false);
-      dragActive = false; dragDir = 0; dragPrepared = false; stepsCommitted = 0;
-    });
-
-    previewEl.addEventListener('dragstart', e => e.preventDefault());
-
-    let wheelAccum   = 0;
-    let wheelResetId = null;
-    const WHEEL_THRESHOLD = 250;
-
-    previewEl.addEventListener('wheel', e => {
-      e.preventDefault();
-      if (total <= 1) return;
-      const raw = Math.abs(e.deltaX) >= Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
-      if (Math.abs(raw) < 1) return;
-      const dir = raw > 0 ? 1 : -1;
-
-      // 방향이 바뀌면 누적 초기화
-      if (wheelAccum !== 0 && Math.sign(raw) !== Math.sign(wheelAccum)) wheelAccum = 0;
-      wheelAccum += raw;
-
-      // 스크롤 멈추면 200ms 후 누적 초기화
-      if (wheelResetId) clearTimeout(wheelResetId);
-      wheelResetId = setTimeout(() => { wheelAccum = 0; wheelResetId = null; }, 200);
-
-      if (Math.abs(wheelAccum) < WHEEL_THRESHOLD) return;
-      wheelAccum = 0;
-
-      if (animating) { pendingDir = dir; return; }
-      dragDir = dir;
-      prepareTrack(dragDir);
-      snapTrack(true, 220);
-      dragDir = 0;
-    }, { passive: false });
-
-    buildCarousel();
-
-    // 자동 전환 (3.5초마다 다음 카드)
-    const AUTO_INTERVAL = 3500;
-    let autoTimer = null;
-
-    function startAuto() {
-      stopAuto();
-      if (total <= 1) return;
-      autoTimer = setInterval(() => {
-        if (animating || total <= 1) return;
-        dragDir = 1;
-        prepareTrack(dragDir);
-        snapTrack(true, 220);
-        dragDir = 0;
-      }, AUTO_INTERVAL);
-    }
-
-    function stopAuto() {
-      if (autoTimer) { clearInterval(autoTimer); autoTimer = null; }
-    }
-
-    // 사용자 조작 시 타이머 리셋
-    previewEl.addEventListener('pointerdown', startAuto, { capture: true });
-    previewEl.addEventListener('wheel', startAuto, { capture: true, passive: true });
-
-    startAuto();
-
-    // 탭 필터 연동
-    previewEl._setFilter = function(filterText) {
-      stopAuto();
-      carouselPrograms = filterText
-        ? programs.filter(p => p.tagText === filterText)
-        : programs.slice();
-      if (carouselPrograms.length < 1) carouselPrograms = programs.slice();
-      total = carouselPrograms.length;
-      const preferred = defaultName ? carouselPrograms.findIndex(p => p.name === defaultName) : -1;
-      currentIndex = preferred >= 0 ? preferred : 0;
-      animating = false;
-      pendingDir = 0;
-      buildCarousel();
-      startAuto();
-    };
-
-    }); // end previewEls.forEach
-
-  });
-
-  // ============================================================
-  // cartegory-tabs-b (schedule section) → program-preview + time-block 연동
-  // ============================================================
-  document.querySelectorAll('.section--schedule').forEach(scheduleSection => {
-    const tabsB = scheduleSection.querySelector('.cartegory-tabs-b');
-    if (!tabsB) return;
-
-    const tabItems = tabsB.querySelectorAll('.cartegory-tabs-b__item');
-
-    // 탭 순서: 전체 / 생태설명회 / 공연프로그램 / 체험프로그램
-    const tagMap = ['', '생태설명회', '공연프로그램', '체험프로그램'];
-
-    tabItems.forEach((tab, index) => {
-      tab.addEventListener('click', function() {
-        tabItems.forEach(t => t.classList.remove('cartegory-tabs-b__item--active'));
-        tab.classList.add('cartegory-tabs-b__item--active');
-
-        const filterText = tagMap[index];
-
-        // program-preview 캐러셀 필터 재빌드
-        scheduleSection.querySelectorAll('.program-preview').forEach(previewEl => {
-          if (previewEl._setFilter) previewEl._setFilter(filterText);
         });
       });
     });
@@ -1180,17 +671,6 @@
     }, { threshold: 0.3 });
 
     allSections.forEach(sec => observer.observe(sec));
-
-    // 히어로 섹션이 보이는 동안 nav 숨김
-    const heroEl = document.querySelector('.hero');
-    if (heroEl) {
-      const heroObserver = new IntersectionObserver(entries => {
-        const heroVisible = entries[0].isIntersecting;
-        nav.style.opacity = heroVisible ? '0' : '';
-        nav.style.pointerEvents = heroVisible ? 'none' : '';
-      }, { threshold: 0.05 });
-      heroObserver.observe(heroEl);
-    }
 
     // 뷰포트가 좁아져 nav가 container 우측과 겹치면 숨김
     const container = document.querySelector('.container');
