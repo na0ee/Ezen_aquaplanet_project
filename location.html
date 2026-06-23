@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
@@ -7,17 +7,29 @@
 
   <!-- Pretendard (국문) -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@latest/dist/web/static/pretendard.css" />
-  <!-- Poppins + EB Garamond (영문) -->
+  <!-- Poppins (ExtraLight 200 추가) + EB Garamond -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Nanum+Myeongjo:wght@400;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Poppins:wght@200;300;400;500&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/location.css" />
-  
+
+  <!-- Three.js importmap (footer_logo.js 용) -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
 </head>
 <body class="is-logo-at-header">
 
+  <!-- ================================================
+       GNB
+  ================================================ -->
   <header id="gnb" class="gnb">
     <div class="gnb__inner">
       <nav class="gnb__nav" aria-label="메인 메뉴">
@@ -63,52 +75,60 @@
     </div>
   </header>
 
-  <!-- 섹션 사이드 내비게이션 -->
+  <!-- 섹션 사이드 내비게이션 (Figma: Frame 1707482962) -->
   <nav class="loc-side-nav" aria-label="섹션 이동">
-    <button class="loc-side-nav__item" type="button" data-target="2">
+    <button class="loc-side-nav__item" type="button" data-target="programs">
       <span class="loc-side-nav__label">메인프로그램</span>
       <span class="loc-side-nav__line"></span>
     </button>
-    <button class="loc-side-nav__item" type="button" data-target="3">
+    <button class="loc-side-nav__item" type="button" data-target="guidemap">
       <span class="loc-side-nav__label">가이드맵</span>
       <span class="loc-side-nav__line"></span>
     </button>
-    <button class="loc-side-nav__item" type="button" data-target="4">
+    <button class="loc-side-nav__item" type="button" data-target="hours">
       <span class="loc-side-nav__label">운영시간</span>
       <span class="loc-side-nav__line"></span>
     </button>
   </nav>
 
-  <!-- ================================================
-       히어로 섹션
-  ================================================ -->
   <main>
-    <section class="loc-hero" aria-label="제주 지점 히어로">
 
       <!-- 히어로 텍스트 -->
       <div class="loc-hero__content">
-        <div class="loc-hero__title-wrap">
-          <span class="loc-hero__eyebrow">Welcome to</span>
-          <h1 class="loc-hero__title">aqua planet <em id="loc-city-en">Jeju</em></h1>
+
+        <!-- 텍스트 그룹 (Figma: Frame 330, 768×250) -->
+        <div class="loc-hero__text-group">
+
+          <!-- 타이틀 래퍼 (Figma: Frame 331, 768×194) -->
+          <div class="loc-hero__title-wrap">
+            <!-- "Welcome" (Figma: EB Garamond Medium Italic, 32px, rgba(255,255,255,0.9)) -->
+            <span class="loc-hero__eyebrow">Welcome</span>
+            <!-- "aqua planet" + "Jeju" (Figma: items-end, gap=16) -->
+            <div class="loc-hero__title-line">
+              <h1 class="loc-hero__title-main">aqua planet</h1>
+              <em class="loc-hero__title-city" id="loc-city-en">Jeju</em>
+            </div>
+          </div>
+
+          <!-- 서브텍스트 (Figma: Pretendard Light, 24px, text-center) -->
+          <p class="loc-hero__sub" id="loc-city-sub">
+            제주의 바다를 담은 국내 최대 규모 아쿠아리움
+          </p>
         </div>
-        <p class="loc-hero__sub" id="loc-city-sub">제주의 바다를 담은 국내 최대 규모 아쿠아리움</p>
-      </div>
 
-      <!-- 스크롤 인디케이터 -->
-      <div class="loc-scroll" aria-hidden="true">
-        <div class="loc-scroll__line"></div>
-        <p class="loc-scroll__text">Let's <em>Explore</em></p>
-      </div>
+        <!-- 스크롤 인디케이터 (Figma: Frame 338, 180×118) -->
+        <div class="loc-scroll" aria-hidden="true">
+          <div class="loc-scroll__line"></div>
+          <p class="loc-scroll__text">Let's <em>Explore</em></p>
+        </div>
 
-    </section>
+      </div><!-- /.loc-hero__content -->
 
-    <!-- ================================================
-         콘텐츠 래퍼 — Figma 단일 그라데이션 적용
-    ================================================ -->
-    <div class="loc-content-wrap">
+    </section><!-- /.loc-hero -->
 
     <!-- ================================================
-         지점 소개 카드 섹션
+         con1 섹션 (Figma node 278:306 — 1920×1080)
+         아쿠아플라넷 제주 지점 소개
     ================================================ -->
     <section class="loc-info" aria-label="제주 지점 소개">
       <div class="loc-info__card">
@@ -124,198 +144,213 @@
             <p id="loc-city-addr">제주특별자치도 서귀포시 성산읍 섭지코지로 95</p>
             <p id="loc-city-tel">TEL. 1833-7001</p>
           </div>
-          <blockquote class="loc-info__quote" id="loc-city-quote">
-            <p><span class="loc-info__qm">"</span><strong>유네스코 인류무형문화유산에</strong> 등재된</p>
-            <p><strong>제주 해녀의 감동</strong>을 바로 눈앞에서 느껴보세요<span class="loc-info__qm loc-info__qm--close">"</span></p>
+
+          <!-- 인용문 (Figma: Pretendard, 24px) -->
+          <blockquote class="loc-intro__quote" id="loc-city-quote">
+            <p><span class="loc-intro__qm">"</span><strong>유네스코 인류무형문화유산에</strong> 등재된</p>
+            <p><strong>제주 해녀의 감동</strong>을 바로 눈앞에서 느껴보세요<span class="loc-intro__qm">"</span></p>
           </blockquote>
-          <div class="loc-info__desc" id="loc-city-desc">
+
+          <!-- 설명 텍스트 (Figma: Pretendard Regular, 16px, text-justify, w=428) -->
+          <div class="loc-intro__desc" id="loc-city-desc">
             <p>아시아 최대 규모(연면적 2만 5600m², 1만 800톤)를 자랑하며, 단일 수조로는 세계 최대급을 보유하고 있습니다.</p>
             <p>아쿠아플라넷 제주의 전시생물은 500여 종 2만 8000마리이며, 제주의 앞 바다를 재현한 초대형 수조 '제주의 바다'를 비롯해 '해양과학 체험관, 대형 해양공연장' 등 운영하고 있습니다.</p>
           </div>
-        </div>
-      </div>
-    </section>
+
+        </div><!-- /.loc-intro__body -->
+
+        <!-- 하단 구분선 (Figma: Vector 101, w=423) -->
+        <div class="loc-intro__rule" aria-hidden="true"></div>
+
+      </div><!-- /.loc-intro__content -->
+
+    </section><!-- /.loc-intro -->
 
     <!-- ================================================
-         주요 프로그램 섹션
+         con02 섹션 (Figma node 278:27 — 1920×1134)
+         Main Programs
     ================================================ -->
-    <section class="loc-programs" aria-label="주요 프로그램">
-      <div class="loc-sec-title-box">
-        <h2 class="loc-sec-title">
-          <span class="loc-sec-title__light">Main </span><em class="loc-sec-title__serif">Programs</em>
+    <section class="loc-programs" id="programs" aria-label="주요 프로그램">
+
+      <!-- 타이틀 + 서브텍스트 (Figma: 278:58, centered, top=160, gap=14) -->
+      <div class="loc-programs__header">
+        <h2 class="loc-programs__title">
+          <span class="loc-programs__title-light">Main</span><em class="loc-programs__title-serif"> Programs</em>
         </h2>
-        <p class="loc-sec-sub" id="loc-sec-sub-programs">아쿠아플라넷 제주의 주요 프로그램을 소개합니다</p>
+        <p class="loc-programs__sub">
+          <strong>제주의 푸른 바다</strong>와 <strong>해양 생태계</strong>를 테마로 구성된 국내 대표 아쿠아리움입니다<br>
+          <strong>대형 메인수조</strong>와 <strong>다양한 해양생물 전시</strong>를 통해 <strong>제주 바다의 아름다움</strong>과 <strong>생명의 가치</strong>를 경험할 수 있습니다
+        </p>
       </div>
-      <p class="loc-programs__desc" id="loc-programs-desc">
-        <strong>제주의 푸른 바다</strong>와 <strong>해양 생태계</strong>를 테마로 구성된 국내 대표 아쿠아리움입니다<br>
-        <strong>대형 메인수조</strong>와 <strong>다양한 해양생물 전시</strong>를 통해 <strong>제주 바다의 아름다움</strong>과 <strong>생명의 가치</strong>를 경험할 수 있습니다
-      </p>
+
+      <!-- 카드 컨테이너 (Figma: 278:39, centered, top=462, p=16, gap=20, glass gradient) -->
       <div class="loc-programs__cards">
+
+        <!-- 카드 1 (Figma: 278:40, 633×400, rounded-14, overflow-hidden) -->
         <div class="loc-programs__card">
-          <img src="assets/images/image 140.png" alt="오션 아레나 특별 공연" class="loc-programs__card-img" id="loc-prog-img-1">
-          <div class="loc-programs__card-grad"></div>
-          <div class="loc-programs__card-footer loc-programs__card-footer--row">
-            <p class="loc-programs__card-title" id="loc-prog-title-1">오션 아레나 특별 공연</p>
-            <div class="loc-programs__card-btns">
-              <button class="loc-btn-white" type="button">보러가기</button>
-              <button class="loc-btn-outline" type="button">보러가기</button>
-            </div>
+          <img
+            src="assets/images/location_prog_01.jpg"
+            alt="오션 아레나 특별 공연"
+            class="loc-programs__card-img"
+          >
+          <!-- 그라데이션 오버레이 (Figma: 278:42, h=86, top=314) -->
+          <div class="loc-programs__card-grad" aria-hidden="true"></div>
+          <!-- 하단 타이틀 바 (Figma: 278:43, top=344, pb=24, px=24) -->
+          <div class="loc-programs__card-bar">
+            <p class="loc-programs__card-title">오션 아레나 특별 공연</p>
+            <a href="program.html" class="loc-programs__card-btn">보러가기</a>
           </div>
         </div>
+
+        <!-- 카드 2 (Figma: 278:49, 635×400, rounded-14, overflow-hidden) -->
         <div class="loc-programs__card">
-          <img src="assets/images/jejuProgram1.png" alt="해녀 할망의 바당 이야기" class="loc-programs__card-img" id="loc-prog-img-2">
-          <div class="loc-programs__card-grad"></div>
-          <div class="loc-programs__card-footer loc-programs__card-footer--row">
-            <p class="loc-programs__card-title" id="loc-prog-title-2">해녀 할망의 바당 이야기</p>
-            <div class="loc-programs__card-btns">
-              <button class="loc-btn-white" type="button">보러가기</button>
-              <button class="loc-btn-outline" type="button">보러가기</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ================================================
-         가이드 맵 섹션
-    ================================================ -->
-    <section class="loc-map" aria-label="가이드 맵">
-      <div class="loc-sec-title-box">
-        <h2 class="loc-sec-title">
-          <span class="loc-sec-title__light">Guide </span><em class="loc-sec-title__serif">Map</em>
-        </h2>
-        <p class="loc-sec-sub" id="loc-sec-sub-map">아쿠아플라넷 제주의 주요 프로그램을 소개합니다</p>
-      </div>
-
-      <div class="loc-floor-tabs">
-        <button class="loc-floor-tab is-active" type="button">2F</button>
-        <button class="loc-floor-tab" type="button">1F</button>
-        <button class="loc-floor-tab" type="button">B1F</button>
-      </div>
-
-      <div class="loc-map__img-wrap">
-        <img src="assets/images/jeju_map 1.png" alt="아쿠아플라넷 제주 가이드 맵 2층" class="loc-map__img">
-      </div>
-
-      <p class="loc-map__notice">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-          <circle cx="12" cy="12" r="10"/>
-          <line x1="12" y1="8" x2="12" y2="12"/>
-          <line x1="12" y1="16" x2="12.01" y2="16"/>
-        </svg>
-        해당 전시관을 클릭하시면 해당 전시의 상세 정보를 확인하실 수 있습니다
-      </p>
-
-      <div class="loc-thumbs-wrap">
-        <button class="loc-thumbs-arrow loc-thumbs-arrow--prev is-hidden" id="thumb-prev" aria-label="이전">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M15 18L9 12L15 6"/>
-          </svg>
-        </button>
-
-        <div class="loc-map__thumbs" id="thumb-track">
-          <!-- 특별전시 (with category label) -->
-          <div class="loc-map__thumb-group">
-            <p class="loc-map__thumb-cat" style="color:#ff822f">특별전시</p>
-            <div class="loc-map__thumb-card" data-key="haenyeo">
-              <img src="assets/images/jeju_guide_thum47 1.png" alt="해녀 전시">
-              <div class="loc-map__thumb-grad"></div>
-              <span class="loc-map__thumb-badge" style="background:#ff822f">A</span>
-              <p class="loc-map__thumb-name">해녀 전시</p>
-            </div>
-          </div>
-          <!-- 아쿠아리움 (with category label) -->
-          <div class="loc-map__thumb-group">
-            <p class="loc-map__thumb-cat" style="color:#002d72">아쿠아리움</p>
-            <div class="loc-map__thumb-card" data-key="munseom">
-              <img src="assets/images/jeju_guide_thum01 1.png" alt="문섬">
-              <div class="loc-map__thumb-grad"></div>
-              <span class="loc-map__thumb-badge" style="background:#002d72">A</span>
-              <p class="loc-map__thumb-name">문섬</p>
-            </div>
-          </div>
-          <!-- 아쿠아리움 standalone cards -->
-          <div class="loc-map__thumb-card" data-key="world-island">
-            <img src="assets/images/jeju_guide_thum02 1.png" alt="세계의 섬">
-            <div class="loc-map__thumb-grad"></div>
-            <span class="loc-map__thumb-badge" style="background:#002d72">B</span>
-            <p class="loc-map__thumb-name">세계의 섬</p>
-          </div>
-          <div class="loc-map__thumb-card" data-key="harbor">
-            <img src="assets/images/jeju_guide_thum03 1.png" alt="물범(상부) / 하버플라넷">
-            <div class="loc-map__thumb-grad"></div>
-            <span class="loc-map__thumb-badge" style="background:#002d72">C</span>
-            <p class="loc-map__thumb-name">물범(상부) / 하버플라넷</p>
-          </div>
-          <div class="loc-map__thumb-card" data-key="penguin">
-            <img src="assets/images/jeju_guide_thum04 1.png" alt="펭귄(상부) / 펭귄플라넷">
-            <div class="loc-map__thumb-grad"></div>
-            <span class="loc-map__thumb-badge" style="background:#002d72">D</span>
-            <p class="loc-map__thumb-name">펭귄(상부) / 펭귄플라넷</p>
-          </div>
-          <div class="loc-map__thumb-card" data-key="tunnel">
-            <img src="assets/images/jeju_guide_thum05 1.png" alt="주상절리터널">
-            <div class="loc-map__thumb-grad"></div>
-            <span class="loc-map__thumb-badge" style="background:#002d72">E</span>
-            <p class="loc-map__thumb-name">주상절리터널</p>
-          </div>
-          <!-- 부대시설 (with category label) -->
-          <div class="loc-map__thumb-group">
-            <p class="loc-map__thumb-cat" style="color:#934ebb">부대시설</p>
-            <div class="loc-map__thumb-card" data-key="convenience">
-              <img src="assets/images/jeju_guide_thum18 1.png" alt="편의점">
-              <div class="loc-map__thumb-grad"></div>
-              <span class="loc-map__thumb-badge" style="background:#934ebb">A</span>
-              <p class="loc-map__thumb-name">편의점</p>
-            </div>
-          </div>
-          <div class="loc-map__thumb-card" data-key="winibini">
-            <img src="assets/images/jeju_guide_thum48 1.png" alt="위니비니">
-            <div class="loc-map__thumb-grad"></div>
-            <span class="loc-map__thumb-badge" style="background:#934ebb">B</span>
-            <p class="loc-map__thumb-name">위니비니</p>
+          <img
+            src="assets/images/location_prog_02.png"
+            alt="해녀 할망의 바당 이야기"
+            class="loc-programs__card-img"
+          >
+          <div class="loc-programs__card-grad" aria-hidden="true"></div>
+          <div class="loc-programs__card-bar">
+            <p class="loc-programs__card-title">해녀 할망의 바당 이야기</p>
+            <a href="program.html" class="loc-programs__card-btn">보러가기</a>
           </div>
         </div>
 
-        <button class="loc-thumbs-arrow loc-thumbs-arrow--next" id="thumb-next" aria-label="다음">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M9 18L15 12L9 6"/>
-          </svg>
-        </button>
+      </div><!-- /.loc-programs__cards -->
 
-      </div>
-    </section>
+    </section><!-- /.loc-programs -->
 
     <!-- ================================================
-         이용 시간 섹션
+         con3_1 섹션 (Figma node 278:200 — 1920×1542)
+         Guide Map — 기본 상태 (2F 선택)
     ================================================ -->
-    <section class="loc-opening" aria-label="이용 시간">
-      <div class="loc-sec-title-box">
-        <h2 class="loc-sec-title">
-          <em class="loc-sec-title__serif">Opening </em><span class="loc-sec-title__light">Hours</span>
+    <section class="loc-map" id="guidemap" aria-label="가이드맵">
+
+      <!-- 타이틀 + 층 탭 (Figma: Frame 278:241, centered, top=160) -->
+      <div class="loc-map__header">
+        <h2 class="loc-map__title">
+          <span class="loc-map__title-light">Guide</span><em class="loc-map__title-serif"> Map</em>
         </h2>
-        <p class="loc-sec-sub" id="loc-sec-sub-opening">아쿠아플라넷 제주의 운영 시간을 알려드립니다</p>
-      </div>
-      <div class="loc-opening__time-block">
-        <p class="loc-opening__status" id="loc-opening-status">연중 무휴</p>
-        <p class="loc-opening__time" id="loc-opening-time">09:30 - 18:00</p>
-      </div>
-      <p class="loc-opening__note" id="loc-opening-note">매표 마감시간은 17:00이며, 입장 마감시간은 17:30이오니 이용에 참고 부탁드립니다</p>
-    </section>
 
-    </div><!-- /.loc-content-wrap -->
+        <!-- 층 탭 (Figma: Frame 278:244, bg rgba(255,255,255,0.02), rounded-14, p=3, h=54) -->
+        <div class="loc-map__floor-tabs" role="tablist" aria-label="층 선택">
+          <button class="loc-map__floor-tab is-active" role="tab" data-floor="2F" aria-selected="true">2F</button>
+          <button class="loc-map__floor-tab" role="tab" data-floor="1F" aria-selected="false">1F</button>
+          <button class="loc-map__floor-tab" role="tab" data-floor="B1F" aria-selected="false">B1F</button>
+        </div>
+      </div>
+
+      <!-- 맵 + 마커 래퍼 -->
+      <div class="loc-map__stage">
+
+        <!-- 가이드맵 이미지 (Figma: 278:203, 1320×790, opacity 90%) -->
+        <div class="loc-map__img-wrap">
+          <img
+            src="assets/images/location_map_2f.png"
+            alt="아쿠아플라넷 가이드 맵 2F"
+            class="loc-map__img"
+            id="loc-map-img"
+          >
+
+          <!-- 마커 (Figma: 278:205~212 — 66×66, bg #22B2EA, 맵 기준 절대위치) -->
+          <div class="loc-map__markers">
+            <!-- A: left=95, top=160 (섹션좌표 396-301, 672-512) -->
+            <button class="loc-map__marker" data-zone="A" style="left:95px; top:160px" aria-label="A구역">A</button>
+            <!-- D: left=303, top=260 -->
+            <button class="loc-map__marker" data-zone="D" style="left:303px; top:260px" aria-label="D구역">D</button>
+            <!-- C: left=162, top=376 -->
+            <button class="loc-map__marker" data-zone="C" style="left:162px; top:376px" aria-label="C구역">C</button>
+            <!-- B: left=678, top=420 -->
+            <button class="loc-map__marker" data-zone="B" style="left:678px; top:420px" aria-label="B구역">B</button>
+          </div>
+        </div>
+
+        <!-- 안내 문구 (Figma: 278:213, left=1216-301=915 map기준, top=512-512=0) -->
+        <p class="loc-map__hint">
+          <svg class="loc-map__hint-icon" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <circle cx="7" cy="7" r="6" stroke="white" stroke-width="1.2"/>
+            <line x1="7" y1="5" x2="7" y2="7" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
+            <circle cx="7" cy="10" r="0.8" fill="white"/>
+          </svg>
+          해당 전시관을 클릭하시면 해당 전시의 상세 정보를 확인하실 수 있습니다
+        </p>
+
+      </div><!-- /.loc-map__stage -->
+
+    </section><!-- /.loc-map -->
 
     <!-- ================================================
-         푸터 섹션
+         con04 섹션 (Figma node 278:251 — 1920×1112)
+         Opening Hours
     ================================================ -->
+    <section class="loc-hours" id="hours" aria-label="운영시간">
+
+      <!-- 타이틀 (Figma: 278:289, centered, top=160) -->
+      <div class="loc-hours__header">
+        <h2 class="loc-hours__title">
+          <em class="loc-hours__title-serif">Opening </em><span class="loc-hours__title-light">Hours</span>
+        </h2>
+      </div>
+
+      <!-- 운영시간 카드 (Figma: 278:252, left=391, top=378, 1139×222, rounded=20) -->
+      <div class="loc-hours__card">
+        <!-- "09:30 - 18:00" (Figma: Pretendard SemiBold, 64px) -->
+        <p class="loc-hours__time">09:30 - 18:00</p>
+
+        <!-- 세로 구분선 -->
+        <div class="loc-hours__divider" aria-hidden="true"></div>
+
+        <!-- 우측 텍스트 (Figma: 278:256, flex-col gap=16, w=513) -->
+        <div class="loc-hours__info">
+          <p class="loc-hours__label">연중 무휴</p>
+          <p class="loc-hours__note">매표 마감시간은 17:00이며, 입장 마감시간은 17:30이오니 이용에 참고 부탁드립니다</p>
+        </div>
+      </div>
+
+      <!-- 이용 안내 (Figma: 278:271, left=391, top=660, flex-col gap=30) -->
+      <div class="loc-hours__notice">
+        <p class="loc-hours__notice-caption">현장 상황에 따라 운영 시간이 변동될 수 있습니다</p>
+
+        <div class="loc-hours__notice-row">
+          <!-- "이용 안내" 레이블 (Figma: alert-circle + text, 14px) -->
+          <div class="loc-hours__notice-label">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <circle cx="7" cy="7" r="6" stroke="white" stroke-width="1.2"/>
+              <line x1="7" y1="4.5" x2="7" y2="7.5" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
+              <circle cx="7" cy="10" r="0.8" fill="white"/>
+            </svg>
+            <span>이용 안내</span>
+          </div>
+
+          <!-- 안내 목록 (Figma: 278:282, flex-col gap=12, Pretendard Regular 14px) -->
+          <ul class="loc-hours__notice-list">
+            <li>매표 마감시간은 17:00이며, 입장 마감시간은 17:30이오니 이용에 참고 부탁드립니다</li>
+            <li>아쿠아플라넷 관람 총 소요시간은 약 2시간 20분입니다(아쿠아리움 : 60분, 오션아레나 : 50분, 특별전시 : 30분)</li>
+            <li>전시생물 보호 및 관람환경 유지를 위해 애완동물의 입장은 금하고 있습니다</li>
+            <li>특별전 입장 시 음식물 및 음료 반입이 불가하오니 양해 부탁 드립니다</li>
+            <li>오션아레나 공연장 선입장을 원하시는 고객(장애인대상/1,2,3급)께서는 매표소 방문을 통해 사전 신청 후 직원 안내에 따라 우선 입장이 가능합니다</li>
+            <li>퇴장 후에는 재입장이 불가합니다</li>
+          </ul>
+        </div>
+      </div>
+
+    </section><!-- /.loc-hours -->
+
+    <!-- 3D 로고 섹션 -->
+    <section class="logo-end"
+             data-footer-logo
+             data-bg-src="assets/images/contentBg.png">
+    </section>
+
+    <!-- 푸터 -->
     <footer id="footer" class="loc-footer footer" aria-label="푸터">
       <div class="footer__inner">
         <nav class="footer__nav" aria-label="푸터 메뉴">
-          <a href="program.html" class="footer__link">Program</a>
+          <a href="program.html"      class="footer__link">Program</a>
           <a href="Oceanfriends.html" class="footer__link">Ocean friends</a>
-          <a href="location.html" class="footer__link">About us</a>
-          <a href="location.html" class="footer__link">Location</a>
-          <a href="ticket.html" class="footer__link">Ticket</a>
+          <a href="business.html"     class="footer__link">About us</a>
+          <a href="location.html"     class="footer__link">Location</a>
+          <a href="ticket.html"       class="footer__link">Ticket</a>
         </nav>
 
         <div class="footer__brand">
@@ -333,7 +368,7 @@
                 <path d="M10.4 9.3L14.7 12L10.4 14.7V9.3Z" class="footer__social-play"></path>
               </svg>
             </a>
-            <a href="https://www.aquaplanet.co.kr/index.html" class="footer__social" target="_blank" rel="noopener noreferrer" aria-label="Google">
+            <a href="https://www.aquaplanet.co.kr/index.html" class="footer__social" target="_blank" rel="noopener noreferrer" aria-label="Website">
               <svg viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M19.6 12.2C19.6 11.6 19.5 11.1 19.4 10.6H12.2V13.5H16.3C16.1 14.5 15.5 15.3 14.7 15.8V17.7H17.2C18.7 16.4 19.6 14.5 19.6 12.2Z"></path>
                 <path d="M12.2 19.7C14.3 19.7 16.1 19 17.2 17.7L14.7 15.8C14 16.3 13.1 16.6 12.2 16.6C10.2 16.6 8.5 15.2 7.9 13.4H5.3V15.3C6.5 17.9 9.1 19.7 12.2 19.7Z"></path>
@@ -348,39 +383,6 @@
     </footer>
 
   </main>
-
-  <!-- ================================================
-       전시관 상세 모달
-  ================================================ -->
-  <div id="exhibit-modal" class="exhibit-modal" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="exhibit-modal__backdrop" id="modal-backdrop"></div>
-    <div class="exhibit-modal__card">
-      <div class="exhibit-modal__header">
-        <div class="exhibit-modal__title-group">
-          <span class="exhibit-modal__badge" id="modal-badge"></span>
-          <p class="exhibit-modal__name" id="modal-name"></p>
-        </div>
-        <p class="exhibit-modal__floor" id="modal-floor"></p>
-      </div>
-      <div class="exhibit-modal__body">
-        <div class="exhibit-modal__left">
-          <div class="exhibit-modal__img-wrap">
-            <img class="exhibit-modal__img" id="modal-img" src="" alt="">
-          </div>
-          <div class="exhibit-modal__desc" id="modal-desc"></div>
-        </div>
-        <div class="exhibit-modal__right" id="modal-sidebar"></div>
-      </div>
-      <button class="exhibit-modal__close" id="modal-close" aria-label="닫기">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <path d="M18 6L6 18M6 6L18 18" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </button>
-    </div>
-  </div>
-
-  <!-- 커스텀 커서 (원형만, 물결 없음) -->
-  <div id="custom-cursor" aria-hidden="true"></div>
 
   <script src="js/gnb-scroll.js"></script>
   <script>
