@@ -21,22 +21,30 @@
   <header id="gnb" class="gnb">
     <div class="gnb__inner">
       <nav class="gnb__nav" aria-label="메인 메뉴">
-        <div class="gnb__nav-item">
-          <a href="program.html" class="gnb__link" data-nav="program">Program</a>
+        <div class="gnb__nav-item" data-nav="location">
+          <a href="location.html" class="gnb__link gnb__link--active">Location</a>
+          <div class="gnb__dropdown">
+            <a href="location.html?loc=Jeju"     class="gnb__dropdown-item" data-gnb-loc="jeju">Jeju</a>
+            <a href="location.html?loc=Yeosu"    class="gnb__dropdown-item" data-gnb-loc="yeosu">Yeosu</a>
+            <a href="location.html?loc=Ilsan"    class="gnb__dropdown-item" data-gnb-loc="ilsan">Ilsan</a>
+            <a href="location.html?loc=Gwanggyo" class="gnb__dropdown-item" data-gnb-loc="gwanggyo">Gwanggyo</a>
+          </div>
+        </div>
+        <a href="Oceanfriends.html" class="gnb__link">Ocean friends</a>
+        <div class="gnb__nav-item" data-nav="about">
+          <span class="gnb__link">About us</span>
+          <div class="gnb__dropdown">
+            <a href="business.html" class="gnb__dropdown-item">Business</a>
+            <a href="marinlab.html" class="gnb__dropdown-item">Marin Lab</a>
+          </div>
+        </div>
+        <div class="gnb__nav-item" data-nav="program">
+          <a href="program.html" class="gnb__link">Program</a>
           <div class="gnb__dropdown">
             <a href="program.html?loc=Jeju"     class="gnb__dropdown-item">Jeju</a>
             <a href="program.html?loc=Yeosu"    class="gnb__dropdown-item">Yeosu</a>
             <a href="program.html?loc=Ilsan"    class="gnb__dropdown-item">Ilsan</a>
             <a href="program.html?loc=Gwanggyo" class="gnb__dropdown-item">Gwanggyo</a>
-          </div>
-        </div>
-        <a href="Oceanfriends.html" class="gnb__link" data-nav="crew">Ocean friends</a>
-        <div class="gnb__nav-item" data-nav="about">
-          <span class="gnb__link gnb__link--active">About us</span>
-          <div class="gnb__dropdown">
-            <a href="business.html" class="gnb__dropdown-item">Business</a>
-            <a href="marinlab.html" class="gnb__dropdown-item">Marin Lab</a>
-            <a href="location.html" class="gnb__dropdown-item gnb__dropdown-item--active">Location</a>
           </div>
         </div>
       </nav>
@@ -45,7 +53,7 @@
         <img class="gnb__logo" src="assets/images/headerLogo.png" alt="" aria-hidden="true">
       </a>
 
-      <a href="ticket.html" class="gnb__ticket btn-pill" aria-label="티켓 예매">
+      <a class="gnb__ticket btn-pill" href="ticket.html" aria-label="티켓 예매">
         Ticket
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path d="M7 17L17 7M17 7H7M17 7V17" stroke="white" stroke-width="1.5"
@@ -77,14 +85,6 @@
   <main>
     <section class="loc-hero" aria-label="제주 지점 히어로">
 
-      <!-- 지점 토글 탭 -->
-      <nav class="loc-branch-tabs" aria-label="지점 선택">
-        <a href="#" class="loc-branch-tabs__item is-active" data-loc="jeju">Jeju</a>
-        <a href="#" class="loc-branch-tabs__item" data-loc="yeosu">Yeosu</a>
-        <a href="#" class="loc-branch-tabs__item" data-loc="ilsan">Ilsan</a>
-        <a href="#" class="loc-branch-tabs__item" data-loc="gwanggyo">Gwanggyo</a>
-      </nav>
-
       <!-- 히어로 텍스트 -->
       <div class="loc-hero__content">
         <div class="loc-hero__title-wrap">
@@ -111,13 +111,6 @@
          지점 소개 카드 섹션
     ================================================ -->
     <section class="loc-info" aria-label="제주 지점 소개">
-      <!-- 지점 탭 카테고리 -->
-      <nav class="loc-branch-tabs" aria-label="지점 선택">
-        <a href="#" class="loc-branch-tabs__item is-active" data-loc="jeju">Jeju</a>
-        <a href="#" class="loc-branch-tabs__item" data-loc="yeosu">Yeosu</a>
-        <a href="#" class="loc-branch-tabs__item" data-loc="ilsan">Ilsan</a>
-        <a href="#" class="loc-branch-tabs__item" data-loc="gwanggyo">Gwanggyo</a>
-      </nav>
       <div class="loc-info__card">
         <div class="loc-info__img-wrap">
           <img src="assets/images/jeju.png" alt="아쿠아플라넷 제주 전경" class="loc-info__img">
@@ -1116,7 +1109,6 @@
         }
       };
 
-      var tabs           = document.querySelectorAll('.loc-branch-tabs__item[data-loc]');
       var cityEn         = document.getElementById('loc-city-en');
       var citySub        = document.getElementById('loc-city-sub');
       var cityKr         = document.getElementById('loc-city-kr');
@@ -1156,74 +1148,72 @@
         }, 200);
       }
 
-      var isBranchSwitching = false;
+      /* ── URL 파라미터로 지점 자동 선택 ── */
+      function applyLocKey(locKey) {
+        var loc = LOCS[locKey];
+        if (!loc || locKey === currentGuideMapLoc) return;
 
-      tabs.forEach(function (tab) {
-        tab.addEventListener('click', function (e) {
-          e.preventDefault();
-          var locKey = tab.getAttribute('data-loc');
-          if (locKey === currentGuideMapLoc) return;
-          if (isBranchSwitching) return;
-          var loc    = LOCS[locKey];
-          if (!loc) return;
-          isBranchSwitching = true;
-          window.setTimeout(function () { isBranchSwitching = false; }, 1000);
-          tabs.forEach(function (t) { t.classList.remove('is-active'); });
-          document.querySelectorAll('.loc-branch-tabs__item[data-loc="' + locKey + '"]').forEach(function (t) { t.classList.add('is-active'); });
-          animateBranchContentChange(function () {
-            if (cardImg && loc.img) { cardImg.src = loc.img; cardImg.alt = '아쿠아플라넷 ' + loc.kr + ' 전경'; }
-            if (cityEn)         cityEn.textContent         = loc.en;
-            if (citySub)        citySub.textContent        = loc.sub;
-            if (cityKr)         cityKr.textContent         = loc.kr;
-            if (cityAddr)       cityAddr.textContent       = loc.addr;
-            if (cityTel)        cityTel.textContent        = 'TEL. ' + loc.tel;
-            if (cityQuote)      cityQuote.innerHTML        = loc.quote;
-            if (cityDesc)       cityDesc.innerHTML         = loc.desc.map(function (p) { return '<p>' + p + '</p>'; }).join('');
-            if (programsDesc)   programsDesc.innerHTML     = loc.programDesc;
-            if (secSubPrograms) secSubPrograms.textContent = loc.secSub;
-            if (secSubMap)      secSubMap.textContent      = loc.secSub;
-            if (loc.programs) {
-              if (progImg1)   { progImg1.src = loc.programs[0].img;   progImg1.alt = loc.programs[0].title; }
-              if (progTitle1) { progTitle1.textContent = loc.programs[0].title; }
-              if (progImg2)   { progImg2.src = loc.programs[1].img;   progImg2.alt = loc.programs[1].title; }
-              if (progTitle2) { progTitle2.textContent = loc.programs[1].title; }
-            }
-            if (secSubOpening) secSubOpening.textContent = loc.openingSub;
-            if (openingStatus) openingStatus.textContent  = loc.openingStatus;
-            if (openingTime)   openingTime.textContent    = loc.openingTime;
-            if (openingNote)   openingNote.textContent    = loc.openingNote;
-          });
-
-          /* 가이드맵 썸네일 & 모달 데이터 전환 */
-          currentGuideMapLoc = locKey;
-
-          animateGuideMapChange(function () {
-            /* 층 탭 재구성 */
-            updateFloorTabs(locKey);
-            var defaultFloor = (FLOOR_TABS_BY_LOC[locKey] || {}).default || '2F';
-            currentFloor = defaultFloor;
-
-            /* 메인 맵 이미지 초기화 */
-            var mapImgEl = document.querySelector('.loc-map__img');
-            var floorImgs = (FLOOR_MAP_IMGS[locKey] || {});
-            if (floorImgs[defaultFloor] && mapImgEl) {
-              mapImgEl.src = floorImgs[defaultFloor];
-              mapImgEl.alt = '아쿠아플라넷 가이드 맵 ' + defaultFloor;
-            }
-
-            /* 층별 전시 데이터가 있으면 사용, 없으면 기존 배열 */
-            if (EXHIBITS_BY_FLOOR[locKey]) {
-              EXHIBITS_BY_LOC[locKey] = EXHIBITS_BY_FLOOR[locKey][defaultFloor] || [];
-            }
-            if (EXHIBITS_BY_LOC[locKey] && EXHIBITS_BY_LOC[locKey].length) {
-              renderGuideMapThumbs(locKey);
-            } else {
-              var mapTrack = document.getElementById('thumb-track');
-              if (mapTrack) mapTrack.innerHTML = '';
-            }
-          });
+        /* GNB 드롭다운 활성 상태 업데이트 */
+        document.querySelectorAll('[data-gnb-loc]').forEach(function (el) {
+          el.classList.toggle('gnb__dropdown-item--active', el.getAttribute('data-gnb-loc') === locKey);
         });
-      });
+
+        /* 컨텐츠 즉시 교체 (페이지 진입 시 애니메이션 없음) */
+        if (cardImg && loc.img) { cardImg.src = loc.img; cardImg.alt = '아쿠아플라넷 ' + loc.kr + ' 전경'; }
+        if (cityEn)         cityEn.textContent         = loc.en;
+        if (citySub)        citySub.textContent        = loc.sub;
+        if (cityKr)         cityKr.textContent         = loc.kr;
+        if (cityAddr)       cityAddr.textContent       = loc.addr;
+        if (cityTel)        cityTel.textContent        = 'TEL. ' + loc.tel;
+        if (cityQuote)      cityQuote.innerHTML        = loc.quote;
+        if (cityDesc)       cityDesc.innerHTML         = loc.desc.map(function (p) { return '<p>' + p + '</p>'; }).join('');
+        if (programsDesc)   programsDesc.innerHTML     = loc.programDesc;
+        if (secSubPrograms) secSubPrograms.textContent = loc.secSub;
+        if (secSubMap)      secSubMap.textContent      = loc.secSub;
+        if (loc.programs) {
+          if (progImg1)   { progImg1.src = loc.programs[0].img;   progImg1.alt = loc.programs[0].title; }
+          if (progTitle1) { progTitle1.textContent = loc.programs[0].title; }
+          if (progImg2)   { progImg2.src = loc.programs[1].img;   progImg2.alt = loc.programs[1].title; }
+          if (progTitle2) { progTitle2.textContent = loc.programs[1].title; }
+        }
+        if (secSubOpening) secSubOpening.textContent = loc.openingSub;
+        if (openingStatus) openingStatus.textContent  = loc.openingStatus;
+        if (openingTime)   openingTime.textContent    = loc.openingTime;
+        if (openingNote)   openingNote.textContent    = loc.openingNote;
+
+        /* 가이드맵 전환 */
+        currentGuideMapLoc = locKey;
+        updateFloorTabs(locKey);
+        var defaultFloor = (FLOOR_TABS_BY_LOC[locKey] || {}).default || '2F';
+        currentFloor = defaultFloor;
+        var mapImgEl  = document.querySelector('.loc-map__img');
+        var floorImgs = (FLOOR_MAP_IMGS[locKey] || {});
+        if (floorImgs[defaultFloor] && mapImgEl) {
+          mapImgEl.src = floorImgs[defaultFloor];
+          mapImgEl.alt = '아쿠아플라넷 가이드 맵 ' + defaultFloor;
+        }
+        if (EXHIBITS_BY_FLOOR[locKey]) {
+          EXHIBITS_BY_LOC[locKey] = EXHIBITS_BY_FLOOR[locKey][defaultFloor] || [];
+        }
+        if (EXHIBITS_BY_LOC[locKey] && EXHIBITS_BY_LOC[locKey].length) {
+          renderGuideMapThumbs(locKey);
+        } else {
+          var mapTrack = document.getElementById('thumb-track');
+          if (mapTrack) mapTrack.innerHTML = '';
+        }
+      }
+
+      /* URL 파라미터 읽기 */
+      var urlParam = new URLSearchParams(window.location.search).get('loc');
+      var initLoc  = urlParam ? urlParam.toLowerCase() : 'jeju';
+      if (initLoc !== 'jeju' && LOCS[initLoc]) {
+        applyLocKey(initLoc);
+      } else {
+        /* 기본 제주 - GNB 드롭다운 활성 표시 */
+        document.querySelectorAll('[data-gnb-loc]').forEach(function (el) {
+          el.classList.toggle('gnb__dropdown-item--active', el.getAttribute('data-gnb-loc') === 'jeju');
+        });
+      }
     })();
   </script>
 
