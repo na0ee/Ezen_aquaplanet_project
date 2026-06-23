@@ -1,14 +1,18 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>aqua planet - Marin Lab</title>
 
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@latest/dist/web/static/pretendard.css" />
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@latest/dist/web/static/pretendard.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,500&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,500&family=Poppins:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet" />
   <link rel="stylesheet" href="css/marinlab.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
@@ -46,7 +50,8 @@
       <a class="marin-ticket" href="ticket.html" aria-label="티켓 예매">
         Ticket
         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M7 17L17 7M17 7H7M17 7V17" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M7 17L17 7M17 7H7M17 7V17" stroke="white" stroke-width="1.5" stroke-linecap="round"
+            stroke-linejoin="round" />
         </svg>
       </a>
     </div>
@@ -54,7 +59,7 @@
 
   <main>
     <section class="hero" aria-label="Marin Lab 소개">
-      <img class="hero__media" src="assets/images/location_hero.gif" alt="">
+      <img class="hero__media" src="assets/images/locationJeju_hero.gif" alt="">
       <div class="hero__content">
         <div class="hero__content-inner">
           <span class="hero__eyebrow">Welcome</span>
@@ -80,7 +85,8 @@
 
       <header class="section-head">
         <h2><em>Rescue <span class="amp">&amp;</span> Care</em> <span>Activities</span></h2>
-        <p>아쿠아플라넷은 <strong>해양수산부 지정 해양동물전문구조·치료기관</strong>으로서 <strong>부상 및 조난 해양생물을 구조하고 치료</strong>합니다<br>전문 인력의 보호와 재활 과정을 거쳐 건강하게 바다로 돌아갈 수 있도록 지원합니다</p>
+        <p>아쿠아플라넷은 <strong>해양수산부 지정 해양동물전문구조·치료기관</strong>으로서 <strong>부상 및 조난 해양생물을 구조하고 치료</strong>합니다<br>전문 인력의 보호와 재활
+          과정을 거쳐 건강하게 바다로 돌아갈 수 있도록 지원합니다</p>
       </header>
 
       <div class="activity-scroll" data-activity-section>
@@ -168,9 +174,9 @@
 
         <div class="case-tabs" aria-label="구조 사례 분류">
           <div class="tabs__inner">
-            <button class="tab is-active" type="button">Dolphin</button>
-            <button class="tab" type="button">SeaTurtle</button>
-            <button class="tab" type="button">Others</button>
+            <button class="tab is-active" type="button" data-case-tab="dolphin">Dolphin</button>
+            <button class="tab" type="button" data-case-tab="seaTurtle">SeaTurtle</button>
+            <button class="tab" type="button" data-case-tab="others">Others</button>
           </div>
         </div>
 
@@ -181,7 +187,8 @@
               <img class="case-card__image case-card__image--b" data-case-image-b src="" alt="">
             </div>
             <div class="case-card__info" data-case-info>
-              <h3 class="case-card__title">구조일지</h3>
+              <h3 class="case-card__title"><span class="case-card__category" data-case-category
+                  style="display:none;"></span>구조일지</h3>
               <dl>
                 <div class="case-card__row">
                   <dt>구조 대상</dt>
@@ -204,15 +211,7 @@
             </div>
           </article>
 
-          <div class="case-nav">
-            <button type="button" class="case-nav__btn case-nav__btn--prev" data-case-prev aria-label="이전 구조일지 보기">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-            <div class="case-nav__count" aria-hidden="true"><span data-case-index></span> / <span data-case-total></span></div>
-            <button type="button" class="case-nav__btn case-nav__btn--next" data-case-next aria-label="다음 구조일지 보기">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-          </div>
+          <div class="case-dots" data-case-dots role="tablist" aria-label="구조일지 페이지"></div>
         </div>
       </section>
     </section>
@@ -350,10 +349,147 @@
         }
       ];
 
+      const seaTurtleCases = [
+        {
+          date: '2017.11.25',
+          target: '붉은바다거북 Caretta caretta',
+          location: '강원도 삼척시 장호항',
+          process: '이물 제거 및 상처부위 소독 치료',
+          image: 'assets/images/seaturtle01.png'
+        },
+        {
+          date: '2016.12.19',
+          target: '매부리바다거북 Eretmochelys imbricata',
+          location: '경상남도 하동시 금남면 인근 연안',
+          process: '어민 선박 운항 중 수면에 떠 있는 상태로 발견, 행동 저하 및 잠영 불가로 이송 치료',
+          image: 'assets/images/seaturtle02.png'
+        },
+        {
+          date: '2016.09.29',
+          target: '푸른바다거북 Chelonia mydas',
+          location: '여수시 돌산읍 임포항',
+          process: '거머리 등 체표 이물 제거 및 상처부위 소독 치료',
+          image: 'assets/images/seaturtle02.png'
+        },
+        {
+          date: '2016.09.21',
+          target: '푸른바다거북 Chelonia mydas',
+          location: '강원도 삼척시 초곡항',
+          process: '어민 혼획에 의한 바다거북 상처부위 소독 치료',
+          image: 'assets/images/seaturtle03.png'
+        },
+        {
+          date: '2016.07.05',
+          target: '푸른바다거북 Chelonia mydas',
+          location: '제주 서귀포시 성산읍 신양리',
+          process: '등갑 전체에 에폭시 부착 및 잠영이 불가하여 이송 치료',
+          image: 'assets/images/seaturtle04.png'
+        },
+        {
+          date: '2015.08.07',
+          target: '푸른바다거북 Chelonia mydas',
+          location: '서귀포시 성산읍 신산리 정치망',
+          process: '미약한 상처로 확인 후 즉시 방류',
+          image: 'assets/images/seaturtle05.png'
+        },
+        {
+          date: '2015.07.20',
+          target: '푸른바다거북 Chelonia mydas',
+          location: '전남 여수시 삼산면 거문리 거문도',
+          process: '주민신고로 출동 후 신체검사를 진행하고, 거센 물 및 기력 부족으로 보호 조치',
+          image: 'assets/images/seaturtle06.png'
+        },
+        {
+          date: '2016.06.25',
+          target: '붉은바다거북 Caretta caretta',
+          location: '전남 여수시 돌산읍 임포항',
+          process: '주민신고로 출동 후 신체검사를 진행하고, 기력 부족 및 복부 상처로 보호 조치',
+          image: 'assets/images/seaturtle07.png'
+        },
+        {
+          date: '2014.08.07',
+          target: '푸른바다거북 Chelonia mydas 2마리',
+          location: '국립수산과학 미래양식연구센터',
+          process: '미래양식연구센터에서 반입 후 괴사 진행 확인 및 항생제 치료, 소독치료 진행. 등갑 사이와 배갑 사이 괴사가 심각하고 사지 일부에 괴사 확인',
+          image: 'assets/images/seaturtle08.png'
+        },
+        {
+          date: '2013.08.23',
+          target: '매부리거북 Eretmochelys imbricata',
+          location: '국립수산과학 미래양식연구센터',
+          process: '구조 거북 부상 연락을 받은 후 출동, 부상 부위 치료 조치를 위해 당사 반입. 어깨 절상부위가 심각하여 치료 진행',
+          image: 'assets/images/seaturtle09.png'
+        },
+        {
+          date: '2013.07.04',
+          target: '푸른바다거북 Chelonia mydas',
+          location: '제주도 제주시 한림읍 귀덕리 정치망',
+          process: '확인 결과 건강한 상태로, 신체검사 진행 후 방류 완료',
+          image: 'assets/images/seaturtle9.png'
+        },
+        {
+          date: '2012.09.25',
+          target: '푸른바다거북 1마리(갑장 72cm, 암컷)',
+          location: '서귀포시 신산리',
+          process: '어부로부터 정치망에 걸린 바다거북 목격 신고를 받고 구조 요청, 관계기관 신고 및 구조치료 허가 후 구조 시행. 목 주위 상처 치료 후 방류',
+          image: 'assets/images/seaturtle10.png'
+        }
+      ];
+
+      const otherCases = [
+        {
+          category: '고래상어',
+          date: '2017.10.29',
+          target: '고래상어 Rhincodon typus',
+          location: '완도 여객터미널 인근 해역',
+          process: '인근 공사현장에 들어와 갇혀 있는 개체 자립 탈출 유도',
+          image: 'assets/images/other01.png'
+        },
+        {
+          category: '고래상어',
+          date: '2017.09.13',
+          target: '고래상어 Rhincodon typus',
+          location: '강원도 삼척시 초곡항',
+          process: '정치망 혼획 개체로 그물에 일부 긁힌 상처 외 유영 상태 및 활력이 양호하여 현장 즉시 방류',
+          image: 'assets/images/other02.png'
+        },
+        {
+          category: '수달',
+          date: '2012.01.14',
+          target: '유라시아수달 1마리',
+          location: '전남 여수시 수정동 엑스포 인근 도로',
+          process: '시민으로부터 수달 구조 신고 접수 후 현장 확인, 응급조치 및 순천 야생동물 보호센터에 인수인계',
+          image: 'assets/images/other03.png'
+        },
+        {
+          category: '나팔고둥',
+          date: '2015.02.17',
+          target: '나팔고둥 Charonia sauliae',
+          location: '전남 여수시에 위치한 횟집',
+          process: '여수 인근 해역에서 채집되어 판매되기 전 수조에서 발견, 서식 가능 지역 판단 후 웅천 인공해수욕장 앞 인공방파제 인근에 방류',
+          image: 'assets/images/other04.png'
+        },
+        {
+          category: '나팔고둥',
+          date: '2013.11.24',
+          target: '나팔고둥 Charonia sauliae',
+          location: '제주도 서귀포시 성산읍 인근 해녀의 집',
+          process: '해녀의 집 수조에 있는 생물을 발견 후 격리 공간을 마련하고 환경 조성, 불가사리 급이 후 섭이 확인 및 개체 생태 연구 진행',
+          image: 'assets/images/other05.png'
+        }
+      ];
+
+      const caseGroups = {
+        dolphin: dolphinCases,
+        seaTurtle: seaTurtleCases,
+        others: otherCases
+      };
+
       const card = spotlight.querySelector('[data-case-card]');
       const imageA = spotlight.querySelector('[data-case-image-a]');
       const imageB = spotlight.querySelector('[data-case-image-b]');
       const info = spotlight.querySelector('[data-case-info]');
+      const categoryEl = spotlight.querySelector('[data-case-category]');
       const dateEl = spotlight.querySelector('[data-case-date]');
       const yearEl = spotlight.querySelector('[data-date-part="year"]');
       const monthEl = spotlight.querySelector('[data-date-part="month"]');
@@ -361,25 +497,72 @@
       const targetEl = spotlight.querySelector('[data-case-target]');
       const locationEl = spotlight.querySelector('[data-case-location]');
       const processEl = spotlight.querySelector('[data-case-process]');
+      const dotsContainer = spotlight.querySelector('[data-case-dots]');
+      const counterEl = spotlight.querySelector('[data-case-counter]');
       const prevBtn = spotlight.querySelector('[data-case-prev]');
       const nextBtn = spotlight.querySelector('[data-case-next]');
-      const indexEl = spotlight.querySelector('[data-case-index]');
-      const totalEl = spotlight.querySelector('[data-case-total]');
+      const caseTabEls = Array.from(document.querySelectorAll('[data-case-tab]'));
 
       const hasGsap = typeof window.gsap !== 'undefined';
       const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const total = dolphinCases.length;
 
+      let activeCategory = 'dolphin';
       let currentIndex = 0;
       let isAnimating = false;
+      let cooldownUntil = 0;
       let activeLayer = imageA;
       let idleLayer = imageB;
+
+      function getCurrentCases() {
+        return caseGroups[activeCategory] || dolphinCases;
+      }
+
+      function getTotal() {
+        return getCurrentCases().length;
+      }
 
       if (hasGsap) {
         gsap.set(idleLayer, { opacity: 0 });
       }
 
-      if (totalEl) totalEl.textContent = String(total);
+      // builds one dot per item; callable again later (e.g. if the case-tabs ever
+      // switch datasets) so the dot count always matches the active list's length.
+      let dotEls = [];
+      function renderDots(items) {
+        if (!dotsContainer) return;
+        dotsContainer.innerHTML = items.map((item, i) =>
+          '<button type="button" class="case-dot" role="tab" data-case-dot="' + i + '" aria-label="' + (i + 1) + '번째 구조일지로 이동" aria-selected="false"></button>'
+        ).join('');
+        dotEls = Array.from(dotsContainer.querySelectorAll('[data-case-dot]'));
+        dotEls.forEach((dot, i) => {
+          dot.addEventListener('click', () => goToCase(i));
+        });
+        updateDots();
+      }
+
+      function updateDots() {
+        dotEls.forEach((dot, i) => {
+          const isActive = i === currentIndex;
+          dot.classList.toggle('is-active', isActive);
+          dot.setAttribute('aria-selected', String(isActive));
+        });
+        if (counterEl) {
+          counterEl.textContent = (currentIndex + 1) + ' / ' + getTotal();
+        }
+      }
+
+      function goToCase(index) {
+        if (index === currentIndex) return false;
+        return animateToCase(index, index > currentIndex ? 1 : -1);
+      }
+
+      function updateCaseTabs() {
+        caseTabEls.forEach((tab) => {
+          const isActive = tab.dataset.caseTab === activeCategory;
+          tab.classList.toggle('is-active', isActive);
+          tab.setAttribute('aria-selected', String(isActive));
+        });
+      }
 
       const preloaded = new Set();
       function preload(src) {
@@ -388,8 +571,14 @@
         const img = new Image();
         img.src = src;
       }
-      preload(dolphinCases[0].image);
-      preload(dolphinCases[1] ? dolphinCases[1].image : dolphinCases[0].image);
+
+      function preloadAround(index) {
+        const cases = getCurrentCases();
+        if (!cases.length) return;
+        preload(cases[index].image);
+        preload(cases[(index + 1) % cases.length].image);
+        preload(cases[(index - 1 + cases.length) % cases.length].image);
+      }
 
       function setText(item) {
         const [y, m, d] = item.date.split('.');
@@ -399,8 +588,16 @@
         if (targetEl) targetEl.textContent = item.target;
         if (locationEl) locationEl.textContent = item.location;
         if (processEl) processEl.textContent = item.process;
+        if (categoryEl) {
+          if (item.category) {
+            categoryEl.textContent = item.category;
+            categoryEl.style.display = 'inline-block';
+          } else {
+            categoryEl.style.display = 'none';
+          }
+        }
         if (dateEl) dateEl.setAttribute('aria-label', item.date + ' 구조일지');
-        if (indexEl) indexEl.textContent = String(currentIndex + 1);
+        updateDots();
       }
 
       function renderInstant(item) {
@@ -416,8 +613,10 @@
       }
 
       function animateToCase(nextIndex, direction) {
+        const cases = getCurrentCases();
+        const total = cases.length;
         if (isAnimating || nextIndex === currentIndex || nextIndex < 0 || nextIndex >= total) return false;
-        const item = dolphinCases[nextIndex];
+        const item = cases[nextIndex];
 
         if (!hasGsap || prefersReducedMotion) {
           isAnimating = false;
@@ -431,9 +630,10 @@
         const dateParts = [yearEl, monthEl, dayEl];
         const nextImg = idleLayer;
         const prevImg = activeLayer;
+        gsap.set(dateParts, { transformPerspective: 500 });
 
-        preload(dolphinCases[(nextIndex + 1) % total].image);
-        preload(dolphinCases[(nextIndex - 1 + total) % total].image);
+        preload(cases[(nextIndex + 1) % total].image);
+        preload(cases[(nextIndex - 1 + total) % total].image);
 
         nextImg.src = item.image;
         nextImg.alt = item.date + ' ' + item.target + ' 구조일지';
@@ -444,48 +644,73 @@
             activeLayer = nextImg;
             idleLayer = prevImg;
             isAnimating = false;
+            cooldownUntil = performance.now() + 20;
           }
         });
 
         // image: outgoing fades while next fades in, slightly overlapped
-        tl.to(prevImg, { opacity: 0, scale: 1.02, duration: 0.72, ease: 'power3.out' }, 0)
-          .to(nextImg, { opacity: 1, scale: 1, duration: 0.78, ease: 'power3.out' }, 0.08);
+        tl.to(prevImg, { opacity: 0, scale: 1.02, duration: 0.28, ease: 'power2.out' }, 0)
+          .to(nextImg, { opacity: 1, scale: 1, duration: 0.32, ease: 'power2.out' }, 0.04);
 
         // left info copy: calm fade up/down
-        tl.to(info, { opacity: 0, duration: 0.28, ease: 'power2.out' }, 0)
-          .fromTo(info, { opacity: 0 }, { opacity: 1, duration: 0.44, ease: 'power2.out' }, 0.24);
+        tl.to(info, { opacity: 0, duration: 0.15, ease: 'power2.out' }, 0)
+          .fromTo(info, { opacity: 0 }, { opacity: 1, duration: 0.25, ease: 'power2.out' }, 0.15);
 
-        // date: each digit rotates in place (no translation) -- flips out, swaps, flips in
+        // date: each digit flips in place (no translation) -- snaps out, swaps, snaps in
         tl.to(dateParts, {
-          duration: 0.34,
+          duration: 0.18,
           ease: 'power2.in',
-          rotateX: dir > 0 ? 90 : -90,
+          rotateX: dir > 0 ? 100 : -100,
+          scaleY: 0.4,
           opacity: 0,
-          stagger: 0.04
+          stagger: 0.05
         }, 0)
-          .add(() => { currentIndex = nextIndex; setText(item); }, 0.2)
+          .add(() => { currentIndex = nextIndex; setText(item); }, 0.25)
           .fromTo(dateParts,
             {
-              rotateX: dir > 0 ? -90 : 90,
+              rotateX: dir > 0 ? -100 : 100,
+              scaleY: 0.4,
               opacity: 0
             },
             {
               rotateX: 0,
+              scaleY: 1,
               opacity: 1,
-              duration: 0.46,
-              ease: 'back.out(1.25)',
-              stagger: 0.05
-            }, 0.24);
+              duration: 0.25,
+              ease: 'back.out(1.5)',
+              stagger: 0.05,
+              clearProps: 'transform'
+            }, 0.25);
         return true;
       }
 
-      function next() { return animateToCase(Math.min(currentIndex + 1, total - 1), 1); }
+      function next() { return animateToCase(Math.min(currentIndex + 1, getTotal() - 1), 1); }
       function prev() { return animateToCase(Math.max(currentIndex - 1, 0), -1); }
 
-      if (prevBtn) prevBtn.addEventListener('click', prev);
-      if (nextBtn) nextBtn.addEventListener('click', next);
+      function switchCategory(category) {
+        if (!caseGroups[category] || category === activeCategory || isAnimating) return false;
+        activeCategory = category;
+        currentIndex = 0;
+        cooldownUntil = 0;
+        renderDots(getCurrentCases());
+        updateCaseTabs();
+        preloadAround(0);
+        renderInstant(getCurrentCases()[currentIndex]);
+        spotlight.setAttribute('aria-label', (category === 'seaTurtle' ? 'SeaTurtle' : 'Dolphin') + ' 구조일지');
+        return true;
+      }
 
-      renderInstant(dolphinCases[currentIndex]);
+      caseTabEls.forEach((tab) => {
+        tab.setAttribute('role', 'tab');
+        tab.addEventListener('click', () => {
+          switchCategory(tab.dataset.caseTab);
+        });
+      });
+
+      renderDots(getCurrentCases());
+      updateCaseTabs();
+      preloadAround(currentIndex);
+      renderInstant(getCurrentCases()[currentIndex]);
 
       spotlight.setAttribute('tabindex', '0');
       spotlight.addEventListener('keydown', (event) => {
@@ -493,38 +718,65 @@
         else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') { prev(); }
       });
 
-      function isPointerInsideSpotlight(event) {
-        const rect = spotlight.getBoundingClientRect();
-        return event.clientX >= rect.left &&
-          event.clientX <= rect.right &&
-          event.clientY >= rect.top &&
-          event.clientY <= rect.bottom;
+      if (prevBtn) prevBtn.addEventListener('click', () => { if (!isAnimating) requestStep(-1); });
+      if (nextBtn) nextBtn.addEventListener('click', () => { if (!isAnimating) requestStep(1); });
+
+      // .case-spotlight only "captures" wheel input while it's pinned/centered in the
+      // viewport; ScrollTrigger's onEnter/onEnterBack/onLeave/onLeaveBack toggle this flag.
+      let casePinActive = false;
+
+      if (hasGsap && !prefersReducedMotion && typeof ScrollTrigger !== 'undefined') {
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Pin the spotlight wrapper only. The actual card design/content remains inside
+        // .case-card and is changed exclusively through animateToCase().
+        ScrollTrigger.create({
+          trigger: spotlight,
+          start: 'top 130px',
+          end: '+=60%',
+          pin: spotlight,
+          pinSpacing: true,
+          onEnter: () => { casePinActive = true; },
+          onEnterBack: () => { casePinActive = true; },
+          onLeave: () => { casePinActive = false; },
+          onLeaveBack: () => { casePinActive = false; }
+        });
       }
 
+      // shared gate used by both buttons (via next/prev above) and wheel (below): blocks
+      // mid-list page scroll, but lets it through at the first/last case so the page can
+      // move on to the previous/next section. Buttons call next()/prev() directly (no
+      // boundary to gate there since they're disabled-by-state instead), wheel always
+      // goes through here.
       function requestStep(direction, evt) {
-        if (evt && !isPointerInsideSpotlight(evt)) return false;
         const atFirst = currentIndex <= 0;
-        const atLast = currentIndex >= total - 1;
+        const atLast = currentIndex >= getTotal() - 1;
 
         if (direction > 0 && atLast) return false; // let the page scroll on past the last case
         if (direction < 0 && atFirst) return false; // let the page scroll up before the first case
 
-        if (evt) evt.preventDefault();
-        if (isAnimating) return true;
+        if (evt && evt.preventDefault) evt.preventDefault();
+        if (isAnimating || performance.now() < cooldownUntil) return true;
 
         return direction > 0 ? next() : prev();
       }
 
-      if (hasGsap && typeof ScrollTrigger !== 'undefined') {
-        gsap.registerPlugin(ScrollTrigger);
-        if (typeof Observer !== 'undefined') gsap.registerPlugin(Observer);
+      // Listens on window (not the image/card) so scrolling anywhere on the page works,
+      // not just while the cursor happens to be over the photo. The active-zone check
+      // (casePinActive) is what scopes it to "only while .case-spotlight is centered".
+      function handleCaseWheel(event) {
+        if (!casePinActive) return; // outside the pinned zone: let the page scroll normally
+        if (Math.abs(event.deltaY) < 1) return; // ignore near-zero scroll noise only
+
+        // 위로 스크롤 시 인터랙션을 무시하고 브라우저 기본 스크롤(페이지 위로 이동)을 허용합니다.
+        if (event.deltaY < 0) return;
+
+        requestStep(1, event);
       }
 
-      spotlight.addEventListener('wheel', (event) => {
-        if (Math.abs(event.deltaY) < 8) return;
-        requestStep(event.deltaY > 0 ? 1 : -1, event);
-      }, { passive: false });
+      window.addEventListener('wheel', handleCaseWheel, { passive: false });
     })();
   </script>
 </body>
+
 </html>

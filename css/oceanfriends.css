@@ -1,1243 +1,1300 @@
-﻿
-    /* ── 기본 ── */
-    body.oceanfriends-page {
-      background: #ffffff;
-      color: #111;
-      background-image: none;
-    }
-
-    /* Figma GNB spec */
-    .oceanfriends-page .gnb {
-      box-sizing: border-box;
-      width: 100%;
-      height: 102px;
-      padding: 24px 32px;
-      background: transparent;
-    }
-
-    .oceanfriends-page .gnb__inner {
-      height: 54px;
-    }
-
-    .oceanfriends-page .gnb__nav {
-      gap: 44px;
-    }
-
-    .oceanfriends-page .gnb__link {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      color: rgba(255, 255, 255, 0.5);
-      font-family: "Poppins", sans-serif;
-      font-size: 24px;
-      font-weight: 400;
-      line-height: normal;
-      letter-spacing: -0.96px;
-      text-decoration: none;
-    }
-
-    .oceanfriends-page .gnb__link:hover,
-    .oceanfriends-page .gnb__link.gnb__link--active {
-      color: #ffffff;
-    }
-
-    .oceanfriends-page .gnb__link.gnb__link--active {
-      font-family: "EB Garamond", serif;
-      font-size: 28px;
-      font-weight: 500;
-      letter-spacing: -1.12px;
-    }
-
-    .oceanfriends-page .gnb__logo-wrap {
-      width: 60px;
-      height: 60px;
-    }
-
-    .oceanfriends-page .gnb__logo {
-      display: block;
-      width: 60px;
-      height: 60px;
-      object-fit: contain;
-      opacity: 0.8;
-    }
-
-    .oceanfriends-page .gnb__ticket {
-      width: 143px;
-      height: 54px;
-      padding: 0 22px;
-      border-radius: 100px;
-      color: #ffffff;
-      font-family: "Poppins", sans-serif;
-      font-size: 24px;
-      font-weight: 400;
-      letter-spacing: -0.96px;
-    }
-
-    .oceanfriends-page .gnb.gnb--scrolled,
-    .oceanfriends-page .gnb.is-scrolled {
-      background: transparent;
-    }
-
-    .oceanfriends-page .gnb.gnb--scrolled .gnb__link,
-    .oceanfriends-page .gnb.gnb--light-bg .gnb__link {
-      color: rgba(255, 255, 255, 0.5);
-    }
-
-    .oceanfriends-page .gnb.gnb--scrolled .gnb__link:hover,
-    .oceanfriends-page .gnb.gnb--scrolled .gnb__link.gnb__link--active,
-    .oceanfriends-page .gnb.gnb--light-bg .gnb__link:hover,
-    .oceanfriends-page .gnb.gnb--light-bg .gnb__link.gnb__link--active,
-    .oceanfriends-page .gnb.gnb--scrolled .gnb__ticket,
-    .oceanfriends-page .gnb.gnb--light-bg .gnb__ticket {
-      color: #ffffff;
-    }
-
-    .oceanfriends-page .gnb.gnb--scrolled .gnb__ticket,
-    .oceanfriends-page .gnb.gnb--light-bg .gnb__ticket {
-      background: transparent;
-      box-shadow: none;
-    }
-
-    .oceanfriends-page .gnb.gnb--scrolled .gnb__ticket svg path,
-    .oceanfriends-page .gnb.gnb--light-bg .gnb__ticket svg path {
-      stroke: #ffffff;
-    }
-
-    /* ── 메인 레이아웃 ── */
-    .of-main {
-      position: relative;
-      overflow-x: clip;
-      overflow-y: visible;
-      background: #05aef0;
-    }
-
-    .of-visual-stage {
-      position: relative;
-      background:
-        linear-gradient(180deg, rgba(4, 24, 46, 0.22) 0%, rgba(4, 24, 46, 0.10) 28%, rgba(4, 24, 46, 0.18) 58%, rgba(4, 24, 46, 0.34) 100%),
-        url("../assets/images/hero/oceanfriends.png") center top / cover no-repeat;
-      color: #ffffff;
-    }
-
-    .of-container {
-      width: min(1320px, calc(100% - 64px));
-      margin-inline: auto;
-    }
-
-    /* ── 히어로 ── */
-    .intro__content {
-      position: relative;
-      width: 100%;
-      min-height: clamp(620px, 54svh, 760px);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      color: #ffffff;
-      background: transparent;
-      z-index: 1;
-      padding-top: clamp(190px, 16vw, 303px);
-    }
-
-    .intro__content-inner {
-      width: fit-content;
-      max-width: calc(100% - 48px);
-      margin: 0 auto;
-    }
-
-    .of-hero {
-      display: none;
-    }
-
-    .of-eyebrow {
-      display: block;
-      font-family: var(--font-serif);
-      font-style: italic;
-      font-weight: 500;
-      font-size: clamp(22px, 1.7vw, 32px);
-      color: rgba(255, 255, 255, 0.9);
-    }
-
-    .of-title {
-      margin: -18px 0 0;
-      font-family: var(--font-en);
-      font-weight: 300;
-      font-size: clamp(66px, 5.65vw, 108px);
-      line-height: 1.08;
-      letter-spacing: 0;
-      color: #ffffff;
-    }
-
-    .of-title span {
-      font: inherit;
-      font-weight: 300;
-    }
-
-    .of-title em {
-      font-family: var(--font-serif);
-      font-weight: 500;
-      font-style: italic;
-      font-size: 1.08em;
-    }
-
-    .of-hero__lead {
-      margin: 22px auto 0;
-      max-width: 760px;
-      font-family: var(--font-kr);
-      font-size: clamp(16px, 1.25vw, 24px);
-      font-weight: 300;
-      line-height: 1.4;
-      color: rgba(255, 255, 255, 0.92);
-    }
-
-    .of-scroll {
-      position: static;
-      margin-top: 16px;
-      display: grid;
-      justify-items: center;
-      gap: 16px;
-      color: rgba(255, 255, 255, 0.96);
-      text-decoration: none;
-    }
-
-    .of-scroll__line {
-      display: block;
-      width: 1px;
-      height: 80px;
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.78));
-    }
-
-    .of-scroll__text {
-      font-family: var(--font-serif);
-      font-style: italic;
-      font-size: clamp(22px, 1.7vw, 32px);
-    }
-
-    .of-scroll__text-lets {
-      font-family: "Poppins", sans-serif;
-      font-weight: 300;
-      letter-spacing: 0;
-      font-style: normal;
-    }
-
-    .of-scroll__text-explore {
-      font-family: var(--font-serif);
-      font-style: italic;
-    }
-
-    /* ── 섹션 공통 ── */
-    .of-section-head {
-      text-align: center;
-      margin-bottom: 58px;
-    }
-
-    .of-section-title {
-      margin: 0;
-      font-size: 0;
-      color: #111;
-    }
-
-    .of-section-title span {
-      font-family: "Poppins", sans-serif;
-      font-size: clamp(30px, 2.2vw, 42px);
-      font-weight: 300;
-      letter-spacing: 0;
-      line-height: 1.4;
-    }
-
-    .of-section-title em {
-      font-family: "EB Garamond", serif;
-      font-size: clamp(34px, 2.5vw, 48px);
-      font-weight: 500;
-      font-style: italic;
-      letter-spacing: 0;
-      line-height: 1.4;
-    }
-
-    .of-section-sub {
-      margin-top: 7px;
-      font-family: var(--font-kr);
-      font-size: 18px;
-      line-height: 1.4;
-      color: #1a1a1a;
-    }
-
-    /* ── 섹션 순차 페이드인 ── */
-    .oceanfriends-page .of-reveal {
-      opacity: 0;
-      transform: translate3d(0, 28px, 0);
-      transition:
-        opacity 1.05s cubic-bezier(0.22, 1, 0.36, 1),
-        transform 1.05s cubic-bezier(0.22, 1, 0.36, 1);
-      transition-delay: var(--reveal-delay, 0ms);
-      will-change: opacity, transform;
-    }
-
-    .oceanfriends-page .of-reveal.is-visible {
-      opacity: 1;
-      transform: translate3d(0, 0, 0);
-    }
-
-    .oceanfriends-page .of-detail-card.of-reveal {
-      transform: translate3d(0, 42px, 0);
-    }
-
-    .oceanfriends-page .of-detail-card.of-reveal.is-visible {
-      transform: translate3d(0, 0, 0);
-    }
-
-    /* ── 인트로 타이틀: CSS 애니메이션 (JS 타이밍 불필요) ── */
-    @keyframes of-intro-rise {
-      from { opacity: 0; transform: translate3d(0, 38px, 0); }
-      to   { opacity: 1; transform: translate3d(0, 0, 0); }
-    }
-
-    @keyframes of-intro-rise-scroll {
-      from { opacity: 0; transform: translate3d(0, 38px, 0); }
-      to   { opacity: 1; transform: translate3d(0, 0, 0); }
-    }
-
-    .oceanfriends-page .intro__content .of-eyebrow {
-      animation: of-intro-rise 1.05s cubic-bezier(0.22, 1, 0.36, 1) 0ms both;
-    }
-    .oceanfriends-page .intro__content .of-title {
-      animation: of-intro-rise 1.05s cubic-bezier(0.22, 1, 0.36, 1) 170ms both;
-    }
-    .oceanfriends-page .intro__content .of-hero__lead {
-      animation: of-intro-rise 1.05s cubic-bezier(0.22, 1, 0.36, 1) 340ms both;
-    }
-    .oceanfriends-page .intro__content .of-scroll {
-      animation: of-intro-rise-scroll 1.05s cubic-bezier(0.22, 1, 0.36, 1) 510ms both;
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .oceanfriends-page .of-reveal {
-        opacity: 1;
-        transform: none;
-        transition: none;
-      }
-      .oceanfriends-page .intro__content .of-eyebrow,
-      .oceanfriends-page .intro__content .of-title,
-      .oceanfriends-page .intro__content .of-hero__lead,
-      .oceanfriends-page .intro__content .of-scroll {
-        animation: none;
-        opacity: 1;
-      }
-    }
-
-    /* ── 시그니처 섹션 ── */
-    .of-signature {
-      position: relative;
-      min-height: clamp(800px, 70svh, 1180px);
-      padding: clamp(170px, 22vh, 315px) 0 clamp(46px, 8vh, 120px);
-      background: transparent;
-      color: #ffffff;
-      margin-top: -1px;
-    }
-
-    .of-signature .of-section-title,
-    .of-signature .of-section-title span,
-    .of-signature .of-section-title em {
-      color: #ffffff;
-    }
-
-    .of-signature .of-section-sub {
-      color: rgba(255, 255, 255, 0.92);
-    }
-
-    /* ── 종 카드 (grid 기본) ── */
-    .of-species {
-      display: grid;
-      grid-template-columns: repeat(7, minmax(126px, 1fr));
-      gap: 12px;
-      width: min(1480px, calc(100% - 24px));
-      margin: 0 auto;
-    }
-
-    .of-species-card {
-      position: relative;
-      min-height: 360px;
-      border-radius: 8px;
-      overflow: hidden;
-      color: #ffffff;
-      isolation: isolate;
-      background: linear-gradient(180deg, #c9f1fb, #0a75a6);
-      box-shadow: 0 18px 40px rgba(0, 79, 126, 0.18);
-    }
-
-    .of-species-card img {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: var(--img-x, 50%) var(--img-y, 50%);
-      transition: transform 0.7s ease;
-    }
-
-    /* 카드별 이미지 피사체 중심 — data-species 속성으로 각각 지정 */
-    [data-species="beluga"]      { --img-x: 50%; --img-y: 36%; }
-    [data-species="walrus"]      { --img-x: 30%; --img-y: 50%; }
-    [data-species="penguin"]     { --img-x: 50%; --img-y: 38%; }
-    [data-species="shark"]       { --img-x: 95%; --img-y: 50%; }
-    [data-species="ray"]         { --img-x: 50%; --img-y: 50%; }
-    [data-species="otter"]       { --img-x: 50%; --img-y: 42%; }
-    [data-species="sea-turtle"]  { --img-x: 68%; --img-y: 50%; }
-    [data-species="harbor-seal"] { --img-x: 30%; --img-y: 32%; }
-    [data-species="jellyfish"]   { --img-x: 50%; --img-y: 50%; }
-    [data-species="clownfish"]   { --img-x: 65%; --img-y: 50%; }
-
-    .of-species-card::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      z-index: 1;
-      background: linear-gradient(180deg, rgba(0, 0, 0, 0.08) 35%, rgba(0, 0, 0, 0.68) 100%);
-    }
-
-    .of-species-card:hover img {
-      transform: scale(1.06);
-    }
-
-    .of-species-card__text {
-      position: absolute;
-      z-index: 2;
-      left: 16px;
-      right: 16px;
-      bottom: 18px;
-    }
-
-    .of-species-card__text strong {
-      display: block;
-      font-family: var(--font-serif);
-      font-size: 22px;
-      font-weight: 500;
-      line-height: 1;
-      color: #fff;
-      text-shadow: 0 1px 6px rgba(0, 0, 0, 0.45);
-      -webkit-font-smoothing: antialiased;
-    }
-
-    .of-species-card__text span {
-      display: block;
-      margin-top: 7px;
-      font-size: 12px;
-      color: rgba(255, 255, 255, 0.7);
-    }
-
-    /* ── 페이저 ── */
-    .of-pager {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .of-pager button {
-      display: flex;
-      width: max-content;
-      height: 18px;
-      justify-content: center;
-      align-items: center;
-      gap: 12px;
-      padding: 0;
-      border: 0;
-      background: transparent;
-      color: rgba(255, 255, 255, 0.58);
-      font-family: "Pretendard Variable", var(--font-kr);
-      font-size: 15px;
-      font-style: normal;
-      font-weight: 400;
-      letter-spacing: 0;
-      line-height: 140%;
-      cursor: pointer;
-    }
-
-    .of-pager button:hover,
-    .of-pager button:focus-visible {
-      color: rgba(255, 255, 255, 0.88);
-      outline: none;
-    }
-
-    .of-pager__more {
-      color: rgba(255, 255, 255, 0.58);
-      font-family: "Pretendard Variable", var(--font-kr);
-      font-size: 15px;
-    }
-
-    .of-pager__arrow {
-      font-size: 14px;
-      color: rgba(255, 255, 255, 0.92);
-    }
-
-    /* ── 디테일 섹션 ── */
-    .of-detail {
-      min-height: 100svh;
-      padding: clamp(70px, 8vh, 96px) 0 clamp(220px, 18vh, 320px);
-      background: #00a9ff;
-      color: #ffffff;
-    }
-
-    .of-detail__sticky {
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      padding: 0 0 64px;
-      margin-bottom: 64px;
-      background:
-        linear-gradient(180deg, #00a9ff 0%, rgba(0, 169, 255, 0.96) 76%, rgba(0, 169, 255, 0) 100%);
-    }
-
-    .of-detail__sticky .of-section-head {
-      margin-bottom: 32px;
-    }
-
-    .of-detail .of-section-title,
-    .of-detail .of-section-title span,
-    .of-detail .of-section-title em {
-      color: #ffffff;
-    }
-
-    .of-detail .of-section-sub {
-      color: rgba(255, 255, 255, 0.92);
-    }
-
-    .of-filter {
-      position: relative;
-      display: grid;
-      justify-items: center;
-      gap: 21px;
-      align-items: center;
-      justify-content: center;
-      width: min(362px, calc(100% - 48px));
-      margin: 0 auto;
-    }
-
-    .cartegory-tabs-b {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 0;
-      flex-wrap: wrap;
-      gap: 2px;
-      background: rgba(255, 255, 255, 0.02);
-      padding: 3px;
-      border-radius: 14px;
-      border: 1px solid rgba(255, 255, 255, 0.50);
-      width: 100%;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .of-search {
-      position: relative;
-      display: flex;
-      height: 54px;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
-      align-self: stretch;
-      width: 100%;
-      padding: 0 22px;
-      border-radius: 14px;
-      border: 1px solid rgba(255, 255, 255, 0.50);
-      background: rgba(255, 255, 255, 0.02);
-      color: #ffffff;
-      font-family: "EB Garamond";
-      font-size: 16px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: normal;
-      letter-spacing: -0.64px;
-    }
-
-    .of-search svg {
-      flex-shrink: 0;
-      color: rgba(255, 255, 255, 0.9);
-    }
-
-    .of-search input {
-      border: none;
-      outline: none;
-      background: transparent;
-      color: #ffffff;
-      font-family: "EB Garamond";
-      font-size: 16px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: normal;
-      letter-spacing: -0.64px;
-      width: 84px;
-      min-width: 0;
-      text-align: center;
-    }
-
-    .of-search input::placeholder {
-      color: #ffffff;
-      opacity: 1;
-    }
-
-    .cartegory-tabs-b__item {
-      justify-content: center;
-      height: 48px;
-      padding: 0 20px;
-      border-radius: 12px;
-      font-family: "Pretendard", sans-serif;
-      font-size: 16px;
-      font-weight: 500;
-      letter-spacing: 0;
-      color: rgba(255, 255, 255, 0.85);
-      background-color: transparent;
-      border: none;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      flex: 1 1 auto;
-      transform: translateZ(0);
-      transition:
-        background-color 0.32s cubic-bezier(0.22, 1, 0.36, 1),
-        color 0.32s cubic-bezier(0.22, 1, 0.36, 1),
-        transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-
-    .cartegory-tabs-b__item--active {
-      background-color: #ffffff;
-      color: var(--Brand-Primary, #22B2EA);
-      font-family: "EB Garamond";
-      font-size: 20px;
-      font-style: normal;
-      font-weight: 500;
-      line-height: normal;
-      letter-spacing: 0;
-      border: none;
-      transform: translateY(-1px);
-    }
-
-    .cartegory-tabs-b__item:hover,
-    .cartegory-tabs-b__item:focus-visible {
-      color: #22b2ea;
-      background: rgba(255, 255, 255, 0.92);
-      outline: none;
-    }
-
-    .of-detail-list {
-      display: none;
-      gap: 90px;
-      width: min(1320px, calc(100% - 48px));
-      margin: 0 auto;
-      position: relative;
-      z-index: 1;
-    }
-
-    .of-detail-list.is-visible {
-      display: grid;
-    }
-
-    .of-detail-card {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-      align-items: center;
-      gap: 24px;
-      min-height: 421px;
-      padding: 0;
-      border-radius: 14px;
-      background: rgba(255, 255, 255, 0.12);
-      -webkit-backdrop-filter: blur(22px) saturate(150%);
-      border: 1px solid rgba(255, 255, 255, 0.40);
-      
-      overflow: visible;
-      scroll-margin-top: 180px;
-    }
-
-    .of-detail-card.is-jump-target .of-detail-card__media {
-      box-shadow: 0 14px 42px rgba(34, 178, 234, 0.26), 0 0 0 2px rgba(34, 178, 234, 0.28);
-    }
-
-    .of-detail-card:nth-child(even) {
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    }
-
-    .of-detail-card:nth-child(even) .of-detail-card__media {
-      order: 2;
-    }
-
-    .of-detail-card__media {
-      width: 100%;
-      height: clamp(360px, 35.6vw, 470px);
-      border-radius: 14px 0 0 14px;
-      overflow: hidden;
-      background: rgba(255, 255, 255, 0.12);
-      box-shadow: none;
-    }
-
-    .of-detail-card__media img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 14px 0 0 14px;
-    }
-
-    .of-detail-card:nth-child(even) .of-detail-card__media,
-    .of-detail-card:nth-child(even) .of-detail-card__media img {
-      border-radius: 0 14px 14px 0;
-    }
-
-    .of-section-label {
-      grid-column: 1 / -1;
-      font-family: var(--font-en);
-      font-size: 26px;
-      font-weight: 300;
-      color: #111;
-      padding-bottom: 16px;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-    }
-
-    .of-section-label em {
-      font-family: var(--font-serif);
-      font-style: italic;
-      font-weight: 500;
-    }
-
-    .of-detail-card__meta {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-bottom: 20px;
-    }
-
-    .of-detail-card__body {
-      width: min(548px, calc(100% - 64px));
-      margin: 0 auto;
-      padding: 44px 0;
-    }
-
-    .of-badge {
-      display: inline-flex;
-      align-items: center;
-      min-height: 22px;
-      padding: 0 14px;
-      border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.26);
-      font-size: 12px;
-      line-height: 1;
-      color: #ffffff;
-      background: rgba(255, 255, 255, 0.04);
-    }
-
-    .of-badge--fill {
-      color: #22b2ea;
-      background: #ffffff;
-      border-color: #ffffff;
-    }
-
-    .of-detail-card h3 {
-      margin: 0;
-      font-family: var(--font-kr);
-      font-size: clamp(24px, 2vw, 34px);
-      font-weight: 500;
-      color: #ffffff;
-      line-height: 1.2;
-    }
-
-    .of-detail-card i {
-      display: block;
-      margin-top: 6px;
-      font-family: var(--font-serif);
-      font-size: 18px;
-      color: rgba(255, 255, 255, 0.88);
-    }
-
-    .of-detail-card i::after {
-      content: "";
-      display: block;
-      width: 40px;
-      height: 1px;
-      margin-top: 24px;
-      background: rgba(255, 255, 255, 0.72);
-    }
-
-    .of-detail-card p {
-      margin: 22px 0 18px;
-      font-family: var(--font-kr);
-      font-size: 15px;
-      line-height: 1.4;
-      color: rgba(255, 255, 255, 0.88);
-    }
-
-    .of-more {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      height: 30px;
-      padding: 0 16px;
-      border-radius: 999px;
-      background: #ffffff;
-      border: 1px solid #ffffff;
-      color: #22b2ea;
-      font-size: 13px;
-      font-weight: 500;
-      text-decoration: none;
-      transition: background 0.2s, color 0.2s;
-    }
-
-    .of-more:hover {
-      background: rgba(255, 255, 255, 0.88);
-      color: #118fc8;
-    }
-
-    /* ── 브랜드 섹션 ── */
-    .of-brand {
-      min-height: 920px;
-      display: flex;
-      align-items: end;
-      justify-content: center;
-      padding: clamp(150px, 16vh, 220px) 24px 70px;
-      background:
-        radial-gradient(circle at 50% 18%, rgba(255, 255, 255, 0.42) 0 7%, rgba(255, 255, 255, 0.12) 18%, transparent 38%),
-        linear-gradient(180deg, #00a9ff 0%, #1bb7ef 46%, #bfefff 100%);
-      text-align: center;
-      color: #ffffff;
-    }
-
-    .of-brand__inner {
-      width: min(1760px, 100%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0;
-    }
-
-    .of-brand__mark {
-      width: min(360px, 48vw);
-      opacity: 0.42;
-      margin-top: 0;
-      filter: drop-shadow(0 22px 48px rgba(0, 88, 136, 0.18));
-    }
-
-    .of-brand__text {
-      width: min(300px, 52vw);
-      margin-top: -10px;
-      margin-bottom: 72px;
-      filter: brightness(0) invert(1);
-      opacity: 0.96;
-    }
-
-    .of-meet {
-      width: 100%;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
-      padding: 48px clamp(28px, 4.6vw, 80px);
-      gap: 24px;
-      border-top: 1px solid rgba(255, 255, 255, 0.22);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.18);
-      background: rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(8px);
-    }
-
-    .of-meet>div {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      text-align: left;
-    }
-
-    .of-meet h2 {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      font-size: 56px;
-      font-weight: 300;
-      line-height: 115%;
-      letter-spacing: 0;
-      color: #ffffff;
-    }
-
-    .of-meet h2 em {
-      font-family: 'EB Garamond', serif;
-      font-style: italic;
-      font-size: 60px;
-      font-weight: 500;
-      line-height: 115%;
-      letter-spacing: 0;
-      color: #ffffff;
-    }
-
-    .of-meet p {
-      margin: 0;
-      font-family: 'Pretendard Variable', 'Pretendard', sans-serif;
-      font-size: 15px;
-      font-weight: 400;
-      line-height: 140%;
-      letter-spacing: 0;
-      color: rgba(255, 255, 255, 0.72);
-    }
-
-    .of-footer-note {
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      width: 100%;
-      padding: 28px clamp(28px, 4.6vw, 80px);
-      border-top: 1px solid rgba(255, 255, 255, 0.22);
-      box-sizing: border-box;
-    }
-
-    .of-footer-note__left {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 6px;
-    }
-
-    .of-footer-note__left .fn-title {
-      color: rgba(255, 255, 255, 0.96);
-      font-family: 'Poppins', sans-serif;
-      font-size: 16px;
-      font-weight: 500;
-      line-height: 1;
-      letter-spacing: 0.32px;
-    }
-
-    .of-footer-note__left .fn-sub {
-      color: rgba(255, 255, 255, 0.58);
-      font-family: 'Poppins', sans-serif;
-      font-size: 12px;
-      font-weight: 400;
-      line-height: 1;
-      letter-spacing: 0.24px;
-    }
-
-    .of-footer-note__left .fn-copy {
-      color: rgba(255, 255, 255, 0.48);
-      font-family: 'Noto Sans KR', sans-serif;
-      font-size: 12px;
-      font-weight: 400;
-      line-height: 1;
-    }
-
-    .of-footer-note__right {
-      display: flex;
-      gap: 28px;
-      font-family: 'Poppins', sans-serif;
-      font-size: 12px;
-      font-weight: 400;
-      line-height: 1;
-      letter-spacing: 0.24px;
-    }
-
-    .of-footer-note__right a {
-      color: rgba(255, 255, 255, 0.68);
-      text-decoration: none;
-    }
-
-    .of-footer-note__right a:hover {
-      color: #ffffff;
-    }
-
-    .of-meet .btn-cta {
-      display: flex;
-      height: 54px;
-      padding: 0 28px;
-      justify-content: center;
-      align-items: center;
-      border-radius: 100px;
-      background: #ffffff;
-      color: #118fc8;
-      font-family: 'Poppins', sans-serif;
-      font-size: 14px;
-      font-weight: 500;
-      line-height: 1;
-      letter-spacing: 0.14px;
-      text-decoration: none;
-      white-space: nowrap;
-      transition: background 0.2s ease, color 0.2s ease;
-    }
-
-    .of-meet .btn-cta:hover,
-    .of-meet .btn-cta:focus-visible {
-      background: rgba(255, 255, 255, 0.82);
-      color: #067eb5;
-      outline: none;
-    }
-
-    /* ── 흰색 배경 위 파란 커서 ── */
-    #custom-cursor.is-over-light {
-      border-color: rgba(34, 178, 234, 0.9);
-    }
-
-    #custom-cursor.is-over-light.is-hovering {
-      border-color: rgba(34, 178, 234, 1);
-      background: rgba(34, 178, 234, 0.08);
-    }
-
-    #custom-cursor.is-over-light.is-clicking {
-      background: rgba(34, 178, 234, 0.2);
-      border-color: rgba(34, 178, 234, 1);
-    }
-
-    /* ── 1100px 이하 카드 높이 조정 ── */
-    @media (max-width: 1100px) {
-      .of-species-card {
-        min-height: 300px;
-      }
-    }
-
-    /* ── Signature Species — draggable infinite gallery ── */
-    @media (min-width: 761px) {
-      .signature-gallery-viewport {
-        display: block;
-        width: 100%;
-        margin: 0;
-        overflow: hidden;
-        padding: 0 0 78px;
-        box-sizing: border-box;
-        cursor: grab;
-        perspective: 900px;
-        perspective-origin: center center;
-        touch-action: pan-y;
-        user-select: none;
-      }
-
-      .signature-gallery-viewport.is-dragging {
-        cursor: grabbing;
-      }
-
-      .signature-gallery-track {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        width: max-content;
-        padding: 0;
-        box-sizing: border-box;
-        transform-style: preserve-3d;
-        will-change: transform;
-      }
-
-      .signature-gallery-track img {
-        pointer-events: none;
-        -webkit-user-drag: none;
-      }
-
-      .signature-gallery-track .species-card,
-      .signature-gallery-track .of-species-card {
-        --closed-w: clamp(190px, 13.02vw, 250px);
-        flex: 0 0 var(--closed-w);
-        width: var(--closed-w);
-        height: clamp(360px, 27.34vw, 525px);
-        min-height: 0;
-        border-radius: 8px;
-        border: 1px solid rgba(255, 255, 255, 0.15);
-        box-shadow: 0 22px 52px rgba(0, 28, 48, 0.34);
-        transform-origin: center center;
-        transform-style: preserve-3d;
-        will-change: transform, opacity;
-        transition:
-          border-color 0.35s ease,
-          box-shadow   0.35s ease;
-        cursor: pointer;
-      }
-
-      .signature-gallery-track .of-species-card:hover {
-        border-color: rgba(255, 255, 255, 0.75);
-        box-shadow:   0 28px 70px rgba(0, 80, 120, 0.30);
-      }
-
-      .of-species-card img {
-        filter: brightness(0.88) saturate(0.96);
-        transition: transform 0.7s ease, filter 0.4s ease;
-      }
-
-      .of-species-card:hover img {
-        filter: brightness(1.0) saturate(1.06);
-        transform: scale(1.06);
-      }
-
-      .of-species-card::after {
-        opacity: 1;
-        background: linear-gradient(180deg, rgba(0, 0, 0, 0.08) 24%, rgba(0, 0, 0, 0.12) 58%, rgba(0, 0, 0, 0.70) 100%);
-      }
-
-      .of-species-card__text {
-        opacity: 1;
-        transition: opacity 0.35s ease 0.1s;
-      }
-    }
-
-    /* ── 모션 감소 ── */
-    @media (prefers-reduced-motion: reduce) {
-
-      .of-species::after,
-      .of-species-card::before {
-        animation: none;
-      }
-
-      .of-species-card,
-      .of-pager button {
-        transition-duration: 0.01ms;
-      }
-    }
-
-    /* ── 모바일 ── */
-    @media (max-width: 760px) {
-      .oceanfriends-page .gnb {
-        padding-inline: 18px;
-      }
-
-      .oceanfriends-page .gnb__nav {
-        gap: 16px;
-      }
-
-      .oceanfriends-page .gnb__link {
-        font-size: 15px;
-      }
-
-      .oceanfriends-page .gnb__logo {
-        width: 44px;
-      }
-
-      .oceanfriends-page .gnb__ticket {
-        height: 40px;
-        padding-inline: 14px;
-        font-size: 13px;
-      }
-
-      .of-container {
-        width: min(100% - 32px, 1320px);
-      }
-
-      .of-hero {
-        min-height: 880px;
-        padding-top: 112px;
-        padding-bottom: 220px;
-      }
-
-      .of-title {
-        font-size: clamp(46px, 15vw, 72px);
-      }
-
-      .of-hero__lead {
-        max-width: 320px;
-      }
-
-      .of-signature {
-        min-height: 108svh;
-        padding: 180px 0 180px;
-      }
-
-      .of-section-head {
-        margin-bottom: 44px;
-      }
-
-      .signature-gallery-viewport {
-        display: block;
-        width: 100%;
-        margin: 0 auto;
-        overflow: hidden;
-        padding: 16px 0 84px;
-        perspective: 900px;
-        perspective-origin: center center;
-        touch-action: pan-y;
-        user-select: none;
-      }
-
-      .signature-gallery-track {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 0;
-        width: max-content;
-        transform-style: preserve-3d;
-        will-change: transform;
-      }
-
-      .of-species-card {
-        --closed-w: 220px;
-        flex: 0 0 var(--closed-w);
-        width: var(--closed-w);
-        min-height: 310px;
-        transform-origin: center center;
-        transform-style: preserve-3d;
-        will-change: transform, opacity;
-      }
-
-      .of-detail {
-        padding-top: 132px;
-        padding-bottom: 160px;
-      }
-
-      .of-detail__sticky {
-        padding: 22px 0 18px;
-        margin-top: -22px;
-        margin-bottom: 48px;
-      }
-
-      .of-detail__sticky .of-section-head {
-        margin-bottom: 20px;
-      }
-
-      .of-filter {
-        gap: 14px;
-        margin: 0 auto;
-        width: calc(100% - 32px);
-      }
-
-      .of-search {
-        width: min(360px, 100%);
-        height: 54px;
-      }
-
-      .cartegory-tabs-b {
-        max-width: 100%;
-        overflow-x: auto;
-        scrollbar-width: none;
-      }
-
-      .cartegory-tabs-b::-webkit-scrollbar {
-        display: none;
-      }
-
-      .of-detail-card,
-      .of-detail-card:nth-child(even) {
-        grid-template-columns: 1fr;
-        gap: 24px;
-        min-height: 0;
-        padding-bottom: 34px;
-      }
-
-      .of-detail-card:nth-child(even) .of-detail-card__media {
-        order: 0;
-      }
-
-      .of-detail-card__media {
-        height: clamp(280px, 70vw, 390px);
-        min-height: 0;
-      }
-
-      .of-detail-card__media,
-      .of-detail-card__media img,
-      .of-detail-card:nth-child(even) .of-detail-card__media,
-      .of-detail-card:nth-child(even) .of-detail-card__media img {
-        border-radius: 14px;
-      }
-
-      .of-detail-card__body {
-        width: min(100% - 48px, 548px);
-        padding: 0;
-      }
-
-      .of-detail-list.is-visible {
-        gap: 68px;
-      }
-
-      .of-brand {
-        min-height: 760px;
-        padding-bottom: 44px;
-      }
-
-      .of-meet,
-      .of-footer-note {
-        flex-direction: column;
-        align-items: center;
-      }
-    }
+/* ── 기본 ── */
+body.oceanfriends-page {
+  background: #ffffff;
+  color: #111;
+  background-image: none;
+}
+
+/* Figma GNB spec */
+.oceanfriends-page .gnb {
+  box-sizing: border-box;
+  width: 100%;
+  height: 102px;
+  padding: 24px 32px;
+  background: transparent;
+}
+
+.oceanfriends-page .gnb__inner {
+  height: 54px;
+}
+
+.oceanfriends-page .gnb__nav {
+  gap: 44px;
+}
+
+.oceanfriends-page .gnb__link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.5);
+  font-family: "Poppins", sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: -0.96px;
+  text-decoration: none;
+}
+
+.oceanfriends-page .gnb__link:hover,
+.oceanfriends-page .gnb__link.gnb__link--active {
+  color: #ffffff;
+}
+
+.oceanfriends-page .gnb__link.gnb__link--active {
+  font-family: "EB Garamond", serif;
+  font-size: 28px;
+  font-weight: 500;
+  letter-spacing: -1.12px;
+}
+
+.oceanfriends-page .gnb__logo-wrap {
+  width: 60px;
+  height: 60px;
+}
+
+.oceanfriends-page .gnb__logo {
+  display: block;
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  opacity: 0.8;
+}
+
+.oceanfriends-page .gnb__ticket {
+  width: 143px;
+  height: 54px;
+  padding: 0 22px;
+  border-radius: 100px;
+  color: #ffffff;
+  font-family: "Poppins", sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  letter-spacing: -0.96px;
+}
+
+.oceanfriends-page .gnb.gnb--scrolled,
+.oceanfriends-page .gnb.is-scrolled {
+  background: transparent;
+}
+
+.oceanfriends-page .gnb.gnb--scrolled .gnb__link,
+.oceanfriends-page .gnb.gnb--light-bg .gnb__link {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.oceanfriends-page .gnb.gnb--scrolled .gnb__link:hover,
+.oceanfriends-page .gnb.gnb--scrolled .gnb__link.gnb__link--active,
+.oceanfriends-page .gnb.gnb--light-bg .gnb__link:hover,
+.oceanfriends-page .gnb.gnb--light-bg .gnb__link.gnb__link--active,
+.oceanfriends-page .gnb.gnb--scrolled .gnb__ticket,
+.oceanfriends-page .gnb.gnb--light-bg .gnb__ticket {
+  color: #ffffff;
+}
+
+.oceanfriends-page .gnb.gnb--scrolled .gnb__ticket,
+.oceanfriends-page .gnb.gnb--light-bg .gnb__ticket {
+  background: transparent;
+  box-shadow: none;
+}
+
+.oceanfriends-page .gnb.gnb--scrolled .gnb__ticket svg path,
+.oceanfriends-page .gnb.gnb--light-bg .gnb__ticket svg path {
+  stroke: #ffffff;
+}
+
+/* ── 메인 레이아웃 ── */
+.of-main {
+  position: relative;
+  overflow-x: clip;
+  overflow-y: visible;
+  background: #2686E7;
+}
+
+.of-visual-stage {
+  position: relative;
+  background:
+    linear-gradient(180deg, rgba(4, 24, 46, 0.22) 0%, rgba(4, 24, 46, 0.10) 28%, rgba(4, 24, 46, 0.18) 58%, rgba(4, 24, 46, 0.34) 100%),
+    url("../assets/images/hero/oceanfriends.png") center top / cover no-repeat;
+  color: #ffffff;
+}
+
+.of-container {
+  width: min(1320px, calc(100% - 64px));
+  margin-inline: auto;
+}
+
+/* ── 히어로 ── */
+.intro__content {
+  position: relative;
+  width: 100%;
+  min-height: clamp(620px, 54svh, 760px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #ffffff;
+  background: transparent;
+  z-index: 1;
+  padding-top: clamp(190px, 16vw, 303px);
+}
+
+.intro__content-inner {
+  width: fit-content;
+  max-width: calc(100% - 48px);
+  margin: 0 auto;
+}
+
+.of-hero {
+  display: none;
+}
+
+.of-eyebrow {
+  display: block;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(22px, 1.7vw, 32px);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.of-title {
+  margin: -18px 0 0;
+  font-family: var(--font-en);
+  font-weight: 300;
+  font-size: clamp(66px, 5.65vw, 108px);
+  line-height: 1.08;
+  letter-spacing: 0;
+  color: #ffffff;
+}
+
+.of-title span {
+  font: inherit;
+  font-weight: 300;
+}
+
+.of-title em {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-style: italic;
+  font-size: 1.08em;
+}
+
+.of-hero__lead {
+  margin: 22px auto 0;
+  max-width: 760px;
+  font-family: var(--font-kr);
+  font-size: clamp(16px, 1.25vw, 24px);
+  font-weight: 300;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.of-scroll {
+  position: static;
+  margin-top: 16px;
+  display: grid;
+  justify-items: center;
+  gap: 16px;
+  color: rgba(255, 255, 255, 0.96);
+  text-decoration: none;
+}
+
+.of-scroll__line {
+  display: block;
+  width: 1px;
+  height: 80px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.78));
+}
+
+.of-scroll__text {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(22px, 1.7vw, 32px);
+}
+
+.of-scroll__text-lets {
+  font-family: "Poppins", sans-serif;
+  font-weight: 300;
+  letter-spacing: 0;
+  font-style: normal;
+}
+
+.of-scroll__text-explore {
+  font-family: var(--font-serif);
+  font-style: italic;
+}
+
+/* ── 섹션 공통 ── */
+.of-section-head {
+  text-align: center;
+  margin-bottom: 58px;
+}
+
+.of-section-title {
+  margin: 0;
+  font-size: 0;
+  color: #111;
+}
+
+.of-section-title span {
+  font-family: "Poppins", sans-serif;
+  font-size: clamp(30px, 2.2vw, 42px);
+  font-weight: 300;
+  letter-spacing: 0;
+  line-height: 1.4;
+}
+
+.of-section-title em {
+  font-family: "EB Garamond", serif;
+  font-size: clamp(34px, 2.5vw, 48px);
+  font-weight: 500;
+  font-style: italic;
+  letter-spacing: 0;
+  line-height: 1.4;
+}
+
+.of-section-sub {
+  margin-top: 7px;
+  font-family: var(--font-kr);
+  font-size: 18px;
+  line-height: 1.4;
+  color: #1a1a1a;
+}
+
+/* ── 섹션 순차 페이드인 ── */
+.oceanfriends-page .of-reveal {
+  opacity: 0;
+  transform: translate3d(0, 28px, 0);
+  transition:
+    opacity 1.05s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 1.05s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+.oceanfriends-page .of-reveal.is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.oceanfriends-page .of-detail-card.of-reveal {
+  transform: translate3d(0, 42px, 0);
+}
+
+.oceanfriends-page .of-detail-card.of-reveal.is-visible {
+  transform: translate3d(0, 0, 0);
+}
+
+/* ── 인트로 타이틀: CSS 애니메이션 (JS 타이밍 불필요) ── */
+@keyframes of-intro-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 38px, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes of-intro-rise-scroll {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 38px, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.oceanfriends-page .intro__content .of-eyebrow {
+  animation: of-intro-rise 1.05s cubic-bezier(0.22, 1, 0.36, 1) 0ms both;
+}
+
+.oceanfriends-page .intro__content .of-title {
+  animation: of-intro-rise 1.05s cubic-bezier(0.22, 1, 0.36, 1) 170ms both;
+}
+
+.oceanfriends-page .intro__content .of-hero__lead {
+  animation: of-intro-rise 1.05s cubic-bezier(0.22, 1, 0.36, 1) 340ms both;
+}
+
+.oceanfriends-page .intro__content .of-scroll {
+  animation: of-intro-rise-scroll 1.05s cubic-bezier(0.22, 1, 0.36, 1) 510ms both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .oceanfriends-page .of-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .oceanfriends-page .intro__content .of-eyebrow,
+  .oceanfriends-page .intro__content .of-title,
+  .oceanfriends-page .intro__content .of-hero__lead,
+  .oceanfriends-page .intro__content .of-scroll {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+/* ── 시그니처 섹션 ── */
+.of-signature {
+  position: relative;
+  min-height: clamp(800px, 70svh, 1180px);
+  padding: clamp(170px, 22vh, 315px) 0 clamp(46px, 8vh, 120px);
+  background: transparent;
+  color: #ffffff;
+  margin-top: -1px;
+}
+
+.of-signature .of-section-title,
+.of-signature .of-section-title span,
+.of-signature .of-section-title em {
+  color: #ffffff;
+}
+
+.of-signature .of-section-sub {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+/* ── 종 카드 (grid 기본) ── */
+.of-species {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(126px, 1fr));
+  gap: 12px;
+  width: min(1480px, calc(100% - 24px));
+  margin: 0 auto;
+}
+
+.of-species-card {
+  position: relative;
+  min-height: 360px;
+  border-radius: 8px;
+  overflow: hidden;
+  color: #ffffff;
+  isolation: isolate;
+  background: linear-gradient(180deg, #c9f1fb, #0a75a6);
+  box-shadow: 0 18px 40px rgba(0, 79, 126, 0.18);
+}
+
+.of-species-card img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--img-x, 50%) var(--img-y, 50%);
+  transition: transform 0.7s ease;
+}
+
+/* 카드별 이미지 피사체 중심 — data-species 속성으로 각각 지정 */
+[data-species="beluga"] {
+  --img-x: 50%;
+  --img-y: 36%;
+}
+
+[data-species="walrus"] {
+  --img-x: 30%;
+  --img-y: 50%;
+}
+
+[data-species="penguin"] {
+  --img-x: 50%;
+  --img-y: 38%;
+}
+
+[data-species="shark"] {
+  --img-x: 95%;
+  --img-y: 50%;
+}
+
+[data-species="ray"] {
+  --img-x: 50%;
+  --img-y: 50%;
+}
+
+[data-species="otter"] {
+  --img-x: 50%;
+  --img-y: 42%;
+}
+
+[data-species="sea-turtle"] {
+  --img-x: 68%;
+  --img-y: 50%;
+}
+
+[data-species="harbor-seal"] {
+  --img-x: 30%;
+  --img-y: 32%;
+}
+
+[data-species="jellyfish"] {
+  --img-x: 50%;
+  --img-y: 50%;
+}
+
+[data-species="clownfish"] {
+  --img-x: 65%;
+  --img-y: 50%;
+}
+
+.of-species-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.08) 35%, rgba(0, 0, 0, 0.68) 100%);
+}
+
+.of-species-card:hover img {
+  transform: scale(1.06);
+}
+
+.of-species-card__text {
+  position: absolute;
+  z-index: 2;
+  left: 16px;
+  right: 16px;
+  bottom: 18px;
+}
+
+.of-species-card__text strong {
+  display: block;
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1;
+  color: #fff;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.45);
+  -webkit-font-smoothing: antialiased;
+}
+
+.of-species-card__text span {
+  display: block;
+  margin-top: 7px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* ── 페이저 ── */
+.of-pager {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.of-pager button {
+  display: flex;
+  width: max-content;
+  height: 18px;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.58);
+  font-family: "Pretendard Variable", var(--font-kr);
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 140%;
+  cursor: pointer;
+}
+
+.of-pager button:hover,
+.of-pager button:focus-visible {
+  color: rgba(255, 255, 255, 0.88);
+  outline: none;
+}
+
+.of-pager__more {
+  color: rgba(255, 255, 255, 0.58);
+  font-family: "Pretendard Variable", var(--font-kr);
+  font-size: 15px;
+}
+
+.of-pager__arrow {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+/* ── 디테일 섹션 ── */
+.of-detail {
+  min-height: 100svh;
+  padding: clamp(70px, 8vh, 96px) 0 clamp(220px, 18vh, 320px);
+  background: #2686E7;
+  color: #ffffff;
+}
+
+.of-detail__sticky {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  padding: 0 0 64px;
+  margin-bottom: 64px;
+  background:
+    linear-gradient(180deg, #2686E7 0%, rgba(38, 134, 231, 0.96) 76%, rgba(38, 134, 231, 0) 100%);
+}
+
+.of-detail__sticky .of-section-head {
+  margin-bottom: 32px;
+}
+
+.of-detail .of-section-title,
+.of-detail .of-section-title span,
+.of-detail .of-section-title em {
+  color: #ffffff;
+}
+
+.of-detail .of-section-sub {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.of-filter {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 21px;
+  align-items: center;
+  justify-content: center;
+  width: min(362px, calc(100% - 48px));
+  margin: 0 auto;
+}
+
+.cartegory-tabs-b {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0;
+  flex-wrap: nowrap;
+  gap: 2px;
+  background: rgba(255, 255, 255, 0.02);
+  padding: 3px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.50);
+  width: max-content;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.of-search {
+  position: relative;
+  display: flex;
+  height: 54px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  align-self: stretch;
+  width: 100%;
+  padding: 0 22px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.50);
+  background: rgba(255, 255, 255, 0.02);
+  color: #ffffff;
+  font-family: "EB Garamond";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: -0.64px;
+}
+
+.of-search svg {
+  flex-shrink: 0;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.of-search input {
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #ffffff;
+  font-family: "EB Garamond";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: -0.64px;
+  width: 84px;
+  min-width: 0;
+  text-align: center;
+}
+
+.of-search input::placeholder {
+  color: #ffffff;
+  opacity: 1;
+}
+
+.cartegory-tabs-b__item {
+  justify-content: center;
+  height: 48px;
+  padding: 0 20px;
+  border-radius: 12px;
+  font-family: "Pretendard", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: rgba(255, 255, 255, 0.85);
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+  transform: translateZ(0);
+  transition:
+    background-color 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+    color 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.cartegory-tabs-b__item--active {
+  background-color: #ffffff;
+  color: var(--Brand-Primary, #22B2EA);
+  font-family: "EB Garamond";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: 0;
+  border: none;
+  transform: translateY(-1px);
+}
+
+.cartegory-tabs-b__item:hover,
+.cartegory-tabs-b__item:focus-visible {
+  color: #22b2ea;
+  background: rgba(255, 255, 255, 0.92);
+  outline: none;
+}
+
+.of-detail-list {
+  display: none;
+  gap: 90px;
+  width: min(1320px, calc(100% - 48px));
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.of-detail-list.is-visible {
+  display: grid;
+}
+
+.of-detail-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 24px;
+  min-height: 421px;
+  padding: 0;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.12);
+  -webkit-backdrop-filter: blur(22px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.40);
+
+  overflow: visible;
+  scroll-margin-top: 180px;
+}
+
+.of-detail-card.is-jump-target .of-detail-card__media {
+  box-shadow: 0 14px 42px rgba(34, 178, 234, 0.26), 0 0 0 2px rgba(34, 178, 234, 0.28);
+}
+
+.of-detail-card:nth-child(even) {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+
+.of-detail-card:nth-child(even) .of-detail-card__media {
+  order: 2;
+}
+
+.of-detail-card__media {
+  width: 100%;
+  height: clamp(360px, 35.6vw, 470px);
+  border-radius: 14px 0 0 14px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: none;
+}
+
+.of-detail-card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 14px 0 0 14px;
+}
+
+.of-detail-card:nth-child(even) .of-detail-card__media,
+.of-detail-card:nth-child(even) .of-detail-card__media img {
+  border-radius: 0 14px 14px 0;
+}
+
+.of-section-label {
+  grid-column: 1 / -1;
+  font-family: var(--font-en);
+  font-size: 26px;
+  font-weight: 300;
+  color: #ffffff;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.of-section-label em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 500;
+}
+
+.of-detail-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.of-detail-card__body {
+  width: min(548px, calc(100% - 64px));
+  margin: 0 auto;
+  padding: 44px 0;
+}
+
+.of-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 22px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.26);
+  font-size: 12px;
+  line-height: 1;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.of-badge--fill {
+  color: #22b2ea;
+  background: #ffffff;
+  border-color: #ffffff;
+}
+
+.of-detail-card h3 {
+  margin: 0;
+  font-family: var(--font-kr);
+  font-size: clamp(24px, 2vw, 34px);
+  font-weight: 500;
+  color: #ffffff;
+  line-height: 1.2;
+}
+
+.of-detail-card i {
+  display: block;
+  margin-top: 6px;
+  font-family: var(--font-serif);
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.of-detail-card i::after {
+  content: "";
+  display: block;
+  width: 40px;
+  height: 1px;
+  margin-top: 24px;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.of-detail-card p {
+  margin: 22px 0 18px;
+  font-family: var(--font-kr);
+  font-size: 15px;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.of-more {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  padding: 0 16px;
+  border-radius: 999px;
+  background: #ffffff;
+  border: 1px solid #ffffff;
+  color: #22b2ea;
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background 0.2s, color 0.2s;
+}
+
+.of-more:hover {
+  background: rgba(255, 255, 255, 0.88);
+  color: #118fc8;
+}
+
+/* ── 브랜드 섹션 ── */
+.of-brand {
+  min-height: 920px;
+  display: flex;
+  align-items: end;
+  justify-content: center;
+  padding: clamp(150px, 16vh, 220px) 24px 70px;
+  background:
+    radial-gradient(circle at 50% 18%, rgba(255, 255, 255, 0.42) 0 7%, rgba(255, 255, 255, 0.12) 18%, transparent 38%),
+    linear-gradient(180deg, #2686E7 0%, #1bb7ef 46%, #bfefff 100%);
+  text-align: center;
+  color: #ffffff;
+}
+
+.of-brand__inner {
+  width: min(1760px, 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.of-brand__mark {
+  width: min(360px, 48vw);
+  opacity: 0.42;
+  margin-top: 0;
+  filter: drop-shadow(0 22px 48px rgba(0, 88, 136, 0.18));
+}
+
+.of-brand__text {
+  width: min(300px, 52vw);
+  margin-top: -10px;
+  margin-bottom: 72px;
+  filter: brightness(0) invert(1);
+  opacity: 0.96;
+}
+
+.of-meet {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 48px clamp(28px, 4.6vw, 80px);
+  gap: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.22);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(8px);
+}
+
+.of-meet>div {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: left;
+}
+
+.of-meet h2 {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  font-size: 56px;
+  font-weight: 300;
+  line-height: 115%;
+  letter-spacing: 0;
+  color: #ffffff;
+}
+
+.of-meet h2 em {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 60px;
+  font-weight: 500;
+  line-height: 115%;
+  letter-spacing: 0;
+  color: #ffffff;
+}
+
+.of-meet p {
+  margin: 0;
+  font-family: 'Pretendard Variable', 'Pretendard', sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 140%;
+  letter-spacing: 0;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.of-footer-note {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  width: 100%;
+  padding: 28px clamp(28px, 4.6vw, 80px);
+  border-top: 1px solid rgba(255, 255, 255, 0.22);
+  box-sizing: border-box;
+}
+
+.of-footer-note__left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.of-footer-note__left .fn-title {
+  color: rgba(255, 255, 255, 0.96);
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.32px;
+}
+
+.of-footer-note__left .fn-sub {
+  color: rgba(255, 255, 255, 0.58);
+  font-family: 'Poppins', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.24px;
+}
+
+.of-footer-note__left .fn-copy {
+  color: rgba(255, 255, 255, 0.48);
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.of-footer-note__right {
+  display: flex;
+  gap: 28px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.24px;
+}
+
+.of-footer-note__right a {
+  color: rgba(255, 255, 255, 0.68);
+  text-decoration: none;
+}
+
+.of-footer-note__right a:hover {
+  color: #ffffff;
+}
+
+.of-meet .btn-cta {
+  display: flex;
+  height: 54px;
+  padding: 0 28px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100px;
+  background: #ffffff;
+  color: #118fc8;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.14px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.of-meet .btn-cta:hover,
+.of-meet .btn-cta:focus-visible {
+  background: rgba(255, 255, 255, 0.82);
+  color: #067eb5;
+  outline: none;
+}
+
+/* ── 흰색 배경 위 파란 커서 ── */
+#custom-cursor.is-over-light {
+  border-color: rgba(34, 178, 234, 0.9);
+}
+
+#custom-cursor.is-over-light.is-hovering {
+  border-color: rgba(34, 178, 234, 1);
+  background: rgba(34, 178, 234, 0.08);
+}
+
+#custom-cursor.is-over-light.is-clicking {
+  background: rgba(34, 178, 234, 0.2);
+  border-color: rgba(34, 178, 234, 1);
+}
+
+/* ── 1100px 이하 카드 높이 조정 ── */
+@media (max-width: 1100px) {
+  .of-species-card {
+    min-height: 300px;
+  }
+}
+
+/* ── Signature Species — draggable infinite gallery ── */
+@media (min-width: 761px) {
+  .signature-gallery-viewport {
+    display: block;
+    width: 100%;
+    margin: 0;
+    overflow: hidden;
+    padding: 0 0 78px;
+    box-sizing: border-box;
+    cursor: grab;
+    perspective: 900px;
+    perspective-origin: center center;
+    touch-action: pan-y;
+    user-select: none;
+  }
+
+  .signature-gallery-viewport.is-dragging {
+    cursor: grabbing;
+  }
+
+  .signature-gallery-track {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: max-content;
+    padding: 0;
+    box-sizing: border-box;
+    transform-style: preserve-3d;
+    will-change: transform;
+  }
+
+  .signature-gallery-track img {
+    pointer-events: none;
+    -webkit-user-drag: none;
+  }
+
+  .signature-gallery-track .species-card,
+  .signature-gallery-track .of-species-card {
+    --closed-w: clamp(190px, 13.02vw, 250px);
+    flex: 0 0 var(--closed-w);
+    width: var(--closed-w);
+    height: clamp(360px, 27.34vw, 525px);
+    min-height: 0;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 22px 52px rgba(0, 28, 48, 0.34);
+    transform-origin: center center;
+    transform-style: preserve-3d;
+    will-change: transform, opacity;
+    transition:
+      border-color 0.35s ease,
+      box-shadow 0.35s ease;
+    cursor: pointer;
+  }
+
+  .signature-gallery-track .of-species-card:hover {
+    border-color: rgba(255, 255, 255, 0.75);
+    box-shadow: 0 28px 70px rgba(0, 80, 120, 0.30);
+  }
+
+  .of-species-card img {
+    filter: brightness(0.88) saturate(0.96);
+    transition: transform 0.7s ease, filter 0.4s ease;
+  }
+
+  .of-species-card:hover img {
+    filter: brightness(1.0) saturate(1.06);
+    transform: scale(1.06);
+  }
+
+  .of-species-card::after {
+    opacity: 1;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.08) 24%, rgba(0, 0, 0, 0.12) 58%, rgba(0, 0, 0, 0.70) 100%);
+  }
+
+  .of-species-card__text {
+    opacity: 1;
+    transition: opacity 0.35s ease 0.1s;
+  }
+}
+
+/* ── 모션 감소 ── */
+@media (prefers-reduced-motion: reduce) {
+
+  .of-species::after,
+  .of-species-card::before {
+    animation: none;
+  }
+
+  .of-species-card,
+  .of-pager button {
+    transition-duration: 0.01ms;
+  }
+}
+
+/* ── 모바일 ── */
+@media (max-width: 760px) {
+  .oceanfriends-page .gnb {
+    padding-inline: 18px;
+  }
+
+  .oceanfriends-page .gnb__nav {
+    gap: 16px;
+  }
+
+  .oceanfriends-page .gnb__link {
+    font-size: 15px;
+  }
+
+  .oceanfriends-page .gnb__logo {
+    width: 44px;
+  }
+
+  .oceanfriends-page .gnb__ticket {
+    height: 40px;
+    padding-inline: 14px;
+    font-size: 13px;
+  }
+
+  .of-container {
+    width: min(100% - 32px, 1320px);
+  }
+
+  .of-hero {
+    min-height: 880px;
+    padding-top: 112px;
+    padding-bottom: 220px;
+  }
+
+  .of-title {
+    font-size: clamp(46px, 15vw, 72px);
+  }
+
+  .of-hero__lead {
+    max-width: 320px;
+  }
+
+  .of-signature {
+    min-height: 108svh;
+    padding: 180px 0 180px;
+  }
+
+  .of-section-head {
+    margin-bottom: 44px;
+  }
+
+  .signature-gallery-viewport {
+    display: block;
+    width: 100%;
+    margin: 0 auto;
+    overflow: hidden;
+    padding: 16px 0 84px;
+    perspective: 900px;
+    perspective-origin: center center;
+    touch-action: pan-y;
+    user-select: none;
+  }
+
+  .signature-gallery-track {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0;
+    width: max-content;
+    transform-style: preserve-3d;
+    will-change: transform;
+  }
+
+  .of-species-card {
+    --closed-w: 220px;
+    flex: 0 0 var(--closed-w);
+    width: var(--closed-w);
+    min-height: 310px;
+    transform-origin: center center;
+    transform-style: preserve-3d;
+    will-change: transform, opacity;
+  }
+
+  .of-detail {
+    padding-top: 132px;
+    padding-bottom: 160px;
+  }
+
+  .of-detail__sticky {
+    padding: 22px 0 18px;
+    margin-top: -22px;
+    margin-bottom: 48px;
+  }
+
+  .of-detail__sticky .of-section-head {
+    margin-bottom: 20px;
+  }
+
+  .of-filter {
+    gap: 14px;
+    margin: 0 auto;
+    width: calc(100% - 32px);
+  }
+
+  .of-search {
+    width: min(360px, 100%);
+    height: 54px;
+  }
+
+  .cartegory-tabs-b {
+    max-width: 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .cartegory-tabs-b::-webkit-scrollbar {
+    display: none;
+  }
+
+  .of-detail-card,
+  .of-detail-card:nth-child(even) {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    min-height: 0;
+    padding-bottom: 34px;
+  }
+
+  .of-detail-card:nth-child(even) .of-detail-card__media {
+    order: 0;
+  }
+
+  .of-detail-card__media {
+    height: clamp(280px, 70vw, 390px);
+    min-height: 0;
+  }
+
+  .of-detail-card__media,
+  .of-detail-card__media img,
+  .of-detail-card:nth-child(even) .of-detail-card__media,
+  .of-detail-card:nth-child(even) .of-detail-card__media img {
+    border-radius: 14px;
+  }
+
+  .of-detail-card__body {
+    width: min(100% - 48px, 548px);
+    padding: 0;
+  }
+
+  .of-detail-list.is-visible {
+    gap: 68px;
+  }
+
+  .of-brand {
+    min-height: 760px;
+    padding-bottom: 44px;
+  }
+
+  .of-meet,
+  .of-footer-note {
+    flex-direction: column;
+    align-items: center;
+  }
+}
