@@ -1542,19 +1542,6 @@
       border-color: rgba(34, 178, 234, 1);
     }
 
-    body.marin-header-light .gnb__link {
-      color: rgba(34, 178, 234, 0.5);
-    }
-
-    body.marin-header-light .gnb__link:hover,
-    body.marin-header-light .gnb__link.gnb__link--active,
-    body.marin-header-light .gnb__ticket {
-      color: var(--brand);
-    }
-
-    body.marin-header-light .gnb__ticket svg path {
-      stroke: var(--brand);
-    }
 
     @media (max-width: 720px) {
       .m-mobile-note {

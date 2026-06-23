@@ -18,6 +18,16 @@
   <header id="gnb" class="gnb">
     <div class="gnb__inner">
       <nav class="gnb__nav" aria-label="메인 메뉴">
+        <div class="gnb__nav-item" data-nav="location">
+          <a href="location.html" class="gnb__link">Location</a>
+          <div class="gnb__dropdown">
+            <a href="location.html?loc=Jeju"     class="gnb__dropdown-item">Jeju</a>
+            <a href="location.html?loc=Yeosu"    class="gnb__dropdown-item">Yeosu</a>
+            <a href="location.html?loc=Ilsan"    class="gnb__dropdown-item">Ilsan</a>
+            <a href="location.html?loc=Gwanggyo" class="gnb__dropdown-item">Gwanggyo</a>
+          </div>
+        </div>
+        <a href="Oceanfriends.html" class="gnb__link">Ocean friends</a>
         <div class="gnb__nav-item">
           <a href="program.html" class="gnb__link" data-nav="program">Program</a>
           <div class="gnb__dropdown">
@@ -33,7 +43,15 @@
           <div class="gnb__dropdown">
             <a href="business.html" class="gnb__dropdown-item">Business</a>
             <a href="marinlab.html" class="gnb__dropdown-item gnb__dropdown-item--active">Marin Lab</a>
-            <a href="location.html" class="gnb__dropdown-item">Location</a>
+          </div>
+        </div>
+        <div class="gnb__nav-item" data-nav="program">
+          <a href="program.html" class="gnb__link">Program</a>
+          <div class="gnb__dropdown">
+            <a href="program.html?loc=Jeju"     class="gnb__dropdown-item">Jeju</a>
+            <a href="program.html?loc=Yeosu"    class="gnb__dropdown-item">Yeosu</a>
+            <a href="program.html?loc=Ilsan"    class="gnb__dropdown-item">Ilsan</a>
+            <a href="program.html?loc=Gwanggyo" class="gnb__dropdown-item">Gwanggyo</a>
           </div>
         </div>
       </nav>
@@ -42,7 +60,7 @@
         <img class="gnb__logo" src="assets/images/headerLogo.png" alt="" aria-hidden="true">
       </a>
 
-      <a href="ticket.html" class="gnb__ticket btn-pill" aria-label="티켓 예매">
+      <a class="gnb__ticket btn-pill" href="ticket.html" aria-label="티켓 예매">
         Ticket
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path d="M7 17L17 7M17 7H7M17 7V17" stroke="white" stroke-width="1.5"
