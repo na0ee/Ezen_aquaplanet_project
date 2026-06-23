@@ -952,11 +952,11 @@ body.is-logo-at-header .gnb__logo {
   background: none;
 }
 
-/* 인트로 섹션: 100vh보다 긴 호흡을 주고, 히어로 화면은 그 안에서 고정 */
+/* 인트로 섹션: sticky 텍스트가 화면 중앙에 머무는 시간 확보 (300vh = 200vh 고정 구간) */
 #sec-intro {
   height: auto;
-  min-height: 140vh;
-  min-height: 140svh;
+  min-height: 300vh;
+  min-height: 300svh;
   position: relative;
   z-index: 2;
   display: block;
@@ -965,8 +965,8 @@ body.is-logo-at-header .gnb__logo {
 
 #sec-intro.section--hero {
   height: auto;
-  min-height: 140vh;
-  min-height: 140svh;
+  min-height: 300vh;
+  min-height: 300svh;
   display: block;
   overflow: visible;
 }
@@ -1060,6 +1060,22 @@ body.is-logo-at-header .gnb__logo {
 #sec-intro.hero-active .hero__title,
 #sec-intro.hero-active .hero__sub {
   animation-play-state: running;
+}
+
+/* 텍스트가 화면 중앙에 자리잡은 후 물결처럼 일렁이는 shimmer */
+@keyframes heroShimmer {
+  0%, 100% {
+    filter: drop-shadow(0 0 0px transparent);
+    opacity: 1;
+  }
+  50% {
+    filter: drop-shadow(0 0 28px rgba(120, 210, 255, 0.45)) drop-shadow(0 0 56px rgba(80, 170, 240, 0.2));
+    opacity: 0.92;
+  }
+}
+
+#sec-intro.hero-active .hero__text {
+  animation: heroShimmer 3.5s ease-in-out 2.2s infinite;
 }
 
 /* 스크롤 인디케이터 */
@@ -3701,7 +3717,7 @@ body.marin-header-light .gnb .gnb__dropdown-item--active:hover {
   inset: 0;
   z-index: 2000;
   /* 메인 GNB(1000) 위 */
-  overflow-y: auto;
+  overflow: hidden;
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
@@ -3899,25 +3915,45 @@ body.ticket-open {
   z-index: 2;
 }
 
-/* 지점별 위치 (Figma 1920 프레임 기준 비율 환산) */
+/* 지점별 위치 + 강약 (크기·불투명도·그림자로 원근감 표현) */
 .ticket-spot--ilsan {
-  left: -2%;
+  left: 8%;
   top: 46%;
+  width: clamp(210px, 27vw, 500px);
+  opacity: 0.88;
+}
+.ticket-spot--ilsan .ticket-spot__bubble {
+  filter: drop-shadow(0 14px 42px rgba(0, 60, 110, 0.26));
 }
 
 .ticket-spot--yeosu {
   left: 26%;
   top: 23%;
+  width: clamp(170px, 21vw, 390px);
+  opacity: 0.72;
+}
+.ticket-spot--yeosu .ticket-spot__bubble {
+  filter: drop-shadow(0 6px 18px rgba(0, 60, 110, 0.12));
 }
 
 .ticket-spot--jeju {
-  left: 50%;
-  top: 55%;
+  left: 54%;
+  top: 50%;
+  width: clamp(230px, 29vw, 520px);
+  opacity: 1;
+}
+.ticket-spot--jeju .ticket-spot__bubble {
+  filter: drop-shadow(0 20px 56px rgba(0, 60, 110, 0.34));
 }
 
 .ticket-spot--gwanggyo {
   left: 65%;
   top: 23%;
+  width: clamp(185px, 24vw, 440px);
+  opacity: 0.78;
+}
+.ticket-spot--gwanggyo .ticket-spot__bubble {
+  filter: drop-shadow(0 8px 24px rgba(0, 60, 110, 0.14));
 }
 
 /* 지점별 동물 크기/회전 — 모두 버블 정중앙(translate -50%,-50%)에 배치 */
@@ -4422,38 +4458,13 @@ body.ticket-open {
    일반 흐름이라 콘텐츠 전체 높이에 맞춰 그라데이션이 잡히고 함께 스크롤된다. */
 .ticket-bg {
   position: relative;
-  background: linear-gradient(to bottom, #22B2EA 0%, #22B2EA 20%, #ffffff 60%, #22B2EA 100%);
+  background: #00A9FF;
+  height: 100vh;
+  overflow: hidden;
 }
 
-.ticket,
-.ticket-scroll-below,
-.ticket-page #footer {
+.ticket {
   background: transparent !important;
-}
-
-.ticket-scroll-below {
-  position: relative;
-  width: 100%;
-  height: 60vh;
-  min-height: 400px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10;
-}
-
-.ticket-scroll-below__logo-placeholder {
-  width: 300px;
-  height: 300px;
-}
-
-.ticket-page #footer {
-  position: relative;
-  z-index: 10;
-}
-
-.ticket-page #footer .footer__video-bg {
-  display: none !important;
 }
 
 /* Landing logo wave background */
