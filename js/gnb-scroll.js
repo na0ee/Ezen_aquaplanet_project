@@ -3,9 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const gnb = document.querySelector('.gnb');
   if (!gnb) return;
 
-  // 상세 페이지: 로고 항상 표시 + 항상 glass 효과
   document.body.classList.add('is-logo-at-header');
-  gnb.classList.add('gnb--glass');
 
   let lastScrollY = window.scrollY;
 
