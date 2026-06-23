@@ -5,6 +5,104 @@
       color: #111;
       background-image: none;
     }
+
+    /* Figma GNB spec */
+    .oceanfriends-page .gnb {
+      box-sizing: border-box;
+      width: 100%;
+      height: 102px;
+      padding: 24px 32px;
+      background: transparent;
+    }
+
+    .oceanfriends-page .gnb__inner {
+      height: 54px;
+    }
+
+    .oceanfriends-page .gnb__nav {
+      gap: 44px;
+    }
+
+    .oceanfriends-page .gnb__link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255, 255, 255, 0.5);
+      font-family: "Poppins", sans-serif;
+      font-size: 24px;
+      font-weight: 400;
+      line-height: normal;
+      letter-spacing: -0.96px;
+      text-decoration: none;
+    }
+
+    .oceanfriends-page .gnb__link:hover,
+    .oceanfriends-page .gnb__link.gnb__link--active {
+      color: #ffffff;
+    }
+
+    .oceanfriends-page .gnb__link.gnb__link--active {
+      font-family: "EB Garamond", serif;
+      font-size: 28px;
+      font-weight: 500;
+      letter-spacing: -1.12px;
+    }
+
+    .oceanfriends-page .gnb__logo-wrap {
+      width: 60px;
+      height: 60px;
+    }
+
+    .oceanfriends-page .gnb__logo {
+      display: block;
+      width: 60px;
+      height: 60px;
+      object-fit: contain;
+      opacity: 0.8;
+    }
+
+    .oceanfriends-page .gnb__ticket {
+      width: 143px;
+      height: 54px;
+      padding: 0 22px;
+      border-radius: 100px;
+      color: #ffffff;
+      font-family: "Poppins", sans-serif;
+      font-size: 24px;
+      font-weight: 400;
+      letter-spacing: -0.96px;
+    }
+
+    .oceanfriends-page .gnb.gnb--scrolled,
+    .oceanfriends-page .gnb.is-scrolled {
+      background: transparent;
+    }
+
+    .oceanfriends-page .gnb.gnb--scrolled .gnb__link,
+    .oceanfriends-page .gnb.gnb--light-bg .gnb__link {
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .oceanfriends-page .gnb.gnb--scrolled .gnb__link:hover,
+    .oceanfriends-page .gnb.gnb--scrolled .gnb__link.gnb__link--active,
+    .oceanfriends-page .gnb.gnb--light-bg .gnb__link:hover,
+    .oceanfriends-page .gnb.gnb--light-bg .gnb__link.gnb__link--active,
+    .oceanfriends-page .gnb.gnb--scrolled .gnb__ticket,
+    .oceanfriends-page .gnb.gnb--light-bg .gnb__ticket {
+      color: #ffffff;
+    }
+
+    .oceanfriends-page .gnb.gnb--scrolled .gnb__ticket,
+    .oceanfriends-page .gnb.gnb--light-bg .gnb__ticket {
+      background: transparent;
+      box-shadow: none;
+    }
+
+    .oceanfriends-page .gnb.gnb--scrolled .gnb__ticket svg path,
+    .oceanfriends-page .gnb.gnb--light-bg .gnb__ticket svg path {
+      stroke: #ffffff;
+    }
+
     /* ── 메인 레이아웃 ── */
     .of-main {
       position: relative;
