@@ -238,7 +238,41 @@
 
   const nodes = Array.from(pin.querySelectorAll('.biz-vision-node'));
   const copies = Array.from(pin.querySelectorAll('.biz-vision-copy'));
+  const media = pin.querySelector('.biz-vision-media');
+  const mainImage = pin.querySelector('[data-vision-main-image]');
+  const primaryPreview = pin.querySelector('[data-vision-preview="primary"]');
+  const secondaryPreview = pin.querySelector('[data-vision-preview="secondary"]');
+  const featureTitle = pin.querySelector('[data-vision-feature-title]');
+  const featureText = pin.querySelector('[data-vision-feature-text]');
   const order = ['vision', 'mission', 'core', 'goal'];
+  const mediaSlides = [
+    {
+      key: 'mission',
+      title: 'MISSION',
+      text: '해양생물의 소중함을 공유하고, 이를 지키고 보전하며<br>인간과 자연이 공생하며 느낄 수 있는 최고의 즐거움을 제공하는 기업',
+      image: 'assets/images/sec.aboutus/business/figma-image-152.png',
+    },
+    {
+      key: 'vision',
+      title: 'VISION',
+      text: '지속성장 기반을 갖춘 Global Aquarium 전문 기업을<br>목표로 오늘도 힘찬 도전',
+      image: 'assets/images/sec.aboutus/business/figma-image-153-large.png',
+    },
+    {
+      key: 'goal',
+      title: 'GOAL',
+      text: 'No.1 NETWORK POWER · ECO COMPANY<br>No.1 BRAND POWER · MARKET SHARE · TECHNICAL SKILLS',
+      image: 'assets/images/sec.aboutus/business/figma-image-153-small.png',
+    },
+    {
+      key: 'core',
+      title: 'CORE VALUE',
+      text: '고객중심 · 해양보존 · 창조의힘 · 사회책임<br>사람과 자연이 함께하는 미래를 만듭니다.',
+      image: 'assets/images/sec.aboutus/business/figma-image-152.png',
+    },
+  ];
+  let activeMediaIndex = -1;
+  let mediaSwitchTimer = 0;
   const orbit = {
     centerX: 1338,
     centerY: 540,
@@ -281,8 +315,35 @@
     return smooth(clamp((hiddenDistance - 0.32) / 0.42, 0, 1));
   }
 
+  function applyMediaSlide(index) {
+    if (!media || !mainImage || !primaryPreview || !secondaryPreview || !featureTitle || !featureText) return;
+    if (index === activeMediaIndex) return;
+
+    const length = mediaSlides.length;
+    const active = mediaSlides[index];
+    const next = mediaSlides[(index + 1) % length];
+    const afterNext = mediaSlides[(index + 2) % length];
+
+    activeMediaIndex = index;
+    media.classList.add('is-switching');
+    window.clearTimeout(mediaSwitchTimer);
+
+    mainImage.src = active.image;
+    primaryPreview.src = next.image;
+    secondaryPreview.src = afterNext.image;
+    featureTitle.innerHTML = active.title;
+    featureText.innerHTML = active.text;
+
+    mediaSwitchTimer = window.setTimeout(function () {
+      media.classList.remove('is-switching');
+    }, 120);
+  }
+
   function render(progress) {
     const activeIndex = Math.round(progress) % order.length;
+    const mediaIndex = Math.min(mediaSlides.length - 1, Math.round((progress / order.length) * mediaSlides.length));
+
+    applyMediaSlide(mediaIndex);
 
     nodes.forEach(function (node) {
       const nodeKey = node.dataset.visionNode;
