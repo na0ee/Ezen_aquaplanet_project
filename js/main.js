@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initCrewScroll();
   initBookingBgVideo();
   initGlassBubbles();
-  initCrewFishMatte();
+  initLocationFishBgMatte();
   initMapMarkers();
   initTopBtn();
   initCustomCursor();
@@ -59,8 +59,11 @@ function initSmoothScroll() {
   }
 
   window.addEventListener('wheel', (e) => {
+    if (diveActive || isTransitioning) {
+      e.preventDefault();
+      return;
+    }
     if (!crewScrollUnlocked) return;
-    if (diveActive) return;
 
     e.preventDefault();
 
@@ -233,6 +236,7 @@ function initGlassBubbles() {
   if (!roots.length) return;
 
   const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const powerSaving = motionQuery.matches || window.devicePixelRatio > 2 || (navigator.deviceMemory && navigator.deviceMemory < 4);
   let resizeTimer = null;
 
   function random(min, max) {
@@ -247,7 +251,7 @@ function initGlassBubbles() {
     roots.forEach(root => {
       const sides = root.querySelectorAll('[data-bubble-side]');
       const rootHeight = Math.max(root.offsetHeight, window.innerHeight);
-      const bubblesPerSide = Math.min(30, Math.max(16, Math.round(rootHeight / 260)));
+      const bubblesPerSide = Math.min(powerSaving ? 14 : 30, Math.max(powerSaving ? 10 : 16, Math.round(rootHeight / (powerSaving ? 360 : 260))));
 
       sides.forEach(side => {
         const sideWidth = Math.max(side.clientWidth, 72);
@@ -397,7 +401,7 @@ function initScrollIndicator() {
   window.addEventListener('scroll', () => {
     if (!crewScrollUnlocked && !diveActive) {
       indicator.style.opacity = '1';
-      indicator.style.transform = 'translateX(-50%) translateY(0)';
+      indicator.style.transform = 'translateY(0)';
       return;
     }
 
@@ -405,7 +409,7 @@ function initScrollIndicator() {
     const scrolledIn   = Math.max(0, window.scrollY - introTop);
     const progress     = Math.min(scrolledIn / 150, 1);
     indicator.style.opacity   = String(1 - progress);
-    indicator.style.transform = `translateX(-50%) translateY(${progress * 20}px)`;
+    indicator.style.transform = `translateY(${progress * 20}px)`;
   }, { passive: true });
 
   if (trigger) trigger.addEventListener('click', triggerDive);
@@ -499,27 +503,17 @@ let crewPanelActive = false;
 function initIntroScrollGate() {
   const intro = document.getElementById('sec-intro');
   const crew  = document.getElementById('sec-crew');
+  const logo  = document.getElementById('sec-logo');
   if (!intro || !crew) return;
 
-  const indicator = document.querySelector('.scroll-indicator');
   let touchStartY = 0;
-  let hintTimer = 0;
+  let introDivePending = false;
+  let introDiveTimer = 0;
+  const INTRO_DIVE_DELAY_MS = 520;
+  const INTRO_DIVE_EDGE_OFFSET = 24;
 
   function sectionTop(el) {
     return Math.round(window.scrollY + el.getBoundingClientRect().top);
-  }
-
-  function nudgeDiveHint() {
-    if (!indicator) return;
-
-    indicator.classList.remove('is-hinting');
-    void indicator.offsetWidth;
-    indicator.classList.add('is-hinting');
-
-    window.clearTimeout(hintTimer);
-    hintTimer = window.setTimeout(() => {
-      indicator.classList.remove('is-hinting');
-    }, 1400);
   }
 
   function isBeforeCrew() {
@@ -532,27 +526,99 @@ function initIntroScrollGate() {
     return window.scrollY >= introTop - 4;
   }
 
-  function isAtCrewStart() {
+  function isPastIntroHoldPoint() {
+    const introTop = sectionTop(intro);
+    const introScrollable = Math.max(0, intro.offsetHeight - window.innerHeight);
+    return window.scrollY >= introTop + introScrollable - INTRO_DIVE_EDGE_OFFSET;
+  }
+
+  function isAfterLogoTransition() {
+    if (!logo) return true;
+    const logoEnd = sectionTop(logo) + logo.offsetHeight;
+    return window.scrollY >= logoEnd - 4;
+  }
+
+  function getIntroTop() {
+    return sectionTop(intro);
+  }
+
+  function getIntroEnd() {
+    return getIntroTop() + intro.offsetHeight - window.innerHeight;
+  }
+
+  function isInsideIntroHold() {
+    const y = window.scrollY;
+    return (
+      isAfterLogoTransition() &&
+      y >= getIntroTop() - 4 &&
+      y < getIntroEnd() - INTRO_DIVE_EDGE_OFFSET
+    );
+  }
+
+  function scrollIntroBy(deltaY) {
+    const maxStep = 90;
+    const step = Math.sign(deltaY) * Math.min(Math.abs(deltaY), maxStep);
+    const nextY = Math.max(
+      getIntroTop(),
+      Math.min(getIntroEnd(), window.scrollY + step)
+    );
+    window.scrollTo(0, nextY);
+    window.__syncSmoothScroll?.();
+  }
+
+  function isNearCrewStart() {
     const crewTop = sectionTop(crew);
-    return window.scrollY >= crewTop - 4 && window.scrollY <= crewTop + 28;
+    return window.scrollY >= crewTop - 4 && window.scrollY <= crewTop + window.innerHeight * 0.45;
+  }
+
+  function requestIntroDive() {
+    if (introDivePending) return;
+    introDivePending = true;
+    window.__syncSmoothScroll?.();
+
+    window.clearTimeout(introDiveTimer);
+    introDiveTimer = window.setTimeout(() => {
+      introDivePending = false;
+      if (!diveActive && !isTransitioning && shouldBlockDown()) {
+        triggerDive();
+      }
+    }, INTRO_DIVE_DELAY_MS);
   }
 
   function shouldBlockDown() {
-    return !crewScrollUnlocked && !diveActive && !isTransitioning && isAtOrAfterIntro() && isBeforeCrew();
+    return !crewScrollUnlocked && !diveActive && !isTransitioning && isAfterLogoTransition() && isAtOrAfterIntro() && isPastIntroHoldPoint() && isBeforeCrew();
   }
 
   function shouldBlockUp() {
-    return crewScrollUnlocked && !diveActive && !isTransitioning && isAtCrewStart();
+    return crewScrollUnlocked && !diveActive && !isTransitioning && isNearCrewStart();
   }
 
   window.addEventListener('wheel', (e) => {
-    if (e.deltaY > 0 && shouldBlockDown()) {
+    if (diveActive || isTransitioning) {
       e.preventDefault();
       e.stopImmediatePropagation();
-      triggerDive();
-    } else if (e.deltaY < 0 && shouldBlockUp()) {
+      return;
+    }
+
+    if (e.deltaY > 0 && isInsideIntroHold()) {
       e.preventDefault();
       e.stopImmediatePropagation();
+      scrollIntroBy(e.deltaY);
+      return;
+    }
+
+    if (e.deltaY > 0 && (introDivePending || shouldBlockDown())) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      requestIntroDive();
+      return;
+    }
+
+    if (e.deltaY < 0 && shouldBlockUp()) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      introDivePending = false;
+      window.clearTimeout(introDiveTimer);
       triggerDiveBack();
     }
   }, { passive: false, capture: true });
@@ -563,13 +629,15 @@ function initIntroScrollGate() {
 
   window.addEventListener('touchmove', (e) => {
     const y = e.touches[0]?.clientY ?? touchStartY;
-    if (touchStartY - y > 30 && shouldBlockDown()) {
+    if (touchStartY - y > 30 && (introDivePending || shouldBlockDown())) {
       e.preventDefault();
       e.stopImmediatePropagation();
-      triggerDive();
+      requestIntroDive();
     } else if (y - touchStartY > 30 && shouldBlockUp()) {
       e.preventDefault();
       e.stopImmediatePropagation();
+      introDivePending = false;
+      window.clearTimeout(introDiveTimer);
       triggerDiveBack();
     }
   }, { passive: false, capture: true });
@@ -577,11 +645,13 @@ function initIntroScrollGate() {
   window.addEventListener('keydown', (e) => {
     const downKeys = ['ArrowDown', 'PageDown', ' ', 'End'];
     const upKeys = ['ArrowUp', 'PageUp', 'Home'];
-    if (downKeys.includes(e.key) && shouldBlockDown()) {
+    if (downKeys.includes(e.key) && (introDivePending || shouldBlockDown())) {
       e.preventDefault();
-      triggerDive();
+      requestIntroDive();
     } else if (upKeys.includes(e.key) && shouldBlockUp()) {
       e.preventDefault();
+      introDivePending = false;
+      window.clearTimeout(introDiveTimer);
       triggerDiveBack();
     }
   });
@@ -594,221 +664,54 @@ function initIntroScrollGate() {
     /* 이전 위치가 이미 introTop 이상이었을 때만 clamp — 로고→인트로 진입 시 튕김 방지 */
     if (y < crewTop - 4) crewScrollUnlocked = false;
   }, { passive: true });
+
+  window.__syncSmoothScroll?.();
+  ScrollTrigger?.refresh?.();
 }
 
 
 /* =============================================================
-   0-C. CREW FISH VIDEO MATTE
+   0-D. LOCATION FISH BACKGROUND
    ============================================================= */
-function initCrewFishMatte() {
-  const video = document.getElementById('crew-fish-source');
-  const canvas = document.getElementById('crew-fish-bg');
-  const smallCanvas = document.getElementById('crew-fish-bg-small');
-  const topCanvas = document.getElementById('crew-fish-bg-top');
-  if (!video || !canvas) return;
+function initLocationFishBgMatte() {
+  const section = document.getElementById('sec-location');
+  if (!section) return;
 
-  const ctx = canvas.getContext('2d', { willReadFrequently: true });
-  if (!ctx) return;
-  const smallCtx = smallCanvas ? smallCanvas.getContext('2d') : null;
-  const topCtx = topCanvas ? topCanvas.getContext('2d') : null;
+  const videos = section.querySelectorAll('video.location-fish-bg');
+  if (!videos.length) return;
 
-  const processWidth = 420;
-  let processHeight = 236;
-  let running = true;
-  let sectionVisible = false;
-  let matteRafId = null;
-  let fadeRafId = null;
-  let lastMatteTime = 0;
-  const MATTE_INTERVAL = 1000 / 24;
-  const LOOP_FADE_SECONDS = 1.2;
-
-  function clamp01(value) {
-    return Math.max(0, Math.min(1, value));
-  }
-
-  function smoothstep(edge0, edge1, value) {
-    const t = clamp01((value - edge0) / (edge1 - edge0));
-    return t * t * (3 - 2 * t);
-  }
-
-  function resizeCanvas() {
-    const vw = video.videoWidth || 1280;
-    const vh = video.videoHeight || 720;
-    processHeight = Math.max(1, Math.round(processWidth * (vh / vw)));
-    canvas.width = processWidth;
-    canvas.height = processHeight;
-    if (smallCanvas) {
-      smallCanvas.width = processWidth;
-      smallCanvas.height = processHeight;
-    }
-    if (topCanvas) {
-      topCanvas.width = processWidth;
-      topCanvas.height = processHeight;
-    }
-  }
-
-  function sampleBackground(data, width, height) {
-    const box = Math.max(6, Math.round(Math.min(width, height) * 0.055));
-    const points = [
-      [0, 0],
-      [width - box, 0],
-      [0, height - box],
-      [width - box, height - box]
-    ];
-    let r = 0, g = 0, b = 0, count = 0;
-
-    points.forEach(([sx, sy]) => {
-      for (let y = sy; y < sy + box; y += 1) {
-        for (let x = sx; x < sx + box; x += 1) {
-          const i = (y * width + x) * 4;
-          r += data[i];
-          g += data[i + 1];
-          b += data[i + 2];
-          count += 1;
-        }
-      }
-    });
-
-    return {
-      r: r / count,
-      g: g / count,
-      b: b / count
-    };
-  }
-
-  function matteFrame() {
-    matteRafId = null;
-    if (!running || !sectionVisible) return;
-
-    const now = performance.now();
-    if (now - lastMatteTime < MATTE_INTERVAL) {
-      scheduleMatte();
-      return;
-    }
-    lastMatteTime = now;
-
-    if (video.readyState < 2 || !video.videoWidth) {
-      scheduleMatte();
-      return;
-    }
-    if (
-      canvas.width !== processWidth ||
-      (smallCanvas && smallCanvas.width !== processWidth) ||
-      (topCanvas && topCanvas.width !== processWidth)
-    ) resizeCanvas();
-
-    let frame;
-    try {
-      ctx.drawImage(video, 0, 0, processWidth, processHeight);
-      frame = ctx.getImageData(0, 0, processWidth, processHeight);
-    } catch (err) {
-      running = false;
-      console.warn('[crew fish] 영상 누끼 처리 중단:', err);
-      return;
-    }
-
-    const data = frame.data;
-    const bg = sampleBackground(data, processWidth, processHeight);
-
-    for (let i = 0; i < data.length; i += 4) {
-      const r = data[i];
-      const g = data[i + 1];
-      const b = data[i + 2];
-      const dist = Math.hypot(r - bg.r, g - bg.g, b - bg.b);
-      const luma = r * 0.2126 + g * 0.7152 + b * 0.0722;
-      const alpha = smoothstep(30, 112, dist) * smoothstep(10, 34, luma);
-
-      data[i + 3] = Math.round(255 * alpha);
-    }
-
-    ctx.putImageData(frame, 0, 0);
-    if (smallCtx) smallCtx.putImageData(frame, 0, 0);
-    if (topCtx) topCtx.putImageData(frame, 0, 0);
-
-    scheduleMatte();
-  }
-
-  function scheduleMatte() {
-    if (matteRafId || !running || !sectionVisible) return;
-    matteRafId = requestAnimationFrame(matteFrame);
-  }
-
-  function setLoopOpacity(value) {
-    const opacity = String(value.toFixed(3));
-    canvas.style.setProperty('--crew-fish-loop-opacity', opacity);
-    if (smallCanvas) smallCanvas.style.setProperty('--crew-fish-loop-opacity', opacity);
-    if (topCanvas) topCanvas.style.setProperty('--crew-fish-loop-opacity', opacity);
-  }
-
-  function updateLoopFade() {
-    fadeRafId = null;
-    if (!running || !sectionVisible) return;
-
-    const duration = video.duration;
-    const currentTime = video.currentTime || 0;
-
-    if (Number.isFinite(duration) && duration > 0) {
-      const edgeDistance = Math.min(currentTime, Math.max(duration - currentTime, 0));
-      const raw = clamp01(edgeDistance / LOOP_FADE_SECONDS);
-      setLoopOpacity(raw * raw * (3 - 2 * raw));
-    } else {
-      setLoopOpacity(1);
-    }
-    scheduleLoopFade();
-  }
-
-  function scheduleLoopFade() {
-    if (fadeRafId || !running || !sectionVisible) return;
-    fadeRafId = requestAnimationFrame(updateLoopFade);
-  }
-
-  function keepVideoPlaying() {
+  function keepPlaying() {
     if (document.hidden) return;
-    video.muted = true;
-    video.playsInline = true;
-    if (video.paused || video.ended) {
-      video.play().catch(() => {});
-    }
+    videos.forEach(video => {
+      video.muted = true;
+      video.playsInline = true;
+      video.playbackRate = 0.85;
+      if (video.paused || video.ended) video.play().catch(() => {});
+    });
   }
 
-  video.addEventListener('loadedmetadata', () => {
-    resizeCanvas();
-    setLoopOpacity(1);
-  }, { once: true });
-  video.addEventListener('canplay', keepVideoPlaying);
-  video.addEventListener('stalled', keepVideoPlaying);
-  video.addEventListener('waiting', keepVideoPlaying);
-  video.addEventListener('pause', keepVideoPlaying);
-  video.play().catch(() => {});
-
-  document.addEventListener('visibilitychange', () => {
-    running = !document.hidden;
-    if (running) {
-      keepVideoPlaying();
-      scheduleMatte();
-      scheduleLoopFade();
-    } else {
-      if (matteRafId) cancelAnimationFrame(matteRafId);
-      if (fadeRafId) cancelAnimationFrame(fadeRafId);
-      matteRafId = null;
-      fadeRafId = null;
-    }
+  videos.forEach(video => {
+    video.addEventListener('canplay', keepPlaying);
+    video.addEventListener('stalled', keepPlaying);
+    video.addEventListener('waiting', keepPlaying);
+    video.addEventListener('pause', keepPlaying);
   });
 
-  const crewSection = document.getElementById('sec-crew');
-  if (crewSection) {
-    new IntersectionObserver(([entry]) => {
-      sectionVisible = entry.isIntersecting;
-      if (sectionVisible && running) {
-        keepVideoPlaying();
-        scheduleMatte();
-        scheduleLoopFade();
-      } else {
-        setLoopOpacity(1);
-      }
-    }, { rootMargin: '100px' }).observe(crewSection);
-  }
+  new IntersectionObserver(([entry]) => {
+    if (entry.isIntersecting) {
+      keepPlaying();
+    } else {
+      videos.forEach(video => video.pause());
+    }
+  }, { rootMargin: '100px' }).observe(section);
+
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) keepPlaying();
+  });
+
+  keepPlaying();
 }
+
 
 /**
  * useSectionTransition
@@ -1476,7 +1379,9 @@ function triggerDive() {
       }
       document.dispatchEvent(new CustomEvent('crew-force-enter'));
     },
-    onDone: () => { diveActive = false; },
+    onDone: () => {
+      diveActive = false;
+    },
   });
 
   if (!transition) {
@@ -1667,16 +1572,14 @@ function initCrewScroll() {
 
     if (placeholder) placeholder.dataset.creature = creatures[idx] ?? '';
 
-    if (force || prevIndex < 0) {
-      showCard(idx, true);
+    showCard(idx, force || prevIndex < 0);
+
+    if (!force && prevIndex >= 0 && prevIndex !== idx && !diveActive) {
+      playCrewCardWave();
     }
 
     /* Three.js crew3d.js에 전달 */
     document.dispatchEvent(new CustomEvent('crew-switch', { detail: { idx, immediate: force } }));
-
-    if (!force && prevIndex >= 0 && prevIndex !== idx) {
-      section.classList.add('is-card-pending');
-    }
   }
 
   function onScroll() {
@@ -1760,15 +1663,11 @@ function initCrewScroll() {
   document.addEventListener('crew-force-enter', () => {
     window.clearTimeout(crewEnterTimer);
     resetCrewExitState();
-    section.classList.remove('is-content-visible');
-    section.classList.add('is-title-visible');
-    crewSequencedEnterUntil = performance.now() + 120;
+    section.classList.add('is-title-visible', 'is-content-visible');
+    crewSequencedEnterUntil = 0;
     tailHidden = false;
     exitWavePlayed = false;
     setActive(0, false);
-    crewEnterTimer = window.setTimeout(() => {
-      section.classList.add('is-content-visible');
-    }, 80);
   });
   // 3D 생물이 다시 보이는 타이밍에 카드 텍스트를 교체합니다.
 
@@ -1777,7 +1676,6 @@ function initCrewScroll() {
     const idx = Number(e.detail?.idx);
     const nextIndex = Number.isInteger(idx) && idx >= 0 ? idx : currentIndex;
     showCard(Math.min(Math.max(nextIndex, 0), totalPanels - 1), true);
-    section.classList.remove('is-card-pending');
     if (!diveActive) playCrewCardWave();
   });
 
@@ -1834,46 +1732,29 @@ function initBookingSequence() {
 }
 
 function initBookingBgVideo() {
-  document.querySelectorAll('.booking-bg-video').forEach(video => {
+  const videos = document.querySelectorAll('.booking-bg-video');
+  if (!videos.length) return;
+
+  videos.forEach(video => {
     const rate = Number(video.dataset.playbackRate || 1);
     if (Number.isFinite(rate) && rate > 0) {
       video.playbackRate = rate;
       video.defaultPlaybackRate = rate;
     }
+  });
 
-    const restartMotion = () => {
-      video.style.setProperty('--booking-video-loop-opacity', '1');
+  const section = videos[0].closest('.section--booking');
+  if (!section) return;
+
+  new IntersectionObserver(([entry]) => {
+    if (!entry.isIntersecting) return;
+    videos.forEach(video => {
       video.style.animation = 'none';
-      try {
-        video.currentTime = 0;
-      } catch (_) {}
+      try { video.currentTime = 0; } catch (_) {}
       void video.offsetWidth;
       video.style.animation = '';
-    };
-
-    const section = video.closest('.section--booking');
-    if (section) {
-      const observer = new IntersectionObserver(([entry]) => {
-        if (entry.isIntersecting) restartMotion();
-      }, { threshold: 0.16 });
-
-      observer.observe(section);
-    }
-
-    const fadeSeconds = Number(video.dataset.loopFadeSeconds || 0.9);
-    const updateLoopFade = () => {
-      const duration = video.duration;
-      if (Number.isFinite(duration) && duration > 0 && fadeSeconds > 0) {
-        const edgeDistance = Math.min(video.currentTime, Math.max(duration - video.currentTime, 0));
-        const rawOpacity = Math.min(Math.max(edgeDistance / fadeSeconds, 0), 1);
-        const easedOpacity = rawOpacity * rawOpacity * (3 - 2 * rawOpacity);
-        video.style.setProperty('--booking-video-loop-opacity', easedOpacity.toFixed(3));
-      }
-      requestAnimationFrame(updateLoopFade);
-    };
-
-    updateLoopFade();
-  });
+    });
+  }, { threshold: 0.16 }).observe(section);
 }
 
 const stickySequenceControllers = [];

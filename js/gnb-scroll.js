@@ -1,16 +1,11 @@
-// Shared GNB scroll behavior — mirrors program/script.js GNB section
-// Used by all sub-pages (business, location, marinlab, ticket, Oceanfriends)
+// Shared GNB scroll behavior — used by all sub-pages
 document.addEventListener('DOMContentLoaded', function () {
   const gnb = document.querySelector('.gnb');
   if (!gnb) return;
 
-  const ticketIcon = gnb.querySelector('.btn--ticket .btn__icon img');
-  const logoImg    = gnb.querySelector('.gnb__logo-center img');
-
-  const ticketIconWhite = 'assets/images/ticket_icon_white.svg';
-  const ticketIconBlue  = 'assets/images/ticket_icon_blue.svg';
-  const logoWhite = 'assets/images/headerLogo.png';
-  const logoBlue  = 'assets/images/headerLogo_blue.png';
+  // 상세 페이지: 로고 항상 표시 + 항상 glass 효과
+  document.body.classList.add('is-logo-at-header');
+  gnb.classList.add('gnb--glass');
 
   let lastScrollY = window.scrollY;
 
@@ -20,8 +15,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const scrolled = max > 0 ? y / max >= 0.1 : false;
 
     gnb.classList.toggle('gnb--scrolled', scrolled);
-    if (ticketIcon) ticketIcon.src = scrolled ? ticketIconBlue : ticketIconWhite;
-    if (logoImg)    logoImg.src    = scrolled ? logoBlue       : logoWhite;
 
     if (scrolled && y > lastScrollY) {
       gnb.classList.add('gnb--hidden');

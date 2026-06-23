@@ -46,8 +46,8 @@
   --fs-sec-en:      42px;
   --fs-sec-serif:   48px;
   --fs-creature:    48px;
-  --fs-nav:         18px;
-  --fs-nav-active:  20px;
+  --fs-nav:         24px;
+  --fs-nav-active:  28px;
   --fs-caption:     20px;
   --fs-sub:         18px;
   --fs-body:        16px;
@@ -97,7 +97,7 @@ body {
   font-family: var(--font-kr);
   overscroll-behavior-y: none;
   background-color: #22BBFF;
-  background-image: url('../assets/images/contentBg.png');
+  background-image: url('../assets/images/contentBg.webp');
   background-position: top center;
   background-size: 100% 100%;
   background-repeat: no-repeat;
@@ -153,7 +153,7 @@ button {
 }
 
 /* 배경 위에 콘텐츠 올리기 (.crew-sticky, .scroll-indicator, .section__video-bg는 제외) */
-.section>*:not(.section__bg):not(.section__video-bg):not(.crew-sticky):not(.scroll-indicator):not(.bubble-layer) {
+.section>*:not(.section__bg):not(.section__video-bg):not(.logo-bg-video):not(.crew-sticky):not(.scroll-indicator):not(.bubble-layer):not(.location-fish-bg):not(.location-fish-bg--left) {
   position: relative;
   z-index: 1;
 }
@@ -168,6 +168,15 @@ button {
 .bubble-section-wrapper>.section {
   position: relative;
   z-index: 2;
+}
+
+.content-bg-wrap {
+  position: relative;
+  background-color: #22BBFF;
+  background-image: url('../assets/images/contentBg.webp');
+  background-position: top center;
+  background-size: 100% calc(100% + 60vh);
+  background-repeat: no-repeat;
 }
 
 .bubble-layer {
@@ -204,17 +213,22 @@ button {
   opacity: var(--bubble-opacity);
   pointer-events: none;
   background:
-    radial-gradient(circle at 31% 25%, rgba(255, 255, 255, 0.88) 0 8%, rgba(255, 255, 255, 0.22) 9%, transparent 24%),
-    radial-gradient(circle at 68% 72%, rgba(112, 218, 255, 0.20) 0 13%, transparent 35%),
-    radial-gradient(circle at 48% 50%, rgba(255, 255, 255, 0.10), rgba(255, 255, 255, 0.025) 58%, rgba(255, 255, 255, 0.12) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.48);
+    radial-gradient(circle at 31% 25%, rgba(255, 255, 255, 0.88) 0 8%, rgba(255, 255, 255, 0.22) 9%, transparent 24%) padding-box,
+    radial-gradient(circle at 68% 72%, rgba(112, 218, 255, 0.20) 0 13%, transparent 35%) padding-box,
+    radial-gradient(circle at 48% 50%, rgba(255, 255, 255, 0.10), rgba(255, 255, 255, 0.025) 58%, rgba(255, 255, 255, 0.12) 100%) padding-box,
+    linear-gradient(135deg,
+      rgba(255, 255, 255, 0.92) 0%,
+      rgba(255, 255, 255, 0.92) 7%,
+      rgba(255, 255, 255, 0.14) 28%,
+      rgba(255, 255, 255, 0.04) 52%,
+      rgba(255, 255, 255, 0.10) 74%,
+      rgba(255, 255, 255, 0.58) 100%
+    ) border-box;
+  border: 1.5px solid transparent;
   box-shadow:
     inset 0 0 10px rgba(255, 255, 255, 0.28),
     inset -8px -10px 18px rgba(34, 178, 234, 0.08),
     0 0 16px rgba(183, 239, 255, 0.13);
-  backdrop-filter: blur(2px) saturate(1.25);
-  -webkit-backdrop-filter: blur(2px) saturate(1.25);
-  filter: blur(0.1px);
   animation:
     glassBubbleRise var(--bubble-duration) linear var(--bubble-delay) infinite,
     glassBubbleSway var(--bubble-sway-duration) ease-in-out var(--bubble-delay) infinite alternate;
@@ -308,9 +322,9 @@ button {
 /* 푸터 영상 상단 페이드 → body 배경 이미지에서 자연스럽게 진입 */
 .footer__video-bg {
   top: auto;
-  height: 75%;
-  mask-image: linear-gradient(to top, black 70%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to top, black 70%, transparent 100%);
+  height: 100%;
+  mask-image: linear-gradient(to bottom, transparent 0%, black 38%, black 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 38%, black 100%);
 }
 
 
@@ -512,22 +526,24 @@ button {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  height: 44px;
-  padding: 0 14px 0 20px;
+  height: 54px;
+  padding: 0 22px;
   border-radius: var(--radius-btn-pill);
   font-family: var(--font-en);
   font-weight: 400;
   font-size: var(--fs-nav);
   letter-spacing: var(--ls-tight);
   color: var(--clr-text);
-  background: var(--clr-glass-02);
-  border: 1px solid var(--clr-glass-10);
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   transition: background var(--tr-base), border-color var(--tr-base);
 }
 
 .btn-pill:hover {
-  background: var(--clr-glass-10);
-  border-color: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.44);
 }
 
 
@@ -544,10 +560,8 @@ button {
   transition: background var(--tr-base), backdrop-filter var(--tr-base), transform 0.35s ease, opacity 0.6s ease;
 }
 
-/* 로고 섹션 진행 중 — GNB 완전 숨김 (initGnb가 클래스 제거 시 0.6s fade-in) */
+/* 로고 섹션 진행 중 — 스크롤로 숨겨지지 않도록 transform 고정, GNB 자체는 표시 */
 .gnb--logo-mode {
-  opacity: 0 !important;
-  pointer-events: none !important;
   transform: none !important;
 }
 
@@ -566,12 +580,12 @@ button {
   transform: translateY(-100%);
 }
 
-.gnb.gnb--light-bg {
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.86) 0%, rgba(255, 255, 255, 0) 100%);
-}
-
+.gnb.gnb--glass,
+.gnb.gnb--light-bg,
 .gnb.gnb--scrolled {
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.86) 0%, rgba(255, 255, 255, 0) 100%);
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(20px) saturate(1.12);
+  -webkit-backdrop-filter: blur(20px) saturate(1.12);
 }
 
 .gnb__inner {
@@ -637,65 +651,6 @@ button {
   color: var(--clr-text);
 }
 
-.gnb.gnb--light-bg .gnb__link {
-  color: rgba(17, 118, 158, 0.58);
-}
-
-.gnb.gnb--scrolled .gnb__link {
-  color: rgba(17, 118, 158, 0.58);
-}
-
-.gnb.gnb--scrolled .gnb__item,
-.gnb.gnb--light-bg .gnb__item {
-  color: rgba(17, 118, 158, 0.58);
-}
-
-.gnb.gnb--light-bg .gnb__link:hover,
-.gnb.gnb--light-bg .gnb__link.gnb__link--active {
-  color: var(--clr-primary);
-}
-
-.gnb.gnb--scrolled .gnb__link:hover,
-.gnb.gnb--scrolled .gnb__link.gnb__link--active {
-  color: var(--clr-primary);
-}
-
-.gnb.gnb--scrolled .gnb__item:hover,
-.gnb.gnb--scrolled .gnb__item.gnb__item--active,
-.gnb.gnb--light-bg .gnb__item:hover,
-.gnb.gnb--light-bg .gnb__item.gnb__item--active {
-  color: var(--clr-primary);
-}
-
-.gnb.gnb--light-bg .btn-pill {
-  color: var(--clr-primary);
-  background: rgba(255, 255, 255, 0.72);
-  border-color: rgba(34, 178, 234, 0.18);
-}
-
-.gnb.gnb--scrolled .btn-pill {
-  color: var(--clr-primary);
-  background: rgba(255, 255, 255, 0.72);
-  border-color: rgba(34, 178, 234, 0.18);
-}
-
-.gnb.gnb--light-bg .btn-pill:hover {
-  background: #ffffff;
-  border-color: rgba(34, 178, 234, 0.34);
-}
-
-.gnb.gnb--scrolled .btn-pill:hover {
-  background: #ffffff;
-  border-color: rgba(34, 178, 234, 0.34);
-}
-
-.gnb.gnb--light-bg .btn-pill svg path {
-  stroke: var(--clr-primary);
-}
-
-.gnb.gnb--scrolled .btn-pill svg path {
-  stroke: var(--clr-primary);
-}
 
 .btn--ticket {
   display: inline-flex;
@@ -806,7 +761,7 @@ body.is-logo-at-header .gnb__logo {
   /* gnb(1000) 위 → 헤더에 가려지지 않고 안착 */
   opacity: 1;
   filter: none;
-  transition: opacity 0.14s ease, filter 0.12s ease;
+  transition: filter 0.12s ease;
 }
 
 .logo3d-wrap.is-logo-docking {
@@ -840,7 +795,7 @@ body.is-logo-at-header .gnb__logo {
   position: absolute;
   pointer-events: none;
   z-index: 100;
-  background: url('../assets/images/fish.png') no-repeat center center;
+  background: url('../assets/images/fish.webp') no-repeat center center;
   background-size: contain;
   will-change: transform;
 }
@@ -905,59 +860,74 @@ body.is-logo-at-header .gnb__logo {
 /* 로고 섹션 = 스크롤 트랜지션 길이 (스크럽 거리 확보).
    이 구간을 스크롤하는 동안 3D 로고가 흩어졌다 모이며 헤더로 안착한다. */
 .section--logo {
-  min-height: 150vh;
-  min-height: 150svh;
+  min-height: 200vh;
+  min-height: 200svh;
+  display: block;
   /* iOS 주소창 변동 대응 */
   isolation: isolate;
-  overflow: hidden;
+  overflow: visible;
+  background: transparent;
+  position: relative;
 }
 
-.section--logo .section__video-bg {
+/* 로고 섹션 배경 영상 — 유리 굴절 재질이 참조하는 같은 비디오를 실제 배경으로 사용 */
+.logo-bg-video {
+  position: absolute;
   inset: 0;
-  width: 100vw;
+  width: 100%;
   height: 100%;
-  object-position: center top;
-}
-
-/* 비디오 배경은 첫 화면(100vh)에만 고정 노출, 이후 스크롤로 자연 이탈 */
-.section--logo .section__video-bg {
-  height: 100vh;
-  height: 100svh;
-}
-
-.section__video-bg--first {
   object-fit: cover;
-  background: #22bbff;
-  mask-image: linear-gradient(to bottom, black 0%, black 58%, rgba(0, 0, 0, 0.5) 78%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to bottom, black 0%, black 58%, rgba(0, 0, 0, 0.5) 78%, transparent 100%);
-  transform: translate3d(0, 0, 0);
-  backface-visibility: hidden;
-  filter: none;
+  z-index: 0;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
 }
 
-
-/* 인트로 섹션: 섹션 자체는 고정하고 내부 텍스트만 reveal 처리 */
+#sec-logo,
 #sec-intro {
-  min-height: 100vh;
-  min-height: 100svh;
+  background: transparent;
 }
 
-.section--hero {
-  min-height: 100vh;
-  min-height: 100svh;
+#sec-logo .section__bg,
+#sec-intro .section__bg {
+  background: none;
+}
+
+/* 인트로 섹션: sticky 텍스트가 화면 중앙에 머무는 시간 확보 (300vh = 200vh 고정 구간) */
+#sec-intro {
+  height: auto;
+  min-height: 300vh;
+  min-height: 300svh;
+  position: relative;
+  z-index: 2;
+  display: block;
+  overflow: visible;
+}
+
+#sec-intro.section--hero {
+  height: auto;
+  min-height: 300vh;
+  min-height: 300svh;
+  display: block;
+  overflow: visible;
 }
 
 .section--hero .section__bg {
   background: none;
 }
 
-.hero {
+#sec-intro .hero {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  height: 100svh;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex: 1;
-  padding-top: 102px;
-  /* GNB 높이 보상 */
+  flex: none;
+  padding-top: 0;
+  z-index: 2;
 }
 
 .hero__text {
@@ -1033,10 +1003,26 @@ body.is-logo-at-header .gnb__logo {
   animation-play-state: running;
 }
 
+/* 텍스트가 화면 중앙에 자리잡은 후 물결처럼 일렁이는 shimmer */
+@keyframes heroShimmer {
+  0%, 100% {
+    filter: drop-shadow(0 0 0px transparent);
+    opacity: 1;
+  }
+  50% {
+    filter: drop-shadow(0 0 28px rgba(120, 210, 255, 0.45)) drop-shadow(0 0 56px rgba(80, 170, 240, 0.2));
+    opacity: 0.92;
+  }
+}
+
+#sec-intro.hero-active .hero__text {
+  animation: heroShimmer 3.5s ease-in-out 2.2s infinite;
+}
+
 /* 스크롤 인디케이터 */
 .scroll-indicator {
   position: absolute;
-  bottom: 190px;
+  top: calc(100vh - clamp(2px, -20vh, 220px));
   left: 50%;
   transform: translateX(-50%);
   z-index: 2;
@@ -1045,6 +1031,15 @@ body.is-logo-at-header .gnb__logo {
   align-items: center;
   gap: 8px;
   transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+#sec-intro .scroll-indicator {
+  position: sticky;
+  top: 80vh;
+  left: auto;
+  transform: none;
+  width: fit-content;
+  margin: 0 auto;
 }
 
 .scroll-indicator__line {
@@ -1190,7 +1185,7 @@ body.is-logo-at-header .gnb__logo {
   background: none;
 }
 
-.crew-fish-source {
+.crew-fish-bg-video-source {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -1198,58 +1193,15 @@ body.is-logo-at-header .gnb__logo {
   pointer-events: none;
 }
 
-.crew-fish-bg {
+.crew-fish-bg-video {
   position: absolute;
-  left: 0;
-  bottom: 0;
-  width: clamp(270px, 34vw, 600px);
-  height: auto;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   z-index: 1;
-  opacity: calc(0.24 * var(--crew-fish-loop-opacity));
-  --crew-fish-loop-opacity: 1;
+  opacity: 0.2;
   pointer-events: none;
-  mix-blend-mode: normal;
-  filter: saturate(1.08) contrast(0.92) brightness(1.04) blur(0.45px);
-  -webkit-mask-image: radial-gradient(ellipse at center, black 0 48%, rgba(0, 0, 0, 0.62) 64%, transparent 82%);
-  mask-image: radial-gradient(ellipse at center, black 0 48%, rgba(0, 0, 0, 0.62) 64%, transparent 82%);
-  transform: translate3d(-48vw, 36vh, 0) scale(0.9);
-  animation: crewFishSwim 20s linear infinite;
-  will-change: transform, opacity;
-  backface-visibility: hidden;
-  contain: paint;
-}
-
-.crew-fish-bg--small {
-  width: clamp(150px, 18vw, 320px);
-  z-index: 0;
-  opacity: calc(0.2 * var(--crew-fish-loop-opacity));
-  --crew-fish-loop-opacity: 1;
-  filter: saturate(0.96) contrast(0.9) brightness(1.02) blur(1.1px);
-  transform: translate3d(-48vw, 48vh, 0) rotate(3deg) scale(0.6);
-  animation: crewFishSwimSmall 38s linear infinite;
-  animation-delay: -8s;
-}
-
-.crew-fish-bg--top {
-  top: 178px;
-  bottom: auto;
-  left: 8vw;
-  width: clamp(145px, 16vw, 290px);
-  z-index: 1;
-  opacity: calc(0.22 * var(--crew-fish-loop-opacity));
-  --crew-fish-loop-opacity: 1;
-  filter: saturate(0.94) contrast(0.88) brightness(1.04) blur(1.2px);
-  transform: translate3d(-28vw, 18px, 0) rotate(2deg) scale(0.56);
-  animation: crewFishSwimTop 36s linear infinite;
-  animation-delay: -9s;
-}
-
-.section--crew-scroll:not(.is-content-visible) .crew-fish-bg {
-  visibility: hidden;
-}
-
-.section--crew-scroll:not(.is-fish-top-visible) .crew-fish-bg--top {
-  visibility: hidden;
+  filter: saturate(1.08) contrast(0.9) brightness(0.86);
 }
 
 .crew-sticky::before,
@@ -1285,132 +1237,7 @@ body.is-logo-at-header .gnb__logo {
   }
 }
 
-@keyframes crewFishSwim {
-  0% {
-    opacity: 0;
-    transform: translate3d(-60vw, 46vh, 0) rotate(-7deg) scale(0.78);
-  }
-  6% {
-    opacity: calc(0.24 * var(--crew-fish-loop-opacity, 1));
-    transform: translate3d(-48vw, 33vh, 0) rotate(-5deg) scale(0.80);
-  }
-  17% {
-    transform: translate3d(-30vw, 17vh, 0) rotate(-1deg) scale(0.84);
-  }
-  28% {
-    transform: translate3d(-10vw, 27vh, 0) rotate(4deg) scale(0.88);
-  }
-  40% {
-    transform: translate3d(10vw, 9vh, 0) rotate(-2deg) scale(0.92);
-  }
-  52% {
-    transform: translate3d(30vw, -1vh, 0) rotate(-6deg) scale(0.95);
-  }
-  63% {
-    transform: translate3d(48vw, -11vh, 0) rotate(-3deg) scale(0.97);
-  }
-  74% {
-    transform: translate3d(64vw, -27vh, 0) rotate(-7deg) scale(0.99);
-  }
-  83% {
-    opacity: calc(0.18 * var(--crew-fish-loop-opacity, 1));
-    transform: translate3d(81vw, -42vh, 0) rotate(-5deg) scale(1.00);
-  }
-  93% {
-    opacity: calc(0.08 * var(--crew-fish-loop-opacity, 1));
-    transform: translate3d(99vw, -55vh, 0) rotate(-2deg) scale(1.00);
-  }
-  100% {
-    opacity: 0;
-    transform: translate3d(117vw, -66vh, 0) rotate(2deg) scale(1.00);
-  }
-}
-
-@keyframes crewFishSwimSmall {
-  0% {
-    opacity: 0;
-    transform: translate3d(-50vw, 52vh, 0) rotate(5deg) scale(0.52);
-  }
-  10% {
-    opacity: calc(0.2 * var(--crew-fish-loop-opacity, 1));
-    transform: translate3d(-36vw, 41vh, 0) rotate(-1deg) scale(0.54);
-  }
-  22% {
-    transform: translate3d(-18vw, 50vh, 0) rotate(5deg) scale(0.57);
-  }
-  35% {
-    transform: translate3d(0vw, 36vh, 0) rotate(-3deg) scale(0.60);
-  }
-  48% {
-    transform: translate3d(18vw, 44vh, 0) rotate(4deg) scale(0.62);
-  }
-  62% {
-    transform: translate3d(40vw, 22vh, 0) rotate(-6deg) scale(0.65);
-  }
-  76% {
-    transform: translate3d(62vw, 4vh, 0) rotate(-4deg) scale(0.68);
-  }
-  88% {
-    opacity: calc(0.14 * var(--crew-fish-loop-opacity, 1));
-    transform: translate3d(80vw, -12vh, 0) rotate(-2deg) scale(0.70);
-  }
-  100% {
-    opacity: 0;
-    transform: translate3d(108vw, -36vh, 0) rotate(3deg) scale(0.72);
-  }
-}
-
-@keyframes crewFishSwimTop {
-  0% {
-    opacity: 0;
-    transform: translate3d(-30vw, 34px, 0) rotate(5deg) scale(0.50);
-  }
-
-  12% {
-    opacity: calc(0.22 * var(--crew-fish-loop-opacity, 1));
-    transform: translate3d(-20vw, 6px, 0) rotate(-1deg) scale(0.53);
-  }
-  24% {
-    transform: translate3d(-10vw, -20px, 0) rotate(-5deg) scale(0.55);
-  }
-  36% {
-    transform: translate3d(-1vw, -6px, 0) rotate(3deg) scale(0.57);
-  }
-  50% {
-    transform: translate3d(8vw, -54px, 0) rotate(-6deg) scale(0.59);
-  }
-  64% {
-    transform: translate3d(15vw, -36px, 0) rotate(2deg) scale(0.61);
-  }
-
-  78% {
-    opacity: calc(0.16 * var(--crew-fish-loop-opacity, 1));
-    transform: translate3d(22vw, -112px, 0) rotate(-5deg) scale(0.62);
-  }
-
-  100% {
-    opacity: 0;
-    transform: translate3d(32vw, -150px, 0) rotate(2deg) scale(0.64);
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .crew-fish-bg {
-    animation: none;
-    opacity: 0.2;
-    transform: translate3d(12vw, -8vh, 0) rotate(-4deg) scale(0.78);
-  }
-
-  .crew-fish-bg--small {
-    opacity: 0.14;
-    transform: translate3d(2vw, 12vh, 0) rotate(3deg) scale(0.58);
-  }
-
-  .crew-fish-bg--top {
-    opacity: 0.12;
-    transform: translate3d(-8vw, -24px, 0) rotate(-5deg) scale(0.56);
-  }
-
   .crew-sticky::after {
     animation: none;
   }
@@ -1478,7 +1305,6 @@ body.is-logo-at-header .gnb__logo {
   opacity: 1;
   transform: translate(-48%, -44%);
   pointer-events: auto;
-  transition-delay: 0.06s;
 }
 
 .section--crew-scroll.is-content-visible .crew-dots,
@@ -1500,7 +1326,6 @@ body.is-logo-at-header .gnb__logo {
 .section--crew-scroll.is-content-visible .crew-canvas-wrap {
   opacity: 1;
   transform: translateY(0);
-  transition-delay: 0.08s;
 }
 
 /* Three.js renderer가 append하는 canvas */
@@ -1631,7 +1456,6 @@ body.is-logo-at-header .gnb__logo {
 .section--crew-scroll.is-content-visible .crew-info-wrap {
   opacity: 1;
   transform: translateY(0);
-  transition-delay: 0.10s;
 }
 
 .crew-info-wrap::before {
@@ -1714,7 +1538,6 @@ body.is-logo-at-header .gnb__logo {
 
 .section--crew-scroll.is-content-visible .crew-dots {
   transform: translateX(-50%) translateY(0);
-  transition-delay: 0.14s;
 }
 
 .crew-dot {
@@ -1955,6 +1778,17 @@ body.is-logo-at-header .gnb__logo {
   padding-top: var(--title-top);
 }
 
+.section--program .section-seq-sticky {
+  position: static !important;
+  top: auto !important;
+  height: auto !important;
+  overflow: visible !important;
+  display: block !important;
+  align-items: stretch !important;
+  justify-content: flex-start !important;
+  padding-top: 0 !important;
+}
+
 .section-seq-sticky > .container {
   position: relative;
   z-index: 1;
@@ -2049,7 +1883,6 @@ body.is-logo-at-header .gnb__logo {
 }
 
 .program-card:hover {
-  transform: translateY(-8px);
   background: rgba(255, 255, 255, 0.14);
   box-shadow: none;
   z-index: 2;
@@ -2157,7 +1990,7 @@ body.is-logo-at-header .gnb__logo {
 }
 
 .program-card__img--1 {
-  background-image: url('../assets/images/image%20136.png');
+  background-image: url('../assets/images/image136.webp');
 }
 
 .program-card__img--2 {
@@ -2165,11 +1998,11 @@ body.is-logo-at-header .gnb__logo {
 }
 
 .program-card__img--3 {
-  background-image: url('../assets/images/image%20138.png');
+  background-image: url('../assets/images/image138.webp');
 }
 
 .program-card__img--4 {
-  background-image: url('../assets/images/image%20140.png');
+  background-image: url('../assets/images/image140.webp');
 }
 
 .program-card__gradient {
@@ -2271,6 +2104,28 @@ body.is-logo-at-header .gnb__logo {
 
 .section--location .section__bg {
   background: none;
+}
+
+.location-fish-bg {
+  position: absolute;
+  right: clamp(18px, 4vw, 72px);
+  top: 50%;
+  transform: translateY(-50%);
+  width: clamp(420px, 52vw, 900px);
+  aspect-ratio: 16 / 9;
+  height: auto;
+  z-index: 0;
+  opacity: 0.75;
+  pointer-events: none;
+  display: block;
+  object-fit: cover;
+}
+
+.location-fish-bg--left {
+  right: auto;
+  left: clamp(18px, 4vw, 72px);
+  top: 20%;
+  transform: translateY(-50%) scaleX(-1);
 }
 
 .section--location .container {
@@ -2640,7 +2495,7 @@ body.is-logo-at-header .gnb__logo {
   top: -20px;
   width: 610px;
   height: 523px;
-  background-image: url("../assets/images/image 138.png");
+  background-image: url("../assets/images/image138.webp");
 }
 
 .location-deco--left {
@@ -2648,7 +2503,7 @@ body.is-logo-at-header .gnb__logo {
   bottom: -40px;
   width: 550px;
   height: 450px;
-  background-image: url("../assets/images/image 136.png");
+  background-image: url("../assets/images/image136.webp");
 }
 
 
@@ -2858,19 +2713,19 @@ body.is-logo-at-header .gnb__logo {
 }
 
 .booking-card__img--ilsan {
-  background-image: url("../assets/images/Frame 19.png");
+  background-image: url("../assets/images/Frame_19.webp");
 }
 
 .booking-card__img--seoul {
-  background-image: url("../assets/images/Frame 20.png");
+  background-image: url("../assets/images/Frame_20.webp");
 }
 
 .booking-card__img--yeosu {
-  background-image: url("../assets/images/Frame 22.png");
+  background-image: url("../assets/images/Frame_22.webp");
 }
 
 .booking-card__img--jeju {
-  background-image: url("../assets/images/Frame 21.png");
+  background-image: url("../assets/images/Frame_21.webp");
 }
 
 .booking-card__gradient {
@@ -2917,7 +2772,7 @@ body.is-logo-at-header .gnb__logo {
 
 .footer__inner {
   position: relative;
-  z-index: 1;
+  z-index: 1600;
   width: calc(100% - 96px);
   display: flex;
   align-items: flex-end;
@@ -3142,7 +2997,7 @@ body.is-logo-at-header .gnb__logo {
 }
 
 .program-card:hover .program-card__img {
-  transform: scale(1.025);
+  transform: scale(1.08);
   filter: brightness(1.12) contrast(1.05) saturate(1.1);
 }
 
@@ -3671,29 +3526,17 @@ body,
 .gnb__dropdown::after {
   content: '';
   position: absolute;
-  /* 위 호버 다리(23px)는 비우고, 패널은 콘텐츠만 감싸도록 (상하 3px 여백) */
   inset: 20px 0 0 0;
-  background: rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(24px) saturate(1.2);
+  -webkit-backdrop-filter: blur(24px) saturate(1.2);
+  border: 1px solid rgba(255, 255, 255, 0.26);
   border-radius: 14px;
+  box-shadow:
+    0 8px 32px rgba(0, 20, 60, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
   pointer-events: none;
   z-index: -1;
-}
-
-.gnb.gnb--scrolled .gnb__dropdown::after,
-.gnb.gnb--light-bg .gnb__dropdown::after,
-body.marin-header-light .gnb .gnb__dropdown::after {
-  background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.9), rgba(238, 238, 238, 0.72)),
-    rgba(242, 242, 242, 0.78);
-  backdrop-filter: blur(22px) saturate(1.22);
-  -webkit-backdrop-filter: blur(22px) saturate(1.22);
-  border: 1px solid rgba(210, 210, 210, 0.72);
-  border-radius: 16px;
-  box-shadow:
-    0 18px 40px rgba(0, 0, 0, 0.08),
-    inset 0 1px 0 rgba(255, 255, 255, 0.86);
 }
 
 /* About us 호버 시 드롭다운 표시 */
@@ -3749,34 +3592,6 @@ body.marin-header-light .gnb .gnb__dropdown::after {
   color: var(--clr-primary) !important;
 }
 
-.gnb.gnb--scrolled .gnb__dropdown-item,
-.gnb.gnb--light-bg .gnb__dropdown-item,
-body.marin-header-light .gnb .gnb__dropdown-item {
-  color: rgba(17, 118, 158, 0.72);
-}
-
-.gnb.gnb--scrolled .gnb__dropdown-item:hover,
-.gnb.gnb--light-bg .gnb__dropdown-item:hover,
-body.marin-header-light .gnb .gnb__dropdown-item:hover {
-  background: rgba(255, 255, 255, 0.76);
-  color: var(--clr-primary);
-  box-shadow: inset 0 0 0 1px rgba(34, 178, 234, 0.12);
-}
-
-.gnb.gnb--scrolled .gnb__dropdown-item--active,
-.gnb.gnb--light-bg .gnb__dropdown-item--active,
-body.marin-header-light .gnb .gnb__dropdown-item--active {
-  background: rgba(255, 255, 255, 0.48);
-  color: rgba(14, 139, 189, 0.86) !important;
-  box-shadow: inset 0 0 0 1px rgba(34, 178, 234, 0.12);
-}
-
-.gnb.gnb--scrolled .gnb__dropdown-item--active:hover,
-.gnb.gnb--light-bg .gnb__dropdown-item--active:hover,
-body.marin-header-light .gnb .gnb__dropdown-item--active:hover {
-  background: rgba(255, 255, 255, 0.86);
-  color: var(--clr-primary) !important;
-}
 
 @media (prefers-reduced-motion: reduce) {
   .booking-bg-video {
@@ -3803,7 +3618,7 @@ body.marin-header-light .gnb .gnb__dropdown-item--active:hover {
   inset: 0;
   z-index: 2000;
   /* 메인 GNB(1000) 위 */
-  overflow-y: auto;
+  overflow: hidden;
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
@@ -4001,25 +3816,45 @@ body.ticket-open {
   z-index: 2;
 }
 
-/* 지점별 위치 (Figma 1920 프레임 기준 비율 환산) */
+/* 지점별 위치 + 강약 (크기·불투명도·그림자로 원근감 표현) */
 .ticket-spot--ilsan {
-  left: -2%;
+  left: 8%;
   top: 46%;
+  width: clamp(210px, 27vw, 500px);
+  opacity: 0.88;
+}
+.ticket-spot--ilsan .ticket-spot__bubble {
+  filter: drop-shadow(0 14px 42px rgba(0, 60, 110, 0.26));
 }
 
 .ticket-spot--yeosu {
   left: 26%;
   top: 23%;
+  width: clamp(170px, 21vw, 390px);
+  opacity: 0.72;
+}
+.ticket-spot--yeosu .ticket-spot__bubble {
+  filter: drop-shadow(0 6px 18px rgba(0, 60, 110, 0.12));
 }
 
 .ticket-spot--jeju {
-  left: 50%;
-  top: 55%;
+  left: 54%;
+  top: 50%;
+  width: clamp(230px, 29vw, 520px);
+  opacity: 1;
+}
+.ticket-spot--jeju .ticket-spot__bubble {
+  filter: drop-shadow(0 20px 56px rgba(0, 60, 110, 0.34));
 }
 
 .ticket-spot--gwanggyo {
   left: 65%;
   top: 23%;
+  width: clamp(185px, 24vw, 440px);
+  opacity: 0.78;
+}
+.ticket-spot--gwanggyo .ticket-spot__bubble {
+  filter: drop-shadow(0 8px 24px rgba(0, 60, 110, 0.14));
 }
 
 /* 지점별 동물 크기/회전 — 모두 버블 정중앙(translate -50%,-50%)에 배치 */
@@ -4524,38 +4359,13 @@ body.ticket-open {
    일반 흐름이라 콘텐츠 전체 높이에 맞춰 그라데이션이 잡히고 함께 스크롤된다. */
 .ticket-bg {
   position: relative;
-  background: linear-gradient(to bottom, #22B2EA 0%, #22B2EA 20%, #ffffff 60%, #22B2EA 100%);
+  background: #00A9FF;
+  height: 100vh;
+  overflow: hidden;
 }
 
-.ticket,
-.ticket-scroll-below,
-.ticket-page #footer {
+.ticket {
   background: transparent !important;
-}
-
-.ticket-scroll-below {
-  position: relative;
-  width: 100%;
-  height: 60vh;
-  min-height: 400px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10;
-}
-
-.ticket-scroll-below__logo-placeholder {
-  width: 300px;
-  height: 300px;
-}
-
-.ticket-page #footer {
-  position: relative;
-  z-index: 10;
-}
-
-.ticket-page #footer .footer__video-bg {
-  display: none !important;
 }
 
 /* Landing logo wave background */

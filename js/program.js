@@ -1,53 +1,35 @@
 ﻿document.addEventListener('DOMContentLoaded', function() {
   const LOCATIONS = ['Jeju', 'Yeosu', 'Ilsan', 'Gwanggyo'];
 
-  // ===== 페이지 10% 이상 스크롤 시 GNB 색상 전환 (흰색 → primary 계열) =====
-  const gnb = document.querySelector('.gnb');
-  if (gnb) {
-    const ticketIcon = gnb.querySelector('.btn--ticket .btn__icon img');
-    const ticketIconWhite = 'assets/images/ticket_icon_white.svg';
-    const ticketIconBlue = 'assets/images/ticket_icon_blue.svg';
-
-    const logoImg = gnb.querySelector('.gnb__logo img');
-    const logoWhite = 'assets/images/headerLogo.png';
-    const logoBlue = 'assets/images/headerLogo_blue.png';
-
-    let lastScrollY = window.scrollY;
-
-    function updateGnbScrolled() {
-      const y = window.scrollY;
-      const max = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = max > 0 ? y / max : 0;
-      const scrolled = progress >= 0.1;
-
-      gnb.classList.toggle('gnb--scrolled', scrolled);
-      // 티켓 아이콘도 스크롤 상태에 맞춰 흰색/파란색 전환
-      if (ticketIcon) ticketIcon.src = scrolled ? ticketIconBlue : ticketIconWhite;
-      // 로고도 스크롤 상태에 맞춰 전환
-      if (logoImg) logoImg.src = scrolled ? logoBlue : logoWhite;
-
-      // 10% 넘은 뒤: 아래로 스크롤하면 숨기고, 위로 스크롤하면 다시 표시
-      if (scrolled && y > lastScrollY) {
-        gnb.classList.add('gnb--hidden');
-      } else {
-        gnb.classList.remove('gnb--hidden');
-      }
-      lastScrollY = y;
-    }
-    window.addEventListener('scroll', updateGnbScrolled);
-    window.addEventListener('resize', updateGnbScrolled);
-    updateGnbScrolled();
-  }
 
   // 각 지역의 일정표(.schedule-table)를 독립적으로 초기화한다.
   // (querySelector 단일 요소가 아니라 테이블별 스코프로 동작 → 지역 전환해도 기능/모션 유지)
   document.querySelectorAll('.schedule-table').forEach(initScheduleTable);
 
   // ============================================================
+  // 새 카드형 시간블록 레이아웃 초기화 (date tabs + time-block accordion)
+  // ============================================================
+  function initTimeBlockTable(table) {
+    // Date tab switching (UI only — 실제 날짜별 데이터 전환은 서버 연동 시 확장)
+    table.querySelectorAll('.schedule-date-tab').forEach(tab => {
+      tab.addEventListener('click', function() {
+        table.querySelectorAll('.schedule-date-tab').forEach(t => t.classList.remove('schedule-date-tab--active'));
+        this.classList.add('schedule-date-tab--active');
+      });
+    });
+
+  }
+
+  // ============================================================
   // 일정표 1개 초기화 (시간탭 / 슬롯정렬 / 스크롤동기화 / 커스텀 스크롤바 / 라벨높이)
   // table._relayout() 으로 (숨김→표시 전환 시) 레이아웃 재계산 가능
   // ============================================================
   function initScheduleTable(table) {
+    // 새 카드형 레이아웃이면 전용 초기화로 분기
+    if (table.querySelector('.schedule-date-tabs')) {
+      initTimeBlockTable(table);
+      return;
+    }
     const fullRow = table.querySelector('.schedule-hours-row--full');
     const halfRow = table.querySelector('.schedule-hours-row--half');
     if (!fullRow || !halfRow) return;
@@ -61,8 +43,8 @@
 
     // ----- 선택된 시간대 프로그램 하이라이트 -----
     function highlightProgramsByTime(selectedHour) {
-      const greyIcon = 'assets/images/time_icon_grey.svg';
-      const whiteIcon = 'assets/images/time_icon_white.svg';
+      const greyIcon = '../assets/images/time_icon_grey.svg';
+      const whiteIcon = '../assets/images/time_icon_white.svg';
 
       // 이 테이블의 모든 program-slot 하이라이트 제거 + 아이콘 grey 복원
       table.querySelectorAll('.program-slot').forEach(slot => {
@@ -295,8 +277,8 @@
     });
 
     // 슬롯 호버 시 시간 아이콘을 흰색으로 (active처럼). 떼면 active가 아닐 때만 grey로 복원
-    const greyIcon = 'assets/images/time_icon_grey.svg';
-    const whiteIcon = 'assets/images/time_icon_white.svg';
+    const greyIcon = '../assets/images/time_icon_grey.svg';
+    const whiteIcon = '../assets/images/time_icon_white.svg';
     table.querySelectorAll('.program-slot').forEach(slot => {
       const icon = slot.querySelector('.program-time__icon img');
       if (!icon) return;
@@ -600,6 +582,23 @@
         }
       });
     });
+
+    // 새 카드형 레이아웃 .time-block__item → 같은 지역 가이드 카드 연결
+    scheduleSection.querySelectorAll('.time-block__item[data-program]').forEach(item => {
+      item.addEventListener('click', function() {
+        const key = item.dataset.program;
+        if (!key) return;
+        const card = guideSection.querySelector('.program-card[data-program="' + key + '"]');
+        if (!card || !openDetail) return;
+        openDetail(card);
+        if (smoothScrollTo) {
+          requestAnimationFrame(() => {
+            const top = card.getBoundingClientRect().top + window.scrollY - 140;
+            smoothScrollTo(top, 900);
+          });
+        }
+      });
+    });
   });
 
   // ============================================================
@@ -623,4 +622,66 @@
       });
     });
   });
+
+  // ============================================================
+  // Section Category Nav — 클릭 스크롤 + 스크롤 스파이
+  // ============================================================
+  (function initSectionCatNav() {
+    const nav = document.querySelector('.section-cat-nav');
+    if (!nav) return;
+
+    const items = nav.querySelectorAll('.section-cat-nav__item');
+
+    function setActive(target) {
+      items.forEach(it => it.classList.toggle('section-cat-nav__item--active', it.dataset.target === target));
+    }
+
+    function getActiveLoc() {
+      return LOCATIONS.find(l =>
+        !document.querySelector('.section--schedule.' + l + '.is-hidden')
+      ) || LOCATIONS[0];
+    }
+
+    // 클릭 → 해당 섹션으로 스크롤
+    items.forEach(item => {
+      item.addEventListener('click', function() {
+        const target = item.dataset.target;
+        const loc = getActiveLoc();
+        const selector = target === 'schedule'
+          ? '.section--schedule.' + loc
+          : '.section--guide.' + loc;
+        const el = document.querySelector(selector);
+        if (!el) return;
+        const top = el.getBoundingClientRect().top + window.scrollY - 80;
+        if (smoothScrollTo) smoothScrollTo(top, 700);
+        else window.scrollTo({ top, behavior: 'smooth' });
+        setActive(target);
+      });
+    });
+
+    // 스크롤 스파이 — 현재 보이는 섹션 타입에 따라 active 전환
+    const allSections = document.querySelectorAll('.section--schedule, .section--guide');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target;
+        if (el.classList.contains('section--schedule')) setActive('schedule');
+        else if (el.classList.contains('section--guide')) setActive('guide');
+      });
+    }, { threshold: 0.3 });
+
+    allSections.forEach(sec => observer.observe(sec));
+
+    // 뷰포트가 좁아져 nav가 container 우측과 겹치면 숨김
+    const container = document.querySelector('.container');
+    function updateNavVisibility() {
+      if (!container) return;
+      const navRect = nav.getBoundingClientRect();
+      const containerRect = container.getBoundingClientRect();
+      nav.style.visibility = navRect.left < containerRect.right ? 'hidden' : 'visible';
+    }
+    window.addEventListener('resize', updateNavVisibility);
+    updateNavVisibility();
+  })();
+
 });
