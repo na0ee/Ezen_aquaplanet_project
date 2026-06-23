@@ -624,7 +624,7 @@ body.biz-page {
 .biz-vision {
   position: relative;
   margin-top: 401px;
-  height: 300vh;
+  height: 400vh;
   padding: 0;
   overflow: visible;
   background: #1ba5fa;
@@ -784,7 +784,8 @@ body.biz-page {
   transition:
     top 0.02s linear,
     left 0.02s linear,
-    transform 0.02s linear;
+    transform 0.02s linear,
+    opacity 0.08s linear;
 }
 
 .biz-vision-node::before,
@@ -1034,7 +1035,8 @@ body.biz-page {
   transition:
     top 0.02s linear,
     left 0.02s linear,
-    transform 0.02s linear;
+    transform 0.02s linear,
+    opacity 0.08s linear;
 }
 
 .biz-caps-node span {
@@ -1333,13 +1335,13 @@ body.biz-page {
   position: relative;
   box-sizing: border-box;
   flex: 0 0 auto;
-  width: min(1880px, calc(100vw - 40px));
+  width: min(1668px, calc(100vw - 40px));
   height: auto;
   margin: 0 auto;
   overflow: hidden;
   border-radius: 14px;
   background: #fff;
-  aspect-ratio: 1880 / 900;
+  aspect-ratio: 1668 / 900;
 }
 
 .biz-case__track,
@@ -1365,7 +1367,7 @@ body.biz-page {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 114.681%;
+  width: 129.257%;
   height: 100.112%;
   max-width: none;
   object-fit: cover;
@@ -1417,7 +1419,7 @@ body.biz-page {
   .biz-case__figure {
     width: 100%;
     height: auto;
-    aspect-ratio: 1880 / 900;
+    aspect-ratio: 1668 / 900;
   }
 
   .biz-case__caption p {
@@ -1620,7 +1622,8 @@ body.biz-page {
   transition:
     top 0.02s linear,
     left 0.02s linear,
-    transform 0.02s linear;
+    transform 0.02s linear,
+    opacity 0.08s linear;
 }
 
 .biz-caps-node::before,
