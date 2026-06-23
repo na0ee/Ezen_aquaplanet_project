@@ -4,7 +4,7 @@
    ================================================================ */
 
 :root {
-  --bg-detail: var(--bg-detail); /* 상세페이지 배경색 */
+  --bg-detail: #2686E7;
 }
 
 html {
@@ -13,6 +13,7 @@ html {
 
 body {
   background-color: var(--bg-detail);
+  background-image: none;
 }
 
 /* ----------------------------------------------------------------
@@ -498,13 +499,28 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 32px;                /* Figma: h=32 */
-  padding: 0 16px;             /* Figma: px=16 */
-  border-radius: 100px;        /* Figma: rounded-[100px] */
-  background: rgba(255, 255, 255, 0.02);
+  height: 32px;
+  padding: 0 16px;
+  border-radius: 100px;
+  /* Glass: Fill FFFFFF 2% + Light -45° 80% gradient */
+  background: linear-gradient(
+    315deg,
+    rgba(255, 255, 255, 0.13) 0%,
+    rgba(255, 255, 255, 0.02) 100%
+  );
+  /* Glass: subtle border for edge refraction */
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  /* Glass: Frost 4 */
+  backdrop-filter: blur(4px) saturate(1.8);
+  -webkit-backdrop-filter: blur(4px) saturate(1.8);
+  /* Glass: inset highlight (Light -45° 80%), Depth 70, Splay 44 */
+  box-shadow:
+    inset 1px 1px 0 rgba(255, 255, 255, 0.38),
+    0 8px 28px rgba(0, 0, 0, 0.28),
+    0 0 44px rgba(255, 255, 255, 0.06);
   font-family: var(--font-kr);
   font-weight: 500;
-  font-size: 16px;             /* Figma: 16px */
+  font-size: 16px;
   color: #ffffff;
   letter-spacing: -0.32px;
   text-decoration: none;
@@ -593,7 +609,7 @@ body {
 
 /* 버블 노출 시 축소된 맵 스테이지의 상단 중앙으로 이동 */
 .loc-map.is-hovering .loc-map__floor-tabs {
-  transform: translate(-331px, 516px);
+  transform: translate(-331px, 400px);
 }
 
 /* 상세 카드 노출 시 지도와 함께 층 탭 숨김 */
@@ -638,6 +654,7 @@ body {
   width: 1320px;               /* Figma: w=1320 */
   height: 790px;               /* Figma: h=790 */
   transform-origin: 50% 50%;
+  transform: scale(0.8);
   transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1),
               opacity   0.25s ease;
 }
@@ -670,7 +687,7 @@ body {
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   opacity: 0.9;                /* Figma: opacity-90 */
   border-radius: 8px;
 }
@@ -681,22 +698,22 @@ body {
   inset: 0;
 }
 
-/* 마커 공통 (Figma: 278:205~212, 66×66, bg #22B2EA, rounded-50px) */
+/* 마커 공통 (Figma: 278:205~212, 66×66 → 80% = 52×52) */
 .loc-map__marker {
   position: absolute;
-  width: 66px;                 /* Figma: 66px */
-  height: 66px;                /* Figma: 66px */
-  border-radius: 50%;          /* Figma: rounded-[50px] */
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
   background: var(--clr-primary); /* #22B2EA */
   border: 2px solid rgba(255, 255, 255, 0.8);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-kr); /* Pretendard */
+  font-family: var(--font-kr);
   font-weight: 400;
-  font-size: 30px;             /* Figma: 30px */
+  font-size: 24px;
   color: #ffffff;
-  letter-spacing: -0.6px;     /* Figma: tracking-[-0.6px] */
+  letter-spacing: -0.48px;
   cursor: pointer;
   transition: transform 0.2s, background 0.2s;
 }
