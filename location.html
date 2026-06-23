@@ -27,6 +27,9 @@
 </head>
 <body class="is-logo-at-header">
 
+  <!-- 커스텀 커서 (style.css: cursor: none !important 전역 적용) -->
+  <div id="custom-cursor" aria-hidden="true"></div>
+
   <!-- ================================================
        GNB
   ================================================ -->
@@ -85,6 +88,9 @@
 
   <main>
 
+    <!-- hero + con1을 감싸는 sticky 래퍼 -->
+    <div class="loc-sticky-wrap">
+
     <!-- ================================================
          Hero 섹션 (Figma node 278:327 — 1920×1200)
     ================================================ -->
@@ -92,16 +98,8 @@
 
       <!-- 배경 이미지 (Figma: img_name_20240305175381206 2) -->
       <div class="loc-hero__bg" aria-hidden="true">
-        <img src="assets/images/location_hero.gif" alt="" class="loc-hero__bg-img">
+        <img src="assets/images/locationJeju_hero.gif" alt="" class="loc-hero__bg-img">
       </div>
-
-      <!-- 지점 탭 — 좌측 세로 (Figma: Frame 1707482775, x=32, y=102, 159×198) -->
-      <nav class="loc-branch-tabs" aria-label="지점 선택">
-        <a href="#" class="loc-branch-tabs__item is-active" data-loc="jeju">Jeju</a>
-        <a href="#" class="loc-branch-tabs__item" data-loc="yeosu">Yeosu</a>
-        <a href="#" class="loc-branch-tabs__item" data-loc="ilsan">Ilsan</a>
-        <a href="#" class="loc-branch-tabs__item" data-loc="gwanggyo">Gwanggyo</a>
-      </nav>
 
       <!-- 히어로 콘텐츠 — 중앙 (Figma: Frame 1707483132, x=576, y=306, 768×384) -->
       <div class="loc-hero__content">
@@ -144,7 +142,7 @@
 
       <!-- 배경 이미지 (Figma: 140679_106309_1757 1) -->
       <div class="loc-intro__bg" aria-hidden="true">
-        <img src="assets/images/location_intro_bg.jpg" alt="" class="loc-intro__bg-img">
+        <img src="assets/images/locationJeju_intro_bg.jpg" alt="" class="loc-intro__bg-img">
       </div>
 
       <!-- 그라데이션 오버레이 (Figma: 140679_106309_1757 2) -->
@@ -197,6 +195,8 @@
 
     </section><!-- /.loc-intro -->
 
+    </div><!-- /.loc-sticky-wrap -->
+
     <!-- ================================================
          con02 섹션 (Figma node 278:27 — 1920×1134)
          Main Programs
@@ -220,7 +220,7 @@
         <!-- 카드 1 (Figma: 278:40, 633×400, rounded-14, overflow-hidden) -->
         <div class="loc-programs__card">
           <img
-            src="assets/images/location_prog_01.jpg"
+            src="assets/images/locationJeju_prog_01.jpg"
             alt="오션 아레나 특별 공연"
             class="loc-programs__card-img"
           >
@@ -236,7 +236,7 @@
         <!-- 카드 2 (Figma: 278:49, 635×400, rounded-14, overflow-hidden) -->
         <div class="loc-programs__card">
           <img
-            src="assets/images/location_prog_02.png"
+            src="assets/images/locationJeju_prog_02.png"
             alt="해녀 할망의 바당 이야기"
             class="loc-programs__card-img"
           >
@@ -255,7 +255,8 @@
          con3_1 섹션 (Figma node 278:200 — 1920×1542)
          Guide Map — 기본 상태 (2F 선택)
     ================================================ -->
-    <section class="loc-map" id="guidemap" aria-label="가이드맵">
+    <div class="loc-map-wrap" id="guidemap">
+    <section class="loc-map" aria-label="가이드맵">
 
       <!-- 타이틀 + 층 탭 (Figma: Frame 278:241, centered, top=160) -->
       <div class="loc-map__header">
@@ -277,23 +278,14 @@
         <!-- 가이드맵 이미지 (Figma: 278:203, 1320×790, opacity 90%) -->
         <div class="loc-map__img-wrap">
           <img
-            src="assets/images/location_map_2f.png"
+            src="assets/images/locationJeju_map_2f.png"
             alt="아쿠아플라넷 가이드 맵 2F"
             class="loc-map__img"
             id="loc-map-img"
           >
 
-          <!-- 마커 (Figma: 278:205~212 — 66×66, bg #22B2EA, 맵 기준 절대위치) -->
-          <div class="loc-map__markers">
-            <!-- A: left=95, top=160 (섹션좌표 396-301, 672-512) -->
-            <button class="loc-map__marker" data-zone="A" style="left:95px; top:160px" aria-label="A구역">A</button>
-            <!-- D: left=303, top=260 -->
-            <button class="loc-map__marker" data-zone="D" style="left:303px; top:260px" aria-label="D구역">D</button>
-            <!-- C: left=162, top=376 -->
-            <button class="loc-map__marker" data-zone="C" style="left:162px; top:376px" aria-label="C구역">C</button>
-            <!-- B: left=678, top=420 -->
-            <button class="loc-map__marker" data-zone="B" style="left:678px; top:420px" aria-label="B구역">B</button>
-          </div>
+          <!-- 층별 마커는 전시 데이터와 함께 생성됩니다. -->
+          <div class="loc-map__markers"></div>
         </div>
 
         <!-- 안내 문구 (Figma: 278:213, left=1216-301=915 map기준, top=512-512=0) -->
@@ -308,7 +300,29 @@
 
       </div><!-- /.loc-map__stage -->
 
+      <!-- 전시관 버블은 층별 데이터로 생성됩니다. -->
+      <div class="loc-map__bubbles" aria-live="polite"></div>
+
+      <!-- ── 상세 카드 (Figma node 278:153 — 670×537) ── -->
+      <div class="loc-map__detail" id="loc-map-detail">
+        <button class="loc-map__detail-close" id="loc-map-close" aria-label="닫기">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+            <line x1="3" y1="3" x2="15" y2="15" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="15" y1="3" x2="3" y2="15" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <div class="loc-map__detail-header">
+          <span class="loc-map__detail-name"></span>
+          <span class="loc-map__detail-floor"></span>
+        </div>
+        <div class="loc-map__detail-img-wrap">
+          <img class="loc-map__detail-img" src="" alt="">
+        </div>
+        <p class="loc-map__detail-desc"></p>
+      </div><!-- /.loc-map__detail -->
+
     </section><!-- /.loc-map -->
+    </div><!-- /.loc-map-wrap -->
 
     <!-- ================================================
          con04 섹션 (Figma node 278:251 — 1920×1112)
@@ -416,6 +430,7 @@
   </main>
 
   <script src="js/gnb-scroll.js"></script>
+  <script src="js/location.js"></script>
   <script type="module" src="js/footer_logo.js"></script>
 </body>
 </html>

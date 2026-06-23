@@ -16,14 +16,25 @@ body {
 }
 
 /* ----------------------------------------------------------------
+   Sticky 래퍼 — hero(1200) + con1(1080) = 2280px
+   hero가 상단 고정, con1이 위로 올라오는 전환 효과
+---------------------------------------------------------------- */
+.loc-sticky-wrap {
+  position: relative;
+  height: 2280px; /* 1200 + 1080 */
+}
+
+/* ----------------------------------------------------------------
    Hero 섹션  (Figma 278:327)
    전체: 1920×1200, overflow hidden
 ---------------------------------------------------------------- */
 .loc-hero {
-  position: relative;
+  position: sticky;
+  top: 0;
   width: 100%;
   height: 1200px;
   overflow: hidden;
+  z-index: 1;
 }
 
 /* 배경 이미지 (Figma: img_name_20240305175381206 2, x=-132, w=2274) */
@@ -42,49 +53,6 @@ body {
   pointer-events: none;
 }
 
-/* ----------------------------------------------------------------
-   지점 탭  (Figma: Frame 1707482775, x=32, y=102, 159×198)
-   세로 배치 | bg rgba(255,255,255,0.02) | radius 14px | padding 3px
----------------------------------------------------------------- */
-.loc-branch-tabs {
-  position: absolute;
-  left: 32px;          /* Figma x=32 */
-  top: 102px;          /* Figma y=102 (GNB 높이) */
-  width: 159px;        /* Figma w=159 */
-  background: rgba(255, 255, 255, 0.02);
-  border-radius: 14px;
-  padding: 3px;
-  display: flex;
-  flex-direction: column;
-  z-index: 2;
-}
-
-/* 각 탭 항목 (Figma: Frame 1707482773, 153×48) */
-.loc-branch-tabs__item {
-  display: flex;
-  height: 48px;        /* Figma h=48 */
-  align-items: center;
-  justify-content: center;
-  border-radius: 12px; /* Figma rounded-[12px] */
-  font-family: var(--font-en);   /* Poppins */
-  font-weight: 500;              /* Medium */
-  font-size: 16px;               /* Figma: Poppins Medium 16px */
-  color: #ffffff;
-  letter-spacing: -0.64px;      /* -0.04em @ 16px */
-  text-decoration: none;
-  transition: background 0.2s, color 0.2s;
-}
-
-/* 활성 탭 (Figma: bg white, color #22B2EA, EB Garamond Medium 20px) */
-.loc-branch-tabs__item.is-active {
-  background: #ffffff;
-  color: var(--clr-primary);    /* #22B2EA */
-  font-family: var(--font-serif); /* EB Garamond */
-  font-weight: 500;
-  font-style: normal;
-  font-size: 20px;               /* Figma: 20px */
-  letter-spacing: -0.8px;       /* -0.04em @ 20px */
-}
 
 /* ----------------------------------------------------------------
    히어로 콘텐츠 중앙 배치
@@ -222,6 +190,7 @@ body {
   width: 100%;
   height: 1080px;      /* Figma: 1080px */
   overflow: hidden;
+  z-index: 2;          /* hero(z-index:1) 위로 슬라이드 */
 }
 
 /* 배경 이미지 (Figma: 140679_106309_1757 1) */
@@ -548,10 +517,19 @@ body {
    Guide Map — 기본 상태
    ================================================================ */
 
-.loc-map {
+/* sticky 래퍼 — 섹션 높이 + 여분 스크롤 공간 */
+.loc-map-wrap {
   position: relative;
+  height: calc(1542px + 100vh);
+}
+
+.loc-map {
+  position: sticky;
+  /* 버블 그룹 중심(1011px)을 뷰포트 중앙에 고정:
+     Figma 버블 Y범위 605~1416 → 중심≈1011 */
+  top: calc(50vh - 1011px);
   width: 100%;
-  height: 1542px;              /* Figma: 1542px */
+  height: 1542px;
   background: var(--bg-detail);
   overflow: hidden;
 }
@@ -562,10 +540,12 @@ body {
   left: 50%;
   transform: translateX(-50%);
   top: 160px;                  /* Figma: y=160 */
+  z-index: 30;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 80px;                   /* Figma: gap=80 */
+  pointer-events: none;
 }
 
 /* "Guide Map" 타이틀 */
@@ -603,6 +583,23 @@ body {
   background: rgba(255, 255, 255, 0.02);
   border-radius: 14px;         /* Figma: rounded-[14px] */
   padding: 3px;                /* Figma: p=3 */
+  position: relative;
+  z-index: 31;
+  pointer-events: auto;
+  isolation: isolate;
+  transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.25s ease;
+}
+
+/* 버블 노출 시 축소된 맵 스테이지의 상단 중앙으로 이동 */
+.loc-map.is-hovering .loc-map__floor-tabs {
+  transform: translate(-331px, 516px);
+}
+
+/* 상세 카드 노출 시 지도와 함께 층 탭 숨김 */
+.loc-map.has-detail .loc-map__floor-tabs {
+  opacity: 0;
+  pointer-events: none;
 }
 
 /* 층 탭 개별 항목 */
@@ -640,6 +637,24 @@ body {
   top: 512px;                  /* Figma: y=512 */
   width: 1320px;               /* Figma: w=1320 */
   height: 790px;               /* Figma: h=790 */
+  transform-origin: 50% 50%;
+  transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity   0.25s ease;
+}
+
+/* hover/click 공통 — 지도 왼쪽으로 축소
+   stage center(961,907) → target center(630,1011)
+   dy=+104 → 뷰포트 중앙(section-y=1011)에 지도 중심 고정
+   dx=-331  dy=+104  scale=658÷1320≈0.499 */
+.loc-map.is-hovering .loc-map__stage,
+.loc-map.has-detail   .loc-map__stage {
+  transform: translate(-331px, 104px) scale(0.499);
+}
+
+/* click — 지도 페이드아웃 (카드로 교체) */
+.loc-map.has-detail .loc-map__stage {
+  opacity: 0;
+  pointer-events: none;
 }
 
 /* 맵 이미지 래퍼 (마커 포지셔닝 기준) */
@@ -690,6 +705,11 @@ body {
   transform: scale(1.1);
 }
 
+.loc-map__marker.is-active {
+  background: #ffffff;
+  color: var(--clr-primary);
+}
+
 /* 안내 문구 (Figma: 278:213, left=1216, top=512 → stage 기준 left=915, top=0) */
 .loc-map__hint {
   position: absolute;
@@ -709,6 +729,248 @@ body {
 
 .loc-map__hint-icon {
   flex-shrink: 0;
+}
+
+.loc-map.is-hovering .loc-map__hint,
+.loc-map.has-detail .loc-map__hint {
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+/* ================================================================
+   Guide Map — 전시관 버블 (con3_2)
+   Figma X 좌표 그대로, Y범위 ~65% 압축 (섹션 중심 1011 기준)
+   ================================================================ */
+
+.loc-map__bubbles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.loc-map__bubble {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  opacity: 0;
+  transform: scale(0.4);
+  transform-origin: center center;
+  z-index: 1;
+  transition: opacity  0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
+              transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
+              transition-delay 0s;
+}
+
+/* is-hovering → 버블 팝인, 클릭 가능 */
+.loc-map.is-hovering .loc-map__bubble {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+/* 층별 개수와 무관하게 같은 규칙으로 순차 등장 */
+.loc-map.is-hovering:not(.has-detail) .loc-map__bubble {
+  transition-delay: calc(var(--bubble-index, 0) * 0.045s);
+}
+
+/* has-detail — 비선택 버블: 자리 유지, 살짝 dim (클릭 가능) */
+.loc-map.has-detail .loc-map__bubble:not(.is-selected) {
+  opacity: 0.4;
+  pointer-events: auto;
+  cursor: pointer;
+  transition-delay: 0s;
+}
+
+/* has-detail — 선택된 버블: transform은 inline JS가 제어 */
+.loc-map.has-detail .loc-map__bubble.is-selected {
+  z-index: 10;
+  pointer-events: auto;
+}
+
+/* 이동 중인 버블의 라벨(뱃지+이름) 즉시 숨김 */
+.loc-map.has-detail .loc-map__bubble.is-selected .loc-map__bubble-label {
+  opacity: 0;
+  transition: opacity 0.12s ease;
+}
+
+/* 원형 이미지 래퍼 */
+.loc-map__bubble-circle {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #fff;
+}
+
+.loc-map__bubble-circle img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+/* 모든 버블의 크기와 위치를 그대로 따르는 투명 질감 오버레이 */
+.loc-map__bubble-circle::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  background: url("../assets/images/bubble_transparent.png") center / 100% 100% no-repeat;
+  pointer-events: none;
+}
+
+/* 영역 뱃지 — 이름 좌측에 나란히 */
+.loc-map__bubble-badge {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #1BA5FA;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-kr);
+  font-weight: 500;
+  font-size: 11px;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+/* 뱃지 + 이름 가로 묶음 */
+.loc-map__bubble-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* 버블 이름 */
+.loc-map__bubble-name {
+  margin: 0;
+  font-family: var(--font-kr);
+  font-weight: 600;
+  font-size: 14px;
+  color: #fff;
+  letter-spacing: -0.28px;
+  white-space: nowrap;
+}
+
+/* ================================================================
+   Guide Map — 상세 카드 (con3_3)
+   마커 클릭 시 노출 — 화면 고정 중심축 y=1011에 세로 중앙 정렬
+   ================================================================ */
+
+/* ── 상세 카드: Figma node 278:153 (670×537) ── */
+.loc-map__detail {
+  position: absolute;
+  left: 300px;
+  top: 1011px;
+  box-sizing: border-box;
+  width: 670px;
+  height: 537px;
+  padding: 19px 13px 7px;
+  border: 2px solid rgba(255, 255, 255, 0.18);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 8px 32px rgba(0, 20, 60, 0.18);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-12px, -50%);
+  transition: opacity   0.35s ease 0.3s,
+              transform 0.35s ease 0.3s;
+}
+
+.loc-map.has-detail .loc-map__detail {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(0, -50%);
+}
+
+/* 닫기 버튼 */
+.loc-map__detail-close {
+  position: absolute;
+  top: -48px;
+  right: 0;
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(255,255,255,0.38);
+  background: rgba(255,255,255,0.14);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s;
+  z-index: 1;
+}
+
+.loc-map__detail-close:hover {
+  background: rgba(255,255,255,0.3);
+}
+
+/* 상세 이미지 */
+.loc-map__detail-img-wrap {
+  width: 640px;
+  height: 360px;
+  overflow: hidden;
+  margin-bottom: 30px;
+}
+
+.loc-map__detail-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 이름 + 층 */
+.loc-map__detail-header {
+  display: flex;
+  align-items: center;
+  height: 29px;
+  gap: 18px;
+  margin-bottom: 16px;
+}
+
+.loc-map__detail-name {
+  font-family: var(--font-kr);
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 29px;
+  color: #fff;
+  letter-spacing: -0.48px;
+  white-space: nowrap;
+}
+
+.loc-map__detail-floor {
+  font-family: var(--font-kr);
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 29px;
+  color: #fff;
+  letter-spacing: -0.48px;
+  white-space: nowrap;
+}
+
+/* 설명 텍스트 (Figma: Pretendard Regular 16px, lh=24px) */
+.loc-map__detail-desc {
+  min-height: 72px;
+  margin: 0;
+  font-family: var(--font-kr);
+  font-weight: 400;
+  font-size: 16px;
+  color: #fff;
+  letter-spacing: -0.32px;
+  line-height: 24px;
+  white-space: pre-line;
 }
 
 /* ================================================================
@@ -770,9 +1032,11 @@ body {
   width: 1139px;               /* Figma: w=1139 */
   height: 222px;               /* Figma: h=222 */
   border-radius: 20px;         /* Figma: rounded-[20px] */
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  background: linear-gradient(101.03deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 100%);
-  backdrop-filter: blur(2px);
+  border: 2px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 8px 32px rgba(0, 20, 60, 0.18);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -933,19 +1197,24 @@ body {
   transition: color 0.2s;
 }
 
-.loc-side-nav__item:hover,
 .loc-side-nav__item.is-active {
   color: #ffffff;
+  font-weight: 600; /* SemiBold — Figma active 상태 */
 }
 
 .loc-side-nav__label {
   white-space: nowrap;
 }
 
-/* Figma의 line (수평선, 50~60px) */
+/* 수평선 — inactive: 50px, active: 60px (Figma 수치) */
 .loc-side-nav__line {
   display: inline-block;
   width: 50px;
   height: 1px;
   background: currentColor;
+  transition: width 0.3s;
+}
+
+.loc-side-nav__item.is-active .loc-side-nav__line {
+  width: 60px;
 }
