@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 
 <head>
@@ -26,23 +26,6 @@
       <nav class="gnb__nav" aria-label="메인 메뉴">
         <div class="gnb__nav-item" data-nav="location">
           <a href="location.html" class="gnb__link">Location</a>
-        <a href="location.html" class="gnb__link">Location</a>
-        <a href="Oceanfriends.html" class="gnb__link gnb__link--active">Ocean friends</a>
-        <div class="gnb__nav-item">
-          <span class="gnb__link">About us</span>
-          <div class="gnb__dropdown">
-            <a href="business.html" class="gnb__dropdown-item">Business</a>
-            <a href="marinlab.html" class="gnb__dropdown-item">Marin Lab</a>
-          </div>
-        </div>
-        <div class="gnb__nav-item">
-          <a href="program.html" class="gnb__link">Program</a>
-          <div class="gnb__dropdown">
-            <a href="location.html?loc=Jeju"     class="gnb__dropdown-item">Jeju</a>
-            <a href="location.html?loc=Yeosu"    class="gnb__dropdown-item">Yeosu</a>
-            <a href="location.html?loc=Ilsan"    class="gnb__dropdown-item">Ilsan</a>
-            <a href="location.html?loc=Gwanggyo" class="gnb__dropdown-item">Gwanggyo</a>
-          </div>
         </div>
         <a href="Oceanfriends.html" class="gnb__link gnb__link--active">Ocean friends</a>
         <div class="gnb__nav-item" data-nav="about">
@@ -2299,6 +2282,16 @@
       let baseGap = 8;
       let curveStrength = 0;
 
+      let wheelDistanceDown = 0;
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) {
+            wheelDistanceDown = 0;
+          }
+        });
+      }, { threshold: 0 });
+      observer.observe(viewport);
+
       function lerp(a, b, t) {
         return a + (b - a) * t;
       }
@@ -2508,8 +2501,25 @@
       viewport.addEventListener('lostpointercapture', endDrag);
 
       viewport.addEventListener('wheel', e => {
+        const isVerticalScroll = Math.abs(e.deltaY) > Math.abs(e.deltaX);
+        const dominant = isVerticalScroll ? e.deltaY : e.deltaX;
+
+        if (isVerticalScroll) {
+          if (e.deltaY < 0) {
+            // 위로 스크롤 시 인터랙션 없이 바로 페이지 이동
+            return;
+          }
+
+          if (e.deltaY > 0) {
+            wheelDistanceDown += e.deltaY;
+            // 한 바퀴(singleSetWidth) 이상 돌았으면 아래로 스크롤 허용
+            if (wheelDistanceDown > singleSetWidth) {
+              return;
+            }
+          }
+        }
+
         e.preventDefault();
-        const dominant = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
         pushTarget(-dominant * 0.95);
       }, { passive: false });
 

@@ -16,6 +16,21 @@
     <script src="./js/program.js"></script>
 </head>
 <body>
+    <!-- SVG Glass Refraction Filter -->
+    <svg style="display:none" aria-hidden="true">
+        <defs>
+            <filter id="glass-refract" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+                <feTurbulence type="fractalNoise" baseFrequency="0.002 0.004" numOctaves="2" seed="5" result="noise"/>
+                <feDisplacementMap in="SourceGraphic" in2="noise" scale="120" xChannelSelector="R" yChannelSelector="G"/>
+            </filter>
+            <!-- 소형 UI 요소용 약한 굴절 필터 -->
+            <filter id="glass-refract-light" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+                <feTurbulence type="fractalNoise" baseFrequency="0.002 0.004" numOctaves="2" seed="5" result="noise"/>
+                <feDisplacementMap in="SourceGraphic" in2="noise" scale="18" xChannelSelector="R" yChannelSelector="G"/>
+            </filter>
+        </defs>
+    </svg>
+
     <!-- GNB Navigation -->
     <header id="gnb" class="gnb">
       <div class="gnb__inner">
@@ -62,13 +77,34 @@
       </div>
     </header>
 
-    <!-- Location Tabs -->
-            <div class="cartegory-tabs-a">
-                <button class="cartegory-tabs-a__item cartegory-tabs-a__item--active">Jeju</button>
-                <button class="cartegory-tabs-a__item">Yeosu</button>
-                <button class="cartegory-tabs-a__item">Ilsan</button>
-                <button class="cartegory-tabs-a__item">Gwanggyo</button>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero__bg">
+            <img src="https://www.aquaplanet.co.kr/Upload/pcprogram/JEJU/KOR/img_name_20200113220918733.gif" alt="">
+        </div>
+        <div class="hero__content">
+            <div class="hero__text">
+                <p class="hero__welcome">Welcome</p>
+                <div class="hero__title-row">
+                    <span class="hero__title-main">aqua planet</span>
+                    <span class="hero__title-em">Program</span>
+                </div>
+                <p class="hero__sub">제주의 바다를 담은 국내 최대 규모 아쿠아리움</p>
             </div>
+            <div class="hero__scroll">
+                <div class="hero__scroll-line"></div>
+                <p class="hero__scroll-text"><span class="hero__scroll-lets">Let's</span><em> Explore</em></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location Tabs -->
+    <div class="cartegory-tabs-a">
+        <button class="cartegory-tabs-a__item cartegory-tabs-a__item--active">Jeju</button>
+        <button class="cartegory-tabs-a__item">Yeosu</button>
+        <button class="cartegory-tabs-a__item">Ilsan</button>
+        <button class="cartegory-tabs-a__item">Gwanggyo</button>
+    </div>
 
     <!-- Section: Program Schedule Jeju -->
     <section class="section section--schedule Jeju">
@@ -79,8 +115,65 @@
                 </h2>
                 <p class="section__sub">관람을 더욱 특별하게 만드는 프로그램을 소개합니다</p>
                 <p class="section__description">
-                    생태설명회, 공연, 체험 프로그램을 통해 바다의 매력을 더욱 가까이에서 경험해 보세요
-                    <br><span>아쿠아플라넷 제주</span> 에서 배움과 즐거움이 어우러진 특별한 해양문화 콘텐츠를 만나볼 수 있습니다</p>
+                    생태설명회, 공연, 체험 프로그램을 통해 바다의 매력을 더욱 가까이에서 경험해 보세요<br>
+                    <span>아쿠아플라넷 제주</span>에서 배움과 즐거움이 어우러진 특별한 해양문화 콘텐츠를 만나볼 수 있습니다</p>
+            </div>
+
+            <!-- Category Tabs B -->
+            <div class="cartegory-tabs-b">
+                <button class="cartegory-tabs-b__item cartegory-tabs-b__item--active">전체</button>
+                <button class="cartegory-tabs-b__item">생태설명회</button>
+                <button class="cartegory-tabs-b__item">공연 프로그램</button>
+                <button class="cartegory-tabs-b__item">체험 프로그램</button>
+            </div>
+
+            <!-- Program Preview Cards -->
+            <div class="program-preview" data-sw="57">
+                <div class="program-preview__card program-preview__card--side">
+                    <img src="https://www.aquaplanet.co.kr/Upload/pcprogram/JEJU/KOR/img_name_20250114170960150.jpg" alt="오션 아레나 특별 공연">
+                    <div class="program-preview__info">
+                        <span class="program-preview__tag">공연프로그램</span>
+                        <p class="program-preview__title">오션 아레나 특별 공연</p>
+                    </div>
+                </div>
+                <div class="program-preview__card program-preview__card--center">
+                    <img src="https://www.aquaplanet.co.kr/Upload/pcprogram/JEJU/KOR/img_name_20240101024915040.jpg" alt="춤추는 참물범">
+                    <div class="program-preview__info">
+                        <span class="program-preview__tag">생태설명회</span>
+                        <p class="program-preview__title">춤추는 참물범</p>
+                    </div>
+                </div>
+                <div class="program-preview__card program-preview__card--side">
+                    <img src="https://www.aquaplanet.co.kr/Upload/pcprogram/JEJU/KOR/img_name_20230727171934635.PNG" alt="오션 아레나 특별 공연">
+                    <div class="program-preview__info">
+                        <span class="program-preview__tag">공연프로그램</span>
+                        <p class="program-preview__title">오션 아레나 특별 공연</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="program-preview" data-sw="49" data-default-program="대형수조체험다이빙">
+                <div class="program-preview__card program-preview__card--side">
+                    <img src="https://www.aquaplanet.co.kr/Upload/pcprogram/JEJU/KOR/img_name_20250114170960150.jpg" alt="오션 아레나 특별 공연">
+                    <div class="program-preview__info">
+                        <span class="program-preview__tag">공연프로그램</span>
+                        <p class="program-preview__title">오션 아레나 특별 공연</p>
+                    </div>
+                </div>
+                <div class="program-preview__card program-preview__card--center">
+                    <img src="https://www.aquaplanet.co.kr/Upload/pcprogram/JEJU/KOR/img_name_20240101024915040.jpg" alt="춤추는 참물범">
+                    <div class="program-preview__info">
+                        <span class="program-preview__tag">생태설명회</span>
+                        <p class="program-preview__title">춤추는 참물범</p>
+                    </div>
+                </div>
+                <div class="program-preview__card program-preview__card--side">
+                    <img src="https://www.aquaplanet.co.kr/Upload/pcprogram/JEJU/KOR/img_name_20230727171934635.PNG" alt="오션 아레나 특별 공연">
+                    <div class="program-preview__info">
+                        <span class="program-preview__tag">공연프로그램</span>
+                        <p class="program-preview__title">오션 아레나 특별 공연</p>
+                    </div>
+                </div>
             </div>
 
             <!-- Schedule Table -->
@@ -284,27 +377,656 @@
         </div>
     </section>
 
-    <!-- Section: Program Guide Jeju -->
-    <section class="section section--guide Jeju">
+    <!-- Section: Program Schedule Yeosu -->
+    <section class="section section--schedule Yeosu">
         <div class="container">
             <div class="section__header">
                 <h2 class="section__title">
-                    Program <span class="section__title-emphasis">Guide</span>
+                    Program <span class="section__title-emphasis">Schedule</span>
                 </h2>
                 <p class="section__sub">관람을 더욱 특별하게 만드는 프로그램을 소개합니다</p>
-                <p class="section__description">생태설명회, 공연, 체험 프로그램을 통해 바다의 매력을 더욱 가까이에서 경험해 보세요<br>아쿠아플라넷 제주에서 배움과 즐거움이 어우러진 특별한 해양문화 콘텐츠를 만나볼 수 있습니다</p>
+                <p class="section__description">
+                    생태설명회, 공연, 체험 프로그램을 통해 바다의 매력을 더욱 가까이에서 경험해 보세요
+                    <br><span>아쿠아플라넷 여수</span> 에서 배움과 즐거움이 어우러진 특별한 해양문화 콘텐츠를 만나볼 수 있습니다</p>
             </div>
 
-            <!-- Category Tabs -->
-            <div class="cartegory-tabs-b">
+            <!-- Category Tabs B -->
+            <div class="cartegory-tabs-b" style="margin-top:80px">
                 <button class="cartegory-tabs-b__item cartegory-tabs-b__item--active">전체</button>
                 <button class="cartegory-tabs-b__item">생태설명회</button>
                 <button class="cartegory-tabs-b__item">공연 프로그램</button>
                 <button class="cartegory-tabs-b__item">체험 프로그램</button>
             </div>
 
-            <!-- Program List -->
-            <div class="program-list">
+            <!-- Program Preview Cards -->
+            <div class="program-preview" data-sw="49" data-default-program="벨루가케어"></div>
+
+            <!-- Schedule Table -->
+            <div class="schedule-table">
+                <div class="schedule-date-tabs">
+                    <button class="schedule-date-tab"><span class="schedule-date-tab__num">6.15</span><span class="schedule-date-tab__day">월</span></button>
+                    <button class="schedule-date-tab schedule-date-tab--active"><span class="schedule-date-tab__num">6.16</span><span class="schedule-date-tab__day">화</span></button>
+                    <button class="schedule-date-tab"><span class="schedule-date-tab__num">6.17</span><span class="schedule-date-tab__day">수</span></button>
+                    <button class="schedule-date-tab"><span class="schedule-date-tab__num">6.18</span><span class="schedule-date-tab__day">목</span></button>
+                    <button class="schedule-date-tab"><span class="schedule-date-tab__num">6.19</span><span class="schedule-date-tab__day">금</span></button>
+                </div>
+                <div class="schedule-time-grid">
+                        <div class="time-block time-block--open">
+                            <div class="time-block__header">
+                                <div class="time-block__header-left">
+                                    <img class="time-block__clock" src="assets/images/time_icon_grey.svg" alt="">
+                                    <span class="time-block__range">10:00 ~ 11:00</span>
+                                </div>
+                            </div>
+                            <div class="time-block__body">
+                                <div class="time-block__item" data-program="a">
+                                    <div class="time-block__item-info">
+                                        <p class="time-block__item-name">수중 아이돌 퍼포먼스 뉴이브</p>
+                                        <p class="time-block__item-time">10:20 - 10:34 · 2F</p>
+                                    </div>
+                                    <span class="tag tag--performance">공연프로그램</span>
+                                </div>
+                                <div class="time-block__item" data-program="e">
+                                    <div class="time-block__item-info">
+                                        <p class="time-block__item-name">아프리칸 펭귄의 모든것</p>
+                                        <p class="time-block__item-time">10:40 - 10:50 · 2F</p>
+                                    </div>
+                                    <span class="tag tag--education">생태설명회</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="time-block time-block--open">
+                            <div class="time-block__header">
+                                <div class="time-block__header-left">
+                                    <img class="time-block__clock" src="assets/images/time_icon_grey.svg" alt="">
+                                    <span class="time-block__range">11:00 ~ 12:00</span>
+                                </div>
+                            </div>
+                            <div class="time-block__body">
+                                <div class="time-block__item" data-program="a">
+                                    <div class="time-block__item-info">
+                                        <p class="time-block__item-name">수중 아이돌 퍼포먼스 뉴이브</p>
+                                        <p class="time-block__item-time">11:20 - 11:34 · 2F</p>
+                                    </div>
+                                    <span class="tag tag--performance">공연프로그램</span>
+                                </div>
+                                <div class="time-block__item" data-program="b">
+                                    <div class="time-block__item-info">
+                                        <p class="time-block__item-name">오션라이프 만찬 식사시간</p>
+                                        <p class="time-block__item-time">11:40 - 11:50 · 2F</p>
+                                    </div>
+                                    <span class="tag tag--education">생태설명회</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="time-block time-block--open">
+                            <div class="time-block__header">
+                                <div class="time-block__header-left">
+                                    <img class="time-block__clock" src="assets/images/time_icon_grey.svg" alt="">
+                                    <span class="time-block__range">12:00 ~ 13:00</span>
+                                </div>
+                            </div>
+                            <div class="time-block__body">
+                                <div class="time-block__item" data-program="a">
+                                    <div class="time-block__item-info">
+                                        <p class="time-block__item-name">수중 아이돌 퍼포먼스 뉴이브</p>
+                                        <p class="time-block__item-time">12:20 - 12:34 · 2F</p>
+                                    </div>
+                                    <span class="tag tag--performance">공연프로그램</span>
+                                </div>
+                                <div class="time-block__item" data-program="d">
+                                    <div class="time-block__item-info">
+                                        <p class="time-block__item-name">벨루가 메디컬케어</p>
+                                        <p class="time-block__item-time">12:40 - 12:50 · 3F</p>
+                                    </div>
+                                    <span class="tag tag--education">생태설명회</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="time-block time-block--open">
+                            <div class="time-block__header">
+                                <div class="time-block__header-left">
+                                    <img class="time-block__clock" src="assets/images/time_icon_grey.svg" alt="">
+                                    <span class="time-block__range">13:00 ~ 14:00</span>
+                                </div>
+                            </div>
+                            <div class="time-block__body">
+                                <div class="time-block__item" data-program="a">
+                                    <div class="time-block__item-info">
+                                        <p class="time-block__item-name">수중 아이돌 퍼포먼스 뉴이브</p>
+                                        <p class="time-block__item-time">13:20 - 13:34 · 2F</p>
+                                    </div>
+                                    <span class="tag tag--performance">공연프로그램</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="time-block time-block--open">
+                            <div class="time-block__header">
+                                <div class="time-block__header-left">
+                                    <img class="time-block__clock" src="assets/images/time_icon_grey.svg" alt="">
+                                    <span class="time-block__range">14:00 ~ 15:00</span>
+                                </div>
+                            </div>
+                            <div class="time-block__body">
+                                <div class="time-block__item" data-program="c">
+                                    <div class="time-block__item-info">
+                                        <p class="time-block__item-name">와구와구! 대식가 바다사자</p>
+                                        <p class="time-block__item-time">14:00 - 14:10 · 3F</p>
+                                    </div>
+                                    <span class="tag tag--education">생태설명회</span>
+                                </div>
+                                <div class="time-block__item" data-program="a">
+                                    <div class="time-block__item-info">
+                                        <p class="time-block__item-name">수중 아이돌 퍼포먼스 뉴이브</p>
+                                        <p class="time-block__item-time">14:20 - 14:34 · 2F</p>
+                                    </div>
+                                    <span class="tag tag--performance">공연프로그램</span>
+                                </div>
+                                <div class="time-block__item" data-program="b">
+                                    <div class="time-block__item-info">
+                                        <p class="time-block__item-name">오션라이프 만찬 식사시간</p>
+                                        <p class="time-block__item-time">14:40 - 14:50 · 2F</p>
+                                    </div>
+                                    <span class="tag tag--education">생태설명회</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="time-block time-block--open">
+                            <div class="time-block__header">
+                                <div class="time-block__header-left">
+                                    <img class="time-block__clock" src="assets/images/time_icon_grey.svg" alt="">
+                                    <span class="time-block__range">15:00 ~ 16:00</span>
+                                </div>
+                            </div>
+                            <div class="time-block__body">
+                                <div class="time-block__item" data-program="a">
+                                    <div class="time-block__item-info">
+                                        <p class="time-block__item-name">수중 아이돌 퍼포먼스 뉴이브</p>
+                                        <p class="time-block__item-time">15:20 - 15:34 · 2F</p>
+                                    </div>
+                                    <span class="tag tag--performance">공연프로그램</span>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: Program Schedule Ilsan -->
+    <section class="section section--schedule Ilsan">
+        <div class="container">
+            <div class="section__header">
+                <h2 class="section__title">
+                    Program <span class="section__title-emphasis">Schedule</span>
+                </h2>
+                <p class="section__sub">관람을 더욱 특별하게 만드는 프로그램을 소개합니다</p>
+                <p class="section__description">
+                    생태설명회, 공연, 체험 프로그램을 통해 바다의 매력을 더욱 가까이에서 경험해 보세요
+                    <br><span>아쿠아플라넷 일산</span> 에서 배움과 즐거움이 어우러진 특별한 해양문화 콘텐츠를 만나볼 수 있습니다</p>
+            </div>
+
+            <!-- Category Tabs B -->
+            <div class="cartegory-tabs-b" style="margin-top:80px">
+                <button class="cartegory-tabs-b__item cartegory-tabs-b__item--active">전체</button>
+                <button class="cartegory-tabs-b__item">생태설명회</button>
+                <button class="cartegory-tabs-b__item">공연 프로그램</button>
+                <button class="cartegory-tabs-b__item">체험 프로그램</button>
+            </div>
+
+            <!-- Program Preview Cards -->
+            <div class="program-preview" data-sw="49" data-default-program="바다코끼리자매"></div>
+
+            <!-- Schedule Table -->
+            <div class="schedule-table">
+                <div class="schedule-date-tabs">
+                    <button class="schedule-date-tab"><span class="schedule-date-tab__num">6.15</span><span class="schedule-date-tab__day">월</span></button>
+                    <button class="schedule-date-tab schedule-date-tab--active"><span class="schedule-date-tab__num">6.16</span><span class="schedule-date-tab__day">화</span></button>
+                    <button class="schedule-date-tab"><span class="schedule-date-tab__num">6.17</span><span class="schedule-date-tab__day">수</span></button>
+                    <button class="schedule-date-tab"><span class="schedule-date-tab__num">6.18</span><span class="schedule-date-tab__day">목</span></button>
+                    <button class="schedule-date-tab"><span class="schedule-date-tab__num">6.19</span><span class="schedule-date-tab__day">금</span></button>
+                </div>
+                <div class="schedule-time-grid">
+                        <div class="time-block time-block--open">
+                            <div class="time-block__header">
+                                <div class="time-block__header-left">
+                                    <img class="time-block__clock" src="assets/images/time_icon_grey.svg" alt="">
+                                    <span class="time-block__range">10:00 ~ 11:00</span>
+                                </div>
+                            </div>
+                            <div class="time-block__body">
+                                <div class="time-block__item" data-program="a">
+                                    <div class="time-block__item-info">
+                                        <p class="time-block__item-name">마법선장 루킹</p>
+                                        <p class="time-block__item-time">10:30 - 10:45 · 2F</p>
+                                    </div>
+                                    <span class="tag tag--performance">공연프로그램</span>
+                                </div>
+                                <div class="time-block__item" data-program="g">
+                                    <div class="time-block__item-info">
+                                        <p class="time-block__item-name">스카이팜 건초 체험</p>
+                                        <p class="time-block__item-time">10:00 - 17:00 · 5F</p>
+                                    </div>
+                                    <span class="tag tag--experience">체험프로그램</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="time-block time-block--open">
+                            <div class="time-block__header">
+                                <div class="time-block__header-left">
+                                    <img class="time-block__clock" src="assets/images/time_icon_grey.svg" alt="">
+                                    <span class="time-block__range">11:00 ~ 12:00</span>
+                                </div>
+                            </div>
+                            <div class="time-block__body">
+                                <div class="time-block__item" data-program="a">
+                                    <div class="time-block__item-info">
+                                        <p class="time-block__item-name">마법선장 루킹</p>
+                                        <p class="time-block__item-time">11:30 - 11:45 · 2F</p>
+                                    </div>
+                                    <span class="tag tag--performance">공연프로그램</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="time-block time-block--open">
+                            <div class="time-block__header">
+                                <div class="time-block__header-left">
+                                    <img class="time-block__clock" src="assets/images/time_icon_grey.svg" alt="">
+                                    <span class="time-block__range">12:00 ~ 13:00</span>
+                                </div>
+                            </div>
+                            <div class="time-block__body">
+                                <div class="time-block__item" data-program="a">
+                                    <div class="time-block__item-info">
+                                        <p class="time-block__item-name">마법선장 루킹</p>
+                                        <p class="time-block__item-time">12:30 - 12:45 · 2F</p>
+                                    </div>
+                                    <span class="tag tag--performance">공연프로그램</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="time-block time-block--open">
+                            <div class="time-block__header">
+                                <div class="time-block__header-left">
+                                    <img class="time-block__clock" src="assets/images/time_icon_grey.svg" alt="">
+                                    <span class="time-block__range">13:00 ~ 14:00</span>
+                                </div>
+                            </div>
+                            <div class="time-block__body">
+                                <div class="time-block__item" data-program="d">
+                                    <div class="time-block__item-info">
+                                        <p class="time-block__item-name">바다코끼리 자매 메리&amp;바랴 생태설명회</p>
+                                        <p class="time-block__item-time">13:00 - 13:08 · 3F</p>
+                                    </div>
+                                    <span class="tag tag--education">생태설명회</span>
+                                </div>
+                                <div class="time-block__item" data-program="j">
+                                    <div class="time-block__item-info">
+                                        <p class="time-block__item-name">앵무새 생태설명회</p>
+                                        <p class="time-block__item-time">13:15 - 13:25 · 2F</p>
+                                    </div>
+                                    <span class="tag tag--education">생태설명회</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="time-block time-block--open">
+                            <div class="time-block__header">
+                                <div class="time-block__header-left">
+                                    <img class="time-block__clock" src="assets/images/time_icon_grey.svg" alt="">
+                                    <span class="time-block__range">14:00 ~ 15:00</span>
+                                </div>
+                            </div>
+                            <div class="time-block__body">
+                                <div class="time-block__item" data-program="f">
+                                    <div class="time-block__item-info">
+                                        <p class="time-block__item-name">에듀 컨텐츠 - 이달의 동물 '면양'</p>
+                                        <p class="time-block__item-time">14:00 - 14:10 · 5F</p>
+                                    </div>
+                                    <span class="tag tag--education">생태설명회</span>
+                                </div>
+                                <div class="time-block__item" data-program="a">
+                                    <div class="time-block__item-info">
+                                        <p class="time-block__item-name">마법선장 루킹</p>
+                                        <p class="time-block__item-time">14:30 - 14:45 · 2F</p>
+                                    </div>
+                                    <span class="tag tag--performance">공연프로그램</span>
+                                </div>
+                                <div class="time-block__item" data-program="b">
+                                    <div class="time-block__item-info">
+                                        <p class="time-block__item-name">바다코끼리, 펭귄 생태 관찰 교육</p>
+                                        <p class="time-block__item-time">14:30 - 15:30 · 2F</p>
+                                    </div>
+                                    <span class="tag tag--experience">체험프로그램</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="time-block time-block--open">
+                            <div class="time-block__header">
+                                <div class="time-block__header-left">
+                                    <img class="time-block__clock" src="assets/images/time_icon_grey.svg" alt="">
+                                    <span class="time-block__range">15:00 ~ 16:00</span>
+                                </div>
+                            </div>
+                            <div class="time-block__body">
+                                <div class="time-block__item" data-program="d">
+                                    <div class="time-block__item-info">
+                                        <p class="time-block__item-name">바다코끼리 자매 메리&amp;바랴 생태설명회</p>
+                                        <p class="time-block__item-time">15:00 - 15:08 · 3F</p>
+                                    </div>
+                                    <span class="tag tag--education">생태설명회</span>
+                                </div>
+                                <div class="time-block__item" data-program="e">
+                                    <div class="time-block__item-info">
+                                        <p class="time-block__item-name">가오리의 만찬 시간</p>
+                                        <p class="time-block__item-time">15:30 - 15:37 · 2F</p>
+                                    </div>
+                                    <span class="tag tag--education">생태설명회</span>
+                                </div>
+                                <div class="time-block__item" data-program="a">
+                                    <div class="time-block__item-info">
+                                        <p class="time-block__item-name">마법선장 루킹</p>
+                                        <p class="time-block__item-time">16:00 - 16:15 · 2F</p>
+                                    </div>
+                                    <span class="tag tag--performance">공연프로그램</span>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: Program Schedule Gwanggyo -->
+    <section class="section section--schedule Gwanggyo">
+        <div class="container">
+            <div class="section__header">
+                <h2 class="section__title">
+                    Program <span class="section__title-emphasis">Schedule</span>
+                </h2>
+                <p class="section__sub">관람을 더욱 특별하게 만드는 프로그램을 소개합니다</p>
+                <p class="section__description">
+                    생태설명회, 공연, 체험 프로그램을 통해 바다의 매력을 더욱 가까이에서 경험해 보세요
+                    <br><span>아쿠아플라넷 광교</span> 에서 배움과 즐거움이 어우러진 특별한 해양문화 콘텐츠를 만나볼 수 있습니다</p>
+            </div>
+
+            <!-- Category Tabs B -->
+            <div class="cartegory-tabs-b" style="margin-top:80px">
+                <button class="cartegory-tabs-b__item cartegory-tabs-b__item--active">전체</button>
+                <button class="cartegory-tabs-b__item">생태설명회</button>
+                <button class="cartegory-tabs-b__item">공연 프로그램</button>
+                <button class="cartegory-tabs-b__item">체험 프로그램</button>
+            </div>
+
+            <!-- Program Preview Cards -->
+            <div class="program-preview" data-sw="49" data-default-program="작은발톱수달"></div>
+
+            <!-- Schedule Table -->
+            <div class="schedule-table">
+                <div class="schedule-date-tabs">
+                    <button class="schedule-date-tab"><span class="schedule-date-tab__num">6.15</span><span class="schedule-date-tab__day">월</span></button>
+                    <button class="schedule-date-tab schedule-date-tab--active"><span class="schedule-date-tab__num">6.16</span><span class="schedule-date-tab__day">화</span></button>
+                    <button class="schedule-date-tab"><span class="schedule-date-tab__num">6.17</span><span class="schedule-date-tab__day">수</span></button>
+                    <button class="schedule-date-tab"><span class="schedule-date-tab__num">6.18</span><span class="schedule-date-tab__day">목</span></button>
+                    <button class="schedule-date-tab"><span class="schedule-date-tab__num">6.19</span><span class="schedule-date-tab__day">금</span></button>
+                </div>
+                <div class="schedule-time-grid">
+                        <div class="time-block time-block--open">
+                            <div class="time-block__header">
+                                <div class="time-block__header-left">
+                                    <img class="time-block__clock" src="assets/images/time_icon_grey.svg" alt="">
+                                    <span class="time-block__range">11:00 ~ 12:00</span>
+                                </div>
+                            </div>
+                            <div class="time-block__body">
+                                <div class="time-block__item" data-program="e">
+                                    <div class="time-block__item-info">
+                                        <p class="time-block__item-name">머메이드쇼</p>
+                                        <p class="time-block__item-time">11:10 - 11:20 · B2F</p>
+                                    </div>
+                                    <span class="tag tag--performance">공연프로그램</span>
+                                </div>
+                                <div class="time-block__item" data-program="c">
+                                    <div class="time-block__item-info">
+                                        <p class="time-block__item-name">작은발톱수달 생태설명회</p>
+                                        <p class="time-block__item-time">11:30 - 11:40 · B1F (금~일)</p>
+                                    </div>
+                                    <span class="tag tag--education">생태설명회</span>
+                                </div>
+                                <div class="time-block__item" data-program="j">
+                                    <div class="time-block__item-info">
+                                        <p class="time-block__item-name">투명보트 탑승 체험</p>
+                                        <p class="time-block__item-time">11:00 · 11:30 · B1F</p>
+                                    </div>
+                                    <span class="tag tag--experience">체험프로그램</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="time-block time-block--open">
+                            <div class="time-block__header">
+                                <div class="time-block__header-left">
+                                    <img class="time-block__clock" src="assets/images/time_icon_grey.svg" alt="">
+                                    <span class="time-block__range">12:00 ~ 13:00</span>
+                                </div>
+                            </div>
+                            <div class="time-block__body">
+                                <div class="time-block__item" data-program="e">
+                                    <div class="time-block__item-info">
+                                        <p class="time-block__item-name">머메이드쇼</p>
+                                        <p class="time-block__item-time">12:10 - 12:20 · B2F</p>
+                                    </div>
+                                    <span class="tag tag--performance">공연프로그램</span>
+                                </div>
+                                <div class="time-block__item" data-program="d">
+                                    <div class="time-block__item-info">
+                                        <p class="time-block__item-name">매직쇼</p>
+                                        <p class="time-block__item-time">12:50 - 13:00 · B2F (월 제외)</p>
+                                    </div>
+                                    <span class="tag tag--performance">공연프로그램</span>
+                                </div>
+                                <div class="time-block__item" data-program="j">
+                                    <div class="time-block__item-info">
+                                        <p class="time-block__item-name">투명보트 탑승 체험</p>
+                                        <p class="time-block__item-time">12:00 · 12:30 · B1F</p>
+                                    </div>
+                                    <span class="tag tag--experience">체험프로그램</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="time-block time-block--open">
+                            <div class="time-block__header">
+                                <div class="time-block__header-left">
+                                    <img class="time-block__clock" src="assets/images/time_icon_grey.svg" alt="">
+                                    <span class="time-block__range">13:00 ~ 14:00</span>
+                                </div>
+                            </div>
+                            <div class="time-block__body">
+                                <div class="time-block__item" data-program="e">
+                                    <div class="time-block__item-info">
+                                        <p class="time-block__item-name">머메이드쇼</p>
+                                        <p class="time-block__item-time">13:10 - 13:20 · B2F</p>
+                                    </div>
+                                    <span class="tag tag--performance">공연프로그램</span>
+                                </div>
+                                <div class="time-block__item" data-program="d">
+                                    <div class="time-block__item-info">
+                                        <p class="time-block__item-name">매직쇼</p>
+                                        <p class="time-block__item-time">13:50 - 14:00 · B2F (월 제외)</p>
+                                    </div>
+                                    <span class="tag tag--performance">공연프로그램</span>
+                                </div>
+                                <div class="time-block__item" data-program="j">
+                                    <div class="time-block__item-info">
+                                        <p class="time-block__item-name">투명보트 탑승 체험</p>
+                                        <p class="time-block__item-time">13:00 · B1F</p>
+                                    </div>
+                                    <span class="tag tag--experience">체험프로그램</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="time-block time-block--open">
+                            <div class="time-block__header">
+                                <div class="time-block__header-left">
+                                    <img class="time-block__clock" src="assets/images/time_icon_grey.svg" alt="">
+                                    <span class="time-block__range">14:00 ~ 15:00</span>
+                                </div>
+                            </div>
+                            <div class="time-block__body">
+                                <div class="time-block__item" data-program="e">
+                                    <div class="time-block__item-info">
+                                        <p class="time-block__item-name">머메이드쇼</p>
+                                        <p class="time-block__item-time">14:10 - 14:20 · B2F</p>
+                                    </div>
+                                    <span class="tag tag--performance">공연프로그램</span>
+                                </div>
+                                <div class="time-block__item" data-program="l">
+                                    <div class="time-block__item-info">
+                                        <p class="time-block__item-name">해파리 생태 관찰 교육</p>
+                                        <p class="time-block__item-time">14:15 - 15:00 · B2F</p>
+                                    </div>
+                                    <span class="tag tag--experience">체험프로그램</span>
+                                </div>
+                                <div class="time-block__item" data-program="g">
+                                    <div class="time-block__item-info">
+                                        <p class="time-block__item-name">수중발레쇼</p>
+                                        <p class="time-block__item-time">14:30 - 14:40 · B1F (월 제외)</p>
+                                    </div>
+                                    <span class="tag tag--performance">공연프로그램</span>
+                                </div>
+                                <div class="time-block__item" data-program="a">
+                                    <div class="time-block__item-info">
+                                        <p class="time-block__item-name">도슨트 투어 (어린이 전용)</p>
+                                        <p class="time-block__item-time">14:45 - 15:25 · 광교 입구</p>
+                                    </div>
+                                    <span class="tag tag--experience">체험프로그램</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="time-block time-block--open">
+                            <div class="time-block__header">
+                                <div class="time-block__header-left">
+                                    <img class="time-block__clock" src="assets/images/time_icon_grey.svg" alt="">
+                                    <span class="time-block__range">15:00 ~ 16:00</span>
+                                </div>
+                            </div>
+                            <div class="time-block__body">
+                                <div class="time-block__item" data-program="k">
+                                    <div class="time-block__item-info">
+                                        <p class="time-block__item-name">펭귄 생태 관찰 교육</p>
+                                        <p class="time-block__item-time">15:00 - 15:30 · B2F</p>
+                                    </div>
+                                    <span class="tag tag--experience">체험프로그램</span>
+                                </div>
+                                <div class="time-block__item" data-program="e">
+                                    <div class="time-block__item-info">
+                                        <p class="time-block__item-name">머메이드쇼</p>
+                                        <p class="time-block__item-time">15:10 - 15:20 · B2F</p>
+                                    </div>
+                                    <span class="tag tag--performance">공연프로그램</span>
+                                </div>
+                                <div class="time-block__item" data-program="c">
+                                    <div class="time-block__item-info">
+                                        <p class="time-block__item-name">작은발톱수달 생태설명회</p>
+                                        <p class="time-block__item-time">15:30 - 15:40 · B1F</p>
+                                    </div>
+                                    <span class="tag tag--education">생태설명회</span>
+                                </div>
+                                <div class="time-block__item" data-program="b">
+                                    <div class="time-block__item-info">
+                                        <p class="time-block__item-name">가오리 생태 관찰 교육</p>
+                                        <p class="time-block__item-time">15:45 - 16:15 · B1F</p>
+                                    </div>
+                                    <span class="tag tag--experience">체험프로그램</span>
+                                </div>
+                                <div class="time-block__item" data-program="d">
+                                    <div class="time-block__item-info">
+                                        <p class="time-block__item-name">매직쇼</p>
+                                        <p class="time-block__item-time">15:50 - 16:00 · B2F (월 제외)</p>
+                                    </div>
+                                    <span class="tag tag--performance">공연프로그램</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="time-block time-block--open">
+                            <div class="time-block__header">
+                                <div class="time-block__header-left">
+                                    <img class="time-block__clock" src="assets/images/time_icon_grey.svg" alt="">
+                                    <span class="time-block__range">16:00 ~ 17:00</span>
+                                </div>
+                            </div>
+                            <div class="time-block__body">
+                                <div class="time-block__item" data-program="e">
+                                    <div class="time-block__item-info">
+                                        <p class="time-block__item-name">머메이드쇼</p>
+                                        <p class="time-block__item-time">16:10 - 16:20 · B2F</p>
+                                    </div>
+                                    <span class="tag tag--performance">공연프로그램</span>
+                                </div>
+                                <div class="time-block__item" data-program="i">
+                                    <div class="time-block__item-info">
+                                        <p class="time-block__item-name">펭귄 생태설명회</p>
+                                        <p class="time-block__item-time">16:30 - 16:40 · B2F</p>
+                                    </div>
+                                    <span class="tag tag--education">생태설명회</span>
+                                </div>
+                                <div class="time-block__item" data-program="a">
+                                    <div class="time-block__item-info">
+                                        <p class="time-block__item-name">도슨트 투어 (어린이 전용)</p>
+                                        <p class="time-block__item-time">16:45 - 17:25 · 광교 입구</p>
+                                    </div>
+                                    <span class="tag tag--experience">체험프로그램</span>
+                                </div>
+                                <div class="time-block__item" data-program="j">
+                                    <div class="time-block__item-info">
+                                        <p class="time-block__item-name">투명보트 탑승 체험</p>
+                                        <p class="time-block__item-time">16:00 · 16:30 · 17:00 · B1F</p>
+                                    </div>
+                                    <span class="tag tag--experience">체험프로그램</span>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 프로그램 상세 모달 -->
+    <div class="detail-modal">
+        <div class="detail-modal__panel">
+            <img class="detail-modal__icon" src="assets/images/chevron_up_white.svg" alt="">
+            <div class="detail-modal__info">
+                <div class="detail-modal__header">
+                    <span class="tag tag--performance detail-modal__tag">공연프로그램</span>
+                    <h3 class="detail-modal__title">오션 아레나 특별 공연</h3>
+                </div>
+                <div class="detail-modal__body">
+                    <!-- 상세 내용 전체: 카드의 .program-card__detail 내용이 주입됨 (HTML에서 직접 작성) -->
+                    <div class="detail-modal__parts"></div>
+                </div>
+            </div>
+            <div class="detail-modal__image">
+                <img src="https://www.aquaplanet.co.kr/Upload/pcprogram/JEJU/KOR/img_name_20250114170960150.jpg" alt="">
+            </div>
+        </div>
+    </div>
+    <section class="logo-end">
+
+    </section>
+
+    <!-- Section Category Nav: 오른쪽 고정, 수직 center -->
+    <nav class="section-cat-nav" aria-label="섹션 이동">
+        <div class="section-cat-nav__item section-cat-nav__item--active" data-target="schedule">
+            <span class="section-cat-nav__label">프로그램 일정</span>
+            <div class="section-cat-nav__line"></div>
+        </div>
+        <div class="section-cat-nav__item" data-target="guide">
+            <span class="section-cat-nav__label">프로그램 안내</span>
+            <div class="section-cat-nav__line"></div>
+        </div>
+    </nav>
+    <!-- Program data (hidden — used by JS for carousel/modal) -->
+    <div hidden aria-hidden="true" id="program-data">
+      <div class="section--guide Jeju">
+        <div class="program-list">
                 <div class="program-card" data-program="a">
                     <div class="program-card__info">
                         <span class="tag tag--performance">공연프로그램</span>
@@ -739,7 +1461,7 @@
                             </div>
                         </div>
                         <!-- 상세 모달 이미지 (이 src만 바꾸면 됨) -->
-                        <img class="program-card__detail-img" src="https://www.aquaplanet.co.kr/Upload/pcprogram/JEJU/KOR/img_name_20250218163428402.png" alt="" hidden style="transform: scale(1.5) translateX(-12%) translateY(6%);">
+                        <img class="program-card__detail-img" src="assets/images/jejuProgram1.png" alt="" hidden>
                     </div>
                     <div class="program-card__meta">
                         <div class="program-card__duration">
@@ -751,196 +1473,10 @@
                         <div class="program-card__location"><span>1F</span><img class="program-card__chevron" src="assets/images/chevron_right_grey.svg" alt="">아쿠아리움<img class="program-card__chevron" src="assets/images/chevron_right_grey.svg" alt="">터치풀</div>
                     </div>
                 </div>
-            </div>
         </div>
-    </section>
-
-    <!-- Section: Program Schedule Yeosu -->
-    <section class="section section--schedule Yeosu">
-        <div class="container">
-            <div class="section__header">
-                <h2 class="section__title">
-                    Program <span class="section__title-emphasis">Schedule</span>
-                </h2>
-                <p class="section__sub">관람을 더욱 특별하게 만드는 프로그램을 소개합니다</p>
-                <p class="section__description">
-                    생태설명회, 공연, 체험 프로그램을 통해 바다의 매력을 더욱 가까이에서 경험해 보세요
-                    <br><span>아쿠아플라넷 여수</span> 에서 배움과 즐거움이 어우러진 특별한 해양문화 콘텐츠를 만나볼 수 있습니다</p>
-            </div>
-
-            <!-- Schedule Table -->
-            <div class="schedule-table">
-                <div class="schedule-date-tabs">
-                    <button class="schedule-date-tab"><span class="schedule-date-tab__num">6.15</span><span class="schedule-date-tab__day">월</span></button>
-                    <button class="schedule-date-tab schedule-date-tab--active"><span class="schedule-date-tab__num">6.16</span><span class="schedule-date-tab__day">화</span></button>
-                    <button class="schedule-date-tab"><span class="schedule-date-tab__num">6.17</span><span class="schedule-date-tab__day">수</span></button>
-                    <button class="schedule-date-tab"><span class="schedule-date-tab__num">6.18</span><span class="schedule-date-tab__day">목</span></button>
-                    <button class="schedule-date-tab"><span class="schedule-date-tab__num">6.19</span><span class="schedule-date-tab__day">금</span></button>
-                </div>
-                <div class="schedule-time-grid">
-                        <div class="time-block time-block--open">
-                            <div class="time-block__header">
-                                <div class="time-block__header-left">
-                                    <img class="time-block__clock" src="assets/images/time_icon_grey.svg" alt="">
-                                    <span class="time-block__range">10:00 ~ 11:00</span>
-                                </div>
-                            </div>
-                            <div class="time-block__body">
-                                <div class="time-block__item" data-program="a">
-                                    <div class="time-block__item-info">
-                                        <p class="time-block__item-name">수중 아이돌 퍼포먼스 뉴이브</p>
-                                        <p class="time-block__item-time">10:20 - 10:34 · 2F</p>
-                                    </div>
-                                    <span class="tag tag--performance">공연프로그램</span>
-                                </div>
-                                <div class="time-block__item" data-program="e">
-                                    <div class="time-block__item-info">
-                                        <p class="time-block__item-name">아프리칸 펭귄의 모든것</p>
-                                        <p class="time-block__item-time">10:40 - 10:50 · 2F</p>
-                                    </div>
-                                    <span class="tag tag--education">생태설명회</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="time-block time-block--open">
-                            <div class="time-block__header">
-                                <div class="time-block__header-left">
-                                    <img class="time-block__clock" src="assets/images/time_icon_grey.svg" alt="">
-                                    <span class="time-block__range">11:00 ~ 12:00</span>
-                                </div>
-                            </div>
-                            <div class="time-block__body">
-                                <div class="time-block__item" data-program="a">
-                                    <div class="time-block__item-info">
-                                        <p class="time-block__item-name">수중 아이돌 퍼포먼스 뉴이브</p>
-                                        <p class="time-block__item-time">11:20 - 11:34 · 2F</p>
-                                    </div>
-                                    <span class="tag tag--performance">공연프로그램</span>
-                                </div>
-                                <div class="time-block__item" data-program="b">
-                                    <div class="time-block__item-info">
-                                        <p class="time-block__item-name">오션라이프 만찬 식사시간</p>
-                                        <p class="time-block__item-time">11:40 - 11:50 · 2F</p>
-                                    </div>
-                                    <span class="tag tag--education">생태설명회</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="time-block time-block--open">
-                            <div class="time-block__header">
-                                <div class="time-block__header-left">
-                                    <img class="time-block__clock" src="assets/images/time_icon_grey.svg" alt="">
-                                    <span class="time-block__range">12:00 ~ 13:00</span>
-                                </div>
-                            </div>
-                            <div class="time-block__body">
-                                <div class="time-block__item" data-program="a">
-                                    <div class="time-block__item-info">
-                                        <p class="time-block__item-name">수중 아이돌 퍼포먼스 뉴이브</p>
-                                        <p class="time-block__item-time">12:20 - 12:34 · 2F</p>
-                                    </div>
-                                    <span class="tag tag--performance">공연프로그램</span>
-                                </div>
-                                <div class="time-block__item" data-program="d">
-                                    <div class="time-block__item-info">
-                                        <p class="time-block__item-name">벨루가 메디컬케어</p>
-                                        <p class="time-block__item-time">12:40 - 12:50 · 3F</p>
-                                    </div>
-                                    <span class="tag tag--education">생태설명회</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="time-block time-block--open">
-                            <div class="time-block__header">
-                                <div class="time-block__header-left">
-                                    <img class="time-block__clock" src="assets/images/time_icon_grey.svg" alt="">
-                                    <span class="time-block__range">13:00 ~ 14:00</span>
-                                </div>
-                            </div>
-                            <div class="time-block__body">
-                                <div class="time-block__item" data-program="a">
-                                    <div class="time-block__item-info">
-                                        <p class="time-block__item-name">수중 아이돌 퍼포먼스 뉴이브</p>
-                                        <p class="time-block__item-time">13:20 - 13:34 · 2F</p>
-                                    </div>
-                                    <span class="tag tag--performance">공연프로그램</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="time-block time-block--open">
-                            <div class="time-block__header">
-                                <div class="time-block__header-left">
-                                    <img class="time-block__clock" src="assets/images/time_icon_grey.svg" alt="">
-                                    <span class="time-block__range">14:00 ~ 15:00</span>
-                                </div>
-                            </div>
-                            <div class="time-block__body">
-                                <div class="time-block__item" data-program="c">
-                                    <div class="time-block__item-info">
-                                        <p class="time-block__item-name">와구와구! 대식가 바다사자</p>
-                                        <p class="time-block__item-time">14:00 - 14:10 · 3F</p>
-                                    </div>
-                                    <span class="tag tag--education">생태설명회</span>
-                                </div>
-                                <div class="time-block__item" data-program="a">
-                                    <div class="time-block__item-info">
-                                        <p class="time-block__item-name">수중 아이돌 퍼포먼스 뉴이브</p>
-                                        <p class="time-block__item-time">14:20 - 14:34 · 2F</p>
-                                    </div>
-                                    <span class="tag tag--performance">공연프로그램</span>
-                                </div>
-                                <div class="time-block__item" data-program="b">
-                                    <div class="time-block__item-info">
-                                        <p class="time-block__item-name">오션라이프 만찬 식사시간</p>
-                                        <p class="time-block__item-time">14:40 - 14:50 · 2F</p>
-                                    </div>
-                                    <span class="tag tag--education">생태설명회</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="time-block time-block--open">
-                            <div class="time-block__header">
-                                <div class="time-block__header-left">
-                                    <img class="time-block__clock" src="assets/images/time_icon_grey.svg" alt="">
-                                    <span class="time-block__range">15:00 ~ 16:00</span>
-                                </div>
-                            </div>
-                            <div class="time-block__body">
-                                <div class="time-block__item" data-program="a">
-                                    <div class="time-block__item-info">
-                                        <p class="time-block__item-name">수중 아이돌 퍼포먼스 뉴이브</p>
-                                        <p class="time-block__item-time">15:20 - 15:34 · 2F</p>
-                                    </div>
-                                    <span class="tag tag--performance">공연프로그램</span>
-                                </div>
-                            </div>
-                        </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Section: Program Guide Yeosu -->
-    <section class="section section--guide Yeosu">
-        <div class="container">
-            <div class="section__header">
-                <h2 class="section__title">
-                    Program <span class="section__title-emphasis">Guide</span>
-                </h2>
-                <p class="section__sub">관람을 더욱 특별하게 만드는 프로그램을 소개합니다</p>
-                <p class="section__description">생태설명회, 공연, 체험 프로그램을 통해 바다의 매력을 더욱 가까이에서 경험해 보세요<br>아쿠아플라넷 여수에서 배움과 즐거움이 어우러진 특별한 해양문화 콘텐츠를 만나볼 수 있습니다</p>
-            </div>
-
-            <!-- Category Tabs -->
-            <div class="cartegory-tabs-b">
-                <button class="cartegory-tabs-b__item cartegory-tabs-b__item--active">전체</button>
-                <button class="cartegory-tabs-b__item">생태설명회</button>
-                <button class="cartegory-tabs-b__item">공연 프로그램</button>
-                <button class="cartegory-tabs-b__item">체험 프로그램</button>
-            </div>
-
-            <!-- Program List -->
-            <div class="program-list">
+      </div>
+      <div class="section--guide Yeosu">
+        <div class="program-list">
                 <div class="program-card" data-program="a">
                     <div class="program-card__info">
                         <span class="tag tag--performance">공연프로그램</span>
@@ -1359,203 +1895,10 @@
                         <div class="program-card__location"><span>2F</span><img class="program-card__chevron" src="assets/images/chevron_right_grey.svg" alt="">마린라이프<img class="program-card__chevron" src="assets/images/chevron_right_grey.svg" alt="">바다사자 수조 앞</div>
                     </div>
                 </div>
-            </div>
         </div>
-    </section>
-
-    <!-- Section: Program Schedule Ilsan -->
-    <section class="section section--schedule Ilsan">
-        <div class="container">
-            <div class="section__header">
-                <h2 class="section__title">
-                    Program <span class="section__title-emphasis">Schedule</span>
-                </h2>
-                <p class="section__sub">관람을 더욱 특별하게 만드는 프로그램을 소개합니다</p>
-                <p class="section__description">
-                    생태설명회, 공연, 체험 프로그램을 통해 바다의 매력을 더욱 가까이에서 경험해 보세요
-                    <br><span>아쿠아플라넷 일산</span> 에서 배움과 즐거움이 어우러진 특별한 해양문화 콘텐츠를 만나볼 수 있습니다</p>
-            </div>
-
-            <!-- Schedule Table -->
-            <div class="schedule-table">
-                <div class="schedule-date-tabs">
-                    <button class="schedule-date-tab"><span class="schedule-date-tab__num">6.15</span><span class="schedule-date-tab__day">월</span></button>
-                    <button class="schedule-date-tab schedule-date-tab--active"><span class="schedule-date-tab__num">6.16</span><span class="schedule-date-tab__day">화</span></button>
-                    <button class="schedule-date-tab"><span class="schedule-date-tab__num">6.17</span><span class="schedule-date-tab__day">수</span></button>
-                    <button class="schedule-date-tab"><span class="schedule-date-tab__num">6.18</span><span class="schedule-date-tab__day">목</span></button>
-                    <button class="schedule-date-tab"><span class="schedule-date-tab__num">6.19</span><span class="schedule-date-tab__day">금</span></button>
-                </div>
-                <div class="schedule-time-grid">
-                        <div class="time-block time-block--open">
-                            <div class="time-block__header">
-                                <div class="time-block__header-left">
-                                    <img class="time-block__clock" src="assets/images/time_icon_grey.svg" alt="">
-                                    <span class="time-block__range">10:00 ~ 11:00</span>
-                                </div>
-                            </div>
-                            <div class="time-block__body">
-                                <div class="time-block__item" data-program="a">
-                                    <div class="time-block__item-info">
-                                        <p class="time-block__item-name">마법선장 루킹</p>
-                                        <p class="time-block__item-time">10:30 - 10:45 · 2F</p>
-                                    </div>
-                                    <span class="tag tag--performance">공연프로그램</span>
-                                </div>
-                                <div class="time-block__item" data-program="g">
-                                    <div class="time-block__item-info">
-                                        <p class="time-block__item-name">스카이팜 건초 체험</p>
-                                        <p class="time-block__item-time">10:00 - 17:00 · 5F</p>
-                                    </div>
-                                    <span class="tag tag--experience">체험프로그램</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="time-block time-block--open">
-                            <div class="time-block__header">
-                                <div class="time-block__header-left">
-                                    <img class="time-block__clock" src="assets/images/time_icon_grey.svg" alt="">
-                                    <span class="time-block__range">11:00 ~ 12:00</span>
-                                </div>
-                            </div>
-                            <div class="time-block__body">
-                                <div class="time-block__item" data-program="a">
-                                    <div class="time-block__item-info">
-                                        <p class="time-block__item-name">마법선장 루킹</p>
-                                        <p class="time-block__item-time">11:30 - 11:45 · 2F</p>
-                                    </div>
-                                    <span class="tag tag--performance">공연프로그램</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="time-block time-block--open">
-                            <div class="time-block__header">
-                                <div class="time-block__header-left">
-                                    <img class="time-block__clock" src="assets/images/time_icon_grey.svg" alt="">
-                                    <span class="time-block__range">12:00 ~ 13:00</span>
-                                </div>
-                            </div>
-                            <div class="time-block__body">
-                                <div class="time-block__item" data-program="a">
-                                    <div class="time-block__item-info">
-                                        <p class="time-block__item-name">마법선장 루킹</p>
-                                        <p class="time-block__item-time">12:30 - 12:45 · 2F</p>
-                                    </div>
-                                    <span class="tag tag--performance">공연프로그램</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="time-block time-block--open">
-                            <div class="time-block__header">
-                                <div class="time-block__header-left">
-                                    <img class="time-block__clock" src="assets/images/time_icon_grey.svg" alt="">
-                                    <span class="time-block__range">13:00 ~ 14:00</span>
-                                </div>
-                            </div>
-                            <div class="time-block__body">
-                                <div class="time-block__item" data-program="d">
-                                    <div class="time-block__item-info">
-                                        <p class="time-block__item-name">바다코끼리 자매 메리&amp;바랴 생태설명회</p>
-                                        <p class="time-block__item-time">13:00 - 13:08 · 3F</p>
-                                    </div>
-                                    <span class="tag tag--education">생태설명회</span>
-                                </div>
-                                <div class="time-block__item" data-program="j">
-                                    <div class="time-block__item-info">
-                                        <p class="time-block__item-name">앵무새 생태설명회</p>
-                                        <p class="time-block__item-time">13:15 - 13:25 · 2F</p>
-                                    </div>
-                                    <span class="tag tag--education">생태설명회</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="time-block time-block--open">
-                            <div class="time-block__header">
-                                <div class="time-block__header-left">
-                                    <img class="time-block__clock" src="assets/images/time_icon_grey.svg" alt="">
-                                    <span class="time-block__range">14:00 ~ 15:00</span>
-                                </div>
-                            </div>
-                            <div class="time-block__body">
-                                <div class="time-block__item" data-program="f">
-                                    <div class="time-block__item-info">
-                                        <p class="time-block__item-name">에듀 컨텐츠 - 이달의 동물 '면양'</p>
-                                        <p class="time-block__item-time">14:00 - 14:10 · 5F</p>
-                                    </div>
-                                    <span class="tag tag--education">생태설명회</span>
-                                </div>
-                                <div class="time-block__item" data-program="a">
-                                    <div class="time-block__item-info">
-                                        <p class="time-block__item-name">마법선장 루킹</p>
-                                        <p class="time-block__item-time">14:30 - 14:45 · 2F</p>
-                                    </div>
-                                    <span class="tag tag--performance">공연프로그램</span>
-                                </div>
-                                <div class="time-block__item" data-program="b">
-                                    <div class="time-block__item-info">
-                                        <p class="time-block__item-name">바다코끼리, 펭귄 생태 관찰 교육</p>
-                                        <p class="time-block__item-time">14:30 - 15:30 · 2F</p>
-                                    </div>
-                                    <span class="tag tag--experience">체험프로그램</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="time-block time-block--open">
-                            <div class="time-block__header">
-                                <div class="time-block__header-left">
-                                    <img class="time-block__clock" src="assets/images/time_icon_grey.svg" alt="">
-                                    <span class="time-block__range">15:00 ~ 16:00</span>
-                                </div>
-                            </div>
-                            <div class="time-block__body">
-                                <div class="time-block__item" data-program="d">
-                                    <div class="time-block__item-info">
-                                        <p class="time-block__item-name">바다코끼리 자매 메리&amp;바랴 생태설명회</p>
-                                        <p class="time-block__item-time">15:00 - 15:08 · 3F</p>
-                                    </div>
-                                    <span class="tag tag--education">생태설명회</span>
-                                </div>
-                                <div class="time-block__item" data-program="e">
-                                    <div class="time-block__item-info">
-                                        <p class="time-block__item-name">가오리의 만찬 시간</p>
-                                        <p class="time-block__item-time">15:30 - 15:37 · 2F</p>
-                                    </div>
-                                    <span class="tag tag--education">생태설명회</span>
-                                </div>
-                                <div class="time-block__item" data-program="a">
-                                    <div class="time-block__item-info">
-                                        <p class="time-block__item-name">마법선장 루킹</p>
-                                        <p class="time-block__item-time">16:00 - 16:15 · 2F</p>
-                                    </div>
-                                    <span class="tag tag--performance">공연프로그램</span>
-                                </div>
-                            </div>
-                        </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Section: Program Guide Ilsan -->
-    <section class="section section--guide Ilsan">
-        <div class="container">
-            <div class="section__header">
-                <h2 class="section__title">
-                    Program <span class="section__title-emphasis">Guide</span>
-                </h2>
-                <p class="section__sub">관람을 더욱 특별하게 만드는 프로그램을 소개합니다</p>
-                <p class="section__description">생태설명회, 공연, 체험 프로그램을 통해 바다의 매력을 더욱 가까이에서 경험해 보세요<br>아쿠아플라넷 일산에서 배움과 즐거움이 어우러진 특별한 해양문화 콘텐츠를 만나볼 수 있습니다</p>
-            </div>
-
-            <!-- Category Tabs -->
-            <div class="cartegory-tabs-b">
-                <button class="cartegory-tabs-b__item cartegory-tabs-b__item--active">전체</button>
-                <button class="cartegory-tabs-b__item">생태설명회</button>
-                <button class="cartegory-tabs-b__item">공연 프로그램</button>
-                <button class="cartegory-tabs-b__item">체험 프로그램</button>
-            </div>
-
-            <!-- Program List -->
-            <div class="program-list">
+      </div>
+      <div class="section--guide Ilsan">
+        <div class="program-list">
                 <div class="program-card" data-program="a">
                     <div class="program-card__info">
                         <span class="tag tag--performance">공연프로그램</span>
@@ -2105,273 +2448,10 @@
                         <div class="program-card__location"><span>2F</span><img class="program-card__chevron" src="assets/images/chevron_right_grey.svg" alt="">더 정글</div>
                     </div>
                 </div>
-            </div>
         </div>
-    </section>
-
-    <!-- Section: Program Schedule Gwanggyo -->
-    <section class="section section--schedule Gwanggyo">
-        <div class="container">
-            <div class="section__header">
-                <h2 class="section__title">
-                    Program <span class="section__title-emphasis">Schedule</span>
-                </h2>
-                <p class="section__sub">관람을 더욱 특별하게 만드는 프로그램을 소개합니다</p>
-                <p class="section__description">
-                    생태설명회, 공연, 체험 프로그램을 통해 바다의 매력을 더욱 가까이에서 경험해 보세요
-                    <br><span>아쿠아플라넷 광교</span> 에서 배움과 즐거움이 어우러진 특별한 해양문화 콘텐츠를 만나볼 수 있습니다</p>
-            </div>
-
-            <!-- Schedule Table -->
-            <div class="schedule-table">
-                <div class="schedule-date-tabs">
-                    <button class="schedule-date-tab"><span class="schedule-date-tab__num">6.15</span><span class="schedule-date-tab__day">월</span></button>
-                    <button class="schedule-date-tab schedule-date-tab--active"><span class="schedule-date-tab__num">6.16</span><span class="schedule-date-tab__day">화</span></button>
-                    <button class="schedule-date-tab"><span class="schedule-date-tab__num">6.17</span><span class="schedule-date-tab__day">수</span></button>
-                    <button class="schedule-date-tab"><span class="schedule-date-tab__num">6.18</span><span class="schedule-date-tab__day">목</span></button>
-                    <button class="schedule-date-tab"><span class="schedule-date-tab__num">6.19</span><span class="schedule-date-tab__day">금</span></button>
-                </div>
-                <div class="schedule-time-grid">
-                        <div class="time-block time-block--open">
-                            <div class="time-block__header">
-                                <div class="time-block__header-left">
-                                    <img class="time-block__clock" src="assets/images/time_icon_grey.svg" alt="">
-                                    <span class="time-block__range">11:00 ~ 12:00</span>
-                                </div>
-                            </div>
-                            <div class="time-block__body">
-                                <div class="time-block__item" data-program="e">
-                                    <div class="time-block__item-info">
-                                        <p class="time-block__item-name">머메이드쇼</p>
-                                        <p class="time-block__item-time">11:10 - 11:20 · B2F</p>
-                                    </div>
-                                    <span class="tag tag--performance">공연프로그램</span>
-                                </div>
-                                <div class="time-block__item" data-program="c">
-                                    <div class="time-block__item-info">
-                                        <p class="time-block__item-name">작은발톱수달 생태설명회</p>
-                                        <p class="time-block__item-time">11:30 - 11:40 · B1F (금~일)</p>
-                                    </div>
-                                    <span class="tag tag--education">생태설명회</span>
-                                </div>
-                                <div class="time-block__item" data-program="j">
-                                    <div class="time-block__item-info">
-                                        <p class="time-block__item-name">투명보트 탑승 체험</p>
-                                        <p class="time-block__item-time">11:00 · 11:30 · B1F</p>
-                                    </div>
-                                    <span class="tag tag--experience">체험프로그램</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="time-block time-block--open">
-                            <div class="time-block__header">
-                                <div class="time-block__header-left">
-                                    <img class="time-block__clock" src="assets/images/time_icon_grey.svg" alt="">
-                                    <span class="time-block__range">12:00 ~ 13:00</span>
-                                </div>
-                            </div>
-                            <div class="time-block__body">
-                                <div class="time-block__item" data-program="e">
-                                    <div class="time-block__item-info">
-                                        <p class="time-block__item-name">머메이드쇼</p>
-                                        <p class="time-block__item-time">12:10 - 12:20 · B2F</p>
-                                    </div>
-                                    <span class="tag tag--performance">공연프로그램</span>
-                                </div>
-                                <div class="time-block__item" data-program="d">
-                                    <div class="time-block__item-info">
-                                        <p class="time-block__item-name">매직쇼</p>
-                                        <p class="time-block__item-time">12:50 - 13:00 · B2F (월 제외)</p>
-                                    </div>
-                                    <span class="tag tag--performance">공연프로그램</span>
-                                </div>
-                                <div class="time-block__item" data-program="j">
-                                    <div class="time-block__item-info">
-                                        <p class="time-block__item-name">투명보트 탑승 체험</p>
-                                        <p class="time-block__item-time">12:00 · 12:30 · B1F</p>
-                                    </div>
-                                    <span class="tag tag--experience">체험프로그램</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="time-block time-block--open">
-                            <div class="time-block__header">
-                                <div class="time-block__header-left">
-                                    <img class="time-block__clock" src="assets/images/time_icon_grey.svg" alt="">
-                                    <span class="time-block__range">13:00 ~ 14:00</span>
-                                </div>
-                            </div>
-                            <div class="time-block__body">
-                                <div class="time-block__item" data-program="e">
-                                    <div class="time-block__item-info">
-                                        <p class="time-block__item-name">머메이드쇼</p>
-                                        <p class="time-block__item-time">13:10 - 13:20 · B2F</p>
-                                    </div>
-                                    <span class="tag tag--performance">공연프로그램</span>
-                                </div>
-                                <div class="time-block__item" data-program="d">
-                                    <div class="time-block__item-info">
-                                        <p class="time-block__item-name">매직쇼</p>
-                                        <p class="time-block__item-time">13:50 - 14:00 · B2F (월 제외)</p>
-                                    </div>
-                                    <span class="tag tag--performance">공연프로그램</span>
-                                </div>
-                                <div class="time-block__item" data-program="j">
-                                    <div class="time-block__item-info">
-                                        <p class="time-block__item-name">투명보트 탑승 체험</p>
-                                        <p class="time-block__item-time">13:00 · B1F</p>
-                                    </div>
-                                    <span class="tag tag--experience">체험프로그램</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="time-block time-block--open">
-                            <div class="time-block__header">
-                                <div class="time-block__header-left">
-                                    <img class="time-block__clock" src="assets/images/time_icon_grey.svg" alt="">
-                                    <span class="time-block__range">14:00 ~ 15:00</span>
-                                </div>
-                            </div>
-                            <div class="time-block__body">
-                                <div class="time-block__item" data-program="e">
-                                    <div class="time-block__item-info">
-                                        <p class="time-block__item-name">머메이드쇼</p>
-                                        <p class="time-block__item-time">14:10 - 14:20 · B2F</p>
-                                    </div>
-                                    <span class="tag tag--performance">공연프로그램</span>
-                                </div>
-                                <div class="time-block__item" data-program="l">
-                                    <div class="time-block__item-info">
-                                        <p class="time-block__item-name">해파리 생태 관찰 교육</p>
-                                        <p class="time-block__item-time">14:15 - 15:00 · B2F</p>
-                                    </div>
-                                    <span class="tag tag--experience">체험프로그램</span>
-                                </div>
-                                <div class="time-block__item" data-program="g">
-                                    <div class="time-block__item-info">
-                                        <p class="time-block__item-name">수중발레쇼</p>
-                                        <p class="time-block__item-time">14:30 - 14:40 · B1F (월 제외)</p>
-                                    </div>
-                                    <span class="tag tag--performance">공연프로그램</span>
-                                </div>
-                                <div class="time-block__item" data-program="a">
-                                    <div class="time-block__item-info">
-                                        <p class="time-block__item-name">도슨트 투어 (어린이 전용)</p>
-                                        <p class="time-block__item-time">14:45 - 15:25 · 광교 입구</p>
-                                    </div>
-                                    <span class="tag tag--experience">체험프로그램</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="time-block time-block--open">
-                            <div class="time-block__header">
-                                <div class="time-block__header-left">
-                                    <img class="time-block__clock" src="assets/images/time_icon_grey.svg" alt="">
-                                    <span class="time-block__range">15:00 ~ 16:00</span>
-                                </div>
-                            </div>
-                            <div class="time-block__body">
-                                <div class="time-block__item" data-program="k">
-                                    <div class="time-block__item-info">
-                                        <p class="time-block__item-name">펭귄 생태 관찰 교육</p>
-                                        <p class="time-block__item-time">15:00 - 15:30 · B2F</p>
-                                    </div>
-                                    <span class="tag tag--experience">체험프로그램</span>
-                                </div>
-                                <div class="time-block__item" data-program="e">
-                                    <div class="time-block__item-info">
-                                        <p class="time-block__item-name">머메이드쇼</p>
-                                        <p class="time-block__item-time">15:10 - 15:20 · B2F</p>
-                                    </div>
-                                    <span class="tag tag--performance">공연프로그램</span>
-                                </div>
-                                <div class="time-block__item" data-program="c">
-                                    <div class="time-block__item-info">
-                                        <p class="time-block__item-name">작은발톱수달 생태설명회</p>
-                                        <p class="time-block__item-time">15:30 - 15:40 · B1F</p>
-                                    </div>
-                                    <span class="tag tag--education">생태설명회</span>
-                                </div>
-                                <div class="time-block__item" data-program="b">
-                                    <div class="time-block__item-info">
-                                        <p class="time-block__item-name">가오리 생태 관찰 교육</p>
-                                        <p class="time-block__item-time">15:45 - 16:15 · B1F</p>
-                                    </div>
-                                    <span class="tag tag--experience">체험프로그램</span>
-                                </div>
-                                <div class="time-block__item" data-program="d">
-                                    <div class="time-block__item-info">
-                                        <p class="time-block__item-name">매직쇼</p>
-                                        <p class="time-block__item-time">15:50 - 16:00 · B2F (월 제외)</p>
-                                    </div>
-                                    <span class="tag tag--performance">공연프로그램</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="time-block time-block--open">
-                            <div class="time-block__header">
-                                <div class="time-block__header-left">
-                                    <img class="time-block__clock" src="assets/images/time_icon_grey.svg" alt="">
-                                    <span class="time-block__range">16:00 ~ 17:00</span>
-                                </div>
-                            </div>
-                            <div class="time-block__body">
-                                <div class="time-block__item" data-program="e">
-                                    <div class="time-block__item-info">
-                                        <p class="time-block__item-name">머메이드쇼</p>
-                                        <p class="time-block__item-time">16:10 - 16:20 · B2F</p>
-                                    </div>
-                                    <span class="tag tag--performance">공연프로그램</span>
-                                </div>
-                                <div class="time-block__item" data-program="i">
-                                    <div class="time-block__item-info">
-                                        <p class="time-block__item-name">펭귄 생태설명회</p>
-                                        <p class="time-block__item-time">16:30 - 16:40 · B2F</p>
-                                    </div>
-                                    <span class="tag tag--education">생태설명회</span>
-                                </div>
-                                <div class="time-block__item" data-program="a">
-                                    <div class="time-block__item-info">
-                                        <p class="time-block__item-name">도슨트 투어 (어린이 전용)</p>
-                                        <p class="time-block__item-time">16:45 - 17:25 · 광교 입구</p>
-                                    </div>
-                                    <span class="tag tag--experience">체험프로그램</span>
-                                </div>
-                                <div class="time-block__item" data-program="j">
-                                    <div class="time-block__item-info">
-                                        <p class="time-block__item-name">투명보트 탑승 체험</p>
-                                        <p class="time-block__item-time">16:00 · 16:30 · 17:00 · B1F</p>
-                                    </div>
-                                    <span class="tag tag--experience">체험프로그램</span>
-                                </div>
-                            </div>
-                        </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Section: Program Guide Gwanggyo -->
-    <section class="section section--guide Gwanggyo">
-        <div class="container">
-            <div class="section__header">
-                <h2 class="section__title">
-                    Program <span class="section__title-emphasis">Guide</span>
-                </h2>
-                <p class="section__sub">관람을 더욱 특별하게 만드는 프로그램을 소개합니다</p>
-                <p class="section__description">생태설명회, 공연, 체험 프로그램을 통해 바다의 매력을 더욱 가까이에서 경험해 보세요<br>아쿠아플라넷 광교에서 배움과 즐거움이 어우러진 특별한 해양문화 콘텐츠를 만나볼 수 있습니다</p>
-            </div>
-
-            <!-- Category Tabs -->
-            <div class="cartegory-tabs-b">
-                <button class="cartegory-tabs-b__item cartegory-tabs-b__item--active">전체</button>
-                <button class="cartegory-tabs-b__item">생태설명회</button>
-                <button class="cartegory-tabs-b__item">공연 프로그램</button>
-                <button class="cartegory-tabs-b__item">체험 프로그램</button>
-            </div>
-
-            <!-- Program List -->
-            <div class="program-list">
+      </div>
+      <div class="section--guide Gwanggyo">
+        <div class="program-list">
                 <div class="program-card" data-program="a">
                     <div class="program-card__info">
                         <span class="tag tag--experience">체험프로그램</span>
@@ -3108,46 +3188,9 @@
                         <div class="program-card__location"><span>B1F</span><img class="program-card__chevron" src="assets/images/chevron_right_grey.svg" alt="">Jellyfish Lab</div>
                     </div>
                 </div>
-            </div>
         </div>
-    </section>
-
-    <!-- 프로그램 상세 모달 -->
-    <div class="detail-modal">
-        <div class="detail-modal__panel">
-            <img class="detail-modal__icon" src="assets/images/chevron_up_white.svg" alt="">
-            <div class="detail-modal__info">
-                <div class="detail-modal__header">
-                    <span class="tag tag--performance detail-modal__tag">공연프로그램</span>
-                    <h3 class="detail-modal__title">오션 아레나 특별 공연</h3>
-                </div>
-                <div class="detail-modal__body">
-                    <!-- 상세 내용 전체: 카드의 .program-card__detail 내용이 주입됨 (HTML에서 직접 작성) -->
-                    <div class="detail-modal__parts"></div>
-                </div>
-            </div>
-            <div class="detail-modal__image">
-                <img src="https://www.aquaplanet.co.kr/Upload/pcprogram/JEJU/KOR/img_name_20250114170960150.jpg" alt="">
-            </div>
-        </div>
+      </div>
     </div>
-    <section class="logo-end">
-
-    </section>
-
-    <!-- Section Category Nav: 오른쪽 고정, 수직 center -->
-    <nav class="section-cat-nav" aria-label="섹션 이동">
-        <div class="section-cat-nav__item section-cat-nav__item--active" data-target="schedule">
-            <span class="section-cat-nav__label">프로그램 일정</span>
-            <div class="section-cat-nav__line"></div>
-        </div>
-        <div class="section-cat-nav__item" data-target="guide">
-            <span class="section-cat-nav__label">프로그램 안내</span>
-            <div class="section-cat-nav__line"></div>
-        </div>
-    </nav>
-
-  <script src="./js/gnb-scroll.js"></script>
 </body>
 </html>
 

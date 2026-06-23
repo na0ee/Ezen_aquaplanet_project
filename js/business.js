@@ -238,13 +238,14 @@
 
   const nodes = Array.from(pin.querySelectorAll('.biz-vision-node'));
   const copies = Array.from(pin.querySelectorAll('.biz-vision-copy'));
-  const order = ['mission', 'vision', 'goal', 'core'];
-  const slots = [
-    { x: 1076, y: 540, scale: 1.333333 },
-    { x: 1338, y: 150, scale: 1 },
-    { x: 1770, y: -14, scale: 1 },
-    { x: 1342, y: 960, scale: 1 },
-  ];
+  const order = ['vision', 'mission', 'core', 'goal'];
+  const orbit = {
+    centerX: 1338,
+    centerY: 540,
+    radiusX: 262,
+    radiusY: 420,
+    hiddenPosition: 2,
+  };
 
   function clamp(value, min, max) {
     return Math.min(max, Math.max(min, value));
@@ -254,45 +255,52 @@
     return t * t * (3 - 2 * t);
   }
 
-  function activeDistance(relative) {
-    const wrapped = ((relative % order.length) + order.length) % order.length;
+  function wrapPosition(position) {
+    return ((position % order.length) + order.length) % order.length;
+  }
+
+  function circularDistance(from, to) {
+    const wrapped = Math.abs(wrapPosition(from) - wrapPosition(to));
     return Math.min(wrapped, order.length - wrapped);
   }
 
-  function wrapIndex(index) {
-    return (index + slots.length) % slots.length;
-  }
-
   function slotAt(position) {
-    const base = Math.floor(position);
-    const t = smooth(position - base);
-    const from = slots[wrapIndex(base)];
-    const to = slots[wrapIndex(base + 1)];
+    const angle = Math.PI + position * (Math.PI / 2);
+    const centerFocus = smooth(clamp(1 - circularDistance(position, 0), 0, 1));
+
     return {
-      x: from.x + (to.x - from.x) * t,
-      y: from.y + (to.y - from.y) * t,
-      scale: from.scale + (to.scale - from.scale) * t,
+      x: orbit.centerX + Math.cos(angle) * orbit.radiusX,
+      y: orbit.centerY + Math.sin(angle) * orbit.radiusY,
+      scale: 1 + centerFocus * 0.333333,
+      focus: centerFocus,
     };
   }
 
+  function visibleAt(position) {
+    const hiddenDistance = circularDistance(position, orbit.hiddenPosition);
+    return smooth(clamp((hiddenDistance - 0.32) / 0.42, 0, 1));
+  }
+
   function render(progress) {
-    const activeIndex = Math.min(order.length - 1, Math.round(progress));
+    const activeIndex = Math.round(progress) % order.length;
 
     nodes.forEach(function (node) {
+      const nodeKey = node.dataset.visionNode;
       const nodeIndex = Math.max(0, order.indexOf(node.dataset.visionNode));
-      const relative = (nodeIndex - progress + order.length) % order.length;
+      const relative = wrapPosition(nodeIndex - progress);
       const slot = slotAt(relative);
-      const focus = smooth(clamp(1 - activeDistance(relative), 0, 1));
-      const scale = Math.max(slot.scale, 1 + focus * 0.333333);
-      const fontSize = 42 + focus * 18;
-      const tracking = -0.84 + focus * -0.36;
+      const visible = visibleAt(relative);
+      const fontSize = 42 + slot.focus * 18;
+      const tracking = -0.84 + slot.focus * -0.36;
 
       node.style.left = (slot.x - 150).toFixed(2) + 'px';
       node.style.top = (slot.y - 150).toFixed(2) + 'px';
-      node.style.setProperty('--vision-scale', scale.toFixed(6));
+      node.style.opacity = visible.toFixed(3);
+      node.style.setProperty('--vision-scale', slot.scale.toFixed(6));
       node.style.setProperty('--vision-font-size', fontSize.toFixed(2) + 'px');
       node.style.setProperty('--vision-letter-spacing', tracking.toFixed(3) + 'px');
-      node.classList.toggle('is-active', node.dataset.visionNode === order[activeIndex]);
+      node.classList.toggle('is-active', nodeKey === order[activeIndex]);
+      node.setAttribute('aria-hidden', visible < 0.05 ? 'true' : 'false');
     });
 
     copies.forEach(function (copy) {
@@ -309,7 +317,123 @@
       return;
     }
 
-    const progress = clamp((-rect.top / scrollable) * (order.length - 1), 0, order.length - 1);
+    const progress = clamp((-rect.top / scrollable) * order.length, 0, order.length);
+    render(progress);
+  }
+
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  render(0);
+  update();
+})();
+
+/* ── Capabilities: 비전 다이어그램을 좌우 반전한 스크롤 전환 ── */
+(function () {
+  const pin = document.querySelector('[data-caps-section]');
+  const section = pin && pin.closest('.biz-caps');
+  if (!section || !pin) return;
+
+  const nodes = Array.from(pin.querySelectorAll('.biz-caps-node'));
+  const copies = Array.from(pin.querySelectorAll('.biz-caps-copy'));
+  const images = Array.from(pin.querySelectorAll('.biz-caps-visual__img'));
+  const order = ['creativity', 'network', 'staffs', 'technology', 'management'];
+  const slots = {
+    center: { x: 844, y: 540, scale: 1.333333, focus: 1 },
+    top: { x: 582, y: 150, scale: 1, focus: 0 },
+    bottom: { x: 582, y: 960, scale: 1, focus: 0 },
+  };
+
+  function clamp(value, min, max) {
+    return Math.min(max, Math.max(min, value));
+  }
+
+  function smooth(t) {
+    return t * t * (3 - 2 * t);
+  }
+
+  function wrapPosition(position) {
+    return ((position % order.length) + order.length) % order.length;
+  }
+
+  function activeKeyAt(progress) {
+    return order[Math.round(progress) % order.length];
+  }
+
+  function mixSlot(from, to, t) {
+    return {
+      x: from.x + (to.x - from.x) * t,
+      y: from.y + (to.y - from.y) * t,
+      scale: from.scale + (to.scale - from.scale) * t,
+      focus: from.focus + (to.focus - from.focus) * t,
+    };
+  }
+
+  function slotFor(nodeIndex, progress) {
+    const length = order.length;
+    const base = Math.floor(progress) % length;
+    const t = smooth(progress - Math.floor(progress));
+    const current = base;
+    const next = wrapPosition(base + 1);
+    const nextNext = wrapPosition(base + 2);
+    const prev = wrapPosition(base - 1);
+
+    if (nodeIndex === current) {
+      return { slot: mixSlot(slots.center, slots.bottom, t), visible: 1 };
+    }
+    if (nodeIndex === next) {
+      return { slot: mixSlot(slots.top, slots.center, t), visible: 1 };
+    }
+    if (t < 0.5 && nodeIndex === prev) {
+      return { slot: slots.bottom, visible: 1 };
+    }
+    if (t >= 0.5 && nodeIndex === nextNext) {
+      return { slot: slots.top, visible: 1 };
+    }
+    return { slot: slots.center, visible: 0 };
+  }
+
+  function render(progress) {
+    const loopProgress = progress >= order.length ? 0 : progress;
+    const activeKey = activeKeyAt(loopProgress);
+
+    nodes.forEach(function (node) {
+      const nodeKey = node.dataset.capsNode;
+      const nodeIndex = Math.max(0, order.indexOf(nodeKey));
+      const state = slotFor(nodeIndex, loopProgress);
+      const slot = state.slot;
+      const visible = state.visible;
+      const fontSize = 42 + slot.focus * 18;
+      const tracking = -0.84 + slot.focus * -0.36;
+
+      node.style.left = (slot.x - 150).toFixed(2) + 'px';
+      node.style.top = (slot.y - 150).toFixed(2) + 'px';
+      node.style.opacity = visible.toFixed(3);
+      node.style.setProperty('--caps-scale', slot.scale.toFixed(6));
+      node.style.setProperty('--caps-font-size', fontSize.toFixed(2) + 'px');
+      node.style.setProperty('--caps-letter-spacing', tracking.toFixed(3) + 'px');
+      node.classList.toggle('is-active', nodeKey === activeKey);
+      node.setAttribute('aria-hidden', visible < 0.05 ? 'true' : 'false');
+    });
+
+    copies.forEach(function (copy) {
+      copy.classList.toggle('is-active', copy.dataset.capsCopy === activeKey);
+    });
+
+    images.forEach(function (image) {
+      image.classList.toggle('is-active', image.dataset.capsImage === activeKey);
+    });
+  }
+
+  function update() {
+    const rect = section.getBoundingClientRect();
+    const scrollable = section.offsetHeight - window.innerHeight;
+
+    if (rect.top > 0 || scrollable <= 0) {
+      render(0);
+      return;
+    }
+
+    const progress = clamp((-rect.top / scrollable) * order.length, 0, order.length);
     render(progress);
   }
 

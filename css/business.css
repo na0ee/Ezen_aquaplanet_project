@@ -276,7 +276,7 @@ body.biz-page {
   }
 }
 
-/* Figma nodes 106:3282 and 106:3278 */
+/* Figma node 106:3278 */
 .biz-areas {
   position: relative;
   box-sizing: border-box;
@@ -297,96 +297,9 @@ body.biz-page {
   background: #1ba5fa;
 }
 
-.biz-overview-tabs {
-  position: absolute;
-  top: clamp(92px, 12.963vh, 140px);
-  left: calc(50% + 0.5px);
-  z-index: 1;
-  box-sizing: border-box;
-  width: 341px;
-  height: 54px;
-  padding: 0;
-  transform: translateX(-50%);
-  border-radius: 14px;
-  overflow: hidden;
-  background: transparent;
-  isolation: isolate;
-  transition: opacity 0.25s ease, visibility 0.25s ease;
-}
-
-.biz-overview-tabs::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -2;
-  border-radius: inherit;
-  background: rgba(255, 255, 255, 0.02);
-  backdrop-filter: blur(22px) saturate(150%);
-  -webkit-backdrop-filter: blur(22px) saturate(150%);
-}
-
-.biz-overview-tabs::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  border-radius: inherit;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.02) 42%, rgba(255, 255, 255, 0.08)),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.08), transparent 22%, transparent 78%, rgba(255, 255, 255, 0.08));
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.16),
-    inset 0 1px 0 rgba(255, 255, 255, 0.24),
-    inset 0 -1px 0 rgba(255, 255, 255, 0.08);
-  opacity: 0.55;
-}
-
-.biz-overview-tabs__item {
-  position: absolute;
-  top: 3px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-  height: 48px;
-  padding: 0;
-  border-radius: 12px;
-  color: #fff;
-  font-family: "Poppins", sans-serif;
-  font-size: 16px;
-  font-weight: 500;
-  line-height: normal;
-  letter-spacing: -0.64px;
-  text-decoration: none;
-  white-space: nowrap;
-}
-
-.biz-overview-tabs__item:first-child {
-  left: 3px;
-  width: 174px;
-}
-
-.biz-overview-tabs__item:last-child {
-  top: 4.5px;
-  left: 177px;
-  width: 161px;
-}
-
-.biz-overview-tabs__item--active {
-  background: #fff;
-  box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.35),
-    0 8px 20px rgba(4, 62, 104, 0.05);
-  color: #22b2ea;
-  font-family: "EB Garamond", serif;
-  font-size: 20px;
-  font-weight: 500;
-  letter-spacing: -0.8px;
-}
-
 .biz-overview-head {
   position: absolute;
-  top: clamp(178px, 25.37vh, 274px);
+  top: clamp(138px, 18.5vh, 200px);
   left: calc(25% + 216.5px);
   z-index: 1;
   display: flex;
@@ -448,7 +361,7 @@ body.biz-page {
 
 .biz-area-vision-label {
   position: absolute;
-  top: clamp(300px, 44.444vh, 480px);
+  top: clamp(244px, 32.5vh, 350px);
   left: calc(33.33% + 161px);
   z-index: 1;
   display: flex;
@@ -487,7 +400,7 @@ body.biz-page {
 
 .biz-blue-stack {
   position: absolute;
-  top: clamp(560px, 60.185vh, 650px);
+  top: clamp(420px, 47vh, 508px);
   left: 0;
   z-index: 3;
   width: 100%;
@@ -710,7 +623,8 @@ body.biz-page {
 /* Figma nodes 106:3328, 106:3335, 106:3326 - vision diagram */
 .biz-vision {
   position: relative;
-  height: 300vh;
+  margin-top: 401px;
+  height: 400vh;
   padding: 0;
   overflow: visible;
   background: #1ba5fa;
@@ -723,7 +637,7 @@ body.biz-page {
   width: 100%;
   height: 100vh;
   min-height: 760px;
-  overflow: hidden;
+  overflow: visible;
   background: #1ba5fa;
 }
 
@@ -824,11 +738,12 @@ body.biz-page {
 
 .biz-vision-orbit {
   position: absolute;
-  top: 0;
+  top: 120px;
   left: 50%;
   width: 1920px;
   height: 1110px;
-  transform: translateX(-50%);
+  transform: translateX(-50%) scale(0.72);
+  transform-origin: top center;
 }
 
 .biz-vision-ring {
@@ -841,12 +756,27 @@ body.biz-page {
   top: var(--vision-top);
   left: var(--vision-left);
   display: flex;
+  flex: 0 0 300px;
   align-items: center;
   justify-content: center;
   width: 300px;
+  min-width: 300px;
+  max-width: 300px;
   height: 300px;
-  border-radius: 500px;
-  background-image: linear-gradient(103.51149175959463deg, rgba(255, 255, 255, 0.1) 30.035%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.1) 69.965%);
+  min-height: 300px;
+  max-height: 300px;
+  box-sizing: border-box;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  background: transparent;
+  clip-path: circle(50% at 50% 50%);
+  isolation: isolate;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+    inset 18px 18px 42px rgba(255, 255, 255, 0.08),
+    inset -18px -18px 42px rgba(0, 117, 190, 0.1);
   color: #fff;
   text-align: center;
   transform-origin: center;
@@ -854,10 +784,41 @@ body.biz-page {
   transition:
     top 0.02s linear,
     left 0.02s linear,
-    transform 0.02s linear;
+    transform 0.02s linear,
+    opacity 0.08s linear;
+}
+
+.biz-vision-node::before,
+.biz-vision-node::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.biz-vision-node::before {
+  z-index: 0;
+  background: rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(22px) saturate(155%);
+  -webkit-backdrop-filter: blur(22px) saturate(155%);
+}
+
+.biz-vision-node::after {
+  z-index: 0;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.02) 42%, rgba(255, 255, 255, 0.08)),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.08), transparent 22%, transparent 78%, rgba(255, 255, 255, 0.08));
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.2),
+    inset 0 2px 0 rgba(255, 255, 255, 0.22),
+    inset 0 -2px 0 rgba(255, 255, 255, 0.08);
+  opacity: 0.78;
 }
 
 .biz-vision-node span {
+  position: relative;
+  z-index: 1;
   display: block;
   color: #fff;
   font-family: "Pretendard", sans-serif;
@@ -943,4 +904,770 @@ body.biz-page {
     margin: 0;
     transform: translateX(-50%) scale(0.72) rotate(var(--vision-rotation, 0deg));
   }
+}
+
+/* Figma node 106:3337 - capabilities diagram, mirrored from vision */
+.biz-caps {
+  position: relative;
+  height: 400vh;
+  padding: 0;
+  overflow: visible;
+  background: #1ba5fa;
+}
+
+.biz-caps-pin {
+  position: sticky;
+  top: 0;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100vh;
+  min-height: 760px;
+  overflow: visible;
+  background: #1ba5fa;
+}
+
+.biz-caps-intro {
+  position: absolute;
+  top: 50%;
+  left: calc(50% - 890px);
+  z-index: 2;
+  width: 420px;
+  color: #fff;
+  text-align: center;
+  transform: translateY(-50%);
+}
+
+.biz-caps-intro h3 {
+  margin: 0 0 12px;
+  color: #fff;
+  font-family: "Pretendard", sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: -0.48px;
+  white-space: nowrap;
+}
+
+.biz-caps-intro p {
+  margin: 0;
+  color: #fff;
+  font-family: "Pretendard", sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: -0.36px;
+  white-space: nowrap;
+}
+
+.biz-caps-content {
+  position: absolute;
+  top: 490px;
+  left: calc(50% + 144px);
+  z-index: 2;
+  width: 580px;
+  height: 110px;
+}
+
+.biz-caps-copy {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  transform: translateX(24px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.45s ease, transform 0.45s ease;
+}
+
+.biz-caps-copy.is-active {
+  transform: translateX(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.biz-caps-copy h3 {
+  margin: 0 0 16px;
+  color: #fff;
+  font-family: "Poppins", sans-serif;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: -0.48px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.biz-caps-copy p {
+  margin: 0;
+  color: #fff;
+  font-family: "Pretendard", sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: -0.36px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.biz-caps-orbit {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 1920px;
+  height: 1110px;
+  transform: translateX(-50%);
+}
+
+.biz-caps-node {
+  position: absolute;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 300px;
+  height: 300px;
+  border-radius: 500px;
+  background-image: linear-gradient(103.51149175959463deg, rgba(255, 255, 255, 0.1) 30.035%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.1) 69.965%);
+  color: #fff;
+  text-align: center;
+  transform: scale(var(--caps-scale, 1));
+  transform-origin: center;
+  transition:
+    top 0.02s linear,
+    left 0.02s linear,
+    transform 0.02s linear,
+    opacity 0.08s linear;
+}
+
+.biz-caps-node span {
+  display: block;
+  color: #fff;
+  font-family: "Pretendard", sans-serif;
+  font-size: var(--caps-font-size, 42px);
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: var(--caps-letter-spacing, -0.84px);
+  white-space: nowrap;
+  transition: font-size 0.08s linear, letter-spacing 0.08s linear;
+}
+
+.biz-caps-node.is-active {
+  z-index: 2;
+}
+
+@media (max-width: 1200px) {
+  .biz-caps-pin {
+    min-height: 940px;
+  }
+
+  .biz-caps-intro {
+    left: 24px;
+    width: min(420px, calc(100vw - 48px));
+  }
+
+  .biz-caps-content {
+    left: 50%;
+    width: min(580px, calc(100vw - 48px));
+    transform: translateX(-50%);
+  }
+
+  .biz-caps-copy h3,
+  .biz-caps-copy p {
+    white-space: normal;
+  }
+
+  .biz-caps-orbit {
+    width: 1920px;
+    height: 1110px;
+    transform: translateX(-50%) scale(0.72);
+  }
+}
+
+/* Figma node 133:1778 - static capabilities diagram */
+.biz-caps {
+  position: relative;
+  min-height: 1280px;
+  height: auto;
+  padding: 0;
+  overflow: hidden;
+  background: #fff;
+}
+
+.biz-caps-stage {
+  position: relative;
+  left: 50%;
+  width: 1920px;
+  height: 1280px;
+  transform: translateX(-50%);
+  transform-origin: top center;
+}
+
+.biz-caps-title {
+  position: absolute;
+  top: 160px;
+  left: 818px;
+  width: 285px;
+  margin: 0;
+  color: #1a1a1a;
+  font-family: "Pretendard", sans-serif;
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: -0.64px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.biz-caps-title::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -8px;
+  width: 84px;
+  height: 1px;
+  background: #1a1a1a;
+  transform: translateX(-50%);
+}
+
+.biz-caps-intro {
+  position: absolute;
+  top: 273px;
+  left: 300px;
+  z-index: 2;
+  width: auto;
+  color: #1a1a1a;
+  text-align: left;
+  transform: none;
+}
+
+.biz-caps-intro h3 {
+  margin: 0 0 12px;
+  color: #1a1a1a;
+  font-family: "Pretendard", sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: -0.48px;
+  white-space: nowrap;
+}
+
+.biz-caps-intro p {
+  margin: 0;
+  color: #1a1a1a;
+  font-family: "Pretendard", sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: -0.36px;
+  white-space: nowrap;
+}
+
+.biz-caps-diagram {
+  position: absolute;
+  inset: 0;
+}
+
+.biz-caps-ring {
+  position: absolute;
+  top: 563px;
+  left: 745px;
+  width: 430px;
+  height: 430px;
+  border: 1px solid #22b2ea;
+  border-radius: 50%;
+}
+
+.biz-caps-node {
+  position: absolute;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 180px;
+  height: 180px;
+  border-radius: 200px;
+  background: #22b2ea;
+  background-image: none;
+  color: #fff;
+  text-align: center;
+  transform: none;
+  transition: none;
+}
+
+.biz-caps-node--management {
+  top: 763px;
+  left: 635px;
+}
+
+.biz-caps-node--creativity {
+  top: 528px;
+  left: 745px;
+}
+
+.biz-caps-node--network {
+  top: 528px;
+  left: 995px;
+}
+
+.biz-caps-node--technology {
+  top: 903px;
+  left: 870px;
+}
+
+.biz-caps-node--staffs {
+  top: 763px;
+  left: 1105px;
+}
+
+.biz-caps-node span {
+  display: block;
+  color: #fff;
+  font-family: "Pretendard", sans-serif;
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: -0.52px;
+  white-space: nowrap;
+  transition: none;
+}
+
+.biz-caps-copy {
+  position: absolute;
+  z-index: 2;
+  width: auto;
+  color: #1a1a1a;
+  transform: none;
+  opacity: 1;
+  pointer-events: auto;
+  transition: none;
+}
+
+.biz-caps-copy--creativity {
+  top: 576px;
+  left: 412px;
+  text-align: right;
+}
+
+.biz-caps-copy--network {
+  top: 565px;
+  left: 1215px;
+  text-align: left;
+}
+
+.biz-caps-copy--staffs {
+  top: 811px;
+  left: 1325px;
+  text-align: left;
+}
+
+.biz-caps-copy--technology {
+  top: 1123px;
+  left: 50%;
+  text-align: center;
+  transform: translateX(-50%);
+}
+
+.biz-caps-copy--management {
+  top: 822px;
+  left: 390px;
+  text-align: right;
+}
+
+.biz-caps-copy h3 {
+  margin: 0 0 16px;
+  color: #1a1a1a;
+  font-family: "Pretendard", sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: -0.36px;
+  text-align: inherit;
+  white-space: nowrap;
+}
+
+.biz-caps-copy p {
+  margin: 0;
+  color: #1a1a1a;
+  font-family: "Pretendard", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: -0.32px;
+  text-align: inherit;
+  white-space: nowrap;
+}
+
+@media (max-width: 1400px) {
+  .biz-caps {
+    min-height: 922px;
+  }
+
+  .biz-caps-stage {
+    transform: translateX(-50%) scale(0.72);
+  }
+}
+
+/* Figma node 106:3354 - business case card */
+.biz-case {
+  box-sizing: border-box;
+  min-height: auto;
+  padding: 90px 20px 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #1ba5fa;
+}
+
+.biz-case .biz-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+.biz-case__head {
+  display: none;
+}
+
+.biz-case__figure {
+  position: relative;
+  box-sizing: border-box;
+  flex: 0 0 auto;
+  width: min(1668px, calc(100vw - 40px));
+  height: auto;
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 14px;
+  background: #fff;
+  aspect-ratio: 1668 / 900;
+}
+
+.biz-case__track,
+.biz-case__slide {
+  height: 100%;
+}
+
+.biz-case__track {
+  position: relative;
+  display: flex;
+  width: 100%;
+}
+
+.biz-case__slide {
+  position: relative;
+  flex: 0 0 100%;
+  width: 100%;
+  min-width: 100%;
+  overflow: hidden;
+}
+
+.biz-case__slide img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 129.257%;
+  height: 100.112%;
+  max-width: none;
+  object-fit: cover;
+  transform: translate(-50%, -50%);
+}
+
+.biz-case__slide::after {
+  top: auto;
+  bottom: 0;
+  height: 163px;
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.62) 100%),
+    url("../assets/images/sec.aboutus/business/rectangle-161124093.svg") center bottom / 100% 100% no-repeat;
+}
+
+.biz-case__caption {
+  left: 0;
+  bottom: 0;
+  width: min(897px, 100%);
+  max-width: none;
+  padding: 0 20px 20px;
+  color: #fff;
+}
+
+.biz-case__caption h4 {
+  margin: 0 0 12px;
+  font-family: "Pretendard", sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: -0.48px;
+}
+
+.biz-case__caption p {
+  margin: 0;
+  font-family: "Pretendard", sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: -0.36px;
+}
+
+@media (max-width: 900px) {
+  .biz-case {
+    min-height: 760px;
+    padding: 70px 16px;
+  }
+
+  .biz-case__figure {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1668 / 900;
+  }
+
+  .biz-case__caption p {
+    font-size: 15px;
+  }
+}
+
+/* Corrected: capabilities uses the same scrolling circle pattern as the vision section */
+.biz-caps {
+  position: relative;
+  height: 400vh;
+  min-height: 0;
+  padding: 0;
+  overflow: visible;
+  background: #1ba5fa;
+}
+
+.biz-caps-stage,
+.biz-caps-title,
+.biz-caps-ring,
+.biz-caps-diagram {
+  display: initial;
+}
+
+.biz-caps-pin {
+  position: sticky;
+  top: 0;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100vh;
+  min-height: 760px;
+  overflow: visible;
+  background: #1ba5fa;
+}
+
+.biz-caps-intro {
+  position: absolute;
+  top: 50%;
+  left: calc(50% - 890px);
+  z-index: 2;
+  width: 420px;
+  color: #fff;
+  text-align: center;
+  transform: translateY(-50%);
+}
+
+.biz-caps-intro h3 {
+  margin: 0 0 12px;
+  color: #fff;
+  font-family: "Pretendard", sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: -0.48px;
+  white-space: nowrap;
+}
+
+.biz-caps-intro p {
+  margin: 0;
+  color: #fff;
+  font-family: "Pretendard", sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: -0.36px;
+  white-space: nowrap;
+}
+
+.biz-caps-content {
+  position: absolute;
+  top: 520px;
+  left: calc(50% + 144px);
+  z-index: 2;
+  width: 720px;
+  height: 150px;
+}
+
+.biz-caps-visual {
+  position: absolute;
+  top: 250px;
+  left: calc(50% + 144px);
+  z-index: 2;
+  width: 640px;
+  height: 226px;
+  overflow: hidden;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.biz-caps-visual__img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transform: scale(1.04);
+  transition: opacity 0.45s ease, transform 0.65s ease;
+}
+
+.biz-caps-visual__img.is-active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.biz-caps-copy,
+.biz-caps-copy--creativity,
+.biz-caps-copy--network,
+.biz-caps-copy--staffs,
+.biz-caps-copy--technology,
+.biz-caps-copy--management {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  color: #fff;
+  text-align: left;
+  transform: translateX(24px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.45s ease, transform 0.45s ease;
+}
+
+.biz-caps-copy.is-active {
+  transform: translateX(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.biz-caps-copy h3 {
+  margin: 0 0 16px;
+  color: #fff;
+  font-family: "Pretendard", sans-serif;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: -0.48px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.biz-caps-copy p {
+  margin: 0;
+  color: #fff;
+  font-family: "Pretendard", sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: -0.36px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.biz-caps-orbit {
+  position: absolute;
+  top: 120px;
+  left: 50%;
+  display: block;
+  width: 1920px;
+  height: 1110px;
+  transform: translateX(-50%) scale(0.72);
+  transform-origin: top center;
+}
+
+.biz-caps-node,
+.biz-caps-node--creativity,
+.biz-caps-node--network,
+.biz-caps-node--staffs,
+.biz-caps-node--technology,
+.biz-caps-node--management {
+  position: absolute;
+  z-index: 1;
+  display: flex;
+  flex: 0 0 300px;
+  align-items: center;
+  justify-content: center;
+  width: 300px;
+  min-width: 300px;
+  max-width: 300px;
+  height: 300px;
+  min-height: 300px;
+  max-height: 300px;
+  box-sizing: border-box;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  background: transparent;
+  clip-path: circle(50% at 50% 50%);
+  isolation: isolate;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+    inset 18px 18px 42px rgba(255, 255, 255, 0.08),
+    inset -18px -18px 42px rgba(0, 117, 190, 0.1);
+  color: #fff;
+  text-align: center;
+  transform: scale(var(--caps-scale, 1));
+  transform-origin: center;
+  transition:
+    top 0.02s linear,
+    left 0.02s linear,
+    transform 0.02s linear,
+    opacity 0.08s linear;
+}
+
+.biz-caps-node::before,
+.biz-caps-node::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.biz-caps-node::before {
+  z-index: 0;
+  background: rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(22px) saturate(155%);
+  -webkit-backdrop-filter: blur(22px) saturate(155%);
+}
+
+.biz-caps-node::after {
+  z-index: 0;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.02) 42%, rgba(255, 255, 255, 0.08)),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.08), transparent 22%, transparent 78%, rgba(255, 255, 255, 0.08));
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.2),
+    inset 0 2px 0 rgba(255, 255, 255, 0.22),
+    inset 0 -2px 0 rgba(255, 255, 255, 0.08);
+  opacity: 0.78;
+}
+
+.biz-caps-node span {
+  position: relative;
+  z-index: 1;
+  display: block;
+  color: #fff;
+  font-family: "Pretendard", sans-serif;
+  font-size: var(--caps-font-size, 42px);
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: var(--caps-letter-spacing, -0.84px);
+  white-space: nowrap;
+  transition: font-size 0.08s linear, letter-spacing 0.08s linear;
+}
+
+.biz-caps-node.is-active {
+  z-index: 2;
 }
