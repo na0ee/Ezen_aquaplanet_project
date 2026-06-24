@@ -607,9 +607,9 @@ body {
               opacity 0.25s ease;
 }
 
-/* 버블 노출 시 축소된 맵 스테이지의 상단 중앙으로 이동 */
+/* 버블 노출 시 맵 중심(x=780) 상단 중앙으로 이동 */
 .loc-map.is-hovering .loc-map__floor-tabs {
-  transform: translate(-331px, 400px);
+  transform: translate(-181px, 350px);
 }
 
 /* 상세 카드 노출 시 지도와 함께 층 탭 숨김 */
@@ -659,13 +659,13 @@ body {
               opacity   0.25s ease;
 }
 
-/* hover/click 공통 — 지도 왼쪽으로 축소
-   stage center(961,907) → target center(630,1011)
+/* hover/click 공통 — 지도 왼쪽으로 이동
+   stage center(961,907) → target center(780,1011) [Figma: w=961, h=576]
    dy=+104 → 뷰포트 중앙(section-y=1011)에 지도 중심 고정
-   dx=-331  dy=+104  scale=658÷1320≈0.499 */
+   dx=-181  dy=+104  scale=961÷1320≈0.729 */
 .loc-map.is-hovering .loc-map__stage,
 .loc-map.has-detail   .loc-map__stage {
-  transform: translate(-331px, 104px) scale(0.499);
+  transform: translate(-181px, 104px) scale(0.690);
 }
 
 /* click — 지도 페이드아웃 (카드로 교체) */
@@ -837,6 +837,7 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  filter: brightness(0.7);
   pointer-events: none;
 }
 
