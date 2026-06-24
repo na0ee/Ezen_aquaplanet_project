@@ -38,6 +38,16 @@
     return Number.isFinite(parsed) && parsed > 0 ? parsed : window.innerWidth / 1920;
   }
 
+  function getOrbitFactor() {
+    if (window.innerWidth <= 760) return 0.42;
+    return window.innerWidth <= 1280 ? 0.78 : 1;
+  }
+
+  function getSizeFactor() {
+    if (window.innerWidth <= 760) return 0.58;
+    return window.innerWidth <= 1280 ? 0.84 : 1;
+  }
+
   function attachFixedPin(pin) {
     if (!pin) return;
     if (!pinOriginalParent) {
@@ -76,6 +86,8 @@
 
   function slotPose(s) {
     var absS = Math.abs(s);
+    var orbitFactor = getOrbitFactor();
+    var sizeFactor = getSizeFactor();
     if (absS > 1.72) {
       return { x: SLOT_CENTER.x, y: SLOT_CENTER.y, size: 0, opacity: 0, centerWeight: 0 };
     }
@@ -86,9 +98,9 @@
     var farFade = clamp01((1.72 - absS) / 0.34);
 
     return {
-      x: CAROUSEL_ORBIT.x + Math.cos(angle) * CAROUSEL_ORBIT.rx,
-      y: CAROUSEL_ORBIT.y + Math.sin(angle) * CAROUSEL_ORBIT.ry,
-      size: 210 + centerWeight * 350 + edgeWeight * 90,
+      x: CAROUSEL_ORBIT.x * orbitFactor + Math.cos(angle) * CAROUSEL_ORBIT.rx * orbitFactor,
+      y: CAROUSEL_ORBIT.y * orbitFactor + Math.sin(angle) * CAROUSEL_ORBIT.ry * orbitFactor,
+      size: (210 + centerWeight * 350 + edgeWeight * 90) * sizeFactor,
       opacity: Math.max(centerWeight, edgeWeight * 0.42) * farFade,
       centerWeight: centerWeight
     };
@@ -96,8 +108,9 @@
 
   function introPose(index, progress) {
     var angle = ((Math.PI * 2) / N) * index - Math.PI / 2 + progress * Math.PI * 7.2;
-    var rx = 430;
-    var ry = 300;
+    var orbitFactor = getOrbitFactor();
+    var rx = 430 * orbitFactor;
+    var ry = 300 * orbitFactor;
     var tilt = 28 * Math.PI / 180;
 
     return {
@@ -115,7 +128,7 @@
     var shade = hero.querySelector('.m-cons-video-hero__shade');
     var text = hero.querySelector('.m-cons-video-hero__text');
     var rect = hero.getBoundingClientRect();
-    var travel = Math.max(1, 1080 * scale);
+    var travel = Math.max(1, rect.height);
     var progress = clamp01(-rect.top / travel);
     var eased = easeInOut(progress);
 
@@ -227,6 +240,7 @@
     render(currentProgress);
 
     if (
+      isPinned ||
       Math.abs(targetCarouselPosition - currentCarouselPosition) > 0.0008 ||
       Math.abs(targetProgress - currentProgress) > 0.0008
     ) {
@@ -308,6 +322,7 @@
     active = true;
     window.addEventListener('scroll', requestUpdate, { passive: true });
     window.addEventListener('resize', requestUpdate, { passive: true });
+    window.addEventListener('touchmove', requestUpdate, { passive: true });
     requestUpdate();
   }
 
@@ -316,6 +331,7 @@
     active = false;
     window.removeEventListener('scroll', requestUpdate);
     window.removeEventListener('resize', requestUpdate);
+    window.removeEventListener('touchmove', requestUpdate);
     restorePin(pin);
     closeCard();
   }
