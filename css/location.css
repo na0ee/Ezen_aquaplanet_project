@@ -372,42 +372,42 @@ body {
 .loc-programs__title {
   margin: 0;
   line-height: 0;
-  letter-spacing: -1.68px;    /* Figma: tracking-[-1.68px] */
+  letter-spacing: -2.24px;
 }
 
-/* "Main" — Poppins Light, 42px */
+/* "Main" — Poppins Light */
 .loc-programs__title-light {
   font-family: var(--font-en);
   font-weight: 300;
-  font-size: 42px;             /* Figma: 42px */
+  font-size: 58px;
   color: #ffffff;
   line-height: 1.2;
 }
 
-/* " Programs" — EB Garamond Medium Italic, 48px */
+/* " Programs" — EB Garamond Medium Italic */
 .loc-programs__title-serif {
   font-family: var(--font-serif);
   font-weight: 500;
   font-style: italic;
-  font-size: 48px;             /* Figma: 48px */
+  font-size: 56px;
   color: #ffffff;
   line-height: 1.2;
 }
 
-/* 서브텍스트 (Figma: 278:62, Pretendard 18px, center, tracking -0.36px) */
+/* 서브텍스트 */
 .loc-programs__sub {
   margin: 0;
   font-family: var(--font-kr);
-  font-weight: 400;
-  font-size: 18px;             /* Figma: 18px */
+  font-weight: 200;
+  font-size: 16px;
   color: #ffffff;
-  letter-spacing: -0.36px;    /* Figma: tracking-[-0.36px] */
-  line-height: 1.4;
+  letter-spacing: -0.36px;
+  line-height: 1.6;
   text-align: center;
 }
 
 .loc-programs__sub strong {
-  font-weight: 600;            /* SemiBold */
+  font-weight: 600;
 }
 
 /* 카드 컨테이너 (Figma: 278:39, centered, top=462, p=16, gap=20)
@@ -609,26 +609,26 @@ body {
 /* "Guide Map" 타이틀 */
 .loc-map__title {
   margin: 0;
-  line-height: 0;              /* Figma: leading-[0] */
+  line-height: 0;
   white-space: nowrap;
-  letter-spacing: -1.68px;    /* Figma: tracking-[-1.68px] */
+  letter-spacing: -2.24px;
 }
 
-/* "Guide" — Poppins Light, 42px */
+/* "Guide" — Poppins Light */
 .loc-map__title-light {
   font-family: var(--font-en);
-  font-weight: 300;            /* Light */
-  font-size: 42px;             /* Figma: 42px */
+  font-weight: 300;
+  font-size: 58px;
   color: #ffffff;
   line-height: 1.2;
 }
 
-/* " Map" — EB Garamond Medium Italic, 48px */
+/* " Map" — EB Garamond Medium Italic */
 .loc-map__title-serif {
   font-family: var(--font-serif);
   font-weight: 500;
   font-style: italic;
-  font-size: 48px;             /* Figma: 48px */
+  font-size: 56px;
   color: #ffffff;
   line-height: 1.2;
 }
@@ -1173,24 +1173,24 @@ body[data-location="gwanggyo"] .loc-map--solo[data-floor="B2F"] .loc-map__img-wr
 .loc-hours__title {
   margin: 0;
   line-height: 0;
-  letter-spacing: -1.68px;    /* Figma: tracking-[-1.68px] */
+  letter-spacing: -2.24px;
 }
 
-/* "Opening" — EB Garamond Medium Italic, 48px */
+/* "Opening" — EB Garamond Medium Italic */
 .loc-hours__title-serif {
   font-family: var(--font-serif);
   font-weight: 500;
   font-style: italic;
-  font-size: 48px;             /* Figma: 48px */
+  font-size: 56px;
   color: #ffffff;
   line-height: 1.2;
 }
 
-/* "Hours" — Poppins Light, 42px */
+/* "Hours" — Poppins Light */
 .loc-hours__title-light {
   font-family: var(--font-en);
   font-weight: 300;
-  font-size: 42px;             /* Figma: 42px */
+  font-size: 58px;
   color: #ffffff;
   line-height: 1.2;
 }
@@ -1341,16 +1341,11 @@ body[data-location="gwanggyo"] .loc-map--solo[data-floor="B2F"] .loc-map__img-wr
   transform: translateY(-50%);
   display: flex;
   flex-direction: column;
-  gap: 29px;           /* Figma: 항목 간격 (y 좌표 차이 기반) */
+  gap: 29px;
   z-index: 100;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s;
-}
-
-.loc-side-nav.is-visible {
   opacity: 1;
   pointer-events: auto;
+  transition: opacity 0.3s;
 }
 
 .loc-side-nav__item {
@@ -1437,14 +1432,12 @@ body[data-location="gwanggyo"] .loc-map--solo[data-floor="B2F"] .loc-map__img-wr
     font-size: clamp(22px, 2.8vw, 28px);
   }
   .location-page .loc-hero__sub {
-    font-size: clamp(16px, 2vw, 20px);
+    font-size: clamp(20px, 2.5vw, 24px);
   }
 
-  /* Intro — tablet: 폭 유동화 */
+  /* Intro — tablet: 중앙 유지, 폭만 유동화 */
   .location-page .loc-intro__content {
-    left: 2.5%;
-    bottom: 5%;
-    width: min(428px, 44%);
+    width: min(428px, 60%);
   }
   .location-page .loc-intro__desc p { width: 100%; }
   .location-page .loc-intro__branch-name { font-size: 28px; }
@@ -1498,10 +1491,10 @@ body[data-location="gwanggyo"] .loc-map--solo[data-floor="B2F"] .loc-map__img-wr
     padding: 0 18px 18px;
   }
   .location-page .loc-programs__title-light {
-    font-size: clamp(34px, 4.1vw, 40px);
+    font-size: clamp(40px, 5vw, 58px);
   }
   .location-page .loc-programs__title-serif {
-    font-size: clamp(38px, 4.7vw, 46px);
+    font-size: clamp(38px, 4.8vw, 56px);
   }
 
   /* Map — sticky 유지, stage 축소, 버블 숨김 */
@@ -1517,10 +1510,10 @@ body[data-location="gwanggyo"] .loc-map--solo[data-floor="B2F"] .loc-map__img-wr
     top: 120px;
   }
   .location-page .loc-map__title-light {
-    font-size: clamp(34px, 4.1vw, 40px);
+    font-size: clamp(40px, 5vw, 58px);
   }
   .location-page .loc-map__title-serif {
-    font-size: clamp(38px, 4.7vw, 46px);
+    font-size: clamp(38px, 4.8vw, 56px);
   }
   /* stage: 1320px → ~1000px으로 축소 */
   .location-page .loc-map__stage {
@@ -1614,10 +1607,10 @@ body[data-location="gwanggyo"] .loc-map--solo[data-floor="B2F"] .loc-map__img-wr
     margin-bottom: 48px;
   }
   .location-page .loc-hours__title-light {
-    font-size: clamp(34px, 4.1vw, 40px);
+    font-size: clamp(40px, 5vw, 58px);
   }
   .location-page .loc-hours__title-serif {
-    font-size: clamp(38px, 4.7vw, 46px);
+    font-size: clamp(38px, 4.8vw, 56px);
   }
   .location-page .loc-hours__card {
     position: relative;
@@ -1848,16 +1841,6 @@ body[data-location="gwanggyo"] .loc-map--solo[data-floor="B2F"] .loc-map__img-wr
     height: 100vh;
     height: 100svh;
   }
-  .location-page .loc-intro {
-    position: relative;
-    height: auto;
-    min-height: 100vh;
-    min-height: 100svh;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    padding-bottom: 40px;
-  }
 
   /* ── Hero ────────────────────────────────────────── */
   .location-page .loc-hero__title-main {
@@ -1873,7 +1856,7 @@ body[data-location="gwanggyo"] .loc-map--solo[data-floor="B2F"] .loc-map__img-wr
     font-size: clamp(17px, 4.8vw, 23px);
   }
   .location-page .loc-hero__sub {
-    font-size: clamp(14px, 4vw, 17px);
+    font-size: clamp(14px, 4vw, 19px);
     white-space: normal;
     text-align: center;
     padding-inline: 24px;
@@ -1887,6 +1870,7 @@ body[data-location="gwanggyo"] .loc-map--solo[data-floor="B2F"] .loc-map__img-wr
 
   /* ── Intro (모바일: 스크롤 애니메이션 없이 바로 표시) ── */
   .location-page .loc-intro__content {
+    top: unset;
     left: 0;
     bottom: 0;
     width: 100%;
@@ -1954,10 +1938,10 @@ body[data-location="gwanggyo"] .loc-map--solo[data-floor="B2F"] .loc-map__img-wr
     font-size: 15px;
   }
   .location-page .loc-programs__title-light {
-    font-size: clamp(26px, 7vw, 32px);
+    font-size: clamp(28px, 8vw, 44px);
   }
   .location-page .loc-programs__title-serif {
-    font-size: clamp(30px, 8vw, 36px);
+    font-size: clamp(26px, 7.5vw, 42px);
   }
 
   /* ── Map — sticky 해제, stage 유동 축소 ────────── */
@@ -1982,10 +1966,10 @@ body[data-location="gwanggyo"] .loc-map--solo[data-floor="B2F"] .loc-map__img-wr
     margin-bottom: 32px;
   }
   .location-page .loc-map__title-light {
-    font-size: clamp(26px, 7vw, 32px);
+    font-size: clamp(28px, 8vw, 44px);
   }
   .location-page .loc-map__title-serif {
-    font-size: clamp(30px, 8vw, 36px);
+    font-size: clamp(26px, 7.5vw, 42px);
   }
   /* stage: 100% 유동 */
   .location-page .loc-map__stage {
@@ -2120,10 +2104,10 @@ body[data-location="gwanggyo"] .loc-map--solo[data-floor="B2F"] .loc-map__img-wr
     margin-bottom: 32px;
   }
   .location-page .loc-hours__title-light {
-    font-size: clamp(26px, 7vw, 32px);
+    font-size: clamp(28px, 8vw, 44px);
   }
   .location-page .loc-hours__title-serif {
-    font-size: clamp(30px, 8vw, 36px);
+    font-size: clamp(26px, 7.5vw, 42px);
   }
   .location-page .loc-hours__card {
     position: relative;
