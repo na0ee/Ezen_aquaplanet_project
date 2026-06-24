@@ -571,11 +571,11 @@
      y: 수직 중심 section-y=1011 (뷰포트 중앙) 기준 대칭 */
   var BUBBLE_LAYOUT = {
     five: [
-      { left: 1620, top: 590,  size: 100 },
-      { left: 1490, top: 746,  size: 125 },
-      { left: 1400, top: 931,  size: 150 },
-      { left: 1490, top: 1146, size: 125 },
-      { left: 1620, top: 1332, size: 100 }
+      { left: 2070, top: 470,  size: 120 },
+      { left: 1920, top: 680,  size: 160 },
+      { left: 1800, top: 910,  size: 190 },
+      { left: 1920, top: 1175, size: 160 },
+      { left: 2070, top: 1412, size: 120 }
     ]
   };
 
@@ -724,6 +724,7 @@
       mapImg.alt = '아쿠아플라넷 ' + locationName + ' 가이드 맵 ' + floor;
       mapImg.style.transform = (isGwanggyo && floor === 'B2F') ? 'rotate(180deg)' : '';
     }
+    if (mapSection) mapSection.dataset.floor = floor;
     floorTabs.forEach(function (tab) {
       var active = tab.dataset.floor === floor;
       tab.classList.toggle('is-active', active);
