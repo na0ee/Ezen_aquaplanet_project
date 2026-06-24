@@ -272,7 +272,7 @@
     },
   ];
   let activeMediaIndex = -1;
-  let mediaSwitchTimer = 0;
+  let lastMediaBase = -1;
   const orbit = {
     centerX: 1338,
     centerY: 540,
@@ -287,6 +287,10 @@
 
   function smooth(t) {
     return t * t * (3 - 2 * t);
+  }
+
+  function mix(from, to, t) {
+    return from + (to - from) * t;
   }
 
   function wrapPosition(position) {
@@ -315,7 +319,7 @@
     return smooth(clamp((hiddenDistance - 0.32) / 0.42, 0, 1));
   }
 
-  function applyMediaSlide(index) {
+  function applyMediaContent(index) {
     if (!media || !mainImage || !primaryPreview || !secondaryPreview || !featureTitle || !featureText) return;
     if (index === activeMediaIndex) return;
 
@@ -325,25 +329,46 @@
     const afterNext = mediaSlides[(index + 2) % length];
 
     activeMediaIndex = index;
-    media.classList.add('is-switching');
-    window.clearTimeout(mediaSwitchTimer);
 
     mainImage.src = active.image;
     primaryPreview.src = next.image;
     secondaryPreview.src = afterNext.image;
     featureTitle.innerHTML = active.title;
     featureText.innerHTML = active.text;
+  }
 
-    mediaSwitchTimer = window.setTimeout(function () {
-      media.classList.remove('is-switching');
-    }, 120);
+  function renderMedia(progress) {
+    if (!media || !mainImage || !primaryPreview || !secondaryPreview || !featureTitle || !featureText) return;
+
+    const length = mediaSlides.length;
+    const loopProgress = progress >= length ? 0 : progress;
+    const base = Math.floor(loopProgress) % length;
+    const phase = smooth(loopProgress - Math.floor(loopProgress));
+
+    if (base !== lastMediaBase) {
+      lastMediaBase = base;
+      applyMediaContent(base);
+    }
+
+    mainImage.style.opacity = (1 - phase * 0.78).toFixed(3);
+    mainImage.style.transform = 'translateX(' + (-36 * phase).toFixed(3) + '%) scale(' + (1 - phase * 0.08).toFixed(4) + ')';
+
+    primaryPreview.style.opacity = '1';
+    primaryPreview.style.top = mix(24.036, 0, phase).toFixed(3) + '%';
+    primaryPreview.style.left = mix(75.835, 0, phase).toFixed(3) + '%';
+    primaryPreview.style.width = mix(51.928, 100, phase).toFixed(3) + '%';
+    primaryPreview.style.zIndex = '2';
+
+    secondaryPreview.style.opacity = '1';
+    secondaryPreview.style.top = mix(30.977, 24.036, phase).toFixed(3) + '%';
+    secondaryPreview.style.left = mix(103.941, 75.835, phase).toFixed(3) + '%';
+    secondaryPreview.style.width = mix(35.047, 51.928, phase).toFixed(3) + '%';
   }
 
   function render(progress) {
     const activeIndex = Math.round(progress) % order.length;
-    const mediaIndex = Math.min(mediaSlides.length - 1, Math.round((progress / order.length) * mediaSlides.length));
 
-    applyMediaSlide(mediaIndex);
+    renderMedia(progress);
 
     nodes.forEach(function (node) {
       const nodeKey = node.dataset.visionNode;
@@ -557,6 +582,59 @@
   }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
 
   items.forEach((el) => io.observe(el));
+})();
+
+/* ── Business page section entrance animations ─────────────── */
+(function () {
+  const sections = Array.from(document.querySelectorAll('.biz-areas, .biz-vision'));
+  if (!sections.length) return;
+
+  function show(section) {
+    if (section.classList.contains('is-animated-in')) return;
+    section.classList.add('is-animated-in');
+  }
+
+  function hide(section) {
+    if (!section.classList.contains('is-animated-in')) return;
+    section.classList.remove('is-animated-in');
+  }
+
+  function checkSkippedSections() {
+    const playTopLine = window.innerHeight * 1.18;
+    const playBottomLine = window.innerHeight * -0.08;
+    const resetAboveLine = window.innerHeight * 1.28;
+    const resetBelowLine = window.innerHeight * -0.2;
+    sections.forEach((section) => {
+      const rect = section.getBoundingClientRect();
+      const isInReplayZone = rect.top <= playTopLine && rect.bottom >= playBottomLine;
+      if (isInReplayZone) {
+        show(section);
+      } else if (rect.top > resetAboveLine || rect.bottom < resetBelowLine) {
+        hide(section);
+      }
+    });
+  }
+
+  if (!('IntersectionObserver' in window)) {
+    sections.forEach(show);
+    return;
+  }
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        show(entry.target);
+      } else {
+        hide(entry.target);
+      }
+    });
+  }, { threshold: 0, rootMargin: '18% 0px 8% 0px' });
+
+  sections.forEach((section) => io.observe(section));
+  window.addEventListener('scroll', checkSkippedSections, { passive: true });
+  window.addEventListener('resize', checkSkippedSections);
+  window.addEventListener('load', checkSkippedSections);
+  checkSkippedSections();
 })();
 
 /* ── ③ 사업분야 검색 필터 ─────────────────────────────────── */

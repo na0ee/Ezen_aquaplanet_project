@@ -770,6 +770,13 @@ body.biz-page {
   object-fit: cover;
 }
 
+.biz-vision-main-image {
+  position: relative;
+  z-index: 1;
+  transform-origin: center;
+  will-change: transform, opacity;
+}
+
 .biz-vision-main-image,
 .biz-vision-side-image,
 .biz-vision-feature-card h3,
@@ -789,8 +796,10 @@ body.biz-page {
   z-index: 2;
   display: block;
   max-width: none;
+  height: auto;
   border-radius: 0;
   object-fit: cover;
+  will-change: top, left, width, opacity;
   pointer-events: none;
 }
 
