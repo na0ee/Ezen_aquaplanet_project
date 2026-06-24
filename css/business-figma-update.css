@@ -1,5 +1,36 @@
 /* Updated Figma node 177:482 */
 
+.biz-hero {
+  height: 100vh;
+  min-height: 100vh;
+  margin-top: -102px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: url("https://www.aquaplanet.co.kr/Upload/pcprogram/JEJU/KOR/img_name_20200113220918733.gif");
+  background-position: center;
+  background-size: cover;
+}
+
+.biz-hero__figma-title {
+  position: relative;
+  top: auto;
+  left: auto;
+  z-index: 1;
+  width: auto;
+  margin-top: 84px;
+  transform: none;
+}
+
+.biz-hero__scroll {
+  margin-top: 16px;
+}
+
+.biz-hero__scroll-line {
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #ffffff 100%);
+  border-radius: 1px;
+}
+
 .biz-vision {
   position: relative;
   margin-top: 170px;
@@ -11,6 +42,18 @@
 }
 
 .biz-overview-head {
+  left: 50%;
+  width: min(720px, calc(100vw - 48px));
+  transform: translateX(-50%);
+}
+
+.biz-overview-head__desc {
+  width: 100%;
+  min-width: 0;
+  text-align: center;
+}
+
+.biz-area-vision-label {
   left: 50%;
   transform: translateX(-50%);
 }
@@ -25,6 +68,26 @@
 .biz-areas.is-animated-in .biz-figma-panel {
   opacity: 1;
   transform: translateY(0);
+}
+
+.biz-blue-stack.is-scrolling-down .biz-blue-card {
+  transform: translateX(-50%) translateY(34px);
+}
+
+.biz-blue-stack.is-scrolling-down .biz-blue-card.is-prev {
+  transform: translateX(-50%) translateY(-34px);
+}
+
+.biz-blue-stack.is-scrolling-up .biz-blue-card {
+  transform: translateX(-50%) translateY(-34px);
+}
+
+.biz-blue-stack.is-scrolling-up .biz-blue-card.is-prev {
+  transform: translateX(-50%) translateY(34px);
+}
+
+.biz-blue-stack .biz-blue-card.is-active {
+  transform: translateX(-50%) translateY(0);
 }
 
 .biz-vision-shell {
@@ -53,6 +116,12 @@
   font-style: italic;
   font-weight: 500;
   letter-spacing: 0;
+}
+
+.biz-vision-title__amp {
+  font-family: "Poppins", sans-serif;
+  font-style: normal;
+  font-weight: 300;
 }
 
 .biz-vision-title p,
@@ -91,17 +160,17 @@
 .biz-vision-title,
 .biz-vision-column {
   opacity: 0;
-  transform: translateY(44px);
-  transition: opacity 0.52s ease, transform 0.52s cubic-bezier(0.22, 1, 0.36, 1);
+  transform: translateY(28px);
+  transition: opacity 0.38s ease, transform 0.38s cubic-bezier(0.22, 1, 0.36, 1);
   will-change: opacity, transform;
 }
 
 .biz-vision-column {
-  transform: translateY(56px);
+  transform: translateY(34px);
 }
 
 .biz-vision-column--caps {
-  transform: translateY(56px);
+  transform: translateY(34px);
 }
 
 .biz-vision.is-animated-in .biz-vision-title,
@@ -115,11 +184,11 @@
 }
 
 .biz-vision.is-animated-in .biz-vision-column:first-child {
-  transition-delay: 0.08s;
+  transition-delay: 0.04s;
 }
 
 .biz-vision.is-animated-in .biz-vision-column--caps {
-  transition-delay: 0.24s;
+  transition-delay: 0.14s;
 }
 
 .biz-vision-group-head {
@@ -238,6 +307,15 @@
   aspect-ratio: 1880 / 902;
 }
 
+.biz-case__figure.reveal {
+  transform: translateY(72px);
+  transition: opacity 0.9s ease, transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.biz-case__figure.reveal.is-visible {
+  transform: translateY(0);
+}
+
 .biz-case {
   padding-top: 430px;
   padding-bottom: 34px;
@@ -266,6 +344,17 @@
 }
 
 @media (max-width: 900px) {
+  .biz-hero {
+    height: 100svh;
+    min-height: 100svh;
+    margin-top: -80px;
+  }
+
+  .biz-hero__figma-title {
+    top: auto;
+    transform: none;
+  }
+
   .biz-vision {
     margin-top: 104px;
     padding: 120px 20px;

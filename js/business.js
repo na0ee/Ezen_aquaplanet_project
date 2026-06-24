@@ -198,7 +198,11 @@
   function activate(index) {
     if (index === current) return;
     const prev = current;
+    const direction = prev < 0 || index >= prev ? 'down' : 'up';
     current = index;
+
+    pin.classList.toggle('is-scrolling-up', direction === 'up');
+    pin.classList.toggle('is-scrolling-down', direction === 'down');
 
     slides.forEach(function (slide, i) {
       slide.classList.remove('is-active', 'is-prev');
@@ -212,8 +216,8 @@
 
   function update() {
     const rect = section.getBoundingClientRect();
-    const startDelay = Math.min(1480, window.innerHeight * 1.35);
-    const slideStep = Math.max(520, window.innerHeight * 0.5);
+    const startDelay = Math.min(360, window.innerHeight * 0.28);
+    const slideStep = Math.max(360, window.innerHeight * 0.38);
 
     if (rect.top > 0 || -rect.top < startDelay) {
       activate(0);
@@ -576,7 +580,8 @@
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
         entry.target.classList.add('is-visible');
-        io.unobserve(entry.target);
+      } else {
+        entry.target.classList.remove('is-visible');
       }
     });
   }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
@@ -600,16 +605,15 @@
   }
 
   function checkSkippedSections() {
-    const playTopLine = window.innerHeight * 1.18;
-    const playBottomLine = window.innerHeight * -0.08;
-    const resetAboveLine = window.innerHeight * 1.28;
-    const resetBelowLine = window.innerHeight * -0.2;
     sections.forEach((section) => {
       const rect = section.getBoundingClientRect();
+      const isVision = section.classList.contains('biz-vision');
+      const playTopLine = window.innerHeight * (isVision ? 0.92 : 0.74);
+      const playBottomLine = window.innerHeight * (isVision ? 0.02 : 0.16);
       const isInReplayZone = rect.top <= playTopLine && rect.bottom >= playBottomLine;
       if (isInReplayZone) {
         show(section);
-      } else if (rect.top > resetAboveLine || rect.bottom < resetBelowLine) {
+      } else {
         hide(section);
       }
     });
@@ -620,15 +624,9 @@
     return;
   }
 
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        show(entry.target);
-      } else {
-        hide(entry.target);
-      }
-    });
-  }, { threshold: 0, rootMargin: '18% 0px 8% 0px' });
+  const io = new IntersectionObserver(() => {
+    checkSkippedSections();
+  }, { threshold: 0.08, rootMargin: '0px 0px -22% 0px' });
 
   sections.forEach((section) => io.observe(section));
   window.addEventListener('scroll', checkSkippedSections, { passive: true });
