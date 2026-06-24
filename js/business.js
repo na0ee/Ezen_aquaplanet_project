@@ -181,6 +181,329 @@
   banners.forEach(function (b) { io.observe(b); });
 })();
 
+/* ── Business Area 카드: 흰 배경 섹션처럼 한 위치에서 01 → 05 전환 ── */
+(function () {
+  const section = document.querySelector('.biz-areas');
+  if (!section) return;
+
+  const pin = section.querySelector('.biz-blue-stack');
+  const slides = Array.from(section.querySelectorAll('.biz-blue-card'))
+    .sort(function (a, b) {
+      return Number(a.dataset.slide || 0) - Number(b.dataset.slide || 0);
+    });
+  if (!pin || !slides.length) return;
+
+  let current = -1;
+
+  function activate(index) {
+    if (index === current) return;
+    const prev = current;
+    current = index;
+
+    slides.forEach(function (slide, i) {
+      slide.classList.remove('is-active', 'is-prev');
+      if (i === index) {
+        slide.classList.add('is-active');
+      } else if (i === prev) {
+        slide.classList.add('is-prev');
+      }
+    });
+  }
+
+  function update() {
+    const rect = section.getBoundingClientRect();
+    const startDelay = Math.min(1480, window.innerHeight * 1.35);
+    const slideStep = Math.max(520, window.innerHeight * 0.5);
+
+    if (rect.top > 0 || -rect.top < startDelay) {
+      activate(0);
+      return;
+    }
+
+    const index = Math.min(slides.length - 1, Math.floor((-rect.top - startDelay) / slideStep));
+    activate(index);
+  }
+
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  activate(0);
+  update();
+})();
+
+/* ── Vision: 스크롤에 맞춰 원형 다이어그램 회전 + 내용 전환 ── */
+(function () {
+  const pin = document.querySelector('[data-vision-section]');
+  const section = pin && pin.closest('.biz-vision');
+  if (!section || !pin) return;
+
+  const nodes = Array.from(pin.querySelectorAll('.biz-vision-node'));
+  const copies = Array.from(pin.querySelectorAll('.biz-vision-copy'));
+  const media = pin.querySelector('.biz-vision-media');
+  const mainImage = pin.querySelector('[data-vision-main-image]');
+  const primaryPreview = pin.querySelector('[data-vision-preview="primary"]');
+  const secondaryPreview = pin.querySelector('[data-vision-preview="secondary"]');
+  const featureTitle = pin.querySelector('[data-vision-feature-title]');
+  const featureText = pin.querySelector('[data-vision-feature-text]');
+  const order = ['vision', 'mission', 'core', 'goal'];
+  const mediaSlides = [
+    {
+      key: 'mission',
+      title: 'MISSION',
+      text: '해양생물의 소중함을 공유하고, 이를 지키고 보전하며<br>인간과 자연이 공생하며 느낄 수 있는 최고의 즐거움을 제공하는 기업',
+      image: 'assets/images/sec.aboutus/business/figma-image-152.png',
+    },
+    {
+      key: 'vision',
+      title: 'VISION',
+      text: '지속성장 기반을 갖춘 Global Aquarium 전문 기업을<br>목표로 오늘도 힘찬 도전',
+      image: 'assets/images/sec.aboutus/business/figma-image-153-large.png',
+    },
+    {
+      key: 'goal',
+      title: 'GOAL',
+      text: 'No.1 NETWORK POWER · ECO COMPANY<br>No.1 BRAND POWER · MARKET SHARE · TECHNICAL SKILLS',
+      image: 'assets/images/sec.aboutus/business/figma-image-153-small.png',
+    },
+    {
+      key: 'core',
+      title: 'CORE VALUE',
+      text: '고객중심 · 해양보존 · 창조의힘 · 사회책임<br>사람과 자연이 함께하는 미래를 만듭니다.',
+      image: 'assets/images/sec.aboutus/business/figma-image-152.png',
+    },
+  ];
+  let activeMediaIndex = -1;
+  let mediaSwitchTimer = 0;
+  const orbit = {
+    centerX: 1338,
+    centerY: 540,
+    radiusX: 262,
+    radiusY: 420,
+    hiddenPosition: 2,
+  };
+
+  function clamp(value, min, max) {
+    return Math.min(max, Math.max(min, value));
+  }
+
+  function smooth(t) {
+    return t * t * (3 - 2 * t);
+  }
+
+  function wrapPosition(position) {
+    return ((position % order.length) + order.length) % order.length;
+  }
+
+  function circularDistance(from, to) {
+    const wrapped = Math.abs(wrapPosition(from) - wrapPosition(to));
+    return Math.min(wrapped, order.length - wrapped);
+  }
+
+  function slotAt(position) {
+    const angle = Math.PI + position * (Math.PI / 2);
+    const centerFocus = smooth(clamp(1 - circularDistance(position, 0), 0, 1));
+
+    return {
+      x: orbit.centerX + Math.cos(angle) * orbit.radiusX,
+      y: orbit.centerY + Math.sin(angle) * orbit.radiusY,
+      scale: 1 + centerFocus * 0.333333,
+      focus: centerFocus,
+    };
+  }
+
+  function visibleAt(position) {
+    const hiddenDistance = circularDistance(position, orbit.hiddenPosition);
+    return smooth(clamp((hiddenDistance - 0.32) / 0.42, 0, 1));
+  }
+
+  function applyMediaSlide(index) {
+    if (!media || !mainImage || !primaryPreview || !secondaryPreview || !featureTitle || !featureText) return;
+    if (index === activeMediaIndex) return;
+
+    const length = mediaSlides.length;
+    const active = mediaSlides[index];
+    const next = mediaSlides[(index + 1) % length];
+    const afterNext = mediaSlides[(index + 2) % length];
+
+    activeMediaIndex = index;
+    media.classList.add('is-switching');
+    window.clearTimeout(mediaSwitchTimer);
+
+    mainImage.src = active.image;
+    primaryPreview.src = next.image;
+    secondaryPreview.src = afterNext.image;
+    featureTitle.innerHTML = active.title;
+    featureText.innerHTML = active.text;
+
+    mediaSwitchTimer = window.setTimeout(function () {
+      media.classList.remove('is-switching');
+    }, 120);
+  }
+
+  function render(progress) {
+    const activeIndex = Math.round(progress) % order.length;
+    const mediaIndex = Math.min(mediaSlides.length - 1, Math.round((progress / order.length) * mediaSlides.length));
+
+    applyMediaSlide(mediaIndex);
+
+    nodes.forEach(function (node) {
+      const nodeKey = node.dataset.visionNode;
+      const nodeIndex = Math.max(0, order.indexOf(node.dataset.visionNode));
+      const relative = wrapPosition(nodeIndex - progress);
+      const slot = slotAt(relative);
+      const visible = visibleAt(relative);
+      const fontSize = 42 + slot.focus * 18;
+      const tracking = -0.84 + slot.focus * -0.36;
+
+      node.style.left = (slot.x - 150).toFixed(2) + 'px';
+      node.style.top = (slot.y - 150).toFixed(2) + 'px';
+      node.style.opacity = visible.toFixed(3);
+      node.style.setProperty('--vision-scale', slot.scale.toFixed(6));
+      node.style.setProperty('--vision-font-size', fontSize.toFixed(2) + 'px');
+      node.style.setProperty('--vision-letter-spacing', tracking.toFixed(3) + 'px');
+      node.classList.toggle('is-active', nodeKey === order[activeIndex]);
+      node.setAttribute('aria-hidden', visible < 0.05 ? 'true' : 'false');
+    });
+
+    copies.forEach(function (copy) {
+      copy.classList.toggle('is-active', copy.dataset.visionCopy === order[activeIndex]);
+    });
+  }
+
+  function update() {
+    const rect = section.getBoundingClientRect();
+    const scrollable = section.offsetHeight - window.innerHeight;
+
+    if (rect.top > 0 || scrollable <= 0) {
+      render(0);
+      return;
+    }
+
+    const progress = clamp((-rect.top / scrollable) * order.length, 0, order.length);
+    render(progress);
+  }
+
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  render(0);
+  update();
+})();
+
+/* ── Capabilities: 비전 다이어그램을 좌우 반전한 스크롤 전환 ── */
+(function () {
+  const pin = document.querySelector('[data-caps-section]');
+  const section = pin && pin.closest('.biz-caps');
+  if (!section || !pin) return;
+
+  const nodes = Array.from(pin.querySelectorAll('.biz-caps-node'));
+  const copies = Array.from(pin.querySelectorAll('.biz-caps-copy'));
+  const images = Array.from(pin.querySelectorAll('.biz-caps-visual__img'));
+  const order = ['creativity', 'network', 'staffs', 'technology', 'management'];
+  const slots = {
+    center: { x: 844, y: 540, scale: 1.333333, focus: 1 },
+    top: { x: 582, y: 150, scale: 1, focus: 0 },
+    bottom: { x: 582, y: 960, scale: 1, focus: 0 },
+  };
+
+  function clamp(value, min, max) {
+    return Math.min(max, Math.max(min, value));
+  }
+
+  function smooth(t) {
+    return t * t * (3 - 2 * t);
+  }
+
+  function wrapPosition(position) {
+    return ((position % order.length) + order.length) % order.length;
+  }
+
+  function activeKeyAt(progress) {
+    return order[Math.round(progress) % order.length];
+  }
+
+  function mixSlot(from, to, t) {
+    return {
+      x: from.x + (to.x - from.x) * t,
+      y: from.y + (to.y - from.y) * t,
+      scale: from.scale + (to.scale - from.scale) * t,
+      focus: from.focus + (to.focus - from.focus) * t,
+    };
+  }
+
+  function slotFor(nodeIndex, progress) {
+    const length = order.length;
+    const base = Math.floor(progress) % length;
+    const t = smooth(progress - Math.floor(progress));
+    const current = base;
+    const next = wrapPosition(base + 1);
+    const nextNext = wrapPosition(base + 2);
+    const prev = wrapPosition(base - 1);
+
+    if (nodeIndex === current) {
+      return { slot: mixSlot(slots.center, slots.bottom, t), visible: 1 };
+    }
+    if (nodeIndex === next) {
+      return { slot: mixSlot(slots.top, slots.center, t), visible: 1 };
+    }
+    if (t < 0.5 && nodeIndex === prev) {
+      return { slot: slots.bottom, visible: 1 };
+    }
+    if (t >= 0.5 && nodeIndex === nextNext) {
+      return { slot: slots.top, visible: 1 };
+    }
+    return { slot: slots.center, visible: 0 };
+  }
+
+  function render(progress) {
+    const loopProgress = progress >= order.length ? 0 : progress;
+    const activeKey = activeKeyAt(loopProgress);
+
+    nodes.forEach(function (node) {
+      const nodeKey = node.dataset.capsNode;
+      const nodeIndex = Math.max(0, order.indexOf(nodeKey));
+      const state = slotFor(nodeIndex, loopProgress);
+      const slot = state.slot;
+      const visible = state.visible;
+      const fontSize = 42 + slot.focus * 18;
+      const tracking = -0.84 + slot.focus * -0.36;
+
+      node.style.left = (slot.x - 150).toFixed(2) + 'px';
+      node.style.top = (slot.y - 150).toFixed(2) + 'px';
+      node.style.opacity = visible.toFixed(3);
+      node.style.setProperty('--caps-scale', slot.scale.toFixed(6));
+      node.style.setProperty('--caps-font-size', fontSize.toFixed(2) + 'px');
+      node.style.setProperty('--caps-letter-spacing', tracking.toFixed(3) + 'px');
+      node.classList.toggle('is-active', nodeKey === activeKey);
+      node.setAttribute('aria-hidden', visible < 0.05 ? 'true' : 'false');
+    });
+
+    copies.forEach(function (copy) {
+      copy.classList.toggle('is-active', copy.dataset.capsCopy === activeKey);
+    });
+
+    images.forEach(function (image) {
+      image.classList.toggle('is-active', image.dataset.capsImage === activeKey);
+    });
+  }
+
+  function update() {
+    const rect = section.getBoundingClientRect();
+    const scrollable = section.offsetHeight - window.innerHeight;
+
+    if (rect.top > 0 || scrollable <= 0) {
+      render(0);
+      return;
+    }
+
+    const progress = clamp((-rect.top / scrollable) * order.length, 0, order.length);
+    render(progress);
+  }
+
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  render(0);
+  update();
+})();
+
 /* ── ① GNB: gnb-scroll.js에서 처리 ─────────────────────────── */
 
 /* ── 커스텀 커서 (location 페이지와 동일) ───────────────────── */

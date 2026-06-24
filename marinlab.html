@@ -1,56 +1,62 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>aqua planet - Marin Lab</title>
 
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@latest/dist/web/static/pretendard.css" />
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@latest/dist/web/static/pretendard.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,500&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,500&family=Poppins:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet" />
   <link rel="stylesheet" href="css/marinlab.css" />
-
-  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Observer.min.js"></script>
 </head>
+
 <body>
-  <header id="gnb" class="gnb">
-    <div class="gnb__inner">
-      <nav class="gnb__nav" aria-label="메인 메뉴">
-        <div class="gnb__nav-item">
-          <a href="program.html" class="gnb__link" data-nav="program">Program</a>
-          <div class="gnb__dropdown">
-            <a href="program.html?loc=Jeju"     class="gnb__dropdown-item">Jeju</a>
-            <a href="program.html?loc=Yeosu"    class="gnb__dropdown-item">Yeosu</a>
-            <a href="program.html?loc=Ilsan"    class="gnb__dropdown-item">Ilsan</a>
-            <a href="program.html?loc=Gwanggyo" class="gnb__dropdown-item">Gwanggyo</a>
+  <header class="marin-gnb" id="pageGnb">
+    <div class="marin-gnb__inner">
+      <nav class="marin-nav" aria-label="메인 메뉴">
+        <a class="marin-nav__link" href="location.html">Location</a>
+        <a class="marin-nav__link" href="Oceanfriends.html">Ocean friends</a>
+        <div class="marin-nav__item">
+          <a class="marin-nav__link is-active" href="business.html">About us</a>
+          <div class="marin-dropdown">
+            <a class="marin-dropdown__item" href="business.html">Business</a>
+            <a class="marin-dropdown__item is-active" href="marinlab.html">Marin Lab</a>
           </div>
         </div>
-        <a href="Oceanfriends.html" class="gnb__link" data-nav="crew">Ocean friends</a>
-        <div class="gnb__nav-item" data-nav="about">
-          <span class="gnb__link gnb__link--active">About us</span>
-          <div class="gnb__dropdown">
-            <a href="business.html" class="gnb__dropdown-item">Business</a>
-            <a href="marinlab.html" class="gnb__dropdown-item gnb__dropdown-item--active">Marin Lab</a>
-            <a href="location.html" class="gnb__dropdown-item">Location</a>
+        <div class="marin-nav__item">
+          <a class="marin-nav__link" href="program.html">Program</a>
+          <div class="marin-dropdown">
+            <a class="marin-dropdown__item" href="program.html?loc=Jeju">Jeju</a>
+            <a class="marin-dropdown__item" href="program.html?loc=Yeosu">Yeosu</a>
+            <a class="marin-dropdown__item" href="program.html?loc=Ilsan">Ilsan</a>
+            <a class="marin-dropdown__item" href="program.html?loc=Gwanggyo">Gwanggyo</a>
           </div>
         </div>
       </nav>
 
-      <a href="index.html" class="gnb__logo-wrap" aria-label="Aqua Planet 홈">
-        <img class="gnb__logo" src="assets/images/headerLogo.png" alt="" aria-hidden="true">
+      <a class="marin-logo" href="index.html" aria-label="Aqua Planet 홈">
+        <img src="assets/images/headerLogo.png" alt="" aria-hidden="true">
       </a>
 
-      <a href="ticket.html" class="gnb__ticket btn-pill" aria-label="티켓 예매">
+      <a class="marin-ticket" href="ticket.html" aria-label="티켓 예매">
         Ticket
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M7 17L17 7M17 7H7M17 7V17" stroke="white" stroke-width="1.5"
-                stroke-linecap="round" stroke-linejoin="round"/>
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M7 17L17 7M17 7H7M17 7V17" stroke="white" stroke-width="1.5" stroke-linecap="round"
+            stroke-linejoin="round" />
         </svg>
       </a>
     </div>
   </header>
+
 
   <main class="marin-shell">
     <div class="marin-stage" aria-label="Marin Lab Rescue and Care page">
@@ -60,481 +66,380 @@
       </nav>
 
       <section class="marin-node m-conservation-view" aria-label="Conservation activities">
-        <div class="marin-node m-title m-cons-title">
-          <h1 class="m-title__main">
-            <span class="m-title__serif">Conservation</span><span class="m-title__plain"> Activities</span>
-          </h1>
-          <p class="m-title__sub">바다와 생명을 지키는 지속적인 노력</p>
-        </div>
-        <p class="marin-node m-cons-copy">
-          아쿠아플라넷은 <strong>해양수산부 지정 서식지외보전기관</strong>으로서 <strong>해양생물의 보호와 증식을 위한 연구</strong>를 수행합니다<br>
-          전문적인 번식·사육 관리와 환경 연구를 통해 <strong>생물다양성 보전에 기여</strong>하고 있습니다
-        </p>
-
-        <div class="marin-node m-cons-principles" aria-label="Conservation principles">
-          <div class="m-cons-principle">
-            <div class="m-cons-icon"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_03_01.png" alt=""></div>
-            <p><strong>Protect</strong><span>해양생물 보호</span></p>
-          </div>
-          <div class="m-cons-principle">
-            <div class="m-cons-icon"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_04_01.png" alt=""></div>
-            <p><strong>Breeding</strong><span>개체군 유지</span></p>
-          </div>
-          <div class="m-cons-principle">
-            <div class="m-cons-icon"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_05_01.png" alt=""></div>
-            <p><strong>Research</strong><span>생태 연구</span></p>
-          </div>
-          <div class="m-cons-principle">
-            <div class="m-cons-icon"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_06_01.png" alt=""></div>
-            <p><strong>Preserve</strong><span>생물다양성 보전</span></p>
-          </div>
-        </div>
-
-        <section class="marin-node m-cons-cases-a" aria-label="Conservation cases by species">
-          <div class="marin-node m-title m-cons-section-title">
-            <h2 class="m-title__main">
-              <span class="m-title__serif">Conservation</span><span class="m-title__plain"> Cases</span>
-            </h2>
-            <p class="m-title__sub">보호와 증식을 위한 연구 대상</p>
-          </div>
-          <div class="marin-node m-cons-category-row">
-            <div class="m-cons-category"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777.png" alt=""><span>고래류</span></div>
-            <div class="m-cons-category"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777-1.png" alt=""><span>바다거북</span></div>
-            <div class="m-cons-category"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777-2.png" alt=""><span>어류</span></div>
-            <div class="m-cons-category"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777-3.png" alt=""><span>무척추동물</span></div>
-          </div>
-          <div class="marin-node m-cons-card-row">
-            <article class="m-cons-card">
-              <div class="m-cons-card__thumb"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_03_01.png" alt="해양생물 보호 연구"></div>
-              <h3>해양생물 보호</h3>
-              <p>보호가 필요한 생물의 건강 상태와 행동을 관찰하고, 안정적인 관리 환경을 설계합니다.</p>
-            </article>
-            <article class="m-cons-card">
-              <div class="m-cons-card__thumb"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_04_01.png" alt="개체군 유지 연구"></div>
-              <h3>개체군 유지</h3>
-              <p>번식과 성장 기록을 축적해 장기적인 보호와 개체군 유지에 필요한 기준을 만듭니다.</p>
-            </article>
-            <article class="m-cons-card">
-              <div class="m-cons-card__thumb"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_05_01.png" alt="생태 연구"></div>
-              <h3>생태 연구</h3>
-              <p>수질, 먹이, 행동 반응 데이터를 바탕으로 해양 생태 보전에 필요한 근거를 마련합니다.</p>
-            </article>
+        <section class="m-cons-video-hero" aria-label="Conservation hero video">
+          <video class="m-cons-video-hero__video" autoplay muted loop playsinline poster="assets/images/conservation.gif">
+            <source src="assets/images/conservation.mp4" type="video/mp4">
+          </video>
+          <img class="m-cons-video-hero__fallback" src="assets/images/conservation.gif" alt="">
+          <div class="m-cons-video-hero__shade" aria-hidden="true"></div>
+          <div class="m-cons-video-hero__text">
+            <p>Welcome</p>
+            <h1><span>aqua planet</span><em>Marin Lab</em></h1>
           </div>
         </section>
 
-        <section class="marin-node m-cons-cases-b" aria-label="Conservation research process">
-          <div class="marin-node m-title m-cons-section-title">
-            <h2 class="m-title__main">
-              <span class="m-title__serif">Research</span><span class="m-title__plain"> Process</span>
-            </h2>
-            <p class="m-title__sub">관찰에서 보전 교육까지 이어지는 연구 흐름</p>
-          </div>
-          <div class="marin-node m-cons-feature">
-            <div class="m-cons-feature__image">
-              <img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_07_01.png" alt="해양생물 보전 연구">
+        <section class="m-cons-orbit" id="cons-orbit" aria-label="Conservation Activities">
+          <div class="m-cons-orbit-pin" id="cons-orbit-pin">
+            <div class="m-cons-orbit-stage m-cons-orbit-stage--1" id="cons-orbit-stage-1">
+              <h1 class="m-fig-title__main">
+                <span class="m-fig-title__serif">Conservation</span><span class="m-fig-title__plain"> Activities</span>
+              </h1>
+              <p class="m-fig-title__sub">바다와 생명을 지키는 지속적인 노력</p>
             </div>
-            <div class="m-cons-feature__body">
-              <h3>작은 관찰을 모아<br>바다를 지키는 기준으로</h3>
-              <p>아쿠아플라넷은 생물의 상태와 환경 변화를 지속적으로 기록하고, 연구 결과를 사육 관리와 교육 콘텐츠에 반영합니다.</p>
-              <p>보호, 번식, 연구, 교육이 하나의 흐름으로 이어질 때 해양 생태계 보전의 힘이 커집니다.</p>
-              <div class="m-cons-feature__list">
-                <span>보호종 건강 기록</span>
-                <span>사육 환경 데이터</span>
-                <span>번식·성장 관리</span>
-                <span>생태 보전 교육</span>
-              </div>
+            <p class="m-cons-orbit-stage m-cons-orbit-stage--2" id="cons-orbit-stage-2">
+              아쿠아플라넷은 <strong>해양수산부 지정 서식지외보전기관</strong>으로서<br>
+              <strong>해양생물의 보호와 증식을 위한 연구</strong>를 수행합니다
+            </p>
+            <p class="m-cons-orbit-hint" id="cons-orbit-hint">원을 클릭해 더 알아보세요</p>
+
+            <div class="m-cons-orbit-field" id="cons-orbit-field">
+              <button class="m-cons-orb" type="button" data-category="whale" aria-label="고래류 자세히 보기">
+                <span class="m-cons-orb__circle"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_01_01.png" alt=""></span>
+              </button>
+              <button class="m-cons-orb" type="button" data-category="pinniped" aria-label="기각류 자세히 보기">
+                <span class="m-cons-orb__circle"><img src="assets/images/sec.aboutus/marinlab/sec.aboutus/marinlab/hmbrc_pre_02_03 1.png" alt=""></span>
+              </button>
+              <button class="m-cons-orb" type="button" data-category="otter" aria-label="수달 자세히 보기">
+                <span class="m-cons-orb__circle"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_03_01.png" alt=""></span>
+              </button>
+              <button class="m-cons-orb" type="button" data-category="penguin" aria-label="펭귄류 자세히 보기">
+                <span class="m-cons-orb__circle"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_04_01.png" alt=""></span>
+              </button>
+              <button class="m-cons-orb" type="button" data-category="turtle" aria-label="바다거북 자세히 보기">
+                <span class="m-cons-orb__circle"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_05_01.png" alt=""></span>
+              </button>
+              <button class="m-cons-orb" type="button" data-category="seahorse" aria-label="해마와 해룡 자세히 보기">
+                <span class="m-cons-orb__circle"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_06_01.png" alt=""></span>
+              </button>
+              <button class="m-cons-orb" type="button" data-category="shark" aria-label="상어류 자세히 보기">
+                <span class="m-cons-orb__circle"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_07_01.png" alt=""></span>
+              </button>
             </div>
           </div>
         </section>
-
-        <div class="m-figma-conservation">
-          <div class="marin-node m-fig-title m-fig-con01-title">
-            <h1 class="m-fig-title__main">
-              <span class="m-fig-title__serif">Conservation</span><span class="m-fig-title__plain"> Activities</span>
-            </h1>
-            <p class="m-fig-title__sub">바다와 생명을 지키는 지속적인 노력</p>
-          </div>
-          <p class="marin-node m-fig-intro-copy">
-            아쿠아플라넷은 <strong>해양수산부 지정 서식지외보전기관</strong>으로서 <strong>해양생물의 보호와 증식을 위한 연구</strong>를 수행합니다<br>
-            전문적인 번식·사육 관리와 환경 연구를 통해 <strong>생물다양성 보전에 기여</strong>하고 있습니다
-          </p>
-          <div class="marin-node m-fig-principles">
-            <div class="m-fig-principle">
-              <div class="m-fig-principle__icon"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482985.png" alt=""></div>
-              <p><span>Protect</span><span>해양생물 보호</span></p>
-            </div>
-            <div class="m-fig-principle">
-              <div class="m-fig-principle__icon"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482943.png" alt=""></div>
-              <p><span>Breeding</span><span>개체군 유지</span></p>
-            </div>
-            <div class="m-fig-principle">
-              <div class="m-fig-principle__icon"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482944.png" alt=""></div>
-              <p><span>Research</span><span>생태 연구</span></p>
-            </div>
-            <div class="m-fig-principle">
-              <div class="m-fig-principle__icon"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482945.png" alt=""></div>
-              <p><span>Preserve</span><span>생물다양성 보전</span></p>
-            </div>
-          </div>
-
-          <section class="marin-node m-fig-con02">
-            <div class="marin-node m-fig-title m-fig-section-head">
-              <h2 class="m-fig-title__main">
-                <span class="m-fig-title__serif">Conservation</span><span class="m-fig-title__plain"> Cases</span>
-              </h2>
-              <p class="m-fig-title__sub">보전 활동을 통해 보호하고 연구하는 해양생물 사례를 소개합니다</p>
-              <p class="m-fig-section-copy">
-                <strong>보호가 필요한 해양생물</strong>들을 체계적으로 관리하고 연구합니다<br>
-                <strong>건강한 개체군 유지</strong>와 <strong>생물다양성 보전</strong>을 위해 노력하고 있습니다
-              </p>
-            </div>
-            <div class="marin-node m-fig-species-row">
-              <div class="m-fig-species is-active"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777.png" alt=""><span>고래류</span></div>
-              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777-1.png" alt=""><span>기각류</span></div>
-              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/image 217 [Vectorized].png" alt=""><span>수달</span></div>
-              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777-2.png" alt=""><span>펭귄류</span></div>
-              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482903.png" alt=""><span>바다거북</span></div>
-              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482946.png" alt=""><span>해마와 해룡</span></div>
-              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777-3.png" alt=""><span>상어류</span></div>
-            </div>
-            <article class="marin-node m-fig-whale-card">
-              <img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_01_01.png" alt="Whale">
-              <div class="m-fig-side-panel"></div>
-              <div class="m-fig-whale-text">
-                <p class="m-fig-card-en">Whale</p>
-                <p class="m-fig-card-kr">고래</p>
-                <p class="m-fig-card-desc">고래류는 전 세계 바다에 서식하는 대표적인<br>해양 포유류로, 흰수염고래와 돌고래, 상괭이<br>등이 포함됩니다.<br>과거 무분별한 포획으로 개체 수가 감소해<br>현재는 국제적인 보호와 보전활동이<br>이루어지고 있습니다</p>
-              </div>
-            </article>
-          </section>
-
-          <section class="marin-node m-fig-con04">
-            <div class="marin-node m-fig-title m-fig-section-head">
-              <h2 class="m-fig-title__main">
-                <span class="m-fig-title__serif">Conservation</span><span class="m-fig-title__plain"> Cases</span>
-              </h2>
-              <p class="m-fig-title__sub">보전 활동을 통해 보호하고 연구하는 해양생물 사례를 소개합니다</p>
-              <p class="m-fig-section-copy">
-                <strong>보호가 필요한 해양생물</strong>들을 체계적으로 관리하고 연구합니다<br>
-                <strong>건강한 개체군 유지</strong>와 <strong>생물다양성 보전</strong>을 위해 노력하고 있습니다
-              </p>
-            </div>
-            <div class="marin-node m-fig-species-row">
-              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777.png" alt=""><span>고래류</span></div>
-              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777-1.png" alt=""><span>기각류</span></div>
-              <div class="m-fig-species is-active"><img src="assets/images/sec.aboutus/marinlab/image 217 [Vectorized].png" alt=""><span>수달</span></div>
-              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777-2.png" alt=""><span>펭귄류</span></div>
-              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482903.png" alt=""><span>바다거북</span></div>
-              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482946.png" alt=""><span>해마와 해룡</span></div>
-              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777-3.png" alt=""><span>상어류</span></div>
-            </div>
-            <article class="marin-node m-fig-otter-card">
-              <img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_03_01.png" alt="Otter">
-              <div class="m-fig-side-panel"></div>
-              <div class="m-fig-otter-text">
-                <p class="m-fig-card-en">Otter</p>
-                <p class="m-fig-card-kr">수달</p>
-                <p class="m-fig-card-desc">우리나라엔 유라시안 수달이 분포하고 있으며<br>이 수달은 천연기념물 제330호이자<br>멸종위기 야생생물 1급으로 지정되었습니다.<br>숫자가 감소되어가는 수달의 복원을 위해<br>현재는 국제적인 보호와 보전활동이<br>이루어지고 있습니다</p>
-              </div>
-            </article>
-          </section>
-
-          <section class="marin-node m-fig-con03">
-            <div class="marin-node m-fig-title m-fig-section-head">
-              <h2 class="m-fig-title__main">
-                <span class="m-fig-title__serif">Conservation</span><span class="m-fig-title__plain"> Cases</span>
-              </h2>
-              <p class="m-fig-title__sub">보전 활동을 통해 보호하고 연구하는 해양생물 사례를 소개합니다</p>
-              <p class="m-fig-section-copy">
-                <strong>보호가 필요한 해양생물</strong>들을 체계적으로 관리하고 연구합니다<br>
-                <strong>건강한 개체군 유지</strong>와 <strong>생물다양성 보전</strong>을 위해 노력하고 있습니다
-              </p>
-            </div>
-            <div class="marin-node m-fig-species-row">
-              <div class="m-fig-species is-active"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777.png" alt=""><span>고래류</span></div>
-              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777-1.png" alt=""><span>기각류</span></div>
-              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/image 217 [Vectorized].png" alt=""><span>수달</span></div>
-              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777-2.png" alt=""><span>펭귄류</span></div>
-              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482903.png" alt=""><span>바다거북</span></div>
-              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482946.png" alt=""><span>해마와 해룡</span></div>
-              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777-3.png" alt=""><span>상어류</span></div>
-            </div>
-            <div class="marin-node m-fig-pinniped-copy">
-              <h3>기각류란?</h3>
-              <p>‘지느러미처럼 생긴 발이 달린 동물’ 이라는 뜻입니다</p>
-              <p>아쿠아플라넷 일산, 제주에서 만나볼 수 있는 바다코끼리를 포함하여 바다사자류, 물범류가 있으며 총 33종이 알려져 있습니다</p>
-            </div>
-            <article class="marin-node m-fig-flip-card m-fig-flip-card--walrus">
-              <img src="assets/images/sec.aboutus/marinlab/sec.aboutus/marinlab/hmbrc_pre_02_01 1.png" alt="Walrus">
-              <div class="m-fig-flip-caption"><p class="m-fig-card-en">Walrus</p><p class="m-fig-card-kr">바다코끼리</p></div>
-            </article>
-            <article class="marin-node m-fig-flip-card m-fig-flip-card--sea-lion">
-              <img src="assets/images/sec.aboutus/marinlab/sec.aboutus/marinlab/hmbrc_pre_02_02 1.png" alt="Sea Lion">
-              <div class="m-fig-flip-caption"><p class="m-fig-card-en">Sea Lion</p><p class="m-fig-card-kr">바다사자</p></div>
-            </article>
-            <article class="marin-node m-fig-flip-card m-fig-flip-card--seal">
-              <img src="assets/images/sec.aboutus/marinlab/sec.aboutus/marinlab/hmbrc_pre_02_03 1.png" alt="Seal">
-              <div class="m-fig-flip-caption"><p class="m-fig-card-en">Seal</p><p class="m-fig-card-kr">물범</p></div>
-            </article>
-            <article class="marin-node m-fig-flip-card m-fig-flip-card--walrus-detail is-detail">
-              <img src="assets/images/sec.aboutus/marinlab/sec.aboutus/marinlab/hmbrc_pre_02_01 1.png" alt="Walrus detail">
-              <div class="m-fig-flip-caption"><p class="m-fig-card-en">Walrus</p><p class="m-fig-card-kr">바다코끼리</p><p class="m-fig-card-desc">바다코끼리는 최대 3.6m, 2톤에 이르는<br>대형 기각류입니다.<br>긴 엄니를 먹이를 찾거나 몸을 보호하는 데<br>사용하며 북극 연안에 서식합니다.</p></div>
-            </article>
-            <article class="marin-node m-fig-flip-card m-fig-flip-card--sea-lion-detail is-detail">
-              <img src="assets/images/sec.aboutus/marinlab/sec.aboutus/marinlab/hmbrc_pre_02_02 1.png" alt="Sea Lion detail">
-              <div class="m-fig-flip-caption"><p class="m-fig-card-en">Sea Lion</p><p class="m-fig-card-kr">바다사자</p><p class="m-fig-card-desc">물개라고도 불리는 바다사자는 긴 앞지느러미를<br>가지고 있어 육상에서 자유롭게 움직입니다.<br>개체 수 감소로 보호받고 있습니다.</p></div>
-            </article>
-            <article class="marin-node m-fig-flip-card m-fig-flip-card--seal-detail is-detail">
-              <img src="assets/images/sec.aboutus/marinlab/sec.aboutus/marinlab/hmbrc_pre_02_03 1.png" alt="Seal detail">
-              <div class="m-fig-flip-caption"><p class="m-fig-card-en">Seal</p><p class="m-fig-card-kr">물범</p><p class="m-fig-card-desc">물범은 전 세계 바다에 서식하는 대표적인<br>기각류입니다.<br>우리나라에서는 백령도 인근에 점박이 물범이<br>서식하며 보호받고 있습니다.</p></div>
-            </article>
-          </section>
-
-          <section class="marin-node m-fig-con05">
-            <div class="marin-node m-fig-title m-fig-section-head">
-              <h2 class="m-fig-title__main">
-                <span class="m-fig-title__serif">Conservation</span><span class="m-fig-title__plain"> Cases</span>
-              </h2>
-              <p class="m-fig-title__sub">보전 활동을 통해 보호하고 연구하는 해양생물 사례를 소개합니다</p>
-              <p class="m-fig-section-copy">
-                <strong>보호가 필요한 해양생물</strong>들을 체계적으로 관리하고 연구합니다<br>
-                <strong>건강한 개체군 유지</strong>와 <strong>생물다양성 보전</strong>을 위해 노력하고 있습니다
-              </p>
-            </div>
-            <div class="marin-node m-fig-species-row">
-              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777.png" alt=""><span>고래류</span></div>
-              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777-1.png" alt=""><span>기각류</span></div>
-              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/image 217 [Vectorized].png" alt=""><span>수달</span></div>
-              <div class="m-fig-species is-active"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777-2.png" alt=""><span>펭귄류</span></div>
-              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482903.png" alt=""><span>바다거북</span></div>
-              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482946.png" alt=""><span>해마와 해룡</span></div>
-              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777-3.png" alt=""><span>상어류</span></div>
-            </div>
-            <article class="marin-node m-fig-otter-card">
-              <img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_04_01.png" alt="Penguin">
-              <div class="m-fig-side-panel"></div>
-              <div class="m-fig-otter-text">
-                <p class="m-fig-card-en">Penguin</p>
-                <p class="m-fig-card-kr">펭귄</p>
-                <p class="m-fig-card-desc">기후변화로 인해 남극의 환경이 훼손되며 남극에<br>서식하는 펭귄들의 숫자가 빠른 속도로<br>줄어가고 있습니다.<br>남극조약 협의당사국 회의를 통해 세종기지 옆<br>해안 언덕에 서식하는 펭귄을 포함한 생물들을<br>맡아 관리하게 되었습니다.</p>
-              </div>
-            </article>
-          </section>
-
-          <section class="marin-node m-fig-con06">
-            <div class="marin-node m-fig-title m-fig-section-head">
-              <h2 class="m-fig-title__main">
-                <span class="m-fig-title__serif">Conservation</span><span class="m-fig-title__plain"> Cases</span>
-              </h2>
-              <p class="m-fig-title__sub">보전 활동을 통해 보호하고 연구하는 해양생물 사례를 소개합니다</p>
-              <p class="m-fig-section-copy">
-                <strong>보호가 필요한 해양생물</strong>들을 체계적으로 관리하고 연구합니다<br>
-                <strong>건강한 개체군 유지</strong>와 <strong>생물다양성 보전</strong>을 위해 노력하고 있습니다
-              </p>
-            </div>
-            <div class="marin-node m-fig-species-row">
-              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777.png" alt=""><span>고래류</span></div>
-              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777-1.png" alt=""><span>기각류</span></div>
-              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/image 217 [Vectorized].png" alt=""><span>수달</span></div>
-              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777-2.png" alt=""><span>펭귄류</span></div>
-              <div class="m-fig-species is-active"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482903.png" alt=""><span>바다거북</span></div>
-              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482946.png" alt=""><span>해마와 해룡</span></div>
-              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777-3.png" alt=""><span>상어류</span></div>
-            </div>
-            <article class="marin-node m-fig-otter-card">
-              <img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_05_01.png" alt="Sea Turtle">
-              <div class="m-fig-side-panel"></div>
-              <div class="m-fig-otter-text">
-                <p class="m-fig-card-en">Sea Turtle</p>
-                <p class="m-fig-card-kr">바다거북</p>
-                <p class="m-fig-card-desc">바다 거북이에 의해 풍성해진 해초밭은<br>다양한 해양생물의 은신처가 되어<br>생태계를 풍부하게 만들어줍니다.<br>우리나라에서는 4종의 바다거북이<br>2013년 해양수산부에서 지정하는<br>보호대상해양생물로 신규 지정되었습니다.</p>
-              </div>
-            </article>
-          </section>
-
-          <section class="marin-node m-fig-con07">
-            <div class="marin-node m-fig-title m-fig-section-head">
-              <h2 class="m-fig-title__main">
-                <span class="m-fig-title__serif">Conservation</span><span class="m-fig-title__plain"> Cases</span>
-              </h2>
-              <p class="m-fig-title__sub">보전 활동을 통해 보호하고 연구하는 해양생물 사례를 소개합니다</p>
-              <p class="m-fig-section-copy">
-                <strong>보호가 필요한 해양생물</strong>들을 체계적으로 관리하고 연구합니다<br>
-                <strong>건강한 개체군 유지</strong>와 <strong>생물다양성 보전</strong>을 위해 노력하고 있습니다
-              </p>
-            </div>
-            <div class="marin-node m-fig-species-row">
-              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777.png" alt=""><span>고래류</span></div>
-              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777-1.png" alt=""><span>기각류</span></div>
-              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/image 217 [Vectorized].png" alt=""><span>수달</span></div>
-              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777-2.png" alt=""><span>펭귄류</span></div>
-              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482903.png" alt=""><span>바다거북</span></div>
-              <div class="m-fig-species is-active"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482946.png" alt=""><span>해마와 해룡</span></div>
-              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777-3.png" alt=""><span>상어류</span></div>
-            </div>
-            <article class="marin-node m-fig-flip-card m-fig-flip-card--seahorse">
-              <img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_06_01.png" alt="Seahorse">
-              <div class="m-fig-flip-caption"><p class="m-fig-card-en">Seahorse</p><p class="m-fig-card-kr">해마</p></div>
-            </article>
-            <article class="marin-node m-fig-flip-card m-fig-flip-card--sea-dragon">
-              <img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_06_02.png" alt="Sea Dragon">
-              <div class="m-fig-flip-caption"><p class="m-fig-card-en">Sea dragon</p><p class="m-fig-card-kr">해룡</p></div>
-            </article>
-            <article class="marin-node m-fig-flip-card m-fig-flip-card--seahorse-detail is-detail">
-              <img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_06_01.png" alt="Seahorse detail">
-              <div class="m-fig-flip-caption"><p class="m-fig-card-en">Seahorse</p><p class="m-fig-card-kr">해마</p><p class="m-fig-card-desc">1990년대 이후 해마는 빠른 속도로<br>감소하기에 이르렀습니다.<br>CITES 동물군에 포함되었지만, 불법적으로<br>거래가 이루어지고 있는 상황입니다.<br>우리나라에서는 가시해마와 복해마를<br>보호대상해양생물로 지정 보호하고 있습니다.</p></div>
-            </article>
-            <article class="marin-node m-fig-flip-card m-fig-flip-card--sea-dragon-detail is-detail">
-              <img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_06_02.png" alt="Sea Dragon detail">
-              <div class="m-fig-flip-caption"><p class="m-fig-card-en">Sea dragon</p><p class="m-fig-card-kr">해룡</p><p class="m-fig-card-desc">해룡은 움직임이 느려,<br>쉽게 천적의 공격을 받기 때문에<br>성체가 되는 개체는 많지 않은 생물입니다.<br>또한 서식지가 오염됨에 따라 개체 수가<br>줄어들고 있는 상황입니다.<br>오스트레일리아의 해안에만 있는 어류로<br>수출을 금하며 보호하고 있는 어류입니다.</p></div>
-            </article>
-          </section>
-
-          <section class="marin-node m-fig-con08">
-            <div class="marin-node m-fig-title m-fig-section-head">
-              <h2 class="m-fig-title__main">
-                <span class="m-fig-title__serif">Conservation</span><span class="m-fig-title__plain"> Cases</span>
-              </h2>
-              <p class="m-fig-title__sub">보전 활동을 통해 보호하고 연구하는 해양생물 사례를 소개합니다</p>
-              <p class="m-fig-section-copy">
-                <strong>보호가 필요한 해양생물</strong>들을 체계적으로 관리하고 연구합니다<br>
-                <strong>건강한 개체군 유지</strong>와 <strong>생물다양성 보전</strong>을 위해 노력하고 있습니다
-              </p>
-            </div>
-            <div class="marin-node m-fig-species-row">
-              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777.png" alt=""><span>고래류</span></div>
-              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777-1.png" alt=""><span>기각류</span></div>
-              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/image 217 [Vectorized].png" alt=""><span>수달</span></div>
-              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777-2.png" alt=""><span>펭귄류</span></div>
-              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482903.png" alt=""><span>바다거북</span></div>
-              <div class="m-fig-species"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482946.png" alt=""><span>해마와 해룡</span></div>
-              <div class="m-fig-species is-active"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482777-3.png" alt=""><span>상어류</span></div>
-            </div>
-            <article class="marin-node m-fig-otter-card">
-              <img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_07_01.png" alt="Shark">
-              <div class="m-fig-side-panel"></div>
-              <div class="m-fig-otter-text">
-                <p class="m-fig-card-en">Shark</p>
-                <p class="m-fig-card-kr">상어</p>
-                <p class="m-fig-card-desc">상어는 사람을 먹잇감으로<br>삼지 않으며 오히려 사람에 의해 상어가<br>멸종위기에 처한 상황입니다.<br>아쿠아플라넷에서는 상어의<br>서식지외보전기관으로서 다양한 상어들의<br>보전을 위해 노력하고 있습니다.</p>
-              </div>
-            </article>
-          </section>
-        </div>
       </section>
 
-      <section aria-label="Rescue and care activities">
-        <div class="marin-node m-title m-title--hero">
-          <h1 class="m-title__main">
-            <span class="m-title__serif">Rescue </span><span class="m-title__plain">&amp; </span><span class="m-title__serif">Care Activities</span>
-          </h1>
-          <p class="m-title__sub">구조부터 방사까지, 생명의 회복</p>
+  <main>
+    <section class="hero" aria-label="Marin Lab 소개">
+      <img class="hero__media" src="assets/images/locationJeju_hero.gif" alt="">
+      <div class="hero__content">
+        <div class="hero__content-inner">
+          <span class="hero__eyebrow">Welcome</span>
+          <h1 class="hero__title"><span>aqua planet </span><em>Marin Lab</em></h1>
+          <p class="hero__sub">제주의 바다를 닮은 국내 최대 규모 아쿠아리움</p>
         </div>
-        <p class="marin-node m-hero-copy">
-          아쿠아플라넷은 해양수산부 지정 해양동물전문구조ㆍ치료기관으로서 좌초 및 부상 해양생물을 구조하고 치료합니다.<br>
-          전문 인력과 보호시설을 통해 회복을 거쳐 건강하게 바다로 돌아갈 수 있도록 지원합니다.
-        </p>
-
-        <article class="marin-node m-word m-word--rescue is-active" data-step="0">
-          <div class="m-word__head"><span class="m-word__en">Rescue</span><span class="m-word__kr">: 구조</span></div>
-          <p class="m-word__desc">아쿠아플라넷은 다친 해양동물에게 첫 번째 손길을 전하며 체계적이고 신속한 구조 활동을 펼쳐 왔습니다.</p>
-        </article>
-        <article class="marin-node m-word m-word--treatment" data-step="1">
-          <div class="m-word__head"><span class="m-word__en">Treatment</span><span class="m-word__kr">: 치료</span></div>
-          <p class="m-word__desc">구조, 진단 및 치료, 회복 과정 모두 맞춤형 관리가 이어지며<br>전문적인 치료와 재활 과정을 통해 해양생물의 건강한 회복을 돕습니다.</p>
-        </article>
-        <article class="marin-node m-word m-word--rehab" data-step="2">
-          <div class="m-word__head"><span class="m-word__en">Rehabilitation</span><span class="m-word__kr">: 재활</span></div>
-          <p class="m-word__desc">구조, 진단 및 치료, 적응 훈련 등을 거쳐, 야생 복귀까지<br>전문적인 치료와 재활 과정을 통해 해양생물의 건강한 회복을 돕습니다.</p>
-        </article>
-        <article class="marin-node m-word m-word--release" data-step="3">
-          <div class="m-word__head"><span class="m-word__en">Release</span><span class="m-word__kr">: 야생 방사</span></div>
-          <p class="m-word__desc">구조, 진단 및 치료, 회복 이후 방사 여부를 검토하며<br>전문적인 치료와 재활 과정을 통해 해양생물의 건강한 회복을 돕습니다.</p>
-        </article>
-      </section>
-
-      <section class="marin-node m-con02" aria-label="Rescue and care cases"></section>
-
-      <div class="marin-node m-title m-title--cases">
-        <h2 class="m-title__main">
-          <span class="m-title__serif">Rescue </span><span class="m-title__plain">&amp; </span><span class="m-title__serif">Care Cases</span>
-        </h2>
-        <p class="m-title__sub">구조, 치료를 통해 보호한 해양생물 사례를 소개합니다</p>
+        <a class="hero__scroll" href="#rescue">
+          <span class="hero__scroll-line"></span>
+          <span class="hero__scroll-text">
+            <span class="hero__scroll-lets">Let's </span><span class="hero__scroll-explore">Explore</span>
+          </span>
+        </a>
       </div>
-      <p class="marin-node m-cases-copy">
-        제주 바다에서 구조된 <strong>돌고래</strong>들의 이야기입니다<br>
-        구조와 치료를 거쳐 다시 바다를 향한 여정을 이어갑니다
-      </p>
-      <nav class="marin-node m-pill-tabs m-pill-tabs--cases" aria-label="사례 분류">
-        <button class="m-pill m-pill--active" type="button" data-case-category="dolphin">Dolphin</button>
-        <button class="m-pill" type="button" data-case-category="turtle">SeaTurtle</button>
-        <button class="m-pill" type="button" data-case-category="others">Others</button>
-      </nav>
+    </section>
 
-      <article class="m-case m-case--1 is-active" data-case="0">
-        <div class="m-case__head"><span>2018.04.26</span><span>구조일지</span></div>
-        <dl>
-          <div class="m-case__row"><dt>구조 대상</dt><dd>뱀머리돌고래 Steno bredanensis</dd></div>
-          <div class="m-case__row"><dt>구조 장소</dt><dd>여수시 돌산읍 우두리 내항</dd></div>
-          <div class="m-case__row"><dt>구조 과정</dt><dd>좌초 개체로 피부 외상이 있어 응급조치 후 이송 치료</dd></div>
-        </dl>
-      </article>
+    <section class="rescue" id="rescue" aria-label="Rescue and Care">
+      <div class="tabs" aria-label="Marin Lab 활동 카테고리">
+        <div class="tabs__inner">
+          <button class="tab is-active" type="button">Rescue &amp; Care</button>
+          <button class="tab" type="button">Conservation</button>
+        </div>
+      </div>
 
-      <article class="m-case m-case--2" data-case="1">
-        <div class="m-case__head"><span>2017.07.17</span><span>구조일지</span></div>
-        <dl>
-          <div class="m-case__row"><dt>구조 대상</dt><dd>남방큰돌고래 Tursiops aduncus</dd></div>
-          <div class="m-case__row"><dt>구조 장소</dt><dd>제주시 구좌읍 하도리 연안</dd></div>
-          <div class="m-case__row"><dt>구조 과정</dt><dd>얕은 수역에 머문 개체를 안전하게 관찰 후 유도</dd></div>
-        </dl>
-      </article>
+      <header class="section-head">
+        <h2><em>Rescue <span class="amp">&amp;</span> Care</em> <span>Activities</span></h2>
+        <p>아쿠아플라넷은 <strong>해양수산부 지정 해양동물전문구조·치료기관</strong>으로서 <strong>부상 및 조난 해양생물을 구조하고 치료</strong>합니다<br>전문 인력의 보호와 재활
+          과정을 거쳐 건강하게 바다로 돌아갈 수 있도록 지원합니다</p>
+      </header>
 
-      <article class="m-case m-case--3" data-case="2">
-        <div class="m-case__head"><span>2015.08.20</span><span>구조일지</span></div>
-        <dl>
-          <div class="m-case__row"><dt>구조 대상</dt><dd>남방큰돌고래 Tursiops aduncus</dd></div>
-          <div class="m-case__row"><dt>구조 장소</dt><dd>제주시 구좌읍 하도리</dd></div>
-          <div class="m-case__row"><dt>구조 과정</dt><dd>연안에 머문 개체의 상태를 확인 후 방류</dd></div>
-        </dl>
-      </article>
+      <div class="activity-scroll" data-activity-section>
+        <div class="activity-stack" data-activity-stack>
+          <article class="activity-card is-active" data-slide="0">
+            <div class="activity-card__image">
+              <img src="assets/images/sec.aboutus/marinlab/figma-rescue-care-01.png" alt="구조 및 응급 처치 활동">
+            </div>
+            <div class="activity-card__content">
+              <p class="activity-card__num">01</p>
+              <div class="activity-card__body">
+                <h3>RESCUE</h3>
+                <p>생명의 가치를 지키는 긴급 구조 시스템</p>
+                <ul class="chips" aria-label="구조 활동 키워드">
+                  <li>긴급구조</li>
+                  <li>현장출동</li>
+                  <li>생명보호</li>
+                  <li>시설관리</li>
+                </ul>
+              </div>
+            </div>
+          </article>
 
-      <article class="m-case m-case--4" data-case="3">
-        <div class="m-case__head"><span>2015.07.18</span><span>구조일지</span></div>
-        <dl>
-          <div class="m-case__row"><dt>구조 대상</dt><dd>남방큰돌고래 Tursiops aduncus</dd></div>
-          <div class="m-case__row"><dt>구조 장소</dt><dd>제주 구좌읍 하도리 해안</dd></div>
-          <div class="m-case__row"><dt>구조 과정</dt><dd>연안에 머문 개체의 움직임을 확인하고 자연 방류</dd></div>
-        </dl>
-      </article>
+          <article class="activity-card" data-slide="1">
+            <div class="activity-card__image">
+              <img src="assets/images/sec.aboutus/marinlab/figma-rescue-care-02.png" alt="치료 활동">
+            </div>
+            <div class="activity-card__content activity-card__content--wide">
+              <p class="activity-card__num">02</p>
+              <div class="activity-card__body">
+                <h3>TREATMENT</h3>
+                <p>전문 의료진의 정밀 진단과 맞춤형 치유 솔루션</p>
+                <ul class="chips" aria-label="치료 활동 키워드">
+                  <li>정밀진단</li>
+                  <li>맞춤치료</li>
+                  <li>건강회복</li>
+                </ul>
+              </div>
+            </div>
+          </article>
 
-      <article class="m-case m-case--5" data-case="4">
-        <div class="m-case__head"><span>2014.04.02</span><span>구조일지</span></div>
-        <dl>
-          <div class="m-case__row"><dt>구조 대상</dt><dd>상괭이</dd></div>
-          <div class="m-case__row"><dt>구조 장소</dt><dd>제주 해역</dd></div>
-          <div class="m-case__row"><dt>구조 과정</dt><dd>현장 관찰 및 이송 치료 가능성 검토 후 보호 조치 실행</dd></div>
-        </dl>
-      </article>
+          <article class="activity-card" data-slide="2">
+            <div class="activity-card__image">
+              <img src="assets/images/sec.aboutus/marinlab/figma-rescue-care-03.png" alt="재활 활동">
+            </div>
+            <div class="activity-card__content activity-card__content--wide">
+              <p class="activity-card__num">03</p>
+              <div class="activity-card__body">
+                <h3>REHABILITATION</h3>
+                <p>야생성 회복을 위한 체계적이고 과학적인 재활 프로그램</p>
+                <ul class="chips" aria-label="재활 활동 키워드">
+                  <li>재활훈련</li>
+                  <li>야생성복원</li>
+                  <li>체계적관리</li>
+                </ul>
+              </div>
+            </div>
+          </article>
 
-      <article class="m-case m-case--6" data-case="5">
-        <div class="m-case__head"><span>2013.08.17</span><span>구조일지</span></div>
-        <dl>
-          <div class="m-case__row"><dt>구조 대상</dt><dd>남방큰돌고래 Tursiops aduncus</dd></div>
-          <div class="m-case__row"><dt>구조 장소</dt><dd>제주 해역</dd></div>
-          <div class="m-case__row"><dt>구조 과정</dt><dd>해양생물 보호기관 협력 하에 구조 및 방류 진행</dd></div>
-        </dl>
-      </article>
+          <article class="activity-card" data-slide="3">
+            <div class="activity-card__image">
+              <img src="assets/images/sec.aboutus/marinlab/figma-rescue-care-04.png" alt="방류 활동">
+            </div>
+            <div class="activity-card__content">
+              <p class="activity-card__num">04</p>
+              <div class="activity-card__body">
+                <h3>RELEASE</h3>
+                <p>자연의 품으로 완벽하게 돌아가는 건강한 복귀</p>
+                <ul class="chips" aria-label="방류 활동 키워드">
+                  <li>자연방사</li>
+                  <li>안전복귀</li>
+                  <li>생태복원</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
 
-      <figure class="m-img m-img--a is-active" data-case-img="0"><img src="assets/images/sec.aboutus/marinlab/image 171.png" alt="2018 구조 사례 사진"><figcaption class="m-img__name">돌고래</figcaption></figure>
-      <figure class="m-img m-img--b" data-case-img="1"><img src="assets/images/sec.aboutus/marinlab/image 172.png" alt="2017 구조 사례 사진"><figcaption class="m-img__name">돌고래</figcaption></figure>
-      <figure class="m-img m-img--c" data-case-img="2"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482988.png" alt="2015 구조 사례 사진"><figcaption class="m-img__name">돌고래</figcaption></figure>
-      <figure class="m-img m-img--d" data-case-img="3"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482989.png" alt="2013 구조 사례 사진"><figcaption class="m-img__name">돌고래</figcaption></figure>
-      <figure class="m-img m-img--e" data-case-img="4"><img src="assets/images/sec.aboutus/marinlab/Frame 1707482990.png" alt="2012 구조 사례 사진"><figcaption class="m-img__name">돌고래</figcaption></figure>
+      <section class="cases" aria-label="Rescue and Care 사례">
+        <header class="section-head">
+          <h2><em>Rescue <span class="amp">&amp;</span> Care</em> <span>Cases</span></h2>
+          <p>제주 바다에서 구조된 <strong>돌고래</strong>들의 이야기입니다<br>구조와 치료를 거쳐 다시 바다를 향한 여정을 이어갑니다</p>
+        </header>
 
-      <div class="marin-node m-footer-blank"></div>
-    </div>
-    <p class="m-mobile-note">Figma 원본 1920px 캔버스를 화면 폭에 맞춰 축소 표시합니다.</p>
+        <div class="case-tabs" aria-label="구조 사례 분류">
+          <div class="tabs__inner">
+            <button class="tab is-active" type="button" data-case-tab="dolphin">Dolphin</button>
+            <button class="tab" type="button" data-case-tab="seaTurtle">SeaTurtle</button>
+            <button class="tab" type="button" data-case-tab="others">Others</button>
+          </div>
+        </div>
+
+        <div class="case-spotlight" data-case-spotlight aria-roledescription="carousel" aria-label="Dolphin 구조일지">
+          <article class="case-card" data-case-card>
+            <div class="case-card__media" data-case-media>
+              <img class="case-card__image case-card__image--a" data-case-image-a src="" alt="">
+              <img class="case-card__image case-card__image--b" data-case-image-b src="" alt="">
+            </div>
+            <div class="case-card__info" data-case-info>
+              <h3 class="case-card__title"><span class="case-card__category" data-case-category
+                  style="display:none;"></span>구조일지</h3>
+              <dl>
+                <div class="case-card__row">
+                  <dt>구조 대상</dt>
+                  <dd data-case-target></dd>
+                </div>
+                <div class="case-card__row">
+                  <dt>구조 장소</dt>
+                  <dd data-case-location></dd>
+                </div>
+                <div class="case-card__row">
+                  <dt>구조 과정</dt>
+                  <dd data-case-process></dd>
+                </div>
+              </dl>
+            </div>
+            <div class="case-card__date" data-case-date aria-live="polite">
+              <span class="date-slot"><span class="date-inner" data-date-part="year"></span></span>
+              <span class="date-slot"><span class="date-inner" data-date-part="month"></span></span>
+              <span class="date-slot"><span class="date-inner" data-date-part="day"></span></span>
+            </div>
+          </article>
+
+
+          <div class="case-dots" data-case-dots role="tablist" aria-label="구조일지 페이지"></div>
+        </div>
+      </section>
+    </section>
   </main>
+
+
+  <div class="m-cons-card-overlay" id="cons-card-overlay" aria-hidden="true">
+    <button class="m-cons-card-overlay__close" type="button" id="cons-card-overlay-close" aria-label="닫기">&times;</button>
+    <div class="m-cons-card-overlay__inner">
+
+      <article class="m-cons-card" data-card="whale">
+        <img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_01_01.png" alt="고래류">
+        <div class="m-cons-card__panel"></div>
+        <div class="m-cons-card__text">
+          <p class="m-cons-card__en">Whale</p>
+          <p class="m-cons-card__kr">고래류</p>
+          <p class="m-cons-card__desc">고래류는 전 세계 바다에 서식하는 대표적인 해양 포유류로, 흰수염고래와 돌고래, 상괭이 등이 포함됩니다.<br>과거 무분별한 포획으로 개체 수가 감소해 현재는 국제적인 보호와 보전활동이 이루어지고 있습니다.</p>
+        </div>
+      </article>
+
+      <article class="m-cons-card" data-card="otter">
+        <img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_03_01.png" alt="수달">
+        <div class="m-cons-card__panel"></div>
+        <div class="m-cons-card__text">
+          <p class="m-cons-card__en">Otter</p>
+          <p class="m-cons-card__kr">수달</p>
+          <p class="m-cons-card__desc">우리나라엔 유라시안 수달이 분포하고 있으며 이 수달은 천연기념물 제330호이자 멸종위기 야생생물 1급으로 지정되었습니다.<br>숫자가 감소되어가는 수달의 복원을 위해 현재는 국제적인 보호와 보전활동이 이루어지고 있습니다.</p>
+        </div>
+      </article>
+
+      <article class="m-cons-card" data-card="penguin">
+        <img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_04_01.png" alt="펭귄류">
+        <div class="m-cons-card__panel"></div>
+        <div class="m-cons-card__text">
+          <p class="m-cons-card__en">Penguin</p>
+          <p class="m-cons-card__kr">펭귄류</p>
+          <p class="m-cons-card__desc">기후변화로 인해 남극의 환경이 훼손되며 남극에 서식하는 펭귄들의 숫자가 빠른 속도로 줄어가고 있습니다.<br>남극조약 협의당사국 회의를 통해 세종기지 옆 해안 언덕에 서식하는 펭귄을 포함한 생물들을 맡아 관리하게 되었습니다.</p>
+        </div>
+      </article>
+
+      <article class="m-cons-card" data-card="turtle">
+        <img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_05_01.png" alt="바다거북">
+        <div class="m-cons-card__panel"></div>
+        <div class="m-cons-card__text">
+          <p class="m-cons-card__en">Sea Turtle</p>
+          <p class="m-cons-card__kr">바다거북</p>
+          <p class="m-cons-card__desc">바다 거북이에 의해 풍성해진 해초밭은 다양한 해양생물의 은신처가 되어 생태계를 풍부하게 만들어줍니다.<br>우리나라에서는 4종의 바다거북이 2013년 해양수산부에서 지정하는 보호대상해양생물로 신규 지정되었습니다.</p>
+        </div>
+      </article>
+
+      <article class="m-cons-card" data-card="shark">
+        <img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_07_01.png" alt="상어류">
+        <div class="m-cons-card__panel"></div>
+        <div class="m-cons-card__text">
+          <p class="m-cons-card__en">Shark</p>
+          <p class="m-cons-card__kr">상어류</p>
+          <p class="m-cons-card__desc">상어는 사람을 먹잇감으로 삼지 않으며 오히려 사람에 의해 상어가 멸종위기에 처한 상황입니다.<br>아쿠아플라넷에서는 상어의 서식지외보전기관으로서 다양한 상어들의 보전을 위해 노력하고 있습니다.</p>
+        </div>
+      </article>
+
+      <div class="m-cons-card-group" data-card="pinniped">
+        <div class="m-cons-card-group__intro">
+          <h3>기각류란?</h3>
+          <p>'지느러미처럼 생긴 발이 달린 동물' 이라는 뜻입니다<br>아쿠아플라넷 일산, 제주에서 만나볼 수 있는 바다코끼리를 포함하여 바다사자류, 물범류가 있으며 총 33종이 알려져 있습니다</p>
+        </div>
+        <div class="m-cons-card-group__row" style="--cons-flip-cols:3;">
+          <div class="m-cons-flip" data-flip="walrus">
+            <div class="m-cons-flip__inner">
+              <div class="m-cons-flip__face m-cons-flip__face--front">
+                <img src="assets/images/sec.aboutus/marinlab/sec.aboutus/marinlab/hmbrc_pre_02_01 1.png" alt="바다코끼리">
+                <div class="m-cons-flip__shade"></div>
+                <div class="m-cons-flip__caption"><p class="m-cons-flip__en">Walrus</p><p class="m-cons-flip__kr">바다코끼리</p></div>
+              </div>
+              <div class="m-cons-flip__face m-cons-flip__face--back">
+                <img src="assets/images/sec.aboutus/marinlab/sec.aboutus/marinlab/hmbrc_pre_02_01 1.png" alt="">
+                <div class="m-cons-flip__shade"></div>
+                <div class="m-cons-flip__caption">
+                  <p class="m-cons-flip__en">Walrus</p><p class="m-cons-flip__kr">바다코끼리</p>
+                  <p class="m-cons-flip__desc">바다코끼리는 최대 3.6m, 2톤에 이르는 대형 기각류입니다.<br>긴 엄니를 먹이를 찾거나 몸을 보호하는 데 사용하며 북극 연안에 서식합니다.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="m-cons-flip" data-flip="sea-lion">
+            <div class="m-cons-flip__inner">
+              <div class="m-cons-flip__face m-cons-flip__face--front">
+                <img src="assets/images/sec.aboutus/marinlab/sec.aboutus/marinlab/hmbrc_pre_02_02 1.png" alt="바다사자">
+                <div class="m-cons-flip__shade"></div>
+                <div class="m-cons-flip__caption"><p class="m-cons-flip__en">Sea Lion</p><p class="m-cons-flip__kr">바다사자</p></div>
+              </div>
+              <div class="m-cons-flip__face m-cons-flip__face--back">
+                <img src="assets/images/sec.aboutus/marinlab/sec.aboutus/marinlab/hmbrc_pre_02_02 1.png" alt="">
+                <div class="m-cons-flip__shade"></div>
+                <div class="m-cons-flip__caption">
+                  <p class="m-cons-flip__en">Sea Lion</p><p class="m-cons-flip__kr">바다사자</p>
+                  <p class="m-cons-flip__desc">물개라고도 불리는 바다사자는 긴 앞지느러미를 가지고 있어 육상에서 자유롭게 움직입니다.<br>개체 수 감소로 보호받고 있습니다.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="m-cons-flip" data-flip="seal">
+            <div class="m-cons-flip__inner">
+              <div class="m-cons-flip__face m-cons-flip__face--front">
+                <img src="assets/images/sec.aboutus/marinlab/sec.aboutus/marinlab/hmbrc_pre_02_03 1.png" alt="물범">
+                <div class="m-cons-flip__shade"></div>
+                <div class="m-cons-flip__caption"><p class="m-cons-flip__en">Seal</p><p class="m-cons-flip__kr">물범</p></div>
+              </div>
+              <div class="m-cons-flip__face m-cons-flip__face--back">
+                <img src="assets/images/sec.aboutus/marinlab/sec.aboutus/marinlab/hmbrc_pre_02_03 1.png" alt="">
+                <div class="m-cons-flip__shade"></div>
+                <div class="m-cons-flip__caption">
+                  <p class="m-cons-flip__en">Seal</p><p class="m-cons-flip__kr">물범</p>
+                  <p class="m-cons-flip__desc">물범은 전 세계 바다에 서식하는 대표적인 기각류입니다.<br>우리나라에서는 백령도 인근에 점박이 물범이 서식하며 보호받고 있습니다.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="m-cons-card-group" data-card="seahorse">
+        <div class="m-cons-card-group__intro">
+          <h3>해마와 해룡</h3>
+          <p>가늘고 긴 몸을 가진 실고기과의 해양생물로, 느린 움직임 때문에 보호가 필요합니다</p>
+        </div>
+        <div class="m-cons-card-group__row" style="--cons-flip-cols:2;">
+          <div class="m-cons-flip" data-flip="seahorse">
+            <div class="m-cons-flip__inner">
+              <div class="m-cons-flip__face m-cons-flip__face--front">
+                <img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_06_01.png" alt="해마">
+                <div class="m-cons-flip__shade"></div>
+                <div class="m-cons-flip__caption"><p class="m-cons-flip__en">Seahorse</p><p class="m-cons-flip__kr">해마</p></div>
+              </div>
+              <div class="m-cons-flip__face m-cons-flip__face--back">
+                <img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_06_01.png" alt="">
+                <div class="m-cons-flip__shade"></div>
+                <div class="m-cons-flip__caption">
+                  <p class="m-cons-flip__en">Seahorse</p><p class="m-cons-flip__kr">해마</p>
+                  <p class="m-cons-flip__desc">1990년대 이후 해마는 빠른 속도로 감소하기에 이르렀습니다. CITES 동물군에 포함되었지만, 불법적으로 거래가 이루어지고 있는 상황입니다.<br>우리나라에서는 가시해마와 복해마를 보호대상해양생물로 지정 보호하고 있습니다.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="m-cons-flip" data-flip="sea-dragon">
+            <div class="m-cons-flip__inner">
+              <div class="m-cons-flip__face m-cons-flip__face--front">
+                <img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_06_02.png" alt="해룡">
+                <div class="m-cons-flip__shade"></div>
+                <div class="m-cons-flip__caption"><p class="m-cons-flip__en">Sea dragon</p><p class="m-cons-flip__kr">해룡</p></div>
+              </div>
+              <div class="m-cons-flip__face m-cons-flip__face--back">
+                <img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_06_02.png" alt="">
+                <div class="m-cons-flip__shade"></div>
+                <div class="m-cons-flip__caption">
+                  <p class="m-cons-flip__en">Sea dragon</p><p class="m-cons-flip__kr">해룡</p>
+                  <p class="m-cons-flip__desc">해룡은 움직임이 느려, 쉽게 천적의 공격을 받기 때문에 성체가 되는 개체는 많지 않은 생물입니다. 또한 서식지가 오염됨에 따라 개체 수가 줄어들고 있는 상황입니다.<br>오스트레일리아의 해안에만 있는 어류로 수출을 금하며 보호하고 있는 어류입니다.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
 
   <footer id="footer" class="footer">
     <div class="footer__inner">
@@ -578,469 +483,69 @@
   <div id="custom-cursor" aria-hidden="true"></div>
 
   <script src="js/gnb-scroll.js"></script>
+  <script src="js/conservation-orbit.js"></script>
+
   <script>
+    const gnb = document.getElementById('pageGnb');
+    const hero = document.querySelector('.hero');
+
+    function updateGnb() {
+      const threshold = hero.offsetHeight - 110;
+      gnb.classList.toggle('is-blue', window.scrollY >= threshold);
+    }
+
+    updateGnb();
+    window.addEventListener('scroll', updateGnb, { passive: true });
+    window.addEventListener('resize', updateGnb, { passive: true });
+
     (function () {
-      var scale = 1;
-      var raf = 0;
-      var words = Array.from(document.querySelectorAll('.m-word[data-step]'));
-      var cases = Array.from(document.querySelectorAll('.m-case[data-case]'));
-      var caseImgs = Array.from(document.querySelectorAll('.m-img[data-case-img]'));
-      var caseTabs = Array.from(document.querySelectorAll('[data-case-category]'));
-      var casesCopy = document.querySelector('.m-cases-copy');
-      var shell = document.querySelector('.marin-shell');
-      var currentStageHeight = 5664;
-      var gnb = document.getElementById('gnb');
-      var wheelTarget = window.scrollY;
-      var wheelRaf = 0;
-      var activeWordIndex = 0;
-      var activeCaseIndex = 0;
-      var pendingCaseIndex = 0;
-      var caseSwitchTimer = 0;
-      var activeCaseCategory = 'dolphin';
-      var whaleSharkFixedImg = document.createElement('figure');
-      whaleSharkFixedImg.className = 'm-img-fixed';
-      whaleSharkFixedImg.innerHTML = '<img src="" alt=""><figcaption class="m-img__name"></figcaption>';
-      document.body.appendChild(whaleSharkFixedImg);
+      const section = document.querySelector('[data-activity-section]');
+      if (!section) return;
 
-      cases.forEach(function (node) {
-        document.body.appendChild(node);
-      });
+      const slides = Array.from(section.querySelectorAll('.activity-card'))
+        .sort((a, b) => Number(a.dataset.slide || 0) - Number(b.dataset.slide || 0));
+      if (!slides.length) return;
 
-      var caseDatasets = {
-        dolphin: {
-          subject: '돌고래',
-          cases: cases.map(function (node) {
-            return {
-              date: node.querySelector('.m-case__head span:first-child')?.textContent || '',
-              label: node.querySelector('.m-case__head span:last-child')?.textContent || '구조일지',
-              rows: Array.from(node.querySelectorAll('.m-case__row')).map(function (row) {
-                return {
-                  term: row.querySelector('dt')?.textContent || '',
-                  value: row.querySelector('dd')?.innerHTML || ''
-                };
-              })
-            };
-          }),
-          images: caseImgs.map(function (node) {
-            var img = node.querySelector('img');
-            return { src: img?.getAttribute('src') || '', alt: img?.getAttribute('alt') || '', name: '돌고래' };
-          })
-        },
-        turtle: {
-          subject: '바다거북',
-          cases: [
-            {
-              date: '2017.11.25',
-              label: '구조일지',
-              rows: [
-                { term: '구조 대상', value: '붉은바다거북 Caretta Caretta' },
-                { term: '구조 장소', value: '강원도 삼척시 장호항' },
-                { term: '구조 과정', value: '이물 제거 및 상처부위 소독 치료' }
-              ]
-            },
-            {
-              date: '2016.12.19',
-              label: '구조일지',
-              rows: [
-                { term: '구조 대상', value: '매부리바다거북 Eretmochelys imbricata' },
-                { term: '구조 장소', value: '경상남도 하동시 금남면 인근 연안' },
-                { term: '구조 과정', value: '어민 선박 유획 중 수면에 떠 있는 상태로 발견,<br>행동 저하 및 잠영 불가로 이송 치료' }
-              ]
-            },
-            {
-              date: '2015.08.07',
-              label: '구조일지',
-              rows: [
-                { term: '구조 대상', value: '푸른바다거북 Chelonia mydas' },
-                { term: '구조 장소', value: '서귀포시 성산읍 신산리 정치망' },
-                { term: '구조 과정', value: '미약한 상처로 확인 후 즉시 방류' }
-              ]
-            },
-            {
-              date: '2014.08.07',
-              label: '구조일지',
-              rows: [
-                { term: '구조 대상', value: '푸른바다거북 Chelonia mydas 2마리' },
-                { term: '구조 장소', value: '국립수산과학 미래양식연구센터' },
-                { term: '구조 과정', value: '1. 미래양식연구센터에서 당사 반입<br>2. 괴사 진행 확인 및 항생제 치료<br>3. 소독치료 진행 중' },
-                { term: '수의사 검진 내용', value: '등갑 사이와 꼬리, 배갑 사이 괴사 심각,<br>사지 일부에 괴사 확인' }
-              ]
-            },
-            {
-              date: '2012.09.25',
-              label: '구조일지',
-              rows: [
-                { term: '구조 대상', value: '푸른바다거북 1마리(갑장 72cm, 암컷)' },
-                { term: '구조 장소', value: '서귀포시 신산리' },
-                { term: '구조 과정', value: '어부로부터 정치망에 걸린 바다거북 목격<br>1. 아쿠아플라넷으로 구조 요청<br>2. 제주도청 및 제주해양경찰청에 신고<br>3. 구조차량 이동 후 구조 시작' }
-              ]
-            }
-          ],
-          images: [
-            { src: 'assets/images/sec.aboutus/marinlab/turtle-case-20171125.png', alt: '2017 바다거북 구조 사례 사진', name: '바다거북' },
-            { src: 'assets/images/sec.aboutus/marinlab/turtle-case-20161219.png', alt: '2016 바다거북 구조 사례 사진', name: '바다거북' },
-            { src: 'assets/images/sec.aboutus/marinlab/turtle-case-20150807.png', alt: '2015 바다거북 구조 사례 사진', name: '바다거북' },
-            { src: 'assets/images/sec.aboutus/marinlab/turtle-case-20140807.png', alt: '2014 바다거북 구조 사례 사진', name: '바다거북' },
-            { src: 'assets/images/sec.aboutus/marinlab/turtle-case-20120925.png', alt: '2012 바다거북 구조 사례 사진', name: '바다거북' }
-          ]
-        },
-        others: {
-          subject: '해양생물',
-          cases: [
-            {
-              date: '2017.10.29',
-              label: '구조일지',
-              rows: [
-                { term: '구조 대상', value: '고래상어 Rhincodon typus' },
-                { term: '구조 장소', value: '완도 여객터미널 인근 해역' },
-                { term: '구조 과정', value: '인근 공사현장에 들여와 갇혀있는 개체 자립 탈출 유도' }
-              ]
-            },
-            {
-              date: '2017.09.13',
-              label: '구조일지',
-              rows: [
-                { term: '구조 대상', value: '고래상어 Rhincodon typus' },
-                { term: '구조 장소', value: '강원도 삼척시 초곡항' },
-                { term: '구조 과정', value: '정치망 혼획 개체로 그물에 일부 긁힌 상처 외 유영 상태 및 활력이 양호하여 현장 즉시 방류' }
-              ]
-            },
-            {
-              date: '2012.01.14',
-              label: '구조일지',
-              rows: [
-                { term: '구조 대상', value: '유라시아수달 1마리' },
-                { term: '구조 장소', value: '전남 여수시 수정동 엑스포 인근 도로' },
-                { term: '구조 개체의 상태', value: '차량에 치어 척추손상으로 인한 증상' },
-                { term: '구조 과정', value: '시민으로부터 수달 구조 신고 접수<br>1. 순천 야생동물보호센터 구조 신청<br>2. 현장 확인 후 생물 포획하여 응급조치(음수 제공 및 보온, 생물 안정화 주력)<br>3. 순천 야생동물 보호센터에 생물 인수인계' }
-              ]
-            },
-            {
-              date: '2015.02.17',
-              label: '구조일지',
-              rows: [
-                { term: '구조 대상', value: '나팔고둥 Charonia sauliae' },
-                { term: '구조 장소', value: '전남 여수시에 위치한 횟집' },
-                { term: '구조 과정', value: '1. 여수 인근 해역에서 채집되어 상인에게 판매되기 전 수조에서 발견<br>2. 서식가능 지역 판단<br>3. 용천 인공해수욕장 옆 인공방파제쪽 수심 1m 지점에 방류' }
-              ]
-            },
-            {
-              date: '2013.11.24',
-              label: '구조일지',
-              rows: [
-                { term: '구조 대상', value: '나팔고둥 Charonia sauliae' },
-                { term: '구조 장소', value: '제주도 서귀포시 성산읍 인근 해녀의 집' },
-                { term: '구조 과정', value: '1. 해녀의집 수조에 있는 생물 발견<br>2. 예비수조 내 격리공간 마련 후 환경조성<br>3. 불가사리 급이 후 섭이 확인<br>4. 개체 생태 연구 진행 중' }
-              ]
-            }
-          ],
-          images: [
-            { src: 'assets/images/sec.aboutus/marinlab/whale-shark-case.png', alt: '고래상어 구조 사례 사진', name: '고래상어' },
-            { src: 'assets/images/sec.aboutus/marinlab/otter-case.png', alt: '수달 구조 사례 사진', name: '수달' },
-            { src: 'assets/images/sec.aboutus/marinlab/triton-case-20150217.png', alt: '나팔고둥 구조 사례 사진', name: '나팔고둥' },
-            { src: 'assets/images/sec.aboutus/marinlab/triton-case-20131124.png', alt: '나팔고둥 구조 사례 사진', name: '나팔고둥' }
-          ],
-          imageSlots: [0, null, 1, 2, 3]
-        }
-      };
+      let current = -1;
 
-      function clamp(value, min, max) {
-        return Math.max(min, Math.min(max, value));
-      }
+      function activate(index) {
+        if (index === current) return;
+        const prev = current;
+        current = index;
 
-      function fitStage() {
-        scale = window.innerWidth / 1920;
-        document.documentElement.style.setProperty('--marin-scale', String(scale));
-        if (shell) shell.style.height = (currentStageHeight * scale) + 'px';
-        updateScrollState();
-      }
-
-      function setActive(nodes, attr, activeIndex) {
-        nodes.forEach(function (node) {
-          node.classList.toggle('is-active', Number(node.getAttribute(attr)) === activeIndex);
-        });
-      }
-
-      function setActiveWord(nextIndex) {
-        setActive(words, 'data-step', nextIndex);
-        activeWordIndex = nextIndex;
-      }
-
-      function setActiveCase(nextIndex) {
-        if (nextIndex === activeCaseIndex || nextIndex === pendingCaseIndex) return;
-
-        window.clearTimeout(caseSwitchTimer);
-        pendingCaseIndex = nextIndex;
-        setActive(cases, 'data-case', pendingCaseIndex);
-        cases.forEach(function (node) {
-          node.classList.remove('is-hiding');
-        });
-        activeCaseIndex = pendingCaseIndex;
-      }
-
-      function renderCases(category) {
-        var dataset = caseDatasets[category];
-        if (!dataset || category === activeCaseCategory) return;
-
-        window.clearTimeout(caseSwitchTimer);
-        activeCaseCategory = category;
-        activeCaseIndex = 0;
-        pendingCaseIndex = 0;
-        document.body.classList.toggle('marin-cases-others-active', category === 'others');
-
-        if (casesCopy) {
-          casesCopy.innerHTML =
-            '제주 바다에서 구조된 <strong>' + dataset.subject + '</strong>들의 이야기입니다<br>' +
-            '구조와 치료를 거쳐 다시 바다를 향한 여정을 이어갑니다';
-        }
-
-        cases.forEach(function (node, index) {
-          var item = dataset.cases[index];
-          if (!item) {
-            node.classList.remove('is-active', 'is-hiding');
-            return;
-          }
-
-          var head = node.querySelector('.m-case__head');
-          var dl = node.querySelector('dl');
-          if (head) {
-            head.innerHTML = '<span>' + item.date + '</span><span>' + item.label + '</span>';
-          }
-          if (dl) {
-            dl.innerHTML = item.rows.map(function (row) {
-              return '<div class="m-case__row"><dt>' + row.term + '</dt><dd>' + row.value + '</dd></div>';
-            }).join('');
-          }
-          node.classList.toggle('is-active', index === 0);
-          node.classList.remove('is-hiding');
-        });
-
-        caseImgs.forEach(function (node, index) {
-          var imageSlot = Array.isArray(dataset.imageSlots) ? dataset.imageSlots[index] : index;
-          var isHiddenMarker = imageSlot === null;
-          var image = isHiddenMarker ? null : (dataset.images[imageSlot] || dataset.images[dataset.images.length - 1]);
-          var img = node.querySelector('img');
-          var name = node.querySelector('.m-img__name');
-          node.classList.toggle('m-img--hidden-marker', isHiddenMarker);
-          node.style.setProperty('--case-img-offset', '0');
-          if (img && image) {
-            img.src = image.src;
-            img.alt = image.alt;
-          }
-          if (name && image) {
-            name.textContent = image.name || dataset.subject;
-          }
-          node.classList.toggle('is-active', index === 0);
-        });
-
-        var fixedImage = category === 'others' ? dataset.images[0] : null;
-        var fixedImg = whaleSharkFixedImg.querySelector('img');
-        var fixedName = whaleSharkFixedImg.querySelector('.m-img__name');
-        if (fixedImage && fixedImg) {
-          fixedImg.src = fixedImage.src;
-          fixedImg.alt = fixedImage.alt;
-        }
-        if (fixedImage && fixedName) {
-          fixedName.textContent = fixedImage.name || dataset.subject;
-        }
-        whaleSharkFixedImg.classList.remove('is-active');
-
-        caseTabs.forEach(function (tab) {
-          tab.classList.toggle('m-pill--active', tab.getAttribute('data-case-category') === category);
-        });
-        updateScrollState();
-      }
-
-      function updateScrollState() {
-        raf = 0;
-        var designY = window.scrollY / scale;
-
-        if (gnb) gnb.classList.toggle('gnb--scrolled', window.scrollY > 80);
-        document.body.classList.toggle('marin-header-light', designY > 2100 && designY < 6420);
-        document.body.classList.toggle('marin-activities-exiting', designY > 1760);
-        document.body.classList.toggle('marin-cases-title-visible', designY > 1860);
-        document.body.classList.toggle('marin-cases-content-visible', designY > 2140);
-
-        var activityMarkerY = designY + (window.innerHeight / scale) * 0.56;
-        var wordIndex = 0;
-        if (activityMarkerY > 874) wordIndex = 1;
-        if (activityMarkerY > 1212) wordIndex = 2;
-        if (activityMarkerY > 1587) wordIndex = 3;
-        setActiveWord(wordIndex);
-
-        var viewportCenterY = designY + (window.innerHeight / scale) * 0.5;
-        var nearestImgIndex = 0;
-        var nearestImgDistance = Infinity;
-        var imageDistances = [];
-        var imageCenters = [];
-
-        caseImgs.forEach(function (img) {
-          var imgTop = img.offsetTop;
-          var imgCenter = imgTop + img.offsetHeight * 0.5;
-          var distance = Math.abs(viewportCenterY - imgCenter);
-          imageCenters.push(imgCenter);
-          imageDistances.push(distance);
-          if (distance < nearestImgDistance) {
-            nearestImgDistance = distance;
-            nearestImgIndex = Number(img.getAttribute('data-case-img')) || 0;
+        slides.forEach((slide, i) => {
+          slide.classList.remove('is-active', 'is-prev');
+          if (i === index) {
+            slide.classList.add('is-active');
+          } else if (i === prev) {
+            slide.classList.add('is-prev');
           }
         });
-
-        var caseIndex = nearestImgIndex;
-        var activeImgIndex = caseIndex;
-        var whaleSharkPinned = activeCaseCategory === 'others' && caseIndex <= 1 && caseImgs[0] && caseImgs[1];
-        var whaleSharkRangeDistance = imageDistances[0] || 0;
-
-        if (whaleSharkPinned) {
-          var firstCenter = imageCenters[0];
-          var secondCenter = imageCenters[1];
-          whaleSharkRangeDistance = viewportCenterY < firstCenter
-            ? firstCenter - viewportCenterY
-            : viewportCenterY > secondCenter
-              ? viewportCenterY - secondCenter
-              : 0;
-          activeImgIndex = 0;
-        }
-
-        caseImgs.forEach(function (img, index) {
-          var distance = imageDistances[index];
-          var focus = 1 - clamp(distance / 330, 0, 1);
-          var easedFocus = 1 - Math.pow(1 - focus, 4);
-          img.style.setProperty('--case-img-opacity', String((0.18 + easedFocus * 0.82).toFixed(3)));
-          img.style.setProperty('--case-img-saturation', String((0.58 + easedFocus * 0.42).toFixed(3)));
-          img.style.setProperty('--case-img-blur', (7 - easedFocus * 7).toFixed(2) + 'px');
-          img.style.setProperty('--case-img-offset', '0');
-          img.classList.toggle('m-img--pinned-source', whaleSharkPinned && index === 0);
-          img.classList.toggle('m-img--suppressed', whaleSharkPinned && index > 0);
-        });
-
-        var textVisible = whaleSharkPinned ? whaleSharkRangeDistance < 190 : nearestImgDistance < 190;
-        var fixedFocus = 1 - clamp(whaleSharkRangeDistance / 330, 0, 1);
-        var fixedEasedFocus = 1 - Math.pow(1 - fixedFocus, 4);
-        whaleSharkFixedImg.style.setProperty('--case-img-opacity', String((0.18 + fixedEasedFocus * 0.82).toFixed(3)));
-        whaleSharkFixedImg.style.setProperty('--case-img-saturation', String((0.58 + fixedEasedFocus * 0.42).toFixed(3)));
-        whaleSharkFixedImg.style.setProperty('--case-img-blur', (7 - fixedEasedFocus * 7).toFixed(2) + 'px');
-        whaleSharkFixedImg.classList.toggle('is-active', whaleSharkPinned && textVisible);
-
-        document.body.classList.toggle('marin-case-text-visible', textVisible);
-        setActiveCase(caseIndex);
-        setActive(caseImgs, 'data-case-img', activeImgIndex);
-
       }
 
-      function requestUpdate() {
-        if (raf) return;
-        raf = window.requestAnimationFrame(updateScrollState);
-      }
+      function updateActivityCard() {
+        const rect = section.getBoundingClientRect();
+        const viewport = window.innerHeight || document.documentElement.clientHeight;
+        const start = viewport * 0.18;
+        const span = Math.max(1, rect.height - viewport * 0.82);
 
-      function maxScrollY() {
-        return Math.max(
-          0,
-          document.documentElement.scrollHeight - window.innerHeight,
-          document.body.scrollHeight - window.innerHeight
-        );
-      }
-
-      function animateWheelScroll() {
-        var current = window.scrollY;
-        var diff = wheelTarget - current;
-
-        if (Math.abs(diff) < 0.6) {
-          window.scrollTo(0, wheelTarget);
-          wheelRaf = 0;
-          requestUpdate();
+        if (rect.top > start) {
+          activate(0);
           return;
         }
 
-        window.scrollTo(0, current + diff * 0.09);
-        requestUpdate();
-        wheelRaf = window.requestAnimationFrame(animateWheelScroll);
+        const progress = Math.min(1, Math.max(0, (start - rect.top) / span));
+        const index = Math.min(slides.length - 1, Math.floor(progress * slides.length));
+        activate(index);
       }
 
-      window.addEventListener('wheel', function (e) {
-        if (e.ctrlKey) return;
-        e.preventDefault();
-        wheelTarget = clamp(wheelTarget + e.deltaY * 0.72, 0, maxScrollY());
-        if (!wheelRaf) wheelRaf = window.requestAnimationFrame(animateWheelScroll);
-      }, { passive: false });
-
-      window.addEventListener('resize', fitStage, { passive: true });
-      window.addEventListener('scroll', function () {
-        if (!wheelRaf) wheelTarget = window.scrollY;
-        requestUpdate();
-      }, { passive: true });
-      caseTabs.forEach(function (tab) {
-        tab.addEventListener('click', function () {
-          var category = tab.getAttribute('data-case-category');
-          renderCases(category);
-        });
-      });
-      fitStage();
-    })();
-
-    (function () {
-      if (window.matchMedia('(hover: none)').matches) return;
-      var el = document.getElementById('custom-cursor');
-      if (!el) return;
-
-      var half = 17;
-      var tx = -200;
-      var ty = -200;
-      var cx = -200;
-      var cy = -200;
-      var firstMove = false;
-
-      function currentScale() {
-        var raw = getComputedStyle(document.documentElement).getPropertyValue('--marin-scale');
-        var parsed = Number(raw);
-        return Number.isFinite(parsed) && parsed > 0 ? parsed : 1;
-      }
-
-      function isOnLightArea(clientY) {
-        var designY = (window.scrollY + clientY) / currentScale();
-        return designY > 520 && designY < 6420;
-      }
-
-      window.addEventListener('mousemove', function (e) {
-        tx = e.clientX;
-        ty = e.clientY;
-        if (!firstMove) {
-          firstMove = true;
-          cx = tx;
-          cy = ty;
-          el.style.opacity = '1';
-        }
-
-        var hit = document.elementFromPoint(e.clientX, e.clientY);
-        var overInteractive = !!(hit && hit.closest('a, button, [role="button"]'));
-        el.classList.toggle('is-hovering', overInteractive);
-        el.classList.toggle('is-over-light', isOnLightArea(e.clientY));
-      }, { passive: true });
-
-      document.addEventListener('mouseleave', function () {
-        el.style.opacity = '0';
-      });
-
-      document.addEventListener('mouseenter', function () {
-        if (firstMove) el.style.opacity = '1';
-      });
-
-      document.addEventListener('mousedown', function () {
-        el.classList.add('is-clicking');
-      });
-
-      document.addEventListener('mouseup', function () {
-        el.classList.remove('is-clicking');
-      });
-
-      (function loop() {
-        cx += (tx - cx) * 0.2;
-        cy += (ty - cy) * 0.2;
-        el.style.transform = 'translate(' + (cx - half).toFixed(1) + 'px,' + (cy - half).toFixed(1) + 'px)';
-        window.requestAnimationFrame(loop);
-      })();
+      window.addEventListener('scroll', updateActivityCard, { passive: true });
+      window.addEventListener('resize', updateActivityCard);
+      activate(0);
+      updateActivityCard();
     })();
   </script>
+
   <script>
     (function () {
       var stage = document.querySelector('.marin-stage');
@@ -1056,28 +561,8 @@
       var words = Array.from(document.querySelectorAll('.m-word[data-step]'));
       var cases = Array.from(document.querySelectorAll('.m-case[data-case]'));
       var caseImgs = Array.from(document.querySelectorAll('.m-img[data-case-img]'));
-      var figCaseRows = Array.from(document.querySelectorAll('.m-figma-conservation .m-fig-species-row'));
-      var figFlipDefs = [
-        ['m-fig-flip-card--walrus', 'm-fig-flip-card--walrus-detail'],
-        ['m-fig-flip-card--sea-lion', 'm-fig-flip-card--sea-lion-detail'],
-        ['m-fig-flip-card--seal', 'm-fig-flip-card--seal-detail'],
-        ['m-fig-flip-card--seahorse', 'm-fig-flip-card--seahorse-detail'],
-        ['m-fig-flip-card--sea-dragon', 'm-fig-flip-card--sea-dragon-detail']
-      ];
-      var figFlipPairs = figFlipDefs.map(function (pair) {
-        return {
-          frontClass: pair[0],
-          backClass: pair[1],
-          front: document.querySelector('.' + pair[0] + ':not(.is-detail)'),
-          back: document.querySelector('.' + pair[1])
-        };
-      });
       var currentView = 'rescue';
-      var currentFigCaseView = 'whale';
-      var conservationStageHeight = 3500;
-      var conservationIntroPlayed = false;
-      var conservationCasesIntroPlayed = false;
-      var lastFigFlipPointerTime = 0;
+      var conservationStageHeight = 9480;
 
       if (!viewTabs.length) return;
 
@@ -1102,79 +587,6 @@
         })
       };
 
-      var conservationCases = {
-        cetacean: {
-          copy: '아쿠아플라넷은 고래류의 생태와 건강 상태를 지속적으로 관찰하며<br>해양 생물 다양성 보전을 위한 연구 활동을 이어갑니다.',
-          cases: [
-            { date: 'Research 01', label: '고래류 생태 모니터링', rows: [
-              ['대상', '고래류 및 해양 포유류'],
-              ['활동', '행동 패턴, 서식 환경, 개체 건강 상태 관찰'],
-              ['목표', '해양 생태계 변화에 따른 보호 기준 마련']
-            ] },
-            { date: 'Research 02', label: '해양 포유류 건강 관리', rows: [
-              ['대상', '구조 및 보호가 필요한 해양 포유류'],
-              ['활동', '검진 기록 축적과 사육 환경 데이터 분석'],
-              ['목표', '장기적인 보호 및 회복 관리 체계 강화']
-            ] },
-            { date: 'Research 03', label: '서식 환경 연구', rows: [
-              ['대상', '연안 및 수족관 내 생태 환경'],
-              ['활동', '수질, 먹이, 행동 반응 데이터 관찰'],
-              ['목표', '생물에게 적합한 환경 조성']
-            ] }
-          ],
-          images: [
-            ['assets/images/sec.aboutus/marinlab/hmbrc_pre_03_01.png', '고래류 생태 모니터링'],
-            ['assets/images/sec.aboutus/marinlab/hmbrc_pre_04_01.png', '해양 포유류 건강 관리'],
-            ['assets/images/sec.aboutus/marinlab/hmbrc_pre_05_01.png', '서식 환경 연구']
-          ]
-        },
-        turtle: {
-          copy: '멸종위기 해양생물의 보호와 번식을 위해<br>전문적인 사육 관리와 생태 연구를 진행합니다.',
-          cases: [
-            { date: 'Breeding 01', label: '바다거북 보호 연구', rows: [
-              ['대상', '바다거북류'],
-              ['활동', '성장 상태와 먹이 반응 관찰'],
-              ['목표', '안정적인 개체군 유지와 보호']
-            ] },
-            { date: 'Breeding 02', label: '개체군 유지 관리', rows: [
-              ['대상', '보호 대상 해양생물'],
-              ['활동', '번식 환경 개선 및 사육 조건 기록'],
-              ['목표', '생물다양성 보전에 기여']
-            ] }
-          ],
-          images: [
-            ['assets/images/sec.aboutus/marinlab/turtle-case-20171125.png', '바다거북 보호 연구'],
-            ['assets/images/sec.aboutus/marinlab/turtle-case-20150807.png', '개체군 유지 관리']
-          ]
-        },
-        research: {
-          copy: '해양생물의 서식 환경과 행동 특성을 연구하며<br>더 나은 보호 방법을 찾기 위한 데이터를 축적합니다.',
-          cases: [
-            { date: 'Preserve 01', label: '생물다양성 보전', rows: [
-              ['대상', '해양생물 전반'],
-              ['활동', '보호종 기록과 생태 데이터 관리'],
-              ['목표', '지속 가능한 해양 생태 보전']
-            ] },
-            { date: 'Preserve 02', label: '환경 교육 연계', rows: [
-              ['대상', '관람객 및 지역사회'],
-              ['활동', '보전 메시지 전달과 교육 콘텐츠 운영'],
-              ['목표', '해양 보호 인식 확산']
-            ] }
-          ],
-          images: [
-            ['assets/images/sec.aboutus/marinlab/hmbrc_pre_06_01.png', '생물다양성 보전'],
-            ['assets/images/sec.aboutus/marinlab/hmbrc_pre_07_01.png', '환경 교육 연계']
-          ]
-        }
-      };
-
-      var conservationWords = [
-        ['Protect', ': 해양생물 보호', '멸종위기 해양생물과 보호가 필요한 생물의 상태를 관찰하고 안전한 환경을 제공합니다.'],
-        ['Breeding', ': 개체군 유지', '전문적인 번식·사육 관리로 생물의 건강한 성장과 개체군 유지에 기여합니다.'],
-        ['Research', ': 생태 연구', '행동, 서식 환경, 건강 데이터를 바탕으로 해양 생태 보전 연구를 이어갑니다.'],
-        ['Preserve', ': 생물다양성 보전', '연구와 교육을 연결해 바다와 생명을 지키는 지속 가능한 보전 활동을 실천합니다.']
-      ];
-
       function getScale() {
         var parsed = Number(getComputedStyle(document.documentElement).getPropertyValue('--marin-scale'));
         return Number.isFinite(parsed) && parsed > 0 ? parsed : window.innerWidth / 1920;
@@ -1186,194 +598,18 @@
         if (shell) shell.style.height = (height * getScale()) + 'px';
       }
 
-      function rowsToHtml(rows) {
-        return rows.map(function (row) {
-          return '<div class="m-case__row"><dt>' + row[0] + '</dt><dd>' + row[1] + '</dd></div>';
-        }).join('');
-      }
-
-      function renderConservationCases(category) {
-        var dataset = conservationCases[category] || conservationCases.cetacean;
-        if (casesCopy) casesCopy.innerHTML = dataset.copy;
-
-        cases.forEach(function (node, index) {
-          var item = dataset.cases[index];
-          node.style.display = item ? '' : 'none';
-          node.classList.toggle('is-active', index === 0 && !!item);
-          node.classList.remove('is-hiding');
-          if (!item) return;
-          node.innerHTML =
-            '<div class="m-case__head"><span>' + item.date + '</span><span>' + item.label + '</span></div>' +
-            '<dl>' + rowsToHtml(item.rows) + '</dl>';
-        });
-
-        caseImgs.forEach(function (node, index) {
-          var image = dataset.images[index];
-          node.style.display = image ? '' : 'none';
-          node.classList.toggle('is-active', index === 0 && !!image);
-          if (!image) return;
-          node.innerHTML = '<img src="' + image[0] + '" alt="' + image[1] + '"><figcaption class="m-img__name">' + image[1] + '</figcaption>';
-        });
-
-        caseTabs.forEach(function (tab) {
-          tab.classList.toggle('m-pill--active', tab.getAttribute('data-case-category') === category);
-        });
-      }
-
       function renderRescue() {
-        conservationIntroPlayed = false;
-        conservationCasesIntroPlayed = false;
-        currentFigCaseView = 'whale';
-        document.body.classList.remove('marin-view-conservation', 'marin-conservation-intro', 'marin-conservation-cases-intro', 'marin-fig-species-title-mode');
-        clearFigCaseContentFade();
+        document.body.classList.remove('marin-view-conservation');
+        if (window.destroyConservationOrbit) window.destroyConservationOrbit();
         if (stage) stage.setAttribute('aria-label', rescueSnapshot.stageLabel);
         applyHeight(rescueSnapshot.height);
-        return;
-        if (stage) stage.setAttribute('aria-label', rescueSnapshot.stageLabel);
-        if (heroTitle) heroTitle.innerHTML = rescueSnapshot.heroTitle;
-        if (heroSub) heroSub.innerHTML = rescueSnapshot.heroSub;
-        if (heroCopy) heroCopy.innerHTML = rescueSnapshot.heroCopy;
-        if (casesTitle) casesTitle.innerHTML = rescueSnapshot.casesTitle;
-        if (casesSub) casesSub.innerHTML = rescueSnapshot.casesSub;
-        if (casesCopy) casesCopy.innerHTML = rescueSnapshot.casesCopy;
-
-        words.forEach(function (node, index) {
-          node.innerHTML = rescueSnapshot.words[index] || node.innerHTML;
-        });
-        cases.forEach(function (node, index) {
-          node.style.display = '';
-          node.innerHTML = rescueSnapshot.cases[index] || node.innerHTML;
-          node.classList.toggle('is-active', index === 0);
-          node.classList.remove('is-hiding');
-        });
-        caseImgs.forEach(function (node, index) {
-          node.style.display = '';
-          node.innerHTML = rescueSnapshot.caseImgs[index] || node.innerHTML;
-          node.classList.toggle('is-active', index === 0);
-        });
-        caseTabs.forEach(function (tab, index) {
-          var saved = rescueSnapshot.caseTabs[index];
-          if (!saved) return;
-          tab.innerHTML = saved.html;
-          tab.setAttribute('data-case-category', saved.category);
-          tab.classList.toggle('m-pill--active', saved.active);
-        });
-        document.body.classList.remove('marin-cases-others-active');
-        applyHeight(rescueSnapshot.height);
-      }
-
-      function playConservationIntro() {
-        conservationIntroPlayed = true;
-        document.body.classList.remove('marin-conservation-intro');
-        void document.body.offsetWidth;
-        window.requestAnimationFrame(function () {
-          document.body.classList.add('marin-conservation-intro');
-        });
-      }
-
-      function playConservationCasesIntro() {
-        conservationCasesIntroPlayed = true;
-        document.body.classList.remove('marin-conservation-cases-intro');
-        void document.body.offsetWidth;
-        window.requestAnimationFrame(function () {
-          document.body.classList.add('marin-conservation-cases-intro');
-        });
-      }
-
-      function updateConservationCasesIntro() {
-        var casesSection = document.querySelector('.m-fig-con02');
-        if (currentView !== 'conservation' || !casesSection) return;
-        var rect = casesSection.getBoundingClientRect();
-        var isEntering = rect.top < window.innerHeight * 0.78 && rect.bottom > window.innerHeight * 0.18;
-        var isResetRange = rect.top > window.innerHeight * 0.92;
-
-        if (isEntering) {
-          if (!conservationCasesIntroPlayed) playConservationCasesIntro();
-          return;
-        }
-
-        if (isResetRange) {
-          conservationCasesIntroPlayed = false;
-          document.body.classList.remove('marin-conservation-cases-intro');
-        }
-      }
-
-      function updateConservationIntro() {
-        var introTitle = document.querySelector('.m-fig-con01-title');
-        var introPrinciples = document.querySelector('.m-fig-principles');
-        if (currentView !== 'conservation' || !introTitle || !introPrinciples) return;
-        var titleRect = introTitle.getBoundingClientRect();
-        var principlesRect = introPrinciples.getBoundingClientRect();
-        var isEntering = titleRect.top < window.innerHeight * 0.82 && principlesRect.bottom > window.innerHeight * 0.08;
-        var isPastIntro = principlesRect.bottom < window.innerHeight * 0.06;
-
-        if (isEntering) {
-          if (!conservationIntroPlayed) playConservationIntro();
-          return;
-        }
-
-        if (isPastIntro) {
-          conservationIntroPlayed = false;
-          document.body.classList.remove('marin-conservation-intro');
-        }
-      }
-
-      function updateConservationScrollInteractions() {
-        updateConservationIntro();
-        updateConservationCasesIntro();
       }
 
       function renderConservation() {
-        conservationIntroPlayed = false;
-        conservationCasesIntroPlayed = false;
-        currentFigCaseView = 'whale';
-        document.body.classList.remove('marin-conservation-cases-intro', 'marin-fig-species-title-mode');
-        clearFigCaseContentFade();
         document.body.classList.add('marin-view-conservation');
         if (stage) stage.setAttribute('aria-label', 'Marin Lab Conservation page');
-        setFigCaseView('whale', false);
         applyHeight(conservationStageHeight);
-        playConservationIntro();
-        return;
-        if (stage) stage.setAttribute('aria-label', 'Marin Lab Conservation page');
-        if (heroTitle) {
-          heroTitle.innerHTML = '<span class="m-title__serif">Conservation</span><span class="m-title__plain"> Activities</span>';
-        }
-        if (heroSub) heroSub.textContent = '바다와 생명을 지키는 지속적인 노력';
-        if (heroCopy) {
-          heroCopy.innerHTML =
-            '아쿠아플라넷은 <strong>해양수산부 지정 서식지외보전기관</strong>으로서 <strong>해양생물의 보호와 증식을 위한 연구</strong>를 수행합니다.<br>' +
-            '전문적인 번식·사육 관리와 환경 연구를 통해 <strong>생물다양성 보전에 기여</strong>하고 있습니다.';
-        }
-        if (casesTitle) casesTitle.innerHTML = '<span class="m-title__serif">Conservation</span><span class="m-title__plain"> Cases</span>';
-        if (casesSub) casesSub.textContent = '해양생물 보전을 위한 연구와 관리 활동을 소개합니다';
-
-        words.forEach(function (node, index) {
-          var item = conservationWords[index];
-          if (!item) return;
-          var en = node.querySelector('.m-word__en');
-          var kr = node.querySelector('.m-word__kr');
-          var desc = node.querySelector('.m-word__desc');
-          if (en) en.textContent = item[0];
-          if (kr) kr.textContent = item[1];
-          if (desc) desc.textContent = item[2];
-        });
-
-        var labels = [
-          ['cetacean', 'Cetaceans'],
-          ['turtle', 'SeaTurtles'],
-          ['research', 'Research']
-        ];
-        caseTabs.forEach(function (tab, index) {
-          var item = labels[index];
-          tab.style.display = item ? '' : 'none';
-          if (!item) return;
-          tab.textContent = item[1];
-          tab.setAttribute('data-case-category', item[0]);
-          tab.classList.toggle('m-pill--active', index === 0);
-        });
-        renderConservationCases('cetacean');
-        applyHeight(conservationStageHeight);
+        if (window.initConservationOrbit) window.initConservationOrbit();
       }
 
       function setView(view) {
@@ -1386,292 +622,510 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
 
-      viewTabs.forEach(function (tab) {
-        tab.addEventListener('click', function () {
-          setView(tab.getAttribute('data-marin-view'));
-        });
-      });
+      const spotlight = document.querySelector('[data-case-spotlight]');
+      if (!spotlight) return;
 
-      function getFigCaseSection(view) {
-        var selector = view === 'pinniped' ? '.m-fig-con03'
-          : view === 'otter' ? '.m-fig-con04'
-            : view === 'penguin' ? '.m-fig-con05'
-              : view === 'turtle' ? '.m-fig-con06'
-                : view === 'seahorse' ? '.m-fig-con07'
-                  : view === 'shark' ? '.m-fig-con08'
-                    : '.m-fig-con02';
-        return document.querySelector(selector);
+      const dolphinCases = [
+        {
+          date: '2018.04.26',
+          target: '뱀머리돌고래 Steno bredanensis',
+          location: '여수시 돌산읍 우두리 내항',
+          process: '좌초 개체로 피부 외상이 있어 응급조치 후 이송 치료',
+          image: 'assets/images/Dolphin01.png'
+        },
+        {
+          date: '2017.07.17',
+          target: '남방큰돌고래 Tursiops aduncus',
+          location: '제주 서귀포시 성산읍 성산항',
+          process: '정박한 어선 사이를 유영하던 개체 상태 확인 후 자립으로 탈출 유도',
+          image: 'assets/images/Dolphin02.png'
+        },
+        {
+          date: '2015.08.20',
+          target: '남방큰돌고래 Tursiops aduncus',
+          location: '제주시 구좌읍 하도리 연안',
+          process: '얕은 수역에 머문 개체를 안전하게 관찰 후 유도',
+          image: 'assets/images/Dolphin03.png'
+        },
+        {
+          date: '2015.07.18',
+          target: '상괭이 Neophocaena asiaeorientalis',
+          location: '충남 태안군 안면도 해안',
+          process: '그물에 일부 걸린 개체를 발견해 안전하게 분리 후 방류',
+          image: 'assets/images/Dolphin04.png'
+        },
+        {
+          date: '2014.04.02',
+          target: '낫돌고래 Lagenorhynchus obliquidens',
+          location: '부산 기장군 일광면 연안',
+          process: '좌초 개체를 인근 해양생물구조센터로 긴급 이송',
+          image: 'assets/images/Dolphin05.png'
+        },
+        {
+          date: '2013.08.17',
+          target: '남방큰돌고래 Tursiops aduncus',
+          location: '제주 한경면 두모리 연안',
+          process: '어린 개체의 단독 좌초를 확인 후 건강 상태 점검 및 방류',
+          image: 'assets/images/Dolphin06.png'
+        },
+        {
+          date: '2013.08.12',
+          target: '들고래 Globicephala macrorhynchus',
+          location: '전남 여수시 거문도 인근 해상',
+          process: '어선 신고로 출동해 그물에서 분리 후 현장 방류',
+          image: 'assets/images/Dolphin07.png'
+        },
+        {
+          date: '2012.11.22',
+          target: '흑범고래 Pseudorca crassidens',
+          location: '제주 우도 인근 해상',
+          process: '무리에서 이탈한 개체를 발견해 상태 관찰 후 자연 합류 유도',
+          image: 'assets/images/Dolphin08.png'
+        },
+        {
+          date: '2012.10.04',
+          target: '남방큰돌고래 Tursiops aduncus',
+          location: '제주 구좌읍 김녕리 연안',
+          process: '얕은 수심에서 발견된 개체를 모니터링 후 안전하게 바다로 유도',
+          image: 'assets/images/Dolphin09.png'
+        }
+      ];
+
+      const seaTurtleCases = [
+        {
+          date: '2017.11.25',
+          target: '붉은바다거북 Caretta caretta',
+          location: '강원도 삼척시 장호항',
+          process: '이물 제거 및 상처부위 소독 치료',
+          image: 'assets/images/seaturtle01.png'
+        },
+        {
+          date: '2016.12.19',
+          target: '매부리바다거북 Eretmochelys imbricata',
+          location: '경상남도 하동시 금남면 인근 연안',
+          process: '어민 선박 운항 중 수면에 떠 있는 상태로 발견, 행동 저하 및 잠영 불가로 이송 치료',
+          image: 'assets/images/seaturtle02.png'
+        },
+        {
+          date: '2016.09.29',
+          target: '푸른바다거북 Chelonia mydas',
+          location: '여수시 돌산읍 임포항',
+          process: '거머리 등 체표 이물 제거 및 상처부위 소독 치료',
+          image: 'assets/images/seaturtle02.png'
+        },
+        {
+          date: '2016.09.21',
+          target: '푸른바다거북 Chelonia mydas',
+          location: '강원도 삼척시 초곡항',
+          process: '어민 혼획에 의한 바다거북 상처부위 소독 치료',
+          image: 'assets/images/seaturtle03.png'
+        },
+        {
+          date: '2016.07.05',
+          target: '푸른바다거북 Chelonia mydas',
+          location: '제주 서귀포시 성산읍 신양리',
+          process: '등갑 전체에 에폭시 부착 및 잠영이 불가하여 이송 치료',
+          image: 'assets/images/seaturtle04.png'
+        },
+        {
+          date: '2015.08.07',
+          target: '푸른바다거북 Chelonia mydas',
+          location: '서귀포시 성산읍 신산리 정치망',
+          process: '미약한 상처로 확인 후 즉시 방류',
+          image: 'assets/images/seaturtle05.png'
+        },
+        {
+          date: '2015.07.20',
+          target: '푸른바다거북 Chelonia mydas',
+          location: '전남 여수시 삼산면 거문리 거문도',
+          process: '주민신고로 출동 후 신체검사를 진행하고, 거센 물 및 기력 부족으로 보호 조치',
+          image: 'assets/images/seaturtle06.png'
+        },
+        {
+          date: '2016.06.25',
+          target: '붉은바다거북 Caretta caretta',
+          location: '전남 여수시 돌산읍 임포항',
+          process: '주민신고로 출동 후 신체검사를 진행하고, 기력 부족 및 복부 상처로 보호 조치',
+          image: 'assets/images/seaturtle07.png'
+        },
+        {
+          date: '2014.08.07',
+          target: '푸른바다거북 Chelonia mydas 2마리',
+          location: '국립수산과학 미래양식연구센터',
+          process: '미래양식연구센터에서 반입 후 괴사 진행 확인 및 항생제 치료, 소독치료 진행. 등갑 사이와 배갑 사이 괴사가 심각하고 사지 일부에 괴사 확인',
+          image: 'assets/images/seaturtle08.png'
+        },
+        {
+          date: '2013.08.23',
+          target: '매부리거북 Eretmochelys imbricata',
+          location: '국립수산과학 미래양식연구센터',
+          process: '구조 거북 부상 연락을 받은 후 출동, 부상 부위 치료 조치를 위해 당사 반입. 어깨 절상부위가 심각하여 치료 진행',
+          image: 'assets/images/seaturtle09.png'
+        },
+        {
+          date: '2013.07.04',
+          target: '푸른바다거북 Chelonia mydas',
+          location: '제주도 제주시 한림읍 귀덕리 정치망',
+          process: '확인 결과 건강한 상태로, 신체검사 진행 후 방류 완료',
+          image: 'assets/images/seaturtle9.png'
+        },
+        {
+          date: '2012.09.25',
+          target: '푸른바다거북 1마리(갑장 72cm, 암컷)',
+          location: '서귀포시 신산리',
+          process: '어부로부터 정치망에 걸린 바다거북 목격 신고를 받고 구조 요청, 관계기관 신고 및 구조치료 허가 후 구조 시행. 목 주위 상처 치료 후 방류',
+          image: 'assets/images/seaturtle10.png'
+        }
+      ];
+
+      const otherCases = [
+        {
+          category: '고래상어',
+          date: '2017.10.29',
+          target: '고래상어 Rhincodon typus',
+          location: '완도 여객터미널 인근 해역',
+          process: '인근 공사현장에 들어와 갇혀 있는 개체 자립 탈출 유도',
+          image: 'assets/images/other01.png'
+        },
+        {
+          category: '고래상어',
+          date: '2017.09.13',
+          target: '고래상어 Rhincodon typus',
+          location: '강원도 삼척시 초곡항',
+          process: '정치망 혼획 개체로 그물에 일부 긁힌 상처 외 유영 상태 및 활력이 양호하여 현장 즉시 방류',
+          image: 'assets/images/other02.png'
+        },
+        {
+          category: '수달',
+          date: '2012.01.14',
+          target: '유라시아수달 1마리',
+          location: '전남 여수시 수정동 엑스포 인근 도로',
+          process: '시민으로부터 수달 구조 신고 접수 후 현장 확인, 응급조치 및 순천 야생동물 보호센터에 인수인계',
+          image: 'assets/images/other03.png'
+        },
+        {
+          category: '나팔고둥',
+          date: '2015.02.17',
+          target: '나팔고둥 Charonia sauliae',
+          location: '전남 여수시에 위치한 횟집',
+          process: '여수 인근 해역에서 채집되어 판매되기 전 수조에서 발견, 서식 가능 지역 판단 후 웅천 인공해수욕장 앞 인공방파제 인근에 방류',
+          image: 'assets/images/other04.png'
+        },
+        {
+          category: '나팔고둥',
+          date: '2013.11.24',
+          target: '나팔고둥 Charonia sauliae',
+          location: '제주도 서귀포시 성산읍 인근 해녀의 집',
+          process: '해녀의 집 수조에 있는 생물을 발견 후 격리 공간을 마련하고 환경 조성, 불가사리 급이 후 섭이 확인 및 개체 생태 연구 진행',
+          image: 'assets/images/other05.png'
+        }
+      ];
+
+      const caseGroups = {
+        dolphin: dolphinCases,
+        seaTurtle: seaTurtleCases,
+        others: otherCases
+      };
+
+      const card = spotlight.querySelector('[data-case-card]');
+      const imageA = spotlight.querySelector('[data-case-image-a]');
+      const imageB = spotlight.querySelector('[data-case-image-b]');
+      const info = spotlight.querySelector('[data-case-info]');
+      const categoryEl = spotlight.querySelector('[data-case-category]');
+      const dateEl = spotlight.querySelector('[data-case-date]');
+      const yearEl = spotlight.querySelector('[data-date-part="year"]');
+      const monthEl = spotlight.querySelector('[data-date-part="month"]');
+      const dayEl = spotlight.querySelector('[data-date-part="day"]');
+      const targetEl = spotlight.querySelector('[data-case-target]');
+      const locationEl = spotlight.querySelector('[data-case-location]');
+      const processEl = spotlight.querySelector('[data-case-process]');
+      const dotsContainer = spotlight.querySelector('[data-case-dots]');
+      const counterEl = spotlight.querySelector('[data-case-counter]');
+      const prevBtn = spotlight.querySelector('[data-case-prev]');
+      const nextBtn = spotlight.querySelector('[data-case-next]');
+      const caseTabEls = Array.from(document.querySelectorAll('[data-case-tab]'));
+
+      const hasGsap = typeof window.gsap !== 'undefined';
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      let activeCategory = 'dolphin';
+      let currentIndex = 0;
+      let isAnimating = false;
+      let cooldownUntil = 0;
+      let activeLayer = imageA;
+      let idleLayer = imageB;
+
+      function getCurrentCases() {
+        return caseGroups[activeCategory] || dolphinCases;
       }
 
-      function clearFigCaseContentFade() {
-        Array.from(document.querySelectorAll('.m-fig-case-content-enter')).forEach(function (section) {
-          section.classList.remove('m-fig-case-content-enter');
-        });
+      function getTotal() {
+        return getCurrentCases().length;
       }
 
-      function playFigCaseContentFade(view) {
-        var section = getFigCaseSection(view);
-        if (!section) return;
-        clearFigCaseContentFade();
-        void section.offsetWidth;
-        section.classList.add('m-fig-case-content-enter');
+      if (hasGsap) {
+        gsap.set(idleLayer, { opacity: 0 });
       }
 
-      function scrollFigSpeciesIntoTitleView(view) {
-        var section = getFigCaseSection(view);
-        var row = section ? section.querySelector('.m-fig-species-row') : null;
-        if (!row) return;
-        window.requestAnimationFrame(function () {
-          var scale = getScale();
-          var targetViewportTop = Math.max(96, window.innerHeight * 0.12);
-          var targetScrollTop = (section.offsetTop + row.offsetTop) * scale - targetViewportTop;
-          window.scrollTo({
-            top: Math.max(0, targetScrollTop),
-            behavior: 'smooth'
-          });
+      // builds one dot per item; callable again later (e.g. if the case-tabs ever
+      // switch datasets) so the dot count always matches the active list's length.
+      let dotEls = [];
+      function renderDots(items) {
+        if (!dotsContainer) return;
+        dotsContainer.innerHTML = items.map((item, i) =>
+          '<button type="button" class="case-dot" role="tab" data-case-dot="' + i + '" aria-label="' + (i + 1) + '번째 구조일지로 이동" aria-selected="false"></button>'
+        ).join('');
+        dotEls = Array.from(dotsContainer.querySelectorAll('[data-case-dot]'));
+        dotEls.forEach((dot, i) => {
+          dot.addEventListener('click', () => goToCase(i));
         });
+        updateDots();
       }
 
-      function setFigCaseView(view, fromUser) {
-        var changed = view !== currentFigCaseView;
-        currentFigCaseView = view;
-        var activeIndex = view === 'pinniped' ? 1 : view === 'otter' ? 2 : view === 'penguin' ? 3 : view === 'turtle' ? 4 : view === 'seahorse' ? 5 : view === 'shark' ? 6 : 0;
-        document.body.classList.toggle('marin-fig-case-pinniped', activeIndex === 1);
-        document.body.classList.toggle('marin-fig-case-otter', activeIndex === 2);
-        document.body.classList.toggle('marin-fig-case-penguin', activeIndex === 3);
-        document.body.classList.toggle('marin-fig-case-turtle', activeIndex === 4);
-        document.body.classList.toggle('marin-fig-case-seahorse', activeIndex === 5);
-        document.body.classList.toggle('marin-fig-case-shark', activeIndex === 6);
-        resetFigFlipCards();
-        figCaseRows.forEach(function (row) {
-          Array.from(row.querySelectorAll('.m-fig-species')).forEach(function (item, index) {
-            item.classList.toggle('is-active', index === activeIndex);
-          });
+      function updateDots() {
+        dotEls.forEach((dot, i) => {
+          const isActive = i === currentIndex;
+          dot.classList.toggle('is-active', isActive);
+          dot.setAttribute('aria-selected', String(isActive));
         });
-        if (fromUser) {
-          document.body.classList.add('marin-fig-species-title-mode');
-          scrollFigSpeciesIntoTitleView(view);
-          if (changed) playFigCaseContentFade(view);
+        if (counterEl) {
+          counterEl.textContent = (currentIndex + 1) + ' / ' + getTotal();
         }
       }
 
-      function resetFigFlipCards() {
-        figFlipPairs.forEach(function (pair) {
-          window.clearTimeout(pair.flipTimer);
-          if (pair.front) {
-            pair.front.classList.remove('is-flipped');
-            pair.front.style.visibility = 'visible';
-            pair.front.style.opacity = '1';
-            pair.front.style.transform = 'rotateY(0deg)';
-            pair.front.style.pointerEvents = 'auto';
-            pair.front.style.zIndex = '2';
+      function goToCase(index) {
+        if (index === currentIndex) return false;
+        return animateToCase(index, index > currentIndex ? 1 : -1);
+      }
+
+      function updateCaseTabs() {
+        caseTabEls.forEach((tab) => {
+          const isActive = tab.dataset.caseTab === activeCategory;
+          tab.classList.toggle('is-active', isActive);
+          tab.setAttribute('aria-selected', String(isActive));
+        });
+      }
+
+      const preloaded = new Set();
+      function preload(src) {
+        if (!src || preloaded.has(src)) return;
+        preloaded.add(src);
+        const img = new Image();
+        img.src = src;
+      }
+
+      function preloadAround(index) {
+        const cases = getCurrentCases();
+        if (!cases.length) return;
+        preload(cases[index].image);
+        preload(cases[(index + 1) % cases.length].image);
+        preload(cases[(index - 1 + cases.length) % cases.length].image);
+      }
+
+      function setText(item) {
+        const [y, m, d] = item.date.split('.');
+        if (yearEl) yearEl.textContent = y;
+        if (monthEl) monthEl.textContent = m;
+        if (dayEl) dayEl.textContent = d;
+        if (targetEl) targetEl.textContent = item.target;
+        if (locationEl) locationEl.textContent = item.location;
+        if (processEl) processEl.textContent = item.process;
+        if (categoryEl) {
+          if (item.category) {
+            categoryEl.textContent = item.category;
+            categoryEl.style.display = 'inline-block';
+          } else {
+            categoryEl.style.display = 'none';
           }
-          if (pair.back) {
-            pair.back.classList.remove('is-visible');
-            pair.back.style.visibility = 'hidden';
-            pair.back.style.opacity = '0';
-            pair.back.style.transform = 'rotateY(-90deg)';
-            pair.back.style.pointerEvents = 'none';
-            pair.back.style.zIndex = '1';
+        }
+        if (dateEl) dateEl.setAttribute('aria-label', item.date + ' 구조일지');
+        updateDots();
+      }
+
+      function renderInstant(item) {
+        activeLayer.src = item.image;
+        activeLayer.alt = item.date + ' ' + item.target + ' 구조일지';
+        if (hasGsap) {
+          gsap.set(activeLayer, { opacity: 1, scale: 1 });
+          gsap.set(idleLayer, { opacity: 0 });
+          gsap.set([yearEl, monthEl, dayEl], { clearProps: 'all' });
+          gsap.set(info, { clearProps: 'all' });
+        }
+        setText(item);
+      }
+
+      function animateToCase(nextIndex, direction) {
+        const cases = getCurrentCases();
+        const total = cases.length;
+        if (isAnimating || nextIndex === currentIndex || nextIndex < 0 || nextIndex >= total) return false;
+        const item = cases[nextIndex];
+
+        if (!hasGsap || prefersReducedMotion) {
+          isAnimating = false;
+          currentIndex = nextIndex;
+          renderInstant(item);
+          return true;
+        }
+
+
+        isAnimating = true;
+        const dir = direction; // 1 = next, -1 = prev
+        const dateParts = [yearEl, monthEl, dayEl];
+        const nextImg = idleLayer;
+        const prevImg = activeLayer;
+        gsap.set(dateParts, { transformPerspective: 500 });
+
+        preload(cases[(nextIndex + 1) % total].image);
+        preload(cases[(nextIndex - 1 + total) % total].image);
+
+        nextImg.src = item.image;
+        nextImg.alt = item.date + ' ' + item.target + ' 구조일지';
+        gsap.set(nextImg, { opacity: 0, scale: 1.06 });
+
+        const tl = gsap.timeline({
+          onComplete: () => {
+            activeLayer = nextImg;
+            idleLayer = prevImg;
+            isAnimating = false;
+            cooldownUntil = performance.now() + 20;
           }
         });
-      }
 
-      function initFigFlipPairs() {
-        figFlipPairs.forEach(function (pair) {
-          pair.front = document.querySelector('.' + pair.frontClass + ':not(.is-detail)');
-          pair.back = document.querySelector('.' + pair.backClass);
-          if (!pair.front || !pair.back) return;
-          pair.front._figFlipPair = pair;
-          pair.back._figFlipPair = pair;
-          pair.front.setAttribute('role', 'button');
-          pair.front.setAttribute('tabindex', '0');
-          pair.back.setAttribute('role', 'button');
-          pair.back.setAttribute('tabindex', '0');
-        });
-        resetFigFlipCards();
-      }
 
-      function getFigFlipPair(card) {
-        if (card && card._figFlipPair) return card._figFlipPair;
-        var pair = figFlipPairs.find(function (item) {
-          return card && (card.classList.contains(item.frontClass) || card.classList.contains(item.backClass));
-        });
-        if (!pair) return null;
-        pair.front = document.querySelector('.' + pair.frontClass + ':not(.is-detail)');
-        pair.back = document.querySelector('.' + pair.backClass);
-        if (pair.front) pair.front._figFlipPair = pair;
-        if (pair.back) pair.back._figFlipPair = pair;
-        return pair.front && pair.back ? pair : null;
-      }
+      window.addEventListener('resize', function () {
+        applyHeight(currentView === 'conservation' ? conservationStageHeight : rescueSnapshot.height);
+      }, { passive: true });
 
-      function getFigFlipPairAtPoint(clientX, clientY) {
-        return figFlipPairs.find(function (pair) {
-          pair.front = document.querySelector('.' + pair.frontClass + ':not(.is-detail)');
-          pair.back = document.querySelector('.' + pair.backClass);
-          var activeCard = pair.back && pair.back.classList.contains('is-visible') ? pair.back : pair.front;
-          if (!activeCard) return false;
-          var rect = activeCard.getBoundingClientRect();
-          return rect.width > 0 &&
-            rect.height > 0 &&
-            clientX >= rect.left &&
-            clientX <= rect.right &&
-            clientY >= rect.top &&
-            clientY <= rect.bottom;
-        }) || null;
-      }
+        // image: outgoing fades while next fades in, slightly overlapped
+        tl.to(prevImg, { opacity: 0, scale: 1.02, duration: 0.28, ease: 'power2.out' }, 0)
+          .to(nextImg, { opacity: 1, scale: 1, duration: 0.32, ease: 'power2.out' }, 0.04);
 
-      function getPinnipedFlipPairAtPoint(clientX, clientY) {
-        var pinnipedPairs = figFlipPairs.slice(0, 3);
-        return pinnipedPairs.find(function (pair) {
-          pair.front = document.querySelector('.' + pair.frontClass + ':not(.is-detail)');
-          pair.back = document.querySelector('.' + pair.backClass);
-          var cards = [pair.back, pair.front].filter(Boolean);
-          return cards.some(function (card) {
-            var rect = card.getBoundingClientRect();
-            return rect.width > 0 &&
-              rect.height > 0 &&
-              clientX >= rect.left &&
-              clientX <= rect.right &&
-              clientY >= rect.top &&
-              clientY <= rect.bottom;
-          });
-        }) || null;
-      }
+        // left info copy: calm fade up/down
+        tl.to(info, { opacity: 0, duration: 0.15, ease: 'power2.out' }, 0)
+          .fromTo(info, { opacity: 0 }, { opacity: 1, duration: 0.25, ease: 'power2.out' }, 0.15);
 
-      function handleFigFlipPointer(event) {
-        if (currentView !== 'conservation') return false;
-
-        var pair = getFigFlipPairAtPoint(event.clientX, event.clientY);
-        if (!pair) return false;
-
-        lastFigFlipPointerTime = Date.now();
-        event.preventDefault();
-        event.stopImmediatePropagation();
-
-        if (pair.back && pair.back.classList.contains('is-visible')) showFigFlipFront(pair);
-        else showFigFlipBack(pair);
+        // date: each digit flips in place (no translation) -- snaps out, swaps, snaps in
+        tl.to(dateParts, {
+          duration: 0.18,
+          ease: 'power2.in',
+          rotateX: dir > 0 ? 100 : -100,
+          scaleY: 0.4,
+          opacity: 0,
+          stagger: 0.05
+        }, 0)
+          .add(() => { currentIndex = nextIndex; setText(item); }, 0.25)
+          .fromTo(dateParts,
+            {
+              rotateX: dir > 0 ? -100 : 100,
+              scaleY: 0.4,
+              opacity: 0
+            },
+            {
+              rotateX: 0,
+              scaleY: 1,
+              opacity: 1,
+              duration: 0.25,
+              ease: 'back.out(1.5)',
+              stagger: 0.05,
+              clearProps: 'transform'
+            }, 0.25);
         return true;
       }
 
-      function showFigFlipBack(pair) {
-        if (!pair) return;
-        pair.front = document.querySelector('.' + pair.frontClass + ':not(.is-detail)');
-        pair.back = document.querySelector('.' + pair.backClass);
-        if (!pair.front || !pair.back) return;
-        clearFigCaseContentFade();
-        resetFigFlipCards();
-        window.clearTimeout(pair.flipTimer);
+      function next() { return animateToCase(Math.min(currentIndex + 1, getTotal() - 1), 1); }
+      function prev() { return animateToCase(Math.max(currentIndex - 1, 0), -1); }
 
-        pair.front.classList.add('is-flipped');
-        pair.front.style.visibility = 'hidden';
-        pair.front.style.opacity = '0';
-        pair.front.style.transform = 'rotateY(-90deg)';
-        pair.front.style.pointerEvents = 'none';
-        pair.front.style.zIndex = '1';
-
-        pair.back.classList.add('is-visible');
-        pair.back.style.visibility = 'visible';
-        pair.back.style.opacity = '1';
-        pair.back.style.transform = 'rotateY(0deg)';
-        pair.back.style.pointerEvents = 'auto';
-        pair.back.style.zIndex = '10';
+      function switchCategory(category) {
+        if (!caseGroups[category] || category === activeCategory || isAnimating) return false;
+        activeCategory = category;
+        currentIndex = 0;
+        cooldownUntil = 0;
+        renderDots(getCurrentCases());
+        updateCaseTabs();
+        preloadAround(0);
+        renderInstant(getCurrentCases()[currentIndex]);
+        spotlight.setAttribute('aria-label', (category === 'seaTurtle' ? 'SeaTurtle' : 'Dolphin') + ' 구조일지');
+        return true;
       }
 
-      function showFigFlipFront(pair) {
-        if (!pair) return;
-        pair.front = document.querySelector('.' + pair.frontClass + ':not(.is-detail)');
-        pair.back = document.querySelector('.' + pair.backClass);
-        if (!pair.front || !pair.back) return;
-        clearFigCaseContentFade();
-        window.clearTimeout(pair.flipTimer);
-
-        pair.back.classList.remove('is-visible');
-        pair.back.style.visibility = 'hidden';
-        pair.back.style.opacity = '0';
-        pair.back.style.transform = 'rotateY(90deg)';
-        pair.back.style.pointerEvents = 'none';
-        pair.back.style.zIndex = '1';
-
-        pair.front.classList.remove('is-flipped');
-        pair.front.style.visibility = 'visible';
-        pair.front.style.opacity = '1';
-        pair.front.style.transform = 'rotateY(0deg)';
-        pair.front.style.pointerEvents = 'auto';
-        pair.front.style.zIndex = '2';
-      }
-
-      figCaseRows.forEach(function (row) {
-        Array.from(row.querySelectorAll('.m-fig-species')).forEach(function (item, index) {
-          if (index > 6) return;
-          item.setAttribute('role', 'button');
-          item.setAttribute('tabindex', '0');
-          var viewName = index === 1 ? 'pinniped' : index === 2 ? 'otter' : index === 3 ? 'penguin' : index === 4 ? 'turtle' : index === 5 ? 'seahorse' : index === 6 ? 'shark' : 'whale';
-          item.addEventListener('click', function () {
-            setFigCaseView(viewName, true);
-          });
-          item.addEventListener('keydown', function (event) {
-            if (event.key !== 'Enter' && event.key !== ' ') return;
-            event.preventDefault();
-            setFigCaseView(viewName, true);
-          });
+      caseTabEls.forEach((tab) => {
+        tab.setAttribute('role', 'tab');
+        tab.addEventListener('click', () => {
+          switchCategory(tab.dataset.caseTab);
         });
       });
 
-      initFigFlipPairs();
+      renderDots(getCurrentCases());
+      updateCaseTabs();
+      preloadAround(currentIndex);
+      renderInstant(getCurrentCases()[currentIndex]);
 
-      document.addEventListener('pointerdown', handleFigFlipPointer, true);
+      spotlight.setAttribute('tabindex', '0');
+      spotlight.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowRight' || event.key === 'ArrowDown') { next(); }
+        else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') { prev(); }
+      });
 
-      var figmaConservation = document.querySelector('.m-figma-conservation');
-      if (figmaConservation) {
-        figmaConservation.addEventListener('click', function (event) {
-          if (Date.now() - lastFigFlipPointerTime < 500) {
-            event.preventDefault();
-            event.stopImmediatePropagation();
-            return;
-          }
-        }, true);
+      if (prevBtn) prevBtn.addEventListener('click', () => { if (!isAnimating) requestStep(-1); });
+      if (nextBtn) nextBtn.addEventListener('click', () => { if (!isAnimating) requestStep(1); });
+
+      // .case-spotlight only "captures" wheel input while it's pinned/centered in the
+      // viewport; ScrollTrigger's onEnter/onEnterBack/onLeave/onLeaveBack toggle this flag.
+      let casePinActive = false;
+
+      if (hasGsap && !prefersReducedMotion && typeof ScrollTrigger !== 'undefined') {
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Pin the spotlight wrapper only. The actual card design/content remains inside
+        // .case-card and is changed exclusively through animateToCase().
+        ScrollTrigger.create({
+          trigger: spotlight,
+          start: 'top 130px',
+          end: '+=60%',
+          pin: spotlight,
+          pinSpacing: true,
+          onEnter: () => { casePinActive = true; },
+          onEnterBack: () => { casePinActive = true; },
+          onLeave: () => { casePinActive = false; },
+          onLeaveBack: () => { casePinActive = false; }
+        });
       }
 
-      document.addEventListener('click', function (event) {
-        if (Date.now() - lastFigFlipPointerTime < 500) return;
-      }, true);
+      // shared gate used by both buttons (via next/prev above) and wheel (below): blocks
+      // mid-list page scroll, but lets it through at the first/last case so the page can
+      // move on to the previous/next section. Buttons call next()/prev() directly (no
+      // boundary to gate there since they're disabled-by-state instead), wheel always
+      // goes through here.
+      function requestStep(direction, evt) {
+        const atFirst = currentIndex <= 0;
+        const atLast = currentIndex >= getTotal() - 1;
 
-      figFlipPairs.forEach(function (pair) {
-        if (!pair.front || !pair.back) return;
-        function showBack() {
-          showFigFlipBack(pair);
-        }
-        function showFront() {
-          showFigFlipFront(pair);
-        }
-        pair.front.addEventListener('keydown', function (event) {
-          if (event.key !== 'Enter' && event.key !== ' ') return;
-          event.preventDefault();
-          showBack();
-        });
-        pair.back.addEventListener('keydown', function (event) {
-          if (event.key !== 'Enter' && event.key !== ' ') return;
-          event.preventDefault();
-          showFront();
-        });
-      });
+        if (direction > 0 && atLast) return false; // let the page scroll on past the last case
+        if (direction < 0 && atFirst) return false; // let the page scroll up before the first case
 
-      caseTabs.forEach(function (tab) {
-        tab.addEventListener('click', function (event) {
-          if (currentView !== 'conservation') return;
-          event.preventDefault();
-          event.stopImmediatePropagation();
-          renderConservationCases(tab.getAttribute('data-case-category'));
-        }, true);
-      });
+        if (evt && evt.preventDefault) evt.preventDefault();
+        if (isAnimating || performance.now() < cooldownUntil) return true;
 
-      window.addEventListener('scroll', updateConservationScrollInteractions, { passive: true });
-      window.addEventListener('resize', function () {
-        applyHeight(currentView === 'conservation' ? conservationStageHeight : rescueSnapshot.height);
-        updateConservationScrollInteractions();
-      }, { passive: true });
+        return direction > 0 ? next() : prev();
+      }
+
+      // Listens on window (not the image/card) so scrolling anywhere on the page works,
+      // not just while the cursor happens to be over the photo. The active-zone check
+      // (casePinActive) is what scopes it to "only while .case-spotlight is centered".
+      function handleCaseWheel(event) {
+        if (!casePinActive) return; // outside the pinned zone: let the page scroll normally
+        if (Math.abs(event.deltaY) < 1) return; // ignore near-zero scroll noise only
+
+        // 위로 스크롤 시 인터랙션을 무시하고 브라우저 기본 스크롤(페이지 위로 이동)을 허용합니다.
+        if (event.deltaY < 0) return;
+
+        requestStep(1, event);
+      }
+
+      window.addEventListener('wheel', handleCaseWheel, { passive: false });
+
     })();
   </script>
 </body>
+
 </html>

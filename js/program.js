@@ -1,28 +1,6 @@
 ﻿document.addEventListener('DOMContentLoaded', function() {
   const LOCATIONS = ['Jeju', 'Yeosu', 'Ilsan', 'Gwanggyo'];
 
-  // ===== GNB: 10% 이상 스크롤 후 아래로 내리면 숨김, 위로 올리면 표시 =====
-  const gnb = document.querySelector('.gnb');
-  if (gnb) {
-    let lastScrollY = window.scrollY;
-
-    function updateGnb() {
-      const y = window.scrollY;
-      const max = document.documentElement.scrollHeight - window.innerHeight;
-      const past10 = max > 0 && y / max >= 0.1;
-
-      if (past10 && y > lastScrollY) {
-        gnb.classList.add('gnb--hidden');
-      } else {
-        gnb.classList.remove('gnb--hidden');
-      }
-      lastScrollY = y;
-    }
-    window.addEventListener('scroll', updateGnb);
-    window.addEventListener('resize', updateGnb);
-    updateGnb();
-
-  }
 
   // 각 지역의 일정표(.schedule-table)를 독립적으로 초기화한다.
   // (querySelector 단일 요소가 아니라 테이블별 스코프로 동작 → 지역 전환해도 기능/모션 유지)
