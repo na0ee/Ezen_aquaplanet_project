@@ -580,18 +580,24 @@
   /* 모든 층의 버블 위치·크기는 이 설정만 공유합니다.
      x: hover 맵 우측(x≈1261) 기준 ~180px 간격, 피그마 그룹 left=1444 참고
      y: 수직 중심 section-y=1011 (뷰포트 중앙) 기준 대칭 */
-  var BUBBLE_LAYOUT = {
-    five: [
-      { left: 2070, top: 470,  size: 120 },
-      { left: 1920, top: 680,  size: 160 },
-      { left: 1800, top: 910,  size: 190 },
-      { left: 1920, top: 1175, size: 160 },
-      { left: 2070, top: 1412, size: 120 }
-    ]
-  };
+  /* leftOffset: 맵 우측 기준 상대값 (slot2=0, slot1/3=+120, slot0/4=+270)
+     hover 맵 우측 = innerWidth/2 + 294, Figma 기준 gap = 190px */
+  var BUBBLE_LAYOUT = [
+    { leftOffset: 270, top: 470,  size: 120 },
+    { leftOffset: 120, top: 680,  size: 160 },
+    { leftOffset:   0, top: 910,  size: 190 },
+    { leftOffset: 120, top: 1175, size: 160 },
+    { leftOffset: 270, top: 1412, size: 120 }
+  ];
 
   function getBubbleLayout(index) {
-    return BUBBLE_LAYOUT.five[index];
+    var rel = BUBBLE_LAYOUT[index];
+    var baseLeft = window.innerWidth / 2 + 294 + 190;
+    return {
+      left: Math.round(baseLeft + rel.leftOffset),
+      top:  rel.top,
+      size: rel.size
+    };
   }
 
   function createBubble(exhibit, index) {
@@ -745,6 +751,11 @@
 
   function updateMapPin() {
     if (!mapWrap || !mapSection) return;
+    /* 모바일에서는 sticky 해제 → 클래스 제거만 하고 종료 */
+    if (window.matchMedia('(max-width: 820px)').matches) {
+      mapSection.classList.remove('is-hovering');
+      return;
+    }
     var wrapTop   = mapWrap.getBoundingClientRect().top;
     var stickyTop = window.innerHeight / 2 - 1011;
     if (wrapTop <= stickyTop) mapSection.classList.add('is-hovering');
@@ -752,6 +763,22 @@
   }
 
   window.addEventListener('scroll', updateMapPin, { passive: true });
+
+  function repositionBubbles() {
+    mapBubbles.forEach(function (bubble) {
+      var slotIndex = parseInt(bubble.style.getPropertyValue('--bubble-index'), 10);
+      if (isNaN(slotIndex)) return;
+      var layout = getBubbleLayout(slotIndex);
+      bubble.style.left = layout.left + 'px';
+    });
+  }
+
+  var bubbleResizeTimer;
+  window.addEventListener('resize', function () {
+    if (window.matchMedia('(max-width: 820px)').matches) return;
+    clearTimeout(bubbleResizeTimer);
+    bubbleResizeTimer = setTimeout(repositionBubbles, 150);
+  }, { passive: true });
 
   if (mapSection && bubbleWrap) {
 
@@ -939,5 +966,72 @@
     renderFloor(currentFloor);
     updateMapPin();
   }
+
+}());
+
+
+/* ─────────────────────────────────────────────────────────────
+   모바일 햄버거 메뉴 토글
+   (location.html은 main.js를 로드하지 않으므로 여기서 처리)
+   ───────────────────────────────────────────────────────────── */
+(function () {
+  'use strict';
+
+  var hamburger  = document.querySelector('.gnb__hamburger');
+  var mobileMenu = document.querySelector('.gnb__mobile-menu');
+  if (!hamburger || !mobileMenu) return;
+
+  function openMenu() {
+    hamburger.classList.add('is-active');
+    hamburger.setAttribute('aria-expanded', 'true');
+    mobileMenu.classList.add('is-open');
+    mobileMenu.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('mobile-menu-open');
+  }
+
+  function closeMenu() {
+    hamburger.classList.remove('is-active');
+    hamburger.setAttribute('aria-expanded', 'false');
+    mobileMenu.classList.remove('is-open');
+    mobileMenu.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('mobile-menu-open');
+  }
+
+  hamburger.addEventListener('click', function () {
+    if (mobileMenu.classList.contains('is-open')) closeMenu();
+    else openMenu();
+  });
+
+  /* 서브메뉴 아코디언 */
+  mobileMenu.querySelectorAll('.gnb__mobile-link--toggle').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var item   = btn.closest('.gnb__mobile-item');
+      var isOpen = item.classList.contains('is-open');
+      /* 다른 열린 항목 닫기 */
+      mobileMenu.querySelectorAll('.gnb__mobile-item.is-open').forEach(function (el) {
+        el.classList.remove('is-open');
+        el.querySelector('.gnb__mobile-link--toggle').setAttribute('aria-expanded', 'false');
+      });
+      if (!isOpen) {
+        item.classList.add('is-open');
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+
+  /* 내부 링크 클릭 시 메뉴 닫기 */
+  mobileMenu.querySelectorAll('a').forEach(function (a) {
+    a.addEventListener('click', closeMenu);
+  });
+
+  /* ESC 키로 닫기 */
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && mobileMenu.classList.contains('is-open')) closeMenu();
+  });
+
+  /* 820px 초과로 리사이즈되면 강제 닫기 */
+  window.addEventListener('resize', function () {
+    if (window.innerWidth > 820 && mobileMenu.classList.contains('is-open')) closeMenu();
+  });
 
 }());

@@ -25,7 +25,9 @@
   }
   </script>
 </head>
-<body class="is-logo-at-header">
+<body class="is-logo-at-header location-page">
+
+  <div class="wrap">
 
   <!-- 커스텀 커서 (style.css: cursor: none !important 전역 적용) -->
   <div id="custom-cursor" aria-hidden="true"></div>
@@ -75,8 +77,66 @@
                 stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </a>
+
+      <!-- 모바일 전용 햄버거 버튼 -->
+      <button class="gnb__hamburger" type="button" aria-label="메뉴 열기" aria-expanded="false" aria-controls="mobile-menu">
+        <span class="gnb__hamburger-line"></span>
+        <span class="gnb__hamburger-line"></span>
+        <span class="gnb__hamburger-line"></span>
+      </button>
     </div>
   </header>
+
+  <!-- 모바일 전용 풀스크린 메뉴 -->
+  <div class="gnb__mobile-menu" id="mobile-menu" aria-hidden="true" role="dialog" aria-label="메인 메뉴">
+    <nav class="gnb__mobile-nav" aria-label="모바일 메뉴">
+
+      <div class="gnb__mobile-item">
+        <button class="gnb__mobile-link gnb__mobile-link--toggle" type="button" aria-expanded="false">
+          Location
+        </button>
+        <div class="gnb__mobile-sub">
+          <a href="location.html?loc=Jeju">Jeju</a>
+          <a href="location.html?loc=Yeosu">Yeosu</a>
+          <a href="location.html?loc=Ilsan">Ilsan</a>
+          <a href="location.html?loc=Gwanggyo">Gwanggyo</a>
+        </div>
+      </div>
+
+      <a href="Oceanfriends.html" class="gnb__mobile-link">Ocean friends</a>
+
+      <div class="gnb__mobile-item">
+        <button class="gnb__mobile-link gnb__mobile-link--toggle" type="button" aria-expanded="false">
+          About us
+        </button>
+        <div class="gnb__mobile-sub">
+          <a href="business.html">Business</a>
+          <a href="marinlab.html">Marin Lab</a>
+        </div>
+      </div>
+
+      <div class="gnb__mobile-item">
+        <button class="gnb__mobile-link gnb__mobile-link--toggle" type="button" aria-expanded="false">
+          Program
+        </button>
+        <div class="gnb__mobile-sub">
+          <a href="program.html?loc=Jeju">Jeju</a>
+          <a href="program.html?loc=Yeosu">Yeosu</a>
+          <a href="program.html?loc=Ilsan">Ilsan</a>
+          <a href="program.html?loc=Gwanggyo">Gwanggyo</a>
+        </div>
+      </div>
+
+      <a href="ticket.html" class="gnb__mobile-ticket btn-pill">
+        Ticket
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M7 17L17 7M17 7H7M17 7V17" stroke="white" stroke-width="1.5"
+                stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+
+    </nav>
+  </div>
 
   <!-- 섹션 사이드 내비게이션 (Figma: Frame 1707482962) -->
   <nav class="loc-side-nav" aria-label="섹션 이동">
@@ -436,6 +496,8 @@
     </footer>
 
   </main>
+
+  </div><!-- /.wrap -->
 
   <script src="js/gnb-scroll.js"></script>
   <script src="js/location.js"></script>
