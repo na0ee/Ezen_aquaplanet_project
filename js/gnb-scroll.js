@@ -22,7 +22,12 @@ document.addEventListener('DOMContentLoaded', function () {
     lastScrollY = y;
   }
 
-  window.addEventListener('scroll', updateGnb);
+  var gnbRafPending = false;
+  window.addEventListener('scroll', function () {
+    if (gnbRafPending) return;
+    gnbRafPending = true;
+    requestAnimationFrame(function () { gnbRafPending = false; updateGnb(); });
+  }, { passive: true });
   window.addEventListener('resize', updateGnb);
   updateGnb();
 });
