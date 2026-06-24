@@ -1957,6 +1957,12 @@ function handleStickySequenceWheel(e) {
   const wheelThreshold = 90;
   const rawGoingDown = e.deltaY > 0;
   const rawGoingUp = e.deltaY < 0;
+
+  if (controller.section.id === 'sec-booking' && rawGoingUp && progress > holdProgress + 0.08) {
+    controller.setHoldWheelCount(0);
+    stickySequenceWheelDelta = 0;
+    return;
+  }
   /* 섹션 초기 진입 구간(progress < 0.64)은 자연 스크롤 허용 — 진입 스냅 튕김 방지 */
   const shouldControl =
     (rawGoingDown && progress >= holdProgress - 0.08 && progress < 0.98) ||

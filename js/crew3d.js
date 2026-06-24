@@ -69,9 +69,15 @@ function smoothstep(edge0, edge1, x) {
    동물이 브라우저 창 밖에서 진짜 헤엄쳐 들어옴
 --------------------------------------------------------------- */
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1;
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.outputColorSpace = THREE.SRGBColorSpace;
+if (THREE.SRGBColorSpace !== undefined) {
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+} else {
+  renderer.outputEncoding = THREE.sRGBEncoding;
+}
 
 /* 캔버스를 전체화면 fixed overlay로 */
 const crewCanvas = renderer.domElement;

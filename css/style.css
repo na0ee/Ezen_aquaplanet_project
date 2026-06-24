@@ -42,7 +42,7 @@
   /* Typography scale */
   --fs-hero:       128px;
   --fs-eyebrow:     32px;
-  --fs-hero-sub:    32px;
+  --fs-hero-sub:    30px;
   --fs-sec-en:      42px;
   --fs-sec-serif:   48px;
   --fs-creature:    48px;
@@ -984,7 +984,7 @@ body.is-logo-at-header .gnb__logo {
 
 .hero__sub {
   font-family: var(--font-kr);
-  font-weight: 500;
+  font-weight: 300;
   font-size: var(--fs-hero-sub);
   letter-spacing: var(--ls-normal);
   line-height: 1.4;
@@ -1054,7 +1054,7 @@ body.is-logo-at-header .gnb__logo {
 
 #sec-intro .scroll-indicator {
   position: sticky;
-  top: 80vh;
+  top: 70vh;
   left: auto;
   transform: none;
   width: fit-content;
@@ -1530,9 +1530,28 @@ body.is-logo-at-header .gnb__logo {
   bottom: -52px;
   right: 0;
   width: fit-content;
+  min-width: 92px;
+  height: 36px;
+  border: 1.5px solid rgba(255, 255, 255, 0.44);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0.08)),
+    radial-gradient(circle at 22% 18%, rgba(255, 255, 255, 0.36), transparent 34%);
+  color: #fff;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.34),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.08),
+    0 14px 28px rgba(0, 34, 72, 0.18);
+  backdrop-filter: blur(14px) saturate(1.25);
+  -webkit-backdrop-filter: blur(14px) saturate(1.25);
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.25s ease;
+  transition:
+    opacity 0.25s ease,
+    background var(--tr-base),
+    border-color var(--tr-base),
+    color var(--tr-base),
+    transform var(--tr-base),
+    box-shadow var(--tr-base);
   z-index: 4;
 }
 
@@ -1540,6 +1559,19 @@ body.is-logo-at-header .gnb__logo {
   display: flex;
   opacity: 1;
   pointer-events: auto;
+}
+
+.crew-panel-btn:hover,
+.crew-panel-btn:focus-visible {
+  border-color: rgba(255, 255, 255, 0.82);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.72)),
+    radial-gradient(circle at 22% 18%, rgba(255, 255, 255, 0.95), transparent 36%);
+  color: var(--clr-primary);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    0 16px 30px rgba(0, 34, 72, 0.22);
+  transform: translateY(-2px);
 }
 
 /* 진행 점 */
@@ -2416,29 +2448,34 @@ body.is-logo-at-header .gnb__logo {
 
 .section--location .btn-cta--fill-white,
 .section--booking .btn-cta--fill-white {
+  min-width: 92px;
+  height: 36px;
   background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.06));
-  border: 1.5px solid rgba(255, 255, 255, 0.38);
+    linear-gradient(135deg, rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0.08)),
+    radial-gradient(circle at 22% 18%, rgba(255, 255, 255, 0.36), transparent 34%);
+  border: 1.5px solid rgba(255, 255, 255, 0.44);
   color: #fff;
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.34),
     inset 0 -1px 0 rgba(255, 255, 255, 0.08),
-    0 10px 24px rgba(0, 36, 76, 0.16);
-  backdrop-filter: blur(14px) saturate(1.2);
-  -webkit-backdrop-filter: blur(14px) saturate(1.2);
+    0 14px 28px rgba(0, 34, 72, 0.18);
+  backdrop-filter: blur(14px) saturate(1.25);
+  -webkit-backdrop-filter: blur(14px) saturate(1.25);
 }
 
 .section--location .btn-cta--fill-white:hover,
 .section--location .btn-cta--fill-white:focus-visible,
 .section--booking .btn-cta--fill-white:hover,
 .section--booking .btn-cta--fill-white:focus-visible {
-  background: #fff;
-  border-color: #fff;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.72)),
+    radial-gradient(circle at 22% 18%, rgba(255, 255, 255, 0.95), transparent 36%);
+  border-color: rgba(255, 255, 255, 0.82);
   color: var(--clr-primary);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.38),
-    inset 0 -1px 0 rgba(255, 255, 255, 0.12),
-    0 14px 28px rgba(0, 36, 76, 0.22);
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    0 16px 30px rgba(0, 34, 72, 0.22);
+  transform: translateY(-2px);
 }
 
 .location-hover-card__image {
@@ -3072,20 +3109,21 @@ body.is-logo-at-header .gnb__logo {
 
 /* 예매 카드 hover: 버튼 밝기 */
 .booking-card .btn-cta--fill-white {
-  opacity: 0.88;
+  opacity: 1;
   transition:
     opacity var(--tr-base),
     background var(--tr-base),
     color var(--tr-base),
     border-color var(--tr-base),
-    transform var(--tr-base);
+    transform var(--tr-base),
+    box-shadow var(--tr-base);
 }
 .booking-card:hover .btn-cta--fill-white,
 .booking-card .btn-cta--fill-white:hover,
 .booking-card:hover .btn-cta--white,
 .booking-card .btn-cta--white:hover {
   opacity: 1;
-  transform: translateY(-1px);
+  transform: translateY(-2px);
 }
 
 
