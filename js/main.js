@@ -7,6 +7,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   initReveal();
   initGnb();
+  initMobileMenu();
   initScrollIndicator();
   initLogoScrollGate();
   initIntroReveal();
@@ -2488,6 +2489,68 @@ function initCursorWave() {
   }
 
   tick();
+}
+
+
+/* =============================================================
+   MOBILE MENU — 햄버거 토글 (820px 이하 전용)
+   ============================================================= */
+function initMobileMenu() {
+  const hamburger  = document.querySelector('.gnb__hamburger');
+  const mobileMenu = document.querySelector('.gnb__mobile-menu');
+  if (!hamburger || !mobileMenu) return;
+
+  function openMenu() {
+    hamburger.classList.add('is-active');
+    hamburger.setAttribute('aria-expanded', 'true');
+    mobileMenu.classList.add('is-open');
+    mobileMenu.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('mobile-menu-open');
+  }
+
+  function closeMenu() {
+    hamburger.classList.remove('is-active');
+    hamburger.setAttribute('aria-expanded', 'false');
+    mobileMenu.classList.remove('is-open');
+    mobileMenu.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('mobile-menu-open');
+  }
+
+  hamburger.addEventListener('click', () => {
+    hamburger.getAttribute('aria-expanded') === 'true' ? closeMenu() : openMenu();
+  });
+
+  /* 서브메뉴 아코디언 */
+  mobileMenu.querySelectorAll('.gnb__mobile-link--toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.gnb__mobile-item');
+      const isOpen = item.classList.contains('is-open');
+      /* 다른 열린 항목 닫기 */
+      mobileMenu.querySelectorAll('.gnb__mobile-item.is-open').forEach(el => {
+        el.classList.remove('is-open');
+        el.querySelector('.gnb__mobile-link--toggle').setAttribute('aria-expanded', 'false');
+      });
+      if (!isOpen) {
+        item.classList.add('is-open');
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+
+  /* 내부 링크 클릭 시 메뉴 닫기 */
+  mobileMenu.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', closeMenu);
+  });
+
+  /* ESC 키로 닫기 */
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && mobileMenu.classList.contains('is-open')) closeMenu();
+  });
+
+  /* 820px 초과로 리사이즈되면 강제 닫기 */
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 820) closeMenu();
+  });
 }
 
 

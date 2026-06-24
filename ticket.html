@@ -96,6 +96,9 @@
 
     <!-- 배경 그라데이션 레이어 — 스크롤 콘텐츠 전체를 감싸 모든 브라우저(iOS local 버그 포함)에서 정상 렌더 -->
     <div class="ticket-bg">
+      <video class="ticket-bg__video" autoplay muted loop playsinline preload="auto" aria-hidden="true">
+        <source src="assets/images/KakaoTalk_Video_2026-06-13-21-54-21.mp4" type="video/mp4">
+      </video>
 <!--------------------------------------- 티켓구매페이지 - 지점별 ---------------------------------------------->
     <main class="ticket-main">
       <section class="ticket" aria-label="티켓 예매">
@@ -113,16 +116,13 @@
                (--ty 없으면 상단 6~22% 랜덤. --ty 는 작은 거품에만 적용되고 큰 거품은 무시됨) -->
         <div class="ticket__decor" aria-hidden="true">
           <!-- 큰 거품(터짐/생존) — --ty 불필요 -->
-          <span class="deco-bubble" style="--x:20%; --y:26%; --s:120px; --d:8s;"></span>
-          <span class="deco-bubble" style="--x:50%; --y:26%; --s:130px; --d:9s;"></span>
+          <span class="deco-bubble" style="--x:8%; --y:46%; --s:120px; --d:8s;"></span>
           <span class="deco-bubble" style="--x:75%; --y:82%; --s:110px; --d:7s;"></span>
-          <span class="deco-bubble" style="--x:88%; --y:52%; --s:100px; --d:10.5s;"></span>
-          <!-- 일산·제주 사이 -->
-          <span class="deco-bubble" style="--x:38%; --y:58%; --s:70px; --d:9s;"></span>
+          <span class="deco-bubble" style="--x:79%; --y:25%; --s:100px; --d:10.5s;"></span>
           <!-- 작은 거품(떠다니는 장식) — --ty 로 최종 세로 위치 고정 -->
-          <span class="deco-bubble" style="--x:10%; --y:75%; --s:40px; --d:11s;  --ty:16;"></span>
-          <span class="deco-bubble" style="--x:36%; --y:18%; --s:50px; --d:6.5s; --ty:22;"></span>
-          <span class="deco-bubble" style="--x:84%; --y:60%; --s:35px; --d:10.5s; --ty:18;"></span>
+          <span class="deco-bubble" style="--x:10%; --y:75%; --s:40px; --d:11s;  --ty:46;"></span>
+          <span class="deco-bubble" style="--x:73%; --y:55%; --s:50px; --d:6.5s; --ty:40;"></span>
+          <span class="deco-bubble" style="--x:68%; --y:72%; --s:35px; --d:10.5s; --ty:50;"></span>
         </div>
 
         <!-- 지점 버블 + 예매 패널을 함께 중앙 정렬하는 무대 -->
