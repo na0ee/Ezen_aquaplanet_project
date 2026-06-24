@@ -340,6 +340,21 @@
   const gnbLocationItems = document.querySelectorAll('.gnb__dropdown-item[data-location]');
 
   function selectLocation(loc) {
+    const heroLoc = document.getElementById('hero-location');
+    if (heroLoc) heroLoc.textContent = loc;
+
+    LOCATIONS.forEach(name => {
+      const vid = document.getElementById('hero-video-' + name);
+      if (!vid) return;
+      if (name === loc) {
+        vid.hidden = false;
+        vid.play();
+      } else {
+        vid.hidden = true;
+        vid.pause();
+      }
+    });
+
     LOCATIONS.forEach(name => {
       const hidden = name !== loc;
       document
@@ -595,12 +610,14 @@
       if (!card) return;
       const nameEl = card.querySelector('.program-card__title');
       const tagEl  = card.querySelector('.tag');
-      const imgEl  = card.querySelector('.program-card__detail-img');
+      const imgEls = card.querySelectorAll('.program-card__detail-img');
+      const imgSrcs = Array.from(imgEls).map(el => el.getAttribute('src')).filter(Boolean);
       openDetailModal({
         key,
         name:    nameEl ? nameEl.textContent.trim() : '',
         tagText: tagEl  ? tagEl.textContent.trim()  : '',
-        imgSrc:  imgEl  ? imgEl.getAttribute('src') : ''
+        imgSrc:  imgSrcs[0] || '',
+        imgSrcs
       }, guideSection);
     }
   });
@@ -612,6 +629,7 @@
   document.querySelectorAll('.section--guide').forEach(guideSection => {
     const categoryTabs = guideSection.querySelectorAll('.cartegory-tabs-b__item');
     const programCards = guideSection.querySelectorAll('.program-card');
+    const isJeju = guideSection.classList.contains('Jeju');
 
     categoryTabs.forEach((tab, index) => {
       tab.addEventListener('click', function() {
@@ -623,6 +641,11 @@
           const show = !filter || card.querySelector('.' + filter);
           card.style.display = show ? '' : 'none';
         });
+
+        if (isJeju) {
+          const previewEl = document.querySelector('.section--schedule.Jeju .program-preview');
+          if (previewEl && previewEl._jumpToKey) previewEl._jumpToKey('d');
+        }
       });
     });
   });
@@ -641,7 +664,8 @@
         </svg>
       </button>
       <div class="program-detail-modal__img-wrap">
-        <img class="program-detail-modal__img" src="" alt="">
+        <img class="program-detail-modal__img program-detail-modal__img--a active" src="" alt="">
+        <img class="program-detail-modal__img program-detail-modal__img--b" src="" alt="">
       </div>
       <div class="program-detail-modal__body">
         <span class="program-detail-modal__tag tag"></span>
@@ -652,10 +676,13 @@
   `;
   document.body.appendChild(detailOverlay);
 
+  let _detailImgInterval = null;
+
   function openDetailModal(prog, guideSection) {
-    const modalImg     = detailOverlay.querySelector('.program-detail-modal__img');
-    const modalTag     = detailOverlay.querySelector('.program-detail-modal__tag');
-    const modalTitle   = detailOverlay.querySelector('.program-detail-modal__title');
+    const imgA       = detailOverlay.querySelector('.program-detail-modal__img--a');
+    const imgB       = detailOverlay.querySelector('.program-detail-modal__img--b');
+    const modalTag   = detailOverlay.querySelector('.program-detail-modal__tag');
+    const modalTitle = detailOverlay.querySelector('.program-detail-modal__title');
     const modalContent = detailOverlay.querySelector('.program-detail-modal__content');
 
     modalTag.className = 'program-detail-modal__tag tag';
@@ -664,8 +691,24 @@
     else if (prog.tagText === '체험프로그램') modalTag.classList.add('tag--experience');
     modalTag.textContent = prog.tagText;
     modalTitle.textContent = prog.name;
-    modalImg.src = prog.imgSrc || '';
-    modalImg.alt = prog.name;
+
+    const srcs = (prog.imgSrcs && prog.imgSrcs.length) ? prog.imgSrcs : (prog.imgSrc ? [prog.imgSrc] : []);
+    imgA.src = srcs[0] || '';
+    imgA.alt = prog.name;
+    imgB.src = srcs[1] || srcs[0] || '';
+    imgB.alt = prog.name;
+    imgA.classList.add('active');
+    imgB.classList.remove('active');
+
+    if (_detailImgInterval) clearInterval(_detailImgInterval);
+    if (srcs.length >= 2) {
+      let showingA = true;
+      _detailImgInterval = setInterval(() => {
+        showingA = !showingA;
+        imgA.classList.toggle('active', showingA);
+        imgB.classList.toggle('active', !showingA);
+      }, 2000);
+    }
 
     modalContent.innerHTML = '';
     if (guideSection && prog.key) {
@@ -695,6 +738,7 @@
   }
 
   function closeDetailModal() {
+    if (_detailImgInterval) { clearInterval(_detailImgInterval); _detailImgInterval = null; }
     detailOverlay.classList.remove('program-detail-overlay--open');
     document.body.style.overflow = '';
   }
@@ -729,17 +773,20 @@
       const tagEl  = item.querySelector('.tag');
       let imgSrc = '';
 
+      let imgSrcs = [];
       if (guideSection) {
         const card = guideSection.querySelector(`.program-card[data-program="${key}"]`);
-        const img  = card && card.querySelector('.program-card__detail-img');
-        if (img) imgSrc = img.getAttribute('src');
+        const imgs = card && card.querySelectorAll('.program-card__detail-img');
+        if (imgs) imgSrcs = Array.from(imgs).map(el => el.getAttribute('src')).filter(Boolean);
+        if (imgSrcs.length) imgSrc = imgSrcs[0];
       }
 
       programs.push({
         key,
         name:    nameEl ? nameEl.textContent.trim() : '',
         tagText: tagEl  ? tagEl.textContent.trim()  : '',
-        imgSrc
+        imgSrc,
+        imgSrcs
       });
     });
 
@@ -754,7 +801,11 @@
     let carouselPrograms = programs.slice();
     let total = carouselPrograms.length;
     const defaultName = previewEl.dataset.defaultProgram || '';
-    const defaultIdx = defaultName ? carouselPrograms.findIndex(p => p.name === defaultName) : -1;
+    const defaultIdx = defaultName
+      ? (carouselPrograms.findIndex(p => p.key === defaultName) >= 0
+          ? carouselPrograms.findIndex(p => p.key === defaultName)
+          : carouselPrograms.findIndex(p => p.name === defaultName))
+      : -1;
     let currentIndex = defaultIdx >= 0 ? defaultIdx : 0;
     let animating = false;
 
@@ -774,22 +825,47 @@
 
     const TAG_CLASS = { '생태설명회': 'tag--education', '공연프로그램': 'tag--performance', '체험프로그램': 'tag--experience' };
 
+    function startCardImgCycle(card, srcs) {
+      if (card._imgInterval) { clearInterval(card._imgInterval); card._imgInterval = null; }
+      const imgA = card.querySelector('.card-img--a');
+      const imgB = card.querySelector('.card-img--b');
+      if (!imgA || !imgB) return;
+      imgA.classList.add('active');
+      imgB.classList.remove('active');
+      if (srcs.length < 2) return;
+      let showingA = true;
+      card._imgInterval = setInterval(() => {
+        showingA = !showingA;
+        imgA.classList.toggle('active', showingA);
+        imgB.classList.toggle('active', !showingA);
+      }, 2000);
+    }
+
     function makeCard(prog) {
       const div = document.createElement('div');
       div.className = 'program-preview__card';
       const tagCls = TAG_CLASS[prog.tagText] || '';
+      const srcs = (prog.imgSrcs && prog.imgSrcs.length >= 2) ? prog.imgSrcs : [prog.imgSrc || ''];
       div.innerHTML = `
-        <img src="${prog.imgSrc}" alt="${prog.name}">
+        <div class="card-img-wrap">
+          <img class="card-img--a active" src="${srcs[0]}" alt="${prog.name}">
+          <img class="card-img--b" src="${srcs[1] || srcs[0]}" alt="${prog.name}">
+        </div>
         <div class="program-preview__info">
           <span class="program-preview__tag ${tagCls}">${prog.tagText}</span>
           <p class="program-preview__title">${prog.name}</p>
         </div>`;
+      startCardImgCycle(div, srcs);
       return div;
     }
 
     function fillCard(card, prog) {
-      card.querySelector('img').src = prog.imgSrc || '';
-      card.querySelector('img').alt = prog.name;
+      const srcs = (prog.imgSrcs && prog.imgSrcs.length >= 2) ? prog.imgSrcs : [prog.imgSrc || ''];
+      const imgA = card.querySelector('.card-img--a');
+      const imgB = card.querySelector('.card-img--b');
+      if (imgA) { imgA.src = srcs[0]; imgA.alt = prog.name; }
+      if (imgB) { imgB.src = srcs[1] || srcs[0]; imgB.alt = prog.name; }
+      startCardImgCycle(card, srcs);
       const tagEl = card.querySelector('.program-preview__tag');
       tagEl.className = 'program-preview__tag ' + (TAG_CLASS[prog.tagText] || '');
       tagEl.textContent  = prog.tagText;
@@ -1093,12 +1169,25 @@
         : programs.slice();
       if (carouselPrograms.length < 1) carouselPrograms = programs.slice();
       total = carouselPrograms.length;
-      const preferred = defaultName ? carouselPrograms.findIndex(p => p.name === defaultName) : -1;
+      const preferred = defaultName
+        ? (carouselPrograms.findIndex(p => p.key === defaultName) >= 0
+            ? carouselPrograms.findIndex(p => p.key === defaultName)
+            : carouselPrograms.findIndex(p => p.name === defaultName))
+        : -1;
       currentIndex = preferred >= 0 ? preferred : 0;
       animating = false;
       pendingDir = 0;
       buildCarousel();
       startAuto();
+    };
+
+    previewEl._jumpToKey = function(key) {
+      const idx = carouselPrograms.findIndex(p => p.key === key);
+      if (idx < 0 || idx === currentIndex) return;
+      currentIndex = idx;
+      animating = false;
+      pendingDir = 0;
+      buildCarousel();
     };
 
     }); // end previewEls.forEach
@@ -1202,6 +1291,24 @@
     }
     window.addEventListener('resize', updateNavVisibility);
     updateNavVisibility();
+  })();
+
+  // GNB 스크롤 숨김/표시
+  (function() {
+    const gnb = document.getElementById('gnb');
+    if (!gnb) return;
+    const THRESHOLD = window.innerHeight * 0.1;
+    let lastY = 0;
+
+    window.addEventListener('scroll', function() {
+      const currentY = window.scrollY;
+      if (currentY > THRESHOLD && currentY > lastY) {
+        gnb.classList.add('gnb--hidden');
+      } else if (currentY < lastY) {
+        gnb.classList.remove('gnb--hidden');
+      }
+      lastY = currentY;
+    }, { passive: true });
   })();
 
 });

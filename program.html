@@ -11,7 +11,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,500&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="./css/style.css" />
     <link rel="stylesheet" href="./css/program.css" />
     <script src="./js/program.js"></script>
 </head>
@@ -68,11 +67,8 @@
         </a>
 
         <a class="gnb__ticket btn-pill" href="ticket.html" aria-label="티켓 예매">
-          Ticket
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M7 17L17 7M17 7H7M17 7V17" stroke="white" stroke-width="1.5"
-                  stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
+            <p>Ticket</p>
+            <p class="img"><img src="assets/images/ticket_icon_white.svg" alt=""></p>
         </a>
       </div>
     </header>
@@ -80,14 +76,16 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero__bg">
-            <img src="https://www.aquaplanet.co.kr/Upload/pcprogram/JEJU/KOR/img_name_20200113220918733.gif" alt="">
+            <!-- <img src="https://www.aquaplanet.co.kr/Upload/pcprogram/JEJU/KOR/img_name_20200113220918733.gif" alt=""> -->
+            <video id="hero-video-Jeju" src="assets/video/program_Jeju_hero.webm" muted loop playsinline style="width:100%;"></video>
+            <video id="hero-video-Yeosu" src="assets/video/program_Yeosu_hero.webm" muted loop playsinline style="width:100%;" hidden></video>
         </div>
         <div class="hero__content">
             <div class="hero__text">
                 <p class="hero__welcome">Welcome</p>
                 <div class="hero__title-row">
                     <span class="hero__title-main">aqua planet</span>
-                    <span class="hero__title-em">Program</span>
+                    <span class="hero__title-em">Program <span id="hero-location">Jeju</span></span>
                 </div>
                 <p class="hero__sub">제주의 바다를 담은 국내 최대 규모 아쿠아리움</p>
             </div>
@@ -123,12 +121,12 @@
             <div class="cartegory-tabs-b">
                 <button class="cartegory-tabs-b__item cartegory-tabs-b__item--active">전체</button>
                 <button class="cartegory-tabs-b__item">생태설명회</button>
-                <button class="cartegory-tabs-b__item">공연 프로그램</button>
-                <button class="cartegory-tabs-b__item">체험 프로그램</button>
+                <button class="cartegory-tabs-b__item">공연프로그램</button>
+                <button class="cartegory-tabs-b__item">체험프로그램</button>
             </div>
 
             <!-- Program Preview Cards -->
-            <div class="program-preview" data-sw="57">
+            <div class="program-preview" data-sw="57" data-default-program="d">
                 <div class="program-preview__card program-preview__card--side">
                     <img src="https://www.aquaplanet.co.kr/Upload/pcprogram/JEJU/KOR/img_name_20250114170960150.jpg" alt="오션 아레나 특별 공연">
                     <div class="program-preview__info">
@@ -1057,7 +1055,8 @@
                             </div>
                         </div>
                         <!-- 상세 모달 이미지 (이 src만 바꾸면 됨) -->
-                        <img class="program-card__detail-img" src="https://www.aquaplanet.co.kr/Upload/pcprogram/JEJU/KOR/img_name_20250114170960150.jpg" alt="" hidden style="transform: scale(1.15) translateX(-4%) translateY(6%);">
+                        <img class="program-card__detail-img" src="assets/images/Jeju_program_a_1.webp" alt="" hidden>
+                        <img class="program-card__detail-img" src="assets/images/Jeju_program_a_2.webp" alt="" hidden>
                     </div>
                     <div class="program-card__meta">
                         <div class="program-card__duration">
@@ -1461,7 +1460,7 @@
                             </div>
                         </div>
                         <!-- 상세 모달 이미지 (이 src만 바꾸면 됨) -->
-                        <img class="program-card__detail-img" src="assets/images/jejuProgram1.png" alt="" hidden>
+                        <img class="program-card__detail-img" src="https://www.aquaplanet.co.kr/images/common/main_section_04_1.jpg" alt="" hidden>
                     </div>
                     <div class="program-card__meta">
                         <div class="program-card__duration">
