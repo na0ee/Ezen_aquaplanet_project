@@ -58,8 +58,8 @@
       introImage: 'assets/images/locationYeosu_intro_bg_1.jpg',
       quote: '<p><span class="loc-intro__qm">&quot;</span>국내 유일 <strong>벨루가 고래</strong>와 함께하는</p><p>특별한 해양 체험을 만나보세요<span class="loc-intro__qm">&quot;</span></p>',
       description: [
-        '아쿠아플라넷 여수는 GS칼텍스 예울마루 옆에 위치한 대규모 복합 해양문화시설로, 국내 유일의 벨루가(흰 고래)를 보유하고 있습니다.',
-        '오션라이프, 마린라이프, 아쿠아포리스트 등 다양한 테마존으로 구성되어 있으며, 여수 밤바다의 아름다운 풍경과 함께 잊지 못할 해양 체험을 제공합니다.'
+        '아쿠아플라넷 여수는 GS칼텍스 예울마루 옆에 위치한 대규모 복합 해양문화시설로, <br> 국내 유일의 벨루가(흰 고래)를 보유하고 있습니다.',
+        '오션라이프, 마린라이프, 아쿠아포리스트 등 다양한 테마존으로 구성되어 있으며, <br> 여수 밤바다의 아름다운 풍경과 함께 잊지 못할 해양 체험을 제공합니다.'
       ],
       programDescription: '여수의 아름다운 바다와 함께하는 특별한 해양 문화 체험 공간입니다<br><strong>국내 유일 벨루가 고래</strong>와 다양한 해양 생물 전시를 통해 교육과 감동이 함께하는 공간을 제공합니다',
       programs: [
@@ -87,7 +87,7 @@
       introImage: 'assets/images/locationIlsan_intro_bg_1.jpg',
       quote: '<p><span class="loc-intro__qm">&quot;</span>국내에서 처음으로 실내동물원이 결합된</p><p><strong>컨버전스 아쿠아리움</strong>을 만나보세요<span class="loc-intro__qm">&quot;</span></p>',
       description: [
-        '초대형 규모(연면적 1만 4660m², 수조량 4300톤)를 자랑하며 최대 규모 2000톤에 달하는 대형수조를 비롯해 수조 44개, 동물사 9개와 조류방사장 등 관람과 체험을 동시에 즐길 수 있는 도심 속 체험형 복합관람시설입니다.'
+        '초대형 규모(연면적 1만 4660m², 수조량 4300톤)를 자랑하며 <br> 최대 규모 2000톤에 달하는 대형수조를 비롯해 수조 44개, 동물사 9개와 조류방사장 등 <br> 관람과 체험을 동시에 즐길 수 있는 도심 속 체험형 복합관람시설입니다.'
       ],
       programDescription: '도심 가까이에서 바다를 경험할 수 있는 수도권 대표 아쿠아리움입니다<br><strong>국내 유일 바다코끼리</strong>와 다양한 생물 전시를 통해 교육과 체험이 결합된 해양문화공간을 제공합니다',
       programs: [
@@ -117,9 +117,9 @@
       introImage: 'assets/images/locationGwanggyo_intro_bg_1.jpg',
       quote: '<p><span class="loc-intro__qm">&quot;</span>다양한 교육&amp;체험 프로그램과 다양한 공연 등</p><p><strong>환상적인 콘텐츠</strong>를 365일 체험해보세요<span class="loc-intro__qm">&quot;</span></p>',
       description: [
-        '지금까지 경험해보지 못했던 Funny한 체험과 Fantasy한 바닷속 세상, 아쿠아플라넷 광교입니다.',
-        '도심 속 바다에 살고 있는 210여종 30,000마리의 해양 및 육지 생물들을 가장 가까운 거리에서 생생하게 만나보세요.',
-        '빛과 생물이 어우러진, 환상의 아쿠아리움, 아쿠아플라넷 광교에서 바닷속 탐험의 즐거움을 느껴보세요.'
+        '지금까지 경험해보지 못한 Funny한 체험과 Fantasy한 바닷속 세상, 아쿠아플라넷 광교입니다.',
+        '도심 속 바다에 살고 있는 210여종 30,000마리의 해양 및 육지 생물들을 <br> 가장 가까운 거리에서 생생하게 만나보세요.',
+        '빛과 생물이 어우러진, 환상의 아쿠아리움, <br> 아쿠아플라넷 광교에서 바닷속 탐험의 즐거움을 느껴보세요.'
       ],
       programDescription: '쇼핑과 문화, 체험이 결합된 도심형 아쿠아리움입니다<br><strong>생물 관람</strong>뿐 아니라 체험 콘텐츠와 다양한 테마 공간을 통해 새로운 해양문화 경험을 제공합니다',
       programs: [
@@ -194,13 +194,13 @@
       if (link) link.href = 'program.html?loc=' + page.en;
     });
 
-    var tabs = document.querySelector('.loc-map__floor-tabs');
-    if (tabs) {
+    /* solo + exhibits 두 섹션의 floor-tabs 모두 갱신 */
+    document.querySelectorAll('.loc-map__floor-tabs').forEach(function (tabs) {
       tabs.innerHTML = page.floors.map(function (floor) {
         var active = floor === page.defaultFloor;
         return '<button class="loc-map__floor-tab' + (active ? ' is-active' : '') + '" role="tab" data-floor="' + floor + '" aria-selected="' + (active ? 'true' : 'false') + '">' + floor + '</button>';
       }).join('');
-    }
+    });
 
     var mapSection = document.querySelector('.loc-map');
     var mapHint = document.querySelector('.loc-map__hint');
@@ -221,13 +221,41 @@
   applyLocationPage();
 
   /* ================================================================
-     스크롤 인디케이터 — loc-intro 섹션으로 이동
+     Hero ↔ Intro 스크롤 전환 애니메이션
+     - 스크롤 시 hero__content 위로 페이드아웃
+     - 동시에 intro__content 아래에서 페이드인
      ================================================================ */
+  var heroWrap    = document.querySelector('.loc-sticky-wrap');
+  var heroContent = document.querySelector('.loc-hero__content');
+  var introContent = document.querySelector('.loc-intro__content');
+  var HERO_ZONE   = 500; /* 전환 완료까지 스크롤 거리(px) */
+
+  function updateHeroTransition() {
+    if (!heroWrap || !heroContent || !introContent) return;
+    if (window.matchMedia('(max-width: 820px)').matches) {
+      heroContent.style.opacity   = '';
+      heroContent.style.transform = '';
+      return;
+    }
+    var top      = heroWrap.getBoundingClientRect().top;
+    var progress = Math.max(0, Math.min(1, -top / HERO_ZONE));
+
+    /* hero content: 페이드아웃 + 위로 이동 */
+    heroContent.style.opacity   = Math.max(0, 1 - progress * 2.5).toFixed(3);
+    heroContent.style.transform = 'translateY(' + (-60 * progress).toFixed(1) + 'px)';
+
+    /* intro content: 페이드인 + 아래서 위로 (progress 0.25 이후 시작) */
+    var ip = Math.max(0, (progress - 0.25) / 0.75);
+    introContent.style.opacity      = ip.toFixed(3);
+    introContent.style.transform    = 'translate(-50%, calc(-50% + ' + (40 * (1 - ip)).toFixed(1) + 'px))';
+    introContent.style.pointerEvents = ip > 0.5 ? 'auto' : 'none';
+  }
+
+  /* 스크롤 인디케이터 클릭 → 전환 구간만큼 스크롤 */
   var scrollBtn = document.querySelector('.loc-scroll');
   if (scrollBtn) {
     scrollBtn.addEventListener('click', function () {
-      var target = document.querySelector('.loc-intro');
-      if (target) target.scrollIntoView({ behavior: 'smooth' });
+      window.scrollTo({ top: HERO_ZONE, behavior: 'smooth' });
     });
   }
 
@@ -285,11 +313,15 @@
      Guide Map — 제주 층 전환 / 공통 버블 인터랙션
      모든 층은 아래 데이터와 BUBBLE_LAYOUT 한 곳에서 생성·배치됩니다.
      ================================================================ */
-  var mapSection = document.querySelector('.loc-map');
-  var mapWrap     = document.querySelector('.loc-map-wrap');
+  /* exhibits 섹션을 기준으로 모든 인터랙션 처리 */
+  var mapSection  = document.querySelector('.loc-map--exhibits');
+  var soloSection = document.querySelector('.loc-map--solo');
+  var soloWrapEl  = document.querySelector('.loc-map-wrap--solo');
+  var soloImg     = document.getElementById('loc-map-img-solo');
+  var soloMarkersEl = document.getElementById('loc-map-markers-solo');
   var mapImg      = document.getElementById('loc-map-img');
-  var markerWrap  = document.querySelector('.loc-map__markers');
-  var bubbleWrap  = document.querySelector('.loc-map__bubbles');
+  var markerWrap  = mapSection ? mapSection.querySelector('.loc-map__markers') : null;
+  var bubbleWrap  = mapSection ? mapSection.querySelector('.loc-map__bubbles')  : null;
   var floorTabs   = Array.from(document.querySelectorAll('.loc-map__floor-tab'));
   var detailEl    = document.getElementById('loc-map-detail');
   var closeBtn    = document.getElementById('loc-map-close');
@@ -583,20 +615,34 @@
   /* leftOffset: 맵 우측 기준 상대값 (slot2=0, slot1/3=+120, slot0/4=+270)
      hover 맵 우측 = innerWidth/2 + 294, Figma 기준 gap = 190px */
   var BUBBLE_LAYOUT = [
-    { leftOffset: 270, top: 470,  size: 120 },
-    { leftOffset: 120, top: 680,  size: 160 },
-    { leftOffset:   0, top: 910,  size: 190 },
-    { leftOffset: 120, top: 1175, size: 160 },
-    { leftOffset: 270, top: 1412, size: 120 }
+    { leftOffset: 230, top: 510,  size: 108 },
+    { leftOffset: 100, top: 669,  size: 130 },
+    { leftOffset:   0, top: 844,  size: 155 },
+    { leftOffset: 100, top: 1040, size: 130 },
+    { leftOffset: 230, top: 1210, size: 108 }
   ];
 
+  /* 뷰포트 너비 기준 맵 스케일 계산
+     맵(924) + gap(80) + 버블컬럼(390) = 1394px → 최소 필요 너비 */
+  function getMapScale() {
+    return Math.min(1, window.innerWidth / 1394);
+  }
+
+  function updateMapScale() {
+    var s = getMapScale().toFixed(4);
+    if (mapSection)  mapSection.style.setProperty('--map-s', s);
+    if (soloSection) soloSection.style.setProperty('--map-s', s);
+  }
+
   function getBubbleLayout(index) {
+    var s   = getMapScale();
     var rel = BUBBLE_LAYOUT[index];
-    var baseLeft = window.innerWidth / 2 + 294 + 190;
+    /* 버블 좌표계: .loc-exhibits__bubble-side 기준 (top-left = 0,0)
+       leftOffset: 버블 컬럼 내 x, top - 470: 컬럼 상단(슬롯0 위치) 기준 y */
     return {
-      left: Math.round(baseLeft + rel.leftOffset),
-      top:  rel.top,
-      size: rel.size
+      left: Math.round(rel.leftOffset * s),
+      top:  Math.round((rel.top - 470) * s),
+      size: Math.round(rel.size * s)
     };
   }
 
@@ -694,22 +740,39 @@
                    : isGwanggyo ? GWANGGYO_ZONE_LABELS
                    : ZONE_LABELS;
     var positions  = markerData[floor] || [];
-    markerWrap.replaceChildren();
-    positions.forEach(function (position) {
-      var marker = document.createElement('button');
-      marker.type = 'button';
-      marker.className = 'loc-map__marker';
-      marker.dataset.zone = position.zone;
-      marker.style.left = position.left + 'px';
-      marker.style.top = position.top + 'px';
-      marker.textContent = position.zone;
-      marker.setAttribute('aria-label', position.zone + '구역 ' + (labels[position.zone] || '') + ' 보기');
-      marker.addEventListener('click', function () {
-        mapSection.classList.add('is-hovering');
-        renderZone(position.zone, true);
+
+    /* Exhibits 마커: 클릭 시 해당 존 버블 표시 */
+    if (markerWrap) {
+      markerWrap.replaceChildren();
+      positions.forEach(function (position) {
+        var marker = document.createElement('button');
+        marker.type = 'button';
+        marker.className = 'loc-map__marker';
+        marker.dataset.zone = position.zone;
+        marker.style.left = position.left + 'px';
+        marker.style.top = position.top + 'px';
+        marker.textContent = position.zone;
+        marker.setAttribute('aria-label', position.zone + '구역 ' + (labels[position.zone] || '') + ' 보기');
+        marker.addEventListener('click', function () {
+          renderZone(position.zone, true);
+        });
+        markerWrap.appendChild(marker);
       });
-      markerWrap.appendChild(marker);
-    });
+    }
+
+    /* Solo 마커: 시각적 표시만 (클릭 없음) */
+    if (soloMarkersEl) {
+      soloMarkersEl.replaceChildren();
+      positions.forEach(function (position) {
+        var marker = document.createElement('div');
+        marker.className = 'loc-map__marker';
+        marker.dataset.zone = position.zone;
+        marker.style.left = position.left + 'px';
+        marker.style.top = position.top + 'px';
+        marker.textContent = position.zone;
+        soloMarkersEl.appendChild(marker);
+      });
+    }
   }
 
   function renderFloor(floor) {
@@ -735,13 +798,20 @@
                     : DEFAULT_ZONE[floor];
     renderZone(defaultZone, false);
 
+    var locationName = isIlsan ? '일산' : isYeosu ? '여수' : isGwanggyo ? '광교' : '제주';
     if (mapImg) {
-      var locationName = isIlsan ? '일산' : isYeosu ? '여수' : isGwanggyo ? '광교' : '제주';
       mapImg.src = ACTIVE_MAPS[floor];
       mapImg.alt = '아쿠아플라넷 ' + locationName + ' 가이드 맵 ' + floor;
       mapImg.style.transform = (isGwanggyo && floor === 'B2F') ? 'rotate(180deg)' : '';
     }
-    if (mapSection) mapSection.dataset.floor = floor;
+    /* Solo 섹션 맵 이미지도 동기화 */
+    if (soloImg) {
+      soloImg.src = ACTIVE_MAPS[floor];
+      soloImg.alt = '아쿠아플라넷 ' + locationName + ' 가이드 맵 ' + floor;
+      soloImg.style.transform = (isGwanggyo && floor === 'B2F') ? 'rotate(180deg)' : '';
+    }
+    if (mapSection)  mapSection.dataset.floor  = floor;
+    if (soloSection) soloSection.dataset.floor = floor;
     floorTabs.forEach(function (tab) {
       var active = tab.dataset.floor === floor;
       tab.classList.toggle('is-active', active);
@@ -750,26 +820,96 @@
   }
 
   function updateMapPin() {
-    if (!mapWrap || !mapSection) return;
-    /* 모바일에서는 sticky 해제 → 클래스 제거만 하고 종료 */
+    /* 모바일 전용: sticky 해제된 상태에서 is-visible 제거 */
+    if (!mapSection) return;
     if (window.matchMedia('(max-width: 820px)').matches) {
-      mapSection.classList.remove('is-hovering');
-      return;
+      mapSection.classList.remove('is-visible');
     }
-    var wrapTop   = mapWrap.getBoundingClientRect().top;
-    var stickyTop = window.innerHeight / 2 - 1011;
-    if (wrapTop <= stickyTop) mapSection.classList.add('is-hovering');
-    else mapSection.classList.remove('is-hovering', 'has-detail');
   }
 
-  window.addEventListener('scroll', updateMapPin, { passive: true });
+  /* solo → exhibits 스크롤 전환 애니메이션
+     solo 섹션 sticky가 끝나기 전 ZONE px 구간에서 crossfade + 맵 이동 */
+  var soloStageEl = soloSection ? soloSection.querySelector('.loc-map__stage') : null;
+
+  function updateSoloExhibitsTransition() {
+    if (!soloSection || !mapSection || !soloWrapEl) return;
+    if (window.matchMedia('(max-width: 820px)').matches) {
+      soloSection.style.opacity       = '';
+      soloSection.style.pointerEvents = '';
+      if (soloStageEl) soloStageEl.style.transform = '';
+      mapSection.style.opacity        = '0';
+      mapSection.style.pointerEvents  = 'none';
+      return;
+    }
+
+    var s    = getMapScale();
+    var vh   = window.innerHeight;
+    var ZONE = 480; /* 전환 구간 (px) */
+
+    /* soloWrap.bottom 이 vh 에 가까워질수록 progress → 1
+       solo sticky 종료 시점 = soloWrap.bottom == vh */
+    var sBottom  = soloWrapEl.getBoundingClientRect().bottom;
+    var progress = Math.max(0, Math.min(1, 1 - (sBottom - vh) / ZONE));
+
+    if (progress <= 0) {
+      /* 전환 전: solo 완전 표시, exhibits 숨김 */
+      soloSection.style.opacity      = '';
+      soloSection.style.pointerEvents = '';
+      if (soloStageEl) soloStageEl.style.transform = '';
+      mapSection.style.opacity       = '0';
+      mapSection.style.pointerEvents = 'none';
+      mapSection.classList.remove('is-visible', 'has-detail');
+
+    } else if (progress >= 1) {
+      /* 전환 완료: solo 숨김, exhibits 완전 표시 */
+      soloSection.style.opacity      = '0';
+      soloSection.style.pointerEvents = 'none';
+      if (soloStageEl) soloStageEl.style.transform = '';
+      mapSection.style.opacity       = '1';
+      mapSection.style.pointerEvents = '';
+      mapSection.classList.add('is-visible');
+
+    } else {
+      /* 전환 중: solo 맵이 exhibits 위치로 이동하며 페이드아웃
+         exhibits는 후반부(progress > 0.5)부터 페이드인 */
+      soloSection.style.opacity      = Math.max(0, 1 - progress * 1.8).toFixed(3);
+      soloSection.style.pointerEvents = 'none';
+
+      /* solo 맵: scale 0.8→0.7, 중앙→exhibits 맵 위치(-235*s) */
+      if (soloStageEl) {
+        var sc   = (0.56 - 0.07 * progress) * s;
+        var xOff = (-235 * s * progress).toFixed(2);
+        soloStageEl.style.transform =
+          'translate(calc(-50% + ' + xOff + 'px), -50%) scale(' + sc.toFixed(4) + ')';
+      }
+
+      var exProg = Math.max(0, (progress - 0.5) * 2);
+      mapSection.style.opacity       = exProg.toFixed(3);
+      mapSection.style.pointerEvents = 'none';
+      mapSection.classList.remove('is-visible', 'has-detail');
+    }
+  }
+
+  var rafPending = false;
+  window.addEventListener('scroll', function () {
+    if (rafPending) return;
+    rafPending = true;
+    requestAnimationFrame(function () {
+      rafPending = false;
+      updateHeroTransition();
+      updateMapPin();
+      updateSoloExhibitsTransition();
+    });
+  }, { passive: true });
 
   function repositionBubbles() {
     mapBubbles.forEach(function (bubble) {
       var slotIndex = parseInt(bubble.style.getPropertyValue('--bubble-index'), 10);
       if (isNaN(slotIndex)) return;
       var layout = getBubbleLayout(slotIndex);
-      bubble.style.left = layout.left + 'px';
+      bubble.style.left  = layout.left + 'px';
+      bubble.style.top   = layout.top  + 'px';
+      bubble.style.width = layout.size + 'px';
     });
   }
 
@@ -777,7 +917,11 @@
   window.addEventListener('resize', function () {
     if (window.matchMedia('(max-width: 820px)').matches) return;
     clearTimeout(bubbleResizeTimer);
-    bubbleResizeTimer = setTimeout(repositionBubbles, 150);
+    bubbleResizeTimer = setTimeout(function () {
+      updateMapScale();
+      repositionBubbles();
+      updateSoloExhibitsTransition();
+    }, 150);
   }, { passive: true });
 
   if (mapSection && bubbleWrap) {
@@ -903,7 +1047,7 @@
         img.src = data.image;
         img.alt = data.name;
 
-        mapSection.classList.add('is-hovering', 'has-detail');
+        mapSection.classList.add('has-detail');
         isOrbiting = false;
       }, TOTAL);
     }
@@ -963,8 +1107,11 @@
       });
     });
 
+    updateMapScale();
     renderFloor(currentFloor);
+    updateHeroTransition();
     updateMapPin();
+    updateSoloExhibitsTransition();
   }
 
 }());
