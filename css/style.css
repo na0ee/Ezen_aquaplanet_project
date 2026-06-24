@@ -732,6 +732,11 @@ button {
   transform: translate(-50%, -50%);
 }
 
+/* 햄버거 — 모바일에서만 표시 */
+.gnb__hamburger {
+  display: none;
+}
+
 .gnb__logo-center {
   position: absolute;
   left: 50%;
