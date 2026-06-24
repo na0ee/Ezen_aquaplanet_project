@@ -114,7 +114,7 @@ body.oceanfriends-page {
   position: relative;
   background:
     linear-gradient(180deg, rgba(4, 24, 46, 0.22) 0%, rgba(4, 24, 46, 0.10) 28%, rgba(4, 24, 46, 0.18) 58%, rgba(4, 24, 46, 0.34) 100%),
-    url("../assets/images/hero/oceanfriends.png") center top / cover no-repeat;
+    url("../assets/images/hero/oceanfriends.jpeg") center top / cover no-repeat;
   background-attachment: fixed;
   color: #ffffff;
 }
