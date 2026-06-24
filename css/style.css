@@ -8,7 +8,7 @@
    ------------------------------------------------------------- */
 :root {
   /* 3D 로고 비율 — fullLogo.glb 레퍼런스 기준: 심볼 폭 ≈ 텍스트 폭의 0.61 */
-  --logo3d-size: min(130vmin, 1040px);
+  --logo3d-size: min(100vmin, 800px);
   /* 심볼 캔버스 (더 키움) */
   --logo3d-text-w: min(90vmin, 860px);
   /* 글자 캔버스 가로 */
@@ -46,8 +46,8 @@
   --fs-sec-en:      42px;
   --fs-sec-serif:   48px;
   --fs-creature:    48px;
-  --fs-nav:         22px;
-  --fs-nav-active:  25px;
+  --fs-nav:         16px;
+  --fs-nav-active:  18px;
   --fs-caption:     20px;
   --fs-sub:         18px;
   --fs-body:        16px;
@@ -1893,7 +1893,9 @@ body.is-logo-at-header .gnb__logo {
   display: flex;
   flex-wrap: wrap;
   gap: var(--card-gap);
-  width: var(--container-w);
+  width: 956px; /* 440 + 16(gap) + 500 */
+  margin: 0 auto;
+  max-width: calc(100% - 32px);
   isolation: isolate;
 }
 
@@ -2165,13 +2167,13 @@ body.is-logo-at-header .gnb__logo {
 .location-fish-bg {
   position: absolute;
   right: clamp(18px, 4vw, 72px);
-  top: 50%;
+  top: 70%;
   transform: translateY(-50%);
-  width: clamp(420px, 52vw, 900px);
+  width: clamp(260px, 32vw, 560px);
   aspect-ratio: 16 / 9;
   height: auto;
   z-index: 0;
-  opacity: 0.75;
+  opacity: 0.4;
   pointer-events: none;
   display: block;
   object-fit: cover;
@@ -2180,7 +2182,7 @@ body.is-logo-at-header .gnb__logo {
 .location-fish-bg--left {
   right: auto;
   left: clamp(18px, 4vw, 72px);
-  top: 20%;
+  top: 50%;
   transform: translateY(-50%) scaleX(-1);
 }
 
@@ -2881,7 +2883,7 @@ body.is-logo-at-header .gnb__logo {
   position: relative;
   font-family: var(--font-en);
   font-weight: 400;
-  font-size: 24px;
+  font-size: 16px;
   line-height: 1.2;
   letter-spacing: 0;
   color: rgba(255, 255, 255, 0.82);
@@ -3913,9 +3915,9 @@ body.ticket-open {
 
 /* 지점별 위치 + 강약 (크기·불투명도·그림자로 원근감 표현) */
 .ticket-spot--ilsan {
-  left: 19%;
+  left: 15%;
   top: 46%;
-  width: clamp(250px, 32vw, 580px);
+  width: clamp(220px, 28vw, 500px);
 }
 .ticket-spot--ilsan .ticket-spot__bubble {
   filter: drop-shadow(0 20px 56px rgba(0, 60, 110, 0.36));
@@ -3931,8 +3933,8 @@ body.ticket-open {
 }
 
 .ticket-spot--jeju {
-  left: 55%;
-  top: 55%;
+  left: 50%;
+  top: 57%;
   width: clamp(175px, 21vw, 385px);
 }
 .ticket-spot--jeju .ticket-spot__bubble {
