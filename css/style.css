@@ -327,7 +327,6 @@ button {
   -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 38%, black 100%);
 }
 
-
 /* -------------------------------------------------------------
    4. GLASS CARD
    ------------------------------------------------------------- */
@@ -2817,6 +2816,7 @@ body.is-logo-at-header .gnb__logo {
   overflow: hidden;
 }
 
+
 .footer__inner {
   position: relative;
   z-index: 1600;
@@ -4025,7 +4025,7 @@ body.ticket-open {
 
 .ticket.is-selected .ticket-spot.is-top.slot-1 {
   left: 20% !important;
-  top: -7% !important;
+  top: 7% !important;
 }
 
 .ticket.is-selected .ticket-spot.is-top.slot-2 {

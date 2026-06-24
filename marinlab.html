@@ -57,69 +57,7 @@
     </div>
   </header>
 
-
-  <main class="marin-shell">
-    <div class="marin-stage" aria-label="Marin Lab Rescue and Care page">
-      <nav class="marin-node m-pill-tabs" aria-label="Marin Lab 활동 카테고리">
-        <button class="m-pill m-pill--active" type="button" data-marin-view="rescue">Rescue &amp; Care</button>
-        <button class="m-pill" type="button" data-marin-view="conservation">Conservation</button>
-      </nav>
-
-      <section class="marin-node m-conservation-view" aria-label="Conservation activities">
-        <section class="m-cons-video-hero" aria-label="Conservation hero video">
-          <video class="m-cons-video-hero__video" autoplay muted loop playsinline poster="assets/images/conservation.gif">
-            <source src="assets/images/conservation.mp4" type="video/mp4">
-          </video>
-          <img class="m-cons-video-hero__fallback" src="assets/images/conservation.gif" alt="">
-          <div class="m-cons-video-hero__shade" aria-hidden="true"></div>
-          <div class="m-cons-video-hero__text">
-            <p>Welcome</p>
-            <h1><span>aqua planet</span><em>Marin Lab</em></h1>
-          </div>
-        </section>
-
-        <section class="m-cons-orbit" id="cons-orbit" aria-label="Conservation Activities">
-          <div class="m-cons-orbit-pin" id="cons-orbit-pin">
-            <div class="m-cons-orbit-stage m-cons-orbit-stage--1" id="cons-orbit-stage-1">
-              <h1 class="m-fig-title__main">
-                <span class="m-fig-title__serif">Conservation</span><span class="m-fig-title__plain"> Activities</span>
-              </h1>
-              <p class="m-fig-title__sub">바다와 생명을 지키는 지속적인 노력</p>
-            </div>
-            <p class="m-cons-orbit-stage m-cons-orbit-stage--2" id="cons-orbit-stage-2">
-              아쿠아플라넷은 <strong>해양수산부 지정 서식지외보전기관</strong>으로서<br>
-              <strong>해양생물의 보호와 증식을 위한 연구</strong>를 수행합니다
-            </p>
-            <p class="m-cons-orbit-hint" id="cons-orbit-hint">원을 클릭해 더 알아보세요</p>
-
-            <div class="m-cons-orbit-field" id="cons-orbit-field">
-              <button class="m-cons-orb" type="button" data-category="whale" aria-label="고래류 자세히 보기">
-                <span class="m-cons-orb__circle"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_01_01.png" alt=""></span>
-              </button>
-              <button class="m-cons-orb" type="button" data-category="pinniped" aria-label="기각류 자세히 보기">
-                <span class="m-cons-orb__circle"><img src="assets/images/sec.aboutus/marinlab/sec.aboutus/marinlab/hmbrc_pre_02_03 1.png" alt=""></span>
-              </button>
-              <button class="m-cons-orb" type="button" data-category="otter" aria-label="수달 자세히 보기">
-                <span class="m-cons-orb__circle"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_03_01.png" alt=""></span>
-              </button>
-              <button class="m-cons-orb" type="button" data-category="penguin" aria-label="펭귄류 자세히 보기">
-                <span class="m-cons-orb__circle"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_04_01.png" alt=""></span>
-              </button>
-              <button class="m-cons-orb" type="button" data-category="turtle" aria-label="바다거북 자세히 보기">
-                <span class="m-cons-orb__circle"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_05_01.png" alt=""></span>
-              </button>
-              <button class="m-cons-orb" type="button" data-category="seahorse" aria-label="해마와 해룡 자세히 보기">
-                <span class="m-cons-orb__circle"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_06_01.png" alt=""></span>
-              </button>
-              <button class="m-cons-orb" type="button" data-category="shark" aria-label="상어류 자세히 보기">
-                <span class="m-cons-orb__circle"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_07_01.png" alt=""></span>
-              </button>
-            </div>
-          </div>
-        </section>
-      </section>
-
-  <main>
+  <main data-marin-rescue>
     <section class="hero" aria-label="Marin Lab 소개">
       <img class="hero__media" src="assets/images/locationJeju_hero.gif" alt="">
       <div class="hero__content">
@@ -140,8 +78,8 @@
     <section class="rescue" id="rescue" aria-label="Rescue and Care">
       <div class="tabs" aria-label="Marin Lab 활동 카테고리">
         <div class="tabs__inner">
-          <button class="tab is-active" type="button">Rescue &amp; Care</button>
-          <button class="tab" type="button">Conservation</button>
+          <button class="tab is-active" type="button" data-marin-view="rescue">Rescue &amp; Care</button>
+          <button class="tab" type="button" data-marin-view="conservation">Conservation</button>
         </div>
       </div>
 
@@ -273,13 +211,74 @@
             </div>
           </article>
 
-
           <div class="case-dots" data-case-dots role="tablist" aria-label="구조일지 페이지"></div>
         </div>
       </section>
     </section>
   </main>
 
+  <main class="marin-shell marin-shell--conservation" data-marin-conservation hidden>
+    <div class="marin-stage" aria-label="Marin Lab Conservation page">
+      <nav class="marin-node m-pill-tabs" aria-label="Marin Lab 활동 카테고리">
+        <button class="m-pill" type="button" data-marin-view="rescue">Rescue &amp; Care</button>
+        <button class="m-pill m-pill--active" type="button" data-marin-view="conservation">Conservation</button>
+      </nav>
+
+      <section class="marin-node m-conservation-view" aria-label="Conservation activities">
+        <section class="m-cons-video-hero" aria-label="Conservation hero video">
+          <video class="m-cons-video-hero__video" autoplay muted loop playsinline poster="assets/images/conservation.gif">
+            <source src="assets/images/conservation.mp4" type="video/mp4">
+          </video>
+          <img class="m-cons-video-hero__fallback" src="assets/images/conservation.gif" alt="">
+          <div class="m-cons-video-hero__shade" aria-hidden="true"></div>
+          <div class="m-cons-video-hero__text">
+            <p>Welcome</p>
+            <h1><span>aqua planet</span><em>Marin Lab</em></h1>
+          </div>
+        </section>
+
+        <section class="m-cons-orbit" id="cons-orbit" aria-label="Conservation Activities">
+          <div class="m-cons-orbit-pin" id="cons-orbit-pin">
+            <div class="m-cons-orbit-stage m-cons-orbit-stage--1" id="cons-orbit-stage-1">
+              <h1 class="m-fig-title__main">
+                <span class="m-fig-title__serif">Conservation</span><span class="m-fig-title__plain"> Activities</span>
+              </h1>
+              <p class="m-fig-title__sub">바다와 생명을 지키는 지속적인 노력</p>
+            </div>
+            <p class="m-cons-orbit-stage m-cons-orbit-stage--2" id="cons-orbit-stage-2">
+              아쿠아플라넷은 <strong>해양수산부 지정 서식지외보전기관</strong>으로서<br>
+              <strong>해양생물의 보호와 증식을 위한 연구</strong>를 수행합니다
+            </p>
+            <p class="m-cons-orbit-hint" id="cons-orbit-hint">원을 클릭해 더 알아보세요</p>
+
+            <div class="m-cons-orbit-field" id="cons-orbit-field">
+              <button class="m-cons-orb" type="button" data-category="whale" aria-label="고래류 자세히 보기">
+                <span class="m-cons-orb__circle"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_01_01.png" alt=""></span>
+              </button>
+              <button class="m-cons-orb" type="button" data-category="pinniped" aria-label="기각류 자세히 보기">
+                <span class="m-cons-orb__circle"><img src="assets/images/sec.aboutus/marinlab/sec.aboutus/marinlab/hmbrc_pre_02_03 1.png" alt=""></span>
+              </button>
+              <button class="m-cons-orb" type="button" data-category="otter" aria-label="수달 자세히 보기">
+                <span class="m-cons-orb__circle"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_03_01.png" alt=""></span>
+              </button>
+              <button class="m-cons-orb" type="button" data-category="penguin" aria-label="펭귄류 자세히 보기">
+                <span class="m-cons-orb__circle"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_04_01.png" alt=""></span>
+              </button>
+              <button class="m-cons-orb" type="button" data-category="turtle" aria-label="바다거북 자세히 보기">
+                <span class="m-cons-orb__circle"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_05_01.png" alt=""></span>
+              </button>
+              <button class="m-cons-orb" type="button" data-category="seahorse" aria-label="해마와 해룡 자세히 보기">
+                <span class="m-cons-orb__circle"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_06_01.png" alt=""></span>
+              </button>
+              <button class="m-cons-orb" type="button" data-category="shark" aria-label="상어류 자세히 보기">
+                <span class="m-cons-orb__circle"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_07_01.png" alt=""></span>
+              </button>
+            </div>
+          </div>
+        </section>
+      </section>
+    </div>
+  </main>
 
   <div class="m-cons-card-overlay" id="cons-card-overlay" aria-hidden="true">
     <button class="m-cons-card-overlay__close" type="button" id="cons-card-overlay-close" aria-label="닫기">&times;</button>
@@ -441,49 +440,63 @@
     </div>
   </div>
 
-  <footer id="footer" class="footer">
-    <div class="footer__inner">
-      <nav class="footer__nav" aria-label="푸터 메뉴">
-        <a href="program.html" class="footer__link">Program</a>
-        <a href="Oceanfriends.html" class="footer__link">Ocean friends</a>
-        <a href="location.html" class="footer__link">About us</a>
-        <a href="location.html" class="footer__link">Location</a>
-        <a href="ticket.html" class="footer__link">Ticket</a>
-      </nav>
-
-      <div class="footer__brand">
-        <div class="footer__socials" aria-label="소셜 링크">
-          <a href="https://www.instagram.com/aquaplanet_official" class="footer__social" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <rect x="4" y="4" width="16" height="16" rx="5"></rect>
-              <circle cx="12" cy="12" r="3.4"></circle>
-              <circle cx="17.2" cy="6.8" r="1"></circle>
-            </svg>
-          </a>
-          <a href="https://www.youtube.com/@aquaplanetstory" class="footer__social" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M5.2 7.2C5.6 6.5 6.3 6 7.1 5.9C8.4 5.7 10.5 5.6 12 5.6C13.5 5.6 15.6 5.7 16.9 5.9C17.7 6 18.4 6.5 18.8 7.2C19.2 8.1 19.4 10.2 19.4 12C19.4 13.8 19.2 15.9 18.8 16.8C18.4 17.5 17.7 18 16.9 18.1C15.6 18.3 13.5 18.4 12 18.4C10.5 18.4 8.4 18.3 7.1 18.1C6.3 18 5.6 17.5 5.2 16.8C4.8 15.9 4.6 13.8 4.6 12C4.6 10.2 4.8 8.1 5.2 7.2Z"></path>
-              <path d="M10.4 9.3L14.7 12L10.4 14.7V9.3Z" class="footer__social-play"></path>
-            </svg>
-          </a>
-          <a href="https://www.aquaplanet.co.kr/index.html" class="footer__social" target="_blank" rel="noopener noreferrer" aria-label="Google">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M19.6 12.2C19.6 11.6 19.5 11.1 19.4 10.6H12.2V13.5H16.3C16.1 14.5 15.5 15.3 14.7 15.8V17.7H17.2C18.7 16.4 19.6 14.5 19.6 12.2Z"></path>
-              <path d="M12.2 19.7C14.3 19.7 16.1 19 17.2 17.7L14.7 15.8C14 16.3 13.1 16.6 12.2 16.6C10.2 16.6 8.5 15.2 7.9 13.4H5.3V15.3C6.5 17.9 9.1 19.7 12.2 19.7Z"></path>
-              <path d="M7.9 13.4C7.7 12.9 7.6 12.5 7.6 12C7.6 11.5 7.7 11.1 7.9 10.6V8.7H5.3C4.8 9.7 4.5 10.8 4.5 12C4.5 13.2 4.8 14.3 5.3 15.3L7.9 13.4Z"></path>
-              <path d="M12.2 7.4C13.3 7.4 14.4 7.8 15.2 8.6L17.3 6.5C16 5.3 14.3 4.6 12.2 4.6C9.1 4.6 6.5 6.3 5.3 8.7L7.9 10.6C8.5 8.8 10.2 7.4 12.2 7.4Z"></path>
-            </svg>
-          </a>
-        </div>
-        <p class="footer__copy">Aqua Planet. ©2026 All rights reserved.</p>
-      </div>
-    </div>
-  </footer>
-
-  <div id="custom-cursor" aria-hidden="true"></div>
-
-  <script src="js/gnb-scroll.js"></script>
   <script src="js/conservation-orbit.js"></script>
+  <script>
+    (function () {
+      const rescueMain = document.querySelector('[data-marin-rescue]');
+      const conservationMain = document.querySelector('[data-marin-conservation]');
+      const viewTabs = Array.from(document.querySelectorAll('[data-marin-view]'));
+      let currentView = 'rescue';
+
+      function getConservationScale() {
+        return window.innerWidth / 1920;
+      }
+
+      function resizeConservation() {
+        const scale = getConservationScale();
+        document.documentElement.style.setProperty('--marin-scale', scale.toFixed(6));
+        if (conservationMain) {
+          conservationMain.style.height = (9480 * scale) + 'px';
+        }
+      }
+
+      function setView(view) {
+        currentView = view === 'conservation' ? 'conservation' : 'rescue';
+        const isConservation = currentView === 'conservation';
+
+        resizeConservation();
+        if (rescueMain) rescueMain.hidden = isConservation;
+        if (conservationMain) conservationMain.hidden = !isConservation;
+        document.body.classList.toggle('marin-view-conservation', isConservation);
+
+        viewTabs.forEach((tab) => {
+          const active = tab.getAttribute('data-marin-view') === currentView;
+          tab.classList.toggle('is-active', active);
+          tab.classList.toggle('m-pill--active', active);
+          tab.setAttribute('aria-selected', String(active));
+        });
+
+        if (isConservation) {
+          if (window.initConservationOrbit) window.initConservationOrbit();
+        } else if (window.destroyConservationOrbit) {
+          window.destroyConservationOrbit();
+        }
+      }
+
+      viewTabs.forEach((tab) => {
+        tab.addEventListener('click', () => setView(tab.getAttribute('data-marin-view')));
+      });
+
+      window.addEventListener('resize', () => {
+        resizeConservation();
+        if (currentView === 'conservation' && window.initConservationOrbit) {
+          window.initConservationOrbit();
+        }
+      }, { passive: true });
+
+      setView('rescue');
+    })();
+  </script>
 
   <script>
     const gnb = document.getElementById('pageGnb');
@@ -548,80 +561,6 @@
 
   <script>
     (function () {
-      var stage = document.querySelector('.marin-stage');
-      var shell = document.querySelector('.marin-shell');
-      var viewTabs = Array.from(document.querySelectorAll('[data-marin-view]'));
-      var caseTabs = Array.from(document.querySelectorAll('[data-case-category]'));
-      var heroTitle = document.querySelector('.m-title--hero .m-title__main');
-      var heroSub = document.querySelector('.m-title--hero .m-title__sub');
-      var heroCopy = document.querySelector('.m-hero-copy');
-      var casesTitle = document.querySelector('.m-title--cases .m-title__main');
-      var casesSub = document.querySelector('.m-title--cases .m-title__sub');
-      var casesCopy = document.querySelector('.m-cases-copy');
-      var words = Array.from(document.querySelectorAll('.m-word[data-step]'));
-      var cases = Array.from(document.querySelectorAll('.m-case[data-case]'));
-      var caseImgs = Array.from(document.querySelectorAll('.m-img[data-case-img]'));
-      var currentView = 'rescue';
-      var conservationStageHeight = 9480;
-
-      if (!viewTabs.length) return;
-
-      var rescueSnapshot = {
-        height: 6769,
-        stageLabel: stage ? stage.getAttribute('aria-label') : '',
-        heroTitle: heroTitle ? heroTitle.innerHTML : '',
-        heroSub: heroSub ? heroSub.innerHTML : '',
-        heroCopy: heroCopy ? heroCopy.innerHTML : '',
-        casesTitle: casesTitle ? casesTitle.innerHTML : '',
-        casesSub: casesSub ? casesSub.innerHTML : '',
-        casesCopy: casesCopy ? casesCopy.innerHTML : '',
-        words: words.map(function (node) { return node.innerHTML; }),
-        cases: cases.map(function (node) { return node.innerHTML; }),
-        caseImgs: caseImgs.map(function (node) { return node.innerHTML; }),
-        caseTabs: caseTabs.map(function (node) {
-          return {
-            html: node.innerHTML,
-            category: node.getAttribute('data-case-category'),
-            active: node.classList.contains('m-pill--active')
-          };
-        })
-      };
-
-      function getScale() {
-        var parsed = Number(getComputedStyle(document.documentElement).getPropertyValue('--marin-scale'));
-        return Number.isFinite(parsed) && parsed > 0 ? parsed : window.innerWidth / 1920;
-      }
-
-      function applyHeight(height) {
-        currentStageHeight = height;
-        if (stage) stage.style.height = height + 'px';
-        if (shell) shell.style.height = (height * getScale()) + 'px';
-      }
-
-      function renderRescue() {
-        document.body.classList.remove('marin-view-conservation');
-        if (window.destroyConservationOrbit) window.destroyConservationOrbit();
-        if (stage) stage.setAttribute('aria-label', rescueSnapshot.stageLabel);
-        applyHeight(rescueSnapshot.height);
-      }
-
-      function renderConservation() {
-        document.body.classList.add('marin-view-conservation');
-        if (stage) stage.setAttribute('aria-label', 'Marin Lab Conservation page');
-        applyHeight(conservationStageHeight);
-        if (window.initConservationOrbit) window.initConservationOrbit();
-      }
-
-      function setView(view) {
-        currentView = view === 'conservation' ? 'conservation' : 'rescue';
-        viewTabs.forEach(function (tab) {
-          tab.classList.toggle('m-pill--active', tab.getAttribute('data-marin-view') === currentView);
-        });
-        if (currentView === 'conservation') renderConservation();
-        else renderRescue();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-
       const spotlight = document.querySelector('[data-case-spotlight]');
       if (!spotlight) return;
 
@@ -967,7 +906,6 @@
           return true;
         }
 
-
         isAnimating = true;
         const dir = direction; // 1 = next, -1 = prev
         const dateParts = [yearEl, monthEl, dayEl];
@@ -990,11 +928,6 @@
             cooldownUntil = performance.now() + 20;
           }
         });
-
-
-      window.addEventListener('resize', function () {
-        applyHeight(currentView === 'conservation' ? conservationStageHeight : rescueSnapshot.height);
-      }, { passive: true });
 
         // image: outgoing fades while next fades in, slightly overlapped
         tl.to(prevImg, { opacity: 0, scale: 1.02, duration: 0.28, ease: 'power2.out' }, 0)
@@ -1123,7 +1056,6 @@
       }
 
       window.addEventListener('wheel', handleCaseWheel, { passive: false });
-
     })();
   </script>
 </body>
