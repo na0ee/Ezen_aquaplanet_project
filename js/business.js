@@ -217,7 +217,7 @@
   function update() {
     const rect = section.getBoundingClientRect();
     const startDelay = Math.min(360, window.innerHeight * 0.28);
-    const slideStep = Math.max(360, window.innerHeight * 0.38);
+    const slideStep = Math.max(320, window.innerHeight * 0.34);
 
     if (rect.top > 0 || -rect.top < startDelay) {
       activate(0);
