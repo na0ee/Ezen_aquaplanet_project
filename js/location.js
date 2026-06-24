@@ -124,7 +124,7 @@
       programDescription: '쇼핑과 문화, 체험이 결합된 도심형 아쿠아리움입니다<br><strong>생물 관람</strong>뿐 아니라 체험 콘텐츠와 다양한 테마 공간을 통해 새로운 해양문화 경험을 제공합니다',
       programs: [
         { image: 'assets/images/gwanggyo_guide_map04.jpg', title: "아쿠아플라넷 광교의 마스코트! '펭귄' 생태설명회" },
-        { image: 'assets/images/programIl2.png',           title: '머메이드쇼' }
+        { image: 'assets/images/Gwanggyo_program_e.jpg', title: '머메이드쇼' }
       ],
       floors: ['B1F', 'B2F'],
       defaultFloor: 'B2F',
@@ -219,6 +219,17 @@
   }
 
   applyLocationPage();
+
+  /* ================================================================
+     스크롤 인디케이터 — loc-intro 섹션으로 이동
+     ================================================================ */
+  var scrollBtn = document.querySelector('.loc-scroll');
+  if (scrollBtn) {
+    scrollBtn.addEventListener('click', function () {
+      var target = document.querySelector('.loc-intro');
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+    });
+  }
 
   /* ================================================================
      사이드 내비게이션 스크롤 연동
