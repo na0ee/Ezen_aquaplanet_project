@@ -67,6 +67,7 @@ body {
   font-family: "Pretendard", sans-serif;
   padding-top: 102px;
   min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
 }
 
 .container {

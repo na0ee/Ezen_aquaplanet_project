@@ -84,8 +84,8 @@
 | Hero Title | `clamp(76px, 9vw, 104px)` |
 | Eyebrow | `clamp(22px, 2.8vw, 28px)` |
 | Hero Sub | `clamp(20px, 2.5vw, 24px)` |
-| Section 영문 타이틀 | `clamp(34px, 4.1vw, 40px)` |
-| Section Serif 타이틀 | `clamp(38px, 4.7vw, 46px)` |
+| Section 영문 타이틀 | `clamp(40px, 5vw, 58px)` |
+| Section Serif 타이틀 | `clamp(38px, 4.8vw, 56px)` |
 | 생물/대표 오브젝트 이름 | `clamp(36px, 4.2vw, 44px)` |
 | GNB 메뉴 | `clamp(15px, 1.7vw, 17px)` |
 | 카드 제목 | `17px` |
@@ -191,8 +191,8 @@
 | Hero Title | `clamp(46px, 12.5vw, 72px)` |
 | Eyebrow | `clamp(17px, 4.8vw, 23px)` |
 | Hero Sub | `clamp(14px, 4vw, 19px)` |
-| Section 영문 타이틀 | `clamp(26px, 7vw, 36px)` |
-| Section Serif 타이틀 | `clamp(30px, 8vw, 40px)` |
+| Section 영문 타이틀 | `clamp(28px, 8vw, 44px)` |
+| Section Serif 타이틀 | `clamp(26px, 7.5vw, 42px)` |
 | 생물/대표 오브젝트 이름 | `clamp(26px, 7vw, 36px)` |
 | 카드 제목 | `15px` 기준, 작은 카드는 `13px ~ 14px` |
 | 서브텍스트 | `13px` |

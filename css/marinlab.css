@@ -21,6 +21,7 @@ body {
   color: var(--white);
   font-family: var(--font-kr);
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
 }
 
 a {
