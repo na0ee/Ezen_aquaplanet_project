@@ -27,17 +27,38 @@
   var targetProgress = 0;
   var currentCarouselPosition = 0;
   var targetCarouselPosition = 0;
+  var pinOriginalParent = null;
+  var pinOriginalNextSibling = null;
 
   function clamp01(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
   function lerp(a, b, t) { return a + (b - a) * t; }
   function easeInOut(t) { return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; }
-  function alignToPixel(value) {
-    var ratio = window.devicePixelRatio || 1;
-    return Math.round(value * ratio) / ratio;
-  }
   function getScale() {
     var parsed = Number(getComputedStyle(document.documentElement).getPropertyValue('--marin-scale'));
     return Number.isFinite(parsed) && parsed > 0 ? parsed : window.innerWidth / 1920;
+  }
+
+  function attachFixedPin(pin) {
+    if (!pin) return;
+    if (!pinOriginalParent) {
+      pinOriginalParent = pin.parentNode;
+      pinOriginalNextSibling = pin.nextSibling;
+    }
+    if (pin.parentNode !== document.body) {
+      document.body.appendChild(pin);
+    }
+    pin.classList.add('is-fixed');
+  }
+
+  function restorePin(pin) {
+    if (!pin) return;
+    pin.classList.remove('is-fixed');
+    pin.style.visibility = '';
+    pin.style.pointerEvents = '';
+    pin.style.transform = '';
+    if (pinOriginalParent && pin.parentNode !== pinOriginalParent) {
+      pinOriginalParent.insertBefore(pin, pinOriginalNextSibling);
+    }
   }
 
   function collectOrbs() {
@@ -199,8 +220,10 @@
       currentCarouselPosition = targetCarouselPosition;
     }
 
-    var pinShift = alignToPixel(shiftScreen) / scale;
-    pin.style.transform = 'translate3d(0, ' + pinShift.toFixed(2) + 'px, 0)';
+    var isPinned = rect.top <= 0 && rect.bottom >= 0;
+    pin.style.transform = 'translateX(-50%) scale(' + scale.toFixed(6) + ')';
+    pin.style.visibility = isPinned ? 'visible' : 'hidden';
+    pin.style.pointerEvents = isPinned ? 'auto' : 'none';
     render(currentProgress);
 
     if (
@@ -270,7 +293,12 @@
   }
 
   function initConservationOrbit() {
-    if (!document.getElementById('cons-orbit')) return;
+    var section = document.getElementById('cons-orbit');
+    var pin = document.getElementById('cons-orbit-pin');
+    if (!section || !pin) return;
+    attachFixedPin(pin);
+    pin.style.visibility = 'hidden';
+    pin.style.pointerEvents = 'none';
     collectOrbs();
     bindOnce();
     currentProgress = 0;
@@ -284,9 +312,11 @@
   }
 
   function destroyConservationOrbit() {
+    var pin = document.getElementById('cons-orbit-pin');
     active = false;
     window.removeEventListener('scroll', requestUpdate);
     window.removeEventListener('resize', requestUpdate);
+    restorePin(pin);
     closeCard();
   }
 

@@ -710,9 +710,13 @@ async function initLogo3D() {
      풀스크린 단일 캔버스 — 심볼/텍스트/배경 plane 모두 같은 Three scene
   ============================================================= */
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, premultipliedAlpha: false });
-  renderer.outputColorSpace = THREE.SRGBColorSpace;
-  renderer.toneMapping = THREE.NeutralToneMapping;
-  renderer.toneMappingExposure = 1.25;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1;
+  if (THREE.SRGBColorSpace !== undefined) {
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+  } else {
+    renderer.outputEncoding = THREE.sRGBEncoding;
+  }
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, profile.dprCap));
   renderer.domElement.style.cssText = 'width:100%;height:100%;display:block;';
   wrap.appendChild(renderer.domElement);
