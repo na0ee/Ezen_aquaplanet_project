@@ -3731,6 +3731,7 @@ body.ticket-open {
 
 .ticket-main {
   position: relative;
+  z-index: 1;
 }
 
 /* --- 메인 무대 --- */
@@ -3758,7 +3759,7 @@ body.ticket-open {
   opacity: 0.8;
   /* Mac/Safari 등에서 WebGL alpha 합성 오류로 흰색으로 보이지 않도록
        컨테이너 배경을 #22B2EA로 고정. 실제 빛 이펙트만 위에 합성됨 */
-  background: #22B2EA;
+  background: rgba(34, 178, 234, 0.18);
   /* 하단 경계선이 보이지 않도록 아래로 갈수록 부드럽게 사라지게 마스킹 */
   -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 55%, transparent 100%);
   mask-image: linear-gradient(to bottom, #000 0%, #000 55%, transparent 100%);
@@ -3907,7 +3908,7 @@ body.ticket-open {
 
 /* 지점별 위치 + 강약 (크기·불투명도·그림자로 원근감 표현) */
 .ticket-spot--ilsan {
-  left: 8%;
+  left: 19%;
   top: 46%;
   width: clamp(250px, 32vw, 580px);
 }
@@ -3916,17 +3917,17 @@ body.ticket-open {
 }
 
 .ticket-spot--yeosu {
-  left: 26%;
-  top: 23%;
-  width: clamp(120px, 15vw, 270px);
+  left: 35%;
+  top: 25%;
+  width: clamp(140px, 17vw, 310px);
 }
 .ticket-spot--yeosu .ticket-spot__bubble {
   filter: drop-shadow(0 4px 12px rgba(0, 60, 110, 0.10));
 }
 
 .ticket-spot--jeju {
-  left: 52%;
-  top: 58%;
+  left: 55%;
+  top: 55%;
   width: clamp(175px, 21vw, 385px);
 }
 .ticket-spot--jeju .ticket-spot__bubble {
@@ -3934,7 +3935,7 @@ body.ticket-open {
 }
 
 .ticket-spot--gwanggyo {
-  left: 62%;
+  left: 60%;
   top: 23%;
   width: clamp(190px, 23vw, 420px);
 }
@@ -4451,6 +4452,27 @@ body.ticket-open {
   background: url('../assets/images/ticketBg.png') center center / cover no-repeat;
   height: 100vh;
   overflow: hidden;
+}
+
+.ticket-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(34, 178, 234, 0.48) 0%, rgba(34, 178, 234, 0.2) 42%, rgba(255, 255, 255, 0.26) 100%),
+    radial-gradient(circle at 50% 18%, rgba(255, 255, 255, 0.28), transparent 42%);
+}
+
+.ticket-bg__video {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
 }
 
 .ticket {
@@ -5706,5 +5728,1050 @@ body.biz-page {
   }
   .biz-banner-slide__content {
     width: 100%;
+  }
+}
+
+/* =============================================================
+   INDEX PAGE — TABLET RESPONSIVE ONLY
+   PC styles stay untouched; this block only applies from 821px
+   to 1180px, before the existing mobile rules take over.
+   ============================================================= */
+@media (min-width: 821px) and (max-width: 1180px) {
+  .index-page {
+    --container-w: min(100% - 64px, 960px);
+    --logo3d-size: min(96vmin, 760px);
+    --logo3d-text-w: min(78vmin, 640px);
+    --logo3d-text-h: min(17vmin, 140px);
+    --fs-hero: clamp(76px, 9vw, 104px);
+    --fs-eyebrow: clamp(22px, 2.8vw, 28px);
+    --fs-hero-sub: clamp(20px, 2.5vw, 24px);
+    --fs-sec-en: clamp(34px, 4.1vw, 40px);
+    --fs-sec-serif: clamp(38px, 4.7vw, 46px);
+    --fs-creature: clamp(36px, 4.2vw, 44px);
+    --fs-nav: clamp(15px, 1.7vw, 17px);
+    --fs-nav-active: clamp(18px, 2vw, 20px);
+    --fs-caption: 17px;
+    --fs-sub: 16px;
+    --title-top: 82px;
+    --sec-gap: 34px;
+    --card-gap: 14px;
+  }
+
+  .index-page .container {
+    width: var(--container-w);
+  }
+
+  .index-page .gnb {
+    padding: 20px 24px;
+  }
+
+  .index-page .gnb__inner {
+    height: 48px;
+  }
+
+  .index-page .gnb__nav {
+    gap: clamp(14px, 2vw, 28px);
+  }
+
+  .index-page .gnb__logo {
+    width: 52px;
+  }
+
+  .index-page .gnb__ticket {
+    height: 46px;
+    padding: 0 16px 0 18px;
+    gap: 8px;
+  }
+
+  .index-page .gnb__ticket svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .index-page .gnb__dropdown {
+    top: calc(100% + 12px);
+    min-width: 138px;
+    padding: 14px 16px;
+  }
+
+  .index-page .gnb__dropdown-item {
+    font-size: 14px;
+  }
+
+  .index-page #sec-intro .hero {
+    padding-inline: 40px;
+  }
+
+  .index-page #sec-intro .hero__text {
+    transform: translateY(18px);
+  }
+
+  .index-page .hero__title {
+    line-height: 0.95;
+  }
+
+  .index-page .scroll-indicator {
+    bottom: 36px;
+  }
+
+  .index-page .section-title__sub {
+    font-size: 16px;
+  }
+
+  .index-page .section--crew-scroll {
+    min-height: 100vh;
+  }
+
+  .index-page .crew-header {
+    top: 150px;
+  }
+
+  .index-page .crew-main {
+    width: var(--container-w);
+    max-width: calc(100% - 48px);
+    gap: clamp(28px, 4vw, 48px);
+    transform: translate(-50%, calc(-43% + 48px));
+  }
+
+  .index-page .section--crew-scroll.is-content-visible .crew-main {
+    transform: translate(-50%, -43%);
+  }
+
+  .index-page .crew-canvas-wrap {
+    flex: 0 1 42%;
+    height: clamp(330px, 36vw, 390px);
+    min-width: 310px;
+  }
+
+  .index-page .crew-info-wrap {
+    flex: 1 1 0;
+    width: auto;
+    min-width: 0;
+    min-height: 260px;
+    margin-left: 0;
+  }
+
+  .index-page .crew-panel {
+    padding: 32px 42px;
+  }
+
+  .index-page .creature-info__head {
+    flex-wrap: wrap;
+    gap: 4px 12px;
+    margin-bottom: 18px;
+  }
+
+  .index-page .creature-info__name,
+  .index-page .creature-info__name-kr {
+    white-space: normal;
+  }
+
+  .index-page .crew-rotate-hint {
+    right: calc(100% + 26px);
+    top: 230px;
+  }
+
+  .index-page .section--program {
+    height: auto;
+    min-height: 100vh;
+    padding: 104px 0 116px;
+  }
+
+  .index-page .section--program .program-seq-title {
+    margin-bottom: 32px;
+  }
+
+  .index-page .section--program .program-seq-title,
+  .index-page .section--program .program-seq-content,
+  .index-page .section--location .location-seq-title,
+  .index-page .section--location .location-seq-content,
+  .index-page .section--booking .booking-seq-title,
+  .index-page .section--booking .booking-seq-content {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
+
+  .index-page .program-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: min(100% - 72px, 900px);
+    margin-inline: auto;
+    gap: 14px;
+  }
+
+  .index-page .program-grid::before {
+    inset: -12px;
+    border-radius: 24px;
+  }
+
+  .index-page .program-card {
+    width: 100% !important;
+    height: clamp(292px, 33vw, 348px);
+    border-radius: 18px;
+  }
+
+  .index-page .program-card__body {
+    padding: 20px;
+  }
+
+  .index-page .program-card__caption {
+    font-size: 17px;
+    line-height: 1.35;
+  }
+
+  .index-page .program-card__desc {
+    font-size: 11px;
+    line-height: 1.55;
+  }
+
+  .index-page .program-card__meta {
+    gap: 10px;
+    font-size: 9px;
+    line-height: 1.2;
+  }
+
+  .index-page .section--location {
+    height: auto;
+    min-height: 100vh;
+    padding: 96px 0 108px;
+  }
+
+  .index-page .section--location .section-seq-sticky,
+  .index-page .section--booking .section-seq-sticky {
+    position: static;
+    height: auto;
+    overflow: visible;
+    padding-top: 0;
+  }
+
+  .index-page .location-map-wrap {
+    height: 610px;
+    margin-top: 24px;
+  }
+
+  .index-page .location-map {
+    width: clamp(430px, 50vw, 540px);
+    height: clamp(455px, 53vw, 560px);
+  }
+
+  .index-page .location-map-wrap.is-hovering .location-map,
+  .index-page .location-map-wrap:focus-within .location-map {
+    transform: translateX(-230px);
+  }
+
+  .index-page .map-marker {
+    width: 88px;
+    height: 44px;
+  }
+
+  .index-page .map-marker__logo {
+    width: 82px;
+    max-height: 38px;
+  }
+
+  .index-page .location-hover-card {
+    left: calc(50% - 42px);
+    width: min(510px, calc(100vw - 508px));
+    min-width: 430px;
+    min-height: 318px;
+    padding: 10px;
+    transform: translate(26px, -50%);
+  }
+
+  .index-page .location-hover-card__body {
+    min-height: 298px;
+    gap: 14px;
+  }
+
+  .index-page .location-hover-card__copy {
+    flex: 1 1 0;
+    width: auto;
+    padding-top: 14px;
+  }
+
+  .index-page .location-hover-card__logo,
+  .index-page .location-hover-card__branch {
+    font-size: 23px;
+  }
+
+  .index-page .location-hover-card__desc {
+    margin-top: 28px;
+    font-size: 14px;
+  }
+
+  .index-page .location-hover-card__btn {
+    margin-top: auto;
+  }
+
+  .index-page .location-hover-card__image {
+    flex-basis: 176px;
+    max-width: 176px;
+    min-height: 298px;
+  }
+
+  .index-page .location-fish-bg {
+    width: clamp(360px, 48vw, 620px);
+    opacity: 0.55;
+  }
+
+  .index-page .section--booking {
+    height: auto;
+    min-height: 100vh;
+    padding: 100px 0 112px;
+    overflow: hidden;
+  }
+
+  .index-page .section--booking .container {
+    width: var(--container-w);
+  }
+
+  .index-page .booking-grid {
+    left: auto;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+    gap: 14px;
+    padding: 12px;
+    border-radius: 26px;
+    transform: none;
+  }
+
+  .index-page .booking-card {
+    width: 100% !important;
+    height: clamp(236px, 28vw, 300px);
+    border-radius: 18px;
+  }
+
+  .index-page .booking-card__foot {
+    left: 14px;
+    right: 14px;
+    bottom: 14px;
+    gap: 12px;
+  }
+
+  .index-page .booking-card__name {
+    font-size: 15px;
+  }
+
+  .index-page .section--booking .btn-cta--fill-white {
+    min-width: 82px;
+    height: 34px;
+    padding-inline: 14px;
+    font-size: 14px;
+  }
+
+  .index-page .booking-bg-video {
+    width: clamp(420px, 58vw, 660px);
+    opacity: 0.78;
+  }
+
+  .index-page .footer__inner {
+    width: calc(100% - 64px);
+    gap: 36px;
+    padding-bottom: 64px;
+  }
+
+  .index-page .footer__nav {
+    gap: 20px 34px;
+  }
+
+  .index-page .footer__link {
+    font-size: 20px;
+  }
+
+  .index-page .footer__brand {
+    gap: 20px;
+    margin-right: 0;
+  }
+
+  .index-page .footer__socials {
+    gap: 16px;
+  }
+
+  .index-page .footer__social {
+    width: 58px;
+    height: 58px;
+  }
+
+  .index-page .footer__social svg {
+    width: 29px;
+    height: 29px;
+  }
+
+  .index-page .footer__copy {
+    font-size: 14px;
+  }
+}
+
+
+/* =============================================================
+   INDEX PAGE — MOBILE RESPONSIVE (max-width: 820px)
+   PC(>1180px) · 태블릿(821–1180px) 스타일은 건드리지 않음.
+   모든 규칙은 .index-page 스코프 안에서만 작동한다.
+   ============================================================= */
+@media (max-width: 820px) {
+
+  /* ── 디자인 토큰 재정의 ── */
+  .index-page {
+    --fs-hero:        clamp(46px, 12.5vw, 72px);
+    --fs-eyebrow:     clamp(17px, 4.8vw, 23px);
+    --fs-hero-sub:    clamp(14px, 4vw, 19px);
+    --fs-sec-en:      clamp(26px, 7vw, 36px);
+    --fs-sec-serif:   clamp(30px, 8vw, 40px);
+    --fs-creature:    clamp(26px, 7vw, 36px);
+    --fs-caption:     15px;
+    --fs-sub:         13px;
+    --title-top:      68px;
+    --sec-gap:        24px;
+    --card-gap:       10px;
+    --logo3d-size:    min(106vmin, 400px);
+    --logo3d-text-w:  min(88vmin, 340px);
+    --logo3d-text-h:  min(21vmin, 82px);
+  }
+
+
+  /* ═══════════════════════════════════════════════════════════
+     GNB
+  ═══════════════════════════════════════════════════════════ */
+  .index-page .gnb {
+    padding: 14px 20px;
+  }
+
+  .index-page .gnb__inner {
+    height: 44px;
+  }
+
+  /* 헤더 심볼 로고 축소 */
+  .index-page .gnb__logo {
+    width: 36px;
+  }
+
+  /* 3D 텍스트 로고 — 심볼 로고 바로 아래로 당김 (기본 80% → 72%) */
+  .index-page .logo3d-text {
+    top: 72%;
+  }
+
+  /* 데스크탑 nav·티켓 숨김 */
+  .index-page .gnb__nav,
+  .index-page .gnb__ticket {
+    display: none;
+  }
+
+  /* 햄버거 버튼 */
+  .index-page .gnb__hamburger {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 26px;
+    height: 18px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    position: relative;
+    z-index: 3200;
+    flex-shrink: 0;
+  }
+
+  .index-page .gnb__hamburger-line {
+    display: block;
+    width: 100%;
+    height: 1.5px;
+    background: #fff;
+    border-radius: 2px;
+    transition: transform 0.3s ease, opacity 0.25s ease;
+    transform-origin: center;
+  }
+
+  /* X 아이콘 (메뉴 열림 상태) */
+  .index-page .gnb__hamburger.is-active .gnb__hamburger-line:nth-child(1) {
+    transform: translateY(8.25px) rotate(45deg);
+  }
+
+  .index-page .gnb__hamburger.is-active .gnb__hamburger-line:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+
+  .index-page .gnb__hamburger.is-active .gnb__hamburger-line:nth-child(3) {
+    transform: translateY(-8.25px) rotate(-45deg);
+  }
+
+
+  /* ═══════════════════════════════════════════════════════════
+     모바일 풀스크린 메뉴
+  ═══════════════════════════════════════════════════════════ */
+  .index-page .gnb__mobile-menu {
+    position: fixed;
+    inset: 0;
+    z-index: 3100;
+    background: rgba(8, 28, 52, 0.88);
+    backdrop-filter: blur(28px) saturate(1.3);
+    -webkit-backdrop-filter: blur(28px) saturate(1.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.32s ease;
+  }
+
+  .index-page .gnb__mobile-menu.is-open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .index-page .gnb__mobile-nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    width: 100%;
+    max-width: 380px;
+    padding: 0 32px;
+  }
+
+  .index-page .gnb__mobile-item {
+    width: 100%;
+    text-align: center;
+  }
+
+  /* 공통 링크·버튼 */
+  .index-page .gnb__mobile-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    font-family: var(--font-en);
+    font-weight: 300;
+    font-size: clamp(24px, 7vw, 32px);
+    letter-spacing: -0.04em;
+    color: rgba(255, 255, 255, 0.65);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px 0;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .index-page .gnb__mobile-link:hover,
+  .index-page .gnb__mobile-link:focus-visible {
+    color: #fff;
+  }
+
+  /* 드롭다운 토글 화살표 */
+  .index-page .gnb__mobile-link--toggle {
+    gap: 10px;
+  }
+
+  .index-page .gnb__mobile-link--toggle::after {
+    content: '';
+    display: block;
+    width: 9px;
+    height: 9px;
+    border-right: 1.5px solid currentColor;
+    border-bottom: 1.5px solid currentColor;
+    transform: rotate(45deg) translateY(-2px);
+    transition: transform 0.25s ease;
+    flex-shrink: 0;
+  }
+
+  .index-page .gnb__mobile-item.is-open .gnb__mobile-link--toggle::after {
+    transform: rotate(-135deg) translateY(-2px);
+  }
+
+  /* 서브 메뉴 아코디언 */
+  .index-page .gnb__mobile-sub {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.35s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .index-page .gnb__mobile-item.is-open .gnb__mobile-sub {
+    max-height: 260px;
+  }
+
+  .index-page .gnb__mobile-sub a {
+    display: block;
+    font-family: var(--font-en);
+    font-weight: 300;
+    font-size: 17px;
+    letter-spacing: -0.02em;
+    color: rgba(255, 255, 255, 0.42);
+    padding: 7px 0;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .index-page .gnb__mobile-sub a:hover {
+    color: var(--clr-primary);
+  }
+
+  /* 티켓 버튼 */
+  .index-page .gnb__mobile-ticket {
+    margin-top: 28px;
+    font-size: 17px;
+    height: 46px;
+    padding: 0 26px;
+    gap: 8px;
+  }
+
+  /* 메뉴 열린 동안 body 스크롤 차단 + GNB를 오버레이 위로 끌어올림 */
+  body.mobile-menu-open {
+    overflow: hidden;
+  }
+
+  body.mobile-menu-open .gnb {
+    z-index: 3300;
+  }
+
+
+  /* ═══════════════════════════════════════════════════════════
+     HERO 섹션
+  ═══════════════════════════════════════════════════════════ */
+  .index-page #sec-intro .hero {
+    padding-inline: 24px;
+  }
+
+  .index-page .hero__title {
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+
+  .index-page .scroll-indicator__text {
+    font-size: 22px;
+  }
+
+  .index-page .scroll-indicator__line {
+    height: 52px;
+  }
+
+
+  /* ═══════════════════════════════════════════════════════════
+     섹션 공통 타이틀
+  ═══════════════════════════════════════════════════════════ */
+  .index-page .section-title__main {
+    flex-wrap: wrap;
+    gap: 0.06em;
+  }
+
+  .index-page .section-title__sub {
+    font-size: 13px;
+  }
+
+
+  /* ═══════════════════════════════════════════════════════════
+     CREW 섹션
+  ═══════════════════════════════════════════════════════════ */
+  .index-page .crew-header {
+    top: 72px;
+    white-space: normal;
+    padding-inline: 20px;
+  }
+
+  /* crew-main: 세로 스택 + 항상 표시 (absolute 유지, JS 좌표 보존)
+     top: 64% → 생물 바로 아래에 카드 붙이기 */
+  .index-page .crew-main {
+    flex-direction: column;
+    top: 64%;
+    left: 50%;
+    gap: 0;
+    transform: translate(-50%, -50%);
+    max-width: calc(100% - 32px);
+    width: min(88vw, 320px);
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+
+  .index-page .section--crew-scroll.is-content-visible .crew-main {
+    transform: translate(-50%, -50%);
+  }
+
+  /* canvas-wrap: 최소화 (실제 GLB는 Three.js fixed 캔버스에 렌더) */
+  .index-page .crew-canvas-wrap {
+    flex: 0 0 0px;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    opacity: 0 !important;
+    pointer-events: none;
+  }
+
+  /* info-wrap: 항상 표시 + 명시적 높이로 유리 배경 강제 렌더 */
+  .index-page .crew-info-wrap {
+    flex: 0 0 auto;
+    width: 100%;
+    margin-left: 0;
+    min-height: 210px;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .index-page .crew-panel {
+    padding: 20px 22px;
+  }
+
+  .index-page .creature-info__head {
+    gap: 5px 8px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+
+  .index-page .creature-info__name {
+    white-space: normal;
+    font-size: clamp(22px, 6.5vw, 32px);
+  }
+
+  .index-page .creature-info__name-kr {
+    font-size: 14px;
+  }
+
+  .index-page .crew-rotate-hint {
+    top: auto;
+    right: auto;
+    bottom: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    flex-direction: row;
+    gap: 6px;
+  }
+
+  .index-page .crew-dots {
+    bottom: 20px;
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* ═══════════════════════════════════════════════════════════
+     PROGRAM 섹션
+  ═══════════════════════════════════════════════════════════ */
+  .index-page .section--program {
+    height: auto;
+    min-height: unset;
+    padding: 76px 0 76px;
+    overflow: visible;
+  }
+
+  .index-page .section--program .section-seq-sticky {
+    position: static !important;
+    height: auto !important;
+    overflow: visible !important;
+    padding-top: 0 !important;
+    display: block !important;
+  }
+
+  /* sticky 기반 opacity 애니메이션 해제 — 항상 표시 */
+  .index-page .section--program .program-seq-title,
+  .index-page .section--program .program-seq-content {
+    opacity: 1 !important;
+    transform: none !important;
+    pointer-events: auto !important;
+    transition: none !important;
+  }
+
+  .index-page .section--program .program-seq-title {
+    margin-bottom: 20px;
+  }
+
+  .index-page .program-grid {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    width: min(100% - 56px, 400px) !important;
+    max-width: 400px !important;
+    margin-inline: auto !important;
+    gap: 10px !important;
+    position: relative !important;
+    left: auto !important;
+    transform: none !important;
+    padding: 10px;
+    border-radius: 14px;
+  }
+
+  .index-page .program-grid::before {
+    inset: 0;
+    border-radius: 14px;
+  }
+
+  .index-page .program-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: clamp(190px, 48vw, 250px) !important;
+    border-radius: 10px;
+    overflow: hidden !important;
+  }
+
+  .index-page .program-card__body {
+    padding: 14px;
+  }
+
+  .index-page .program-card__caption {
+    font-size: 14px;
+    line-height: 1.35;
+  }
+
+  .index-page .program-card__desc {
+    font-size: 10px;
+    line-height: 1.55;
+  }
+
+  .index-page .program-card__meta {
+    font-size: 9px;
+    gap: 8px;
+    line-height: 1.2;
+  }
+
+
+  /* ═══════════════════════════════════════════════════════════
+     LOCATION 섹션
+  ═══════════════════════════════════════════════════════════ */
+  .index-page .section--location {
+    height: auto;
+    min-height: unset;
+    padding: 76px 0 76px;
+    overflow: visible;
+  }
+
+  .index-page .section--location .section-seq-sticky {
+    position: static !important;
+    height: auto !important;
+    overflow: visible !important;
+    padding-top: 0 !important;
+    display: block !important;
+  }
+
+  .index-page .section--location .location-seq-title,
+  .index-page .section--location .location-seq-content {
+    opacity: 1 !important;
+    transform: none !important;
+    pointer-events: auto !important;
+    transition: none !important;
+  }
+
+  /* 물고기 배경 영상 — 모바일에서 숨김 */
+  .index-page .location-fish-bg {
+    display: none;
+  }
+
+  /* 지도 + 카드: 세로 스택 */
+  .index-page .location-map-wrap {
+    flex-direction: column;
+    height: auto;
+    margin-top: 20px;
+    gap: 16px;
+    align-items: center;
+  }
+
+  /* 지도 이동 비활성화 */
+  .index-page .location-map-wrap.is-hovering .location-map,
+  .index-page .location-map-wrap:focus-within .location-map {
+    transform: none !important;
+  }
+
+  .index-page .location-map {
+    width: min(86vw, 340px);
+    height: min(90vw, 358px);
+    transition: none;
+    flex-shrink: 0;
+  }
+
+  /* SVG 연결선 숨김 */
+  .index-page .location-indicator {
+    display: none;
+  }
+
+  /* 정보 카드 — flow 안으로 (지도 아래) */
+  .index-page .location-hover-card {
+    position: relative;
+    left: auto;
+    top: auto;
+    transform: none !important;
+    width: min(86vw, 400px);
+    min-width: unset;
+    min-height: unset;
+    padding: 14px;
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    pointer-events: none;
+    transition: opacity 0.28s ease, max-height 0.38s ease;
+  }
+
+  .index-page .location-map-wrap.is-hovering .location-hover-card,
+  .index-page .location-map-wrap:focus-within .location-hover-card {
+    opacity: 1;
+    max-height: 600px;
+    pointer-events: auto;
+  }
+
+  .index-page .location-hover-card__body {
+    flex-direction: column;
+    min-height: unset;
+    gap: 12px;
+  }
+
+  .index-page .location-hover-card__copy {
+    flex: none;
+    width: 100%;
+    padding-top: 10px;
+  }
+
+  .index-page .location-hover-card__image {
+    flex-basis: 160px;
+    max-width: 100%;
+    min-height: 150px;
+    width: 100%;
+  }
+
+  .index-page .location-hover-card__logo,
+  .index-page .location-hover-card__branch {
+    font-size: 18px;
+  }
+
+  .index-page .location-hover-card__desc {
+    margin-top: 10px;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .index-page .location-hover-card__btn {
+    margin-top: 14px;
+  }
+
+
+  /* ═══════════════════════════════════════════════════════════
+     BOOKING 섹션
+  ═══════════════════════════════════════════════════════════ */
+  .index-page .section--booking {
+    height: auto;
+    min-height: unset;
+    padding: 76px 0 76px;
+    overflow: visible;
+  }
+
+  .index-page .section--booking .section-seq-sticky {
+    position: static !important;
+    height: auto !important;
+    overflow: visible !important;
+    padding-top: 0 !important;
+    display: block !important;
+  }
+
+  .index-page .section--booking .booking-seq-title,
+  .index-page .section--booking .booking-seq-content {
+    opacity: 1 !important;
+    transform: none !important;
+    pointer-events: auto !important;
+    transition: none !important;
+  }
+
+  /* 해파리 배경 영상 — 모바일 숨김 */
+  .index-page .booking-bg-video {
+    display: none;
+  }
+
+  .index-page .booking-grid {
+    position: relative;
+    left: auto;
+    transform: none;
+    width: min(100% - 56px, 400px);
+    margin-inline: auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 20px;
+  }
+
+  .index-page .booking-card {
+    width: 100% !important;
+    height: clamp(190px, 48vw, 250px);
+    border-radius: 14px;
+  }
+
+  .index-page .booking-card__foot {
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    gap: 8px;
+  }
+
+  .index-page .booking-card__name {
+    font-size: 13px;
+  }
+
+  .index-page .section--booking .btn-cta--fill-white {
+    min-width: 72px;
+    height: 30px;
+    padding-inline: 11px;
+    font-size: 12px;
+  }
+
+
+  /* ── 공통 버튼·top 버튼 ── */
+  .index-page .top-btn {
+    width: 38px;
+    height: 38px;
+    right: 16px;
+    bottom: 20px;
+  }
+
+  .index-page .top-btn svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  /* 크루 보러가기 버튼 축소 */
+  .index-page .crew-panel-btn {
+    height: 30px;
+    min-width: 80px;
+    font-size: 12px;
+    bottom: -38px;
+  }
+
+  /* ═══════════════════════════════════════════════════════════
+     FOOTER
+  ═══════════════════════════════════════════════════════════ */
+  .index-page .footer__inner {
+    width: min(100% - 32px, 460px);
+    flex-direction: column;
+    align-items: center;
+    gap: 22px;
+    padding-bottom: 44px;
+  }
+
+  .index-page .footer__nav {
+    justify-content: center;
+    gap: 10px 18px;
+  }
+
+  .index-page .footer__link {
+    font-size: 13px;
+  }
+
+  .index-page .footer__social {
+    width: 40px;
+    height: 40px;
+  }
+
+  .index-page .footer__social svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .index-page .footer__brand {
+    align-items: center;
+    gap: 12px;
+    margin-right: 0;
+  }
+
+  .index-page .footer__copy {
+    text-align: center;
+    font-size: 11px;
   }
 }

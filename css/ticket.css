@@ -1,1 +1,286 @@
-﻿/* aqua planet — ticket.css */
+/* aqua planet — ticket.css */
+
+/* ============================================================
+   TICKET PAGE — 태블릿 반응형
+   대상: 768px ~ 1024px   (PC 스타일 style.css 는 그대로 유지)
+   ============================================================ */
+@media (min-width: 768px) and (max-width: 1024px) {
+
+  /* ── GNB ── */
+  .ticket-page .gnb {
+    padding: 18px 24px;
+  }
+
+  .ticket-page .gnb__nav {
+    gap: clamp(14px, 2.2vw, 32px);
+  }
+
+  .ticket-page .gnb__link {
+    font-size: clamp(14px, 1.8vw, 19px);
+  }
+
+  .ticket-page .gnb__ticket {
+    height: 44px;
+    padding: 0 16px;
+    font-size: clamp(14px, 1.8vw, 19px);
+    gap: 8px;
+  }
+
+  .ticket-page .gnb__ticket svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* ── 타이틀 / 서브카피 ── */
+  .ticket__title {
+    font-size: 36px;
+    top: clamp(88px, 11vh, 114px);
+  }
+
+  .ticket__sub {
+    font-size: 16px;
+    white-space: normal;
+    text-align: center;
+    width: 90%;
+    top: calc(clamp(88px, 11vh, 114px) + 48px);
+  }
+
+  /* ── 버블 라벨 ── */
+  .ticket-spot__label {
+    font-size: 124px;
+  }
+
+  /* ── 지점 버블 위치 / 크기 (2×2 그리드 배치) ── */
+  .ticket-spot--ilsan {
+    left: -5%;
+    top: 56%;
+    width: clamp(280px, 38vw, 420px);
+  }
+
+  .ticket-spot--yeosu {
+    left: 18%;
+    top: 35%;
+    width: clamp(220px, 30vw, 340px);
+  }
+
+  .ticket-spot--jeju {
+    left: 55%;
+    top: 57%;
+    width: clamp(175px, 25vw, 280px);
+  }
+
+  .ticket-spot--gwanggyo {
+    left: 64%;
+    top: 30%;
+    width: clamp(220px, 30vw, 340px);
+  }
+
+  /* ── 선택 상태: 선택된 spot ── */
+  .ticket.is-selected .ticket-spot.is-selected {
+    left: 50% !important;
+    top: 52% !important;
+    transform: translate(-100%, -50%) scale(1.1);
+    z-index: 3;
+  }
+
+  /* ── 선택 상태: 미선택 spot → 상단 배치 ── */
+  .ticket.is-selected .ticket-spot.is-top {
+    top: 9% !important;
+    transform: scale(0.42);
+    opacity: 0.9;
+  }
+
+  .ticket.is-selected .ticket-spot.is-top.slot-0 {
+    left: -8% !important;
+    top: 4% !important;
+  }
+
+  .ticket.is-selected .ticket-spot.is-top.slot-1 {
+    left: 16% !important;
+    top: 6% !important;
+  }
+
+  .ticket.is-selected .ticket-spot.is-top.slot-2 {
+    left: 40% !important;
+    top: 15% !important;
+  }
+
+  .ticket.is-selected .ticket-spot.is-top.slot-3 {
+    left: 64% !important;
+    top: 5% !important;
+  }
+
+  /* ── 예매 패널 ── */
+  .ticket-booking {
+    width: min(380px, 38vw);
+    top: 52%;
+    left: 50%;
+    transform: translate(16px, calc(-50% + 24px));
+  }
+
+  .ticket.is-selected .ticket-booking {
+    transform: translate(16px, -50%);
+  }
+
+  /* 패널 내부 여백 / 폰트 축소 */
+  .ticket-booking__panel {
+    padding: 36px 30px;
+  }
+
+  .ticket-booking__title {
+    font-size: 26px;
+    margin-bottom: 20px;
+  }
+
+  .ticket-booking__price {
+    font-size: 24px;
+    margin-bottom: 14px;
+  }
+
+  .ticket-booking__price span {
+    font-size: 18px;
+  }
+
+  .ticket-discount {
+    margin-bottom: 14px;
+  }
+
+  .ticket-discount > summary {
+    font-size: 11px;
+    padding: 12px 12px 12px 8px;
+  }
+
+  .ticket-booking__btn {
+    width: 86px;
+    height: 30px;
+    font-size: 14px;
+  }
+
+  /* ── 장식 거품 크기 조정 ── */
+  .ticket__decor .deco-bubble {
+    opacity: 0.5;
+  }
+}
+
+/* ============================================================
+   TICKET PAGE — 모바일
+   대상: ~767px
+   ============================================================ */
+@media (max-width: 767px) {
+
+  /* ── 장식 거품 전부 숨김 ── */
+  .ticket__decor {
+    display: none;
+  }
+
+  /* ── 타이틀 / 서브카피 ── */
+  .ticket__title {
+    font-size: 28px;
+    top: 64px;
+  }
+
+  .ticket__sub {
+    font-size: 13px;
+    white-space: normal;
+    text-align: center;
+    width: 88%;
+    top: calc(64px + 38px);
+  }
+
+  /* ── ticket-stage: 절대위치 → 플렉스 컬럼 ── */
+  .ticket-stage {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 140px;
+    padding-bottom: 40px;
+  }
+
+  /* ── wrap: 2×2 그리드 ── */
+  .ticket .wrap {
+    position: relative;
+    left: auto;
+    top: 150px;
+    bottom: auto;
+    transform: translateY(0);
+    transition: transform 0.5s cubic-bezier(.22, .61, .36, 1);
+    width: 92%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  /* ── 선택 시: wrap 위로 이동해 카드와 겹치지 않게 ── */
+  .ticket.is-selected .wrap {
+    transform: translateY(-80px);
+  }
+
+  /* ── 버블 spot: 절대위치 해제 ── */
+  .ticket-spot {
+    position: relative;
+    left: auto !important;
+    top: auto !important;
+    width: 100%;
+  }
+
+  /* ── 버블 라벨 폰트 축소 ── */
+  .ticket-spot__label {
+    font-size: 16px;
+  }
+
+  /* ── 선택 시: 선택된 spot 제자리에서 강조 ── */
+  .ticket.is-selected .ticket-spot.is-selected {
+    left: auto !important;
+    top: auto !important;
+    transform: scale(1.06) !important;
+    z-index: 2;
+  }
+
+  /* ── 선택 시: 나머지 spot 제자리에서 축소 (slot 이동 없음) ── */
+  .ticket.is-selected .ticket-spot.is-top,
+  .ticket.is-selected .ticket-spot.is-top.slot-0,
+  .ticket.is-selected .ticket-spot.is-top.slot-1,
+  .ticket.is-selected .ticket-spot.is-top.slot-2,
+  .ticket.is-selected .ticket-spot.is-top.slot-3 {
+    left: auto !important;
+    top: auto !important;
+    transform: scale(0.88) !important;
+    opacity: 0.55;
+  }
+
+  /* ── 예매 패널: 그리드 아래로 ── */
+  .ticket-booking {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    transform: translateY(12px) !important;
+    width: 92%;
+    margin-top: 14px;
+    opacity: 0;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    pointer-events: none;
+  }
+
+  .ticket.is-selected .ticket-booking {
+    opacity: 1;
+    transform: translateY(0) !important;
+    pointer-events: auto;
+  }
+
+  /* ── 패널 내부 ── */
+  .ticket-booking__panel { padding: 28px 24px; }
+  .ticket-booking__title { font-size: 22px; margin-bottom: 16px; }
+  .ticket-booking__price { font-size: 20px; margin-bottom: 12px; }
+  .ticket-booking__price span { font-size: 15px; }
+  .ticket-booking__btn { width: 100%; height: 44px; font-size: 15px; }
+
+  /* ── GNB ── */
+  .ticket-page .gnb { padding: 14px 16px; }
+  .ticket-page .gnb__nav { gap: 12px; }
+  .ticket-page .gnb__link { font-size: 13px; }
+  .ticket-page .gnb__ticket { height: 38px; padding: 0 14px; font-size: 13px; }
+}

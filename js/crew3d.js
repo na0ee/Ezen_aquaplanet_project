@@ -21,6 +21,31 @@ const CREATURES = [
   { key: 'turtle',  src: 'assets/models/turtle_animated.glb',      scale: 0.78, y: -0.2, rotY:  0.3 },
 ];
 
+const CREW_TABLET_QUERY = window.matchMedia('(min-width: 821px) and (max-width: 1180px)');
+const CREW_MOBILE_QUERY = window.matchMedia('(max-width: 820px)');
+
+function getCrewViewportScale() {
+  if (CREW_MOBILE_QUERY.matches) return 0.70; /* 모바일: 카드와 겹치지 않도록 모델 축소 */
+  return CREW_TABLET_QUERY.matches ? 0.70 : 1;
+}
+
+function getCrewCamX() {
+  if (CREW_MOBILE_QUERY.matches) return -1.62; /* 모바일: settled X 맞춰 화면 중앙 */
+  return CREW_TABLET_QUERY.matches ? -0.4 : 0;
+}
+
+/* 모바일: 카메라를 아래로 내려 모델이 화면 상단에 위치 → 카드와 분리 */
+function getCrewCamY() {
+  return CREW_MOBILE_QUERY.matches ? -0.5 : 0.3;
+}
+
+function applyCrewViewportScale() {
+  const scale = getCrewViewportScale();
+  models.forEach((model) => {
+    if (model?.pivot) model.pivot.scale.setScalar(scale);
+  });
+}
+
 /* 진입 곡선: 브라우저 창 밖에서 헤엄쳐 들어옴
     FWD = 오른쪽 밖 → 중앙,  BWD = 왼쪽 밖 → 중앙
    카메라 z=8, FOV 42 기준 화면 가장자리 ≈ ±5.5 → 시작점 ±18 */
@@ -260,7 +285,7 @@ const camera = new THREE.PerspectiveCamera(
   0.1,
   100
 );
-camera.position.set(0, 0.3, 8);
+camera.position.set(getCrewCamX(), getCrewCamY(), 8);
 
 /* ---------------------------------------------------------------
    생물 영역(화면 왼쪽 44%)에만 올라가는 히트존 div.
@@ -311,7 +336,7 @@ function disableControls() {
   activePointerId              = null;
   syncControls();
   /* 카메라를 기본 위치로 복원해 bob 애니메이션이 올바르게 재개 */
-  camera.position.set(0, 0.3, 8);
+  camera.position.set(getCrewCamX(), getCrewCamY(), 8);
 }
 
 orbitHit.addEventListener('pointerdown', (e) => {
@@ -400,6 +425,7 @@ CREATURES.forEach((cfg, idx) => {
       /* pivot — 이동/페이드 제어 */
       const pivot = new THREE.Group();
       pivot.add(mesh);
+      pivot.scale.setScalar(getCrewViewportScale());
       pivot.position.copy(ENTRY_FWD.getPoint(0));
       pivot.visible = false;
       scene.add(pivot);
@@ -752,12 +778,14 @@ const clock = new THREE.Clock();
   clampCanvasToSticky();
 
   if (controlsActive && currentSettled) {
-    camera.position.y = 0.3;
+    camera.position.x = getCrewCamX();
+    camera.position.y = getCrewCamY();
     camera.position.z = 8;
   } else {
     const cameraBobFade = entryActive ? 1 - smoothstep(0.62, 1, entryT) : 1;
     /* 수중 카메라 출렁임 */
-    camera.position.y = 0.3 + Math.sin(clock.elapsedTime * 0.38) * 0.08 * cameraBobFade;
+    camera.position.x = getCrewCamX();
+    camera.position.y = getCrewCamY() + Math.sin(clock.elapsedTime * 0.38) * 0.08 * cameraBobFade;
     camera.position.z = 8.0 + Math.sin(clock.elapsedTime * 0.22) * 0.12 * cameraBobFade;
   }
 
@@ -771,6 +799,9 @@ window.addEventListener('resize', () => {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
+  camera.position.x = getCrewCamX();
+  camera.position.y = getCrewCamY();
+  applyCrewViewportScale();
   clampCanvasToSticky();
 });
 
