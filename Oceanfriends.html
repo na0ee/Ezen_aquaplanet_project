@@ -16,7 +16,8 @@
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/oceanfriends.css" />
 
-  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 </head>
 
 <body class="oceanfriends-page is-logo-at-header">
@@ -2215,13 +2216,14 @@
     })();
   </script>
 
-  <!-- Signature Species 갤러리 — draggable infinite gallery -->
+  <!-- Signature Species 갤러리 — 드래그 가능한 무한 캐러셀 + 데스크탑 스크롤 핀 -->
   <script>
     (function () {
+      const section = document.getElementById('signature');
       const viewport = document.querySelector('#signature .signature-gallery-viewport');
       const track = document.querySelector('#signature .signature-gallery-track');
       const pager = document.querySelector('#signature .of-pager');
-      if (!viewport || !track) return;
+      if (!section || !viewport || !track) return;
 
       /* more 버튼 */
       if (pager) {
@@ -2281,16 +2283,7 @@
       let baseCardWidth = 0;
       let baseGap = 8;
       let curveStrength = 0;
-
-      let wheelDistanceDown = 0;
-      const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-          if (!entry.isIntersecting) {
-            wheelDistanceDown = 0;
-          }
-        });
-      }, { threshold: 0 });
-      observer.observe(viewport);
+      let baseCurrent = 0;
 
       function lerp(a, b, t) {
         return a + (b - a) * t;
@@ -2313,6 +2306,7 @@
         centerOffset = (viewport.clientWidth - baseCardWidth) / 2;
         current = -singleSetWidth + centerOffset;
         target = current;
+        baseCurrent = current;
         momentum = 0;
         render();
       }
@@ -2383,11 +2377,6 @@
         wrapPosition();
         render();
         rafId = requestAnimationFrame(animate);
-      }
-
-      function pushTarget(delta) {
-        target += delta;
-        momentum = lerp(momentum, delta * 0.12, 0.35);
       }
 
       function normalizeText(text) {
@@ -2500,29 +2489,6 @@
       viewport.addEventListener('pointercancel', endDrag);
       viewport.addEventListener('lostpointercapture', endDrag);
 
-      viewport.addEventListener('wheel', e => {
-        const isVerticalScroll = Math.abs(e.deltaY) > Math.abs(e.deltaX);
-        const dominant = isVerticalScroll ? e.deltaY : e.deltaX;
-
-        if (isVerticalScroll) {
-          if (e.deltaY < 0) {
-            // 위로 스크롤 시 인터랙션 없이 바로 페이지 이동
-            return;
-          }
-
-          if (e.deltaY > 0) {
-            wheelDistanceDown += e.deltaY;
-            // 한 바퀴(singleSetWidth) 이상 돌았으면 아래로 스크롤 허용
-            if (wheelDistanceDown > singleSetWidth) {
-              return;
-            }
-          }
-        }
-
-        e.preventDefault();
-        pushTarget(-dominant * 0.95);
-      }, { passive: false });
-
       track.addEventListener('keydown', e => {
         if (e.key !== 'Enter' && e.key !== ' ') return;
         const card = e.target.closest('.species-card');
@@ -2531,14 +2497,42 @@
         goToDetail(card.dataset.species);
       });
 
+      /* 데스크탑: 카드 캐러셀을 섹션 스크롤에 고정(pin)해 한 바퀴 돌린 뒤에만
+         다음 섹션으로 내려가도록 한다. 모바일은 기존처럼 자유 드래그만 사용. */
+      function setupScrollTrigger() {
+        if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+        gsap.registerPlugin(ScrollTrigger);
+
+        ScrollTrigger.matchMedia({
+          '(min-width: 761px)': function () {
+            const st = ScrollTrigger.create({
+              trigger: section,
+              start: 'top top',
+              end: () => '+=' + Math.max(singleSetWidth, window.innerHeight),
+              pin: true,
+              scrub: true,
+              anticipatePin: 1,
+              invalidateOnRefresh: true,
+              onUpdate: self => {
+                target = baseCurrent - self.progress * singleSetWidth;
+              }
+            });
+
+            return () => st.kill();
+          }
+        });
+      }
+
       window.addEventListener('resize', () => {
         window.cancelAnimationFrame(rafId);
         measure();
         rafId = requestAnimationFrame(animate);
+        if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
       }, { passive: true });
 
       measure();
       rafId = requestAnimationFrame(animate);
+      setupScrollTrigger();
     })();
   </script>
 
