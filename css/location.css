@@ -22,7 +22,8 @@ body {
 ---------------------------------------------------------------- */
 .loc-sticky-wrap {
   position: relative;
-  height: 2280px; /* 1200 + 1080 */
+  height: 200vh; /* 100vh(hero) + 100vh(intro) */
+  margin-bottom: 120px;
 }
 
 /* ----------------------------------------------------------------
@@ -33,9 +34,12 @@ body {
   position: sticky;
   top: 0;
   width: 100%;
-  height: 1200px;
+  height: 100vh;
   overflow: hidden;
   z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* 배경 이미지 (Figma: img_name_20240305175381206 2, x=-132, w=2274) */
@@ -60,14 +64,13 @@ body {
    (Figma: Frame 1707483132, left: 50%, top=306px, translate -50%)
 ---------------------------------------------------------------- */
 .loc-hero__content {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  top: 306px;          /* Figma: content frame y=306 */
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;           /* Figma: gap between text group and scroll */
+  gap: 16px;
+  margin-top: 84px;
 }
 
 /* 텍스트 그룹 (Figma: Frame 330, flex-col, gap=22) */
@@ -152,6 +155,10 @@ body {
   align-items: center;
   gap: 16px;
   width: 180px;        /* Figma: w=180 */
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
 }
 
 /* 수직선  (Figma: Line 1, h=80) */
@@ -189,7 +196,7 @@ body {
 .loc-intro {
   position: relative;
   width: 100%;
-  height: 1080px;      /* Figma: 1080px */
+  height: 100vh;
   overflow: hidden;
   z-index: 2;          /* hero(z-index:1) 위로 슬라이드 */
 }
@@ -218,8 +225,8 @@ body {
   position: absolute;
   left: 0;
   right: 0;
-  top: 302px;          /* 계산값: calc(50% + 151.16px) - 778px/2 */
-  height: 778px;       /* Figma: h=778.322px */
+  bottom: 0%;          /* 계산값: calc(50% + 151.16px) - 778px/2 */
+  height: 100%;       /* Figma: h=778.322px */
   background: linear-gradient(
     to bottom,
     rgba(217, 217, 217, 0)    0%,
@@ -232,8 +239,8 @@ body {
 /* 콘텐츠 박스 (Figma: 278:309, left=74, top=677, w=428, flex-col gap=20) */
 .loc-intro__content {
   position: absolute;
-  left: 74px;          /* Figma: x=74 */
-  top: 677px;          /* Figma: y=677 */
+  left: 2%;          /* Figma: x=74 */
+  top: 68%;          /* Figma: y=677 */
   width: 428px;        /* Figma: w=428 */
   display: flex;
   flex-direction: column;
@@ -362,6 +369,7 @@ body {
   height: 1134px;              /* Figma: 1134px */
   background: var(--bg-detail);
   overflow: hidden;
+  margin-bottom: 120px;
 }
 
 /* 타이틀 + 서브텍스트 (Figma: 278:58, centered, top=160, flex-col gap=14) */
@@ -422,6 +430,7 @@ body {
 /* 카드 컨테이너 (Figma: 278:39, centered, top=462, p=16, gap=20)
    glass: index .program-grid::before 와 동일한 레시피 */
 .loc-programs__cards {
+  overflow:hidden;
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
@@ -437,6 +446,8 @@ body {
     inset 0 1px 0 rgba(255, 255, 255, 0.12),
     0 8px 32px rgba(0, 20, 60, 0.18);
 }
+.loc-programs__card:hover,mouse-enter, .loc-programs__card img {
+  transform:scale(1.01); transition: all 0.2s ease-out;}
 
 /* 개별 카드 (Figma: 633~635×400, bg white, rounded-14, overflow-hidden) */
 .loc-programs__card {
@@ -527,6 +538,23 @@ body {
   white-space: nowrap;
   flex-shrink: 0;
 }
+.loc-programs__card-btn:hover, .loc-programs__card-btn mouse-enter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  padding: 0 16px;
+  border-radius: 100px;
+  font-family: var(--font-kr);
+  font-weight: 500;
+  font-size: 16px;
+  color: var(--clr-primary);
+  background: #fff;
+  letter-spacing: -0.32px;
+  text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
 
 /* ================================================================
    con3_1 섹션  (Figma 278:200 — 1920×1542)
@@ -537,6 +565,7 @@ body {
 .loc-map-wrap {
   position: relative;
   height: calc(1542px + 100vh);
+  margin-bottom: 120px;
 }
 
 .loc-map {
@@ -545,7 +574,7 @@ body {
      Figma 버블 Y범위 605~1416 → 중심≈1011 */
   top: calc(50vh - 1011px);
   width: 100%;
-  height: 1542px;
+  height: 1580px;
   background: var(--bg-detail);
   overflow: hidden;
 }
@@ -607,9 +636,9 @@ body {
               opacity 0.25s ease;
 }
 
-/* 버블 노출 시 축소된 맵 스테이지의 상단 중앙으로 이동 */
+/* 버블 노출 시 맵 중심(x=780) 상단 중앙으로 이동 */
 .loc-map.is-hovering .loc-map__floor-tabs {
-  transform: translate(-331px, 400px);
+  transform: translate(50px, 310px);
 }
 
 /* 상세 카드 노출 시 지도와 함께 층 탭 숨김 */
@@ -649,23 +678,21 @@ body {
 /* 맵 + 마커 스테이지 (맵 이미지 기준 좌표계) */
 .loc-map__stage {
   position: absolute;
-  left: 301px;                 /* Figma: x=301 */
-  top: 512px;                  /* Figma: y=512 */
+  left: 50%;
+  top: 50%;
   width: 1320px;               /* Figma: w=1320 */
   height: 790px;               /* Figma: h=790 */
   transform-origin: 50% 50%;
-  transform: scale(0.8);
+  transform: translate(calc(-50%), calc(-50%)) scale(1.2);
   transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1),
               opacity   0.25s ease;
 }
 
-/* hover/click 공통 — 지도 왼쪽으로 축소
-   stage center(961,907) → target center(630,1011)
-   dy=+104 → 뷰포트 중앙(section-y=1011)에 지도 중심 고정
-   dx=-331  dy=+104  scale=658÷1320≈0.499 */
+
+/* hover/click 공통 — 지도 왼쪽으로 이동 */
 .loc-map.is-hovering .loc-map__stage,
 .loc-map.has-detail   .loc-map__stage {
-  transform: translate(-331px, 104px) scale(0.499);
+  transform: translate(calc(-50% - 300px), calc(-50% + 290px)) scale(0.9);
 }
 
 /* click — 지도 페이드아웃 (카드로 교체) */
@@ -690,6 +717,18 @@ body {
   object-fit: contain;
   opacity: 0.9;                /* Figma: opacity-90 */
   border-radius: 8px;
+}
+
+/* 일산 전용 — is-hovering 아닐 때만 80% 축소 */
+body[data-location="ilsan"] .loc-map:not(.is-hovering) .loc-map__img-wrap {
+  transform: scale(0.8);
+  transform-origin: center center;
+}
+
+/* 광교 B2F 전용 — is-hovering 아닐 때만 70% 축소 */
+body[data-location="gwanggyo"] .loc-map[data-floor="B2F"]:not(.is-hovering) .loc-map__img-wrap {
+  transform: scale(0.7);
+  transform-origin: center center;
 }
 
 /* 마커 레이어 */
@@ -837,6 +876,7 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  filter: brightness(0.7);
   pointer-events: none;
 }
 
@@ -895,7 +935,7 @@ body {
 /* ── 상세 카드: Figma node 278:153 (670×537) ── */
 .loc-map__detail {
   position: absolute;
-  left: 300px;
+  left: 800px;
   top: 1011px;
   box-sizing: border-box;
   width: 670px;
@@ -1009,6 +1049,7 @@ body {
   height: 1112px;              /* Figma: 1112px */
   background: var(--bg-detail);         /* Figma: var(--bg-detail) (con3와 다른 톤) */
   overflow: hidden;
+  margin-bottom: 120px;
 }
 
 /* 타이틀 (Figma: 278:289, centered, top=160, w=325) */
@@ -1052,8 +1093,9 @@ body {
    glass: backdrop-blur 2px, border rgba(255,255,255,0.6), gradient */
 .loc-hours__card {
   position: absolute;
-  left: 391px;                 /* Figma: x=391 */
-  top: 378px;                  /* Figma: y=378 */
+  left: 50%;                 /* Figma: x=391 */
+  top: 50%; 
+  transform: translate(-50%, -50%);                 /* Figma: y=378 */
   width: 1139px;               /* Figma: w=1139 */
   height: 222px;               /* Figma: h=222 */
   border-radius: 20px;         /* Figma: rounded-[20px] */
@@ -1121,8 +1163,9 @@ body {
 /* 이용안내 전체 래퍼 (Figma: 278:271, left=391, top=660, flex-col gap=30) */
 .loc-hours__notice {
   position: absolute;
-  left: 391px;                 /* 카드와 좌측 정렬 */
-  top: 660px;                  /* Figma: y=660 */
+  left: 45%;                 /* 카드와 좌측 정렬 */
+  top: 65%;  
+  transform: translate(-50%);                /* Figma: y=660 */
   display: flex;
   flex-direction: column;
   gap: 30px;                   /* Figma: gap=30 */

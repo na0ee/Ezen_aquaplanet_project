@@ -1,0 +1,427 @@
+/* Updated Figma node 177:482 */
+
+.biz-hero {
+  height: 100vh;
+  min-height: 100vh;
+  margin-top: -102px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: url("https://www.aquaplanet.co.kr/Upload/pcprogram/JEJU/KOR/img_name_20200113220918733.gif");
+  background-position: center;
+  background-size: cover;
+}
+
+.biz-hero__figma-title {
+  position: relative;
+  top: auto;
+  left: auto;
+  z-index: 1;
+  width: auto;
+  margin-top: 84px;
+  transform: none;
+}
+
+.biz-hero__scroll {
+  margin-top: 16px;
+}
+
+.biz-hero__scroll-line {
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #ffffff 100%);
+  border-radius: 1px;
+}
+
+.biz-vision {
+  position: relative;
+  margin-top: 170px;
+  height: auto;
+  min-height: 0;
+  padding: clamp(72px, 8vh, 96px) 32px;
+  overflow: hidden;
+  background: #2686E7;
+}
+
+.biz-overview-head {
+  left: 50%;
+  width: min(720px, calc(100vw - 48px));
+  transform: translateX(-50%);
+}
+
+.biz-overview-head__desc {
+  width: 100%;
+  min-width: 0;
+  text-align: center;
+}
+
+.biz-area-vision-label {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.biz-areas .biz-figma-panel {
+  opacity: 0;
+  transform: translateY(72px);
+  transition: opacity 0.85s ease, transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+.biz-areas.is-animated-in .biz-figma-panel {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.biz-blue-stack.is-scrolling-down .biz-blue-card {
+  transform: translateX(-50%) translateY(34px);
+}
+
+.biz-blue-stack.is-scrolling-down .biz-blue-card.is-prev {
+  transform: translateX(-50%) translateY(-34px);
+}
+
+.biz-blue-stack.is-scrolling-up .biz-blue-card {
+  transform: translateX(-50%) translateY(-34px);
+}
+
+.biz-blue-stack.is-scrolling-up .biz-blue-card.is-prev {
+  transform: translateX(-50%) translateY(34px);
+}
+
+.biz-blue-stack .biz-blue-card.is-active {
+  transform: translateX(-50%) translateY(0);
+}
+
+.biz-vision-shell {
+  width: min(1200px, 100%);
+  margin: 0 auto;
+  color: #fff;
+}
+
+.biz-vision-title {
+  margin: 0 auto 72px;
+  text-align: center;
+}
+
+.biz-vision-title h2 {
+  margin: 0 0 16px;
+  color: #fff;
+  font-family: "Poppins", sans-serif;
+  font-size: 40px;
+  font-weight: 300;
+  line-height: 1.15;
+  letter-spacing: 0;
+}
+
+.biz-vision-title h2 em {
+  font-family: "EB Garamond", serif;
+  font-style: italic;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+.biz-vision-title__amp {
+  font-family: "Poppins", sans-serif;
+  font-style: normal;
+  font-weight: 300;
+}
+
+.biz-vision-title p,
+.biz-vision-group-head p,
+.biz-glass-card p,
+.biz-glass-card strong {
+  margin: 0;
+  color: #fff;
+  font-family: "Pretendard", sans-serif;
+  letter-spacing: 0;
+}
+
+.biz-vision-title p {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.biz-vision-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 574px));
+  justify-content: center;
+  gap: 48px;
+}
+
+.biz-vision-column {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.biz-vision-column--caps {
+  padding-top: 88px;
+}
+
+.biz-vision-title,
+.biz-vision-column {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.38s ease, transform 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+.biz-vision-column {
+  transform: translateY(34px);
+}
+
+.biz-vision-column--caps {
+  transform: translateY(34px);
+}
+
+.biz-vision.is-animated-in .biz-vision-title,
+.biz-vision.is-animated-in .biz-vision-column {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+
+.biz-vision.is-animated-in .biz-vision-title {
+  transition-delay: 0s;
+}
+
+.biz-vision.is-animated-in .biz-vision-column:first-child {
+  transition-delay: 0.04s;
+}
+
+.biz-vision.is-animated-in .biz-vision-column--caps {
+  transition-delay: 0.14s;
+}
+
+.biz-vision-group-head {
+  margin-bottom: 3px;
+  color: #fff;
+  text-align: center;
+}
+
+.biz-vision-group-head h3 {
+  margin: 0 0 6px;
+  color: #fff;
+  font-family: "Pretendard", sans-serif;
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0;
+}
+
+.biz-vision-group-head p {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.biz-glass-card {
+  position: relative;
+  display: flex;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 82px;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 20px 64px;
+  overflow: hidden;
+  border-radius: 21px;
+  background: rgba(217, 217, 217, 0.2);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+  color: #fff;
+  cursor: pointer;
+  transition: min-height 0.35s ease, padding 0.35s ease, background 0.35s ease, box-shadow 0.35s ease;
+}
+
+.biz-glass-card:hover,
+.biz-glass-card:focus-visible {
+  min-height: 172px;
+  padding: 32px 64px;
+  background:
+    linear-gradient(rgba(38, 134, 231, 0.48), rgba(38, 134, 231, 0.48)),
+    url("../assets/images/sec.aboutus/business/figma-image-152.png") center / cover no-repeat;
+  box-shadow:
+    inset 0 0 0 8px rgba(255, 255, 255, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.24);
+}
+
+.biz-glass-card:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.78);
+  outline-offset: 4px;
+}
+
+.biz-glass-card > div,
+.biz-glass-card__detail {
+  width: 100%;
+}
+
+.biz-glass-card h4 {
+  margin: 0;
+  color: #fff;
+  font-family: "Pretendard", sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0;
+  text-align: left;
+  white-space: nowrap;
+  transition: margin 0.35s ease, font-size 0.35s ease;
+}
+
+.biz-glass-card:hover h4,
+.biz-glass-card:focus-visible h4 {
+  margin-bottom: 14px;
+  font-size: 23px;
+}
+
+.biz-glass-card__detail {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: max-height 0.35s ease, opacity 0.25s ease, transform 0.35s ease;
+}
+
+.biz-glass-card:hover .biz-glass-card__detail,
+.biz-glass-card:focus-visible .biz-glass-card__detail {
+  max-height: 90px;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.biz-glass-card strong {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.biz-glass-card p {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.biz-case__figure {
+  width: min(1320px, calc(100vw - 80px));
+  aspect-ratio: 1880 / 902;
+}
+
+.biz-case__figure.reveal {
+  transform: translateY(72px);
+  transition: opacity 0.9s ease, transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.biz-case__figure.reveal.is-visible {
+  transform: translateY(0);
+}
+
+.biz-case {
+  padding-top: 430px;
+  padding-bottom: 34px;
+}
+
+.biz-case__slide img {
+  width: 116%;
+  height: 100%;
+}
+
+.biz-case__slide::after {
+  height: 163px;
+}
+
+.biz-case__caption {
+  width: min(897px, 100%);
+  padding: 0 20px 20px;
+}
+
+.footer {
+  min-height: 440px;
+}
+
+.footer__inner {
+  padding-bottom: 70px;
+}
+
+@media (max-width: 900px) {
+  .biz-hero {
+    height: 100svh;
+    min-height: 100svh;
+    margin-top: -80px;
+  }
+
+  .biz-hero__figma-title {
+    top: auto;
+    transform: none;
+  }
+
+  .biz-vision {
+    margin-top: 104px;
+    padding: 120px 20px;
+  }
+
+  .biz-vision-title {
+    margin-bottom: 80px;
+  }
+
+  .biz-vision-title h2 {
+    font-size: 34px;
+  }
+
+  .biz-vision-title p,
+  .biz-vision-group-head p {
+    font-size: 15px;
+  }
+
+  .biz-vision-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .biz-vision-column--caps {
+    padding-top: 0;
+  }
+
+  .biz-vision-column,
+  .biz-vision-column--caps {
+    transform: translateY(36px);
+  }
+
+  .biz-glass-card {
+    min-height: 82px;
+    padding: 22px 28px;
+  }
+
+  .biz-glass-card:hover,
+  .biz-glass-card:focus-visible {
+    min-height: 176px;
+    padding: 30px 28px;
+  }
+
+  .biz-glass-card h4 {
+    font-size: 22px;
+  }
+
+  .biz-case__figure {
+    width: min(100%, calc(100vw - 40px));
+    aspect-ratio: 16 / 9;
+  }
+
+  .biz-case {
+    padding-top: 220px;
+    padding-bottom: 28px;
+  }
+
+  .biz-case__slide img {
+    width: 128%;
+    height: 100%;
+  }
+
+  .footer {
+    min-height: 340px;
+  }
+
+  .footer__inner {
+    padding-bottom: 52px;
+  }
+}

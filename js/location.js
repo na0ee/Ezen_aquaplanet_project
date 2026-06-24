@@ -124,7 +124,7 @@
       programDescription: '쇼핑과 문화, 체험이 결합된 도심형 아쿠아리움입니다<br><strong>생물 관람</strong>뿐 아니라 체험 콘텐츠와 다양한 테마 공간을 통해 새로운 해양문화 경험을 제공합니다',
       programs: [
         { image: 'assets/images/gwanggyo_guide_map04.jpg', title: "아쿠아플라넷 광교의 마스코트! '펭귄' 생태설명회" },
-        { image: 'assets/images/programIl2.png',           title: '머메이드쇼' }
+        { image: 'assets/images/Gwanggyo_program_e.jpg', title: '머메이드쇼' }
       ],
       floors: ['B1F', 'B2F'],
       defaultFloor: 'B2F',
@@ -219,6 +219,17 @@
   }
 
   applyLocationPage();
+
+  /* ================================================================
+     스크롤 인디케이터 — loc-intro 섹션으로 이동
+     ================================================================ */
+  var scrollBtn = document.querySelector('.loc-scroll');
+  if (scrollBtn) {
+    scrollBtn.addEventListener('click', function () {
+      var target = document.querySelector('.loc-intro');
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+    });
+  }
 
   /* ================================================================
      사이드 내비게이션 스크롤 연동
@@ -381,13 +392,13 @@
   /* 제공된 지도 이미지의 A–H 표기를 1320×790 좌표로 환산 */
   var JEJU_MARKERS = {
     '2F': [
-      { zone: 'A', left: 125, top: 180 },
-      { zone: 'A', left: 193, top: 416 },
-      { zone: 'B', left: 315, top: 315 },
-      { zone: 'C', left: 761, top: 445 }
+      { zone: 'A', left: 105, top: 160 },
+      { zone: 'A', left: 167, top: 390 },
+      { zone: 'B', left: 295, top: 285 },
+      { zone: 'C', left: 736, top: 425 }
     ],
     '1F': [
-      { zone: 'D', left: 395, top: 304 },
+      { zone: 'D', left: 372, top: 283 },
       { zone: 'E', left: 657, top: 550 }
     ],
     'B1F': [
@@ -566,14 +577,16 @@
 
   var GWANGGYO_DEFAULT_ZONE = { 'B1F': 'A', 'B2F': 'I' };
 
-  /* 모든 층의 버블 위치·크기는 이 설정만 공유합니다. */
+  /* 모든 층의 버블 위치·크기는 이 설정만 공유합니다.
+     x: hover 맵 우측(x≈1261) 기준 ~180px 간격, 피그마 그룹 left=1444 참고
+     y: 수직 중심 section-y=1011 (뷰포트 중앙) 기준 대칭 */
   var BUBBLE_LAYOUT = {
     five: [
-      { left: 1276, top: 566,  size: 100 },
-      { left: 1124, top: 704,  size: 130 },
-      { left: 1058, top: 914,  size: 160 },
-      { left: 1124, top: 1144, size: 130 },
-      { left: 1276, top: 1342, size: 100 }
+      { left: 2070, top: 470,  size: 120 },
+      { left: 1920, top: 680,  size: 160 },
+      { left: 1800, top: 910,  size: 190 },
+      { left: 1920, top: 1175, size: 160 },
+      { left: 2070, top: 1412, size: 120 }
     ]
   };
 
@@ -722,6 +735,7 @@
       mapImg.alt = '아쿠아플라넷 ' + locationName + ' 가이드 맵 ' + floor;
       mapImg.style.transform = (isGwanggyo && floor === 'B2F') ? 'rotate(180deg)' : '';
     }
+    if (mapSection) mapSection.dataset.floor = floor;
     floorTabs.forEach(function (tab) {
       var active = tab.dataset.floor === floor;
       tab.classList.toggle('is-active', active);
