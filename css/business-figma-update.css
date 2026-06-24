@@ -56,12 +56,12 @@
 
 .biz-area-vision-label {
   left: 50%;
-  top: clamp(270px, 37vh, 430px);
+  top: clamp(300px, 34vh, 370px);
   transform: translateX(-50%);
 }
 
 .biz-blue-stack {
-  top: clamp(400px, 54vh, 610px);
+  top: clamp(390px, 42vh, 460px);
 }
 
 .biz-areas .biz-figma-panel {
@@ -517,8 +517,28 @@
   --biz-hover-image: url("../assets/images/sec.aboutus/business/figma-hover-assets/vision-image-158.png");
 }
 
-.biz-vision-column--caps .biz-glass-card {
-  --biz-hover-image: url("../assets/images/sec.aboutus/business/figma-hover-assets/vision-staff-node-177-586.png");
+.biz-glass-card--creative {
+  --biz-hover-image: url("../assets/images/sec.aboutus/business/figma-hover-assets/vision-caps-creative-node-216-1166.png");
+  --biz-hover-position: center;
+}
+
+.biz-glass-card--responsible {
+  --biz-hover-image: url("../assets/images/sec.aboutus/business/figma-hover-assets/vision-caps-responsible-node-198-1095.png");
+  --biz-hover-position: center;
+}
+
+.biz-glass-card--tech {
+  --biz-hover-image: url("../assets/images/sec.aboutus/business/figma-hover-assets/vision-caps-tech-node-198-1103.png");
+  --biz-hover-position: center;
+}
+
+.biz-glass-card--staff {
+  --biz-hover-image: url("../assets/images/sec.aboutus/business/figma-hover-assets/vision-caps-staff-node-198-1111.png");
+  --biz-hover-position: center;
+}
+
+.biz-glass-card--network {
+  --biz-hover-image: url("../assets/images/sec.aboutus/business/figma-hover-assets/vision-caps-network-node-193-897.png");
   --biz-hover-position: center;
 }
 
@@ -554,6 +574,16 @@
 .biz-vision .biz-glass-card:hover .biz-glass-card__detail,
 .biz-vision .biz-glass-card:focus-visible .biz-glass-card__detail {
   max-height: 130px;
+}
+
+.biz-vision .biz-glass-card--tech:hover,
+.biz-vision .biz-glass-card--tech:focus-visible {
+  min-height: 287px;
+}
+
+.biz-vision .biz-glass-card--tech:hover .biz-glass-card__detail,
+.biz-vision .biz-glass-card--tech:focus-visible .biz-glass-card__detail {
+  max-height: 190px;
 }
 
 .biz-vision .biz-glass-card strong {
