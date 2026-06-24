@@ -450,11 +450,11 @@ body {
 
 .section__title {
   font-family: "Poppins", sans-serif;
-  font-size: 48px;
+  font-size: 58px;
   font-weight: 300;
-  letter-spacing: -2.24px;;
+  letter-spacing: -2.24px;
   line-height: normal;
-  margin-bottom: 36px;
+  margin-bottom: 14px;
   color: #ffffff;
 }
 
