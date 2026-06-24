@@ -23,13 +23,18 @@
   var rafId = null;
   var orbEls = [];
   var bound = false;
+  var currentProgress = 0;
+  var targetProgress = 0;
   var currentCarouselPosition = 0;
   var targetCarouselPosition = 0;
 
   function clamp01(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
   function lerp(a, b, t) { return a + (b - a) * t; }
   function easeInOut(t) { return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; }
-
+  function alignToPixel(value) {
+    var ratio = window.devicePixelRatio || 1;
+    return Math.round(value * ratio) / ratio;
+  }
   function getScale() {
     var parsed = Number(getComputedStyle(document.documentElement).getPropertyValue('--marin-scale'));
     return Number.isFinite(parsed) && parsed > 0 ? parsed : window.innerWidth / 1920;
@@ -118,8 +123,14 @@
     var hint = document.getElementById('cons-orbit-hint');
 
     var textOut = easeInOut(clamp01((progress - 0.08) / 0.04));
-    if (stage1) stage1.classList.toggle('is-visible', progress < 0.08 && textOut < 0.98);
-    if (stage2) stage2.classList.toggle('is-visible', progress >= 0.10 && progress < 0.30);
+    if (stage1) {
+      stage1.classList.toggle('is-visible', progress < 0.08 && textOut < 0.98);
+      stage1.style.transform = 'translate3d(-50%, -50%, 0)';
+    }
+    if (stage2) {
+      stage2.classList.toggle('is-visible', progress >= 0.10 && progress < 0.30);
+      stage2.style.transform = 'translate3d(-50%, -50%, 0)';
+    }
     if (hint) hint.classList.remove('is-visible');
 
     var toCarousel = easeInOut(clamp01((progress - 0.32) / 0.12));
@@ -142,7 +153,7 @@
         featuredOrb = orb;
       }
 
-      orb.el.style.transform = 'translate(-50%, -50%) translate(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px)';
+      orb.el.style.transform = 'translate3d(-50%, -50%, 0) translate3d(' + x.toFixed(2) + 'px,' + y.toFixed(2) + 'px, 0)';
       if (orb.circle) orb.circle.style.transform = 'scale(' + Math.max(0, size / CIRCLE_BASE).toFixed(3) + ')';
       orb.el.style.opacity = String(opacity);
       orb.el.style.zIndex = String(Math.round(size));
@@ -171,25 +182,31 @@
     var vh = window.innerHeight;
     var rect = section.getBoundingClientRect();
     var travel = Math.max(1, rect.height - vh);
-    var shiftScreen = clamp01((-rect.top) / travel) * travel;
-    var progress = clamp01(shiftScreen / travel);
-    var carouselProgress = clamp01((progress - 0.44) / 0.56);
-    var targetStep = Math.round(carouselProgress * N * 2);
+    var shiftScreen = Math.min(Math.max(-rect.top, 0), travel);
+    targetProgress = clamp01(shiftScreen / travel);
+    currentProgress += (targetProgress - currentProgress) * 0.075;
+    if (Math.abs(targetProgress - currentProgress) < 0.0008) {
+      currentProgress = targetProgress;
+    }
+
+    var carouselProgress = clamp01((currentProgress - 0.44) / 0.56);
+    var targetStep = carouselProgress * N * 2;
     var positionDelta = targetStep - currentCarouselPosition;
 
     targetCarouselPosition = targetStep;
-    currentCarouselPosition += positionDelta * 0.09;
-    if (Math.abs(targetCarouselPosition - currentCarouselPosition) < 0.002) {
+    currentCarouselPosition += positionDelta * 0.045;
+    if (Math.abs(targetCarouselPosition - currentCarouselPosition) < 0.0008) {
       currentCarouselPosition = targetCarouselPosition;
     }
 
-    var pinProgress = Math.min(progress, 0.90);
-    var pinShiftScreen = pinProgress * travel;
+    var pinShift = alignToPixel(shiftScreen) / scale;
+    pin.style.transform = 'translate3d(0, ' + pinShift.toFixed(2) + 'px, 0)';
+    render(currentProgress);
 
-    pin.style.transform = 'translateY(' + (pinShiftScreen / scale).toFixed(1) + 'px)';
-    render(progress);
-
-    if (Math.abs(targetCarouselPosition - currentCarouselPosition) > 0.002) {
+    if (
+      Math.abs(targetCarouselPosition - currentCarouselPosition) > 0.0008 ||
+      Math.abs(targetProgress - currentProgress) > 0.0008
+    ) {
       requestUpdate();
     }
   }
@@ -256,6 +273,8 @@
     if (!document.getElementById('cons-orbit')) return;
     collectOrbs();
     bindOnce();
+    currentProgress = 0;
+    targetProgress = 0;
     currentCarouselPosition = 0;
     targetCarouselPosition = 0;
     active = true;

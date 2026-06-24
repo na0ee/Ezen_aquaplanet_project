@@ -57,7 +57,7 @@
     </div>
   </header>
 
-  <main>
+  <main data-marin-rescue>
     <section class="hero" aria-label="Marin Lab 소개">
       <video class="hero__media" autoplay muted loop playsinline aria-hidden="true">
         <source src="assets/images/hero/marinlab.mp4" type="video/mp4">
@@ -80,8 +80,8 @@
     <section class="rescue" id="rescue" aria-label="Rescue and Care">
       <div class="tabs" aria-label="Marin Lab 활동 카테고리">
         <div class="tabs__inner">
-          <button class="tab is-active" type="button">Rescue &amp; Care</button>
-          <button class="tab" type="button">Conservation</button>
+          <button class="tab is-active" type="button" data-marin-view="rescue">Rescue &amp; Care</button>
+          <button class="tab" type="button" data-marin-view="conservation">Conservation</button>
         </div>
       </div>
 
@@ -218,6 +218,287 @@
       </section>
     </section>
   </main>
+
+  <main class="marin-shell marin-shell--conservation" data-marin-conservation hidden>
+    <div class="marin-stage" aria-label="Marin Lab Conservation page">
+      <nav class="marin-node m-pill-tabs" aria-label="Marin Lab 활동 카테고리">
+        <button class="m-pill" type="button" data-marin-view="rescue">Rescue &amp; Care</button>
+        <button class="m-pill m-pill--active" type="button" data-marin-view="conservation">Conservation</button>
+      </nav>
+
+      <section class="marin-node m-conservation-view" aria-label="Conservation activities">
+        <section class="m-cons-video-hero" aria-label="Conservation hero video">
+          <video class="m-cons-video-hero__video" autoplay muted loop playsinline poster="assets/images/conservation.gif">
+            <source src="assets/images/conservation.mp4" type="video/mp4">
+          </video>
+          <img class="m-cons-video-hero__fallback" src="assets/images/conservation.gif" alt="">
+          <div class="m-cons-video-hero__shade" aria-hidden="true"></div>
+          <div class="m-cons-video-hero__text">
+            <p>Welcome</p>
+            <h1><span>aqua planet</span><em>Marin Lab</em></h1>
+          </div>
+        </section>
+
+        <section class="m-cons-orbit" id="cons-orbit" aria-label="Conservation Activities">
+          <div class="m-cons-orbit-pin" id="cons-orbit-pin">
+            <div class="m-cons-orbit-stage m-cons-orbit-stage--1" id="cons-orbit-stage-1">
+              <h1 class="m-fig-title__main">
+                <span class="m-fig-title__serif">Conservation</span><span class="m-fig-title__plain"> Activities</span>
+              </h1>
+              <p class="m-fig-title__sub">바다와 생명을 지키는 지속적인 노력</p>
+            </div>
+            <p class="m-cons-orbit-stage m-cons-orbit-stage--2" id="cons-orbit-stage-2">
+              아쿠아플라넷은 <strong>해양수산부 지정 서식지외보전기관</strong>으로서<br>
+              <strong>해양생물의 보호와 증식을 위한 연구</strong>를 수행합니다
+            </p>
+            <p class="m-cons-orbit-hint" id="cons-orbit-hint">원을 클릭해 더 알아보세요</p>
+
+            <div class="m-cons-orbit-field" id="cons-orbit-field">
+              <button class="m-cons-orb" type="button" data-category="whale" aria-label="고래류 자세히 보기">
+                <span class="m-cons-orb__circle"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_01_01.png" alt=""></span>
+              </button>
+              <button class="m-cons-orb" type="button" data-category="pinniped" aria-label="기각류 자세히 보기">
+                <span class="m-cons-orb__circle"><img src="assets/images/sec.aboutus/marinlab/sec.aboutus/marinlab/hmbrc_pre_02_03 1.png" alt=""></span>
+              </button>
+              <button class="m-cons-orb" type="button" data-category="otter" aria-label="수달 자세히 보기">
+                <span class="m-cons-orb__circle"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_03_01.png" alt=""></span>
+              </button>
+              <button class="m-cons-orb" type="button" data-category="penguin" aria-label="펭귄류 자세히 보기">
+                <span class="m-cons-orb__circle"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_04_01.png" alt=""></span>
+              </button>
+              <button class="m-cons-orb" type="button" data-category="turtle" aria-label="바다거북 자세히 보기">
+                <span class="m-cons-orb__circle"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_05_01.png" alt=""></span>
+              </button>
+              <button class="m-cons-orb" type="button" data-category="seahorse" aria-label="해마와 해룡 자세히 보기">
+                <span class="m-cons-orb__circle"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_06_01.png" alt=""></span>
+              </button>
+              <button class="m-cons-orb" type="button" data-category="shark" aria-label="상어류 자세히 보기">
+                <span class="m-cons-orb__circle"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_07_01.png" alt=""></span>
+              </button>
+            </div>
+          </div>
+        </section>
+      </section>
+    </div>
+  </main>
+
+  <div class="m-cons-card-overlay" id="cons-card-overlay" aria-hidden="true">
+    <button class="m-cons-card-overlay__close" type="button" id="cons-card-overlay-close" aria-label="닫기">&times;</button>
+    <div class="m-cons-card-overlay__inner">
+
+      <article class="m-cons-card" data-card="whale">
+        <img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_01_01.png" alt="고래류">
+        <div class="m-cons-card__panel"></div>
+        <div class="m-cons-card__text">
+          <p class="m-cons-card__en">Whale</p>
+          <p class="m-cons-card__kr">고래류</p>
+          <p class="m-cons-card__desc">고래류는 전 세계 바다에 서식하는 대표적인 해양 포유류로, 흰수염고래와 돌고래, 상괭이 등이 포함됩니다.<br>과거 무분별한 포획으로 개체 수가 감소해 현재는 국제적인 보호와 보전활동이 이루어지고 있습니다.</p>
+        </div>
+      </article>
+
+      <article class="m-cons-card" data-card="otter">
+        <img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_03_01.png" alt="수달">
+        <div class="m-cons-card__panel"></div>
+        <div class="m-cons-card__text">
+          <p class="m-cons-card__en">Otter</p>
+          <p class="m-cons-card__kr">수달</p>
+          <p class="m-cons-card__desc">우리나라엔 유라시안 수달이 분포하고 있으며 이 수달은 천연기념물 제330호이자 멸종위기 야생생물 1급으로 지정되었습니다.<br>숫자가 감소되어가는 수달의 복원을 위해 현재는 국제적인 보호와 보전활동이 이루어지고 있습니다.</p>
+        </div>
+      </article>
+
+      <article class="m-cons-card" data-card="penguin">
+        <img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_04_01.png" alt="펭귄류">
+        <div class="m-cons-card__panel"></div>
+        <div class="m-cons-card__text">
+          <p class="m-cons-card__en">Penguin</p>
+          <p class="m-cons-card__kr">펭귄류</p>
+          <p class="m-cons-card__desc">기후변화로 인해 남극의 환경이 훼손되며 남극에 서식하는 펭귄들의 숫자가 빠른 속도로 줄어가고 있습니다.<br>남극조약 협의당사국 회의를 통해 세종기지 옆 해안 언덕에 서식하는 펭귄을 포함한 생물들을 맡아 관리하게 되었습니다.</p>
+        </div>
+      </article>
+
+      <article class="m-cons-card" data-card="turtle">
+        <img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_05_01.png" alt="바다거북">
+        <div class="m-cons-card__panel"></div>
+        <div class="m-cons-card__text">
+          <p class="m-cons-card__en">Sea Turtle</p>
+          <p class="m-cons-card__kr">바다거북</p>
+          <p class="m-cons-card__desc">바다 거북이에 의해 풍성해진 해초밭은 다양한 해양생물의 은신처가 되어 생태계를 풍부하게 만들어줍니다.<br>우리나라에서는 4종의 바다거북이 2013년 해양수산부에서 지정하는 보호대상해양생물로 신규 지정되었습니다.</p>
+        </div>
+      </article>
+
+      <article class="m-cons-card" data-card="shark">
+        <img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_07_01.png" alt="상어류">
+        <div class="m-cons-card__panel"></div>
+        <div class="m-cons-card__text">
+          <p class="m-cons-card__en">Shark</p>
+          <p class="m-cons-card__kr">상어류</p>
+          <p class="m-cons-card__desc">상어는 사람을 먹잇감으로 삼지 않으며 오히려 사람에 의해 상어가 멸종위기에 처한 상황입니다.<br>아쿠아플라넷에서는 상어의 서식지외보전기관으로서 다양한 상어들의 보전을 위해 노력하고 있습니다.</p>
+        </div>
+      </article>
+
+      <div class="m-cons-card-group" data-card="pinniped">
+        <div class="m-cons-card-group__intro">
+          <h3>기각류란?</h3>
+          <p>'지느러미처럼 생긴 발이 달린 동물' 이라는 뜻입니다<br>아쿠아플라넷 일산, 제주에서 만나볼 수 있는 바다코끼리를 포함하여 바다사자류, 물범류가 있으며 총 33종이 알려져 있습니다</p>
+        </div>
+        <div class="m-cons-card-group__row" style="--cons-flip-cols:3;">
+          <div class="m-cons-flip" data-flip="walrus">
+            <div class="m-cons-flip__inner">
+              <div class="m-cons-flip__face m-cons-flip__face--front">
+                <img src="assets/images/sec.aboutus/marinlab/sec.aboutus/marinlab/hmbrc_pre_02_01 1.png" alt="바다코끼리">
+                <div class="m-cons-flip__shade"></div>
+                <div class="m-cons-flip__caption"><p class="m-cons-flip__en">Walrus</p><p class="m-cons-flip__kr">바다코끼리</p></div>
+              </div>
+              <div class="m-cons-flip__face m-cons-flip__face--back">
+                <img src="assets/images/sec.aboutus/marinlab/sec.aboutus/marinlab/hmbrc_pre_02_01 1.png" alt="">
+                <div class="m-cons-flip__shade"></div>
+                <div class="m-cons-flip__caption">
+                  <p class="m-cons-flip__en">Walrus</p><p class="m-cons-flip__kr">바다코끼리</p>
+                  <p class="m-cons-flip__desc">바다코끼리는 최대 3.6m, 2톤에 이르는 대형 기각류입니다.<br>긴 엄니를 먹이를 찾거나 몸을 보호하는 데 사용하며 북극 연안에 서식합니다.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="m-cons-flip" data-flip="sea-lion">
+            <div class="m-cons-flip__inner">
+              <div class="m-cons-flip__face m-cons-flip__face--front">
+                <img src="assets/images/sec.aboutus/marinlab/sec.aboutus/marinlab/hmbrc_pre_02_02 1.png" alt="바다사자">
+                <div class="m-cons-flip__shade"></div>
+                <div class="m-cons-flip__caption"><p class="m-cons-flip__en">Sea Lion</p><p class="m-cons-flip__kr">바다사자</p></div>
+              </div>
+              <div class="m-cons-flip__face m-cons-flip__face--back">
+                <img src="assets/images/sec.aboutus/marinlab/sec.aboutus/marinlab/hmbrc_pre_02_02 1.png" alt="">
+                <div class="m-cons-flip__shade"></div>
+                <div class="m-cons-flip__caption">
+                  <p class="m-cons-flip__en">Sea Lion</p><p class="m-cons-flip__kr">바다사자</p>
+                  <p class="m-cons-flip__desc">물개라고도 불리는 바다사자는 긴 앞지느러미를 가지고 있어 육상에서 자유롭게 움직입니다.<br>개체 수 감소로 보호받고 있습니다.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="m-cons-flip" data-flip="seal">
+            <div class="m-cons-flip__inner">
+              <div class="m-cons-flip__face m-cons-flip__face--front">
+                <img src="assets/images/sec.aboutus/marinlab/sec.aboutus/marinlab/hmbrc_pre_02_03 1.png" alt="물범">
+                <div class="m-cons-flip__shade"></div>
+                <div class="m-cons-flip__caption"><p class="m-cons-flip__en">Seal</p><p class="m-cons-flip__kr">물범</p></div>
+              </div>
+              <div class="m-cons-flip__face m-cons-flip__face--back">
+                <img src="assets/images/sec.aboutus/marinlab/sec.aboutus/marinlab/hmbrc_pre_02_03 1.png" alt="">
+                <div class="m-cons-flip__shade"></div>
+                <div class="m-cons-flip__caption">
+                  <p class="m-cons-flip__en">Seal</p><p class="m-cons-flip__kr">물범</p>
+                  <p class="m-cons-flip__desc">물범은 전 세계 바다에 서식하는 대표적인 기각류입니다.<br>우리나라에서는 백령도 인근에 점박이 물범이 서식하며 보호받고 있습니다.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="m-cons-card-group" data-card="seahorse">
+        <div class="m-cons-card-group__intro">
+          <h3>해마와 해룡</h3>
+          <p>가늘고 긴 몸을 가진 실고기과의 해양생물로, 느린 움직임 때문에 보호가 필요합니다</p>
+        </div>
+        <div class="m-cons-card-group__row" style="--cons-flip-cols:2;">
+          <div class="m-cons-flip" data-flip="seahorse">
+            <div class="m-cons-flip__inner">
+              <div class="m-cons-flip__face m-cons-flip__face--front">
+                <img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_06_01.png" alt="해마">
+                <div class="m-cons-flip__shade"></div>
+                <div class="m-cons-flip__caption"><p class="m-cons-flip__en">Seahorse</p><p class="m-cons-flip__kr">해마</p></div>
+              </div>
+              <div class="m-cons-flip__face m-cons-flip__face--back">
+                <img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_06_01.png" alt="">
+                <div class="m-cons-flip__shade"></div>
+                <div class="m-cons-flip__caption">
+                  <p class="m-cons-flip__en">Seahorse</p><p class="m-cons-flip__kr">해마</p>
+                  <p class="m-cons-flip__desc">1990년대 이후 해마는 빠른 속도로 감소하기에 이르렀습니다. CITES 동물군에 포함되었지만, 불법적으로 거래가 이루어지고 있는 상황입니다.<br>우리나라에서는 가시해마와 복해마를 보호대상해양생물로 지정 보호하고 있습니다.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="m-cons-flip" data-flip="sea-dragon">
+            <div class="m-cons-flip__inner">
+              <div class="m-cons-flip__face m-cons-flip__face--front">
+                <img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_06_02.png" alt="해룡">
+                <div class="m-cons-flip__shade"></div>
+                <div class="m-cons-flip__caption"><p class="m-cons-flip__en">Sea dragon</p><p class="m-cons-flip__kr">해룡</p></div>
+              </div>
+              <div class="m-cons-flip__face m-cons-flip__face--back">
+                <img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_06_02.png" alt="">
+                <div class="m-cons-flip__shade"></div>
+                <div class="m-cons-flip__caption">
+                  <p class="m-cons-flip__en">Sea dragon</p><p class="m-cons-flip__kr">해룡</p>
+                  <p class="m-cons-flip__desc">해룡은 움직임이 느려, 쉽게 천적의 공격을 받기 때문에 성체가 되는 개체는 많지 않은 생물입니다. 또한 서식지가 오염됨에 따라 개체 수가 줄어들고 있는 상황입니다.<br>오스트레일리아의 해안에만 있는 어류로 수출을 금하며 보호하고 있는 어류입니다.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="js/conservation-orbit.js"></script>
+  <script>
+    (function () {
+      const rescueMain = document.querySelector('[data-marin-rescue]');
+      const conservationMain = document.querySelector('[data-marin-conservation]');
+      const viewTabs = Array.from(document.querySelectorAll('[data-marin-view]'));
+      let currentView = 'rescue';
+
+      function getConservationScale() {
+        return window.innerWidth / 1920;
+      }
+
+      function resizeConservation() {
+        const scale = getConservationScale();
+        document.documentElement.style.setProperty('--marin-scale', scale.toFixed(6));
+        if (conservationMain) {
+          conservationMain.style.height = (9480 * scale) + 'px';
+        }
+      }
+
+      function setView(view) {
+        currentView = view === 'conservation' ? 'conservation' : 'rescue';
+        const isConservation = currentView === 'conservation';
+
+        resizeConservation();
+        if (rescueMain) rescueMain.hidden = isConservation;
+        if (conservationMain) conservationMain.hidden = !isConservation;
+        document.body.classList.toggle('marin-view-conservation', isConservation);
+
+        viewTabs.forEach((tab) => {
+          const active = tab.getAttribute('data-marin-view') === currentView;
+          tab.classList.toggle('is-active', active);
+          tab.classList.toggle('m-pill--active', active);
+          tab.setAttribute('aria-selected', String(active));
+        });
+
+        if (isConservation) {
+          if (window.initConservationOrbit) window.initConservationOrbit();
+        } else if (window.destroyConservationOrbit) {
+          window.destroyConservationOrbit();
+        }
+      }
+
+      viewTabs.forEach((tab) => {
+        tab.addEventListener('click', () => setView(tab.getAttribute('data-marin-view')));
+      });
+
+      window.addEventListener('resize', () => {
+        resizeConservation();
+        if (currentView === 'conservation' && window.initConservationOrbit) {
+          window.initConservationOrbit();
+        }
+      }, { passive: true });
+
+      setView('rescue');
+    })();
+  </script>
 
   <script>
     const gnb = document.getElementById('pageGnb');
