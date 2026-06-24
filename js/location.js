@@ -381,13 +381,13 @@
   /* 제공된 지도 이미지의 A–H 표기를 1320×790 좌표로 환산 */
   var JEJU_MARKERS = {
     '2F': [
-      { zone: 'A', left: 125, top: 180 },
-      { zone: 'A', left: 193, top: 416 },
-      { zone: 'B', left: 315, top: 315 },
-      { zone: 'C', left: 761, top: 445 }
+      { zone: 'A', left: 105, top: 160 },
+      { zone: 'A', left: 167, top: 390 },
+      { zone: 'B', left: 295, top: 285 },
+      { zone: 'C', left: 736, top: 425 }
     ],
     '1F': [
-      { zone: 'D', left: 395, top: 304 },
+      { zone: 'D', left: 372, top: 283 },
       { zone: 'E', left: 657, top: 550 }
     ],
     'B1F': [
@@ -566,14 +566,16 @@
 
   var GWANGGYO_DEFAULT_ZONE = { 'B1F': 'A', 'B2F': 'I' };
 
-  /* 모든 층의 버블 위치·크기는 이 설정만 공유합니다. */
+  /* 모든 층의 버블 위치·크기는 이 설정만 공유합니다.
+     x: hover 맵 우측(x≈1261) 기준 ~180px 간격, 피그마 그룹 left=1444 참고
+     y: 수직 중심 section-y=1011 (뷰포트 중앙) 기준 대칭 */
   var BUBBLE_LAYOUT = {
     five: [
-      { left: 1276, top: 566,  size: 100 },
-      { left: 1124, top: 704,  size: 130 },
-      { left: 1058, top: 914,  size: 160 },
-      { left: 1124, top: 1144, size: 130 },
-      { left: 1276, top: 1342, size: 100 }
+      { left: 1620, top: 590,  size: 100 },
+      { left: 1490, top: 746,  size: 125 },
+      { left: 1400, top: 931,  size: 150 },
+      { left: 1490, top: 1146, size: 125 },
+      { left: 1620, top: 1332, size: 100 }
     ]
   };
 
