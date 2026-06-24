@@ -524,20 +524,20 @@ button {
 .btn-pill {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 10px;
   height: 54px;
   padding: 0 22px;
-  border-radius: var(--radius-btn-pill);
+  border-radius: 100px;
   font-family: var(--font-en);
   font-weight: 400;
-  font-size: var(--fs-nav);
-  letter-spacing: var(--ls-tight);
-  color: var(--clr-text);
-  background: rgba(255, 255, 255, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.28);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  transition: background var(--tr-base), border-color var(--tr-base);
+  font-size: 24px;
+  letter-spacing: -0.96px;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.02);
+  border: none;
+  white-space: nowrap;
+  transition: background var(--tr-base);
 }
 
 .btn-pill:hover {
