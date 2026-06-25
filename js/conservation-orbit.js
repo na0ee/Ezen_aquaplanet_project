@@ -256,8 +256,12 @@
 
     var isPinned = rect.top <= 0 && rect.bottom >= 0;
     var enterOpacity = isPinned ? easeInOut(clamp01(-rect.top / (vh * 0.55))) : 0;
-    var pinOffsetY = getPinOffsetY();
-    pin.style.transform = 'translateX(-50%) translateY(' + pinOffsetY.toFixed(2) + 'px) scale(' + scale.toFixed(6) + ')';
+    if (isTabletLayout()) {
+      var pinOffsetY = getPinOffsetY();
+      pin.style.transform = 'translateX(-50%) translateY(' + pinOffsetY.toFixed(2) + 'px) scale(' + scale.toFixed(6) + ')';
+    } else {
+      pin.style.transform = 'translateX(-50%) scale(' + scale.toFixed(6) + ')';
+    }
     pin.style.opacity = String(enterOpacity);
     pin.style.visibility = isPinned ? 'visible' : 'hidden';
     pin.style.pointerEvents = isPinned ? 'auto' : 'none';
