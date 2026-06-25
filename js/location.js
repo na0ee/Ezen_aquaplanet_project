@@ -69,9 +69,9 @@
       floors: ['1F', '2F', '3F'],
       defaultFloor: '3F',
       maps: {
-        '1F': 'assets/images/locationYeosu_map_f1.png',
-        '2F': 'assets/images/locationYeosu_map_f2.png',
-        '3F': 'assets/images/locationYeosu_map_f3.png'
+        '1F': 'assets/images/location/Yeosu1f.svg',
+        '2F': 'assets/images/location/Yeosu2f.svg',
+        '3F': 'assets/images/location/Yeosu3f.svg'
       },
       openingTime: '09:30 - 18:00',
       openingLabel: '연중 무휴',
@@ -97,11 +97,11 @@
       floors: ['B1F', '1F', '2F', '3F', '5F'],
       defaultFloor: '1F',
       maps: {
-        'B1F': 'assets/images/locationIlsan_map_b1f.png',
-        '1F': 'assets/images/locationIlsan_map_f1.png',
-        '2F': 'assets/images/locationIlsan_map_f2.png',
-        '3F': 'assets/images/locationIlsan_map_f3.png',
-        '5F': 'assets/images/locationIlsan_map_f5.png'
+        'B1F': 'assets/images/location/ilsanB1f.svg',
+        '1F':  'assets/images/location/ilsan1f.svg',
+        '2F':  'assets/images/location/ilsan2f.svg',
+        '3F':  'assets/images/location/ilsan3f.svg',
+        '5F':  'assets/images/location/ilsan5f.svg'
       },
       openingTime: '10:00 - 18:00',
       openingLabel: '연중 무휴',
@@ -129,8 +129,8 @@
       floors: ['B1F', 'B2F'],
       defaultFloor: 'B2F',
       maps: {
-        'B1F': 'assets/images/locationGwanggyo_map_b2f.png',
-        'B2F': 'assets/images/locationGwanggyo_map_b1f.png'
+        'B1F': 'assets/images/location/gwanggyoB1f.svg',
+        'B2F': 'assets/images/location/gwanggyoB2f.svg'
       },
       openingTime: '10:30 - 19:30',
       openingLabel: '연중 무휴',
@@ -232,23 +232,22 @@
 
   function updateHeroTransition() {
     if (!heroWrap || !heroContent || !introContent) return;
-    if (window.matchMedia('(max-width: 820px)').matches) {
-      heroContent.style.opacity   = '';
-      heroContent.style.transform = '';
-      return;
-    }
+
+    var isMobile = window.matchMedia('(max-width: 820px)').matches;
     var top      = heroWrap.getBoundingClientRect().top;
     var progress = Math.max(0, Math.min(1, -top / HERO_ZONE));
 
-    /* hero content: 페이드아웃 + 위로 이동 */
+    /* hero content: 페이드아웃 (모바일은 translateY 없이 opacity만) */
     heroContent.style.opacity   = Math.max(0, 1 - progress * 2.5).toFixed(3);
-    heroContent.style.transform = 'translateY(' + (-60 * progress).toFixed(1) + 'px)';
+    heroContent.style.transform = isMobile ? '' : 'translateY(' + (-60 * progress).toFixed(1) + 'px)';
 
-    /* intro content: 페이드인 + 아래서 위로 (progress 0.25 이후 시작) */
+    /* intro content: 페이드인 (모바일은 translateY만, 데스크탑은 translate(-50%,...)) */
     var ip = Math.max(0, (progress - 0.25) / 0.75);
-    introContent.style.opacity      = ip.toFixed(3);
-    introContent.style.transform    = 'translate(-50%, calc(-50% + ' + (40 * (1 - ip)).toFixed(1) + 'px))';
+    introContent.style.opacity       = ip.toFixed(3);
     introContent.style.pointerEvents = ip > 0.5 ? 'auto' : 'none';
+    introContent.style.transform     = isMobile
+      ? 'translateY(' + (24 * (1 - ip)).toFixed(1) + 'px)'
+      : 'translate(-50%, calc(-50% + ' + (40 * (1 - ip)).toFixed(1) + 'px))';
   }
 
   /* 스크롤 인디케이터 클릭 → 전환 구간만큼 스크롤 */
@@ -339,9 +338,9 @@
   var bindBubbleEvents = function () {};
 
   var JEJU_MAPS = {
-    '2F':  'assets/images/locationJeju_map_2f.png',
-    '1F':  'assets/images/locationJeju_map_1f.png',
-    'B1F': 'assets/images/locationJeju_map_b1f.png'
+    '2F':  'assets/images/location/jeju2f.svg',
+    '1F':  'assets/images/location/jeju1f.svg',
+    'B1F': 'assets/images/location/jejuB1f.svg'
   };
 
   var ACTIVE_MAPS = isIlsan     ? LOCATION_PAGES.ilsan.maps
@@ -634,6 +633,18 @@
     if (soloSection) soloSection.style.setProperty('--map-s', s);
   }
 
+  function getMapOffsetY() {
+    if (!soloSection) return 0;
+    var value = window.getComputedStyle(soloSection).getPropertyValue('--map-offset-y');
+    return parseFloat(value) || 0;
+  }
+
+  function getSoloMapScale() {
+    if (!soloSection) return 0.56;
+    var value = window.getComputedStyle(soloSection).getPropertyValue('--solo-map-scale');
+    return parseFloat(value) || 0.56;
+  }
+
   function getBubbleLayout(index) {
     var s   = getMapScale();
     var rel = BUBBLE_LAYOUT[index];
@@ -760,16 +771,25 @@
       });
     }
 
-    /* Solo 마커: 시각적 표시만 (클릭 없음) */
+    /* Solo 마커: 클릭 시 해당 존 선택 후 exhibits 섹션으로 스크롤 */
     if (soloMarkersEl) {
       soloMarkersEl.replaceChildren();
       positions.forEach(function (position) {
-        var marker = document.createElement('div');
+        var marker = document.createElement('button');
+        marker.type = 'button';
         marker.className = 'loc-map__marker';
         marker.dataset.zone = position.zone;
         marker.style.left = position.left + 'px';
         marker.style.top = position.top + 'px';
         marker.textContent = position.zone;
+        marker.setAttribute('aria-label', (labels[position.zone] || position.zone) + '구역 보기');
+        marker.addEventListener('click', function () {
+          renderZone(position.zone, false);
+          if (soloWrapEl) {
+            var targetY = soloWrapEl.offsetTop + soloWrapEl.offsetHeight - window.innerHeight;
+            window.scrollTo({ top: targetY, behavior: 'smooth' });
+          }
+        });
         soloMarkersEl.appendChild(marker);
       });
     }
@@ -877,10 +897,11 @@
 
       /* solo 맵: scale 0.8→0.7, 중앙→exhibits 맵 위치(-235*s) */
       if (soloStageEl) {
-        var sc   = (0.56 - 0.07 * progress) * s;
+        var sc   = (getSoloMapScale() - 0.07 * progress) * s;
         var xOff = (-235 * s * progress).toFixed(2);
+        var yOff = getMapOffsetY().toFixed(2);
         soloStageEl.style.transform =
-          'translate(calc(-50% + ' + xOff + 'px), -50%) scale(' + sc.toFixed(4) + ')';
+          'translate(calc(-50% + ' + xOff + 'px), calc(-50% + ' + yOff + 'px)) scale(' + sc.toFixed(4) + ')';
       }
 
       var exProg = Math.max(0, (progress - 0.5) * 2);
