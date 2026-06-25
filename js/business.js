@@ -187,6 +187,9 @@
   if (!section) return;
 
   const pin = section.querySelector('.biz-blue-stack');
+  const head = section.querySelector('.biz-overview-head');
+  const label = section.querySelector('.biz-area-vision-label');
+  const mobileQuery = window.matchMedia('(max-width: 768px)');
   const slides = Array.from(section.querySelectorAll('.biz-blue-card'))
     .sort(function (a, b) {
       return Number(a.dataset.slide || 0) - Number(b.dataset.slide || 0);
@@ -194,6 +197,15 @@
   if (!pin || !slides.length) return;
 
   let current = -1;
+  let rafId = null;
+
+  function clamp(value, min, max) {
+    return Math.min(max, Math.max(min, value));
+  }
+
+  function smooth(t) {
+    return t * t * (3 - 2 * t);
+  }
 
   function activate(index) {
     if (index === current) return;
@@ -203,6 +215,10 @@
 
     pin.classList.toggle('is-scrolling-up', direction === 'up');
     pin.classList.toggle('is-scrolling-down', direction === 'down');
+    if (head) {
+      head.classList.toggle('is-scrolling-up', direction === 'up');
+      head.classList.toggle('is-scrolling-down', direction === 'down');
+    }
 
     slides.forEach(function (slide, i) {
       slide.classList.remove('is-active', 'is-prev');
@@ -214,8 +230,40 @@
     });
   }
 
+  function renderOverview(rect) {
+    if (!head) return;
+
+    if (mobileQuery.matches) {
+      head.style.removeProperty('--biz-overview-opacity');
+      head.style.removeProperty('--biz-overview-y');
+      head.style.removeProperty('--biz-overview-max-height');
+      if (label) label.style.removeProperty('--biz-overview-follow-y');
+      if (pin) pin.style.removeProperty('--biz-overview-follow-y');
+      head.style.visibility = '';
+      return;
+    }
+
+    const viewport = window.innerHeight || document.documentElement.clientHeight;
+    const fadeDistance = Math.max(320, viewport * 0.46);
+    const progress = smooth(clamp(-rect.top / fadeDistance, 0, 1));
+
+    head.style.setProperty('--biz-overview-opacity', (1 - progress).toFixed(3));
+    head.style.setProperty('--biz-overview-y', (-72 * progress).toFixed(2) + 'px');
+    head.style.setProperty('--biz-overview-max-height', (180 * (1 - progress)).toFixed(2) + 'px');
+    if (label) label.style.setProperty('--biz-overview-follow-y', (-128 * progress).toFixed(2) + 'px');
+    if (pin) pin.style.setProperty('--biz-overview-follow-y', (-128 * progress).toFixed(2) + 'px');
+    head.style.visibility = progress > 0.985 ? 'hidden' : 'visible';
+  }
+
   function update() {
     const rect = section.getBoundingClientRect();
+    renderOverview(rect);
+
+    if (mobileQuery.matches) {
+      activate(0);
+      return;
+    }
+
     const startDelay = Math.min(360, window.innerHeight * 0.28);
     const slideStep = Math.max(320, window.innerHeight * 0.34);
 
@@ -228,8 +276,21 @@
     activate(index);
   }
 
-  window.addEventListener('scroll', update, { passive: true });
-  window.addEventListener('resize', update);
+  function requestUpdate() {
+    if (rafId) return;
+    rafId = requestAnimationFrame(function () {
+      rafId = null;
+      update();
+    });
+  }
+
+  window.addEventListener('scroll', requestUpdate, { passive: true });
+  window.addEventListener('resize', requestUpdate);
+  if (mobileQuery.addEventListener) {
+    mobileQuery.addEventListener('change', requestUpdate);
+  } else if (mobileQuery.addListener) {
+    mobileQuery.addListener(requestUpdate);
+  }
   activate(0);
   update();
 })();
