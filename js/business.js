@@ -6,7 +6,7 @@
      ③ 사업분야 검색 필터 (#biz-search → 해당 블록만 강조)
    ============================================================= */
 
-/* ── 사업 예시 이미지 슬라이더: 2초마다 옆으로 전환 / 무한 루프 / 호버 시 멈춤 ──
+/* ── 사업 예시 이미지 슬라이더: 2초마다 옆으로 전환 / 무한 루프 ──
    끝 슬라이드 다음에 '첫 슬라이드 클론'으로 계속 이동 → 도달하면 transition 없이
    진짜 첫 슬라이드로 순간 리셋(클론과 동일해 보여서 끊김 없음) */
 (function () {
@@ -45,9 +45,6 @@
 
   function start() { stop(); timer = setInterval(next, 2000); }
   function stop() { if (timer) { clearInterval(timer); timer = null; } }
-
-  figure.addEventListener('mouseenter', stop);   // 호버하면 멈춤
-  figure.addEventListener('mouseleave', start);  // 벗어나면 재개
 
   setX(false);   // 초기 위치
   start();
@@ -264,8 +261,9 @@
       return;
     }
 
-    const startDelay = Math.min(360, window.innerHeight * 0.28);
-    const slideStep = Math.max(320, window.innerHeight * 0.34);
+    const viewport = window.innerHeight || document.documentElement.clientHeight;
+    const startDelay = Math.max(640, viewport * 0.82);
+    const slideStep = Math.max(420, viewport * 0.42);
 
     if (rect.top > 0 || -rect.top < startDelay) {
       activate(0);

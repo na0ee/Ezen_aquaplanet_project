@@ -42,7 +42,7 @@ body.biz-page.mobile-menu-open .gnb {
   justify-content: center;
   color: #fff;
   font-family: "Poppins", sans-serif;
-  font-size: 24px;
+  font-size: 18px;
   font-weight: 400;
   line-height: normal;
   letter-spacing: -0.96px;
@@ -52,8 +52,8 @@ body.biz-page.mobile-menu-open .gnb {
 .biz-page .gnb__link.gnb__link--active {
   color: #fff;
   font-family: "EB Garamond", serif;
-  font-size: 28px;
-  font-weight: 500;
+  font-size: 20px;
+  font-weight: 400;
   letter-spacing: -1.12px;
 }
 
@@ -75,11 +75,11 @@ body.biz-page.mobile-menu-open .gnb {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 6px;
   box-sizing: border-box;
-  width: 143px;
-  height: 54px;
-  padding: 0 22px;
+  width: auto;
+  height: 42px;
+  padding: 0 14px 0 18px;
   border: 0;
   border-radius: 100px;
   overflow: hidden;
@@ -87,10 +87,10 @@ body.biz-page.mobile-menu-open .gnb {
   box-shadow: none;
   color: #fff;
   font-family: "Poppins", sans-serif;
-  font-size: 24px;
+  font-size: 18px;
   font-weight: 400;
   line-height: normal;
-  letter-spacing: -0.96px;
+  letter-spacing: -0.48px;
   text-decoration: none;
   transition: none;
   isolation: isolate;
@@ -154,48 +154,46 @@ body.biz-page.mobile-menu-open .gnb {
 
 @media (min-width: 1181px) and (max-width: 1400px) {
   .biz-page .gnb {
-    height: 92px;
-    padding: 20px 24px;
+    height: 102px;
+    padding: 24px 32px;
   }
 
   .biz-page .gnb__inner {
-    height: 52px;
+    height: 54px;
   }
 
   .biz-page .gnb__nav {
-    gap: clamp(20px, 2.4vw, 34px);
+    gap: 44px;
   }
 
   .biz-page .gnb__link {
-    font-size: clamp(18px, 1.65vw, 22px);
-    letter-spacing: -0.04em;
+    font-size: 18px;
+    letter-spacing: -0.96px;
   }
 
   .biz-page .gnb__link.gnb__link--active {
-    font-size: clamp(21px, 1.95vw, 26px);
-    letter-spacing: -0.04em;
+    font-size: 20px;
+    letter-spacing: -1.12px;
   }
 
   .biz-page .gnb__logo-wrap,
   .biz-page .gnb__logo {
-    width: 52px;
-    height: 52px;
+    width: 60px;
+    height: 60px;
   }
 
   .biz-page .gnb__ticket {
-    width: auto;
-    min-width: 124px;
-    height: 50px;
-    padding-inline: 18px;
-    gap: 8px;
-    font-size: clamp(18px, 1.65vw, 22px);
-    letter-spacing: -0.04em;
+    height: 42px;
+    padding: 0 14px 0 18px;
+    gap: 6px;
+    font-size: 18px;
+    letter-spacing: -0.48px;
   }
 
   .biz-page .gnb__ticket-icon {
-    width: 22px;
-    height: 22px;
-    flex-basis: 22px;
+    width: 24px;
+    height: 24px;
+    flex-basis: 24px;
   }
 }
 
@@ -215,6 +213,17 @@ body.biz-page.mobile-menu-open .gnb {
   background-image: url("https://www.aquaplanet.co.kr/Upload/pcprogram/JEJU/KOR/img_name_20200113220918733.gif");
   background-position: center;
   background-size: cover;
+}
+
+.biz-hero__video {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
 }
 
 .biz-hero__figma-title {
@@ -1313,7 +1322,6 @@ body.biz-page.mobile-menu-open .gnb {
 
 
 @media (min-width: 769px) and (max-width: 1024px) {
->>>>>>> origin/main
   .biz-page {
     --biz-tablet-container: min(100% - 64px, 960px);
     --biz-tablet-card-gap: 14px;
@@ -1665,7 +1673,7 @@ body.biz-page.mobile-menu-open .gnb {
   }
 
   .biz-page .biz-vision-title {
-    margin-bottom: 68px !important;
+    margin-bottom: 48px !important;
   }
 
   .biz-page .biz-vision-title h2 {
@@ -1682,7 +1690,7 @@ body.biz-page.mobile-menu-open .gnb {
   }
 
   .biz-page .biz-vision-column {
-    gap: var(--biz-tablet-card-gap) !important;
+    gap: 24px !important;
   }
 
   .biz-page .biz-vision-column:first-child .biz-vision-group-head,
@@ -2544,7 +2552,7 @@ body.biz-page.mobile-menu-open .gnb {
   flex: 0 0 auto;
 
   width: min(1320px, calc(100vw - 80px));
->>>>>>> origin/main
+
   height: auto;
   margin: 0 auto;
   overflow: hidden;
@@ -2552,7 +2560,6 @@ body.biz-page.mobile-menu-open .gnb {
   background: #fff;
 
   aspect-ratio: 1880 / 902;
->>>>>>> origin/main
 }
 
 .biz-case__track,
@@ -2579,7 +2586,7 @@ body.biz-page.mobile-menu-open .gnb {
   top: 50%;
   left: 50%;
   width: 116%;
->>>>>>> origin/main
+
   height: 100%;
   max-width: none;
   object-fit: cover;
@@ -2697,7 +2704,7 @@ body.biz-page.mobile-menu-open .gnb {
   }
 
   .biz-vision-title {
-    margin-bottom: 80px;
+    margin-bottom: 40px;
   }
 
   .biz-vision-title h2 {
@@ -3057,6 +3064,10 @@ body.biz-page.mobile-menu-open .gnb {
   text-align: left;
 }
 
+.biz-blue-card--acquisition .biz-blue-card__body h3 {
+  margin-left: -6px;
+}
+
 .biz-blue-card--acquisition .biz-blue-card__body > p {
   margin-top: 10px;
   text-align: left;
@@ -3073,7 +3084,7 @@ body.biz-page.mobile-menu-open .gnb {
 }
 
 .biz-vision-title {
-  margin: 0 auto 280px;
+  margin: 0 auto 72px;
   text-align: center;
 }
 
@@ -3129,7 +3140,7 @@ body.biz-page.mobile-menu-open .gnb {
 .biz-vision-column {
   display: flex;
   flex-direction: column;
-  gap: 25px;
+  gap: 34px;
   transform: translateY(34px);
 }
 
@@ -3166,7 +3177,7 @@ body.biz-page.mobile-menu-open .gnb {
 
 .biz-vision-group-head {
   width: 100%;
-  margin-bottom: 0;
+  margin-bottom: 4px;
   color: #fff;
   text-align: center;
 }
