@@ -2115,7 +2115,7 @@ function initMapMarkers() {
   const branchInfo = {
     '일산':  {
       name: '아쿠아플라넷 일산',
-      img: 'assets/images/Frame 19.png',
+      img: 'assets/images/index/Frame 19.avif',
       href: '#sec-booking',
       address: '경기도 고양시 일산서구 한류월드로 282',
       tel: 'TEL. 1833-7001',
@@ -2123,7 +2123,7 @@ function initMapMarkers() {
     },
     '코엑스': {
       name: '아쿠아플라넷 광교',
-      img: 'assets/images/Frame 20.png',
+      img: 'assets/images/index/Frame 20.avif',
       href: '#sec-booking',
       address: '경기도 수원시 영통구 광교호수공원로 300 포레나 광교 B1F',
       tel: 'TEL. 1833-7001',
@@ -2131,7 +2131,7 @@ function initMapMarkers() {
     },
     '여수':  {
       name: '아쿠아플라넷 여수',
-      img: 'assets/images/Frame 22.png',
+      img: 'assets/images/index/Frame 22.avif',
       href: '#sec-booking',
       address: '전라남도 여수시 오동도로 61-11',
       tel: 'TEL. 1833-7001',
@@ -2139,7 +2139,7 @@ function initMapMarkers() {
     },
     '제주':  {
       name: '아쿠아플라넷 제주',
-      img: 'assets/images/Frame 21.png',
+      img: 'assets/images/index/Frame 21.avif',
       href: '#sec-booking',
       address: '제주특별자치도 서귀포시 성산읍 섭지코지로 95',
       tel: 'TEL. 1833-7001',
