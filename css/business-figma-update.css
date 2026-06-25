@@ -248,7 +248,7 @@
 }
 
 .biz-vision-title {
-  margin: 0 auto 280px;
+  margin: 0 auto 120px;
   text-align: center;
 }
 
@@ -644,8 +644,8 @@
 }
 
 .biz-case__figure {
-  width: min(1320px, calc(100vw - 80px));
-  aspect-ratio: 1880 / 902;
+  width: min(1349px, calc(100vw - 80px));
+  aspect-ratio: 1349 / 799;
 }
 
 .biz-case__figure.reveal {
@@ -658,12 +658,12 @@
 }
 
 .biz-case {
-  padding-top: 430px;
+  padding-top: 156px;
   padding-bottom: 34px;
 }
 
 .biz-case__slide img {
-  width: 116%;
+  width: 100%;
   height: 100%;
 }
 
@@ -702,16 +702,34 @@
   }
 
   .biz-vision-title {
-    margin-bottom: 80px;
+    margin-bottom: 60px;
   }
 
   .biz-vision-title h2 {
-    font-size: 34px;
+    width: 100%;
+    max-width: 320px;
+    margin-inline: auto;
+    font-size: clamp(30px, 8.2vw, 34px);
+    line-height: 1.12;
+    white-space: normal;
+    overflow-wrap: normal;
+    word-break: keep-all;
+  }
+
+  .biz-vision-title h2 em {
+    display: block;
+  }
+
+  .biz-vision-title__cap {
+    display: block;
   }
 
   .biz-vision-title p,
   .biz-vision-group-head p {
     font-size: 15px;
+    line-height: 1.5;
+    white-space: normal;
+    word-break: keep-all;
   }
 
   .biz-vision-grid {
@@ -745,16 +763,45 @@
 
   .biz-case__figure {
     width: min(100%, calc(100vw - 40px));
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 1349 / 799;
   }
 
   .biz-case {
-    padding-top: 220px;
+    padding-top: 96px;
     padding-bottom: 28px;
   }
 
+  .biz-case__head {
+    width: min(100%, calc(100vw - 40px));
+    gap: 12px;
+    margin-bottom: 48px;
+  }
+
+  .biz-case__title {
+    white-space: normal;
+  }
+
+  .biz-case__title em {
+    font-size: clamp(36px, 10.5vw, 48px);
+    letter-spacing: -0.04em;
+  }
+
+  .biz-case__title span {
+    font-size: clamp(32px, 9.2vw, 42px);
+    letter-spacing: -0.04em;
+  }
+
+  .biz-case__lead {
+    width: 100%;
+    font-size: clamp(14px, 3.8vw, 18px);
+    line-height: 1.45;
+    letter-spacing: -0.02em;
+    white-space: normal;
+    word-break: keep-all;
+  }
+
   .biz-case__slide img {
-    width: 128%;
+    width: 100%;
     height: 100%;
   }
 
