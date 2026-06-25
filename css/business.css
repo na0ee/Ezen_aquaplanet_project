@@ -359,7 +359,7 @@ body.biz-page.mobile-menu-open .gnb {
   position: relative;
   box-sizing: border-box;
   width: 100%;
-  height: 360vh;
+  height: 520vh;
   padding: 0;
   overflow: visible;
   background: #2686E7;
@@ -466,8 +466,8 @@ body.biz-page.mobile-menu-open .gnb {
   color: #fff;
   text-align: center;
   transition: opacity 0.25s ease, visibility 0.25s ease;
-  transform: translateX(-50%) translateY(var(--biz-overview-follow-y, 0px));
-  will-change: transform;
+  transform: translateX(-50%);
+  opacity: var(--biz-overview-opacity, 1);
 }
 
 .biz-area-vision-label p {
@@ -495,15 +495,16 @@ body.biz-page.mobile-menu-open .gnb {
 
 .biz-blue-stack {
   position: absolute;
-  top: calc(50vh - 209.5px + var(--biz-vision-label-offset) + var(--biz-overview-content-shift));
+
+  top: 50%;
+
   left: 0;
   z-index: 3;
   width: 100%;
   height: 415.055px;
   overflow: hidden;
   pointer-events: none;
-  transform: translateY(var(--biz-overview-follow-y, 0px));
-  will-change: transform;
+  transform: translateY(-50%);
 }
 
 .biz-blue-card {
@@ -732,14 +733,19 @@ body.biz-page.mobile-menu-open .gnb {
   }
 }
 
-.biz-vision {
+.biz-vision-pin-wrap {
   position: relative;
   margin-top: 170px;
+}
+
+.biz-vision {
+  position: relative;
   height: auto;
   min-height: 0;
   padding: clamp(72px, 8vh, 96px) 32px;
   overflow: hidden;
   background: #2686E7;
+  will-change: transform;
 }
 
 .biz-vision-pin {
@@ -1723,23 +1729,25 @@ body.biz-page.mobile-menu-open .gnb {
     font-size: 13px;
   }
 
-  .biz-page .biz-vision .biz-glass-card:hover,
+  .biz-page .biz-vision .biz-glass-card.is-expanded,
   .biz-page .biz-vision .biz-glass-card:focus-visible,
-  .biz-page .biz-vision-column:first-child .biz-glass-card:hover,
+  .biz-page .biz-vision-column:first-child .biz-glass-card.is-expanded,
   .biz-page .biz-vision-column:first-child .biz-glass-card:focus-visible {
     min-height: 184px;
     padding: 28px;
   }
 
-  .biz-page .biz-vision .biz-glass-card:hover h4,
+  .biz-page .biz-vision .biz-glass-card.is-expanded h4,
   .biz-page .biz-vision .biz-glass-card:focus-visible h4 {
     margin-bottom: 16px;
     font-size: 22px;
   }
 
-  .biz-page .biz-vision .biz-glass-card:hover .biz-glass-card__detail,
+  .biz-page .biz-vision .biz-glass-card.is-expanded .biz-glass-card__detail,
   .biz-page .biz-vision .biz-glass-card:focus-visible .biz-glass-card__detail {
     max-height: 118px;
+    opacity: 1;
+    transform: translateY(0);
   }
 
   .biz-page .biz-glass-card__pair-grid {
@@ -2734,7 +2742,7 @@ body.biz-page.mobile-menu-open .gnb {
     padding: 22px 28px;
   }
 
-  .biz-glass-card:hover,
+  .biz-glass-card.is-expanded,
   .biz-glass-card:focus-visible {
     min-height: 176px;
     padding: 30px 28px;
@@ -3083,7 +3091,8 @@ body.biz-page.mobile-menu-open .gnb {
 }
 
 .biz-vision-title {
-  margin: 0 auto 112px;
+
+  margin: 0 auto 120px;
   text-align: center;
 }
 
@@ -3196,15 +3205,15 @@ body.biz-page.mobile-menu-open .gnb {
   margin: 0 0 5px;
   color: #fff;
   font-family: "Pretendard", sans-serif;
-  font-size: 20px;
-  font-weight: 600;
+  font-size: 18px;
+  font-weight: 500;
   line-height: 1.4;
   letter-spacing: -0.02em;
 }
 
 .biz-vision-group-head p {
-  font-size: 18px;
-  font-weight: 300;
+  font-size: 14px;
+  font-weight: 200;
   line-height: 1.4;
   letter-spacing: -0.02em;
 }
@@ -3311,6 +3320,11 @@ body.biz-page.mobile-menu-open .gnb {
   z-index: 1;
 }
 
+.biz-vision .biz-glass-card {
+  pointer-events: none;
+  cursor: default;
+}
+
 .biz-vision .biz-glass-card::before {
   position: absolute;
   top: 14px;
@@ -3369,7 +3383,7 @@ body.biz-page.mobile-menu-open .gnb {
   --biz-hover-position: center;
 }
 
-.biz-vision .biz-glass-card:hover,
+.biz-vision .biz-glass-card.is-expanded,
 .biz-vision .biz-glass-card:focus-visible {
   min-height: 222px;
   justify-content: flex-start;
@@ -3379,35 +3393,37 @@ body.biz-page.mobile-menu-open .gnb {
     inset 0 0 0 8px rgba(255, 255, 255, 0.08);
 }
 
-.biz-vision-column:first-child .biz-glass-card:hover,
+.biz-vision-column:first-child .biz-glass-card.is-expanded,
 .biz-vision-column:first-child .biz-glass-card:focus-visible {
   padding-right: 80px;
   padding-left: 80px;
 }
 
-.biz-vision .biz-glass-card:hover::before,
+.biz-vision .biz-glass-card.is-expanded::before,
 .biz-vision .biz-glass-card:focus-visible::before {
   opacity: 0.2;
 }
 
-.biz-vision .biz-glass-card:hover h4,
+.biz-vision .biz-glass-card.is-expanded h4,
 .biz-vision .biz-glass-card:focus-visible h4 {
   margin-bottom: 22px;
   font-size: 26px;
   letter-spacing: -0.02em;
 }
 
-.biz-vision .biz-glass-card:hover .biz-glass-card__detail,
+.biz-vision .biz-glass-card.is-expanded .biz-glass-card__detail,
 .biz-vision .biz-glass-card:focus-visible .biz-glass-card__detail {
   max-height: 130px;
+  opacity: 1;
+  transform: translateY(0);
 }
 
-.biz-vision .biz-glass-card--tech:hover,
+.biz-vision .biz-glass-card--tech.is-expanded,
 .biz-vision .biz-glass-card--tech:focus-visible {
   min-height: 287px;
 }
 
-.biz-vision .biz-glass-card--tech:hover .biz-glass-card__detail,
+.biz-vision .biz-glass-card--tech.is-expanded .biz-glass-card__detail,
 .biz-vision .biz-glass-card--tech:focus-visible .biz-glass-card__detail {
   max-height: 190px;
 }
