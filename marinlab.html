@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ko">
 
 <head>
@@ -227,18 +227,22 @@
       </nav>
 
       <section class="marin-node m-conservation-view" aria-label="Conservation activities">
-        <section class="m-cons-video-hero" aria-label="Conservation hero video">
-          <video class="m-cons-video-hero__video" autoplay muted loop playsinline poster="assets/images/conservation.gif">
-            <source src="assets/images/conservation.mp4" type="video/mp4">
+        <section class="hero" aria-label="Marin Lab 소개">
+          <video class="hero__media" autoplay muted loop playsinline aria-hidden="true">
+            <source src="assets/images/hero/marinlab.mp4" type="video/mp4">
           </video>
-          <img class="m-cons-video-hero__fallback" src="assets/images/conservation.gif" alt="">
-          <div class="m-cons-video-hero__shade" aria-hidden="true"></div>
-          <div class="m-cons-video-hero__text">
-            <p>Welcome</p>
-            <h1><span>aqua planet</span><em>Marin Lab</em></h1>
-            <a class="m-cons-video-hero__explore" href="#cons-orbit" aria-label="Conservation 활동 탐험하기">
-              <span class="m-cons-video-hero__explore-line" aria-hidden="true"></span>
-              <span class="m-cons-video-hero__explore-text">Let's <em>Explore</em></span>
+          <div class="hero__shade" aria-hidden="true"></div>
+          <div class="hero__content">
+            <div class="hero__content-inner">
+              <span class="hero__eyebrow">Welcome</span>
+              <h1 class="hero__title"><span>aqua planet </span><em>Marin Lab</em></h1>
+              <p class="hero__sub">바다 생명을 구조하고 돌보며 더 나은 해양의 내일을 연구합니다.</p>
+            </div>
+            <a class="hero__scroll" href="#cons-orbit">
+              <span class="hero__scroll-line"></span>
+              <span class="hero__scroll-text">
+                <span class="hero__scroll-lets">Let's </span><span class="hero__scroll-explore">Explore</span>
+              </span>
             </a>
           </div>
         </section>
@@ -259,25 +263,25 @@
 
             <div class="m-cons-orbit-field" id="cons-orbit-field">
               <button class="m-cons-orb" type="button" data-category="whale" aria-label="고래류 자세히 보기">
-                <span class="m-cons-orb__circle"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_01_01.png" alt=""></span>
+                <span class="m-cons-orb__circle"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_01_01.avif" alt=""></span>
               </button>
               <button class="m-cons-orb" type="button" data-category="pinniped" aria-label="기각류 자세히 보기">
-                <span class="m-cons-orb__circle"><img src="assets/images/sec.aboutus/marinlab/sec.aboutus/marinlab/hmbrc_pre_02_03 1.png" alt=""></span>
+                <span class="m-cons-orb__circle"><img src="assets/images/sec.aboutus/marinlab/conservation_walrus.avif" alt=""></span>
               </button>
               <button class="m-cons-orb" type="button" data-category="otter" aria-label="수달 자세히 보기">
-                <span class="m-cons-orb__circle"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_03_01.png" alt=""></span>
+                <span class="m-cons-orb__circle"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_03_01.avif" alt=""></span>
               </button>
               <button class="m-cons-orb" type="button" data-category="penguin" aria-label="펭귄류 자세히 보기">
-                <span class="m-cons-orb__circle"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_04_01.png" alt=""></span>
+                <span class="m-cons-orb__circle"><img src="assets/images/sec.aboutus/marinlab/conservation_penguin.avif" alt=""></span>
               </button>
               <button class="m-cons-orb" type="button" data-category="turtle" aria-label="바다거북 자세히 보기">
-                <span class="m-cons-orb__circle"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_05_01.png" alt=""></span>
+                <span class="m-cons-orb__circle"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_05_01.avif" alt=""></span>
               </button>
               <button class="m-cons-orb" type="button" data-category="seahorse" aria-label="해마와 해룡 자세히 보기">
-                <span class="m-cons-orb__circle"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_06_01.png" alt=""></span>
+                <span class="m-cons-orb__circle"><img src="assets/images/sec.aboutus/marinlab/conservation_seadragon.avif" alt=""></span>
               </button>
               <button class="m-cons-orb" type="button" data-category="shark" aria-label="상어류 자세히 보기">
-                <span class="m-cons-orb__circle"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_07_01.png" alt=""></span>
+                <span class="m-cons-orb__circle"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_07_01.avif" alt=""></span>
               </button>
             </div>
           </div>
@@ -329,7 +333,7 @@
     <div class="m-cons-card-overlay__inner">
 
       <article class="m-cons-card" data-card="whale">
-        <img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_01_01.png" alt="고래류">
+        <img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_01_01.avif" alt="고래류">
         <div class="m-cons-card__panel"></div>
         <div class="m-cons-card__text">
           <p class="m-cons-card__en">Whale</p>
@@ -339,7 +343,7 @@
       </article>
 
       <article class="m-cons-card" data-card="otter">
-        <img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_03_01.png" alt="수달">
+        <img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_03_01.avif" alt="수달">
         <div class="m-cons-card__panel"></div>
         <div class="m-cons-card__text">
           <p class="m-cons-card__en">Otter</p>
@@ -349,7 +353,7 @@
       </article>
 
       <article class="m-cons-card" data-card="penguin">
-        <img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_04_01.png" alt="펭귄류">
+        <img src="assets/images/sec.aboutus/marinlab/conservation_penguin.avif" alt="펭귄류">
         <div class="m-cons-card__panel"></div>
         <div class="m-cons-card__text">
           <p class="m-cons-card__en">Penguin</p>
@@ -359,7 +363,7 @@
       </article>
 
       <article class="m-cons-card" data-card="turtle">
-        <img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_05_01.png" alt="바다거북">
+        <img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_05_01.avif" alt="바다거북">
         <div class="m-cons-card__panel"></div>
         <div class="m-cons-card__text">
           <p class="m-cons-card__en">Sea Turtle</p>
@@ -369,7 +373,7 @@
       </article>
 
       <article class="m-cons-card" data-card="shark">
-        <img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_07_01.png" alt="상어류">
+        <img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_07_01.avif" alt="상어류">
         <div class="m-cons-card__panel"></div>
         <div class="m-cons-card__text">
           <p class="m-cons-card__en">Shark</p>
@@ -387,12 +391,12 @@
           <div class="m-cons-flip" data-flip="walrus">
             <div class="m-cons-flip__inner">
               <div class="m-cons-flip__face m-cons-flip__face--front">
-                <img src="assets/images/sec.aboutus/marinlab/sec.aboutus/marinlab/hmbrc_pre_02_01 1.png" alt="바다코끼리">
+                <img src="assets/images/sec.aboutus/marinlab/conservation_walrus.avif" alt="바다코끼리">
                 <div class="m-cons-flip__shade"></div>
                 <div class="m-cons-flip__caption"><p class="m-cons-flip__en">Walrus</p><p class="m-cons-flip__kr">바다코끼리</p></div>
               </div>
               <div class="m-cons-flip__face m-cons-flip__face--back">
-                <img src="assets/images/sec.aboutus/marinlab/sec.aboutus/marinlab/hmbrc_pre_02_01 1.png" alt="">
+                <img src="assets/images/sec.aboutus/marinlab/conservation_walrus.avif" alt="">
                 <div class="m-cons-flip__shade"></div>
                 <div class="m-cons-flip__caption">
                   <p class="m-cons-flip__en">Walrus</p><p class="m-cons-flip__kr">바다코끼리</p>
@@ -404,12 +408,12 @@
           <div class="m-cons-flip" data-flip="sea-lion">
             <div class="m-cons-flip__inner">
               <div class="m-cons-flip__face m-cons-flip__face--front">
-                <img src="assets/images/sec.aboutus/marinlab/sec.aboutus/marinlab/hmbrc_pre_02_02 1.png" alt="바다사자">
+                <img src="assets/images/sec.aboutus/marinlab/conservation_sealion.avif" alt="바다사자">
                 <div class="m-cons-flip__shade"></div>
                 <div class="m-cons-flip__caption"><p class="m-cons-flip__en">Sea Lion</p><p class="m-cons-flip__kr">바다사자</p></div>
               </div>
               <div class="m-cons-flip__face m-cons-flip__face--back">
-                <img src="assets/images/sec.aboutus/marinlab/sec.aboutus/marinlab/hmbrc_pre_02_02 1.png" alt="">
+                <img src="assets/images/sec.aboutus/marinlab/conservation_sealion.avif" alt="">
                 <div class="m-cons-flip__shade"></div>
                 <div class="m-cons-flip__caption">
                   <p class="m-cons-flip__en">Sea Lion</p><p class="m-cons-flip__kr">바다사자</p>
@@ -421,12 +425,12 @@
           <div class="m-cons-flip" data-flip="seal">
             <div class="m-cons-flip__inner">
               <div class="m-cons-flip__face m-cons-flip__face--front">
-                <img src="assets/images/sec.aboutus/marinlab/sec.aboutus/marinlab/hmbrc_pre_02_03 1.png" alt="물범">
+                <img src="assets/images/sec.aboutus/marinlab/conservation_seal.avif" alt="물범">
                 <div class="m-cons-flip__shade"></div>
                 <div class="m-cons-flip__caption"><p class="m-cons-flip__en">Seal</p><p class="m-cons-flip__kr">물범</p></div>
               </div>
               <div class="m-cons-flip__face m-cons-flip__face--back">
-                <img src="assets/images/sec.aboutus/marinlab/sec.aboutus/marinlab/hmbrc_pre_02_03 1.png" alt="">
+                <img src="assets/images/sec.aboutus/marinlab/conservation_seal.avif" alt="">
                 <div class="m-cons-flip__shade"></div>
                 <div class="m-cons-flip__caption">
                   <p class="m-cons-flip__en">Seal</p><p class="m-cons-flip__kr">물범</p>
@@ -447,12 +451,12 @@
           <div class="m-cons-flip" data-flip="seahorse">
             <div class="m-cons-flip__inner">
               <div class="m-cons-flip__face m-cons-flip__face--front">
-                <img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_06_01.png" alt="해마">
+                <img src="assets/images/sec.aboutus/marinlab/conservation_seahorse.avif" alt="해마">
                 <div class="m-cons-flip__shade"></div>
                 <div class="m-cons-flip__caption"><p class="m-cons-flip__en">Seahorse</p><p class="m-cons-flip__kr">해마</p></div>
               </div>
               <div class="m-cons-flip__face m-cons-flip__face--back">
-                <img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_06_01.png" alt="">
+                <img src="assets/images/sec.aboutus/marinlab/conservation_seahorse.avif" alt="">
                 <div class="m-cons-flip__shade"></div>
                 <div class="m-cons-flip__caption">
                   <p class="m-cons-flip__en">Seahorse</p><p class="m-cons-flip__kr">해마</p>
@@ -464,12 +468,12 @@
           <div class="m-cons-flip" data-flip="sea-dragon">
             <div class="m-cons-flip__inner">
               <div class="m-cons-flip__face m-cons-flip__face--front">
-                <img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_06_02.png" alt="해룡">
+                <img src="assets/images/sec.aboutus/marinlab/conservation_seadragon.avif" alt="해룡">
                 <div class="m-cons-flip__shade"></div>
                 <div class="m-cons-flip__caption"><p class="m-cons-flip__en">Sea dragon</p><p class="m-cons-flip__kr">해룡</p></div>
               </div>
               <div class="m-cons-flip__face m-cons-flip__face--back">
-                <img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_06_02.png" alt="">
+                <img src="assets/images/sec.aboutus/marinlab/conservation_seadragon.avif" alt="">
                 <div class="m-cons-flip__shade"></div>
                 <div class="m-cons-flip__caption">
                   <p class="m-cons-flip__en">Sea dragon</p><p class="m-cons-flip__kr">해룡</p>
@@ -518,7 +522,7 @@
         const totalHeight = isResponsiveConservation ? 9500 : heroHeight + 8400;
         const stage = conservationMain ? conservationMain.querySelector('.marin-stage') : null;
         const conservationView = conservationMain ? conservationMain.querySelector('.m-conservation-view') : null;
-        const videoHero = conservationMain ? conservationMain.querySelector('.m-cons-video-hero') : null;
+        const videoHero = conservationMain ? conservationMain.querySelector('.hero') : null;
         const orbit = conservationMain ? conservationMain.querySelector('.m-cons-orbit') : null;
 
         document.documentElement.style.setProperty('--marin-scale', scale.toFixed(6));
@@ -549,6 +553,7 @@
         if (rescueMain) rescueMain.hidden = isConservation;
         if (conservationMain) conservationMain.hidden = !isConservation;
         document.body.classList.toggle('marin-view-conservation', isConservation);
+        window.scrollTo(0, 0);
 
         viewTabs.forEach((tab) => {
           const active = tab.getAttribute('data-marin-view') === currentView;
@@ -1128,6 +1133,7 @@
       // (casePinActive) is what scopes it to "only while .case-spotlight is centered".
       function handleCaseWheel(event) {
         if (!casePinActive) return; // outside the pinned zone: let the page scroll normally
+        if (document.body.classList.contains('marin-view-conservation')) return; // conservation 뷰에서는 스크롤 차단 안 함
         if (Math.abs(event.deltaY) < 1) return; // ignore near-zero scroll noise only
 
         // 위로 스크롤 시 인터랙션을 무시하고 브라우저 기본 스크롤(페이지 위로 이동)을 허용합니다.

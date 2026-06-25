@@ -120,13 +120,12 @@
   }
 
   function renderHeroTransition(scale) {
-    var hero = document.querySelector('.m-cons-video-hero');
+    var hero = document.querySelector('.marin-shell--conservation .hero');
     if (!hero) return;
 
-    var media = hero.querySelector('.m-cons-video-hero__video') || hero.querySelector('.m-cons-video-hero__fallback');
-    var fallback = hero.querySelector('.m-cons-video-hero__fallback');
-    var shade = hero.querySelector('.m-cons-video-hero__shade');
-    var text = hero.querySelector('.m-cons-video-hero__text');
+    var media = hero.querySelector('.hero__media');
+    var shade = hero.querySelector('.hero__shade');
+    var text = hero.querySelector('.hero__content');
     var rect = hero.getBoundingClientRect();
     var travel = Math.max(1, rect.height);
     var progress = clamp01(-rect.top / travel);
@@ -137,17 +136,12 @@
       media.style.filter = 'blur(' + lerp(0, 7, eased).toFixed(1) + 'px)';
       media.style.transform = 'scale(' + lerp(1, 1.045, eased).toFixed(3) + ')';
     }
-    if (fallback) {
-      fallback.style.opacity = String(lerp(1, 0.46, eased));
-      fallback.style.filter = 'blur(' + lerp(0, 7, eased).toFixed(1) + 'px)';
-      fallback.style.transform = 'scale(' + lerp(1, 1.045, eased).toFixed(3) + ')';
-    }
     if (shade) {
       shade.style.background = 'rgba(38, 134, 231, ' + lerp(0.18, 0.9, eased).toFixed(3) + ')';
     }
     if (text) {
       text.style.opacity = String(1 - easeInOut(clamp01((progress - 0.08) / 0.52)));
-      text.style.transform = 'translate(-50%, calc(-50% - ' + lerp(0, 90, eased).toFixed(1) + 'px))';
+      text.style.transform = 'translateY(-' + lerp(0, 90, eased).toFixed(1) + 'px)';
     }
   }
 
@@ -234,7 +228,9 @@
     }
 
     var isPinned = rect.top <= 0 && rect.bottom >= 0;
+    var enterOpacity = isPinned ? easeInOut(clamp01(-rect.top / (vh * 0.18))) : 0;
     pin.style.transform = 'translateX(-50%) scale(' + scale.toFixed(6) + ')';
+    pin.style.opacity = String(enterOpacity);
     pin.style.visibility = isPinned ? 'visible' : 'hidden';
     pin.style.pointerEvents = isPinned ? 'auto' : 'none';
     render(currentProgress);

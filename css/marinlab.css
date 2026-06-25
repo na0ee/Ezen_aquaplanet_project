@@ -1334,6 +1334,28 @@ button {
       background: var(--brand);
     }
 
+    /* ===== Conservation — .hero class override (replaces .m-cons-video-hero) ===== */
+    .marin-shell--conservation .hero {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1920px;
+      height: var(--cons-hero-height);
+      min-height: unset;
+      overflow: hidden;
+      background: var(--brand);
+    }
+
+    .marin-shell--conservation .hero::after {
+      display: none;
+    }
+
+    .marin-shell--conservation .hero__shade {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0, 48, 92, 0.16), rgba(0, 48, 92, 0.34));
+    }
+
     .m-cons-video-hero__video,
     .m-cons-video-hero__fallback {
       position: absolute;
@@ -2143,7 +2165,9 @@ body.marin-view-conservation #marinFooter {
     transform: none !important;
   }
 
-  body.marin-view-conservation .m-cons-video-hero {
+  body.marin-view-conservation .m-cons-video-hero,
+  body.marin-view-conservation .marin-shell--conservation .hero {
+    position: relative;
     width: 100%;
     height: var(--cons-tablet-hero-height) !important;
     min-height: 100vh;
@@ -2313,7 +2337,9 @@ body.marin-view-conservation #marinFooter {
     transform: none !important;
   }
 
-  body.marin-view-conservation .m-cons-video-hero {
+  body.marin-view-conservation .m-cons-video-hero,
+  body.marin-view-conservation .marin-shell--conservation .hero {
+    position: relative;
     width: 100%;
     height: var(--cons-mobile-hero-height) !important;
     min-height: 640px;

@@ -510,7 +510,7 @@ function initIntroScrollGate() {
   let touchStartY = 0;
   let introDivePending = false;
   let introDiveTimer = 0;
-  const INTRO_DIVE_DELAY_MS = 520;
+  const INTRO_DIVE_DELAY_MS = 100;
   const INTRO_DIVE_EDGE_OFFSET = 24;
 
   function sectionTop(el) {
@@ -580,7 +580,7 @@ function initIntroScrollGate() {
     window.clearTimeout(introDiveTimer);
     introDiveTimer = window.setTimeout(() => {
       introDivePending = false;
-      if (!diveActive && !isTransitioning && shouldBlockDown()) {
+      if (!diveActive && !isTransitioning && !crewScrollUnlocked && isBeforeCrew()) {
         triggerDive();
       }
     }, INTRO_DIVE_DELAY_MS);
@@ -615,6 +615,15 @@ function initIntroScrollGate() {
       return;
     }
 
+    if (e.deltaY < 0 && introDivePending && isAtOrAfterIntro()) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      introDivePending = false;
+      window.clearTimeout(introDiveTimer);
+      scrollIntroBy(e.deltaY);
+      return;
+    }
+
     if (e.deltaY < 0 && shouldBlockUp()) {
       e.preventDefault();
       e.stopImmediatePropagation();
@@ -630,11 +639,19 @@ function initIntroScrollGate() {
 
   window.addEventListener('touchmove', (e) => {
     const y = e.touches[0]?.clientY ?? touchStartY;
-    if (touchStartY - y > 30 && (introDivePending || shouldBlockDown())) {
+    const goingDown = touchStartY - y > 30;
+    const goingUp   = y - touchStartY > 30;
+
+    if (goingDown && (introDivePending || shouldBlockDown())) {
       e.preventDefault();
       e.stopImmediatePropagation();
       requestIntroDive();
-    } else if (y - touchStartY > 30 && shouldBlockUp()) {
+    } else if (goingUp && introDivePending && isAtOrAfterIntro()) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      introDivePending = false;
+      window.clearTimeout(introDiveTimer);
+    } else if (goingUp && shouldBlockUp()) {
       e.preventDefault();
       e.stopImmediatePropagation();
       introDivePending = false;
