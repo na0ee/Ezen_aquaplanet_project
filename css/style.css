@@ -97,7 +97,7 @@ body {
   font-family: var(--font-kr);
   overscroll-behavior-y: none;
   background-color: #22BBFF;
-  background-image: url('../assets/images/contentBg.avif');
+  background-image: url('../assets/images/index/contentBg.avif');
   background-position: top center;
   background-size: 100% 100%;
   background-repeat: no-repeat;
@@ -173,7 +173,7 @@ button {
 .content-bg-wrap {
   position: relative;
   background-color: #22BBFF;
-  background-image: url('../assets/images/contentBg.avif');
+  background-image: url('../assets/images/index/contentBg.avif');
   background-position: top center;
   background-size: 100% calc(100% + 60vh);
   background-repeat: no-repeat;
@@ -820,7 +820,7 @@ body.is-logo-at-header .gnb__logo {
   position: absolute;
   pointer-events: none;
   z-index: 100;
-  background: url('../assets/images/fish.avif') no-repeat center center;
+  background: url('../assets/images/index/fish.avif') no-repeat center center;
   background-size: contain;
   will-change: transform;
 }
@@ -2065,19 +2065,19 @@ body.is-logo-at-header .gnb__logo {
 }
 
 .program-card__img--1 {
-  background-image: url('../assets/images/image136.avif');
+  background-image: url('../assets/images/index/image136.avif');
 }
 
 .program-card__img--2 {
-  background-image: url('../assets/images/Frame139.avif');
+  background-image: url('../assets/images/index/Frame139.avif');
 }
 
 .program-card__img--3 {
-  background-image: url('../assets/images/image138.avif');
+  background-image: url('../assets/images/index/image138.avif');
 }
 
 .program-card__img--4 {
-  background-image: url('../assets/images/image140.avif');
+  background-image: url('../assets/images/index/image140.avif');
 }
 
 .program-card__gradient {
@@ -2602,7 +2602,7 @@ body.is-logo-at-header .gnb__logo {
   top: -20px;
   width: 610px;
   height: 523px;
-  background-image: url("../assets/images/image138.avif");
+  background-image: url("../assets/images/index/image138.avif");
 }
 
 .location-deco--left {
@@ -2610,7 +2610,7 @@ body.is-logo-at-header .gnb__logo {
   bottom: -40px;
   width: 550px;
   height: 450px;
-  background-image: url("../assets/images/image136.avif");
+  background-image: url("../assets/images/index/image136.avif");
 }
 
 
@@ -2820,19 +2820,19 @@ body.is-logo-at-header .gnb__logo {
 }
 
 .booking-card__img--ilsan {
-  background-image: url("../assets/images/Frame_19.avif");
+  background-image: url("../assets/images/index/Frame_19.avif");
 }
 
 .booking-card__img--seoul {
-  background-image: url("../assets/images/Frame_20.avif");
+  background-image: url("../assets/images/index/Frame_20.avif");
 }
 
 .booking-card__img--yeosu {
-  background-image: url("../assets/images/Frame_22.avif");
+  background-image: url("../assets/images/index/Frame_22.avif");
 }
 
 .booking-card__img--jeju {
-  background-image: url("../assets/images/Frame_21.avif");
+  background-image: url("../assets/images/index/Frame_21.avif");
 }
 
 .booking-card__gradient {
@@ -3841,7 +3841,7 @@ body.ticket-open {
   top: var(--y);
   width: var(--s, 40px);
   height: var(--s, 40px);
-  background: url("../assets/images/ticket-bubble.png") center / contain no-repeat;
+  background: url("../assets/images/ticket/ticket-bubble.png") center / contain no-repeat;
   opacity: 0.7;
   animation: ticket-float var(--d, 8s) ease-in-out infinite;
 }
@@ -4148,7 +4148,7 @@ body.ticket-open {
 .bubble-spark {
   position: absolute;
   border-radius: 50%;
-  background: url("../assets/images/ticket-bubble.png") center / contain no-repeat;
+  background: url("../assets/images/ticket/ticket-bubble.png") center / contain no-repeat;
   /* 밝은 빛 위에서도 윤곽이 살도록 테두리 + 발광으로 분리 */
   border: 1.5px solid rgba(255, 255, 255, 0.95);
   box-shadow: 0 0 5px rgba(120, 200, 255, 0.7), inset 0 0 4px rgba(255, 255, 255, 0.6);
@@ -4473,7 +4473,6 @@ body.ticket-open {
    일반 흐름이라 콘텐츠 전체 높이에 맞춰 그라데이션이 잡히고 함께 스크롤된다. */
 .ticket-bg {
   position: relative;
-  background: url('../assets/images/ticketBg.avif') center center / cover no-repeat;
   height: 100vh;
   overflow: hidden;
 }

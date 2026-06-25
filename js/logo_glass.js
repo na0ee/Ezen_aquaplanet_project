@@ -28,7 +28,7 @@ if (gsap && ScrollTrigger) gsap.registerPlugin(ScrollTrigger);
 --------------------------------------------------------------- */
 const SYMBOL_SRC    = 'assets/models/new_logo_symbol.glb?v=20260617-02';
 const TEXT_SRC      = 'assets/models/logoTxt_ani.glb';
-const REFRACT_VIDEO_SRC = 'assets/images/sky_mov.mp4';
+const REFRACT_VIDEO_SRC = 'assets/images/index/sky_mov.mp4';
 const SCATTER_PAD   = 1.52;   // 코드 scatter/swim까지 보이도록 카메라 여백 확보
 const TEXT_PADDING  = 1.02;   // 유리 두께/하이라이트가 잘리지 않도록 내부 카메라 여백 확보
 const TEXT_Y_OFFSET_RATIO = 0.2; // 텍스트 로고를 자기 높이 기준 아래로 내리는 비율
