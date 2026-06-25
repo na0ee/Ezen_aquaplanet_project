@@ -33,6 +33,11 @@
     <!-- GNB Navigation -->
     <header id="gnb" class="gnb">
     <div class="gnb__inner">
+        <!-- 모바일 전용 햄버거 버튼 -->
+        <button class="gnb__hamburger" type="button" aria-label="메뉴 열기" aria-expanded="false" aria-controls="mobile-menu">
+            <img src="assets/images/hamburgermenu_icon.svg" alt="">
+        </button>
+
         <nav class="gnb__nav" aria-label="메인 메뉴">
             <div class="gnb__nav-item" data-nav="location">
                 <a href="location.html" class="gnb__link">Location</a>
@@ -73,13 +78,56 @@
     </div>
     </header>
 
+    <!-- 모바일 전용 풀스크린 메뉴 -->
+    <div class="gnb__mobile-menu" id="mobile-menu" aria-hidden="true" role="dialog" aria-label="메인 메뉴">
+        <nav class="gnb__mobile-nav" aria-label="모바일 메뉴">
+
+            <div class="gnb__mobile-item">
+                <button class="gnb__mobile-link gnb__mobile-link--toggle" type="button" aria-expanded="false">
+                    Location
+                </button>
+                <div class="gnb__mobile-sub">
+                    <a href="location.html?loc=Jeju">Jeju</a>
+                    <a href="location.html?loc=Yeosu">Yeosu</a>
+                    <a href="location.html?loc=Ilsan">Ilsan</a>
+                    <a href="location.html?loc=Gwanggyo">Gwanggyo</a>
+                </div>
+            </div>
+
+            <a href="Oceanfriends.html" class="gnb__mobile-link">Ocean friends</a>
+
+            <div class="gnb__mobile-item">
+                <button class="gnb__mobile-link gnb__mobile-link--toggle" type="button" aria-expanded="false">
+                    About us
+                </button>
+                <div class="gnb__mobile-sub">
+                    <a href="business.html">Business</a>
+                    <a href="marinlab.html">Marin Lab</a>
+                </div>
+            </div>
+
+            <div class="gnb__mobile-item">
+                <button class="gnb__mobile-link gnb__mobile-link--toggle" type="button" aria-expanded="false">
+                    Program
+                </button>
+                <div class="gnb__mobile-sub">
+                    <a href="program.html?loc=Jeju">Jeju</a>
+                    <a href="program.html?loc=Yeosu">Yeosu</a>
+                    <a href="program.html?loc=Ilsan">Ilsan</a>
+                    <a href="program.html?loc=Gwanggyo">Gwanggyo</a>
+                </div>
+            </div>
+
+        </nav>
+    </div>
+
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero__bg">
             <!-- <img src="https://www.aquaplanet.co.kr/Upload/pcprogram/JEJU/KOR/img_name_20200113220918733.gif" alt=""> -->
             <video id="hero-video-Jeju" src="assets/video/program_Jeju_hero.webm" muted loop playsinline></video>
-            <video id="hero-video-Yeosu" src="assets/video/program_Yeosu_hero.webm" muted loop playsinline></video>
-            <video id="hero-video-Ilsan" src="assets/video/program_Ilsan_hero.webm" muted loop playsinline></video>
+            <video id="hero-video-Yeosu" src="assets/video/program_Yeosu_hero_3.webm" muted loop playsinline></video>
+            <video id="hero-video-Ilsan" src="assets/video/program_Ilsan_hero_4.webm" muted loop playsinline></video>
             <video id="hero-video-Gwanggyo" src="assets/video/program_Gwanggyo_hero.webm" muted loop playsinline></video>
         </div>
         <div class="hero__content">
@@ -964,6 +1012,26 @@
             </div>
         </div>
     </section>
+
+    <!-- 프로그램 상세 모달 (신규) -->
+    <div class="program-detail-overlay">
+        <div class="program-detail-modal">
+            <button class="program-detail-modal__close" aria-label="닫기">
+                <img src="assets/images/close_icon.svg" alt="">
+            </button>
+            <div class="program-detail-modal__img-wrap">
+                <img class="program-detail-modal__img program-detail-modal__img--a active" src="" alt="">
+                <img class="program-detail-modal__img program-detail-modal__img--b" src="" alt="">
+            </div>
+            <div class="program-detail-modal__body">
+                <div class="program-detail-modal__header">
+                    <span class="program-detail-modal__tag tag"></span>
+                    <h2 class="program-detail-modal__title"></h2>
+                </div>
+                <div class="program-detail-modal__content"></div>
+            </div>
+        </div>
+    </div>
 
     <!-- 프로그램 상세 모달 -->
     <div class="detail-modal">
