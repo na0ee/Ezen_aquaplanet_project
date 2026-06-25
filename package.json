@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "avif": "node convert-avif.js"
+  },
   "dependencies": {
     "ogl": "^1.0.11"
   },
