@@ -66,6 +66,7 @@
     pin.style.visibility = '';
     pin.style.pointerEvents = '';
     pin.style.transform = '';
+    pin.style.opacity = '';
     if (pinOriginalParent && pin.parentNode !== pinOriginalParent) {
       pinOriginalParent.insertBefore(pin, pinOriginalNextSibling);
     }
@@ -117,32 +118,6 @@
       x: Math.cos(angle) * rx * Math.cos(tilt) - Math.sin(angle) * ry * Math.sin(tilt),
       y: Math.cos(angle) * rx * Math.sin(tilt) + Math.sin(angle) * ry * Math.cos(tilt)
     };
-  }
-
-  function renderHeroTransition(scale) {
-    var hero = document.querySelector('.marin-shell--conservation .hero');
-    if (!hero) return;
-
-    var media = hero.querySelector('.hero__media');
-    var shade = hero.querySelector('.hero__shade');
-    var text = hero.querySelector('.hero__content');
-    var rect = hero.getBoundingClientRect();
-    var travel = Math.max(1, rect.height);
-    var progress = clamp01(-rect.top / travel);
-    var eased = easeInOut(progress);
-
-    if (media) {
-      media.style.opacity = String(lerp(1, 0.46, eased));
-      media.style.filter = 'blur(' + lerp(0, 7, eased).toFixed(1) + 'px)';
-      media.style.transform = 'scale(' + lerp(1, 1.045, eased).toFixed(3) + ')';
-    }
-    if (shade) {
-      shade.style.background = 'rgba(38, 134, 231, ' + lerp(0.18, 0.9, eased).toFixed(3) + ')';
-    }
-    if (text) {
-      text.style.opacity = String(1 - easeInOut(clamp01((progress - 0.08) / 0.52)));
-      text.style.transform = 'translateY(-' + lerp(0, 90, eased).toFixed(1) + 'px)';
-    }
   }
 
   function render(progress) {
@@ -205,7 +180,6 @@
     if (!section || !pin) return;
 
     var scale = getScale();
-    renderHeroTransition(scale);
 
     var vh = window.innerHeight;
     var rect = section.getBoundingClientRect();
@@ -228,7 +202,7 @@
     }
 
     var isPinned = rect.top <= 0 && rect.bottom >= 0;
-    var enterOpacity = isPinned ? easeInOut(clamp01(-rect.top / (vh * 0.18))) : 0;
+    var enterOpacity = isPinned ? easeInOut(clamp01(-rect.top / (vh * 0.55))) : 0;
     pin.style.transform = 'translateX(-50%) scale(' + scale.toFixed(6) + ')';
     pin.style.opacity = String(enterOpacity);
     pin.style.visibility = isPinned ? 'visible' : 'hidden';
@@ -272,6 +246,21 @@
   function bindOnce() {
     if (bound) return;
     bound = true;
+
+    document.addEventListener('click', function (event) {
+      var trigger = event.target.closest ? event.target.closest('.hero__scroll[href="#cons-orbit"]') : null;
+      if (!trigger) return;
+
+      var section = document.getElementById('cons-orbit');
+      if (!section) return;
+
+      event.preventDefault();
+      window.scrollTo({
+        top: section.getBoundingClientRect().top + window.pageYOffset + window.innerHeight * 0.55,
+        behavior: 'smooth'
+      });
+      requestUpdate();
+    });
 
     document.addEventListener('click', function (event) {
       var orb = event.target.closest ? event.target.closest('.m-cons-orb') : null;

@@ -2552,6 +2552,7 @@ body.biz-page.mobile-menu-open .gnb {
   flex: 0 0 auto;
 
   width: min(1320px, calc(100vw - 80px));
+
   height: auto;
   margin: 0 auto;
   overflow: hidden;
@@ -2585,6 +2586,7 @@ body.biz-page.mobile-menu-open .gnb {
   top: 50%;
   left: 50%;
   width: 116%;
+
   height: 100%;
   max-width: none;
   object-fit: cover;

@@ -417,8 +417,14 @@ button {
   font-style: italic;
   font-size: 128px;
   color: #ffffff;
-  letter-spacing: -2.56px;
+  letter-spacing: -4px;
   line-height: normal;
+}
+
+.hero__title .hero__amp {
+  font-family: "Poppins", sans-serif;
+  font-style: normal;
+  font-weight: 300;
 }
 
 .hero__sub {
@@ -474,7 +480,7 @@ button {
 
 .rescue {
   min-height: 4700px;
-  padding: 0 0 260px;
+  padding: 130px 0 260px;
   background: #2686E7;
 }
 
@@ -524,6 +530,10 @@ button {
 
   margin: 80px auto 0;
   text-align: center;
+}
+
+.rescue > .section-head:first-child {
+  margin-top: 0;
 }
 
 .section-head h2 {
@@ -819,7 +829,7 @@ button {
 }
 
 .case-spotlight {
-  width: 1668px;
+  width: min(1280px, calc(100% - 32px));
   max-width: calc(100% - 32px);
   margin: 130px auto 0;
 }
@@ -827,8 +837,8 @@ button {
 .case-card {
   position: relative;
   overflow: hidden;
-  width: 1668px;
-  height: 1052px;
+  width: 100%;
+  height: clamp(560px, 72vh, 760px);
   margin: 0 auto;
   border-radius: 20px;
   background: var(--brand);
@@ -843,8 +853,8 @@ button {
 .case-card__image {
   position: absolute;
   inset: 0;
-  width: 1668px;
-  height: 1052px;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   display: block;
   will-change: transform, opacity;
@@ -929,7 +939,7 @@ button {
   gap: 28px;
   color: #fff;
   font-family: var(--font-en);
-  font-size: 200px;
+  font-size: 120px;
   font-weight: 800;
   line-height: 0.84;
   letter-spacing: 0.02em;
@@ -1082,6 +1092,7 @@ button {
 
   .rescue {
     min-height: 0;
+    padding-top: 58px;
     padding-bottom: 120px;
   }
 
@@ -1140,6 +1151,11 @@ button {
 
   .case-spotlight {
     margin-top: 90px;
+  }
+
+  .case-card {
+    height: min(620px, calc(100vh - 120px));
+    min-height: 520px;
   }
 
   .case-card__date {
@@ -1488,6 +1504,11 @@ button {
 
     .marin-shell--conservation .hero::after {
       display: none;
+    }
+
+    .marin-shell--conservation .hero__media {
+      object-fit: cover;
+      object-position: center center;
     }
 
     .marin-shell--conservation .hero__shade {
