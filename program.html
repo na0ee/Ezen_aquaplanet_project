@@ -127,11 +127,10 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero__bg">
-            <!-- <img src="https://www.aquaplanet.co.kr/Upload/pcprogram/JEJU/KOR/img_name_20200113220918733.gif" alt=""> -->
             <video id="hero-video-Jeju" src="assets/video/program_Jeju_hero.webm" muted loop playsinline></video>
-            <video id="hero-video-Yeosu" src="assets/video/program_Yeosu_hero_2.webm" muted loop playsinline></video>
-            <video id="hero-video-Ilsan" src="assets/video/program_Ilsan_hero_2.webm" muted loop playsinline></video>
-            <video id="hero-video-Gwanggyo" src="assets/video/program_Gwanggyo2_hero.webm" muted loop playsinline></video>
+            <video id="hero-video-Yeosu" src="assets/video/program_Yeosu_hero.webm" muted loop playsinline></video>
+            <video id="hero-video-Ilsan" src="assets/video/program_Ilsan_hero.webm" muted loop playsinline></video>
+            <video id="hero-video-Gwanggyo" src="assets/video/program_Gwanggyo_hero.webm" muted loop playsinline></video>
         </div>
         <div class="hero__content">
             <div class="hero__text">
@@ -140,7 +139,10 @@
                     <span class="hero__title-main">aqua planet</span>
                     <span class="hero__title-em">Program : <span id="hero-location">Jeju</span></span>
                 </div>
-                <p class="hero__sub">제주의 바다를 담은 국내 최대 규모 아쿠아리움</p>
+                <p class="hero__sub" id="hero-sub-Jeju">제주의 바다를 담은 국내 최대 규모 아쿠아리움</p>
+                <p class="hero__sub" id="hero-sub-Yeosu" hidden>인간과 자연이 공생하는 즐거움</p>
+                <p class="hero__sub" id="hero-sub-Ilsan" hidden>도심 속 해저여행과 정글탐험</p>
+                <p class="hero__sub" id="hero-sub-Gwanggyo" hidden>경기 남부 최고의 아쿠아리움</p>
             </div>
             <div class="hero__scroll">
                 <div class="hero__scroll-line"></div>
@@ -1519,8 +1521,7 @@
                     <div class="program-card__detail" hidden>
                         <div class="detail-modal__part">
                             <p class="detail-modal__part-text">
-                                <p>세계 최초 수중 퍼포먼스 아이돌 '뉴이브'<br>수중 아이돌 퍼포먼스가 홀로그램과 함께 화려한 공연으로 펼쳐집니다</p>
-                                <p>K-POP 아이돌이 되어 지구를 지키려는 최정상 걸그룹'뉴이브'<br>2026년 3월 데뷔앨범 발표 콘서트를 여수에서 본격 공개합니다!</p>
+                                세계 최초 수중 퍼포먼스 아이돌 '뉴이브'<br>수중 아이돌 퍼포먼스가 홀로그램과 함께 화려한 공연으로 펼쳐집니다<br><br>K-POP 아이돌이 되어 지구를 지키려는 최정상 걸그룹'뉴이브'<br>2026년 3월 데뷔앨범 발표 콘서트를 여수에서 본격 공개합니다!
                             </p>
                         </div>
                         <div class="detail-modal__meta">
@@ -1538,7 +1539,7 @@
                             </div>
                         </div>
                         <!-- 상세 모달 이미지 (이 src만 바꾸면 됨) -->
-                        <img class="program-card__detail-img" src="assets/images/program/Yeosu_program_a.avif" alt="" hidden>
+                        <img class="program-card__detail-img" src="assets/images/program/Yeosu_program_a.avif" alt="" hidden style="transform: scale(1.01);">
                     </div>
                     <div class="program-card__meta">
                         <div class="program-card__duration">
@@ -3265,5 +3266,4 @@
 
 </body>
 </html>
-
 

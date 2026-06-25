@@ -247,7 +247,7 @@ body.biz-page.mobile-menu-open .gnb {
   width: 100%;
   flex-direction: column;
   align-items: center;
-  gap: 22px;
+  gap: 0;
   overflow: hidden;
 }
 
@@ -291,19 +291,18 @@ body.biz-page.mobile-menu-open .gnb {
   font-style: italic;
   font-weight: 500;
   line-height: normal;
-  letter-spacing: -2.56px;
+  letter-spacing: -4px;
 }
 
 .biz-hero__desc {
-  max-width: none;
-  margin: 0;
+  max-width: 760px;
+  margin: 22px auto 0;
   color: #fff;
   font-family: "Pretendard", sans-serif;
   font-size: 24px;
   font-weight: 300;
   line-height: 1.4;
   letter-spacing: -0.48px;
-  white-space: nowrap;
 }
 
 .biz-hero__scroll {
@@ -455,7 +454,7 @@ body.biz-page.mobile-menu-open .gnb {
 
 .biz-area-vision-label {
   position: absolute;
-  top: clamp(calc(300px + var(--biz-vision-label-offset) + var(--biz-overview-content-shift)), calc(34vh + var(--biz-vision-label-offset) + var(--biz-overview-content-shift)), calc(370px + var(--biz-vision-label-offset) + var(--biz-overview-content-shift)));
+  top: calc(50vh - 328px + var(--biz-vision-label-offset) + var(--biz-overview-content-shift));
   left: 50%;
   z-index: 1;
   display: flex;
@@ -496,7 +495,7 @@ body.biz-page.mobile-menu-open .gnb {
 
 .biz-blue-stack {
   position: absolute;
-  top: clamp(calc(487px + var(--biz-vision-label-offset) + var(--biz-overview-content-shift)), calc(34vh + 187px + var(--biz-vision-label-offset) + var(--biz-overview-content-shift)), calc(557px + var(--biz-vision-label-offset) + var(--biz-overview-content-shift)));
+  top: calc(50vh - 209.5px + var(--biz-vision-label-offset) + var(--biz-overview-content-shift));
   left: 0;
   z-index: 3;
   width: 100%;
@@ -1572,7 +1571,7 @@ body.biz-page.mobile-menu-open .gnb {
   }
 
   .biz-page .biz-blue-stack {
-    top: clamp(577px, calc(44vh + 187px), 617px) !important;
+    top: calc(50vh + 128px - clamp(150px, 18vw, 174px)) !important;
     height: clamp(300px, 36vw, 348px) !important;
   }
 
@@ -1673,7 +1672,7 @@ body.biz-page.mobile-menu-open .gnb {
   }
 
   .biz-page .biz-vision-title {
-    margin-bottom: 48px !important;
+    margin-bottom: 72px !important;
   }
 
   .biz-page .biz-vision-title h2 {
@@ -3084,7 +3083,7 @@ body.biz-page.mobile-menu-open .gnb {
 }
 
 .biz-vision-title {
-  margin: 0 auto 72px;
+  margin: 0 auto 112px;
   text-align: center;
 }
 

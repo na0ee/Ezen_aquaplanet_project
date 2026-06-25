@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 
 <head>
@@ -24,12 +24,12 @@
   <svg style="display:none" aria-hidden="true">
     <defs>
       <filter id="glass-refract" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
-        <feTurbulence type="fractalNoise" baseFrequency="0.002 0.004" numOctaves="2" seed="5" result="noise"/>
-        <feDisplacementMap in="SourceGraphic" in2="noise" scale="120" xChannelSelector="R" yChannelSelector="G"/>
+        <feTurbulence type="fractalNoise" baseFrequency="0.002 0.004" numOctaves="2" seed="5" result="noise" />
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="120" xChannelSelector="R" yChannelSelector="G" />
       </filter>
       <filter id="glass-refract-light" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
-        <feTurbulence type="fractalNoise" baseFrequency="0.002 0.004" numOctaves="2" seed="5" result="noise"/>
-        <feDisplacementMap in="SourceGraphic" in2="noise" scale="18" xChannelSelector="R" yChannelSelector="G"/>
+        <feTurbulence type="fractalNoise" baseFrequency="0.002 0.004" numOctaves="2" seed="5" result="noise" />
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="18" xChannelSelector="R" yChannelSelector="G" />
       </filter>
     </defs>
   </svg>
@@ -40,9 +40,9 @@
         <div class="gnb__nav-item" data-nav="location">
           <a href="location.html" class="gnb__link">Location</a>
           <div class="gnb__dropdown">
-            <a href="location.html?loc=Jeju"     class="gnb__dropdown-item">Jeju</a>
-            <a href="location.html?loc=Yeosu"    class="gnb__dropdown-item">Yeosu</a>
-            <a href="location.html?loc=Ilsan"    class="gnb__dropdown-item">Ilsan</a>
+            <a href="location.html?loc=Jeju" class="gnb__dropdown-item">Jeju</a>
+            <a href="location.html?loc=Yeosu" class="gnb__dropdown-item">Yeosu</a>
+            <a href="location.html?loc=Ilsan" class="gnb__dropdown-item">Ilsan</a>
             <a href="location.html?loc=Gwanggyo" class="gnb__dropdown-item">Gwanggyo</a>
           </div>
         </div>
@@ -51,16 +51,18 @@
           <a href="business.html" class="gnb__link gnb__link--active">About us</a>
           <div class="gnb__dropdown">
             <a href="business.html" class="gnb__dropdown-item">Business</a>
-            <a href="marinlab.html?view=rescue" class="gnb__dropdown-item gnb__dropdown-item--active" data-marin-menu="rescue">Rescue &amp; Care</a>
-            <a href="marinlab.html?view=conservation" class="gnb__dropdown-item" data-marin-menu="conservation">Conservation</a>
+            <a href="marinlab.html?view=rescue" class="gnb__dropdown-item gnb__dropdown-item--active"
+              data-marin-menu="rescue">Rescue &amp; Care</a>
+            <a href="marinlab.html?view=conservation" class="gnb__dropdown-item"
+              data-marin-menu="conservation">Conservation</a>
           </div>
         </div>
         <div class="gnb__nav-item" data-nav="program">
           <a href="program.html" class="gnb__link">Program</a>
           <div class="gnb__dropdown">
-            <a href="program.html?loc=Jeju"     class="gnb__dropdown-item">Jeju</a>
-            <a href="program.html?loc=Yeosu"    class="gnb__dropdown-item">Yeosu</a>
-            <a href="program.html?loc=Ilsan"    class="gnb__dropdown-item">Ilsan</a>
+            <a href="program.html?loc=Jeju" class="gnb__dropdown-item">Jeju</a>
+            <a href="program.html?loc=Yeosu" class="gnb__dropdown-item">Yeosu</a>
+            <a href="program.html?loc=Ilsan" class="gnb__dropdown-item">Ilsan</a>
             <a href="program.html?loc=Gwanggyo" class="gnb__dropdown-item">Gwanggyo</a>
           </div>
         </div>
@@ -86,7 +88,8 @@
       <div class="hero__content">
         <div class="hero__content-inner">
           <span class="hero__eyebrow">Welcome</span>
-          <h1 class="hero__title"><span>aqua planet </span><em>Rescue <span class="hero__amp">&amp;</span> Care</em></h1>
+          <h1 class="hero__title"><span>aqua planet </span><em>Rescue <span class="hero__amp">&amp;</span> Care</em>
+          </h1>
           <p class="hero__sub">바다 생명을 구조하고 돌보며 더 나은 해양의 내일을 연구합니다.</p>
         </div>
         <a class="hero__scroll" href="#rescue">
@@ -186,51 +189,52 @@
         <header class="section-head">
           <h2><em>Rescue <span class="amp">&amp;</span> Care</em> <span>Cases</span></h2>
           <p>제주 바다에서 구조된 <strong>돌고래</strong>들의 이야기입니다<br>구조와 치료를 거쳐 다시 바다를 향한 여정을 이어갑니다</p>
-        </header>
-
-        <div class="case-tabs" aria-label="구조 사례 분류">
-          <div class="tabs__inner">
-            <button class="tab is-active" type="button" data-case-tab="dolphin">Dolphin</button>
-            <button class="tab" type="button" data-case-tab="seaTurtle">SeaTurtle</button>
-            <button class="tab" type="button" data-case-tab="others">Others</button>
+          <div class="case-tabs" aria-label="구조 사례 분류">
+            <div class="tabs__inner">
+              <button class="tab is-active" type="button" data-case-tab="dolphin">Dolphin</button>
+              <button class="tab" type="button" data-case-tab="seaTurtle">SeaTurtle</button>
+              <button class="tab" type="button" data-case-tab="others">Others</button>
+            </div>
           </div>
-        </div>
+        </header>
 
         <div class="case-spotlight" data-case-spotlight aria-roledescription="carousel" aria-label="Dolphin 구조일지">
           <article class="case-card" data-case-card>
-            <div class="case-card__media" data-case-media>
-              <img class="case-card__image case-card__image--a" data-case-image-a src="" alt="">
-              <img class="case-card__image case-card__image--b" data-case-image-b src="" alt="">
-            </div>
-            <div class="case-card__info" data-case-info>
-              <h3 class="case-card__title"><span class="case-card__category" data-case-category
-                  style="display:none;"></span>구조일지</h3>
-              <dl>
-                <div class="case-card__row">
-                  <dt>구조 대상</dt>
-                  <dd data-case-target></dd>
+              <div class="case-card__media" data-case-media>
+                <img class="case-card__image case-card__image--a" data-case-image-a src="" alt="">
+                <img class="case-card__image case-card__image--b" data-case-image-b src="" alt="">
+              </div>
+              <div class="case-card__footer">
+                <div class="case-card__info" data-case-info>
+                  <h3 class="case-card__title"><span class="case-card__category" data-case-category
+                      style="display:none;"></span>구조일지</h3>
+                  <dl>
+                    <div class="case-card__row">
+                      <dt>구조 대상</dt>
+                      <dd data-case-target></dd>
+                    </div>
+                    <div class="case-card__row">
+                      <dt>구조 장소</dt>
+                      <dd data-case-location></dd>
+                    </div>
+                    <div class="case-card__row">
+                      <dt>구조 과정</dt>
+                      <dd data-case-process></dd>
+                    </div>
+                  </dl>
                 </div>
-                <div class="case-card__row">
-                  <dt>구조 장소</dt>
-                  <dd data-case-location></dd>
+                <div class="case-card__date" data-case-date aria-live="polite">
+                  <span class="date-slot"><span class="date-inner" data-date-part="year"></span></span>
+                  <span class="date-slot"><span class="date-inner" data-date-part="month"></span></span>
+                  <span class="date-slot"><span class="date-inner" data-date-part="day"></span></span>
                 </div>
-                <div class="case-card__row">
-                  <dt>구조 과정</dt>
-                  <dd data-case-process></dd>
-                </div>
-              </dl>
-            </div>
-            <div class="case-card__date" data-case-date aria-live="polite">
-              <span class="date-slot"><span class="date-inner" data-date-part="year"></span></span>
-              <span class="date-slot"><span class="date-inner" data-date-part="month"></span></span>
-              <span class="date-slot"><span class="date-inner" data-date-part="day"></span></span>
-            </div>
-          </article>
+              </div>
+            </article>
 
-          <div class="case-dots" data-case-dots role="tablist" aria-label="구조일지 페이지"></div>
-        </div>
+            <div class="case-dots" data-case-dots role="tablist" aria-label="구조일지 페이지"></div>
+          </div>
+        </section>
       </section>
-    </section>
   </main>
 
   <main class="marin-shell marin-shell--conservation" data-marin-conservation hidden>
@@ -274,25 +278,32 @@
 
             <div class="m-cons-orbit-field" id="cons-orbit-field">
               <button class="m-cons-orb" type="button" data-category="whale" aria-label="고래류 자세히 보기">
-                <span class="m-cons-orb__circle"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_01_01.avif" alt=""></span>
+                <span class="m-cons-orb__circle"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_01_01.avif"
+                    alt=""></span>
               </button>
               <button class="m-cons-orb" type="button" data-category="pinniped" aria-label="기각류 자세히 보기">
-                <span class="m-cons-orb__circle"><img src="assets/images/sec.aboutus/marinlab/conservation_walrus.avif" alt=""></span>
+                <span class="m-cons-orb__circle"><img src="assets/images/sec.aboutus/marinlab/conservation_walrus.avif"
+                    alt=""></span>
               </button>
               <button class="m-cons-orb" type="button" data-category="otter" aria-label="수달 자세히 보기">
-                <span class="m-cons-orb__circle"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_03_01.avif" alt=""></span>
+                <span class="m-cons-orb__circle"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_03_01.avif"
+                    alt=""></span>
               </button>
               <button class="m-cons-orb" type="button" data-category="penguin" aria-label="펭귄류 자세히 보기">
-                <span class="m-cons-orb__circle"><img src="assets/images/sec.aboutus/marinlab/conservation_penguin.avif" alt=""></span>
+                <span class="m-cons-orb__circle"><img src="assets/images/sec.aboutus/marinlab/conservation_penguin.avif"
+                    alt=""></span>
               </button>
               <button class="m-cons-orb" type="button" data-category="turtle" aria-label="바다거북 자세히 보기">
-                <span class="m-cons-orb__circle"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_05_01.avif" alt=""></span>
+                <span class="m-cons-orb__circle"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_05_01.avif"
+                    alt=""></span>
               </button>
               <button class="m-cons-orb" type="button" data-category="seahorse" aria-label="해마와 해룡 자세히 보기">
-                <span class="m-cons-orb__circle"><img src="assets/images/sec.aboutus/marinlab/conservation_seadragon.avif" alt=""></span>
+                <span class="m-cons-orb__circle"><img
+                    src="assets/images/sec.aboutus/marinlab/conservation_seadragon.avif" alt=""></span>
               </button>
               <button class="m-cons-orb" type="button" data-category="shark" aria-label="상어류 자세히 보기">
-                <span class="m-cons-orb__circle"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_07_01.avif" alt=""></span>
+                <span class="m-cons-orb__circle"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_07_01.avif"
+                    alt=""></span>
               </button>
             </div>
           </div>
@@ -312,25 +323,38 @@
       </nav>
       <div class="footer__brand">
         <div class="footer__socials" aria-label="소셜 링크">
-          <a href="https://www.instagram.com/aquaplanet_official" class="footer__social" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+          <a href="https://www.instagram.com/aquaplanet_official" class="footer__social" target="_blank"
+            rel="noopener noreferrer" aria-label="Instagram">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <rect x="4" y="4" width="16" height="16" rx="5"></rect>
               <circle cx="12" cy="12" r="3.4"></circle>
               <circle cx="17.2" cy="6.8" r="1"></circle>
             </svg>
           </a>
-          <a href="https://www.youtube.com/@aquaplanetstory" class="footer__social" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+          <a href="https://www.youtube.com/@aquaplanetstory" class="footer__social" target="_blank"
+            rel="noopener noreferrer" aria-label="YouTube">
             <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M5.2 7.2C5.6 6.5 6.3 6 7.1 5.9C8.4 5.7 10.5 5.6 12 5.6C13.5 5.6 15.6 5.7 16.9 5.9C17.7 6 18.4 6.5 18.8 7.2C19.2 8.1 19.4 10.2 19.4 12C19.4 13.8 19.2 15.9 18.8 16.8C18.4 17.5 17.7 18 16.9 18.1C15.6 18.3 13.5 18.4 12 18.4C10.5 18.4 8.4 18.3 7.1 18.1C6.3 18 5.6 17.5 5.2 16.8C4.8 15.9 4.6 13.8 4.6 12C4.6 10.2 4.8 8.1 5.2 7.2Z"></path>
+              <path
+                d="M5.2 7.2C5.6 6.5 6.3 6 7.1 5.9C8.4 5.7 10.5 5.6 12 5.6C13.5 5.6 15.6 5.7 16.9 5.9C17.7 6 18.4 6.5 18.8 7.2C19.2 8.1 19.4 10.2 19.4 12C19.4 13.8 19.2 15.9 18.8 16.8C18.4 17.5 17.7 18 16.9 18.1C15.6 18.3 13.5 18.4 12 18.4C10.5 18.4 8.4 18.3 7.1 18.1C6.3 18 5.6 17.5 5.2 16.8C4.8 15.9 4.6 13.8 4.6 12C4.6 10.2 4.8 8.1 5.2 7.2Z">
+              </path>
               <path d="M10.4 9.3L14.7 12L10.4 14.7V9.3Z" class="footer__social-play"></path>
             </svg>
           </a>
-          <a href="https://www.aquaplanet.co.kr/index.html" class="footer__social" target="_blank" rel="noopener noreferrer" aria-label="Google">
+          <a href="https://www.aquaplanet.co.kr/index.html" class="footer__social" target="_blank"
+            rel="noopener noreferrer" aria-label="Google">
             <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M19.6 12.2C19.6 11.6 19.5 11.1 19.4 10.6H12.2V13.5H16.3C16.1 14.5 15.5 15.3 14.7 15.8V17.7H17.2C18.7 16.4 19.6 14.5 19.6 12.2Z"></path>
-              <path d="M12.2 19.7C14.3 19.7 16.1 19 17.2 17.7L14.7 15.8C14 16.3 13.1 16.6 12.2 16.6C10.2 16.6 8.5 15.2 7.9 13.4H5.3V15.3C6.5 17.9 9.1 19.7 12.2 19.7Z"></path>
-              <path d="M7.9 13.4C7.7 12.9 7.6 12.5 7.6 12C7.6 11.5 7.7 11.1 7.9 10.6V8.7H5.3C4.8 9.7 4.5 10.8 4.5 12C4.5 13.2 4.8 14.3 5.3 15.3L7.9 13.4Z"></path>
-              <path d="M12.2 7.4C13.3 7.4 14.4 7.8 15.2 8.6L17.3 6.5C16 5.3 14.3 4.6 12.2 4.6C9.1 4.6 6.5 6.3 5.3 8.7L7.9 10.6C8.5 8.8 10.2 7.4 12.2 7.4Z"></path>
+              <path
+                d="M19.6 12.2C19.6 11.6 19.5 11.1 19.4 10.6H12.2V13.5H16.3C16.1 14.5 15.5 15.3 14.7 15.8V17.7H17.2C18.7 16.4 19.6 14.5 19.6 12.2Z">
+              </path>
+              <path
+                d="M12.2 19.7C14.3 19.7 16.1 19 17.2 17.7L14.7 15.8C14 16.3 13.1 16.6 12.2 16.6C10.2 16.6 8.5 15.2 7.9 13.4H5.3V15.3C6.5 17.9 9.1 19.7 12.2 19.7Z">
+              </path>
+              <path
+                d="M7.9 13.4C7.7 12.9 7.6 12.5 7.6 12C7.6 11.5 7.7 11.1 7.9 10.6V8.7H5.3C4.8 9.7 4.5 10.8 4.5 12C4.5 13.2 4.8 14.3 5.3 15.3L7.9 13.4Z">
+              </path>
+              <path
+                d="M12.2 7.4C13.3 7.4 14.4 7.8 15.2 8.6L17.3 6.5C16 5.3 14.3 4.6 12.2 4.6C9.1 4.6 6.5 6.3 5.3 8.7L7.9 10.6C8.5 8.8 10.2 7.4 12.2 7.4Z">
+              </path>
             </svg>
           </a>
         </div>
@@ -340,7 +364,8 @@
   </footer>
 
   <div class="m-cons-card-overlay" id="cons-card-overlay" aria-hidden="true">
-    <button class="m-cons-card-overlay__close" type="button" id="cons-card-overlay-close" aria-label="닫기">&times;</button>
+    <button class="m-cons-card-overlay__close" type="button" id="cons-card-overlay-close"
+      aria-label="닫기">&times;</button>
     <div class="m-cons-card-overlay__inner">
 
       <article class="m-cons-card" data-card="whale">
@@ -349,7 +374,8 @@
         <div class="m-cons-card__text">
           <p class="m-cons-card__en">Whale</p>
           <p class="m-cons-card__kr">고래류</p>
-          <p class="m-cons-card__desc">고래류는 전 세계 바다에 서식하는 대표적인 해양 포유류로, 흰수염고래와 돌고래, 상괭이 등이 포함됩니다.<br>과거 무분별한 포획으로 개체 수가 감소해 현재는 국제적인 보호와 보전활동이 이루어지고 있습니다.</p>
+          <p class="m-cons-card__desc">고래류는 전 세계 바다에 서식하는 대표적인 해양 포유류로, 흰수염고래와 돌고래, 상괭이 등이 포함됩니다.<br>과거 무분별한 포획으로 개체 수가
+            감소해 현재는 국제적인 보호와 보전활동이 이루어지고 있습니다.</p>
         </div>
       </article>
 
@@ -359,7 +385,8 @@
         <div class="m-cons-card__text">
           <p class="m-cons-card__en">Otter</p>
           <p class="m-cons-card__kr">수달</p>
-          <p class="m-cons-card__desc">우리나라엔 유라시안 수달이 분포하고 있으며 이 수달은 천연기념물 제330호이자 멸종위기 야생생물 1급으로 지정되었습니다.<br>숫자가 감소되어가는 수달의 복원을 위해 현재는 국제적인 보호와 보전활동이 이루어지고 있습니다.</p>
+          <p class="m-cons-card__desc">우리나라엔 유라시안 수달이 분포하고 있으며 이 수달은 천연기념물 제330호이자 멸종위기 야생생물 1급으로 지정되었습니다.<br>숫자가 감소되어가는
+            수달의 복원을 위해 현재는 국제적인 보호와 보전활동이 이루어지고 있습니다.</p>
         </div>
       </article>
 
@@ -369,7 +396,8 @@
         <div class="m-cons-card__text">
           <p class="m-cons-card__en">Penguin</p>
           <p class="m-cons-card__kr">펭귄류</p>
-          <p class="m-cons-card__desc">기후변화로 인해 남극의 환경이 훼손되며 남극에 서식하는 펭귄들의 숫자가 빠른 속도로 줄어가고 있습니다.<br>남극조약 협의당사국 회의를 통해 세종기지 옆 해안 언덕에 서식하는 펭귄을 포함한 생물들을 맡아 관리하게 되었습니다.</p>
+          <p class="m-cons-card__desc">기후변화로 인해 남극의 환경이 훼손되며 남극에 서식하는 펭귄들의 숫자가 빠른 속도로 줄어가고 있습니다.<br>남극조약 협의당사국 회의를 통해
+            세종기지 옆 해안 언덕에 서식하는 펭귄을 포함한 생물들을 맡아 관리하게 되었습니다.</p>
         </div>
       </article>
 
@@ -379,7 +407,8 @@
         <div class="m-cons-card__text">
           <p class="m-cons-card__en">Sea Turtle</p>
           <p class="m-cons-card__kr">바다거북</p>
-          <p class="m-cons-card__desc">바다 거북이에 의해 풍성해진 해초밭은 다양한 해양생물의 은신처가 되어 생태계를 풍부하게 만들어줍니다.<br>우리나라에서는 4종의 바다거북이 2013년 해양수산부에서 지정하는 보호대상해양생물로 신규 지정되었습니다.</p>
+          <p class="m-cons-card__desc">바다 거북이에 의해 풍성해진 해초밭은 다양한 해양생물의 은신처가 되어 생태계를 풍부하게 만들어줍니다.<br>우리나라에서는 4종의 바다거북이
+            2013년 해양수산부에서 지정하는 보호대상해양생물로 신규 지정되었습니다.</p>
         </div>
       </article>
 
@@ -389,7 +418,8 @@
         <div class="m-cons-card__text">
           <p class="m-cons-card__en">Shark</p>
           <p class="m-cons-card__kr">상어류</p>
-          <p class="m-cons-card__desc">상어는 사람을 먹잇감으로 삼지 않으며 오히려 사람에 의해 상어가 멸종위기에 처한 상황입니다.<br>아쿠아플라넷에서는 상어의 서식지외보전기관으로서 다양한 상어들의 보전을 위해 노력하고 있습니다.</p>
+          <p class="m-cons-card__desc">상어는 사람을 먹잇감으로 삼지 않으며 오히려 사람에 의해 상어가 멸종위기에 처한 상황입니다.<br>아쿠아플라넷에서는 상어의 서식지외보전기관으로서
+            다양한 상어들의 보전을 위해 노력하고 있습니다.</p>
         </div>
       </article>
 
@@ -404,14 +434,19 @@
               <div class="m-cons-flip__face m-cons-flip__face--front">
                 <img src="assets/images/sec.aboutus/marinlab/conservation_walrus.avif" alt="바다코끼리">
                 <div class="m-cons-flip__shade"></div>
-                <div class="m-cons-flip__caption"><p class="m-cons-flip__en">Walrus</p><p class="m-cons-flip__kr">바다코끼리</p></div>
+                <div class="m-cons-flip__caption">
+                  <p class="m-cons-flip__en">Walrus</p>
+                  <p class="m-cons-flip__kr">바다코끼리</p>
+                </div>
               </div>
               <div class="m-cons-flip__face m-cons-flip__face--back">
                 <img src="assets/images/sec.aboutus/marinlab/conservation_walrus.avif" alt="">
                 <div class="m-cons-flip__shade"></div>
                 <div class="m-cons-flip__caption">
-                  <p class="m-cons-flip__en">Walrus</p><p class="m-cons-flip__kr">바다코끼리</p>
-                  <p class="m-cons-flip__desc">바다코끼리는 최대 3.6m, 2톤에 이르는 대형 기각류입니다.<br>긴 엄니를 먹이를 찾거나 몸을 보호하는 데 사용하며 북극 연안에 서식합니다.</p>
+                  <p class="m-cons-flip__en">Walrus</p>
+                  <p class="m-cons-flip__kr">바다코끼리</p>
+                  <p class="m-cons-flip__desc">바다코끼리는 최대 3.6m, 2톤에 이르는 대형 기각류입니다.<br>긴 엄니를 먹이를 찾거나 몸을 보호하는 데 사용하며 북극 연안에
+                    서식합니다.</p>
                 </div>
               </div>
             </div>
@@ -421,14 +456,19 @@
               <div class="m-cons-flip__face m-cons-flip__face--front">
                 <img src="assets/images/sec.aboutus/marinlab/conservation_sealion.avif" alt="바다사자">
                 <div class="m-cons-flip__shade"></div>
-                <div class="m-cons-flip__caption"><p class="m-cons-flip__en">Sea Lion</p><p class="m-cons-flip__kr">바다사자</p></div>
+                <div class="m-cons-flip__caption">
+                  <p class="m-cons-flip__en">Sea Lion</p>
+                  <p class="m-cons-flip__kr">바다사자</p>
+                </div>
               </div>
               <div class="m-cons-flip__face m-cons-flip__face--back">
                 <img src="assets/images/sec.aboutus/marinlab/conservation_sealion.avif" alt="">
                 <div class="m-cons-flip__shade"></div>
                 <div class="m-cons-flip__caption">
-                  <p class="m-cons-flip__en">Sea Lion</p><p class="m-cons-flip__kr">바다사자</p>
-                  <p class="m-cons-flip__desc">물개라고도 불리는 바다사자는 긴 앞지느러미를 가지고 있어 육상에서 자유롭게 움직입니다.<br>개체 수 감소로 보호받고 있습니다.</p>
+                  <p class="m-cons-flip__en">Sea Lion</p>
+                  <p class="m-cons-flip__kr">바다사자</p>
+                  <p class="m-cons-flip__desc">물개라고도 불리는 바다사자는 긴 앞지느러미를 가지고 있어 육상에서 자유롭게 움직입니다.<br>개체 수 감소로 보호받고 있습니다.
+                  </p>
                 </div>
               </div>
             </div>
@@ -438,14 +478,19 @@
               <div class="m-cons-flip__face m-cons-flip__face--front">
                 <img src="assets/images/sec.aboutus/marinlab/conservation_seal.avif" alt="물범">
                 <div class="m-cons-flip__shade"></div>
-                <div class="m-cons-flip__caption"><p class="m-cons-flip__en">Seal</p><p class="m-cons-flip__kr">물범</p></div>
+                <div class="m-cons-flip__caption">
+                  <p class="m-cons-flip__en">Seal</p>
+                  <p class="m-cons-flip__kr">물범</p>
+                </div>
               </div>
               <div class="m-cons-flip__face m-cons-flip__face--back">
                 <img src="assets/images/sec.aboutus/marinlab/conservation_seal.avif" alt="">
                 <div class="m-cons-flip__shade"></div>
                 <div class="m-cons-flip__caption">
-                  <p class="m-cons-flip__en">Seal</p><p class="m-cons-flip__kr">물범</p>
-                  <p class="m-cons-flip__desc">물범은 전 세계 바다에 서식하는 대표적인 기각류입니다.<br>우리나라에서는 백령도 인근에 점박이 물범이 서식하며 보호받고 있습니다.</p>
+                  <p class="m-cons-flip__en">Seal</p>
+                  <p class="m-cons-flip__kr">물범</p>
+                  <p class="m-cons-flip__desc">물범은 전 세계 바다에 서식하는 대표적인 기각류입니다.<br>우리나라에서는 백령도 인근에 점박이 물범이 서식하며 보호받고 있습니다.
+                  </p>
                 </div>
               </div>
             </div>
@@ -464,14 +509,19 @@
               <div class="m-cons-flip__face m-cons-flip__face--front">
                 <img src="assets/images/sec.aboutus/marinlab/conservation_seahorse.avif" alt="해마">
                 <div class="m-cons-flip__shade"></div>
-                <div class="m-cons-flip__caption"><p class="m-cons-flip__en">Seahorse</p><p class="m-cons-flip__kr">해마</p></div>
+                <div class="m-cons-flip__caption">
+                  <p class="m-cons-flip__en">Seahorse</p>
+                  <p class="m-cons-flip__kr">해마</p>
+                </div>
               </div>
               <div class="m-cons-flip__face m-cons-flip__face--back">
                 <img src="assets/images/sec.aboutus/marinlab/conservation_seahorse.avif" alt="">
                 <div class="m-cons-flip__shade"></div>
                 <div class="m-cons-flip__caption">
-                  <p class="m-cons-flip__en">Seahorse</p><p class="m-cons-flip__kr">해마</p>
-                  <p class="m-cons-flip__desc">1990년대 이후 해마는 빠른 속도로 감소하기에 이르렀습니다. CITES 동물군에 포함되었지만, 불법적으로 거래가 이루어지고 있는 상황입니다.<br>우리나라에서는 가시해마와 복해마를 보호대상해양생물로 지정 보호하고 있습니다.</p>
+                  <p class="m-cons-flip__en">Seahorse</p>
+                  <p class="m-cons-flip__kr">해마</p>
+                  <p class="m-cons-flip__desc">1990년대 이후 해마는 빠른 속도로 감소하기에 이르렀습니다. CITES 동물군에 포함되었지만, 불법적으로 거래가 이루어지고 있는
+                    상황입니다.<br>우리나라에서는 가시해마와 복해마를 보호대상해양생물로 지정 보호하고 있습니다.</p>
                 </div>
               </div>
             </div>
@@ -481,14 +531,19 @@
               <div class="m-cons-flip__face m-cons-flip__face--front">
                 <img src="assets/images/sec.aboutus/marinlab/conservation_seadragon.avif" alt="해룡">
                 <div class="m-cons-flip__shade"></div>
-                <div class="m-cons-flip__caption"><p class="m-cons-flip__en">Sea dragon</p><p class="m-cons-flip__kr">해룡</p></div>
+                <div class="m-cons-flip__caption">
+                  <p class="m-cons-flip__en">Sea dragon</p>
+                  <p class="m-cons-flip__kr">해룡</p>
+                </div>
               </div>
               <div class="m-cons-flip__face m-cons-flip__face--back">
                 <img src="assets/images/sec.aboutus/marinlab/conservation_seadragon.avif" alt="">
                 <div class="m-cons-flip__shade"></div>
                 <div class="m-cons-flip__caption">
-                  <p class="m-cons-flip__en">Sea dragon</p><p class="m-cons-flip__kr">해룡</p>
-                  <p class="m-cons-flip__desc">해룡은 움직임이 느려, 쉽게 천적의 공격을 받기 때문에 성체가 되는 개체는 많지 않은 생물입니다. 또한 서식지가 오염됨에 따라 개체 수가 줄어들고 있는 상황입니다.<br>오스트레일리아의 해안에만 있는 어류로 수출을 금하며 보호하고 있는 어류입니다.</p>
+                  <p class="m-cons-flip__en">Sea dragon</p>
+                  <p class="m-cons-flip__kr">해룡</p>
+                  <p class="m-cons-flip__desc">해룡은 움직임이 느려, 쉽게 천적의 공격을 받기 때문에 성체가 되는 개체는 많지 않은 생물입니다. 또한 서식지가 오염됨에 따라 개체
+                    수가 줄어들고 있는 상황입니다.<br>오스트레일리아의 해안에만 있는 어류로 수출을 금하며 보호하고 있는 어류입니다.</p>
                 </div>
               </div>
             </div>
@@ -726,84 +781,84 @@
           target: '붉은바다거북 Caretta caretta',
           location: '강원도 삼척시 장호항',
           process: '이물 제거 및 상처부위 소독 치료',
-          image: 'assets/images/seaturtle01.png'
+          image: 'assets/images/SeaTurtle01.png'
         },
         {
           date: '2016.12.19',
           target: '매부리바다거북 Eretmochelys imbricata',
           location: '경상남도 하동시 금남면 인근 연안',
           process: '어민 선박 운항 중 수면에 떠 있는 상태로 발견, 행동 저하 및 잠영 불가로 이송 치료',
-          image: 'assets/images/seaturtle02.png'
+          image: 'assets/images/SeaTurtle02.png'
         },
         {
           date: '2016.09.29',
           target: '푸른바다거북 Chelonia mydas',
           location: '여수시 돌산읍 임포항',
           process: '거머리 등 체표 이물 제거 및 상처부위 소독 치료',
-          image: 'assets/images/seaturtle02.png'
+          image: 'assets/images/SeaTurtle02.png'
         },
         {
           date: '2016.09.21',
           target: '푸른바다거북 Chelonia mydas',
           location: '강원도 삼척시 초곡항',
           process: '어민 혼획에 의한 바다거북 상처부위 소독 치료',
-          image: 'assets/images/seaturtle03.png'
+          image: 'assets/images/SeaTurtle03.png'
         },
         {
           date: '2016.07.05',
           target: '푸른바다거북 Chelonia mydas',
           location: '제주 서귀포시 성산읍 신양리',
           process: '등갑 전체에 에폭시 부착 및 잠영이 불가하여 이송 치료',
-          image: 'assets/images/seaturtle04.png'
+          image: 'assets/images/SeaTurtle04.png'
         },
         {
           date: '2015.08.07',
           target: '푸른바다거북 Chelonia mydas',
           location: '서귀포시 성산읍 신산리 정치망',
           process: '미약한 상처로 확인 후 즉시 방류',
-          image: 'assets/images/seaturtle05.png'
+          image: 'assets/images/SeaTurtle05.png'
         },
         {
           date: '2015.07.20',
           target: '푸른바다거북 Chelonia mydas',
           location: '전남 여수시 삼산면 거문리 거문도',
           process: '주민신고로 출동 후 신체검사를 진행하고, 거센 물 및 기력 부족으로 보호 조치',
-          image: 'assets/images/seaturtle06.png'
+          image: 'assets/images/SeaTurtle06.png'
         },
         {
           date: '2016.06.25',
           target: '붉은바다거북 Caretta caretta',
           location: '전남 여수시 돌산읍 임포항',
           process: '주민신고로 출동 후 신체검사를 진행하고, 기력 부족 및 복부 상처로 보호 조치',
-          image: 'assets/images/seaturtle07.png'
+          image: 'assets/images/SeaTurtle07.png'
         },
         {
           date: '2014.08.07',
           target: '푸른바다거북 Chelonia mydas 2마리',
           location: '국립수산과학 미래양식연구센터',
           process: '미래양식연구센터에서 반입 후 괴사 진행 확인 및 항생제 치료, 소독치료 진행. 등갑 사이와 배갑 사이 괴사가 심각하고 사지 일부에 괴사 확인',
-          image: 'assets/images/seaturtle08.png'
+          image: 'assets/images/SeaTurtle08.png'
         },
         {
           date: '2013.08.23',
           target: '매부리거북 Eretmochelys imbricata',
           location: '국립수산과학 미래양식연구센터',
           process: '구조 거북 부상 연락을 받은 후 출동, 부상 부위 치료 조치를 위해 당사 반입. 어깨 절상부위가 심각하여 치료 진행',
-          image: 'assets/images/seaturtle09.png'
+          image: 'assets/images/SeaTurtle09.png'
         },
         {
           date: '2013.07.04',
           target: '푸른바다거북 Chelonia mydas',
           location: '제주도 제주시 한림읍 귀덕리 정치망',
           process: '확인 결과 건강한 상태로, 신체검사 진행 후 방류 완료',
-          image: 'assets/images/seaturtle09.png'
+          image: 'assets/images/SeaTurtle09.png'
         },
         {
           date: '2012.09.25',
           target: '푸른바다거북 1마리(갑장 72cm, 암컷)',
           location: '서귀포시 신산리',
           process: '어부로부터 정치망에 걸린 바다거북 목격 신고를 받고 구조 요청, 관계기관 신고 및 구조치료 허가 후 구조 시행. 목 주위 상처 치료 후 방류',
-          image: 'assets/images/seaturtle10.png'
+          image: 'assets/images/SeaTurtle10.png'
         }
       ];
 
@@ -1092,18 +1147,14 @@
       if (prevBtn) prevBtn.addEventListener('click', () => { if (!isAnimating) requestStep(-1); });
       if (nextBtn) nextBtn.addEventListener('click', () => { if (!isAnimating) requestStep(1); });
 
-      // .case-spotlight only "captures" wheel input while it's pinned/centered in the
-      // viewport; ScrollTrigger's onEnter/onEnterBack/onLeave/onLeaveBack toggle this flag.
       let casePinActive = false;
 
       if (hasGsap && !prefersReducedMotion && typeof ScrollTrigger !== 'undefined') {
         gsap.registerPlugin(ScrollTrigger);
 
-        // Pin the spotlight wrapper only. The actual card design/content remains inside
-        // .case-card and is changed exclusively through animateToCase().
         ScrollTrigger.create({
           trigger: spotlight,
-          start: 'top 130px',
+          start: 'center center+=51',
           end: '+=60%',
           pin: spotlight,
           pinSpacing: true,
@@ -1114,11 +1165,6 @@
         });
       }
 
-      // shared gate used by both buttons (via next/prev above) and wheel (below): blocks
-      // mid-list page scroll, but lets it through at the first/last case so the page can
-      // move on to the previous/next section. Buttons call next()/prev() directly (no
-      // boundary to gate there since they're disabled-by-state instead), wheel always
-      // goes through here.
       function requestStep(direction, evt) {
         const atFirst = currentIndex <= 0;
         const atLast = currentIndex >= getTotal() - 1;
@@ -1132,21 +1178,16 @@
         return direction > 0 ? next() : prev();
       }
 
-      // Listens on window (not the image/card) so scrolling anywhere on the page works,
-      // not just while the cursor happens to be over the photo. The active-zone check
-      // (casePinActive) is what scopes it to "only while .case-spotlight is centered".
       function handleCaseWheel(event) {
         if (!casePinActive) return; // outside the pinned zone: let the page scroll normally
         if (document.body.classList.contains('marin-view-conservation')) return; // conservation 뷰에서는 스크롤 차단 안 함
         if (Math.abs(event.deltaY) < 1) return; // ignore near-zero scroll noise only
 
-        // 위로 스크롤 시 인터랙션을 무시하고 브라우저 기본 스크롤(페이지 위로 이동)을 허용합니다.
-        if (event.deltaY < 0) return;
-
-        requestStep(1, event);
+        const direction = event.deltaY > 0 ? 1 : -1;
+        requestStep(direction, event);
       }
 
-      window.addEventListener('wheel', handleCaseWheel, { passive: false });
+      spotlight.addEventListener('wheel', handleCaseWheel, { passive: false });
     })();
   </script>
 </body>
