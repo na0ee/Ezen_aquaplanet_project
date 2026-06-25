@@ -28,10 +28,10 @@ body.oceanfriends-page {
   justify-content: center;
   color: rgba(255, 255, 255, 0.5);
   font-family: "Poppins", sans-serif;
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 400;
   line-height: normal;
-  letter-spacing: -0.96px;
+  letter-spacing: -0.88px;
   text-decoration: none;
 }
 
@@ -42,9 +42,9 @@ body.oceanfriends-page {
 
 .oceanfriends-page .gnb__link.gnb__link--active {
   font-family: "EB Garamond", serif;
-  font-size: 28px;
+  font-size: 25px;
   font-weight: 500;
-  letter-spacing: -1.12px;
+  letter-spacing: -1px;
 }
 
 .oceanfriends-page .gnb__logo-wrap {
@@ -61,15 +61,14 @@ body.oceanfriends-page {
 }
 
 .oceanfriends-page .gnb__ticket {
-  width: 143px;
   height: 54px;
   padding: 0 22px;
   border-radius: 100px;
   color: #ffffff;
   font-family: "Poppins", sans-serif;
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 400;
-  letter-spacing: -0.96px;
+  letter-spacing: -0.88px;
 }
 
 .oceanfriends-page .gnb.gnb--scrolled,
@@ -122,7 +121,7 @@ body.oceanfriends-page {
 .friends-bg {
   position: absolute;
   inset: 0;
-  background: url("../assets/images/hero/oceanfriends.png") center top / cover no-repeat;
+  background: url("../assets/images/oceanfriends/oceanfriends.png") center top / cover no-repeat;
   background-attachment: fixed;
   z-index: 0;
   will-change: background-position;
@@ -154,6 +153,7 @@ body.oceanfriends-page {
   width: fit-content;
   max-width: calc(100% - 48px);
   margin: 0 auto;
+  margin-top: 84px;
 }
 
 .of-hero {
@@ -166,22 +166,24 @@ body.oceanfriends-page {
   font-style: italic;
   font-weight: 500;
   font-size: clamp(22px, 1.7vw, 32px);
+  letter-spacing: -0.02em;
+  line-height: 1.4;
   color: rgba(255, 255, 255, 0.9);
 }
 
 .of-title {
   margin: -18px 0 0;
   font-family: var(--font-en);
-  font-weight: 300;
+  font-weight: 200;
   font-size: clamp(66px, 5.65vw, 108px);
-  line-height: 1.08;
-  letter-spacing: 0;
+  line-height: normal;
   color: #ffffff;
 }
 
 .of-title span {
   font: inherit;
-  font-weight: 300;
+  font-weight: 200;
+  letter-spacing: -0.04em;
 }
 
 .of-title em {
@@ -189,6 +191,7 @@ body.oceanfriends-page {
   font-weight: 500;
   font-style: italic;
   font-size: 1.08em;
+  letter-spacing: -0.02em;
 }
 
 .of-hero__lead {
@@ -198,7 +201,8 @@ body.oceanfriends-page {
   font-size: clamp(16px, 1.25vw, 24px);
   font-weight: 300;
   line-height: 1.4;
-  color: rgba(255, 255, 255, 0.92);
+  letter-spacing: -0.02em;
+  color: #ffffff;
 }
 
 .of-scroll {
@@ -221,13 +225,17 @@ body.oceanfriends-page {
 .of-scroll__text {
   font-family: var(--font-serif);
   font-style: italic;
+  font-weight: 500;
   font-size: clamp(22px, 1.7vw, 32px);
+  letter-spacing: -0.02em;
+  line-height: 1.4;
+  color: #ffffff;
 }
 
 .of-scroll__text-lets {
   font-family: "Poppins", sans-serif;
   font-weight: 300;
-  letter-spacing: 0;
+  letter-spacing: -0.02em;
   font-style: normal;
 }
 
