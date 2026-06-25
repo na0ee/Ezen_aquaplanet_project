@@ -452,3 +452,49 @@
 ## 8. 팀원에게 설명할 때 한 줄 정리
 
 태블릿은 기존 PC 구조를 유지하면서 폰트와 여백만 줄였고, 모바일은 1열 구조로 바꾸면서 sticky 섹션을 해제해 일반 스크롤 흐름으로 정리했습니다. 카드 간격은 태블릿 `14px`, 모바일 `10px`로 통일했고, 섹션 상하 여백은 모바일 기준 `76px`로 맞췄습니다.
+
+---
+
+## Program Page Responsive Addendum
+
+Use these values from `css/program.css` as the shared responsive baseline for tabs, toggles, buttons, and card text, especially when aligning the Location page.
+
+### Tablet: 769px ~ 1024px
+
+| Element | Recommended value |
+|---|---:|
+| Hero main title | `clamp(60px, 8vw, 90px)` |
+| Hero emphasis title | `clamp(76px, 10vw, 116px)` |
+| Hero eyebrow | `clamp(22px, 2.8vw, 28px)` |
+| Hero sub text | `clamp(18px, 2.2vw, 22px)` |
+| Section English title | `clamp(40px, 5vw, 58px)` |
+| Section serif title | `clamp(38px, 4.8vw, 56px)` |
+| Segmented tab default | `16px`, `height: 44px`, `padding: 0 20px` |
+| Segmented tab active | `20px` for serif English tabs, `16px/600` for Korean category tabs |
+| Card title | `16px ~ 17px`, `line-height: 1.35` |
+| Small card button/tag | `12px ~ 14px`, `height: 26px ~ 28px` |
+| Side toggle text | at least `12px`; keep line width around `44px`, active `56px` |
+
+### Mobile: 390px ~ 768px
+
+| Element | Recommended value |
+|---|---:|
+| Hero main title | `clamp(36px, 10vw, 60px)` |
+| Hero emphasis title | `clamp(46px, 13vw, 76px)` |
+| Hero eyebrow | `clamp(17px, 4.8vw, 23px)` |
+| Hero sub text | `clamp(13px, 3.8vw, 16px)` |
+| Section English title | `clamp(28px, 8vw, 44px)` |
+| Section serif title | `clamp(26px, 7.5vw, 42px)` |
+| Category tab | `14px`, `height: 40px`, `padding: 0 16px`, wrap allowed |
+| Date/floor tab | `16px`, `padding: 10px 14px` or `height: 40px`, horizontal scroll allowed |
+| Preview/card title | `14px`, `line-height: 1.35`, ellipsis only when space is very tight |
+| Small card button/tag | `12px`, `height: 22px ~ 24px`, `padding: 0 8px ~ 10px` |
+| Detail modal close button | `20px`, inner icon `14px` |
+
+Implementation notes:
+
+- Mobile tab groups with many items should use `overflow-x: auto`, `flex-wrap: nowrap`, `flex-shrink: 0` on each tab, and hide the scrollbar.
+- Do not reduce active tab text below the default tab text on mobile. Active state should use weight/color/background, not a smaller font.
+- Card buttons below `11px` become hard to read; use `12px` as the mobile minimum.
+- Tablet side toggles should not drop to `10px`; use `12px` minimum and shorten only the line length if space is tight.
+- Detail descriptions must keep readable line height, usually `1.45 ~ 1.6`; avoid `line-height: 0`.
