@@ -12,8 +12,21 @@ html {
 }
 
 body {
-  background-color: var(--bg-detail);
   background-image: none;
+}
+
+.wrap {
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--bg-detail);
+}
+
+/* 햄버거·모바일메뉴 — 기본(PC/태블릿)에서 숨김 */
+.location-page .gnb__hamburger {
+  display: none;
+}
+.location-page .gnb__mobile-menu {
+  display: none;
 }
 
 /* ----------------------------------------------------------------
@@ -193,58 +206,23 @@ body {
    아쿠아플라넷 제주 지점 소개
    ================================================================ */
 
-.loc-intro {
-  position: relative;
-  width: 100%;
-  height: 100vh;
-  overflow: hidden;
-  z-index: 2;          /* hero(z-index:1) 위로 슬라이드 */
-}
-
-/* 배경 이미지 (Figma: 140679_106309_1757 1) */
-.loc-intro__bg {
-  position: absolute;
-  inset: 0;
-}
-
-.loc-intro__bg-img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 159.27%;     /* Figma: 이미지 높이 비율 */
-  top: -29.63%;        /* Figma: top 오프셋 */
-  object-fit: cover;
-  object-position: center;
-  pointer-events: none;
-}
-
-/* 그라데이션 오버레이
-   Figma: from rgba(217,217,217,0) → via rgba(77,77,77,0.64) 50.962% → to black
-   위치: 섹션 상단 302px ~ 하단(1080px) */
-.loc-intro__grad {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0%;          /* 계산값: calc(50% + 151.16px) - 778px/2 */
-  height: 100%;       /* Figma: h=778.322px */
-  background: linear-gradient(
-    to bottom,
-    rgba(217, 217, 217, 0)    0%,
-    rgba(77,  77,  77,  0.64) 50.962%,
-    #000000               100%
-  );
-  pointer-events: none;
-}
-
-/* 콘텐츠 박스 (Figma: 278:309, left=74, top=677, w=428, flex-col gap=20) */
+/* intro 콘텐츠 — hero 안에 배치, JS로 opacity/transform 제어 */
 .loc-intro__content {
   position: absolute;
-  left: 2%;          /* Figma: x=74 */
-  top: 68%;          /* Figma: y=677 */
-  width: 428px;        /* Figma: w=428 */
+  left: 50%;
+  top: 50%;
+  /* 중앙 정렬 + 초기 40px 아래 오프셋 (JS 페이드인 시 올라옴) */
+  transform: translate(-50%, calc(-50% + 40px));
+  width: 428px;
   display: flex;
   flex-direction: column;
-  gap: 20px;           /* Figma: gap=20 */
+  align-items: center;
+  gap: 20px;
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  will-change: opacity, transform;
+  z-index: 2;
 }
 
 /* 구분선 (Figma: Vector 100/101, w=423, thin horizontal rule) */
@@ -265,7 +243,8 @@ body {
 .loc-intro__brand-group {
   display: flex;
   flex-direction: column;
-  gap: 8px;            /* Figma: gap=8 */
+  align-items: center;
+  gap: 6px;
 }
 
 /* 로고 + 지점명 가로 배치 (Figma: Frame 314, gap=10, items-center) */
@@ -277,8 +256,8 @@ body {
 
 /* logo_vector (Figma: 224×38) */
 .loc-intro__logo {
-  width: 224px;        /* Figma: w=224 */
-  height: 38px;        /* Figma: h=38 */
+  width: 271px;        /* Figma: w=224 */
+  height: 50px;        /* Figma: h=38 */
   object-fit: contain;
   filter: brightness(0) invert(1);
 }
@@ -287,7 +266,7 @@ body {
 .loc-intro__branch-name {
   font-family: var(--font-kr);   /* Pretendard */
   font-weight: 600;              /* SemiBold */
-  font-size: 36px;               /* Figma: 36px */
+  font-size: 46px;               /* Figma: 36px */
   color: #ffffff;
   line-height: 1;
   white-space: nowrap;
@@ -297,13 +276,15 @@ body {
 .loc-intro__address {
   display: flex;
   flex-direction: column;
-  gap: 4px;            /* Figma: gap=4 */
+  align-items: center;
+  gap: 4px;
   font-family: var(--font-kr);
-  font-weight: 400;
-  font-size: 12px;     /* Figma: 12px */
+  font-weight: 300;
+  font-size: 10px;
   color: #ffffff;
-  letter-spacing: -0.24px; /* Figma: tracking=-0.24px */
+  letter-spacing: -0.24px;
   line-height: normal;
+  text-align: center;
 }
 
 .loc-intro__address p {
@@ -317,9 +298,11 @@ body {
   border: none;
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 0;
+  text-align: center;
   font-family: var(--font-kr);
-  font-size: 24px;             /* Figma: 24px */
+  font-size: 18px;             /* Figma: 24px */
   font-weight: 400;
   color: #ffffff;
   letter-spacing: -0.48px;    /* Figma: tracking=-0.48px */
@@ -343,19 +326,19 @@ body {
 .loc-intro__desc {
   display: flex;
   flex-direction: column;
-  gap: 8px;            /* Figma: gap=8 */
+  gap: 6px;            /* Figma: gap=8 */
 }
 
 .loc-intro__desc p {
   margin: 0;
   font-family: var(--font-kr);
-  font-weight: 400;
-  font-size: 16px;             /* Figma: 16px */
+  font-weight: 300;
+  font-size: 12px;
   color: #ffffff;
-  letter-spacing: -0.32px;    /* Figma: tracking=-0.32px */
+  letter-spacing: -0.32px;
   line-height: 1.4;
-  text-align: justify;         /* Figma: text-justify */
-  width: 428px;                /* Figma: w=428 */
+  text-align: center;
+  width: 428px;
 }
 
 /* ================================================================
@@ -377,7 +360,7 @@ body {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  top: 160px;                  /* Figma: y=160 */
+  top: 230px;                  /* Figma: y=160 */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -389,42 +372,42 @@ body {
 .loc-programs__title {
   margin: 0;
   line-height: 0;
-  letter-spacing: -1.68px;    /* Figma: tracking-[-1.68px] */
+  letter-spacing: -2.24px;
 }
 
-/* "Main" — Poppins Light, 42px */
+/* "Main" — Poppins Light */
 .loc-programs__title-light {
   font-family: var(--font-en);
   font-weight: 300;
-  font-size: 42px;             /* Figma: 42px */
+  font-size: 58px;
   color: #ffffff;
   line-height: 1.2;
 }
 
-/* " Programs" — EB Garamond Medium Italic, 48px */
+/* " Programs" — EB Garamond Medium Italic */
 .loc-programs__title-serif {
   font-family: var(--font-serif);
   font-weight: 500;
   font-style: italic;
-  font-size: 48px;             /* Figma: 48px */
+  font-size: 56px;
   color: #ffffff;
   line-height: 1.2;
 }
 
-/* 서브텍스트 (Figma: 278:62, Pretendard 18px, center, tracking -0.36px) */
+/* 서브텍스트 */
 .loc-programs__sub {
   margin: 0;
   font-family: var(--font-kr);
-  font-weight: 400;
-  font-size: 18px;             /* Figma: 18px */
+  font-weight: 200;
+  font-size: 16px;
   color: #ffffff;
-  letter-spacing: -0.36px;    /* Figma: tracking-[-0.36px] */
-  line-height: 1.4;
+  letter-spacing: -0.36px;
+  line-height: 1.6;
   text-align: center;
 }
 
 .loc-programs__sub strong {
-  font-weight: 600;            /* SemiBold */
+  font-weight: 600;
 }
 
 /* 카드 컨테이너 (Figma: 278:39, centered, top=462, p=16, gap=20)
@@ -442,9 +425,6 @@ body {
   border-radius: 28px;
   border: 2px solid rgba(255, 255, 255, 0.18);
   background: rgba(255, 255, 255, 0.08);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.12),
-    0 8px 32px rgba(0, 20, 60, 0.18);
 }
 .loc-programs__card:hover,mouse-enter, .loc-programs__card img {
   transform:scale(1.01); transition: all 0.2s ease-out;}
@@ -561,22 +541,55 @@ body {
    Guide Map — 기본 상태
    ================================================================ */
 
-/* sticky 래퍼 — 섹션 높이 + 여분 스크롤 공간 */
-.loc-map-wrap {
+/* ── Solo 래퍼: 맵만 표시하는 첫 번째 sticky 구간 ── */
+.loc-map-wrap--solo {
   position: relative;
-  height: calc(1542px + 100vh);
-  margin-bottom: 120px;
+  height: calc(100vh + 800px);
 }
 
+/* ── Exhibits 래퍼: solo 끝과 이어지도록 -100vh 겹침 ── */
+.loc-map-wrap--exhibits {
+  position: relative;
+  height: calc(100vh + 900px);
+  margin-top: -100vh;
+}
+
+/* ── 공통 sticky 섹션 베이스 ── */
 .loc-map {
   position: sticky;
-  /* 버블 그룹 중심(1011px)을 뷰포트 중앙에 고정:
-     Figma 버블 Y범위 605~1416 → 중심≈1011 */
-  top: calc(50vh - 1011px);
+  top: 0;
   width: 100%;
-  height: 1580px;
+  height: 100vh;
   background: var(--bg-detail);
   overflow: hidden;
+}
+
+/* Solo: 맵 아래 exhibits가 올라올 때 solo가 가려지도록 */
+.loc-map--solo { z-index: 1; }
+
+/* Exhibits: solo 위에 렌더, JS로 opacity 제어 */
+.loc-map--exhibits {
+  z-index: 2;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Solo 헤더: 타이틀↔탭 24px */
+.loc-map--solo .loc-map__header,
+.loc-map--exhibits .loc-map__header { gap: 12px; }
+
+/* Solo hint: 맵 하단(50% + 790*0.56/2 * s) + 12px */
+.loc-map--solo .loc-map__hint {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: calc(50% + calc(221px * var(--map-s, 1)) + 12px);
+  margin: 0;
+}
+
+/* Solo 스테이지 — 기본 크기 56% (80% × 70%) */
+.loc-map--solo .loc-map__stage {
+  transform: translate(-50%, -50%) scale(calc(var(--map-s, 1) * 0.56));
 }
 
 /* 타이틀 + 층탭 (Figma: 278:241, centered, top=160, flex-col gap=80) */
@@ -596,26 +609,26 @@ body {
 /* "Guide Map" 타이틀 */
 .loc-map__title {
   margin: 0;
-  line-height: 0;              /* Figma: leading-[0] */
+  line-height: 0;
   white-space: nowrap;
-  letter-spacing: -1.68px;    /* Figma: tracking-[-1.68px] */
+  letter-spacing: -2.24px;
 }
 
-/* "Guide" — Poppins Light, 42px */
+/* "Guide" — Poppins Light */
 .loc-map__title-light {
   font-family: var(--font-en);
-  font-weight: 300;            /* Light */
-  font-size: 42px;             /* Figma: 42px */
+  font-weight: 300;
+  font-size: 58px;
   color: #ffffff;
   line-height: 1.2;
 }
 
-/* " Map" — EB Garamond Medium Italic, 48px */
+/* " Map" — EB Garamond Medium Italic */
 .loc-map__title-serif {
   font-family: var(--font-serif);
   font-weight: 500;
   font-style: italic;
-  font-size: 48px;             /* Figma: 48px */
+  font-size: 56px;
   color: #ffffff;
   line-height: 1.2;
 }
@@ -624,16 +637,46 @@ body {
 .loc-map__floor-tabs {
   display: flex;
   align-items: center;
-  height: 54px;                /* Figma: h=54 */
-  background: rgba(255, 255, 255, 0.02);
-  border-radius: 14px;         /* Figma: rounded-[14px] */
-  padding: 3px;                /* Figma: p=3 */
+  height: 50px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0)   15%,
+    rgba(255, 255, 255, 0)   85%,
+    rgba(255, 255, 255, 0.1) 100%
+  );
+  backdrop-filter: blur(16px);
+  border-radius: 14px;
+  padding: 3px;
   position: relative;
   z-index: 31;
   pointer-events: auto;
   isolation: isolate;
   transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1),
               opacity 0.25s ease;
+}
+
+.loc-map__floor-tabs::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  padding: 1.5px;
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.55) 0%,
+    rgba(255, 255, 255, 0.20) 25%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(255, 255, 255, 0.20) 75%,
+    rgba(255, 255, 255, 0.55) 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box,
+                linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  mask: linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
 }
 
 /* 버블 노출 시 맵 중심(x=780) 상단 중앙으로 이동 */
@@ -649,14 +692,14 @@ body {
 
 /* 층 탭 개별 항목 */
 .loc-map__floor-tab {
-  height: 48px;                /* Figma: h=48 */
-  padding: 0 20px;             /* Figma: px=20 */
-  border-radius: 12px;         /* Figma: rounded-[12px] */
+  height: 44px;
+  padding: 0 20px;
+  border-radius: 12px;
   border: none;
   background: transparent;
-  font-family: var(--font-en); /* Poppins */
-  font-weight: 500;            /* Medium */
-  font-size: 16px;             /* Figma: 16px */
+  font-family: var(--font-en);
+  font-weight: 400;
+  font-size: 16px;
   color: #ffffff;
   letter-spacing: -0.64px;
   cursor: pointer;
@@ -683,21 +726,73 @@ body {
   width: 1320px;               /* Figma: w=1320 */
   height: 790px;               /* Figma: h=790 */
   transform-origin: 50% 50%;
-  transform: translate(calc(-50%), calc(-50%)) scale(1.2);
+  /* --map-s: JS가 뷰포트 너비 기준으로 계산해 주입 (기본 1) */
+  transform: translate(-50%, -50%) scale(calc(var(--map-s, 1) * 1.2));
   transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1),
               opacity   0.25s ease;
 }
 
 
-/* hover/click 공통 — 지도 왼쪽으로 이동 */
-.loc-map.is-hovering .loc-map__stage,
-.loc-map.has-detail   .loc-map__stage {
-  transform: translate(calc(-50% - 300px), calc(-50% + 290px)) scale(0.9);
+/* Solo — is-hovering 시 스테이지 이동 (solo는 실제로 is-hovering 미사용, 보존만) */
+.loc-map--solo.is-hovering .loc-map__stage {
+  transform: translate(
+    calc(-50% - 100px * var(--map-s, 1)),
+    -50%
+  ) scale(calc(var(--map-s, 1) * 0.5));
 }
 
-/* click — 지도 페이드아웃 (카드로 교체) */
-.loc-map.has-detail .loc-map__stage {
+/* ── Exhibits 2열 레이아웃 ─────────────────────────────────────────
+   loc-exhibits__inner: flex row, 뷰포트 중앙 절대 배치
+   loc-exhibits__map-side: 스테이지 컨테이너 (transform-origin: top left)
+   loc-exhibits__bubble-side: 버블 컬럼 (position relative, 섹션 내부 좌표계)
+   ─────────────────────────────────────────────────────────────── */
+.loc-exhibits__inner {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  gap: calc(80px * var(--map-s, 1));
+}
+
+/* 맵 컬럼 — 스테이지를 top-left 기준 scale로 담는 컨테이너 */
+.loc-exhibits__map-side {
+  position: relative;
+  flex-shrink: 0;
+  width:  calc(1320px * 0.7 * var(--map-s, 1));
+  height: calc(790px  * 0.7 * var(--map-s, 1));
+}
+
+/* Exhibits 내 스테이지 — top-left scale로 map-side에 꼭 맞춤 */
+.loc-map--exhibits .loc-map__stage {
+  position: absolute;
+  left: 0;
+  top:  0;
+  width:  1320px;
+  height: 790px;
+  transform: scale(calc(0.7 * var(--map-s, 1)));
+  transform-origin: top left;
+  transition: opacity 0.25s ease;
+}
+
+.loc-map--exhibits.has-detail .loc-map__stage {
   opacity: 0;
+  pointer-events: none;
+}
+
+/* 버블 컬럼 — 버블 절대 좌표의 기준점 */
+.loc-exhibits__bubble-side {
+  position: relative;
+  flex-shrink: 0;
+  /* 너비: max leftOffset(270) + max size(120) = 390, 높이: 1532-470 = 1062 */
+  width:  calc(390px  * var(--map-s, 1));
+  height: calc(880px * var(--map-s, 1));
+}
+
+.loc-exhibits__bubble-side .loc-map__bubbles {
+  position: absolute;
+  inset: 0;
   pointer-events: none;
 }
 
@@ -719,14 +814,14 @@ body {
   border-radius: 8px;
 }
 
-/* 일산 전용 — is-hovering 아닐 때만 80% 축소 */
-body[data-location="ilsan"] .loc-map:not(.is-hovering) .loc-map__img-wrap {
+/* 일산 전용 — solo 섹션에서만 80% 축소 (exhibits는 stage transform으로 제어) */
+body[data-location="ilsan"] .loc-map--solo .loc-map__img-wrap {
   transform: scale(0.8);
   transform-origin: center center;
 }
 
-/* 광교 B2F 전용 — is-hovering 아닐 때만 70% 축소 */
-body[data-location="gwanggyo"] .loc-map[data-floor="B2F"]:not(.is-hovering) .loc-map__img-wrap {
+/* 광교 B2F 전용 — solo 섹션에서만 70% 축소 */
+body[data-location="gwanggyo"] .loc-map--solo[data-floor="B2F"] .loc-map__img-wrap {
   transform: scale(0.7);
   transform-origin: center center;
 }
@@ -768,9 +863,6 @@ body[data-location="gwanggyo"] .loc-map[data-floor="B2F"]:not(.is-hovering) .loc
 
 /* 안내 문구 (Figma: 278:213, left=1216, top=512 → stage 기준 left=915, top=0) */
 .loc-map__hint {
-  position: absolute;
-  left: 915px;                 /* 1216 - 301 */
-  top: 0;                      /* 512 - 512 */
   display: flex;
   align-items: center;
   gap: 6px;                    /* Figma: gap=6 */
@@ -827,35 +919,35 @@ body[data-location="gwanggyo"] .loc-map[data-floor="B2F"]:not(.is-hovering) .loc
               transition-delay 0s;
 }
 
-/* is-hovering → 버블 팝인, 클릭 가능 */
-.loc-map.is-hovering .loc-map__bubble {
+/* Exhibits — is-visible 시 버블 팝인, 클릭 가능 */
+.loc-map--exhibits.is-visible .loc-map__bubble {
   opacity: 1;
   transform: scale(1);
   pointer-events: auto;
   cursor: pointer;
 }
 
-/* 층별 개수와 무관하게 같은 규칙으로 순차 등장 */
-.loc-map.is-hovering:not(.has-detail) .loc-map__bubble {
+/* 순차 등장 딜레이 */
+.loc-map--exhibits.is-visible:not(.has-detail) .loc-map__bubble {
   transition-delay: calc(var(--bubble-index, 0) * 0.045s);
 }
 
-/* has-detail — 비선택 버블: 자리 유지, 살짝 dim (클릭 가능) */
-.loc-map.has-detail .loc-map__bubble:not(.is-selected) {
+/* has-detail — 비선택 버블: dim */
+.loc-map--exhibits.has-detail .loc-map__bubble:not(.is-selected) {
   opacity: 0.4;
   pointer-events: auto;
   cursor: pointer;
   transition-delay: 0s;
 }
 
-/* has-detail — 선택된 버블: transform은 inline JS가 제어 */
-.loc-map.has-detail .loc-map__bubble.is-selected {
+/* has-detail — 선택 버블: JS transform 제어 */
+.loc-map--exhibits.has-detail .loc-map__bubble.is-selected {
   z-index: 10;
   pointer-events: auto;
 }
 
-/* 이동 중인 버블의 라벨(뱃지+이름) 즉시 숨김 */
-.loc-map.has-detail .loc-map__bubble.is-selected .loc-map__bubble-label {
+/* 이동 중 라벨 즉시 숨김 */
+.loc-map--exhibits.has-detail .loc-map__bubble.is-selected .loc-map__bubble-label {
   opacity: 0;
   transition: opacity 0.12s ease;
 }
@@ -935,7 +1027,7 @@ body[data-location="gwanggyo"] .loc-map[data-floor="B2F"]:not(.is-hovering) .loc
 /* ── 상세 카드: Figma node 278:153 (670×537) ── */
 .loc-map__detail {
   position: absolute;
-  left: 800px;
+  left: calc(800px * var(--map-s, 1));
   top: 1011px;
   box-sizing: border-box;
   width: 670px;
@@ -958,6 +1050,20 @@ body[data-location="gwanggyo"] .loc-map[data-floor="B2F"]:not(.is-hovering) .loc
   opacity: 1;
   pointer-events: auto;
   transform: translate(0, -50%);
+}
+
+/* Exhibits — 상세 카드: map-side 내부 절대 배치, transform: scale로 반응형 */
+.loc-map--exhibits .loc-map__detail {
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(calc(var(--map-s, 1) * 0.95));
+  transform-origin: center center;
+  transition: opacity 0.35s ease 0.3s, transform 0.35s ease 0.3s;
+}
+.loc-map--exhibits.has-detail .loc-map__detail {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, -50%) scale(var(--map-s, 1));
 }
 
 /* 닫기 버튼 */
@@ -1067,24 +1173,24 @@ body[data-location="gwanggyo"] .loc-map[data-floor="B2F"]:not(.is-hovering) .loc
 .loc-hours__title {
   margin: 0;
   line-height: 0;
-  letter-spacing: -1.68px;    /* Figma: tracking-[-1.68px] */
+  letter-spacing: -2.24px;
 }
 
-/* "Opening" — EB Garamond Medium Italic, 48px */
+/* "Opening" — EB Garamond Medium Italic */
 .loc-hours__title-serif {
   font-family: var(--font-serif);
   font-weight: 500;
   font-style: italic;
-  font-size: 48px;             /* Figma: 48px */
+  font-size: 56px;
   color: #ffffff;
   line-height: 1.2;
 }
 
-/* "Hours" — Poppins Light, 42px */
+/* "Hours" — Poppins Light */
 .loc-hours__title-light {
   font-family: var(--font-en);
   font-weight: 300;
-  font-size: 42px;             /* Figma: 42px */
+  font-size: 58px;
   color: #ffffff;
   line-height: 1.2;
 }
@@ -1101,9 +1207,6 @@ body[data-location="gwanggyo"] .loc-map[data-floor="B2F"]:not(.is-hovering) .loc
   border-radius: 20px;         /* Figma: rounded-[20px] */
   border: 2px solid rgba(255, 255, 255, 0.18);
   background: rgba(255, 255, 255, 0.08);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.12),
-    0 8px 32px rgba(0, 20, 60, 0.18);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1238,16 +1341,11 @@ body[data-location="gwanggyo"] .loc-map[data-floor="B2F"]:not(.is-hovering) .loc
   transform: translateY(-50%);
   display: flex;
   flex-direction: column;
-  gap: 29px;           /* Figma: 항목 간격 (y 좌표 차이 기반) */
+  gap: 29px;
   z-index: 100;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s;
-}
-
-.loc-side-nav.is-visible {
   opacity: 1;
   pointer-events: auto;
+  transition: opacity 0.3s;
 }
 
 .loc-side-nav__item {
@@ -1285,4 +1383,788 @@ body[data-location="gwanggyo"] .loc-map[data-floor="B2F"]:not(.is-hovering) .loc
 
 .loc-side-nav__item.is-active .loc-side-nav__line {
   width: 60px;
+}
+
+
+/* =============================================================
+   LOCATION PAGE RESPONSIVE
+   PC    : 1181px 이상
+   TABLET: 821px ~ 1180px
+   MOBILE: 820px 이하
+   ============================================================= */
+
+/* ─────────────────────────────────────────────────────────────
+   TABLET
+   ───────────────────────────────────────────────────────────── */
+@media (min-width: 821px) and (max-width: 1180px) {
+
+  /* 토큰 */
+  .location-page {
+    --container-w: min(100% - 64px, 960px);
+  }
+
+  /* GNB — 데스크탑 nav 유지, 크기만 축소 */
+  .location-page .gnb {
+    padding: 20px 24px;
+  }
+  .location-page .gnb__inner {
+    height: 48px;
+  }
+  .location-page .gnb__nav {
+    gap: clamp(14px, 2vw, 28px);
+  }
+  .location-page .gnb__ticket {
+    height: 46px;
+    padding: 0 16px 0 18px;
+    gap: 8px;
+  }
+
+  /* Hero 폰트 */
+  .location-page .loc-hero__title-main {
+    font-size: clamp(64px, 8vw, 96px);
+    letter-spacing: -2px;
+  }
+  .location-page .loc-hero__title-city {
+    font-size: clamp(80px, 10vw, 120px);
+    letter-spacing: -2px;
+  }
+  .location-page .loc-hero__eyebrow {
+    font-size: clamp(22px, 2.8vw, 28px);
+  }
+  .location-page .loc-hero__sub {
+    font-size: clamp(20px, 2.5vw, 24px);
+  }
+
+  /* Intro — tablet: 중앙 유지, 폭만 유동화 */
+  .location-page .loc-intro__content {
+    width: min(428px, 60%);
+  }
+  .location-page .loc-intro__desc p { width: 100%; }
+  .location-page .loc-intro__branch-name { font-size: 28px; }
+  .location-page .loc-intro__quote { font-size: 18px; }
+
+  /* Programs — fixed 1134px 해제, 2열 grid */
+  .location-page .loc-programs {
+    height: auto;
+    padding-top: 120px;
+    padding-bottom: 80px;
+    margin-bottom: 80px;
+  }
+  .location-page .loc-programs__header {
+    position: relative;
+    left: unset;
+    transform: none;
+    top: unset;
+    margin-inline: auto;
+    margin-bottom: 48px;
+    text-align: center;
+    white-space: normal;
+  }
+  .location-page .loc-programs__sub {
+    font-size: 16px;
+    white-space: normal;
+  }
+  .location-page .loc-programs__cards {
+    position: relative;
+    left: unset;
+    transform: none;
+    top: unset;
+    width: min(100% - 64px, 900px);
+    margin-inline: auto;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    padding: 14px;
+  }
+  .location-page .loc-programs__card {
+    width: 100%;
+    height: clamp(260px, 30vw, 340px);
+  }
+  /* card-grad/bar: top 절대값 → bottom 기준 재앵커 */
+  .location-page .loc-programs__card-grad {
+    top: unset;
+    bottom: 0;
+  }
+  .location-page .loc-programs__card-bar {
+    top: unset;
+    bottom: 0;
+    padding: 0 18px 18px;
+  }
+  .location-page .loc-programs__title-light {
+    font-size: clamp(40px, 5vw, 58px);
+  }
+  .location-page .loc-programs__title-serif {
+    font-size: clamp(38px, 4.8vw, 56px);
+  }
+
+  /* Map — sticky 유지, stage 축소, 버블 숨김 */
+  .location-page .loc-map-wrap {
+    height: calc(1200px + 100vh);
+    margin-bottom: 80px;
+  }
+  .location-page .loc-map {
+    height: 1200px;
+    top: calc(50vh - 760px);
+  }
+  .location-page .loc-map__header {
+    top: 120px;
+  }
+  .location-page .loc-map__title-light {
+    font-size: clamp(40px, 5vw, 58px);
+  }
+  .location-page .loc-map__title-serif {
+    font-size: clamp(38px, 4.8vw, 56px);
+  }
+  /* stage: 1320px → ~1000px으로 축소 */
+  .location-page .loc-map__stage {
+    width: min(92vw, 1000px);
+    height: auto;
+    aspect-ratio: 1320 / 790;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  /* 마커 좌표 보정 (1000/1320 ≈ 0.757) */
+  .location-page .loc-map__markers {
+    transform-origin: top left;
+    transform: scale(0.757);
+  }
+  /* 버블: 좌표계 범위 초과 → 숨김 */
+  .location-page .loc-map__bubbles {
+    display: none;
+  }
+
+  /* ── Solo / Exhibits: 기존 tablet 공통 규칙 덮어쓰기 ── */
+  /* sticky 100vh 유지 (기존 규칙이 height:1200px 강제하므로 복원) */
+  .location-page .loc-map--solo,
+  .location-page .loc-map--exhibits {
+    height: 100vh;
+    top: 0;
+  }
+  /* Solo 스테이지: 태블릿 축소 */
+  .location-page .loc-map--solo .loc-map__stage {
+    width: 1320px;
+    height: 790px;
+    aspect-ratio: unset;
+    transform: translate(-50%, -50%) scale(calc(var(--map-s, 1) * 0.45));
+  }
+  /* Exhibits 스테이지: 태블릿 축소 */
+  .location-page .loc-map--exhibits .loc-map__stage {
+    width: 1320px;
+    height: 790px;
+    aspect-ratio: unset;
+    transform: scale(calc(0.38 * var(--map-s, 1)));
+  }
+  /* Exhibits 맵 컨테이너: 0.38 비율로 */
+  .location-page .loc-exhibits__map-side {
+    width:  calc(1320px * 0.38 * var(--map-s, 1));
+    height: calc(790px  * 0.38 * var(--map-s, 1));
+  }
+  /* Exhibits 버블 컬럼: 너비 축소 */
+  .location-page .loc-exhibits__bubble-side {
+    width:  calc(300px * var(--map-s, 1));
+    height: calc(680px * var(--map-s, 1));
+  }
+  /* Exhibits inner: gap 축소 */
+  .location-page .loc-exhibits__inner {
+    gap: calc(24px * var(--map-s, 1));
+  }
+  /* 버블 표시 복원 */
+  .location-page .loc-map--exhibits .loc-map__bubbles { display: block; }
+  /* 헤더 top 여백 축소 */
+  .location-page .loc-map--solo .loc-map__header,
+  .location-page .loc-map--exhibits .loc-map__header {
+    top: clamp(48px, 7vh, 100px);
+  }
+  /* Solo hint 위치 보정 (0.45 스케일 기준: 790*0.45/2 = 177px) */
+  .location-page .loc-map--solo .loc-map__hint {
+    top: calc(50% + calc(177px * var(--map-s, 1)) + 12px);
+  }
+  .location-page .loc-map__detail {
+    left: 50%;
+    transform: translate(-50%, 0);
+    top: auto;
+    bottom: 40px;
+    width: min(92vw, 600px);
+    height: auto;
+  }
+  .location-page .loc-map__detail-img-wrap {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
+
+  /* Hours — fixed 1112px 해제, 카드 너비 축소 */
+  .location-page .loc-hours {
+    height: auto;
+    min-height: 800px;
+    padding: 120px 0 80px;
+    margin-bottom: 80px;
+  }
+  .location-page .loc-hours__header {
+    position: relative;
+    left: unset;
+    transform: none;
+    top: unset;
+    margin-bottom: 48px;
+  }
+  .location-page .loc-hours__title-light {
+    font-size: clamp(40px, 5vw, 58px);
+  }
+  .location-page .loc-hours__title-serif {
+    font-size: clamp(38px, 4.8vw, 56px);
+  }
+  .location-page .loc-hours__card {
+    position: relative;
+    left: unset;
+    top: unset;
+    transform: none;
+    width: min(100% - 64px, 860px);
+    height: auto;
+    padding: 32px;
+    margin-inline: auto;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+  .location-page .loc-hours__time {
+    font-size: clamp(40px, 5.5vw, 56px);
+  }
+  .location-page .loc-hours__divider {
+    height: 120px;
+  }
+  .location-page .loc-hours__info {
+    width: auto;
+    flex: 1 1 340px;
+  }
+  .location-page .loc-hours__notice {
+    position: relative;
+    left: unset;
+    top: unset;
+    transform: none;
+    width: min(100% - 64px, 860px);
+    margin-inline: auto;
+    margin-top: 40px;
+  }
+
+  /* Side nav — right 간격 축소 */
+  .location-page .loc-side-nav {
+    right: 16px;
+  }
+
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   MOBILE
+   ───────────────────────────────────────────────────────────── */
+@media (max-width: 820px) {
+
+  /* 토큰 */
+  .location-page {
+    --container-w: min(100% - 56px, 400px);
+  }
+
+  /* GNB — nav/ticket 숨김, 햄버거 표시 */
+  .location-page .gnb {
+    padding: 14px 20px;
+  }
+  .location-page .gnb__inner {
+    height: 44px;
+  }
+  .location-page .gnb__nav,
+  .location-page .gnb__ticket {
+    display: none;
+  }
+
+  .location-page .gnb__hamburger {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 26px;
+    height: 18px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    position: relative;
+    z-index: 3200;
+    flex-shrink: 0;
+  }
+
+  .location-page .gnb__hamburger-line {
+    display: block;
+    width: 100%;
+    height: 1.5px;
+    background: #fff;
+    border-radius: 2px;
+    transition: transform 0.3s ease, opacity 0.25s ease;
+    transform-origin: center;
+  }
+
+  .location-page .gnb__hamburger.is-active .gnb__hamburger-line:nth-child(1) {
+    transform: translateY(8.25px) rotate(45deg);
+  }
+  .location-page .gnb__hamburger.is-active .gnb__hamburger-line:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+  .location-page .gnb__hamburger.is-active .gnb__hamburger-line:nth-child(3) {
+    transform: translateY(-8.25px) rotate(-45deg);
+  }
+
+  /* 모바일 풀스크린 메뉴 */
+  .location-page .gnb__mobile-menu {
+    display: flex;
+    position: fixed;
+    inset: 0;
+    z-index: 3100;
+    background: rgba(8, 28, 52, 0.88);
+    backdrop-filter: blur(28px) saturate(1.3);
+    -webkit-backdrop-filter: blur(28px) saturate(1.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.32s ease;
+  }
+  .location-page .gnb__mobile-menu.is-open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .location-page .gnb__mobile-nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    width: 100%;
+    max-width: 380px;
+    padding: 0 32px;
+  }
+
+  .location-page .gnb__mobile-item {
+    width: 100%;
+    text-align: center;
+  }
+
+  .location-page .gnb__mobile-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    font-family: var(--font-en);
+    font-weight: 300;
+    font-size: clamp(24px, 7vw, 32px);
+    letter-spacing: -0.04em;
+    color: rgba(255, 255, 255, 0.65);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px 0;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  .location-page .gnb__mobile-link:hover,
+  .location-page .gnb__mobile-link:focus-visible {
+    color: #fff;
+  }
+
+  .location-page .gnb__mobile-link--toggle {
+    gap: 10px;
+  }
+  .location-page .gnb__mobile-link--toggle::after {
+    content: '';
+    display: block;
+    width: 9px;
+    height: 9px;
+    border-right: 1.5px solid currentColor;
+    border-bottom: 1.5px solid currentColor;
+    transform: rotate(45deg) translateY(-2px);
+    transition: transform 0.25s ease;
+    flex-shrink: 0;
+  }
+  .location-page .gnb__mobile-item.is-open .gnb__mobile-link--toggle::after {
+    transform: rotate(-135deg) translateY(-2px);
+  }
+
+  .location-page .gnb__mobile-sub {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.35s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .location-page .gnb__mobile-item.is-open .gnb__mobile-sub {
+    max-height: 260px;
+  }
+  .location-page .gnb__mobile-sub a {
+    display: block;
+    font-family: var(--font-en);
+    font-weight: 300;
+    font-size: 17px;
+    letter-spacing: -0.02em;
+    color: rgba(255, 255, 255, 0.42);
+    padding: 7px 0;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  .location-page .gnb__mobile-sub a:hover {
+    color: var(--clr-primary);
+  }
+
+  .location-page .gnb__mobile-ticket {
+    margin-top: 28px;
+    font-size: 17px;
+    height: 46px;
+    padding: 0 26px;
+    gap: 8px;
+  }
+
+  /* 메뉴 열린 동안 body 스크롤 차단 + GNB를 오버레이 위로 끌어올림 */
+  body.mobile-menu-open {
+    overflow: hidden;
+  }
+  body.mobile-menu-open .gnb {
+    z-index: 3300;
+  }
+
+  /* ── Sticky 해제 ─────────────────────────────────── */
+  .location-page .loc-sticky-wrap {
+    position: static !important;
+    height: auto !important;
+    overflow: visible !important;
+    margin-bottom: 0 !important;
+  }
+  .location-page .loc-hero {
+    position: relative;
+    height: 100vh;
+    height: 100svh;
+  }
+
+  /* ── Hero ────────────────────────────────────────── */
+  .location-page .loc-hero__title-main {
+    font-size: clamp(36px, 10vw, 56px);
+    letter-spacing: -1.5px;
+    white-space: normal;
+  }
+  .location-page .loc-hero__title-city {
+    font-size: clamp(46px, 13vw, 72px);
+    letter-spacing: -1px;
+  }
+  .location-page .loc-hero__eyebrow {
+    font-size: clamp(17px, 4.8vw, 23px);
+  }
+  .location-page .loc-hero__sub {
+    font-size: clamp(14px, 4vw, 19px);
+    white-space: normal;
+    text-align: center;
+    padding-inline: 24px;
+  }
+  .location-page .loc-scroll__text {
+    font-size: 22px;
+  }
+  .location-page .loc-scroll__line {
+    height: 52px;
+  }
+
+  /* ── Intro (모바일: 스크롤 애니메이션 없이 바로 표시) ── */
+  .location-page .loc-intro__content {
+    top: unset;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    padding: 32px 28px 40px;
+    opacity: 1 !important;
+    transform: none !important;
+    pointer-events: auto !important;
+    background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0) 100%);
+  }
+  .location-page .loc-intro__desc p { width: 100%; font-size: 14px; }
+  .location-page .loc-intro__branch-name { font-size: 24px; }
+  .location-page .loc-intro__quote { font-size: 16px; }
+  .location-page .loc-intro__logo { width: 160px; height: auto; }
+  .location-page .loc-intro__rule { width: 100%; }
+
+  /* ── Programs — 1열 ─────────────────────────────── */
+  .location-page .loc-programs {
+    height: auto;
+    padding: 76px 0 60px;
+    margin-bottom: 0;
+  }
+  .location-page .loc-programs__header {
+    position: relative;
+    left: unset;
+    transform: none;
+    top: unset;
+    margin-inline: auto;
+    margin-bottom: 32px;
+    text-align: center;
+    white-space: normal;
+    padding-inline: 28px;
+  }
+  .location-page .loc-programs__sub {
+    font-size: 13px;
+    white-space: normal;
+    text-align: center;
+  }
+  .location-page .loc-programs__cards {
+    position: relative !important;
+    left: unset !important;
+    transform: none !important;
+    top: unset !important;
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    width: min(100% - 56px, 400px) !important;
+    margin-inline: auto !important;
+    gap: 10px !important;
+    padding: 10px;
+  }
+  .location-page .loc-programs__card {
+    width: 100% !important;
+    height: clamp(190px, 48vw, 250px) !important;
+  }
+  .location-page .loc-programs__card-grad {
+    top: unset;
+    bottom: 0;
+    height: 72px;
+  }
+  .location-page .loc-programs__card-bar {
+    top: unset;
+    bottom: 0;
+    padding: 0 14px 14px;
+  }
+  .location-page .loc-programs__card-title {
+    font-size: 15px;
+  }
+  .location-page .loc-programs__title-light {
+    font-size: clamp(28px, 8vw, 44px);
+  }
+  .location-page .loc-programs__title-serif {
+    font-size: clamp(26px, 7.5vw, 42px);
+  }
+
+  /* ── Map — sticky 해제, stage 유동 축소 ────────── */
+  .location-page .loc-map-wrap {
+    position: relative;
+    height: auto;
+    margin-bottom: 0;
+  }
+  .location-page .loc-map {
+    position: relative;
+    top: unset;
+    height: auto;
+    overflow: visible;
+    padding: 76px 0 60px;
+  }
+  .location-page .loc-map__header {
+    position: relative;
+    left: unset;
+    transform: none;
+    top: unset;
+    margin-inline: auto;
+    margin-bottom: 32px;
+  }
+  .location-page .loc-map__title-light {
+    font-size: clamp(28px, 8vw, 44px);
+  }
+  .location-page .loc-map__title-serif {
+    font-size: clamp(26px, 7.5vw, 42px);
+  }
+  /* stage: 100% 유동 */
+  .location-page .loc-map__stage {
+    position: relative;
+    left: unset;
+    top: unset;
+    width: min(100% - 56px, 400px);
+    height: auto;
+    aspect-ratio: 1320 / 790;
+    transform: none !important;
+    margin-inline: auto;
+    overflow: visible;
+  }
+  /* 마커 좌표 보정 */
+  .location-page .loc-map__markers {
+    transform-origin: top left;
+    transform: scale(clamp(0.24, calc((100vw - 56px) / 1320px), 0.58));
+  }
+  /* 버블: 좌표계 범위 초과 → 숨김 */
+  .location-page .loc-map__bubbles {
+    display: none;
+  }
+  /* 층 탭 크기 축소 */
+  .location-page .loc-map__floor-tabs {
+    height: 44px;
+    transform: none !important;
+  }
+  .location-page .loc-map__floor-tab {
+    height: 38px;
+    padding: 0 14px;
+    font-size: 14px;
+  }
+  /* ── Solo / Exhibits 모바일 오버라이드 ── */
+  /* Solo wrap: sticky 해제 */
+  .location-page .loc-map-wrap--solo { height: auto; }
+
+  /* Solo section: 일반 flow */
+  .location-page .loc-map--solo {
+    position: relative;
+    height: auto;
+    top: unset;
+    overflow: visible;
+    padding: 80px 0 60px;
+  }
+
+  /* Exhibits: 모바일 완전 숨김 (버블·2열 불가) */
+  .location-page .loc-map-wrap--exhibits { display: none; }
+
+  /* Solo 스테이지: 뷰포트 비례 */
+  .location-page .loc-map--solo .loc-map__stage {
+    position: relative;
+    left: unset;
+    top: unset;
+    width: min(100% - 40px, 380px);
+    height: auto;
+    aspect-ratio: 1320 / 790;
+    transform: none !important;
+    margin-inline: auto;
+  }
+  .location-page .loc-map--solo .loc-map__img-wrap { width: 100%; height: 100%; }
+  .location-page .loc-map--solo .loc-map__img { width: 100%; height: 100%; object-fit: contain; }
+  .location-page .loc-map--solo .loc-map__markers {
+    transform-origin: top left;
+    transform: scale(clamp(0.22, calc((100vw - 40px) / 1320px), 0.45));
+  }
+
+  /* Solo 헤더: absolute → relative flow */
+  .location-page .loc-map--solo .loc-map__header {
+    position: relative;
+    left: unset;
+    top: unset;
+    transform: none;
+    margin-inline: auto;
+    margin-bottom: 24px;
+  }
+
+  /* Solo hint: absolute 해제, 가운데 정렬 */
+  .location-page .loc-map--solo .loc-map__hint {
+    position: relative;
+    left: unset;
+    top: unset;
+    transform: none;
+    margin-top: 12px;
+    justify-content: center;
+  }
+
+  /* 상세 카드 — 절대위치 해제, stage 아래 인라인 배치 */
+  .location-page .loc-map__detail {
+    position: relative;
+    left: unset;
+    top: unset;
+    transform: none;
+    width: min(100% - 56px, 400px);
+    height: auto;
+    margin-inline: auto;
+    margin-top: 16px;
+    padding: 14px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+  }
+  .location-page .loc-map__detail.is-visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .location-page .loc-map__detail-img-wrap {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    margin-bottom: 16px;
+  }
+  /* 맵 hover/detail 시 stage 이동 효과 제거 */
+  .location-page .loc-map.is-hovering .loc-map__stage,
+  .location-page .loc-map.has-detail .loc-map__stage {
+    transform: none !important;
+    opacity: 1 !important;
+  }
+
+  /* ── Hours — 수직 스택 ─────────────────────────── */
+  .location-page .loc-hours {
+    height: auto;
+    min-height: unset;
+    padding: 76px 0 60px;
+    margin-bottom: 0;
+    overflow: visible;
+  }
+  .location-page .loc-hours__header {
+    position: relative;
+    left: unset;
+    transform: none;
+    top: unset;
+    margin-bottom: 32px;
+  }
+  .location-page .loc-hours__title-light {
+    font-size: clamp(28px, 8vw, 44px);
+  }
+  .location-page .loc-hours__title-serif {
+    font-size: clamp(26px, 7.5vw, 42px);
+  }
+  .location-page .loc-hours__card {
+    position: relative;
+    left: unset;
+    top: unset;
+    transform: none;
+    width: min(100% - 56px, 400px);
+    height: auto;
+    margin-inline: auto;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 28px 20px;
+  }
+  .location-page .loc-hours__time {
+    font-size: clamp(28px, 8.5vw, 44px);
+    text-align: center;
+    white-space: normal;
+  }
+  /* 수직 구분선 숨김 */
+  .location-page .loc-hours__divider {
+    display: none;
+  }
+  .location-page .loc-hours__info {
+    width: 100%;
+    text-align: center;
+  }
+  .location-page .loc-hours__label {
+    font-size: 18px;
+    text-align: center;
+  }
+  .location-page .loc-hours__note {
+    font-size: 13px;
+    text-align: center;
+  }
+  .location-page .loc-hours__notice {
+    position: relative;
+    left: unset;
+    top: unset;
+    transform: none;
+    width: min(100% - 56px, 400px);
+    margin-inline: auto;
+    margin-top: 32px;
+    gap: 20px;
+  }
+  .location-page .loc-hours__notice-row {
+    flex-direction: column;
+    gap: 12px;
+  }
+  .location-page .loc-hours__notice-list {
+    max-width: 100%;
+    font-size: 13px;
+  }
+
+  /* Side nav — 모바일에서 숨김 */
+  .location-page .loc-side-nav {
+    display: none !important;
+  }
+
 }

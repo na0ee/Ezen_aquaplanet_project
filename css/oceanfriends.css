@@ -28,10 +28,10 @@ body.oceanfriends-page {
   justify-content: center;
   color: rgba(255, 255, 255, 0.5);
   font-family: "Poppins", sans-serif;
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 400;
   line-height: normal;
-  letter-spacing: -0.96px;
+  letter-spacing: -0.88px;
   text-decoration: none;
 }
 
@@ -42,9 +42,9 @@ body.oceanfriends-page {
 
 .oceanfriends-page .gnb__link.gnb__link--active {
   font-family: "EB Garamond", serif;
-  font-size: 28px;
+  font-size: 25px;
   font-weight: 500;
-  letter-spacing: -1.12px;
+  letter-spacing: -1px;
 }
 
 .oceanfriends-page .gnb__logo-wrap {
@@ -61,15 +61,14 @@ body.oceanfriends-page {
 }
 
 .oceanfriends-page .gnb__ticket {
-  width: 143px;
   height: 54px;
   padding: 0 22px;
   border-radius: 100px;
   color: #ffffff;
   font-family: "Poppins", sans-serif;
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 400;
-  letter-spacing: -0.96px;
+  letter-spacing: -0.88px;
 }
 
 .oceanfriends-page .gnb.gnb--scrolled,
@@ -112,10 +111,21 @@ body.oceanfriends-page {
 
 .of-visual-stage {
   position: relative;
-  background:
-    linear-gradient(180deg, rgba(4, 24, 46, 0.22) 0%, rgba(4, 24, 46, 0.10) 28%, rgba(4, 24, 46, 0.18) 58%, rgba(4, 24, 46, 0.34) 100%),
-    url("../assets/images/hero/oceanfriends.png") center top / cover no-repeat;
+  overflow: hidden;
   color: #ffffff;
+}
+
+/* 하나의 배경 이미지를 hero~Signature 전체에 걸쳐 공유한다. background-attachment:fixed로
+   viewport 기준 크기를 유지해(섹션별로 나누지 않고도) 항상 같은 크롭으로 보이게 하고,
+   background-position을 스크롤에 맞춰 아주 살짝 옮겨 parallax 느낌만 더한다. */
+.friends-bg {
+  position: absolute;
+  inset: 0;
+  background: url("../assets/images/oceanfriends/oceanfriends.png") center top / cover no-repeat;
+  background-attachment: fixed;
+  z-index: 0;
+  will-change: background-position;
+  pointer-events: none;
 }
 
 .of-container {
@@ -127,7 +137,7 @@ body.oceanfriends-page {
 .intro__content {
   position: relative;
   width: 100%;
-  min-height: clamp(620px, 54svh, 760px);
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -136,13 +146,14 @@ body.oceanfriends-page {
   color: #ffffff;
   background: transparent;
   z-index: 1;
-  padding-top: clamp(190px, 16vw, 303px);
+  padding-top: 0;
 }
 
 .intro__content-inner {
   width: fit-content;
   max-width: calc(100% - 48px);
   margin: 0 auto;
+  margin-top: 84px;
 }
 
 .of-hero {
@@ -155,22 +166,24 @@ body.oceanfriends-page {
   font-style: italic;
   font-weight: 500;
   font-size: clamp(22px, 1.7vw, 32px);
+  letter-spacing: -0.02em;
+  line-height: 1.4;
   color: rgba(255, 255, 255, 0.9);
 }
 
 .of-title {
   margin: -18px 0 0;
   font-family: var(--font-en);
-  font-weight: 300;
+  font-weight: 200;
   font-size: clamp(66px, 5.65vw, 108px);
-  line-height: 1.08;
-  letter-spacing: 0;
+  line-height: normal;
   color: #ffffff;
 }
 
 .of-title span {
   font: inherit;
-  font-weight: 300;
+  font-weight: 200;
+  letter-spacing: -0.04em;
 }
 
 .of-title em {
@@ -178,6 +191,7 @@ body.oceanfriends-page {
   font-weight: 500;
   font-style: italic;
   font-size: 1.08em;
+  letter-spacing: -0.02em;
 }
 
 .of-hero__lead {
@@ -187,7 +201,8 @@ body.oceanfriends-page {
   font-size: clamp(16px, 1.25vw, 24px);
   font-weight: 300;
   line-height: 1.4;
-  color: rgba(255, 255, 255, 0.92);
+  letter-spacing: -0.02em;
+  color: #ffffff;
 }
 
 .of-scroll {
@@ -210,13 +225,17 @@ body.oceanfriends-page {
 .of-scroll__text {
   font-family: var(--font-serif);
   font-style: italic;
+  font-weight: 500;
   font-size: clamp(22px, 1.7vw, 32px);
+  letter-spacing: -0.02em;
+  line-height: 1.4;
+  color: #ffffff;
 }
 
 .of-scroll__text-lets {
   font-family: "Poppins", sans-serif;
   font-weight: 300;
-  letter-spacing: 0;
+  letter-spacing: -0.02em;
   font-style: normal;
 }
 
@@ -346,11 +365,47 @@ body.oceanfriends-page {
 /* ── 시그니처 섹션 ── */
 .of-signature {
   position: relative;
-  min-height: clamp(800px, 70svh, 1180px);
-  padding: clamp(170px, 22vh, 315px) 0 clamp(46px, 8vh, 120px);
+  z-index: 1;
+  box-sizing: border-box;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 6vh 0 0;
   background: transparent;
   color: #ffffff;
   margin-top: -1px;
+}
+
+.of-signature__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(to bottom,
+      rgba(0, 8, 20, 0) 0%,
+      rgba(0, 10, 24, 0.32) 42%,
+      rgba(0, 10, 24, 0.62) 100%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.of-signature > .of-section-head,
+.of-signature > .signature-gallery-viewport,
+.of-signature > .of-pager {
+  position: relative;
+  z-index: 2;
+}
+
+/* hero에서는 보이지 않는 기본 상태 — JS(ScrollTrigger)가 스크롤 위치에 맞춰
+   opacity/translateY/blur를 직접 갱신한다 */
+.of-signature > .of-section-head {
+  opacity: 0;
+  will-change: opacity, transform, filter;
+}
+
+.signature-gallery-track .of-species-card {
+  opacity: 0;
+  will-change: opacity, transform, filter;
 }
 
 .of-signature .of-section-title,
@@ -1084,8 +1139,8 @@ body.oceanfriends-page {
     height: clamp(360px, 27.34vw, 525px);
     min-height: 0;
     border-radius: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    box-shadow: 0 22px 52px rgba(0, 28, 48, 0.34);
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.32);
     transform-origin: center center;
     transform-style: preserve-3d;
     will-change: transform, opacity;

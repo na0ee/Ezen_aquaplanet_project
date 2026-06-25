@@ -347,10 +347,10 @@
       const vid = document.getElementById('hero-video-' + name);
       if (!vid) return;
       if (name === loc) {
-        vid.hidden = false;
-        vid.play();
+        vid.style.display = 'block';
+        vid.play().catch(() => {});
       } else {
-        vid.hidden = true;
+        vid.style.display = 'none';
         vid.pause();
       }
     });
