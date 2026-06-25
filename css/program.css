@@ -67,6 +67,7 @@ body {
   font-family: "Pretendard", sans-serif;
   padding-top: 102px;
   min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
 }
 
 .container {
@@ -97,6 +98,11 @@ body {
   inset: 0;
   pointer-events: none;
   z-index: -1;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  background: linear-gradient(180deg, rgba(10, 30, 80, 0.35) 0%, rgba(10, 30, 80, 0.0) 100%);
+  -webkit-mask-image: linear-gradient(180deg, black 60%, transparent 100%);
+  mask-image: linear-gradient(180deg, black 60%, transparent 100%);
 }
 
 .gnb--hidden {
@@ -171,8 +177,8 @@ body {
     rgba(255, 255, 255, 0.01) 45%,
     rgba(255, 255, 255, 0.04) 100%
   );
-  backdrop-filter: url(#glass-refract-light) blur(2px);
-  -webkit-backdrop-filter: url(#glass-refract-light) blur(2px);
+  backdrop-filter: url(#glass-refract-light) blur(4px);
+  -webkit-backdrop-filter: url(#glass-refract-light) blur(4px);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.75),
     inset 0 -1px 0 rgba(255, 255, 255, 0.12),
@@ -416,16 +422,21 @@ body {
   flex-shrink: 0;
 }
 
+.time-block .tag {
+  min-width: 62px;
+}
+
 .tag--performance {
   background-color: #22B2EA;
 }
 
 .tag--education {
-  background-color: #002D72;
+  background-color: #0E5A9C;
 }
 
 .tag--experience {
-  background-color: #BEDBF4;
+  background-color: #D8F3FF;
+  color: #0E5A9C;
 }
 
 /* Section Styles */
@@ -484,6 +495,8 @@ body {
 .section__description span {
   font-weight: 600;
 }
+
+.mo-only { display: none; }
 
 /* Location Tabs */
 .cartegory-tabs-a {
@@ -873,18 +886,18 @@ body {
   color: #ffffff;
 }
 
-/* 교육 프로그램(.tag--education) 슬롯 하이라이트: 흰 배경 + #002D72 텍스트 */
+/* 교육 프로그램(.tag--education) 슬롯 하이라이트: 흰 배경 + #0E5A9C 텍스트 */
 .program-slot--highlighted:has(.tag--education) .tag--education,
 .program-slot--active:has(.tag--education) .tag--education, .program-slot:hover:has(.tag--education) .tag--education {
   background-color: #ffffff;
-  color: #002D72;
+  color: #0E5A9C;
 }
 
-/* 체험 프로그램(.tag--experience) 슬롯 하이라이트: 흰 배경 + #BEDBF4 텍스트 */
+/* 체험 프로그램(.tag--experience) 슬롯 하이라이트: 흰 배경 + #0E5A9C 텍스트 */
 .program-slot--highlighted:has(.tag--experience) .tag--experience,
 .program-slot--active:has(.tag--experience) .tag--experience, .program-slot:hover:has(.tag--experience) .tag--experience {
   background-color: #ffffff;
-  color: #BEDBF4;
+  color: #0E5A9C;
 }
 
 
@@ -1081,13 +1094,13 @@ body {
 .program-card:hover .tag--education,
 .program-card--active .tag--education {
   background-color: #ffffff;
-  color: #002D72;
+  color: #0E5A9C;
 }
 
 .program-card:hover .tag--experience,
 .program-card--active .tag--experience {
   background-color: #ffffff;
-  color: #BEDBF4;
+  color: #0E5A9C;
 }
 
 .program-card:hover .tag--performance,
@@ -1434,20 +1447,33 @@ body {
   .section__title {
     font-size: 28px;
     letter-spacing: -1.12px;
+    white-space: nowrap;
   }
 
   .section__title-emphasis {
-    display: block;
+    display: inline;
     font-size: 32px;
     letter-spacing: -1.28px;
     margin-left: 0;
-    margin-top: 8px;
+    margin-top: 0;
   }
 
   .section__sub {
     font-size: 16px;
     margin-bottom: 20px;
   }
+
+  .section__description {
+    font-size: 14px;
+  }
+
+  .cartegory-tabs-b__item {
+    font-size: 14px;
+    height: 40px;
+    padding: 0 16px;
+  }
+
+  .mo-only { display: inline; }
 
   .cartegory-tabs-a {
     margin-bottom: 40px;
@@ -1457,10 +1483,10 @@ body {
   .cartegory-tabs-b {
     margin-bottom: 40px;
     flex-wrap: wrap;
+    margin-top: 60px;
   }
 
   .schedule-table {
-    padding: 24px;
     overflow-x: auto;
   }
 
@@ -1507,7 +1533,7 @@ body {
    ==================================================== */
 .schedule-date-tabs {
   display: flex;
-  gap: 18px;
+  gap: 10px;
   margin-bottom: 30px;
   flex-wrap: wrap;
   align-items: center;
@@ -1560,7 +1586,7 @@ body {
   pointer-events: none;
 }
 
-.schedule-date-tab:hover {
+.schedule-date-tab:not(.schedule-date-tab--active):hover {
   background: linear-gradient(
     180deg,
     rgba(255, 255, 255, 0.18) 0%,
@@ -1777,11 +1803,20 @@ body {
     flex: 0 0 100%;
   }
   .schedule-date-tabs {
-    gap: 8px;
+    gap: 10px;
+    flex-wrap: nowrap;
+    overflow-x: scroll;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    touch-action: pan-x;
+  }
+  .schedule-date-tabs::-webkit-scrollbar {
+    display: none;
   }
   .schedule-date-tab {
     padding: 14px 16px;
     gap: 8px;
+    flex-shrink: 0;
   }
   .schedule-date-tab__num,
   .schedule-date-tab__day {
@@ -1872,21 +1907,16 @@ body {
   position: relative;
   display: flex;
   align-items: center;
-  overflow: hidden;
+  overflow: visible;
+  clip-path: inset(-24px 0);
   margin-top: 0px;
   margin-bottom: 80px;
 }
 
-/* SW=57: 사이드 카드가 좌우로 ~4% 삐져나오므로 개별 클립 확장 */
-.program-preview[data-sw="57"] {
-  display: none !important;
-  overflow: visible;
-  clip-path: inset(0 -5%);
-}
-
-/* SW=49: 사이드 카드가 테두리에 딱 맞음 — overflow:hidden 그대로 */
+/* SW=49: 사이드 카드가 테두리에 딱 맞음 */
 .program-preview[data-sw="49"] {
-  overflow: hidden;
+  overflow: visible;
+  clip-path: inset(-24px 0);
 }
 
 /* 센터 카드 비율로 컨테이너 높이 확보 */
@@ -2005,8 +2035,8 @@ body {
 }
 
 .program-preview__tag.tag--performance { background-color: #22B2EA; }
-.program-preview__tag.tag--education   { background-color: #002D72; }
-.program-preview__tag.tag--experience  { background-color: #BEDBF4; }
+.program-preview__tag.tag--education   { background-color: #0E5A9C; }
+.program-preview__tag.tag--experience  { background-color: #D8F3FF; color: #0E5A9C; }
 
 .program-preview__title {
   font-family: "Pretendard", sans-serif;
@@ -2045,6 +2075,18 @@ body {
   object-position: center;
   pointer-events: none;
   display: block;
+  max-width: none;
+}
+
+.hero__bg video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  pointer-events: none;
+  display: none;
   max-width: none;
 }
 
@@ -2212,7 +2254,7 @@ body {
   width: min(1020px, calc(100vw - 48px));
   height: min(340px, calc(100vh - 80px));
   overflow: hidden;
-  border-radius: 24px;
+  border-radius: 14px;
   display: flex;
   align-items: stretch;
   background: linear-gradient(160deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.02) 45%, rgba(255,255,255,0.05) 100%);
@@ -2230,7 +2272,7 @@ body {
   content: '';
   position: absolute;
   inset: 0;
-  border-radius: 24px;
+  border-radius: 14px;
   padding: 1.5px;
   background: linear-gradient(160deg,
     rgba(255, 255, 255, 0.55) 0%,
@@ -2295,7 +2337,7 @@ body {
   /* 원본 image: 570px / 1018px ≈ 56% */
   flex: 0 0 56%;
   overflow: hidden;
-  border-radius: 0 24px 24px 0;
+  border-radius: 0 14px 14px 0;
   order: 2;
   position: relative;
 }
@@ -2342,6 +2384,21 @@ body {
 .program-detail-modal__tag {
   display: inline-block;
   margin-bottom: 12px;
+}
+
+.program-detail-modal__tag.tag--education {
+  background-color: #0E5A9C !important;
+  color: #ffffff !important;
+}
+
+.program-detail-modal__tag.tag--experience {
+  background-color: #D8F3FF !important;
+  color: #0E5A9C !important;
+}
+
+.program-detail-modal__tag.tag--performance {
+  background-color: #22B2EA !important;
+  color: #ffffff !important;
 }
 
 .program-detail-modal__title {
@@ -2467,7 +2524,7 @@ body {
   .program-detail-modal__img-wrap {
     flex: 0 0 200px;
     width: 100%;
-    border-radius: 0 0 24px 24px;
+    border-radius: 0 0 14px 14px;
     order: 2;
   }
 
@@ -2481,5 +2538,287 @@ body {
   .program-detail-modal__title {
     font-size: 18px;
   }
+}
+
+
+/* Footer */
+.footer {
+  position: relative;
+  min-height: 40vh;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.footer__inner {
+  position: relative;
+  z-index: 1;
+  width: calc(100% - 96px);
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 64px;
+  padding: 0 0 60px;
+}
+
+.footer__nav {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 26px 52px;
+}
+
+.footer__link {
+  position: relative;
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.2;
+  color: #ffffff;
+  transition: color 0.3s ease, transform 0.3s ease;
+  text-decoration: none;
+}
+
+.footer__link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -5px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.9);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.3s ease;
+}
+
+.footer__link:hover {
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.footer__link:hover::after {
+  transform: scaleX(1);
+}
+
+.footer__brand {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 28px;
+}
+
+.footer__socials {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.footer__social {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+  text-decoration: none;
+}
+
+.footer__social:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.48);
+  transform: translateY(-3px);
+}
+
+.footer__social svg {
+  width: 30px;
+  height: 30px;
+}
+
+.footer__social rect,
+.footer__social circle,
+.footer__social path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.footer__social .footer__social-play {
+  fill: currentColor;
+  stroke: none;
+}
+
+.footer__social[aria-label="Google"] path {
+  fill: currentColor;
+  stroke: none;
+}
+
+.footer__copy {
+  font-family: "Pretendard", sans-serif;
+  font-size: 14px;
+  color: #ffffff;
+  text-align: right;
+  font-weight: 200;
+}
+
+@media (max-width: 768px) {
+  .footer__inner {
+    width: min(100% - 40px, 520px);
+    flex-direction: column;
+    align-items: center;
+    gap: 26px;
+    padding-bottom: 52px;
+  }
+  .footer__nav {
+    justify-content: center;
+    gap: 14px 22px;
+  }
+  .footer__link { font-size: 15px; }
+  .footer__social { width: 42px; height: 42px; }
+  .footer__social svg { width: 21px; height: 21px; }
+  .footer__brand { align-items: center; gap: 14px; margin-right: 0; }
+  .footer__copy { text-align: center; }
+}
+
+/* =============================================================
+   PROGRAM PAGE RESPONSIVE
+   PC: 1025px 이상 / TABLET: 769px~1024px / MOBILE: 768px 이하
+   ============================================================= */
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .hero__title-main {
+    font-size: clamp(60px, 8vw, 90px);
+  }
+  .hero__title-em {
+    font-size: clamp(76px, 10vw, 116px);
+  }
+  .hero__welcome {
+    font-size: clamp(22px, 2.8vw, 28px);
+  }
+  .hero__sub {
+    font-size: clamp(18px, 2.2vw, 22px);
+  }
+  .hero__content {
+    margin-top: 60px;
+  }
+  .time-block__item {
+    padding: 10px;
+  }
+  .time-block {
+    padding: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero__title-main {
+    font-size: clamp(36px, 10vw, 60px);
+    margin-bottom: -20px;
+    margin-top: 12px;
+  }
+  .hero__title-em {
+    font-size: clamp(46px, 13vw, 76px);
+  }
+  .hero__welcome {
+    font-size: clamp(17px, 4.8vw, 23px);
+  }
+  .hero__sub {
+    font-size: clamp(13px, 3.8vw, 16px);
+    white-space: normal;
+    text-align: center;
+  }
+  .hero__content {
+    margin-top: 40px;
+  }
+  .hero__title-row {
+    white-space: normal;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .program-preview__card {
+    padding: 8px;
+  }
+  .program-preview__tag {
+    font-size: 12px;
+    height: 24px;
+    padding: 0 10px;
+  }
+  .program-preview__title {
+    font-size: 14px;
+  }
+  .program-preview__info {
+    bottom: 20px;
+    left: 20px;
+  }
+  .schedule-date-tabs {
+    gap: 10px;
+    flex-wrap: nowrap;
+    overflow-x: scroll;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    touch-action: pan-x;
+    margin-bottom: 20px;
+  }
+  .schedule-date-tabs::-webkit-scrollbar {
+    display: none;
+  }
+  .schedule-date-tab {
+    padding: 10px 14px;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+  .schedule-date-tab__num,
+  .schedule-date-tab__day {
+    font-size: 16px;
+    font-weight: 300;
+  }
+  .schedule-date-tab--active .schedule-date-tab__num,
+  .schedule-date-tab--active .schedule-date-tab__day {
+    font-weight: 500;
+  }
+  .schedule-time-grid {
+    gap: 14px;
+  }
+  .time-block__item {
+    padding: 10px;
+  }
+  .time-block {
+    gap: 16px;
+  }
+  .program-detail-modal {
+    flex-direction: column;
+    width: calc(100vw - 32px);
+    height: auto;
+    max-height: calc(100dvh - 48px);
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
+  .program-detail-modal::-webkit-scrollbar {
+    display: none;
+  }
+  .program-detail-modal__img-wrap {
+    flex: 0 0 auto;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    order: 1;
+    border-radius: 14px 14px 0 0;
+  }
+  .program-detail-modal__body {
+    flex: none;
+    order: 2;
+    overflow-y: visible;
+  }
+}
+
+@media (max-width: 430px) {
 }
 

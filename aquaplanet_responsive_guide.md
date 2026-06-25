@@ -1,7 +1,7 @@
 # Aqua Planet 반응형 적용 가이드
 
 > 다른 페이지에도 동일하게 적용할 수 있도록 정리한 태블릿/모바일 반응형 기준입니다.  
-> 기존 메인 페이지 CSS의 `@media (min-width: 821px) and (max-width: 1180px)`와 `@media (max-width: 820px)` 기준을 참고했습니다.
+> 기존 메인 페이지 CSS의 반응형 기준을 바탕으로, 현재 프로젝트 기준은 PC `1025px 이상`, 태블릿 `769px ~ 1024px`, 모바일 `390px ~ 768px`로 정리합니다.
 > 반응형을 편집할 때 마다 이 문서에 추가할 사항이 있는지 검토합니다.
 
 ---
@@ -10,18 +10,18 @@
 
 | 구분 | 화면 너비 | 적용 방식 |
 |---|---:|---|
-| PC | 1181px 이상 | 기본 데스크탑 레이아웃 유지 |
-| Tablet | 821px ~ 1180px | 2열 구조 유지, 폰트/여백/카드 크기 축소 |
-| Mobile | 820px 이하 | 1열 구조 전환, 햄버거 메뉴 사용, 섹션 sticky 해제 |
+| PC | 1025px 이상 | 기본 데스크탑 레이아웃 유지 |
+| Tablet | 769px ~ 1024px | 2열 구조 유지, 폰트/여백/카드 크기 축소 |
+| Mobile | 390px ~ 768px | 1열 구조 전환, 햄버거 메뉴 사용, 섹션 sticky 해제 |
 
 ```css
 /* Tablet */
-@media (min-width: 821px) and (max-width: 1180px) {
+@media (min-width: 769px) and (max-width: 1024px) {
   /* tablet styles */
 }
 
 /* Mobile */
-@media (max-width: 820px) {
+@media (min-width: 390px) and (max-width: 768px) {
   /* mobile styles */
 }
 ```
@@ -54,7 +54,7 @@
 ### 3-1. Tablet 토큰
 
 ```css
-@media (min-width: 821px) and (max-width: 1180px) {
+@media (min-width: 769px) and (max-width: 1024px) {
   .페이지클래스 {
     --container-w: min(100% - 64px, 960px);
 
@@ -84,8 +84,8 @@
 | Hero Title | `clamp(76px, 9vw, 104px)` |
 | Eyebrow | `clamp(22px, 2.8vw, 28px)` |
 | Hero Sub | `clamp(20px, 2.5vw, 24px)` |
-| Section 영문 타이틀 | `clamp(34px, 4.1vw, 40px)` |
-| Section Serif 타이틀 | `clamp(38px, 4.7vw, 46px)` |
+| Section 영문 타이틀 | `clamp(40px, 5vw, 58px)` |
+| Section Serif 타이틀 | `clamp(38px, 4.8vw, 56px)` |
 | 생물/대표 오브젝트 이름 | `clamp(36px, 4.2vw, 44px)` |
 | GNB 메뉴 | `clamp(15px, 1.7vw, 17px)` |
 | 카드 제목 | `17px` |
@@ -94,7 +94,7 @@
 ### 3-3. Tablet 여백/레이아웃
 
 ```css
-@media (min-width: 821px) and (max-width: 1180px) {
+@media (min-width: 769px) and (max-width: 1024px) {
   .페이지클래스 .container {
     width: var(--container-w);
   }
@@ -127,7 +127,7 @@
 태블릿에서는 카드가 너무 길어지지 않도록 **2열 grid**를 유지하고, 카드 높이만 줄입니다.
 
 ```css
-@media (min-width: 821px) and (max-width: 1180px) {
+@media (min-width: 769px) and (max-width: 1024px) {
   .페이지클래스 .card-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -165,7 +165,7 @@
 ### 4-1. Mobile 토큰
 
 ```css
-@media (max-width: 820px) {
+@media (min-width: 390px) and (max-width: 768px) {
   .페이지클래스 {
     --fs-hero: clamp(46px, 12.5vw, 72px);
     --fs-eyebrow: clamp(17px, 4.8vw, 23px);
@@ -191,8 +191,8 @@
 | Hero Title | `clamp(46px, 12.5vw, 72px)` |
 | Eyebrow | `clamp(17px, 4.8vw, 23px)` |
 | Hero Sub | `clamp(14px, 4vw, 19px)` |
-| Section 영문 타이틀 | `clamp(26px, 7vw, 36px)` |
-| Section Serif 타이틀 | `clamp(30px, 8vw, 40px)` |
+| Section 영문 타이틀 | `clamp(28px, 8vw, 44px)` |
+| Section Serif 타이틀 | `clamp(26px, 7.5vw, 42px)` |
 | 생물/대표 오브젝트 이름 | `clamp(26px, 7vw, 36px)` |
 | 카드 제목 | `15px` 기준, 작은 카드는 `13px ~ 14px` |
 | 서브텍스트 | `13px` |
@@ -202,7 +202,7 @@
 ### 4-3. Mobile 여백/헤더
 
 ```css
-@media (max-width: 820px) {
+@media (min-width: 390px) and (max-width: 768px) {
   .페이지클래스 .gnb {
     padding: 14px 20px;
   }
@@ -237,7 +237,7 @@
 모바일에서는 PC/태블릿에서 쓰던 sticky 기반 레이아웃을 풀고, 일반 문서 흐름으로 내려오게 정리합니다.
 
 ```css
-@media (max-width: 820px) {
+@media (min-width: 390px) and (max-width: 768px) {
   .페이지클래스 .section {
     height: auto;
     min-height: unset;
@@ -268,7 +268,7 @@
 모바일은 **1열 grid**로 바꾸고, 카드 폭은 `400px` 안에서 화면 폭에 맞게 줄입니다.
 
 ```css
-@media (max-width: 820px) {
+@media (min-width: 390px) and (max-width: 768px) {
   .페이지클래스 .card-grid {
     display: grid !important;
     grid-template-columns: 1fr !important;
@@ -333,7 +333,7 @@
 예를 들어 `program.html`에 적용하려면 아래처럼 바꿉니다.
 
 ```css
-@media (max-width: 820px) {
+@media (min-width: 390px) and (max-width: 768px) {
   .program-page .card-grid {
     grid-template-columns: 1fr;
   }
@@ -369,12 +369,12 @@
 ```css
 /* =============================================================
    PAGE RESPONSIVE GUIDE
-   PC: 1181px 이상
-   TABLET: 821px ~ 1180px
-   MOBILE: 820px 이하
+   PC: 1025px 이상
+   TABLET: 769px ~ 1024px
+   MOBILE: 390px ~ 768px
    ============================================================= */
 
-@media (min-width: 821px) and (max-width: 1180px) {
+@media (min-width: 769px) and (max-width: 1024px) {
   .페이지클래스 {
     --container-w: min(100% - 64px, 960px);
     --fs-sec-en: clamp(34px, 4.1vw, 40px);
@@ -403,7 +403,7 @@
   }
 }
 
-@media (max-width: 820px) {
+@media (min-width: 390px) and (max-width: 768px) {
   .페이지클래스 {
     --fs-sec-en: clamp(26px, 7vw, 36px);
     --fs-sec-serif: clamp(30px, 8vw, 40px);

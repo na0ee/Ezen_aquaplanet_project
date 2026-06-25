@@ -50,8 +50,59 @@
         Ticket
         <img class="gnb__ticket-icon" src="assets/images/sec.aboutus/business/ticket-arrow.svg" alt="" aria-hidden="true">
       </a>
+
+      <button class="gnb__hamburger" type="button" aria-label="메뉴 열기" aria-expanded="false" aria-controls="mobile-menu">
+        <span class="gnb__hamburger-line"></span>
+        <span class="gnb__hamburger-line"></span>
+        <span class="gnb__hamburger-line"></span>
+      </button>
     </div>
   </header>
+
+  <div class="gnb__mobile-menu" id="mobile-menu" aria-hidden="true" role="dialog" aria-label="메인 메뉴">
+    <nav class="gnb__mobile-nav" aria-label="모바일 메뉴">
+      <div class="gnb__mobile-item">
+        <button class="gnb__mobile-link gnb__mobile-link--toggle" type="button" aria-expanded="false">
+          Location
+        </button>
+        <div class="gnb__mobile-sub">
+          <a href="location.html?loc=Jeju">Jeju</a>
+          <a href="location.html?loc=Yeosu">Yeosu</a>
+          <a href="location.html?loc=Ilsan">Ilsan</a>
+          <a href="location.html?loc=Gwanggyo">Gwanggyo</a>
+        </div>
+      </div>
+
+      <a href="Oceanfriends.html" class="gnb__mobile-link">Ocean friends</a>
+
+      <div class="gnb__mobile-item is-open">
+        <button class="gnb__mobile-link gnb__mobile-link--toggle" type="button" aria-expanded="true">
+          About us
+        </button>
+        <div class="gnb__mobile-sub">
+          <a href="business.html" class="gnb__mobile-sub-active">Business</a>
+          <a href="marinlab.html">Marin Lab</a>
+        </div>
+      </div>
+
+      <div class="gnb__mobile-item">
+        <button class="gnb__mobile-link gnb__mobile-link--toggle" type="button" aria-expanded="false">
+          Program
+        </button>
+        <div class="gnb__mobile-sub">
+          <a href="program.html?loc=Jeju">Jeju</a>
+          <a href="program.html?loc=Yeosu">Yeosu</a>
+          <a href="program.html?loc=Ilsan">Ilsan</a>
+          <a href="program.html?loc=Gwanggyo">Gwanggyo</a>
+        </div>
+      </div>
+
+      <a href="ticket.html" class="gnb__mobile-ticket btn-pill">
+        Ticket
+        <img class="gnb__ticket-icon" src="assets/images/sec.aboutus/business/ticket-arrow.svg" alt="" aria-hidden="true">
+      </a>
+    </nav>
+  </div>
 
   <main>
 
@@ -96,14 +147,14 @@
         <div class="biz-blue-stack" data-blue-stack>
           <article class="biz-blue-card biz-blue-card--light is-active" data-slide="0" data-node-id="106:3435">
             <div class="biz-blue-card__image" data-node-id="106:3436">
-              <img src="assets/images/sec.aboutus/business/business-planning.png" alt="Planning">
+              <img src="assets/images/sec.aboutus/business/image 142.png" alt="Planning">
             </div>
             <div class="biz-blue-card__content" data-node-id="108:3542">
-              <p class="biz-blue-card__num" data-node-id="106:3451">01</p>
+              <p class="biz-blue-card__num" data-node-id="177:548">01</p>
               <div class="biz-blue-card__body" data-node-id="106:3438">
-                <h3 data-node-id="106:3440">PLANNING</h3>
-                <p data-node-id="106:3441">프로젝트 성공을 위한 완벽한 전략설계</p>
-                <ul class="biz-blue-card__tags biz-blue-card__tags--glass" data-node-id="108:3541">
+                <h3 data-node-id="177:546">PLANNING</h3>
+                <p data-node-id="177:547">프로젝트 성공을 위한 완벽한 전략설계</p>
+                <ul class="biz-blue-card__tags biz-blue-card__tags--glass" data-node-id="177:549">
                   <li data-node-id="108:3527"><span data-node-id="108:3531">사업발굴</span></li>
                   <li data-node-id="108:3532"><span data-node-id="108:3534">사업성분석</span></li>
                   <li data-node-id="108:3535"><span data-node-id="108:3537">프로젝트재무</span></li>
@@ -169,7 +220,7 @@
           </div>
         </article>
 
-          <article class="biz-blue-card" data-slide="4" data-node-id="106:3501">
+          <article class="biz-blue-card biz-blue-card--acquisition" data-slide="4" data-node-id="106:3501">
             <div class="biz-blue-card__image" data-node-id="106:3502">
               <img src="assets/images/sec.aboutus/business/business-aquisition.png" alt="Aquisition">
             </div>
@@ -204,34 +255,49 @@
               <p>지속 성장 기반을 바탕으로<br>대한민국 No.1 아쿠아리움 전문 기업을 향해 도전합니다</p>
             </div>
 
-            <article class="biz-glass-card" tabindex="0">
-              <div>
-                <h4>MISSON</h4>
-                <div class="biz-glass-card__detail">
-                  <strong>Happy-Ocean Happy-Future Happy-people</strong>
-                  <p>해양생물의 소중함을 공유하고, 이를 지키고 보전하며<br>인간과 자연이 공생하며 느낄 수 있는 최고의 즐거움을 제공하는 기업</p>
-                </div>
+            <article class="biz-glass-card biz-glass-card--mission" tabindex="0">
+              <h4>MISSON</h4>
+              <div class="biz-glass-card__detail">
+                <strong>Happy-Ocean Happy-Future Happy-people</strong>
+                <p>해양생물의 소중함을 공유하고, 이를 지키고 보전하며<br>인간과 자연이 공생하며 느낄 수 있는 최고의 즐거움을 제공하는 기업</p>
               </div>
             </article>
-            <article class="biz-glass-card" tabindex="0">
+            <article class="biz-glass-card biz-glass-card--statement" tabindex="0">
               <h4>VISION STATEMENT</h4>
               <div class="biz-glass-card__detail">
                 <strong>No.1 Global Aquarium Development Company</strong>
                 <p>세계 최고의 아쿠아리움 개발 회사로 도약합니다.</p>
               </div>
             </article>
-            <article class="biz-glass-card" tabindex="0">
+            <article class="biz-glass-card biz-glass-card--core" tabindex="0">
               <h4>CORE VALUE</h4>
-              <div class="biz-glass-card__detail">
-                <strong>고객중심 · 해양보존 · 창조의힘 · 사회책임</strong>
-                <p>사람과 자연이 함께하는 미래를 만듭니다.</p>
+              <div class="biz-glass-card__detail biz-glass-card__detail--pairs">
+                <div class="biz-glass-card__pair-grid">
+                  <div class="biz-glass-card__pair-column">
+                    <p class="biz-glass-card__pair"><strong>고객중심</strong><span>행복경영</span></p>
+                    <p class="biz-glass-card__pair"><strong>창조의힘</strong><span>창의경영</span></p>
+                  </div>
+                  <div class="biz-glass-card__pair-column">
+                    <p class="biz-glass-card__pair"><strong>해양보존</strong><span>녹색경영</span></p>
+                    <p class="biz-glass-card__pair"><strong>사회책임</strong><span>지속경영</span></p>
+                  </div>
+                </div>
               </div>
             </article>
-            <article class="biz-glass-card" tabindex="0">
+            <article class="biz-glass-card biz-glass-card--goal" tabindex="0">
               <h4>GOAL</h4>
-              <div class="biz-glass-card__detail">
-                <strong>Global Aquarium 전문 기업을 향한 목표</strong>
-                <p>No.1 NETWORK POWER · ECO COMPANY<br>No.1 BRAND POWER · MARKET SHARE · TECHNICAL SKILLS</p>
+              <div class="biz-glass-card__detail biz-glass-card__detail--pairs">
+                <div class="biz-glass-card__pair-grid">
+                  <div class="biz-glass-card__pair-column">
+                    <p class="biz-glass-card__pair"><strong>No.1</strong><span>NETWORK POWER</span></p>
+                    <p class="biz-glass-card__pair"><strong>No.1</strong><span>ECO COMPANY</span></p>
+                  </div>
+                  <div class="biz-glass-card__pair-column">
+                    <p class="biz-glass-card__pair"><strong>No.1</strong><span>BRAND POWER</span></p>
+                    <p class="biz-glass-card__pair"><strong>No.1</strong><span>MARKET SHARE</span></p>
+                    <p class="biz-glass-card__pair"><strong>No.1</strong><span>TECHNICAL SKILLS</span></p>
+                  </div>
+                </div>
               </div>
             </article>
           </div>
@@ -242,41 +308,39 @@
               <p>상상을 뛰어넘는 아이디어, 최고의 테크니션,<br>30년 운영경험을 통해 고객의 소중한 꿈을 실현</p>
             </div>
 
-            <article class="biz-glass-card" tabindex="0">
+            <article class="biz-glass-card biz-glass-card--creative" tabindex="0">
               <h4>창조기획</h4>
               <div class="biz-glass-card__detail">
                 <strong>Contents Creativity</strong>
-                <p>국내 대형 아쿠아리움 사업을 통해 쌓아온 전문 데이터 및 기획력</p>
+                <p>국내 대형 아쿠아리움 사업의 독점적 주도를 통해<br>쌓아온 아쿠아리움 전문 데이터 및 기획력</p>
               </div>
             </article>
-            <article class="biz-glass-card" tabindex="0">
+            <article class="biz-glass-card biz-glass-card--responsible" tabindex="0">
               <h4>책임운영</h4>
               <div class="biz-glass-card__detail">
                 <strong>Responsible Management</strong>
-                <p>운영 경험을 기반으로 안정적인 관리 솔루션을 제공합니다.</p>
+                <p>국내 대형 아쿠아리움 사업의 독점적 주도를 통해<br>쌓아온 아쿠아리움 전문 데이터 및 기획력</p>
               </div>
             </article>
-            <article class="biz-glass-card" tabindex="0">
+            <article class="biz-glass-card biz-glass-card--tech" tabindex="0">
               <h4>특화기술</h4>
               <div class="biz-glass-card__detail">
                 <strong>Specialized Technology</strong>
-                <p>설계, 시공, 생물 연구와 사육 운영 노하우를 축적했습니다.</p>
+                <p>월드클래스 규모의 아쿠아리움 설계 및 시공 경험과 해외 MOU<br>체결을 통해 축적한 세계적 수준의 설계 및 시공 노하우<br>해양생물연구센터를 기반으로 축적된 생물의 지속적 연구, 사육 및 운영 노하우<br>오랜 운영 기간에 걸쳐 확보한 생물 수급처 확보를 통한 안정적인 생물 수급 노하우</p>
               </div>
             </article>
-            <article class="biz-glass-card" tabindex="0">
-              <div>
-                <h4>전문인력</h4>
-                <div class="biz-glass-card__detail">
-                  <strong>Professional Staffs</strong>
-                  <p>월드클래스 규모의 설계 및 시공 경험을 갖춘 전문 인력</p>
-                </div>
+            <article class="biz-glass-card biz-glass-card--staff" tabindex="0">
+              <h4>전문인력</h4>
+              <div class="biz-glass-card__detail">
+                <strong>Professional Staffs</strong>
+                <p>월드클래스 규모의 설계 및 시공 경험을 갖춘 전문 인력</p>
               </div>
             </article>
-            <article class="biz-glass-card" tabindex="0">
+            <article class="biz-glass-card biz-glass-card--network" tabindex="0">
               <h4>네트워크</h4>
               <div class="biz-glass-card__detail">
                 <strong>Network</strong>
-                <p>해외 우수 아쿠아리움과의 탄탄한 네트워크를 보유했습니다.</p>
+                <p>해양생물위한 신개념 공간 개발 및 새로운 컨텐츠<br>교류협업 및 스타생물, 희귀생물 교환 전시를 위한<br>해외 우수 아쿠아리움과의 단단한 네트워크</p>
               </div>
             </article>
           </div>

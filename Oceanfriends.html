@@ -16,7 +16,8 @@
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/oceanfriends.css" />
 
-  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 </head>
 
 <body class="oceanfriends-page is-logo-at-header">
@@ -63,6 +64,7 @@
   <main class="of-main">
 
     <div class="of-visual-stage">
+      <div class="friends-bg" aria-hidden="true"></div>
       <!-- 인트로 콘텐츠 -->
       <section class="intro__content">
         <div class="intro__content-inner">
@@ -86,6 +88,7 @@
 
       <!-- 시그니처 생물 캐러셀 -->
       <section id="signature" class="of-signature" aria-label="시그니처 생물">
+        <div class="of-signature__overlay" aria-hidden="true"></div>
         <div class="of-section-head">
           <h2 class="of-section-title"><span>Signature </span><em>Species</em></h2>
           <p class="of-section-sub">아쿠아플라넷의 상징이자 대표 생물을 소개합니다</p>
@@ -2055,7 +2058,6 @@
     /* ── 섹션 타이틀/콘텐츠 순차 페이드인 ── */
     (function () {
       const groups = [
-        ['.of-signature', ['.of-section-head', '.signature-gallery-viewport', '.of-pager']],
         ['.of-detail', ['.of-section-head', '.of-filter', '.of-detail-card']],
         ['.of-brand', ['.of-brand__mark', '.of-brand__text', '.of-meet', '.of-footer-note']]
       ];
@@ -2215,13 +2217,14 @@
     })();
   </script>
 
-  <!-- Signature Species 갤러리 — draggable infinite gallery -->
+  <!-- Signature Species 갤러리 — 드래그 가능한 무한 캐러셀 + 데스크탑 스크롤 핀 -->
   <script>
     (function () {
+      const section = document.getElementById('signature');
       const viewport = document.querySelector('#signature .signature-gallery-viewport');
       const track = document.querySelector('#signature .signature-gallery-track');
       const pager = document.querySelector('#signature .of-pager');
-      if (!viewport || !track) return;
+      if (!section || !viewport || !track) return;
 
       /* more 버튼 */
       if (pager) {
@@ -2281,16 +2284,8 @@
       let baseCardWidth = 0;
       let baseGap = 8;
       let curveStrength = 0;
-
-      let wheelDistanceDown = 0;
-      const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-          if (!entry.isIntersecting) {
-            wheelDistanceDown = 0;
-          }
-        });
-      }, { threshold: 0 });
-      observer.observe(viewport);
+      let baseCurrent = 0;
+      let revealProgress = 0;
 
       function lerp(a, b, t) {
         return a + (b - a) * t;
@@ -2298,6 +2293,19 @@
 
       function clamp(value, min, max) {
         return Math.min(Math.max(value, min), max);
+      }
+
+      function smoothstep(t) {
+        const c = clamp(t, 0, 1);
+        return c * c * (3 - 2 * c);
+      }
+
+      /* 카드별 등장 진행도 — 인덱스가 클수록(오른쪽일수록) 아주 살짝 늦게 시작 */
+      function cardRevealEase(index, total) {
+        const span = Math.max(total - 1, 1);
+        const start = 0.45 + (index / span) * 0.2;
+        const end = Math.min(start + 0.35, 1);
+        return smoothstep((revealProgress - start) / Math.max(end - start, 0.0001));
       }
 
       function measure() {
@@ -2313,6 +2321,7 @@
         centerOffset = (viewport.clientWidth - baseCardWidth) / 2;
         current = -singleSetWidth + centerOffset;
         target = current;
+        baseCurrent = current;
         momentum = 0;
         render();
       }
@@ -2340,7 +2349,8 @@
 
         track.style.transform = 'translate3d(' + current.toFixed(3) + 'px,0,0)';
 
-        cards.forEach(card => {
+        const total = cards.length;
+        cards.forEach((card, index) => {
           const cardCenter = viewportRect.left + current + card.offsetLeft + card.offsetWidth / 2;
           const distance = cardCenter - viewportCenter;
           const signed = clamp(distance / halfViewport, -1, 1);
@@ -2353,15 +2363,20 @@
           const translateZ = -curve * 340 * curveStrength;
           const scale = 1 - curve * 0.24 * curveStrength;
           const opacity = 1 - curve * 0.55 * curveStrength;
-          const settleY = 0;
           const cardRotateZ = velocityRotate * (0.25 + curve * 0.75);
 
+          /* 등장 애니메이션: 아래에서 위로, 옅은 블러와 함께, 카드별로 살짝 순차적으로 */
+          const reveal = cardRevealEase(index, total);
+          const revealY = (1 - reveal) * 26;
+          const revealBlur = (1 - reveal) * 5;
+
           card.style.transform =
-            'translate3d(' + translateX.toFixed(2) + 'px,' + settleY.toFixed(2) + 'px,' + translateZ.toFixed(2) + 'px) ' +
+            'translate3d(' + translateX.toFixed(2) + 'px,' + revealY.toFixed(2) + 'px,' + translateZ.toFixed(2) + 'px) ' +
             'rotateY(' + rotateY.toFixed(3) + 'deg) ' +
             'scale(' + scale.toFixed(4) + ') ' +
             'rotateZ(' + cardRotateZ.toFixed(3) + 'deg)';
-          card.style.opacity = opacity.toFixed(3);
+          card.style.opacity = (opacity * reveal).toFixed(3);
+          card.style.filter = revealBlur > 0.02 ? 'blur(' + revealBlur.toFixed(2) + 'px)' : '';
           card.style.zIndex = isHovering ? '5' : String(Math.round((1 - curve) * 3));
         });
       }
@@ -2383,11 +2398,6 @@
         wrapPosition();
         render();
         rafId = requestAnimationFrame(animate);
-      }
-
-      function pushTarget(delta) {
-        target += delta;
-        momentum = lerp(momentum, delta * 0.12, 0.35);
       }
 
       function normalizeText(text) {
@@ -2500,29 +2510,6 @@
       viewport.addEventListener('pointercancel', endDrag);
       viewport.addEventListener('lostpointercapture', endDrag);
 
-      viewport.addEventListener('wheel', e => {
-        const isVerticalScroll = Math.abs(e.deltaY) > Math.abs(e.deltaX);
-        const dominant = isVerticalScroll ? e.deltaY : e.deltaX;
-
-        if (isVerticalScroll) {
-          if (e.deltaY < 0) {
-            // 위로 스크롤 시 인터랙션 없이 바로 페이지 이동
-            return;
-          }
-
-          if (e.deltaY > 0) {
-            wheelDistanceDown += e.deltaY;
-            // 한 바퀴(singleSetWidth) 이상 돌았으면 아래로 스크롤 허용
-            if (wheelDistanceDown > singleSetWidth) {
-              return;
-            }
-          }
-        }
-
-        e.preventDefault();
-        pushTarget(-dominant * 0.95);
-      }, { passive: false });
-
       track.addEventListener('keydown', e => {
         if (e.key !== 'Enter' && e.key !== ' ') return;
         const card = e.target.closest('.species-card');
@@ -2531,14 +2518,111 @@
         goToDetail(card.dataset.species);
       });
 
+      /* 데스크탑: 카드 캐러셀을 섹션 스크롤에 고정(pin)해 한 바퀴 돌린 뒤에만
+         다음 섹션으로 내려가도록 한다. 모바일은 기존처럼 자유 드래그만 사용. */
+      function setupScrollTrigger() {
+        if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+        gsap.registerPlugin(ScrollTrigger);
+
+        let pinTrigger = null;
+
+        ScrollTrigger.matchMedia({
+          '(min-width: 761px)': function () {
+            pinTrigger = ScrollTrigger.create({
+              trigger: section,
+              start: 'top top',
+              end: () => '+=' + Math.max(singleSetWidth, window.innerHeight),
+              pin: true,
+              scrub: true,
+              anticipatePin: 1,
+              invalidateOnRefresh: true,
+              onUpdate: self => {
+                target = baseCurrent - self.progress * singleSetWidth;
+              }
+            });
+
+            return () => { pinTrigger.kill(); pinTrigger = null; };
+          }
+        });
+
+        const overlay = section.querySelector('.of-signature__overlay');
+        const head = section.querySelector('.of-section-head');
+        const bg = document.querySelector('.friends-bg');
+        const approachPx = 380;
+        const maxOpacity = 1;
+
+        /* 배경 parallax — hero 전체를 스크롤하는 동안 배경 이미지가 아주 살짝(-60px)
+           위로 떠오르듯 움직인다. 섹션을 나누지 않고 같은 배경 이미지 한 장을 그대로 사용. */
+        if (bg) {
+          ScrollTrigger.create({
+            trigger: section,
+            start: 'top bottom',
+            end: 'top top',
+            scrub: true,
+            onUpdate: self => {
+              bg.style.backgroundPosition = 'center ' + (-60 * self.progress).toFixed(1) + 'px';
+            }
+          });
+        }
+
+        /* 등장(entrance) 구간 — hero에서 다가오는 동안에만 재생되고 pin이 시작되는
+           순간(top top) 정확히 끝난다: 어두운 오버레이 → 제목 → 카드 순서로 나타나며,
+           이 reveal이 끝난 뒤에야 카드 회전(핀)이 시작된다. */
+        ScrollTrigger.create({
+          trigger: section,
+          start: () => 'top bottom-=' + Math.max(window.innerHeight - approachPx, 0),
+          end: 'top top',
+          scrub: true,
+          onUpdate: self => {
+            revealProgress = self.progress;
+
+            const dimT = smoothstep(revealProgress / 0.4);
+            if (overlay) overlay.style.opacity = (dimT * maxOpacity).toFixed(3);
+
+            if (head) {
+              const titleT = smoothstep((revealProgress - 0.15) / 0.45);
+              head.style.opacity = titleT.toFixed(3);
+              head.style.transform = 'translateY(' + ((1 - titleT) * 24).toFixed(2) + 'px)';
+              const titleBlur = (1 - titleT) * 5;
+              head.style.filter = titleBlur > 0.02 ? 'blur(' + titleBlur.toFixed(2) + 'px)' : '';
+            }
+
+            render();
+          }
+        });
+
+        /* 카드가 보이는(고정된) 동안에는 어두운 오버레이를 유지하고, 다음 섹션으로
+           빠져나가는 짧은 구간에서만 다시 사라진다. */
+        if (overlay) {
+          ScrollTrigger.create({
+            trigger: section,
+            start: 'top top',
+            end: () => {
+              const base = pinTrigger ? pinTrigger.end : (section.getBoundingClientRect().bottom + window.scrollY);
+              return base + approachPx;
+            },
+            scrub: true,
+            onUpdate: self => {
+              const span = Math.max(self.end - self.start, 1);
+              const fadeFraction = clamp(approachPx / span, 0.001, 0.5);
+              const t = self.progress;
+              const o = t > 1 - fadeFraction ? (1 - t) / fadeFraction : 1;
+              overlay.style.opacity = (clamp(o, 0, 1) * maxOpacity).toFixed(3);
+            }
+          });
+        }
+      }
+
       window.addEventListener('resize', () => {
         window.cancelAnimationFrame(rafId);
         measure();
         rafId = requestAnimationFrame(animate);
+        if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
       }, { passive: true });
 
       measure();
       rafId = requestAnimationFrame(animate);
+      setupScrollTrigger();
     })();
   </script>
 
