@@ -1,4 +1,4 @@
-:root {
+﻿:root {
   --brand: #2686E7;
   --white: #fff;
   --font-en: "Poppins", sans-serif;
@@ -400,7 +400,7 @@ button {
 
   .gnb__category {
     gap: 16px;
-  }
+  
     width: 100%;
     max-width: 380px;
     padding: 0 32px;
