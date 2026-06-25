@@ -1804,7 +1804,7 @@ body.is-logo-at-header .gnb__logo {
    10. PROGRAM SECTION
    ------------------------------------------------------------- */
 .section--program {
-  height: 130vh;
+  height: 155vh;
   overflow: hidden;
   padding: 0;
 }
@@ -1813,7 +1813,7 @@ body.is-logo-at-header .gnb__logo {
 .section--location,
 .section--booking {
   --seq-content-y: 60px;
-  --seq-title-y: 28px;
+  --seq-title-y: 72px;
   --seq-title-opacity: 0;
   --seq-content-opacity: 0;
 }
@@ -1864,7 +1864,7 @@ body.is-logo-at-header .gnb__logo {
 
 .section--program .program-seq-title {
   opacity: var(--seq-title-opacity, 0);
-  transform: translateY(var(--seq-title-y, 28px));
+  transform: translateY(var(--seq-title-y, 72px));
   pointer-events: none;
   margin-bottom: var(--sec-gap);
   width: 100%;
@@ -2156,7 +2156,7 @@ body.is-logo-at-header .gnb__logo {
    11. LOCATION SECTION
    ------------------------------------------------------------- */
 .section--location {
-  height: 135vh;
+  height: 155vh;
   overflow: hidden;
 }
 
@@ -2601,7 +2601,7 @@ body.is-logo-at-header .gnb__logo {
    12. BOOKING SECTION
    ------------------------------------------------------------- */
 .section--booking {
-  height: 115vh;
+  height: 145vh;
   overflow: visible;
 }
 
@@ -3430,7 +3430,7 @@ body.is-logo-at-header .gnb__logo {
 /* --- Location section sequence --- */
 .section--location .location-seq-title {
   opacity: var(--seq-title-opacity, 0);
-  transform: translateY(var(--seq-title-y, 28px));
+  transform: translateY(var(--seq-title-y, 72px));
   pointer-events: none;
   margin-bottom: 40px;
   width: 100%;
@@ -3454,7 +3454,7 @@ body.is-logo-at-header .gnb__logo {
 /* --- Booking section sequence --- */
 .section--booking .booking-seq-title {
   opacity: var(--seq-title-opacity, 0);
-  transform: translateY(var(--seq-title-y, 28px));
+  transform: translateY(var(--seq-title-y, 72px));
   pointer-events: none;
   margin-bottom: var(--sec-gap);
   width: 100%;
@@ -5894,9 +5894,14 @@ body.biz-page {
   .index-page .section--location .location-seq-content,
   .index-page .section--booking .booking-seq-title,
   .index-page .section--booking .booking-seq-content {
-    opacity: 1;
-    transform: none;
+    opacity: var(--seq-title-opacity, 0);
     pointer-events: auto;
+  }
+
+  .index-page .section--program .program-seq-content,
+  .index-page .section--location .location-seq-content,
+  .index-page .section--booking .booking-seq-content {
+    opacity: var(--seq-content-opacity, 0);
   }
 
   .index-page .program-grid {
