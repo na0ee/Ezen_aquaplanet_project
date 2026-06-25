@@ -54,7 +54,7 @@
       sub: '여수 밤바다를 품은 국내 최대 규모 아쿠아리움',
       address: '전라남도 여수시 오동도로 61-11',
       tel: '1833-7001',
-      heroImage: 'assets/images/locationYeosu_hero.gif',
+      heroVideo: 'assets/video/program_Yeosu_hero.webm',
       introImage: 'assets/images/locationYeosu_intro_bg_1.jpg',
       quote: '<p><span class="loc-intro__qm">&quot;</span>국내 유일 <strong>벨루가 고래</strong>와 함께하는</p><p>특별한 해양 체험을 만나보세요<span class="loc-intro__qm">&quot;</span></p>',
       description: [
@@ -63,8 +63,8 @@
       ],
       programDescription: '여수의 아름다운 바다와 함께하는 특별한 해양 문화 체험 공간입니다<br><strong>국내 유일 벨루가 고래</strong>와 다양한 해양 생물 전시를 통해 교육과 감동이 함께하는 공간을 제공합니다',
       programs: [
-        { image: 'assets/images/Yeosu_program_a.jpg', title: '벨루가 생태설명회' },
-        { image: 'assets/images/Yeosu_program_f.jpg', title: '바다사자 생태설명회' }
+        { image: 'assets/images/program/Yeosu_program_a.avif', title: '벨루가 생태설명회' },
+        { image: 'assets/images/program/Yeosu_program_f.avif', title: '바다사자 생태설명회' }
       ],
       floors: ['1F', '2F', '3F'],
       defaultFloor: '3F',
@@ -83,7 +83,7 @@
       sub: '일산 호수공원 옆 국내 대표 아쿠아리움',
       address: '경기도 고양시 일산동구 장항동 838',
       tel: '1833-7001',
-      heroImage: 'assets/images/locationIlsan_hero.gif',
+      heroVideo: 'assets/video/program_Ilsan_hero.webm',
       introImage: 'assets/images/locationIlsan_intro_bg_1.jpg',
       quote: '<p><span class="loc-intro__qm">&quot;</span>국내에서 처음으로 실내동물원이 결합된</p><p><strong>컨버전스 아쿠아리움</strong>을 만나보세요<span class="loc-intro__qm">&quot;</span></p>',
       description: [
@@ -113,7 +113,7 @@
       sub: '광교 수변도시의 아름다운 아쿠아리움',
       address: '경기도 수원시 영통구 광교호수공원로 300 포레나 광교 B1F',
       tel: '1833-7001',
-      heroImage: 'assets/images/locationGwanggyo_hero.gif',
+      heroVideo: 'assets/video/program_Gwanggyo_hero.webm',
       introImage: 'assets/images/locationGwanggyo_intro_bg_1.jpg',
       quote: '<p><span class="loc-intro__qm">&quot;</span>다양한 교육&amp;체험 프로그램과 다양한 공연 등</p><p><strong>환상적인 콘텐츠</strong>를 365일 체험해보세요<span class="loc-intro__qm">&quot;</span></p>',
       description: [
@@ -124,7 +124,7 @@
       programDescription: '쇼핑과 문화, 체험이 결합된 도심형 아쿠아리움입니다<br><strong>생물 관람</strong>뿐 아니라 체험 콘텐츠와 다양한 테마 공간을 통해 새로운 해양문화 경험을 제공합니다',
       programs: [
         { image: 'assets/images/gwanggyo_guide_map04.jpg', title: "아쿠아플라넷 광교의 마스코트! '펭귄' 생태설명회" },
-        { image: 'assets/images/Gwanggyo_program_e.jpg', title: '머메이드쇼' }
+        { image: 'assets/images/program/Gwanggyo_program_e.avif', title: '머메이드쇼' }
       ],
       floors: ['B1F', 'B2F'],
       defaultFloor: 'B2F',
@@ -161,7 +161,13 @@
 
     var heroImage = document.querySelector('.loc-hero__bg-img');
     var introImage = document.querySelector('.loc-intro__bg-img');
-    if (heroImage) heroImage.src = page.heroImage;
+    if (heroImage) {
+      heroImage.src = page.heroVideo;
+      if (heroImage.tagName && heroImage.tagName.toLowerCase() === 'video') {
+        heroImage.load();
+        heroImage.play().catch(function () {});
+      }
+    }
     if (introImage) introImage.src = page.introImage;
 
     var heroSection = document.querySelector('.loc-hero');
@@ -483,7 +489,7 @@
     '1F': [
       { key: 'yr-monet',    zone: 'A', name: '클로드 모네, 빛의 순간들 展', floor: '1F', thumb: 'assets/images/yeosu_guide_thum35.jpg', image: 'assets/images/yeosu_guide_map35.jpg', desc: '인상파의 거장 클로드 모네의 작품 세계를 빛과 영상으로 재해석한 몰입형 미디어 아트 특별 전시입니다.' },
       { key: 'yr-artshop',  zone: 'A', name: '아트샵',               floor: '1F', thumb: 'assets/images/yeosu_guide_thum36.jpg', image: 'assets/images/yeosu_guide_map36.jpg', desc: '전시와 연계된 아트 상품을 만나볼 수 있습니다.' },
-      { key: 'yr-oceancinema', zone: 'B', name: '오션시네마',        floor: '1F', thumb: 'assets/images/yeosu_guide_thum01.jpg', image: 'assets/images/yeosu_guide_map01.jpg', desc: '바다를 배경으로 한 몰입형 영상을 감상할 수 있는 특별한 시네마 공간입니다.' },
+      { key: 'yr-oceancinema', zone: 'B', name: '오션시네마',        floor: '1F', thumb: 'assets/images/yeosu_guide_thum02.jpg', image: 'assets/images/yeosu_guide_map02.jpg', desc: '바다를 배경으로 한 몰입형 영상을 감상할 수 있는 특별한 시네마 공간입니다.' },
       { key: 'yr-fishnfish', zone: 'C', name: 'Fish n fish (기프트샵)', floor: '1F', thumb: 'assets/images/yeosu_guide_thum03.jpg', image: 'assets/images/yeosu_guide_map03.jpg', desc: '아쿠아플라넷 공식 굿즈와 다양한 기념품을 구매할 수 있습니다.' },
       { key: 'yr-aquaterr',  zone: 'C', name: '아쿠아테라스 (푸드코트)', floor: '1F', thumb: 'assets/images/yeosu_guide_thum34.jpg', image: 'assets/images/yeosu_guide_map34.jpg', desc: '여수 바다 전망과 함께 다양한 식사를 즐길 수 있는 테라스 레스토랑입니다.' },
       { key: 'yr-cafe1f',    zone: 'C', name: '아쿠아카페 (1F)',     floor: '1F', thumb: 'assets/images/yeosu_guide_thum05.jpg', image: 'assets/images/yeosu_guide_map05.jpg', desc: '1층에서 편안하게 쉬며 음료와 간식을 즐겨보세요.' },
@@ -500,20 +506,20 @@
       { key: 'yr-arowana',    zone: 'D', name: '아로와나 수조',      floor: '2F', thumb: 'assets/images/yeosu_guide_thum11.jpg', image: 'assets/images/yeosu_guide_map11.jpg', desc: '황금빛 비늘이 빛나는 아로와나의 우아한 유영을 감상하세요.' },
       { key: 'yr-piranha',    zone: 'D', name: '피라니아',           floor: '2F', thumb: 'assets/images/yeosu_guide_thum12.jpg', image: 'assets/images/yeosu_guide_map12.jpg', desc: '아마존의 강력한 포식자 피라니아와 다채로운 민물고기들을 만나보세요.' },
       { key: 'yr-forestpond', zone: 'D', name: '포리스트 연못',      floor: '2F', thumb: 'assets/images/yeosu_guide_thum13.jpg', image: 'assets/images/yeosu_guide_map13.jpg', desc: '숲 속 연못을 재현한 생태 공간에서 다양한 수생 생물을 관찰하세요.' },
-      { key: 'yr-jellyfish2f',zone: 'D', name: '젤리피쉬',          floor: '2F', thumb: 'assets/images/yeosu_guide_thum14.jpg', image: 'assets/images/yeosu_guide_map14.jpg', desc: '신비롭고 아름다운 해파리들의 세계를 감상해보세요.' },
+      { key: 'yr-jellyfish2f',zone: 'D', name: '젤리피쉬',          floor: '2F', thumb: 'assets/images/yeosu_guide_thum15.jpg', image: 'assets/images/yeosu_guide_map15.jpg', desc: '신비롭고 아름다운 해파리들의 세계를 감상해보세요.' },
       { key: 'yr-otter',      zone: 'E', name: '작은발톱수달 수조', floor: '2F', thumb: 'assets/images/yeosu_guide_thum18.jpg', image: 'assets/images/yeosu_guide_map18.jpg', desc: '귀엽고 장난기 넘치는 작은발톱수달의 일상을 가까이서 관찰해보세요.' },
       { key: 'yr-penguin2f',  zone: 'E', name: '펭귄 수조',         floor: '2F', thumb: 'assets/images/yeosu_guide_thum19.jpg', image: 'assets/images/yeosu_guide_map19.jpg', desc: '아프리카 펭귄을 비롯한 귀여운 펭귄 친구들과 함께하세요.' },
       { key: 'yr-beluga2f',   zone: 'E', name: '벨루가 수조',       floor: '2F', thumb: 'assets/images/yeosu_guide_thum20.jpg', image: 'assets/images/yeosu_guide_map20.jpg', desc: '순백의 벨루가 고래를 유리 너머로 가까이 만나볼 수 있습니다.' },
       { key: 'yr-sealion2f',  zone: 'E', name: '바다사자 수조',     floor: '2F', thumb: 'assets/images/yeosu_guide_thum22.jpg', image: 'assets/images/yeosu_guide_map22.jpg', desc: '바다사자의 힘차고 우아한 유영을 관찰하세요.' },
       { key: 'yr-seal2f',     zone: 'E', name: '참물범 수조',       floor: '2F', thumb: 'assets/images/yeosu_guide_thum23.jpg', image: 'assets/images/yeosu_guide_map23.jpg', desc: '귀여운 참물범을 다양한 각도에서 만나보세요.' },
-      { key: 'yr-paludarium', zone: 'E', name: '팔루다리움 수조',   floor: '2F', thumb: 'assets/images/yeosu_guide_thum21.jpg', image: 'assets/images/yeosu_guide_map21.jpg', desc: '수중과 육지 생태계가 공존하는 팔루다리움에서 독특한 자연을 경험하세요.' },
+      { key: 'yr-paludarium', zone: 'E', name: '팔루다리움 수조',   floor: '2F', thumb: 'assets/images/yeosu_guide_thum22.jpg', image: 'assets/images/yeosu_guide_map22.jpg', desc: '수중과 육지 생태계가 공존하는 팔루다리움에서 독특한 자연을 경험하세요.' },
       { key: 'yr-main',       zone: 'F', name: '메인 수조',         floor: '2F', thumb: 'assets/images/yeosu_guide_thum02.jpg', image: 'assets/images/yeosu_guide_map02.jpg', desc: '국내 최대 규모의 메인 수조에서 상어, 가오리, 바다거북 등 다양한 대형 해양생물을 만나보세요.' },
       { key: 'yr-pacific',    zone: 'F', name: '태평양 수조',       floor: '2F', thumb: 'assets/images/yeosu_guide_thum15.jpg', image: 'assets/images/yeosu_guide_map15.jpg', desc: '태평양의 광활한 바다를 담은 대형 수조에서 다양한 해양생물을 만나보세요.' },
       { key: 'yr-seaturtle',  zone: 'F', name: '푸른바다 거북 수조', floor: '2F', thumb: 'assets/images/yeosu_guide_thum26.jpg', image: 'assets/images/yeosu_guide_map26.jpg', desc: '멸종위기 해양생물인 푸른바다거북을 가까이서 만날 수 있습니다.' },
       { key: 'yr-sandtiger',  zone: 'F', name: '샌드타이거 샤크 수조', floor: '2F', thumb: 'assets/images/yeosu_guide_thum24.jpg', image: 'assets/images/yeosu_guide_map24.jpg', desc: '날카로운 이빨의 샌드타이거 샤크를 가까이서 만나보세요.' },
       { key: 'yr-aquadome',   zone: 'F', name: '아쿠아돔',          floor: '2F', thumb: 'assets/images/yeosu_guide_thum25.jpg', image: 'assets/images/yeosu_guide_map25.jpg', desc: '돔형 수조 속 다양한 해양생물들을 360도로 감상해보세요.' },
-      { key: 'yr-tunnel2f',   zone: 'F', name: '터널 수조',         floor: '2F', thumb: 'assets/images/yeosu_guide_thum16.jpg', image: 'assets/images/yeosu_guide_map16.jpg', desc: '바다 속을 걷는 듯한 터널형 수조를 통과하며 수중 생물들을 360도로 감상해보세요.' },
-      { key: 'yr-miniaqua',   zone: 'F', name: '미니 아쿠아리움',   floor: '2F', thumb: 'assets/images/yeosu_guide_thum17.jpg', image: 'assets/images/yeosu_guide_map17.jpg', desc: '수십 개의 소형 수조가 줄지어 펼쳐지는 미니 아쿠아리움입니다.' }
+      { key: 'yr-tunnel2f',   zone: 'F', name: '터널 수조',         floor: '2F', thumb: 'assets/images/yeosu_guide_thum15.jpg', image: 'assets/images/yeosu_guide_map15.jpg', desc: '바다 속을 걷는 듯한 터널형 수조를 통과하며 수중 생물들을 360도로 감상해보세요.' },
+      { key: 'yr-miniaqua',   zone: 'F', name: '미니 아쿠아리움',   floor: '2F', thumb: 'assets/images/yeosu_guide_thum18.jpg', image: 'assets/images/yeosu_guide_map18.jpg', desc: '수십 개의 소형 수조가 줄지어 펼쳐지는 미니 아쿠아리움입니다.' }
     ],
     '3F': [
       { key: 'yr-baikalseal', zone: 'G', name: '바이칼물범 수조',   floor: '3F', thumb: 'assets/images/yeosu_guide_thum30.jpg', image: 'assets/images/yeosu_guide_map30.jpg', desc: '시베리아 바이칼 호수에서 온 희귀한 바이칼물범을 만나보세요.' },
@@ -588,8 +594,8 @@
       { zone: 'H', left: 829, top: 550 }
     ],
     'B2F': [
-      { zone: 'I', left: 627, top: 243 },
-      { zone: 'J', left: 650, top: 483 }
+      { zone: 'I', left: 467, top: 373 },
+      { zone: 'J', left: 790, top: 344 }
     ]
   };
 
