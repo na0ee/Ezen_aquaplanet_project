@@ -323,10 +323,12 @@
 | 메인 | `index-page` |
 | Location | `location-page` |
 | Program | `program-page` |
-| Ocean friends | `ocean-page` |
-| Business | `business-page` |
+| Ocean friends | `oceanfriends-page` |
+| Business | `biz-page` |
 | Marin Lab | `marinlab-page` |
 | Ticket | `ticket-page` |
+
+> 참고: 일부 페이지는 아직 `body`가 아닌 내부 래퍼에 페이지 클래스를 쓰거나, 페이지 전용 CSS가 전역 선택자를 기준으로 작성되어 있습니다. 새 반응형 규칙을 추가할 때는 먼저 실제 HTML의 현재 스코프 클래스를 확인한 뒤 적용합니다.
 
 ### 5-2. CSS의 `.페이지클래스`를 실제 클래스명으로 변경
 
