@@ -257,15 +257,16 @@
     }
 
     const viewport = window.innerHeight || document.documentElement.clientHeight;
-    const startDelay = Math.max(640, viewport * 0.82);
-    const slideStep = Math.max(420, viewport * 0.42);
+    const startDelay = Math.max(320, viewport * 0.46);
+    const slideStep = Math.max(360, viewport * 0.36);
+    const centeredScroll = -rect.top;
 
-    if (rect.top > 0 || -rect.top < startDelay) {
+    if (rect.top > 0 || centeredScroll < startDelay) {
       activate(0);
       return;
     }
 
-    const index = Math.min(slides.length - 1, Math.floor((-rect.top - startDelay) / slideStep));
+    const index = Math.min(slides.length - 1, Math.floor((centeredScroll - startDelay) / slideStep));
     activate(index);
   }
 
