@@ -311,27 +311,197 @@ button {
   }
 }
 
+/* ── GNB 모바일 (768px 이하) ── */
 @media (max-width: 768px) {
   .gnb {
-    height: auto;
-    padding: 12px 16px;
+    height: 80px;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
   }
+
   .gnb__inner {
-    flex-direction: column;
-    height: auto;
-    gap: 12px;
-    max-width: calc(100% - 32px);
-  }
-  .gnb__category {
-    gap: 16px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
     width: 100%;
+    max-width: 100%;
+    gap: 0;
+  }
+
+  .gnb__nav {
+    display: none;
+  }
+
+  .gnb__hamburger {
+    display: flex;
+    align-items: center;
     justify-content: center;
+    width: 30px;
+    height: 30px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    position: relative;
+    z-index: 3200;
+    flex-shrink: 0;
+    order: -1;
   }
-  .gnb__item {
-    font-size: 16px;
+
+  .gnb__hamburger img {
+    width: 24px;
+    height: 24px;
   }
-  .gnb__item--active {
-    font-size: 18px;
+
+  .gnb__logo-wrap {
+    width: 36px;
+    height: 36px;
+  }
+
+  .gnb__logo {
+    width: 36px;
+    height: 36px;
+  }
+
+  .gnb__ticket {
+    height: 34px;
+    font-size: 14px;
+    padding: 0 10px 0 12px;
+    gap: 4px;
+  }
+
+  .gnb__ticket .img {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* 모바일 풀스크린 메뉴 오버레이 */
+  .gnb__mobile-menu {
+    position: fixed;
+    inset: 0;
+    z-index: 3100;
+    background: rgba(8, 28, 52, 0.92);
+    backdrop-filter: blur(28px) saturate(1.3);
+    -webkit-backdrop-filter: blur(28px) saturate(1.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.32s ease;
+  }
+
+  .gnb__mobile-menu.is-open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .gnb__mobile-nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    width: 100%;
+    max-width: 380px;
+    padding: 0 32px;
+  }
+
+  .gnb__mobile-item {
+    width: 100%;
+    text-align: center;
+  }
+
+  .gnb__mobile-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    font-family: "Poppins", sans-serif;
+    font-weight: 300;
+    font-size: clamp(24px, 7vw, 32px);
+    letter-spacing: -0.04em;
+    color: rgba(255, 255, 255, 0.65);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px 0;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .gnb__mobile-link:hover,
+  .gnb__mobile-link:focus-visible {
+    color: #fff;
+  }
+
+  .gnb__mobile-link--toggle {
+    gap: 14px;
+  }
+
+  .gnb__mobile-link--toggle::after {
+    content: '';
+    display: block;
+    width: 9px;
+    height: 9px;
+    border-right: 1.5px solid currentColor;
+    border-bottom: 1.5px solid currentColor;
+    transform: rotate(45deg) translateY(-2px);
+    transition: transform 0.25s ease;
+    flex-shrink: 0;
+  }
+
+  .gnb__mobile-item.is-open .gnb__mobile-link--toggle::after {
+    transform: rotate(-135deg) translateY(-2px);
+  }
+
+  .gnb__mobile-sub {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.35s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .gnb__mobile-item.is-open .gnb__mobile-sub {
+    max-height: 260px;
+  }
+
+  .gnb__mobile-sub a {
+    display: block;
+    font-family: "Poppins", sans-serif;
+    font-weight: 300;
+    font-size: 17px;
+    letter-spacing: -0.02em;
+    color: rgba(255, 255, 255, 0.42);
+    padding: 7px 0;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .gnb__mobile-sub a:hover {
+    color: #22b2ea;
+  }
+
+  body.mobile-menu-open {
+    overflow: hidden;
+  }
+
+  body.mobile-menu-open .gnb {
+    z-index: 3300;
+  }
+}
+
+/* ── 데스크탑: 햄버거·모바일메뉴 숨김 ── */
+@media (min-width: 769px) {
+  .gnb__hamburger {
+    display: none;
+  }
+
+  .gnb__mobile-menu {
+    display: none;
   }
 }
 
@@ -2294,37 +2464,38 @@ body.marin-view-conservation #marinFooter {
     transform: translateX(-50%);
   }
 
-  body.marin-view-conservation .m-cons-video-hero__text {
-    width: min(760px, calc(100vw - 56px));
-    max-width: calc(100vw - 56px);
+  body.marin-view-conservation .hero__content-inner {
+    max-width: min(760px, calc(100vw - 56px));
   }
 
-  body.marin-view-conservation .m-cons-video-hero__text p {
+  body.marin-view-conservation .hero__sub {
     font-size: clamp(16px, 2.2vw, 22px);
   }
 
-  body.marin-view-conservation .m-cons-video-hero__text h1 {
-    gap: 10px;
-    white-space: nowrap;
-  }
-
-  body.marin-view-conservation .m-cons-video-hero__text h1 span {
+  body.marin-view-conservation .hero__title span {
     font-size: clamp(42px, 6.2vw, 64px);
     letter-spacing: -1.4px;
   }
 
-  body.marin-view-conservation .m-cons-video-hero__text h1 em {
+  body.marin-view-conservation .hero__title em {
     font-size: clamp(48px, 6.8vw, 72px);
     letter-spacing: -1.6px;
   }
 
-  body.marin-view-conservation .m-cons-video-hero__explore {
-    font-size: clamp(20px, 2.8vw, 28px);
+  body.marin-view-conservation .hero__scroll {
     margin-top: 28px;
   }
 
-  body.marin-view-conservation .m-cons-video-hero__explore-line {
+  body.marin-view-conservation .hero__scroll-text {
+    font-size: clamp(20px, 2.8vw, 28px);
+  }
+
+  body.marin-view-conservation .hero__scroll-line {
     height: 68px;
+  }
+
+  body.marin-view-conservation .m-cons-orbit-pin {
+    width: 100%;
   }
 
   body.marin-view-conservation .m-cons-orbit-stage {
@@ -2432,19 +2603,30 @@ body.marin-view-conservation #marinFooter {
 
   body.marin-view-conservation {
     overflow-x: hidden;
+    background: var(--brand);
   }
 
   body.marin-view-conservation .marin-shell--conservation {
-    height: 9000px !important;
-    overflow: hidden;
+    display: block;
+    position: relative;
+    height: auto !important;
+    overflow: visible;
+    background: var(--brand);
   }
 
   body.marin-view-conservation .marin-shell--conservation .marin-stage,
   body.marin-view-conservation .m-conservation-view {
+    position: relative;
     left: 0;
+    top: 0;
     width: 100%;
-    height: 9000px !important;
+    height: auto !important;
     transform: none !important;
+    overflow: visible;
+  }
+
+  body.marin-view-conservation [data-marin-conservation] {
+    height: auto !important;
   }
 
   body.marin-view-conservation .m-cons-video-hero,
@@ -2455,17 +2637,63 @@ body.marin-view-conservation #marinFooter {
     min-height: 640px;
   }
 
+  body.marin-view-conservation.is-cons-content .marin-shell--conservation .hero {
+    background: var(--brand);
+    pointer-events: none;
+  }
+
+  body.marin-view-conservation.is-cons-content .marin-shell--conservation .hero__media,
+  body.marin-view-conservation.is-cons-content .marin-shell--conservation .hero__shade,
+  body.marin-view-conservation.is-cons-content .marin-shell--conservation .hero__content {
+    opacity: 0;
+    visibility: hidden;
+  }
+
   body.marin-view-conservation .m-cons-orbit {
-    top: var(--cons-mobile-hero-height) !important;
+    position: relative;
+    top: auto !important;
     width: 100%;
+    height: auto;
+    min-height: var(--cons-mobile-hero-height);
+    display: flex;
+    align-items: center;
+    padding: 92px 0;
+    overflow: hidden;
   }
 
   body.marin-view-conservation .m-cons-orbit-pin {
+    position: relative;
+    left: auto;
+    top: auto;
     width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 22px;
   }
 
   body.marin-view-conservation .m-cons-orbit-field {
-    top: 50%;
+    order: 1;
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 100%;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 0 20px 8px;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  body.marin-view-conservation .m-cons-orbit-field::-webkit-scrollbar {
+    display: none;
   }
 
   body.marin-view-conservation .m-pill-tabs:not(.m-pill-tabs--cases) {
@@ -2486,50 +2714,53 @@ body.marin-view-conservation #marinFooter {
     font-size: 14px;
   }
 
-  body.marin-view-conservation .m-cons-video-hero__text {
-    top: 53%;
-    width: calc(100vw - 32px);
-    max-width: 420px;
+  body.marin-view-conservation .hero__content-inner {
+    max-width: min(420px, calc(100vw - 32px));
   }
 
-  body.marin-view-conservation .m-cons-video-hero__text p {
+  body.marin-view-conservation .hero__sub {
     margin-bottom: 12px;
     font-size: 16px;
   }
 
-  body.marin-view-conservation .m-cons-video-hero__text h1 {
-    display: block;
-    white-space: normal;
-  }
-
-  body.marin-view-conservation .m-cons-video-hero__text h1 span,
-  body.marin-view-conservation .m-cons-video-hero__text h1 em {
+  body.marin-view-conservation .hero__title span,
+  body.marin-view-conservation .hero__title em {
     display: block;
     letter-spacing: 0;
   }
 
-  body.marin-view-conservation .m-cons-video-hero__text h1 span {
+  body.marin-view-conservation .hero__title span {
     font-size: clamp(42px, 12vw, 58px);
   }
 
-  body.marin-view-conservation .m-cons-video-hero__text h1 em {
+  body.marin-view-conservation .hero__title em {
     font-size: clamp(48px, 13vw, 64px);
   }
 
-  body.marin-view-conservation .m-cons-video-hero__explore {
+  body.marin-view-conservation .hero__scroll {
     margin-top: 24px;
+  }
+
+  body.marin-view-conservation .hero__scroll-text {
     font-size: 22px;
   }
 
-  body.marin-view-conservation .m-cons-video-hero__explore-line {
+  body.marin-view-conservation .hero__scroll-line {
     height: 58px;
   }
 
   body.marin-view-conservation .m-cons-orbit-stage {
+    position: relative;
+    left: auto;
+    top: auto;
+    order: 2;
     width: min(340px, calc(100vw - 32px));
+    opacity: 1;
+    transform: none !important;
   }
 
   body.marin-view-conservation .m-cons-orbit-stage--2 {
+    order: 3;
     width: min(330px, calc(100vw - 32px));
     font-size: 15px;
   }
@@ -2556,13 +2787,32 @@ body.marin-view-conservation #marinFooter {
   }
 
   body.marin-view-conservation .m-cons-orbit-hint {
-    top: calc(100vh - 90px);
-    width: calc(100vw - 32px);
-    text-align: center;
+    display: none;
+  }
+
+  body.marin-view-conservation .m-cons-orb {
+    position: relative;
+    left: auto;
+    top: auto;
+    flex: 0 0 auto;
+    opacity: 1;
+    pointer-events: auto;
+    transform: none !important;
+  }
+
+  body.marin-view-conservation .m-cons-orb__circle {
+    width: 68px;
+    height: 68px;
+    box-shadow: 0 12px 28px rgba(0, 40, 70, 0.18);
+    transform: none !important;
   }
 
   body.marin-view-conservation .m-cons-card-overlay {
     padding: 16px;
+  }
+
+  body.marin-view-conservation .m-cons-card-overlay__inner {
+    width: min(100%, 340px);
   }
 
   body.marin-view-conservation .m-cons-card-overlay__close {
@@ -2573,7 +2823,7 @@ body.marin-view-conservation #marinFooter {
   }
 
   body.marin-view-conservation .m-cons-card {
-    height: min(72vh, 560px);
+    height: min(46vh, 320px);
     border-radius: 12px;
   }
 
@@ -2612,11 +2862,59 @@ body.marin-view-conservation #marinFooter {
 
   body.marin-view-conservation .m-cons-card-group__row {
     grid-template-columns: 1fr;
-    gap: 12px;
+    gap: 10px;
+    width: min(100%, 300px);
+    margin-inline: auto;
   }
 
   body.marin-view-conservation .m-cons-flip {
-    height: min(58vh, 420px);
+    height: min(30vh, 220px);
     border-radius: 12px;
+  }
+
+  body.marin-view-conservation .m-cons-flip__face--back {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  body.marin-view-conservation .m-cons-flip__face--back .m-cons-flip__caption {
+    top: 14px;
+    right: 14px;
+    bottom: auto;
+    left: 14px;
+  }
+
+  body.marin-view-conservation .m-cons-flip__en {
+    font-size: 18px;
+  }
+
+  body.marin-view-conservation .m-cons-flip__kr,
+  body.marin-view-conservation .m-cons-flip__desc {
+    font-size: 12px;
+  }
+
+  body.marin-view-conservation .m-cons-flip__desc {
+    line-height: 1.45;
+  }
+
+  body.marin-view-conservation.is-cons-content #marinFooter {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  body.marin-view-conservation #marinFooter {
+    background: var(--brand);
+    min-height: 360px;
+    margin-top: 0;
+    opacity: 1;
+    visibility: visible;
+  }
+
+  body.marin-view-conservation #marinFooter .footer__inner {
+    padding-top: 48px;
+    opacity: 1;
+    transform: none;
+    visibility: visible;
   }
 }
