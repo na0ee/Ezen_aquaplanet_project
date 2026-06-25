@@ -43,7 +43,7 @@
 
     // ----- 선택된 시간대 프로그램 하이라이트 -----
     function highlightProgramsByTime(selectedHour) {
-      const greyIcon = '../assets/images/time_icon_grey.svg';
+      const greyIcon = '../assets/images/program/time_icon_grey.svg';
       const whiteIcon = '../assets/images/time_icon_white.svg';
 
       // 이 테이블의 모든 program-slot 하이라이트 제거 + 아이콘 grey 복원
@@ -277,7 +277,7 @@
     });
 
     // 슬롯 호버 시 시간 아이콘을 흰색으로 (active처럼). 떼면 active가 아닐 때만 grey로 복원
-    const greyIcon = '../assets/images/time_icon_grey.svg';
+    const greyIcon = '../assets/images/program/time_icon_grey.svg';
     const whiteIcon = '../assets/images/time_icon_white.svg';
     table.querySelectorAll('.program-slot').forEach(slot => {
       const icon = slot.querySelector('.program-time__icon img');
@@ -1312,3 +1312,4 @@
   })();
 
 });
+

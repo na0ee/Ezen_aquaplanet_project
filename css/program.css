@@ -450,11 +450,11 @@ body {
 
 .section__title {
   font-family: "Poppins", sans-serif;
-  font-size: 48px;
+  font-size: 58px;
   font-weight: 300;
-  letter-spacing: -2.24px;;
+  letter-spacing: -2.24px;
   line-height: normal;
-  margin-bottom: 36px;
+  margin-bottom: 14px;
   color: #ffffff;
 }
 
@@ -1068,7 +1068,7 @@ body {
 /* 상세가 펼쳐진 카드는 위쪽 화살표 (호버 중에도 유지) */
 .program-card--active .program-card__meta::after,
 .program-card--active:hover .program-card__meta::after {
-  background-image: url('../assets/images/chevron_up_white.svg');
+  background-image: url('../assets/images/program/chevron_up_white.svg');
 }
 
 /* 호버/활성 시 아이콘(img) 항상 흰색 */
@@ -2482,3 +2482,4 @@ body {
     font-size: 18px;
   }
 }
+
