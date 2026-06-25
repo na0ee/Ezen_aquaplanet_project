@@ -163,12 +163,12 @@ function initSectionScrollAnim() {
       const bottomExit = clamp01((vh * 0.18 - rect.bottom) / (vh * 0.18));
       const exitProgress = Math.max(nextOverlapExit, bottomExit);
 
-      const titleProgress = smoothstep(0.34, 0.44, progress);
-      const contentEnterProgress = smoothstep(0.52, 0.68, progress);
-      const contentExitLift = smoothstep(0.78, 1.18, rawProgress);
+      const titleProgress = smoothstep(0.24, 0.56, progress);
+      const contentEnterProgress = smoothstep(0.50, 0.72, progress);
+      const contentExitLift = smoothstep(0.82, 1.08, rawProgress);
       const contentLeaveProgress = Math.max(exitProgress, contentExitLift);
       const contentY = (1 - contentEnterProgress) * 60 - contentExitLift * 56;
-      const titleY = (1 - titleProgress) * 28 - contentExitLift * 34;
+      const titleY = (1 - titleProgress) * 72 - contentExitLift * 34;
       const isPast = rect.bottom <= 0;
 
       const titleOpacity = titleProgress * (1 - contentLeaveProgress);
@@ -1829,12 +1829,12 @@ function initStickySequenceSection(sectionId) {
     const nextOverlapExit = 1 - smoothstep(vh * 0.42, vh * 0.82, rect.bottom);
     const bottomExit = clamp01((vh * 0.18 - rect.bottom) / (vh * 0.18));
     const exitProgress = Math.max(nextOverlapExit, bottomExit);
-    const titleProgress = smoothstep(0.34, 0.44, progress);
-    const contentEnterProgress = smoothstep(0.52, 0.68, progress);
-    const contentExitLift = smoothstep(0.78, 1.18, rawProgress);
+    const titleProgress = smoothstep(0.24, 0.56, progress);
+    const contentEnterProgress = smoothstep(0.50, 0.72, progress);
+    const contentExitLift = smoothstep(0.82, 1.08, rawProgress);
     const contentLeaveProgress = Math.max(exitProgress, contentExitLift);
     const contentY = (1 - contentEnterProgress) * 52 - contentExitLift * 48;
-    const titleY = (1 - titleProgress) * 28 - contentExitLift * 34;
+    const titleY = (1 - titleProgress) * 72 - contentExitLift * 34;
     const isInRange = rect.top < vh && rect.bottom > 0;
     const isPast = rect.bottom <= 0;
     const titleOpacity = titleProgress * (1 - contentLeaveProgress);
