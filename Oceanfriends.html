@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,500&family=Poppins:wght@300;400;500&display=swap"
+    href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,500&family=Poppins:wght@200;300;400;500&display=swap"
     rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/oceanfriends.css" />
@@ -22,11 +22,31 @@
 
 <body class="oceanfriends-page is-logo-at-header">
 
+  <!-- SVG Glass Refraction Filter -->
+  <svg style="display:none" aria-hidden="true">
+    <defs>
+      <filter id="glass-refract" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+        <feTurbulence type="fractalNoise" baseFrequency="0.002 0.004" numOctaves="2" seed="5" result="noise"/>
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="120" xChannelSelector="R" yChannelSelector="G"/>
+      </filter>
+      <filter id="glass-refract-light" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+        <feTurbulence type="fractalNoise" baseFrequency="0.002 0.004" numOctaves="2" seed="5" result="noise"/>
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="18" xChannelSelector="R" yChannelSelector="G"/>
+      </filter>
+    </defs>
+  </svg>
+
   <header id="gnb" class="gnb">
     <div class="gnb__inner">
       <nav class="gnb__nav" aria-label="메인 메뉴">
         <div class="gnb__nav-item" data-nav="location">
           <a href="location.html" class="gnb__link">Location</a>
+          <div class="gnb__dropdown">
+            <a href="location.html?loc=Jeju"     class="gnb__dropdown-item">Jeju</a>
+            <a href="location.html?loc=Yeosu"    class="gnb__dropdown-item">Yeosu</a>
+            <a href="location.html?loc=Ilsan"    class="gnb__dropdown-item">Ilsan</a>
+            <a href="location.html?loc=Gwanggyo" class="gnb__dropdown-item">Gwanggyo</a>
+          </div>
         </div>
         <a href="Oceanfriends.html" class="gnb__link gnb__link--active">Ocean friends</a>
         <div class="gnb__nav-item" data-nav="about">
@@ -52,11 +72,8 @@
       </a>
 
       <a class="gnb__ticket btn-pill" href="ticket.html" aria-label="티켓 예매">
-        Ticket
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M7 17L17 7M17 7H7M17 7V17" stroke="white" stroke-width="1.5"
-                stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
+        <p>Ticket</p>
+        <p class="img"><img src="assets/images/ticket_icon_white.svg" alt=""></p>
       </a>
     </div>
   </header>
