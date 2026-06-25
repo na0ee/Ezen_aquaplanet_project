@@ -323,8 +323,9 @@ button {
 .footer__video-bg {
   top: auto;
   height: 100%;
-  mask-image: linear-gradient(to bottom, transparent 0%, black 38%, black 100%);
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 38%, black 100%);
+  opacity: 0;
+  mask-image: linear-gradient(to bottom, transparent 0%, transparent 18%, rgba(0, 0, 0, 0.55) 36%, black 58%, black 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, transparent 18%, rgba(0, 0, 0, 0.55) 36%, black 58%, black 100%);
 }
 
 /* -------------------------------------------------------------
@@ -952,6 +953,22 @@ body.is-logo-at-header .gnb__logo {
   flex: none;
   padding-top: 0;
   z-index: 2;
+}
+
+.index-page #sec-intro.is-intro-pinned .hero {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100vh;
+  height: 100svh;
+}
+
+.index-page #sec-intro.is-intro-after .hero {
+  position: absolute;
+  inset: auto 0 0;
+  width: 100%;
+  height: 100vh;
+  height: 100svh;
 }
 
 .hero__text {
@@ -5740,26 +5757,25 @@ body.biz-page {
 
 /* =============================================================
    INDEX PAGE — TABLET RESPONSIVE ONLY
-   PC styles stay untouched; this block only applies from 821px
-   to 1180px, before the existing mobile rules take over.
+   program.css 기준: TABLET 769px~1024px / MOBILE 768px 이하
    ============================================================= */
-@media (min-width: 821px) and (max-width: 1180px) {
+@media (min-width: 769px) and (max-width: 1024px) {
   .index-page {
-    --container-w: min(100% - 64px, 960px);
+    --container-w: min(100% - 48px, 960px);
     --logo3d-size: min(96vmin, 760px);
     --logo3d-text-w: min(78vmin, 640px);
     --logo3d-text-h: min(17vmin, 140px);
     --fs-hero: clamp(76px, 9vw, 104px);
     --fs-eyebrow: clamp(22px, 2.8vw, 28px);
     --fs-hero-sub: clamp(20px, 2.5vw, 24px);
-    --fs-sec-en: clamp(34px, 4.1vw, 40px);
-    --fs-sec-serif: clamp(38px, 4.7vw, 46px);
+    --fs-sec-en: 36px;
+    --fs-sec-serif: 40px;
     --fs-creature: clamp(36px, 4.2vw, 44px);
     --fs-nav: clamp(15px, 1.7vw, 17px);
     --fs-nav-active: clamp(18px, 2vw, 20px);
-    --fs-caption: 17px;
+    --fs-caption: 16px;
     --fs-sub: 16px;
-    --title-top: 82px;
+    --title-top: 96px;
     --sec-gap: 34px;
     --card-gap: 14px;
   }
@@ -5806,7 +5822,7 @@ body.biz-page {
   }
 
   .index-page #sec-intro .hero {
-    padding-inline: 40px;
+    padding-inline: 24px;
   }
 
   .index-page #sec-intro .hero__text {
@@ -5881,7 +5897,7 @@ body.biz-page {
   .index-page .section--program {
     height: auto;
     min-height: 100vh;
-    padding: 104px 0 116px;
+    padding: 120px 0;
   }
 
   .index-page .section--program .program-seq-title {
@@ -5907,7 +5923,7 @@ body.biz-page {
   .index-page .program-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    width: min(100% - 72px, 900px);
+    width: min(100%, 900px);
     margin-inline: auto;
     gap: 14px;
   }
@@ -5924,11 +5940,11 @@ body.biz-page {
   }
 
   .index-page .program-card__body {
-    padding: 20px;
+    padding: 16px;
   }
 
   .index-page .program-card__caption {
-    font-size: 17px;
+    font-size: 16px;
     line-height: 1.35;
   }
 
@@ -5946,7 +5962,7 @@ body.biz-page {
   .index-page .section--location {
     height: auto;
     min-height: 100vh;
-    padding: 96px 0 108px;
+    padding: 120px 0;
   }
 
   .index-page .section--location .section-seq-sticky,
@@ -6030,7 +6046,7 @@ body.biz-page {
   .index-page .section--booking {
     height: auto;
     min-height: 100vh;
-    padding: 100px 0 112px;
+    padding: 120px 0;
     overflow: hidden;
   }
 
@@ -6079,7 +6095,7 @@ body.biz-page {
   }
 
   .index-page .footer__inner {
-    width: calc(100% - 64px);
+    width: calc(100% - 48px);
     gap: 36px;
     padding-bottom: 64px;
   }
@@ -6118,11 +6134,11 @@ body.biz-page {
 
 
 /* =============================================================
-   INDEX PAGE — MOBILE RESPONSIVE (max-width: 820px)
-   PC(>1180px) · 태블릿(821–1180px) 스타일은 건드리지 않음.
+   INDEX PAGE — MOBILE RESPONSIVE (max-width: 768px)
+   PC(>1024px) · 태블릿(769–1024px) 스타일은 건드리지 않음.
    모든 규칙은 .index-page 스코프 안에서만 작동한다.
    ============================================================= */
-@media (max-width: 820px) {
+@media (max-width: 768px) {
 
   /* ── 디자인 토큰 재정의 ── */
   .index-page {

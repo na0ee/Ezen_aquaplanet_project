@@ -51,7 +51,8 @@
           <a href="business.html" class="gnb__link gnb__link--active">About us</a>
           <div class="gnb__dropdown">
             <a href="business.html" class="gnb__dropdown-item">Business</a>
-            <a href="marinlab.html" class="gnb__dropdown-item gnb__dropdown-item--active">Marin Lab</a>
+            <a href="marinlab.html?view=rescue" class="gnb__dropdown-item gnb__dropdown-item--active" data-marin-menu="rescue">Rescue &amp; Care</a>
+            <a href="marinlab.html?view=conservation" class="gnb__dropdown-item" data-marin-menu="conservation">Conservation</a>
           </div>
         </div>
         <div class="gnb__nav-item" data-nav="program">
@@ -85,7 +86,7 @@
       <div class="hero__content">
         <div class="hero__content-inner">
           <span class="hero__eyebrow">Welcome</span>
-          <h1 class="hero__title"><span>aqua planet </span><em>Marin Lab</em></h1>
+          <h1 class="hero__title"><span>aqua planet </span><em>Rescue <span class="hero__amp">&amp;</span> Care</em></h1>
           <p class="hero__sub">바다 생명을 구조하고 돌보며 더 나은 해양의 내일을 연구합니다.</p>
         </div>
         <a class="hero__scroll" href="#rescue">
@@ -98,13 +99,6 @@
     </section>
 
     <section class="rescue" id="rescue" aria-label="Rescue and Care">
-      <div class="tabs" aria-label="Marin Lab 활동 카테고리">
-        <div class="tabs__inner">
-          <button class="tab is-active" type="button" data-marin-view="rescue">Rescue &amp; Care</button>
-          <button class="tab" type="button" data-marin-view="conservation">Conservation</button>
-        </div>
-      </div>
-
       <header class="section-head">
         <h2><em>Rescue <span class="amp">&amp;</span> Care</em> <span>Activities</span></h2>
         <p>아쿠아플라넷은 <strong>해양수산부 지정 해양동물전문구조·치료기관</strong>으로서 <strong>부상 및 조난 해양생물을 구조하고 치료</strong>합니다<br>전문 인력의 보호와 재활
@@ -241,22 +235,16 @@
 
   <main class="marin-shell marin-shell--conservation" data-marin-conservation hidden>
     <div class="marin-stage" aria-label="Marin Lab Conservation page">
-      <nav class="marin-node m-pill-tabs" aria-label="Marin Lab 활동 카테고리">
-        <button class="m-pill" type="button" data-marin-view="rescue">Rescue &amp; Care</button>
-        <button class="m-pill m-pill--active" type="button" data-marin-view="conservation">Conservation</button>
-      </nav>
-
       <section class="marin-node m-conservation-view" aria-label="Conservation activities">
         <section class="hero" aria-label="Marin Lab 소개">
           <video class="hero__media" autoplay muted loop playsinline aria-hidden="true">
-            <source src="assets/images/marinlab.webm" type="video/webm">
-            <source src="assets/images/marinlab_mp4.mp4" type="video/mp4">
+            <source src="assets/images/sec.aboutus/marinlab/conservation1.mp4" type="video/mp4">
           </video>
           <div class="hero__shade" aria-hidden="true"></div>
           <div class="hero__content">
             <div class="hero__content-inner">
               <span class="hero__eyebrow">Welcome</span>
-              <h1 class="hero__title"><span>aqua planet </span><em>Marin Lab</em></h1>
+              <h1 class="hero__title"><span>aqua planet </span><em>Conservation</em></h1>
               <p class="hero__sub">바다 생명을 구조하고 돌보며 더 나은 해양의 내일을 연구합니다.</p>
             </div>
             <a class="hero__scroll" href="#cons-orbit">
@@ -529,7 +517,7 @@
     (function () {
       const rescueMain = document.querySelector('[data-marin-rescue]');
       const conservationMain = document.querySelector('[data-marin-conservation]');
-      const viewTabs = Array.from(document.querySelectorAll('[data-marin-view]'));
+      const menuItems = Array.from(document.querySelectorAll('[data-marin-menu]'));
       let currentView = 'rescue';
 
       function getConservationScale() {
@@ -566,7 +554,13 @@
         }
       }
 
-      function setView(view) {
+      function updateViewUrl(view) {
+        const url = new URL(window.location.href);
+        url.searchParams.set('view', view);
+        window.history.replaceState({}, '', url);
+      }
+
+      function setView(view, options = {}) {
         currentView = view === 'conservation' ? 'conservation' : 'rescue';
         const isConservation = currentView === 'conservation';
 
@@ -576,12 +570,12 @@
         document.body.classList.toggle('marin-view-conservation', isConservation);
         window.scrollTo(0, 0);
 
-        viewTabs.forEach((tab) => {
-          const active = tab.getAttribute('data-marin-view') === currentView;
-          tab.classList.toggle('is-active', active);
-          tab.classList.toggle('m-pill--active', active);
-          tab.setAttribute('aria-selected', String(active));
+        menuItems.forEach((item) => {
+          const active = item.getAttribute('data-marin-menu') === currentView;
+          item.classList.toggle('gnb__dropdown-item--active', active);
         });
+
+        if (options.updateUrl !== false) updateViewUrl(currentView);
 
         if (isConservation) {
           if (window.initConservationOrbit) window.initConservationOrbit();
@@ -590,10 +584,6 @@
         }
       }
 
-      viewTabs.forEach((tab) => {
-        tab.addEventListener('click', () => setView(tab.getAttribute('data-marin-view')));
-      });
-
       window.addEventListener('resize', () => {
         resizeConservation();
         if (currentView === 'conservation' && window.initConservationOrbit) {
@@ -601,7 +591,8 @@
         }
       }, { passive: true });
 
-      setView('rescue');
+      const initialView = new URLSearchParams(window.location.search).get('view');
+      setView(initialView, { updateUrl: false });
     })();
   </script>
 

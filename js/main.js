@@ -547,6 +547,18 @@ function initIntroScrollGate() {
     return getIntroTop() + intro.offsetHeight - window.innerHeight;
   }
 
+  function updateIntroPinState() {
+    const y = window.scrollY;
+    const introTop = getIntroTop();
+    const introEnd = getIntroEnd();
+    const crewTop = sectionTop(crew);
+    const isPinned = y >= introTop - 1 && y < introEnd - 1 && y < crewTop - 4;
+    const isAfter = y >= introEnd - 1 && y < crewTop - 4;
+
+    intro.classList.toggle('is-intro-pinned', isPinned);
+    intro.classList.toggle('is-intro-after', isAfter);
+  }
+
   function isInsideIntroHold() {
     const y = window.scrollY;
     return (
@@ -675,6 +687,7 @@ function initIntroScrollGate() {
   });
 
   window.addEventListener('scroll', () => {
+    updateIntroPinState();
     if (diveActive) return;
 
     const y = window.scrollY;
@@ -683,6 +696,8 @@ function initIntroScrollGate() {
     if (y < crewTop - 4) crewScrollUnlocked = false;
   }, { passive: true });
 
+  window.addEventListener('resize', updateIntroPinState, { passive: true });
+  updateIntroPinState();
   window.__syncSmoothScroll?.();
   ScrollTrigger?.refresh?.();
 }
