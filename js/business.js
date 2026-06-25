@@ -230,16 +230,6 @@
   function renderOverview(rect) {
     if (!head) return;
 
-    if (mobileQuery.matches) {
-      head.style.removeProperty('--biz-overview-opacity');
-      head.style.removeProperty('--biz-overview-y');
-      head.style.removeProperty('--biz-overview-max-height');
-      if (label) label.style.removeProperty('--biz-overview-follow-y');
-      if (pin) pin.style.removeProperty('--biz-overview-follow-y');
-      head.style.visibility = '';
-      return;
-    }
-
     const viewport = window.innerHeight || document.documentElement.clientHeight;
     const fadeDistance = Math.max(320, viewport * 0.46);
     const progress = smooth(clamp(-rect.top / fadeDistance, 0, 1));
@@ -255,11 +245,6 @@
   function update() {
     const rect = section.getBoundingClientRect();
     renderOverview(rect);
-
-    if (mobileQuery.matches) {
-      activate(0);
-      return;
-    }
 
     const viewport = window.innerHeight || document.documentElement.clientHeight;
     const startDelay = Math.max(320, viewport * 0.46);
