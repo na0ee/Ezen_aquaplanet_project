@@ -33,149 +33,306 @@ button {
   font: inherit;
 }
 
-.marin-gnb {
+/* program.html 기준 GNB (구조/스타일 통일) */
+.gnb {
   position: fixed;
-  inset: 0 0 auto;
-  z-index: 20;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
   height: 102px;
+  z-index: 1000;
   padding: 24px 32px;
-  transition: background 0.25s ease;
+  display: flex;
+  justify-content: center;
+  transition: transform 0.35s ease;
+  will-change: transform;
 }
 
-.marin-gnb.is-blue {
-  background: transparent;
+.gnb::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  background: linear-gradient(180deg, rgba(10, 30, 80, 0.35) 0%, rgba(10, 30, 80, 0.0) 100%);
+  -webkit-mask-image: linear-gradient(180deg, black 60%, transparent 100%);
+  mask-image: linear-gradient(180deg, black 60%, transparent 100%);
 }
 
-.marin-gnb__inner {
-  position: relative;
+.gnb--hidden {
+  transform: translateY(-100%);
+}
+
+.gnb__inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 54px;
-}
-
-.marin-nav {
-  display: flex;
-  align-items: center;
-  gap: 44px;
-  height: 54px;
-}
-
-.marin-nav__item {
+  width: 100%;
   position: relative;
-  display: inline-flex;
-  align-items: center;
-  height: 54px;
 }
 
-.marin-nav__link {
-  display: inline-flex;
+.gnb__category,
+.gnb__nav {
+  display: flex;
+  gap: 44px;
   align-items: center;
-  justify-content: center;
-  color: rgba(255, 255, 255, 0.5);
-  font-family: var(--font-en);
-  font-size: 22px;
+}
+
+.gnb__link,
+.gnb__item {
+  color: #ffffff;
+  font-family: "Poppins", sans-serif;
+  font-size: 18px;
   font-weight: 400;
-  line-height: 1;
-  letter-spacing: -0.88px;
+  line-height: normal;
+  letter-spacing: -0.96px;
+  transition: color 0.2s ease, transform 0.2s ease;
+  display: inline-block;
+  text-decoration: none;
   white-space: nowrap;
 }
 
-.marin-nav__link:hover,
-.marin-nav__link.is-active {
-  color: #fff;
+.gnb__link.gnb__link--active,
+.gnb__item.gnb__item--active {
+  color: #ffffff;
+  font-family: "EB Garamond", serif;
+  font-size: 20px;
+  font-weight: 400;
+  letter-spacing: -1.12px;
 }
 
-.marin-nav__link.is-active {
-  font-family: var(--font-serif);
-  font-size: 25px;
-  font-weight: 500;
-  letter-spacing: -1px;
+.gnb__link:hover,
+.gnb__item:hover,
+.gnb__link.gnb__link--active:hover,
+.gnb__item.gnb__item--active:hover {
+  color: #ffffff;
+  transform: scale(1.06);
 }
 
-.marin-dropdown {
-  position: absolute;
-  top: 50px;
-  left: 50%;
+.gnb__nav-item {
+  position: relative;
   display: flex;
-  width: 159px;
-  padding: 3px;
+  align-items: center;
+  cursor: pointer;
+}
+
+.gnb__dropdown {
+  position: absolute;
+  top: 48px;
+  left: 0;
+  display: flex;
   flex-direction: column;
+  align-items: center;
+  padding: 3px;
   border-radius: 14px;
-  background: rgba(255, 255, 255, 0.3);
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    rgba(255, 255, 255, 0.01) 45%,
+    rgba(255, 255, 255, 0.04) 100%
+  );
+  backdrop-filter: url(#glass-refract-light) blur(4px);
+  -webkit-backdrop-filter: url(#glass-refract-light) blur(4px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.75),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.12),
+    inset 1px 0 0 rgba(255, 255, 255, 0.20),
+    inset -1px 0 0 rgba(255, 255, 255, 0.08);
   opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.gnb__dropdown::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  padding: 1.5px;
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.55) 0%,
+    rgba(255, 255, 255, 0.20) 25%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(255, 255, 255, 0.20) 75%,
+    rgba(255, 255, 255, 0.55) 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
   pointer-events: none;
-  transform: translateX(-50%) translateY(-4px);
-  transition: opacity 0.18s ease, transform 0.18s ease;
 }
 
-.marin-nav__item:hover .marin-dropdown,
-.marin-nav__item:focus-within .marin-dropdown {
+.gnb__nav-item:hover .gnb__dropdown {
   opacity: 1;
-  pointer-events: auto;
-  transform: translateX(-50%) translateY(0);
+  visibility: visible;
 }
 
-.marin-dropdown__item {
+.gnb__dropdown-item {
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 153px;
   height: 48px;
   border-radius: 12px;
-  color: rgba(255, 255, 255, 0.5);
-  font-family: var(--font-en);
+  font-family: "Poppins";
   font-size: 16px;
-  letter-spacing: 0;
+  font-weight: 400;
+  letter-spacing: -0.64px;
+  color: #ffffff;
+  white-space: nowrap;
+  transition: all 0.2s ease;
 }
 
-.marin-dropdown__item:hover,
-.marin-dropdown__item.is-active {
-  background: #fff;
-  color: var(--brand);
-  font-family: var(--font-serif);
+.gnb__dropdown-item--active,
+.gnb__dropdown-item:hover {
+  background-color: #ffffff;
+  color: #22b2ea;
+  font-family: "EB Garamond";
   font-size: 18px;
+  letter-spacing: -0.72px;
+  font-weight: 500;
 }
 
-.marin-logo {
+.gnb__dropdown:hover .gnb__dropdown-item:not(:hover) {
+  background-color: transparent;
+  color: #ffffff;
+  font-family: "Poppins";
+  font-size: 16px;
+  letter-spacing: -0.64px;
+}
+
+.gnb__logo-wrap {
   position: absolute;
   left: 50%;
-  top: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 60px;
   display: flex;
-  align-items: center;
   justify-content: center;
-  width: 60px;
-  height: 60px;
-  transform: translate(-50%, -50%);
+  align-items: center;
+  z-index: 10;
 }
 
-.marin-logo img {
+.gnb__logo {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 60px;
   height: 60px;
-  object-fit: contain;
-  opacity: 0.86;
+  z-index: 10;
 }
 
-.marin-ticket {
+.gnb__logo img {
+  width: 100%;
+  opacity: 0.8;
+  transition: transform 0.2s ease;
+}
+
+.gnb__logo:hover img {
+  transform: scale(1.06);
+}
+
+.gnb__ticket {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  height: 54px;
-  padding: 0 22px;
-  border: 1px solid rgba(255, 255, 255, 0.24);
+  gap: 6px;
+  height: 42px;
+  padding: 0 14px 0 18px;
   border-radius: 100px;
-  background: rgba(255, 255, 255, 0.06);
-  color: #fff;
-  font-family: var(--font-en);
-  font-size: 22px;
+  font-family: "Poppins", sans-serif;
+  font-size: 18px;
   font-weight: 400;
-  letter-spacing: -0.88px;
-  backdrop-filter: blur(14px);
+  letter-spacing: -0.48px;
+  color: #ffffff;
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    rgba(255, 255, 255, 0.01) 45%,
+    rgba(255, 255, 255, 0.04) 100%
+  );
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.75),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.12),
+    inset 1px 0 0 rgba(255, 255, 255, 0.20),
+    inset -1px 0 0 rgba(255, 255, 255, 0.08);
+  border: none;
+  white-space: nowrap;
+  text-decoration: none;
 }
 
-.marin-ticket svg {
+.gnb__ticket::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 100px;
+  padding: 1.5px;
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.55) 0%,
+    rgba(255, 255, 255, 0.20) 25%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(255, 255, 255, 0.20) 75%,
+    rgba(255, 255, 255, 0.55) 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.gnb__ticket .img {
   width: 24px;
   height: 24px;
+  display: flex;
+  justify-content: center;
+}
+
+.gnb__ticket .img img {
+  width: 100%;
+}
+
+@media (max-width: 1024px) {
+  .gnb {
+    padding: 24px 24px;
+  }
+  .gnb__inner {
+    max-width: calc(100% - 48px);
+  }
+}
+
+@media (max-width: 768px) {
+  .gnb {
+    height: auto;
+    padding: 12px 16px;
+  }
+  .gnb__inner {
+    flex-direction: column;
+    height: auto;
+    gap: 12px;
+    max-width: calc(100% - 32px);
+  }
+  .gnb__category {
+    gap: 16px;
+    width: 100%;
+    justify-content: center;
+  }
+  .gnb__item {
+    font-size: 16px;
+  }
+  .gnb__item--active {
+    font-size: 18px;
+  }
 }
 
 .hero {
@@ -209,6 +366,7 @@ button {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 16px;
   text-align: center;
   color: #ffffff;
   background: transparent;
@@ -225,17 +383,18 @@ button {
 
 .hero__eyebrow {
   display: block;
-  font-family: var(--font-serif);
+  font-family: "EB Garamond", serif;
   font-style: italic;
   font-weight: 500;
-  font-size: clamp(22px, 1.7vw, 32px);
-  letter-spacing: -0.02em;
+  font-size: 32px;
+  letter-spacing: -0.64px;
   line-height: 1.4;
+  margin-bottom: -18px;
   color: rgba(255, 255, 255, 0.9);
 }
 
 .hero__title {
-  margin: -18px 0 0;
+  margin: 0;
   font-family: var(--font-en);
   font-weight: 200;
   font-size: clamp(66px, 5.65vw, 108px);
@@ -244,27 +403,32 @@ button {
 }
 
 .hero__title span {
-  font: inherit;
+  font-family: "Poppins", sans-serif;
+  font-size: 100px;
   font-weight: 200;
-  letter-spacing: -0.04em;
+  color: #ffffff;
+  letter-spacing: -4px;
+  line-height: normal;
 }
 
 .hero__title em {
-  font-family: var(--font-serif);
+  font-family: "EB Garamond", serif;
   font-weight: 500;
   font-style: italic;
-  font-size: 1.08em;
-  letter-spacing: -0.02em;
+  font-size: 128px;
+  color: #ffffff;
+  letter-spacing: -2.56px;
+  line-height: normal;
 }
 
 .hero__sub {
   margin: 22px auto 0;
   max-width: 760px;
-  font-family: var(--font-kr);
-  font-size: clamp(16px, 1.25vw, 24px);
+  font-family: "Pretendard", sans-serif;
+  font-size: 24px;
   font-weight: 300;
   line-height: 1.4;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.48px;
   color: #ffffff;
 }
 
@@ -286,11 +450,12 @@ button {
 }
 
 .hero__scroll-text {
-  font-family: var(--font-serif);
+  font-family: "EB Garamond", serif;
   font-style: italic;
   font-weight: 500;
-  font-size: clamp(22px, 1.7vw, 32px);
-  letter-spacing: -0.02em;
+  font-size: 32px;
+  letter-spacing: -0.64px;
+  text-align: center;
   line-height: 1.4;
   color: #ffffff;
 }
@@ -298,13 +463,13 @@ button {
 .hero__scroll-lets {
   font-family: "Poppins", sans-serif;
   font-weight: 300;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.64px;
   font-style: normal;
 }
 
 .hero__scroll-explore {
-  font-family: var(--font-serif);
-  font-style: italic;
+  font-family: "EB Garamond", serif;
+  font-style: normal;
 }
 
 .rescue {
@@ -468,9 +633,11 @@ button {
 
 .activity-card__content {
   position: relative;
-  width: 520px;
-  height: 307.473px;
+  width: 454px;
+  height: 294px;
   flex: 0 0 520px;
+  flex-basis: 454px;
+  margin-top: 121px;
 }
 
 .activity-card__content--wide {
@@ -482,34 +649,35 @@ button {
   position: absolute;
   top: 0;
   left: 0;
-  width: 124px;
-  height: 150px;
+  width: auto;
+  height: auto;
   margin: 0;
-  color: #000;
-  font-family: var(--font-en);
-  font-size: 100px;
+  color: #ffffff;
+  font-family: "Poppins", sans-serif;
+  font-size: 60px;
   font-weight: 400;
   line-height: normal;
   letter-spacing: -2.56px;
   white-space: nowrap;
+  opacity: 1;
 }
 
 .activity-card__body {
   position: absolute;
-  top: 110px;
-  left: 6px;
+  top: 62px;
+  left: 0;
   display: flex;
-  height: 185px;
+  height: auto;
   flex-direction: column;
   align-items: flex-start;
-  gap: 12px;
+  gap: 0;
 }
 
 .activity-card h3 {
-  height: 100px;
+  height: 90px;
   margin: 0;
-  color: #000;
-  font-family: var(--font-en);
+  color: #fff;
+  font-family: "Poppins", sans-serif;
   font-size: 100px;
   font-weight: 400;
   line-height: 1;
@@ -520,7 +688,7 @@ button {
 .activity-card .activity-card__body>p {
   height: 28px;
   margin: 0;
-  color: #ffffff;
+  color: #fff;
   font-family: "Pretendard", sans-serif;
   font-size: 20px;
   font-weight: 400;
@@ -528,6 +696,7 @@ button {
   letter-spacing: -0.4px;
   text-align: center;
   white-space: nowrap;
+  margin-top: 10px;
 }
 
 .chips {
@@ -560,24 +729,34 @@ button {
 }
 
 .activity-card .activity-card__num,
-.activity-card .activity-card__body h3 {
+.activity-card .activity-card__body h3,
+.activity-card .activity-card__body>p {
   color: #fff;
 }
 
 .chips {
   gap: 10px;
   height: 44px;
+  margin-top: 60px;
+  overflow: visible;
 }
 
 .chips li {
   position: relative;
   height: 44px;
-  padding: 0 16px;
+  padding: 0 20px;
   border: 0;
   border-radius: 100px;
   color: #fff;
   background: transparent;
   isolation: isolate;
+  box-sizing: border-box;
+  min-width: max-content;
+  font-size: 18px;
+  line-height: normal;
+  letter-spacing: -0.72px;
+  white-space: nowrap;
+  overflow: visible;
 }
 
 .chips li::before {
@@ -615,9 +794,9 @@ button {
 }
 
 .chips span {
-  height: 48px;
+  height: auto;
   color: #fff;
-  font-family: var(--font-kr);
+  font-family: "Pretendard", sans-serif;
   font-size: 18px;
   font-weight: 400;
   line-height: normal;
@@ -855,23 +1034,6 @@ button {
 }
 
 @media (max-width: 1180px) {
-  .marin-gnb {
-    padding-inline: 20px;
-  }
-
-  .marin-nav {
-    gap: 22px;
-  }
-
-  .marin-nav__link,
-  .marin-ticket {
-    font-size: 17px;
-  }
-
-  .marin-nav__link.is-active {
-    font-size: 21px;
-  }
-
   .activity-card {
     width: min(760px, calc(100% - 48px));
     height: auto;
@@ -889,6 +1051,7 @@ button {
     width: 100%;
     height: auto;
     flex-basis: auto;
+    margin-top: 0;
   }
 
   .activity-card__num {
@@ -909,39 +1072,6 @@ button {
 }
 
 @media (max-width: 760px) {
-  .marin-gnb {
-    height: 82px;
-    padding: 16px;
-  }
-
-  .marin-nav {
-    gap: 12px;
-  }
-
-  .marin-nav__link,
-  .marin-ticket {
-    font-size: 13px;
-  }
-
-  .marin-nav__link.is-active {
-    font-size: 15px;
-  }
-
-  .marin-logo {
-    display: none;
-  }
-
-  .marin-ticket {
-    width: auto;
-    height: 38px;
-    padding: 0 12px;
-  }
-
-  .marin-ticket svg {
-    width: 18px;
-    height: 18px;
-  }
-
   .hero {
     min-height: 760px;
   }
@@ -2105,57 +2235,6 @@ body.marin-view-conservation #marinFooter {
     :root {
       --cons-tablet-hero-height: max(100vh, 144vw);
     }
-  }
-
-  /* ── GNB 태블릿 ──
-     inner 48px / nav 48px / nav-item 48px 로 높이 통일
-     (데스크탑 54px → 48px, GNB outer 18+48+18 = 84px) */
-  .marin-gnb {
-    height: 84px;
-    padding: 18px 24px;
-  }
-
-  .marin-gnb__inner {
-    height: 48px;
-  }
-
-  .marin-nav {
-    height: 48px;
-    gap: clamp(14px, 2vw, 22px);
-  }
-
-  .marin-nav__item {
-    height: 48px;
-  }
-
-  .marin-nav__link {
-    font-size: clamp(15px, 1.7vw, 17px);
-    letter-spacing: -0.6px;
-  }
-
-  .marin-nav__link.is-active {
-    font-size: clamp(18px, 2vw, 20px);
-    letter-spacing: -0.72px;
-  }
-
-  .marin-ticket {
-    width: auto;
-    height: 44px;
-    padding: 0 14px;
-    font-size: clamp(15px, 1.7vw, 17px);
-    letter-spacing: -0.6px;
-    gap: 7px;
-  }
-
-  .marin-ticket svg {
-    width: 18px;
-    height: 18px;
-  }
-
-  .marin-logo,
-  .marin-logo img {
-    width: 48px;
-    height: 48px;
   }
 
   body.marin-view-conservation {

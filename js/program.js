@@ -653,28 +653,7 @@
   // ============================================================
   // Program Detail Modal (싱글톤 — 모든 캐러셀 공유)
   // ============================================================
-  const detailOverlay = document.createElement('div');
-  detailOverlay.className = 'program-detail-overlay';
-  detailOverlay.innerHTML = `
-    <div class="program-detail-modal">
-      <button class="program-detail-modal__close" aria-label="닫기">
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-          <line x1="3" y1="3" x2="17" y2="17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          <line x1="17" y1="3" x2="3" y2="17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-      </button>
-      <div class="program-detail-modal__img-wrap">
-        <img class="program-detail-modal__img program-detail-modal__img--a active" src="" alt="">
-        <img class="program-detail-modal__img program-detail-modal__img--b" src="" alt="">
-      </div>
-      <div class="program-detail-modal__body">
-        <span class="program-detail-modal__tag tag"></span>
-        <h2 class="program-detail-modal__title"></h2>
-        <div class="program-detail-modal__content"></div>
-      </div>
-    </div>
-  `;
-  document.body.appendChild(detailOverlay);
+  const detailOverlay = document.querySelector('.program-detail-overlay');
 
   let _detailImgInterval = null;
 
@@ -1309,6 +1288,58 @@
       }
       lastY = currentY;
     }, { passive: true });
+  })();
+
+  // ── GNB 모바일 메뉴 ──
+  (function initMobileMenu() {
+    const hamburger  = document.querySelector('.gnb__hamburger');
+    const mobileMenu = document.querySelector('.gnb__mobile-menu');
+    if (!hamburger || !mobileMenu) return;
+
+    function openMenu() {
+      hamburger.classList.add('is-active');
+      hamburger.setAttribute('aria-expanded', 'true');
+      mobileMenu.classList.add('is-open');
+      mobileMenu.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('mobile-menu-open');
+    }
+
+    function closeMenu() {
+      hamburger.classList.remove('is-active');
+      hamburger.setAttribute('aria-expanded', 'false');
+      mobileMenu.classList.remove('is-open');
+      mobileMenu.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('mobile-menu-open');
+    }
+
+    hamburger.addEventListener('click', () => {
+      hamburger.getAttribute('aria-expanded') === 'true' ? closeMenu() : openMenu();
+    });
+
+    mobileMenu.querySelectorAll('.gnb__mobile-link--toggle').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.closest('.gnb__mobile-item');
+        const isOpen = item.classList.contains('is-open');
+        mobileMenu.querySelectorAll('.gnb__mobile-item.is-open').forEach(el => {
+          el.classList.remove('is-open');
+          el.querySelector('.gnb__mobile-link--toggle').setAttribute('aria-expanded', 'false');
+        });
+        if (!isOpen) {
+          item.classList.add('is-open');
+          btn.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+
+    mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && mobileMenu.classList.contains('is-open')) closeMenu();
+    });
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 768) closeMenu();
+    });
   })();
 
 });

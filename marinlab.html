@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,500&family=Poppins:wght@300;400;500;600;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,500&family=Poppins:wght@200;300;400;500;600;700&display=swap"
     rel="stylesheet" />
   <link rel="stylesheet" href="css/marinlab.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -20,39 +20,58 @@
 </head>
 
 <body>
-  <header class="marin-gnb" id="pageGnb">
-    <div class="marin-gnb__inner">
-      <nav class="marin-nav" aria-label="메인 메뉴">
-        <a class="marin-nav__link" href="location.html">Location</a>
-        <a class="marin-nav__link" href="Oceanfriends.html">Ocean friends</a>
-        <div class="marin-nav__item">
-          <a class="marin-nav__link is-active" href="business.html">About us</a>
-          <div class="marin-dropdown">
-            <a class="marin-dropdown__item" href="business.html">Business</a>
-            <a class="marin-dropdown__item is-active" href="marinlab.html">Marin Lab</a>
+  <!-- SVG Glass Refraction Filter -->
+  <svg style="display:none" aria-hidden="true">
+    <defs>
+      <filter id="glass-refract" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+        <feTurbulence type="fractalNoise" baseFrequency="0.002 0.004" numOctaves="2" seed="5" result="noise"/>
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="120" xChannelSelector="R" yChannelSelector="G"/>
+      </filter>
+      <filter id="glass-refract-light" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+        <feTurbulence type="fractalNoise" baseFrequency="0.002 0.004" numOctaves="2" seed="5" result="noise"/>
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="18" xChannelSelector="R" yChannelSelector="G"/>
+      </filter>
+    </defs>
+  </svg>
+
+  <header id="gnb" class="gnb">
+    <div class="gnb__inner">
+      <nav class="gnb__nav" aria-label="메인 메뉴">
+        <div class="gnb__nav-item" data-nav="location">
+          <a href="location.html" class="gnb__link">Location</a>
+          <div class="gnb__dropdown">
+            <a href="location.html?loc=Jeju"     class="gnb__dropdown-item">Jeju</a>
+            <a href="location.html?loc=Yeosu"    class="gnb__dropdown-item">Yeosu</a>
+            <a href="location.html?loc=Ilsan"    class="gnb__dropdown-item">Ilsan</a>
+            <a href="location.html?loc=Gwanggyo" class="gnb__dropdown-item">Gwanggyo</a>
           </div>
         </div>
-        <div class="marin-nav__item">
-          <a class="marin-nav__link" href="program.html">Program</a>
-          <div class="marin-dropdown">
-            <a class="marin-dropdown__item" href="program.html?loc=Jeju">Jeju</a>
-            <a class="marin-dropdown__item" href="program.html?loc=Yeosu">Yeosu</a>
-            <a class="marin-dropdown__item" href="program.html?loc=Ilsan">Ilsan</a>
-            <a class="marin-dropdown__item" href="program.html?loc=Gwanggyo">Gwanggyo</a>
+        <a href="Oceanfriends.html" class="gnb__link">Ocean friends</a>
+        <div class="gnb__nav-item" data-nav="about">
+          <a href="business.html" class="gnb__link gnb__link--active">About us</a>
+          <div class="gnb__dropdown">
+            <a href="business.html" class="gnb__dropdown-item">Business</a>
+            <a href="marinlab.html" class="gnb__dropdown-item gnb__dropdown-item--active">Marin Lab</a>
+          </div>
+        </div>
+        <div class="gnb__nav-item" data-nav="program">
+          <a href="program.html" class="gnb__link">Program</a>
+          <div class="gnb__dropdown">
+            <a href="program.html?loc=Jeju"     class="gnb__dropdown-item">Jeju</a>
+            <a href="program.html?loc=Yeosu"    class="gnb__dropdown-item">Yeosu</a>
+            <a href="program.html?loc=Ilsan"    class="gnb__dropdown-item">Ilsan</a>
+            <a href="program.html?loc=Gwanggyo" class="gnb__dropdown-item">Gwanggyo</a>
           </div>
         </div>
       </nav>
 
-      <a class="marin-logo" href="index.html" aria-label="Aqua Planet 홈">
-        <img src="assets/images/headerLogo.png" alt="" aria-hidden="true">
+      <a href="index.html" class="gnb__logo-wrap" aria-label="Aqua Planet 홈">
+        <img class="gnb__logo" src="assets/images/headerLogo.png" alt="" aria-hidden="true">
       </a>
 
-      <a class="marin-ticket" href="ticket.html" aria-label="티켓 예매">
-        Ticket
-        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M7 17L17 7M17 7H7M17 7V17" stroke="white" stroke-width="1.5" stroke-linecap="round"
-            stroke-linejoin="round" />
-        </svg>
+      <a class="gnb__ticket btn-pill" href="ticket.html" aria-label="티켓 예매">
+        <p>Ticket</p>
+        <p class="img"><img src="assets/images/ticket_icon_white.svg" alt=""></p>
       </a>
     </div>
   </header>
@@ -138,7 +157,7 @@
             <div class="activity-card__content activity-card__content--wide">
               <p class="activity-card__num">03</p>
               <div class="activity-card__body">
-                <h3>REHABILITATION</h3>
+                <h3>RECOVERY</h3>
                 <p>야생성 회복을 위한 체계적이고 과학적인 재활 프로그램</p>
                 <ul class="chips" aria-label="재활 활동 키워드">
                   <li>재활훈련</li>
@@ -585,19 +604,9 @@
     })();
   </script>
 
+  <script src="js/gnb-scroll.js"></script>
+
   <script>
-    const gnb = document.getElementById('pageGnb');
-    const hero = document.querySelector('.hero');
-
-    function updateGnb() {
-      const threshold = hero.offsetHeight - 110;
-      gnb.classList.toggle('is-blue', window.scrollY >= threshold);
-    }
-
-    updateGnb();
-    window.addEventListener('scroll', updateGnb, { passive: true });
-    window.addEventListener('resize', updateGnb, { passive: true });
-
     (function () {
       const section = document.querySelector('[data-activity-section]');
       if (!section) return;
