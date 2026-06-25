@@ -229,7 +229,7 @@ body {
 .loc-intro__rule {
   width: 423px;        /* Figma: w=423 */
   height: 1px;
-  background: rgba(255, 255, 255, 0.4);
+  background: #ffffff;
 }
 
 /* 내부 콘텐츠 그룹 (Figma: Frame 311, flex-col, gap=24) */
@@ -1616,8 +1616,12 @@ body[data-location="gwanggyo"] .loc-map {
   }
   /* Solo hint 위치 보정 (0.45 스케일 기준: 790*0.45/2 = 177px) */
   .location-page .loc-map--solo .loc-map__hint {
-    top: calc(50% + calc(177px * var(--map-s, 1)) + 12px);
+    top: calc(50% + calc(178px * var(--map-s, 1)) + var(--map-offset-y, 0px) + 28px);
     font-size: 10px;
+    max-width: min(100% - 64px, 520px);
+    white-space: normal;
+    text-align: center;
+    justify-content: center;
   }
   .location-page .loc-map__detail {
     left: 30%;
@@ -2096,7 +2100,7 @@ body[data-location="gwanggyo"] .loc-map {
   /* 마커 좌표 보정 */
   .location-page .loc-map__markers {
     transform-origin: top left;
-    transform: scale(clamp(0.24, calc((100vw - 56px) / 1320px), 0.58));
+    transform: scale(calc(min(calc(100vw - 56px), 400px) / 1320px));
   }
   /* 버블: 좌표계 범위 초과 → 숨김 */
   .location-page .loc-map__bubbles {
@@ -2156,7 +2160,7 @@ body[data-location="gwanggyo"] .loc-map {
   .location-page .loc-map--solo .loc-map__img { width: 100%; height: 100%; object-fit: contain; }
   .location-page .loc-map--solo .loc-map__markers {
     transform-origin: top left;
-    transform: scale(clamp(0.22, calc((100vw - 40px) / 1320px), 0.45));
+    transform: scale(calc(min(calc(100vw - 40px), 380px) / 1320px));
   }
 
   /* Solo 헤더: absolute → relative flow */
@@ -2175,8 +2179,12 @@ body[data-location="gwanggyo"] .loc-map {
     left: unset;
     top: unset;
     transform: none;
-    margin-top: 12px;
+    width: min(100% - 56px, 400px);
+    margin: 24px auto 0;
     justify-content: center;
+    white-space: normal;
+    text-align: center;
+    line-height: 1.45;
   }
 
   /* 상세 카드 — 절대위치 해제, stage 아래 인라인 배치 */
