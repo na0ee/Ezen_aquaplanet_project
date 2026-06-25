@@ -864,6 +864,7 @@
         setCardTransform(C, 50);
         previewEl.append(C);
         cards = [null, C, null];
+        updateCenterClass();
         requestAnimationFrame(() => requestAnimationFrame(() => { C.style.transition = ''; }));
         return;
       }
@@ -885,6 +886,7 @@
 
       previewEl.append(L, C, R, extraCard);
       cards = [L, C, R];
+      updateCenterClass();
 
       requestAnimationFrame(() => requestAnimationFrame(() => {
         [L, C, R].forEach(el => { el.style.transition = ''; });
@@ -975,6 +977,7 @@
             setCardTransform(extraCard, -1 - STEP);
             cards = [newL, newC, newR];
           }
+          updateCenterClass();
           track = cards;
         } else {
           // 복귀: extraCard를 다시 원래 자리로
@@ -1011,7 +1014,15 @@
         extraCard = oldR;
         cards = [newL, newC, newR];
       }
+      updateCenterClass();
       track = cards;
+    }
+
+    function updateCenterClass() {
+      cards.forEach((c, i) => {
+        if (!c) return;
+        c.classList.toggle('is-center', i === 1);
+      });
     }
 
     previewEl.style.userSelect = 'none';
@@ -1338,7 +1349,7 @@
     });
 
     window.addEventListener('resize', () => {
-      if (window.innerWidth > 768) closeMenu();
+      if (window.innerWidth > 1024) closeMenu();
     });
   })();
 
