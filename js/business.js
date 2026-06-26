@@ -50,6 +50,19 @@
   start();
 })();
 
+/* ── Hero: Let's Explore 클릭 시 오버뷰 섹션으로 이동 ── */
+(function () {
+  const trigger = document.querySelector('.biz-hero__scroll');
+  const target = document.querySelector('.biz-areas');
+  if (!trigger || !target) return;
+
+  trigger.addEventListener('click', function (event) {
+    event.preventDefault();
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (history.pushState) history.pushState(null, '', '#business-overview');
+  });
+})();
+
 /* ── 비전 다이어그램: 노드 클릭 → 해당 라벨 표시 토글 (hover 는 CSS) ── */
 (function () {
   document.querySelectorAll('.box .biz-node').forEach(function (node) {
@@ -230,16 +243,6 @@
   function renderOverview(rect) {
     if (!head) return;
 
-    if (mobileQuery.matches) {
-      head.style.removeProperty('--biz-overview-opacity');
-      head.style.removeProperty('--biz-overview-y');
-      head.style.removeProperty('--biz-overview-max-height');
-      if (label) label.style.removeProperty('--biz-overview-follow-y');
-      if (pin) pin.style.removeProperty('--biz-overview-follow-y');
-      head.style.visibility = '';
-      return;
-    }
-
     const viewport = window.innerHeight || document.documentElement.clientHeight;
     const fadeDistance = Math.max(320, viewport * 0.46);
     const progress = smooth(clamp(-rect.top / fadeDistance, 0, 1));
@@ -247,19 +250,16 @@
     head.style.setProperty('--biz-overview-opacity', (1 - progress).toFixed(3));
     head.style.setProperty('--biz-overview-y', (-72 * progress).toFixed(2) + 'px');
     head.style.setProperty('--biz-overview-max-height', (180 * (1 - progress)).toFixed(2) + 'px');
-    if (label) label.style.setProperty('--biz-overview-follow-y', (-128 * progress).toFixed(2) + 'px');
-    if (pin) pin.style.setProperty('--biz-overview-follow-y', (-128 * progress).toFixed(2) + 'px');
+    const labelShift = mobileQuery.matches ? -92 : -372;
+    const stackShift = mobileQuery.matches ? -124 : -419;
+    if (label) label.style.setProperty('--biz-overview-label-y', (labelShift * progress).toFixed(2) + 'px');
+    if (pin) pin.style.setProperty('--biz-overview-stack-y', (stackShift * progress).toFixed(2) + 'px');
     head.style.visibility = progress > 0.985 ? 'hidden' : 'visible';
   }
 
   function update() {
     const rect = section.getBoundingClientRect();
     renderOverview(rect);
-
-    if (mobileQuery.matches) {
-      activate(0);
-      return;
-    }
 
     const viewport = window.innerHeight || document.documentElement.clientHeight;
     const startDelay = Math.max(320, viewport * 0.46);
@@ -292,6 +292,14 @@
   }
   activate(0);
   update();
+})();
+
+/* ── Vision 카드: 기본 MISSON 펼침, 나머지는 hover/focus로 펼침 ── */
+(function () {
+  var vision = document.querySelector('.biz-vision');
+  if (!vision) return;
+  var mission = vision.querySelector('.biz-glass-card--mission');
+  if (mission) mission.classList.add('is-expanded');
 })();
 
 /* ── Vision: 스크롤에 맞춰 원형 다이어그램 회전 + 내용 전환 ── */
@@ -594,37 +602,6 @@
 })();
 
 /* ── ① GNB: gnb-scroll.js에서 처리 ─────────────────────────── */
-
-/* ── 커스텀 커서 (location 페이지와 동일) ───────────────────── */
-(function () {
-  if (window.matchMedia('(hover: none)').matches) return;
-  const el = document.getElementById('custom-cursor');
-  if (!el) return;
-  const HALF = 17;
-  // 이 페이지는 전체가 밝은 배경 → 본문/푸터/GNB 위에서 파란 링으로
-  const LIGHT_SELS = 'main, .biz-footer, .gnb';
-  let tx = -200, ty = -200, cx = -200, cy = -200, firstMove = false;
-  window.addEventListener('mousemove', function (e) {
-    tx = e.clientX; ty = e.clientY;
-    if (!firstMove) { firstMove = true; cx = tx; cy = ty; el.style.opacity = '1'; }
-    const hit = document.elementFromPoint(e.clientX, e.clientY);
-    el.classList.toggle('is-over-light', !!(hit && hit.closest(LIGHT_SELS)));
-  }, { passive: true });
-  document.addEventListener('mouseleave', function () { el.style.opacity = '0'; });
-  document.addEventListener('mouseenter', function () { if (firstMove) el.style.opacity = '1'; });
-  document.addEventListener('mousedown',  function () { el.classList.add('is-clicking'); });
-  document.addEventListener('mouseup',    function () { el.classList.remove('is-clicking'); });
-  document.addEventListener('mouseover', function (e) {
-    const over = e.target.closest('a, button, [role="button"], .biz-tag, input');
-    el.classList.toggle('is-hovering', !!over);
-  });
-  (function loop() {
-    cx += (tx - cx) * 0.2;
-    cy += (ty - cy) * 0.2;
-    el.style.transform = 'translate(' + (cx - HALF).toFixed(1) + 'px,' + (cy - HALF).toFixed(1) + 'px)';
-    requestAnimationFrame(loop);
-  })();
-})();
 
 /* ── ② 스크롤 등장 ────────────────────────────────────────── */
 (function () {

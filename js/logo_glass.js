@@ -113,6 +113,8 @@ const REFRACT = {
   tex: null,
   shaders: [],
   videoAspect: 16 / 9,
+  videoObjectPositionY: 0.5,
+  videoZoom: 1.0,
   refractAmt: STYLE.refractAmt ?? 0.07,
   refractMix: STYLE.refractMix ?? 0.9,
   waveAmt: STYLE.waveAmt ?? 0.0,
@@ -290,6 +292,8 @@ function makeVideoBackdrop(
       uViewport: { value: new THREE.Vector2(1, 1) },
       uVideoAspect: { value: REFRACT.videoAspect },
       uVideoAspect2: { value: REFRACT.videoAspect },
+      uVideoObjectPositionY: { value: REFRACT.videoObjectPositionY },
+      uVideoZoom: { value: REFRACT.videoZoom },
       uScrollOffset: { value: 0.0 },
       uMix: { value: 0.0 },
     },
@@ -308,6 +312,8 @@ function makeVideoBackdrop(
       uniform vec2 uViewport;
       uniform float uVideoAspect;
       uniform float uVideoAspect2;
+      uniform float uVideoObjectPositionY;
+      uniform float uVideoZoom;
       uniform float uScrollOffset;
       uniform float uMix;
       varying vec2 vUv;
@@ -315,10 +321,10 @@ function makeVideoBackdrop(
       vec2 coverUv(vec2 uv, float videoAspect) {
         float screenAspect = uViewport.x / uViewport.y;
         if (screenAspect > videoAspect) {
-          float s = videoAspect / screenAspect;
-          uv.y = (uv.y - 0.5) * s + 0.5;
+          float s = videoAspect / screenAspect / uVideoZoom;
+          uv.y = uv.y * s + (1.0 - s) * uVideoObjectPositionY;
         } else {
-          float s = screenAspect / videoAspect;
+          float s = screenAspect / videoAspect / uVideoZoom;
           uv.x = (uv.x - 0.5) * s + 0.5;
         }
         return uv;
@@ -351,6 +357,12 @@ function updateBackdropUniforms(plane, el) {
   plane.material.uniforms.uRectSize.value.set(rect.width, rect.height);
   plane.material.uniforms.uViewport.value.set(window.innerWidth, window.innerHeight);
   plane.material.uniforms.uVideoAspect.value = plane.userData.getVideoAspect?.() ?? REFRACT.videoAspect;
+  if (plane.material.uniforms.uVideoObjectPositionY) {
+    plane.material.uniforms.uVideoObjectPositionY.value = REFRACT.videoObjectPositionY;
+  }
+  if (plane.material.uniforms.uVideoZoom) {
+    plane.material.uniforms.uVideoZoom.value = REFRACT.videoZoom;
+  }
   if (plane.material.uniforms.uVideoAspect2) {
     plane.material.uniforms.uVideoAspect2.value = plane.userData.getMixVideoAspect?.() ?? REFRACT.videoAspect;
   }
@@ -636,7 +648,6 @@ async function initLogo3D() {
     videoEl.autoplay = true;
     videoEl.setAttribute('aria-hidden', 'true');
     videoEl.className = 'logo-bg-video';
-    hero.appendChild(videoEl);
     if (videoEl) {
       REFRACT.tex = new THREE.VideoTexture(videoEl);
       REFRACT.tex.colorSpace = THREE.SRGBColorSpace;
@@ -1268,14 +1279,14 @@ async function initLogo3D() {
   }
 
   /* --- 리사이즈 (iOS 주소창 변동 포함) --- */
-  let resizeRAF = null;
+  let resizeTimer = null;
   window.addEventListener('resize', () => {
-    cancelAnimationFrame(resizeRAF);
-    resizeRAF = requestAnimationFrame(() => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
       sizeRenderer();
-      if (ScrollTrigger) ScrollTrigger.refresh();
+      window.ScrollTrigger?.refresh?.();
       requestRender();
-    });
+    }, 200);
   });
 }
 

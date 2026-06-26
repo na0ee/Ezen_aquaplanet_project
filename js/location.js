@@ -67,7 +67,7 @@
         { image: 'assets/images/program/Yeosu_program_f.avif', title: '바다사자 생태설명회' }
       ],
       floors: ['1F', '2F', '3F'],
-      defaultFloor: '3F',
+      defaultFloor: '2F',
       maps: {
         '1F': 'assets/images/location/Yeosu1f.svg',
         '2F': 'assets/images/location/Yeosu2f.svg',
@@ -95,7 +95,7 @@
         { image: 'assets/images/programIL.png', title: '메인수조 투명보트 탑승 체험' }
       ],
       floors: ['B1F', '1F', '2F', '3F', '5F'],
-      defaultFloor: '1F',
+      defaultFloor: '2F',
       maps: {
         'B1F': 'assets/images/location/ilsanB1f.svg',
         '1F':  'assets/images/location/ilsan1f.svg',
@@ -126,8 +126,8 @@
         { image: 'assets/images/gwanggyo_guide_map04.jpg', title: "아쿠아플라넷 광교의 마스코트! '펭귄' 생태설명회" },
         { image: 'assets/images/program/Gwanggyo_program_e.avif', title: '머메이드쇼' }
       ],
-      floors: ['B1F', 'B2F'],
-      defaultFloor: 'B2F',
+      floors: ['B2F', 'B1F'],
+      defaultFloor: 'B1F',
       maps: {
         'B1F': 'assets/images/location/gwanggyoB1f.svg',
         'B2F': 'assets/images/location/gwanggyoB2f.svg'
@@ -202,9 +202,10 @@
 
     /* solo + exhibits 두 섹션의 floor-tabs 모두 갱신 */
     document.querySelectorAll('.loc-map__floor-tabs').forEach(function (tabs) {
+      tabs.classList.add('cartegory-tabs', 'cartegory-tabs-a');
       tabs.innerHTML = page.floors.map(function (floor) {
         var active = floor === page.defaultFloor;
-        return '<button class="loc-map__floor-tab' + (active ? ' is-active' : '') + '" role="tab" data-floor="' + floor + '" aria-selected="' + (active ? 'true' : 'false') + '">' + floor + '</button>';
+        return '<button class="loc-map__floor-tab cartegory-tabs-a__item' + (active ? ' cartegory-tabs-a__item--active is-active' : '') + '" role="tab" data-floor="' + floor + '" aria-selected="' + (active ? 'true' : 'false') + '">' + floor + '</button>';
       }).join('');
     });
 
@@ -334,7 +335,7 @@
   var currentFloor = isIlsan     ? LOCATION_PAGES.ilsan.defaultFloor
                    : isYeosu    ? LOCATION_PAGES.yeosu.defaultFloor
                    : isGwanggyo ? LOCATION_PAGES.gwanggyo.defaultFloor
-                   : '2F';
+                   : '1F';
   var currentDataByKey = {};
   var currentExhibits = [];
   var activeZone = '';
@@ -359,70 +360,70 @@
       { key: 'haenyeo', zone: 'A', name: '해녀전시', floor: '2F', thumb: 'assets/images/jeju_guide_thum47 1.png', image: 'assets/images/jeju_guide_map47.jpg', desc: '"물 그리고 숨 : 제주 해녀의 바다"\n해녀의 삶을 다양한 작품을 통해 만나보세요.' },
       { key: 'special-artshop', zone: 'A', name: '특별전시관 아트샵', floor: '2F', thumb: 'assets/images/jeju_guide_thum34.jpg', image: 'assets/images/jeju_guide_map34.jpg', desc: '특별전시와 연계된 아트 상품을 만나볼 수 있습니다.' },
       { key: 'gs25', zone: 'B', name: 'GS25', floor: '2F', thumb: 'assets/images/jeju_guide_thum18 1.png', image: 'assets/images/jeju_guide_thum18 1.png', desc: '관람 중 필요한 물품을 편리하게 구매할 수 있습니다.' },
-      { key: 'weeny-beeny', zone: 'B', name: '위니비니', floor: '2F', thumb: 'assets/images/jeju_guide_thum48 1.png', image: 'assets/images/jeju_guide_map48.jpg', desc: '달콤한 사탕과 다양한 과자를 만나볼 수 있는 캔디샵입니다.' },
-      { key: 'munseom', zone: 'C', name: '문섬', floor: '2F', thumb: 'assets/images/jeju_guide_thum01 1.png', image: 'assets/images/jeju_guide_map01.jpg', desc: '제주 앞 바다의 문섬이 화려한 산호초와\n열대어로 여러분을 맞이합니다.' },
-      { key: 'world-island', zone: 'C', name: '세계의 섬', floor: '2F', thumb: 'assets/images/jeju_guide_thum02 1.png', image: 'assets/images/jeju_guide_map02.jpg', desc: '세계의 섬 곳곳에 있는 물고기들의 총집합' },
-      { key: 'harbor', zone: 'C', name: '물범(상부) · 하버플라넷', floor: '2F', thumb: 'assets/images/jeju_guide_thum03 1.png', image: 'assets/images/jeju_guide_map03.jpg', desc: '동글동글한 생김새가 귀여운 잔점박이 물범을 만나보세요.' },
-      { key: 'penguin-vr', zone: 'C', name: '펭귄(상부) · 펭귄플라넷', floor: '2F', thumb: 'assets/images/jeju_guide_thum04 1.png', image: 'assets/images/jeju_guide_map04.jpg', desc: '아프리카 펭귄 친구들의 생생한 모습을 VR로 만나보세요.' },
-      { key: 'tunnel', zone: 'C', name: '주상절리 터널', floor: '2F', thumb: 'assets/images/jeju_guide_thum05 1.png', image: 'assets/images/jeju_guide_map05.jpg', desc: '제주의 주상절리를 닮은 신비로운 터널을 체험해보세요.' }
+      { key: 'weeny-beeny', zone: 'B', name: '위니비니', floor: '2F', thumb: 'assets/images/location/location_jeju_2f_guideImg02.avif', image: 'assets/images/location/location_jeju_2f_guideImg02.avif', desc: '달콤한 사탕과 다양한 과자를 만나볼 수 있는 캔디샵입니다.' },
+      { key: 'munseom', zone: 'C', name: '문섬', floor: '2F', thumb: 'assets/images/location/location_jeju_guideImg02.avif', image: 'assets/images/location/location_jeju_guideImg02.avif', desc: '제주 앞 바다의 문섬이 화려한 산호초와 열대어로 여러분을 맞이합니다.' },
+      { key: 'world-island', zone: 'C', name: '세계의 섬', floor: '2F', thumb: 'assets/images/location/location_jeju_guideImg01.avif', image: 'assets/images/location/location_jeju_guideImg01.avif', desc: '세계의 섬 곳곳에 있는 물고기들의 총집합' },
+      { key: 'harbor', zone: 'C', name: '물범(상부) · 하버플라넷', floor: '2F', thumb: 'assets/images/location/location_jeju_guideImg03.avif', image: 'assets/images/location/location_jeju_guideImg03.avif', desc: '동글동글한 생김새가 귀여운 잔점박이 물범을 만나보세요.' },
+      { key: 'penguin-vr', zone: 'C', name: '펭귄(상부) · 펭귄플라넷', floor: '2F', thumb: 'assets/images/location/location_jeju_guideImg08.avif', image: 'assets/images/location/location_jeju_guideImg08.avif', desc: '아프리카 펭귄 친구들의 생생한 모습을 VR로 만나보세요.' },
+      { key: 'tunnel', zone: 'C', name: '주상절리 터널', floor: '2F', thumb: 'assets/images/location/location_jeju_guideImg04.avif', image: 'assets/images/location/location_jeju_guideImg04.avif', desc: '제주의 주상절리를 닮은 신비로운 터널을 체험해보세요.' }
     ],
     '1F': [
-      { key: 'dunkin', zone: 'D', name: '던킨', floor: '1F', thumb: 'assets/images/jeju_guide_thum29.jpg', image: 'assets/images/jeju_guide_map29.jpg', desc: '관람 중 간단한 음료와 간식을 즐길 수 있습니다.' },
-      { key: 'dancing-seal-vr', zone: 'E', name: '물범(하부) / 댄싱 물범', floor: '1F', thumb: 'assets/images/jeju_guide_thum20.jpg', image: 'assets/images/jeju_guide_map20.jpg', desc: '실린더 관을 누비는 물범의 모습을 VR로 만나보세요.' },
-      { key: 'flying-penguin-vr', zone: 'E', name: '펭귄(하부) / 플라잉 펭귄', floor: '1F', thumb: 'assets/images/jeju_guide_thum21.jpg', image: 'assets/images/jeju_guide_map21.jpg', desc: '물속을 나는 듯 헤엄치는 펭귄을 VR로 만나보세요.' },
-      { key: 'aqua-safari-vr', zone: 'E', name: '아쿠아 사파리', floor: '1F', thumb: 'assets/images/jeju_guide_thum22.jpg', image: 'assets/images/jeju_guide_map22.jpg', desc: '다양한 해양생물의 세계를 VR로 체험해보세요.' },
-      { key: 'living-ocean', zone: 'E', name: '리빙오션', floor: '1F', thumb: 'assets/images/jeju_guide_thum23.jpg', image: 'assets/images/jeju_guide_map23.jpg', desc: '독특하고 신기한 바다생물들을 만나보세요.' },
-      { key: 'large-shark', zone: 'E', name: '대형 상어', floor: '1F', thumb: 'assets/images/jeju_guide_thum24.jpg', image: 'assets/images/jeju_guide_map24.jpg', desc: '다양한 종류의 상어를 유리 너머 가까이서 관찰하세요.' },
-      { key: 'undersea-tunnel-vr', zone: 'E', name: '해저터널', floor: '1F', thumb: 'assets/images/jeju_guide_thum25.jpg', image: 'assets/images/jeju_guide_map25.jpg', desc: '해저터널의 생생한 풍경을 VR로 경험해보세요.' },
-      { key: 'touch-pool', zone: 'E', name: '바다 놀이터(터치풀)', floor: '1F', thumb: 'assets/images/jeju_guide_thum26.jpg', image: 'assets/images/jeju_guide_map26.jpg', desc: '바다생물을 가까이에서 관찰하고 교감해보세요.' },
-      { key: 'baikal-seal', zone: 'E', name: '바이칼물범', floor: '1F', thumb: 'assets/images/jeju_guide_thum27.jpg', image: 'assets/images/jeju_guide_map27.jpg', desc: '귀여운 바이칼물범의 일상을 만나보세요.' }
+      { key: 'dunkin', zone: 'D', name: '던킨', floor: '1F', thumb: 'assets/images/location/location_jeju_1f_guideImg01.avif', image: 'assets/images/location/location_jeju_1f_guideImg01.avif', desc: '관람 중 간단한 음료와 간식을 즐길 수 있습니다.' },
+      { key: 'dancing-seal-vr', zone: 'E', name: '물범(하부) / 댄싱 물범', floor: '1F', thumb: 'assets/images/location/location_jeju_1f_guideImg03.avif', image: 'assets/images/location/location_jeju_1f_guideImg03.avif', desc: '실린더 관을 누비는 물범의 모습을 VR로 만나보세요.' },
+      { key: 'flying-penguin-vr', zone: 'E', name: '펭귄(하부) / 플라잉 펭귄', floor: '1F', thumb: 'assets/images/location/location_jeju_1f_guideImg04.avif', image: 'assets/images/location/location_jeju_1f_guideImg04.avif', desc: '물속을 나는 듯 헤엄치는 펭귄을 VR로 만나보세요.' },
+      { key: 'aqua-safari-vr', zone: 'E', name: '아쿠아 사파리', floor: '1F', thumb: 'assets/images/location/location_jeju_1f_guideImg04.avif', image: 'assets/images/location/location_jeju_1f_guideImg04.avif', desc: '다양한 해양생물의 세계를 VR로 체험해보세요.' },
+      { key: 'living-ocean', zone: 'E', name: '리빙오션', floor: '1F', thumb: 'assets/images/location/location_jeju_1f_guideImg06.avif', image: 'assets/images/location/location_jeju_1f_guideImg06.avif', desc: '독특하고 신기한 바다생물들을 만나보세요.' },
+      { key: 'large-shark', zone: 'E', name: '대형 상어', floor: '1F', thumb: 'assets/images/location/location_jeju_1f_guideImg05.avif', image: 'assets/images/location/location_jeju_1f_guideImg05.avif', desc: '다양한 종류의 상어를 유리 너머 가까이서 관찰하세요.' },
+      { key: 'undersea-tunnel-vr', zone: 'E', name: '해저터널', floor: '1F', thumb: 'assets/images/location/location_jeju_1f_guideImg06.avif', image: 'assets/images/location/location_jeju_1f_guideImg06.avif', desc: '해저터널의 생생한 풍경을 VR로 경험해보세요.' },
+      { key: 'touch-pool', zone: 'E', name: '바다 놀이터(터치풀)', floor: '1F', thumb: 'assets/images/location/location_jeju_1f_guideImg02.avif', image: 'assets/images/location/location_jeju_1f_guideImg02.avif', desc: '바다생물을 가까이에서 관찰하고 교감해보세요.' },
+      { key: 'baikal-seal', zone: 'E', name: '바이칼물범', floor: '1F', thumb: 'assets/images/location/location_jeju_1f_guideImg02.avif', image: 'assets/images/location/location_jeju_1f_guideImg02.avif', desc: '귀여운 바이칼물범의 일상을 만나보세요.' }
     ],
     'B1F': [
-      { key: 'aquaterrace', zone: 'F', name: '아쿠아테라스', floor: 'B1F', thumb: 'assets/images/jeju_guide_thum36.jpg', image: 'assets/images/jeju_guide_map36.jpg', desc: '제주의 풍경과 함께 다양한 식사를 즐길 수 있습니다.' },
-      { key: 'giftshop', zone: 'F', name: '기프트샵', floor: 'B1F', thumb: 'assets/images/jeju_guide_thum34.jpg', image: 'assets/images/jeju_guide_map34.jpg', desc: '아쿠아플라넷 공식 굿즈와 기념품을 구매할 수 있습니다.' },
-      { key: 'aquacafe', zone: 'F', name: '아쿠아카페', floor: 'B1F', thumb: 'assets/images/jeju_guide_map33.jpg', image: 'assets/images/jeju_guide_map33.jpg', desc: '관람 중 편안하게 쉬며 음료와 간식을 즐겨보세요.' },
-      { key: 'jeju-sea-vr', zone: 'G', name: '메인수조 : 제주의 바다', floor: 'B1F', thumb: 'assets/images/jeju_guide_thum30.jpg', image: 'assets/images/jeju_guide_map30.jpg', desc: '국내 최대 규모의 메인수조를 VR로 생생하게 체험해보세요.' },
-      { key: 'under-ocean-arena', zone: 'G', name: '언더 오션 아레나', floor: 'B1F', thumb: 'assets/images/jeju_guide_thum31.jpg', image: 'assets/images/jeju_guide_map31.jpg', desc: '오션 아레나 아래에서 펼쳐지는 특별한 해양 공간입니다.' },
+      { key: 'aquaterrace', zone: 'F', name: '아쿠아테라스', floor: 'B1F', thumb: 'assets/images/location/location_ilsan_2f_guideImg02.avif', image: 'assets/images/location/location_ilsan_2f_guideImg02.avif', desc: '제주의 풍경과 함께 다양한 식사를 즐길 수 있습니다.' },
+      { key: 'giftshop', zone: 'F', name: '기프트샵', floor: 'B1F', thumb: 'assets/images/location/location_yeosu_1f_guideImg05.avif', image: 'assets/images/location/location_yeosu_1f_guideImg05.avif', desc: '아쿠아플라넷 공식 굿즈와 기념품을 구매할 수 있습니다.' },
+      { key: 'aquacafe', zone: 'F', name: '아쿠아카페', floor: 'B1F', thumb: 'assets/images/location/location_ilsan_2f_guideImg02.avif', image: 'assets/images/location/location_ilsan_2f_guideImg02.avif', desc: '관람 중 편안하게 쉬며 음료와 간식을 즐겨보세요.' },
+      { key: 'jeju-sea-vr', zone: 'G', name: '메인수조 : 제주의 바다', floor: 'B1F', thumb: 'assets/images/location/location_jeju_b1f_guideImg03.avif', image: 'assets/images/location/location_jeju_b1f_guideImg03.avif', desc: '국내 최대 규모의 메인수조를 VR로 생생하게 체험해보세요.' },
+      { key: 'under-ocean-arena', zone: 'G', name: '언더 오션 아레나', floor: 'B1F', thumb: 'assets/images/location/location_ilsan_3f_guideImg02.avif', image: 'assets/images/location/location_ilsan_3f_guideImg02.avif', desc: '오션 아레나 아래에서 펼쳐지는 특별한 해양 공간입니다.' },
       { key: 'therapy-dome', zone: 'G', name: '테라피 돔', floor: 'B1F', thumb: 'assets/images/jeju_guide_thum32.jpg', image: 'assets/images/jeju_guide_map32.jpg', desc: '바다의 빛과 움직임을 편안하게 감상하는 공간입니다.' },
-      { key: 'ocean-arena', zone: 'H', name: '오션아레나', floor: 'B1F', thumb: 'assets/images/jeju_guide_thum28.jpg', image: 'assets/images/jeju_guide_thum28.jpg', desc: '대형 공연장에서 펼쳐지는 화려한 퍼포먼스를 즐겨보세요.' }
+      { key: 'ocean-arena', zone: 'H', name: '오션아레나', floor: 'B1F', thumb: 'assets/images/location/location_ilsan_3f_guideImg02.avif', image: 'assets/images/location/location_ilsan_3f_guideImg02.avif', desc: '대형 공연장에서 펼쳐지는 화려한 퍼포먼스를 즐겨보세요.' }
     ]
   };
 
   var ILSAN_EXHIBITS = {
     'B1F': [
-      { key: 'insects',  zone: 'A', name: '곤충관',       floor: 'B1F', thumb: 'assets/images/ilsan_guide_thum01.jpg', image: 'assets/images/ilsan_guide_map01.jpg', desc: '다양한 곤충들을 가까이서 관찰할 수 있는 전시 공간입니다.' },
-      { key: 'reptiles', zone: 'A', name: '파충류관',     floor: 'B1F', thumb: 'assets/images/ilsan_guide_thum02.jpg', image: 'assets/images/ilsan_guide_map02.jpg', desc: '신비로운 파충류들의 세계를 만나보세요.' },
-      { key: 'vivarium', zone: 'A', name: '비바리움관',   floor: 'B1F', thumb: 'assets/images/ilsan_guide_thum03.jpg', image: 'assets/images/ilsan_guide_map03.jpg', desc: '식물과 동물이 공존하는 자연 생태계 전시 공간입니다.' }
+      { key: 'insects',  zone: 'A', name: '곤충관',       floor: 'B1F', thumb: 'assets/images/location/location_ilsan_b1f_guideImg01.avif', image: 'assets/images/location/location_ilsan_b1f_guideImg01.avif', desc: '다양한 곤충들을 가까이서 관찰할 수 있는 전시 공간입니다.' },
+      { key: 'reptiles', zone: 'A', name: '파충류관',     floor: 'B1F', thumb: 'assets/images/location/location_ilsan_b1f_guideImg.avif', image: 'assets/images/location/location_ilsan_b1f_guideImg.avif', desc: '신비로운 파충류들의 세계를 만나보세요.' },
+      { key: 'vivarium', zone: 'A', name: '비바리움관',   floor: 'B1F', thumb: 'assets/images/location/location_ilsan_b1f_guideImg02.avif', image: 'assets/images/location/location_ilsan_b1f_guideImg02.avif', desc: '식물과 동물이 공존하는 자연 생태계 전시 공간입니다.' }
     ],
     '1F': [
-      { key: 'ticket',    zone: 'B', name: '매표소',   floor: '1F', thumb: 'assets/images/ilsan_guide_thum05.jpg', image: 'assets/images/ilsan_guide_map05.jpg', desc: '입장권 구매 및 안내 서비스를 제공합니다.' },
-      { key: 'nursing',   zone: 'B', name: '수유실',   floor: '1F', thumb: 'assets/images/ilsan_guide_thum06.jpg', image: 'assets/images/ilsan_guide_map06.jpg', desc: '영아와 함께 방문하시는 가족을 위한 편의 공간입니다.' },
-      { key: 'foodcourt', zone: 'B', name: '푸드코트', floor: '1F', thumb: 'assets/images/ilsan_guide_thum07.jpg', image: 'assets/images/ilsan_guide_map07.jpg', desc: '관람 중 다양한 식사와 간식을 즐길 수 있습니다.' }
+      { key: 'ticket',    zone: 'B', name: '매표소',   floor: '1F', thumb: 'assets/images/location/location_ilsan_1f_guideImg01.avif', image: 'assets/images/location/location_ilsan_1f_guideImg01.avif', desc: '입장권 구매 및 안내 서비스를 제공합니다.' },
+      { key: 'nursing',   zone: 'B', name: '수유실',   floor: '1F', thumb: 'assets/images/location/location_ilsan_1f_guideImg02.avif', image: 'assets/images/location/location_ilsan_1f_guideImg02.avif', desc: '영아와 함께 방문하시는 가족을 위한 편의 공간입니다.' },
+      { key: 'foodcourt', zone: 'B', name: '푸드코트', floor: '1F', thumb: 'assets/images/location/location_ilsan_1f_guideImg03.avif', image: 'assets/images/location/location_ilsan_1f_guideImg03.avif', desc: '관람 중 다양한 식사와 간식을 즐길 수 있습니다.' }
     ],
     '2F': [
-      { key: 'bridge',    zone: 'C', name: '물 위를 걷는 스릴 브릿지 폭포다리', floor: '2F', thumb: 'assets/images/ilsan_guide_thum09.jpg', image: 'assets/images/ilsan_guide_map09.jpg', desc: '물 위를 가로지르는 스릴 넘치는 투명 브릿지 체험입니다.' },
-      { key: 'sandtiger', zone: 'D', name: '샌드타이거샤크',               floor: '2F', thumb: 'assets/images/ilsan_guide_thum10.jpg', image: 'assets/images/ilsan_guide_map10.jpg', desc: '날카로운 이빨의 샌드타이거샤크를 가까이서 만나보세요.' },
-      { key: 'deepblue',  zone: 'D', name: '딥 블루 오션 (메인수조)',       floor: '2F', thumb: 'assets/images/ilsan_guide_thum11.jpg', image: 'assets/images/ilsan_guide_map11.jpg', desc: '최대 2000톤 규모의 대형 메인수조에서 다양한 해양생물을 만나보세요.' },
-      { key: 'jellyfish', zone: 'D', name: '더 젤리피쉬',                   floor: '2F', thumb: 'assets/images/ilsan_guide_thum12.jpg', image: 'assets/images/ilsan_guide_map12.jpg', desc: '신비롭고 아름다운 해파리들의 세계를 감상해보세요.' },
-      { key: 'aquacafe',  zone: 'E', name: '바다 속 아쿠아카페',            floor: '2F', thumb: 'assets/images/ilsan_guide_thum13.jpg', image: 'assets/images/ilsan_guide_map13.jpg', desc: '바다 전망과 함께 음료와 간식을 즐길 수 있는 카페입니다.' },
-      { key: 'giftshop',  zone: 'E', name: '추억을 남겨가는 기프트 샵',    floor: '2F', thumb: 'assets/images/ilsan_guide_thum15.jpg', image: 'assets/images/ilsan_guide_map15.jpg', desc: '아쿠아플라넷 공식 굿즈와 다양한 기념품을 구매할 수 있습니다.' }
+      { key: 'bridge',    zone: 'C', name: '물 위를 걷는 스릴 브릿지 폭포다리', floor: '2F', thumb: 'assets/images/location/location_ilsan_2f_guideImg01.avif', image: 'assets/images/location/location_ilsan_2f_guideImg01.avif', desc: '물 위를 가로지르는 스릴 넘치는 투명 브릿지 체험입니다.' },
+      { key: 'sandtiger', zone: 'D', name: '샌드타이거샤크',               floor: '2F', thumb: 'assets/images/location/location_ilsan_2f_guideImg05.avif', image: 'assets/images/location/location_ilsan_2f_guideImg05.avif', desc: '날카로운 이빨의 샌드타이거샤크를 가까이서 만나보세요.' },
+      { key: 'deepblue',  zone: 'D', name: '딥 블루 오션 (메인수조)',       floor: '2F', thumb: 'assets/images/location/location_ilsan_2f_guideImg03.avif', image: 'assets/images/location/location_ilsan_2f_guideImg03.avif', desc: '최대 2000톤 규모의 대형 메인수조에서 다양한 해양생물을 만나보세요.' },
+      { key: 'jellyfish', zone: 'D', name: '더 젤리피쉬',                   floor: '2F', thumb: 'assets/images/location/location_ilsan_2f_guideImg04.avif', image: 'assets/images/location/location_ilsan_2f_guideImg04.avif', desc: '신비롭고 아름다운 해파리들의 세계를 감상해보세요.' },
+      { key: 'aquacafe',  zone: 'E', name: '바다 속 아쿠아카페',            floor: '2F', thumb: 'assets/images/location/location_ilsan_2f_guideImg02.avif', image: 'assets/images/location/location_ilsan_2f_guideImg02.avif', desc: '바다 전망과 함께 음료와 간식을 즐길 수 있는 카페입니다.' },
+      { key: 'giftshop',  zone: 'E', name: '추억을 남겨가는 기프트 샵',    floor: '2F', thumb: 'assets/images/location/location_yeosu_1f_guideImg05.avif', image: 'assets/images/location/location_yeosu_1f_guideImg05.avif', desc: '아쿠아플라넷 공식 굿즈와 다양한 기념품을 구매할 수 있습니다.' }
     ],
     '3F': [
-      { key: 'rockplay',      zone: 'F', name: '바위놀이터',           floor: '3F', thumb: 'assets/images/ilsan_guide_thum16.jpg', image: 'assets/images/ilsan_guide_map16.jpg', desc: '아이들이 신나게 뛰어놀 수 있는 자연 테마 놀이터입니다.' },
-      { key: 'lemur',         zone: 'F', name: '알락꼬리 여우원숭이', floor: '3F', thumb: 'assets/images/ilsan_guide_thum17.jpg', image: 'assets/images/ilsan_guide_map17.jpg', desc: '마다가스카르 출신의 귀여운 알락꼬리 여우원숭이를 만나보세요.' },
-      { key: 'penguinvillage',zone: 'G', name: '펭귄빌리지',          floor: '3F', thumb: 'assets/images/ilsan_guide_thum19.jpg', image: 'assets/images/ilsan_guide_map19.jpg', desc: '귀여운 펭귄들이 사는 마을에서 특별한 만남을 경험해보세요.' },
-      { key: 'freshwater',    zone: 'G', name: '담수터널',            floor: '3F', thumb: 'assets/images/ilsan_guide_thum20.jpg', image: 'assets/images/ilsan_guide_map20.jpg', desc: '민물고기들이 가득한 투명 터널을 걸어보세요.' },
-      { key: 'penguin',       zone: 'G', name: '펭귄',               floor: '3F', thumb: 'assets/images/ilsan_guide_thum21.jpg', image: 'assets/images/ilsan_guide_map21.jpg', desc: '생생한 펭귄의 일상을 가까이서 관찰해보세요.' },
-      { key: 'oceanarena3f',  zone: 'G', name: '오션 아레나',        floor: '3F', thumb: 'assets/images/ilsan_guide_thum22.jpg', image: 'assets/images/ilsan_guide_map22.jpg', desc: '화려한 해양 퍼포먼스가 펼쳐지는 대형 공연장입니다.' },
-      { key: 'touchpool',     zone: 'G', name: '터치 풀',            floor: '3F', thumb: 'assets/images/ilsan_guide_thum23.jpg', image: 'assets/images/ilsan_guide_map23.jpg', desc: '바다생물을 직접 만지며 교감할 수 있는 체험 공간입니다.' }
+      { key: 'rockplay',      zone: 'F', name: '바위놀이터',           floor: '3F', thumb: 'assets/images/location/location_ilsan_rock.avif', image: 'assets/images/location/location_ilsan_rock.avif', desc: '아이들이 신나게 뛰어놀 수 있는 자연 테마 놀이터입니다.' },
+      { key: 'lemur',         zone: 'F', name: '알락꼬리 여우원숭이', floor: '3F', thumb: 'assets/images/location/location_ilsan_al.avif', image: 'assets/images/location/location_ilsan_al.avif', desc: '마다가스카르 출신의 귀여운 알락꼬리 여우원숭이를 만나보세요.' },
+      { key: 'penguinvillage',zone: 'G', name: '펭귄빌리지',          floor: '3F', thumb: 'assets/images/location/location_ilsan_3f_guideImg05.avif', image: 'assets/images/location/location_ilsan_3f_guideImg05.avif', desc: '귀여운 펭귄들이 사는 마을에서 특별한 만남을 경험해보세요.' },
+      { key: 'freshwater',    zone: 'G', name: '담수터널',            floor: '3F', thumb: 'assets/images/location/location_ilsan_3f_guideImg03.avif', image: 'assets/images/location/location_ilsan_3f_guideImg03.avif', desc: '민물고기들이 가득한 투명 터널을 걸어보세요.' },
+      { key: 'penguin',       zone: 'G', name: '펭귄',               floor: '3F', thumb: 'assets/images/location/location_ilsan_3f_guideImg04.avif', image: 'assets/images/location/location_ilsan_3f_guideImg04.avif', desc: '생생한 펭귄의 일상을 가까이서 관찰해보세요.' },
+      { key: 'oceanarena3f',  zone: 'G', name: '오션 아레나',        floor: '3F', thumb: 'assets/images/location/location_ilsan_3f_guideImg02.avif', image: 'assets/images/location/location_ilsan_3f_guideImg02.avif', desc: '화려한 해양 퍼포먼스가 펼쳐지는 대형 공연장입니다.' },
+      { key: 'touchpool',     zone: 'G', name: '터치 풀',            floor: '3F', thumb: 'assets/images/location/location_ilsan_3f_guideImg01.avif', image: 'assets/images/location/location_ilsan_3f_guideImg01.avif', desc: '바다생물을 직접 만지며 교감할 수 있는 체험 공간입니다.' }
     ],
     '5F': [
-      { key: 'donkey', zone: 'H', name: '당나귀',          floor: '5F', thumb: 'assets/images/ilsan_guide_thum24.jpg', image: 'assets/images/ilsan_guide_map24.jpg', desc: '순하고 친근한 당나귀를 만나볼 수 있습니다.' },
-      { key: 'duck',   zone: 'H', name: '오리',            floor: '5F', thumb: 'assets/images/ilsan_guide_thum29.jpg', image: 'assets/images/ilsan_guide_map29.jpg', desc: '귀여운 오리들의 생동감 넘치는 모습을 관찰해보세요.' },
-      { key: 'pony',   zone: 'H', name: '셰틀랜드 포니', floor: '5F', thumb: 'assets/images/ilsan_guide_thum30.jpg', image: 'assets/images/ilsan_guide_map30.jpg', desc: '작고 귀여운 셰틀랜드 포니와 교감해보세요.' },
-      { key: 'sheep',  zone: 'H', name: '양',              floor: '5F', thumb: 'assets/images/ilsan_guide_thum31.jpg', image: 'assets/images/ilsan_guide_map31.jpg', desc: '폭신폭신한 양들과 함께하는 특별한 시간을 보내보세요.' },
-      { key: 'goat',   zone: 'H', name: '염소',            floor: '5F', thumb: 'assets/images/ilsan_guide_thum32.jpg', image: 'assets/images/ilsan_guide_map32.jpg', desc: '장난기 넘치는 염소들을 만나보세요.' },
-      { key: 'rabbit', zone: 'H', name: '토끼',            floor: '5F', thumb: 'assets/images/ilsan_guide_thum32.jpg', image: 'assets/images/ilsan_guide_map32.jpg', desc: '사랑스러운 토끼들과 교감하는 힐링 시간입니다.' }
+      { key: 'donkey', zone: 'H', name: '당나귀',          floor: '5F', thumb: 'assets/images/location/location_ilsan_5f_guideImg01.avif', image: 'assets/images/location/location_ilsan_5f_guideImg01.avif', desc: '순하고 친근한 당나귀를 만나볼 수 있습니다.' },
+      { key: 'duck',   zone: 'H', name: '오리',            floor: '5F', thumb: 'assets/images/location/location_ilsan_5f_guideImg04.avif', image: 'assets/images/location/location_ilsan_5f_guideImg04.avif', desc: '귀여운 오리들의 생동감 넘치는 모습을 관찰해보세요.' },
+      { key: 'pony',   zone: 'H', name: '셰틀랜드 포니', floor: '5F', thumb: 'assets/images/location/location_ilsan_5f_guideImg02.avif', image: 'assets/images/location/location_ilsan_5f_guideImg02.avif', desc: '작고 귀여운 셰틀랜드 포니와 교감해보세요.' },
+      { key: 'sheep',  zone: 'H', name: '양',              floor: '5F', thumb: 'assets/images/location/location_ilsan_5f_guideImg05.avif', image: 'assets/images/location/location_ilsan_5f_guideImg05.avif', desc: '폭신폭신한 양들과 함께하는 특별한 시간을 보내보세요.' },
+      { key: 'goat',   zone: 'H', name: '염소',            floor: '5F', thumb: 'assets/images/location/location_ilsan_5f_guideImg03.avif', image: 'assets/images/location/location_ilsan_5f_guideImg03.avif', desc: '장난기 넘치는 염소들을 만나보세요.' },
+      { key: 'rabbit', zone: 'H', name: '토끼',            floor: '5F', thumb: 'assets/images/location/location_ilsan_5f_guideImg07.avif', image: 'assets/images/location/location_ilsan_5f_guideImg07.avif', desc: '사랑스러운 토끼들과 교감하는 힐링 시간입니다.' }
     ]
   };
 
@@ -439,11 +440,11 @@
       { zone: 'E', left: 657, top: 550 }
     ],
     'B1F': [
-      { zone: 'F', left: 365, top: 209 },
-      { zone: 'F', left: 509, top: 327 },
+      { zone: 'F', left: 334, top: 157 },
+      { zone: 'F', left: 479, top: 287 },
       { zone: 'F', left: 773, top: 312 },
       { zone: 'G', left: 754, top: 523 },
-      { zone: 'H', left: 1125, top: 442 }
+      { zone: 'H', left: 1095, top: 402 }
     ]
   };
 
@@ -459,9 +460,9 @@
       { zone: 'A', left: 1090, top: 260 }
     ],
     '1F': [
-      { zone: 'B', left: 800, top: 500 },
-      { zone: 'B', left: 1000, top: 376 },
-      { zone: 'B', left: 1217, top: 369 }
+      { zone: 'B', left: 787, top: 524 },
+      { zone: 'B', left: 997, top: 395 },
+      { zone: 'B', left: 1230, top: 394 }
     ],
     '2F': [
       { zone: 'C', left: 213, top: 355 },
@@ -487,58 +488,58 @@
 
   var YEOSU_EXHIBITS = {
     '1F': [
-      { key: 'yr-monet',    zone: 'A', name: '클로드 모네, 빛의 순간들 展', floor: '1F', thumb: 'assets/images/yeosu_guide_thum35.jpg', image: 'assets/images/yeosu_guide_map35.jpg', desc: '인상파의 거장 클로드 모네의 작품 세계를 빛과 영상으로 재해석한 몰입형 미디어 아트 특별 전시입니다.' },
-      { key: 'yr-artshop',  zone: 'A', name: '아트샵',               floor: '1F', thumb: 'assets/images/yeosu_guide_thum36.jpg', image: 'assets/images/yeosu_guide_map36.jpg', desc: '전시와 연계된 아트 상품을 만나볼 수 있습니다.' },
-      { key: 'yr-oceancinema', zone: 'B', name: '오션시네마',        floor: '1F', thumb: 'assets/images/yeosu_guide_thum02.jpg', image: 'assets/images/yeosu_guide_map02.jpg', desc: '바다를 배경으로 한 몰입형 영상을 감상할 수 있는 특별한 시네마 공간입니다.' },
-      { key: 'yr-fishnfish', zone: 'C', name: 'Fish n fish (기프트샵)', floor: '1F', thumb: 'assets/images/yeosu_guide_thum03.jpg', image: 'assets/images/yeosu_guide_map03.jpg', desc: '아쿠아플라넷 공식 굿즈와 다양한 기념품을 구매할 수 있습니다.' },
-      { key: 'yr-aquaterr',  zone: 'C', name: '아쿠아테라스 (푸드코트)', floor: '1F', thumb: 'assets/images/yeosu_guide_thum34.jpg', image: 'assets/images/yeosu_guide_map34.jpg', desc: '여수 바다 전망과 함께 다양한 식사를 즐길 수 있는 테라스 레스토랑입니다.' },
-      { key: 'yr-cafe1f',    zone: 'C', name: '아쿠아카페 (1F)',     floor: '1F', thumb: 'assets/images/yeosu_guide_thum05.jpg', image: 'assets/images/yeosu_guide_map05.jpg', desc: '1층에서 편안하게 쉬며 음료와 간식을 즐겨보세요.' },
-      { key: 'yr-cafe2f',    zone: 'C', name: '아쿠아카페 (2F)',     floor: '1F', thumb: 'assets/images/yeosu_guide_thum04.jpg', image: 'assets/images/yeosu_guide_map04.jpg', desc: '2층에서 편안하게 쉬며 음료와 간식을 즐겨보세요.' },
-      { key: 'yr-samdaeok',  zone: 'C', name: '삼대옥',              floor: '1F', thumb: 'assets/images/yeosu_guide_thum37.jpg', image: 'assets/images/yeosu_guide_map37.jpg', desc: '관람 전후 맛있는 식사를 즐길 수 있습니다.' },
-      { key: 'yr-nyangchike',zone: 'C', name: '냥치케',              floor: '1F', thumb: 'assets/images/yeosu_guide_thum38.jpg', image: 'assets/images/yeosu_guide_map38.jpg', desc: '여수의 명물 냥치케에서 특별한 시간을 보내보세요.' }
+      { key: 'yr-monet',    zone: 'A', name: '클로드 모네, 빛의 순간들 展', floor: '1F', thumb: 'assets/images/location/location_yeosu_1f_guideImg03.avif', image: 'assets/images/location/location_yeosu_1f_guideImg03.avif', desc: '인상파의 거장 클로드 모네의 작품 세계를 빛과 영상으로 재해석한 몰입형 미디어 아트 특별 전시입니다.' },
+      { key: 'yr-artshop',  zone: 'A', name: '아트샵',               floor: '1F', thumb: 'assets/images/location/location_yeosu_1f_guideImg04.avif', image: 'assets/images/location/location_yeosu_1f_guideImg04.avif', desc: '전시와 연계된 아트 상품을 만나볼 수 있습니다.' },
+      { key: 'yr-oceancinema', zone: 'B', name: '오션시네마',        floor: '1F', thumb: 'assets/images/location/location_yeosu_1f_guideImg02.avif', image: 'assets/images/location/location_yeosu_1f_guideImg02.avif', desc: '바다를 배경으로 한 몰입형 영상을 감상할 수 있는 특별한 시네마 공간입니다.' },
+      { key: 'yr-fishnfish', zone: 'C', name: 'Fish n fish (기프트샵)', floor: '1F', thumb: 'assets/images/location/location_yeosu_1f_guideImg05.avif', image: 'assets/images/location/location_yeosu_1f_guideImg05.avif', desc: '아쿠아플라넷 공식 굿즈와 다양한 기념품을 구매할 수 있습니다.' },
+      { key: 'yr-aquaterr',  zone: 'C', name: '아쿠아테라스 (푸드코트)', floor: '1F', thumb: 'assets/images/location/location_yeosu_1f_guideImg01.avif', image: 'assets/images/location/location_yeosu_1f_guideImg01.avif', desc: '여수 바다 전망과 함께 다양한 식사를 즐길 수 있는 테라스 레스토랑입니다.' },
+      { key: 'yr-cafe1f',    zone: 'C', name: '아쿠아카페 (1F)',     floor: '1F', thumb: 'assets/images/location/location_ilsan_2f_guideImg02.avif', image: 'assets/images/location/location_ilsan_2f_guideImg02.avif', desc: '1층에서 편안하게 쉬며 음료와 간식을 즐겨보세요.' },
+      { key: 'yr-cafe2f',    zone: 'C', name: '아쿠아카페 (2F)',     floor: '1F', thumb: 'assets/images/location/location_ilsan_2f_guideImg02.avif', image: 'assets/images/location/location_ilsan_2f_guideImg02.avif', desc: '2층에서 편안하게 쉬며 음료와 간식을 즐겨보세요.' },
+      { key: 'yr-samdaeok',  zone: 'C', name: '삼대옥',              floor: '1F', thumb: 'assets/images/location/location_yeosu_guideImg08.avif', image: 'assets/images/location/location_yeosu_guideImg08.avif', desc: '관람 전후 맛있는 식사를 즐길 수 있습니다.' },
+      { key: 'yr-nyangchike',zone: 'C', name: '냥치케',              floor: '1F', thumb: 'assets/images/location/location_yeosu_guideImg09.avif', image: 'assets/images/location/location_yeosu_guideImg09.avif', desc: '여수의 명물 냥치케에서 특별한 시간을 보내보세요.' }
     ],
     '2F': [
-      { key: 'yr-mediawall',  zone: 'D', name: '대형 미디어 월',     floor: '2F', thumb: 'assets/images/yeosu_guide_thum06.jpg', image: 'assets/images/yeosu_guide_map06.jpg', desc: '아쿠아포리스트를 가득 채우는 대형 미디어 월에서 디지털 자연의 경이로움을 경험하세요.' },
-      { key: 'yr-lifetree',   zone: 'D', name: '생명의 나무',        floor: '2F', thumb: 'assets/images/yeosu_guide_thum07.jpg', image: 'assets/images/yeosu_guide_map07.jpg', desc: '열대우림의 생명력을 상징하는 대형 나무 구조물과 다양한 생물을 만나보세요.' },
-      { key: 'yr-waterfall',  zone: 'D', name: '폭포 수조',          floor: '2F', thumb: 'assets/images/yeosu_guide_thum08.jpg', image: 'assets/images/yeosu_guide_map08.jpg', desc: '시원한 폭포가 흐르는 수조 속 민물 생물들을 관찰하세요.' },
-      { key: 'yr-uppertank',  zone: 'D', name: '상단 수조',          floor: '2F', thumb: 'assets/images/yeosu_guide_thum09.jpg', image: 'assets/images/yeosu_guide_map09.jpg', desc: '상단에 위치한 대형 수조에서 다양한 열대 어종을 내려다보세요.' },
-      { key: 'yr-discus',     zone: 'D', name: '디스커스 수조',      floor: '2F', thumb: 'assets/images/yeosu_guide_thum10.jpg', image: 'assets/images/yeosu_guide_map10.jpg', desc: '화려한 색채의 열대 민물고기 디스커스의 아름다움을 감상하세요.' },
-      { key: 'yr-arowana',    zone: 'D', name: '아로와나 수조',      floor: '2F', thumb: 'assets/images/yeosu_guide_thum11.jpg', image: 'assets/images/yeosu_guide_map11.jpg', desc: '황금빛 비늘이 빛나는 아로와나의 우아한 유영을 감상하세요.' },
-      { key: 'yr-piranha',    zone: 'D', name: '피라니아',           floor: '2F', thumb: 'assets/images/yeosu_guide_thum12.jpg', image: 'assets/images/yeosu_guide_map12.jpg', desc: '아마존의 강력한 포식자 피라니아와 다채로운 민물고기들을 만나보세요.' },
-      { key: 'yr-forestpond', zone: 'D', name: '포리스트 연못',      floor: '2F', thumb: 'assets/images/yeosu_guide_thum13.jpg', image: 'assets/images/yeosu_guide_map13.jpg', desc: '숲 속 연못을 재현한 생태 공간에서 다양한 수생 생물을 관찰하세요.' },
-      { key: 'yr-jellyfish2f',zone: 'D', name: '젤리피쉬',          floor: '2F', thumb: 'assets/images/yeosu_guide_thum15.jpg', image: 'assets/images/yeosu_guide_map15.jpg', desc: '신비롭고 아름다운 해파리들의 세계를 감상해보세요.' },
-      { key: 'yr-otter',      zone: 'E', name: '작은발톱수달 수조', floor: '2F', thumb: 'assets/images/yeosu_guide_thum18.jpg', image: 'assets/images/yeosu_guide_map18.jpg', desc: '귀엽고 장난기 넘치는 작은발톱수달의 일상을 가까이서 관찰해보세요.' },
-      { key: 'yr-penguin2f',  zone: 'E', name: '펭귄 수조',         floor: '2F', thumb: 'assets/images/yeosu_guide_thum19.jpg', image: 'assets/images/yeosu_guide_map19.jpg', desc: '아프리카 펭귄을 비롯한 귀여운 펭귄 친구들과 함께하세요.' },
-      { key: 'yr-beluga2f',   zone: 'E', name: '벨루가 수조',       floor: '2F', thumb: 'assets/images/yeosu_guide_thum20.jpg', image: 'assets/images/yeosu_guide_map20.jpg', desc: '순백의 벨루가 고래를 유리 너머로 가까이 만나볼 수 있습니다.' },
-      { key: 'yr-sealion2f',  zone: 'E', name: '바다사자 수조',     floor: '2F', thumb: 'assets/images/yeosu_guide_thum22.jpg', image: 'assets/images/yeosu_guide_map22.jpg', desc: '바다사자의 힘차고 우아한 유영을 관찰하세요.' },
-      { key: 'yr-seal2f',     zone: 'E', name: '참물범 수조',       floor: '2F', thumb: 'assets/images/yeosu_guide_thum23.jpg', image: 'assets/images/yeosu_guide_map23.jpg', desc: '귀여운 참물범을 다양한 각도에서 만나보세요.' },
-      { key: 'yr-paludarium', zone: 'E', name: '팔루다리움 수조',   floor: '2F', thumb: 'assets/images/yeosu_guide_thum22.jpg', image: 'assets/images/yeosu_guide_map22.jpg', desc: '수중과 육지 생태계가 공존하는 팔루다리움에서 독특한 자연을 경험하세요.' },
-      { key: 'yr-main',       zone: 'F', name: '메인 수조',         floor: '2F', thumb: 'assets/images/yeosu_guide_thum02.jpg', image: 'assets/images/yeosu_guide_map02.jpg', desc: '국내 최대 규모의 메인 수조에서 상어, 가오리, 바다거북 등 다양한 대형 해양생물을 만나보세요.' },
-      { key: 'yr-pacific',    zone: 'F', name: '태평양 수조',       floor: '2F', thumb: 'assets/images/yeosu_guide_thum15.jpg', image: 'assets/images/yeosu_guide_map15.jpg', desc: '태평양의 광활한 바다를 담은 대형 수조에서 다양한 해양생물을 만나보세요.' },
-      { key: 'yr-seaturtle',  zone: 'F', name: '푸른바다 거북 수조', floor: '2F', thumb: 'assets/images/yeosu_guide_thum26.jpg', image: 'assets/images/yeosu_guide_map26.jpg', desc: '멸종위기 해양생물인 푸른바다거북을 가까이서 만날 수 있습니다.' },
-      { key: 'yr-sandtiger',  zone: 'F', name: '샌드타이거 샤크 수조', floor: '2F', thumb: 'assets/images/yeosu_guide_thum24.jpg', image: 'assets/images/yeosu_guide_map24.jpg', desc: '날카로운 이빨의 샌드타이거 샤크를 가까이서 만나보세요.' },
-      { key: 'yr-aquadome',   zone: 'F', name: '아쿠아돔',          floor: '2F', thumb: 'assets/images/yeosu_guide_thum25.jpg', image: 'assets/images/yeosu_guide_map25.jpg', desc: '돔형 수조 속 다양한 해양생물들을 360도로 감상해보세요.' },
-      { key: 'yr-tunnel2f',   zone: 'F', name: '터널 수조',         floor: '2F', thumb: 'assets/images/yeosu_guide_thum15.jpg', image: 'assets/images/yeosu_guide_map15.jpg', desc: '바다 속을 걷는 듯한 터널형 수조를 통과하며 수중 생물들을 360도로 감상해보세요.' },
-      { key: 'yr-miniaqua',   zone: 'F', name: '미니 아쿠아리움',   floor: '2F', thumb: 'assets/images/yeosu_guide_thum18.jpg', image: 'assets/images/yeosu_guide_map18.jpg', desc: '수십 개의 소형 수조가 줄지어 펼쳐지는 미니 아쿠아리움입니다.' }
+      { key: 'yr-mediawall',  zone: 'D', name: '대형 미디어 월',     floor: '2F', thumb: 'assets/images/location/location_yeosu_2f_guideImg02.avif', image: 'assets/images/location/location_yeosu_2f_guideImg02.avif', desc: '아쿠아포리스트를 가득 채우는 대형 미디어 월에서 디지털 자연의 경이로움을 경험하세요.' },
+      { key: 'yr-lifetree',   zone: 'D', name: '생명의 나무',        floor: '2F', thumb: 'assets/images/location/location_yeosu_2f_guideImg01.avif', image: 'assets/images/location/location_yeosu_2f_guideImg01.avif', desc: '열대우림의 생명력을 상징하는 대형 나무 구조물과 다양한 생물을 만나보세요.' },
+      { key: 'yr-waterfall',  zone: 'D', name: '폭포 수조',          floor: '2F', thumb: 'assets/images/location/location_yeosu_2f_guideImg03.avif', image: 'assets/images/location/location_yeosu_2f_guideImg03.avif', desc: '시원한 폭포가 흐르는 수조 속 민물 생물들을 관찰하세요.' },
+      { key: 'yr-uppertank',  zone: 'D', name: '상단 수조',          floor: '2F', thumb: 'assets/images/location/location_yeosu_2f_guideImg05.avif', image: 'assets/images/location/location_yeosu_2f_guideImg05.avif', desc: '상단에 위치한 대형 수조에서 다양한 열대 어종을 내려다보세요.' },
+      { key: 'yr-discus',     zone: 'D', name: '디스커스 수조',      floor: '2F', thumb: 'assets/images/location/location_yeosu_2f_guideImg04.avif', image: 'assets/images/location/location_yeosu_2f_guideImg04.avif', desc: '화려한 색채의 열대 민물고기 디스커스의 아름다움을 감상하세요.' },
+      { key: 'yr-arowana',    zone: 'D', name: '아로와나 수조',      floor: '2F', thumb: 'assets/images/location/location_yeosu_guideImg03.avif', image: 'assets/images/location/location_yeosu_guideImg03.avif', desc: '황금빛 비늘이 빛나는 아로와나의 우아한 유영을 감상하세요.' },
+      { key: 'yr-piranha',    zone: 'D', name: '피라니아',           floor: '2F', thumb: 'assets/images/location/location_gwanggyo_b2f_guideImg-3.avif', image: 'assets/images/location/location_gwanggyo_b2f_guideImg-3.avif', desc: '아마존의 강력한 포식자 피라니아와 다채로운 민물고기들을 만나보세요.' },
+      { key: 'yr-forestpond', zone: 'D', name: '포리스트 연못',      floor: '2F', thumb: 'assets/images/location/location_yeosu_guideImg02.avif', image: 'assets/images/location/location_yeosu_guideImg02.avif', desc: '숲 속 연못을 재현한 생태 공간에서 다양한 수생 생물을 관찰하세요.' },
+      { key: 'yr-jellyfish2f',zone: 'D', name: '젤리피쉬',          floor: '2F', thumb: 'assets/images/location/location_ilsan_2f_guideImg04.avif', image: 'assets/images/location/location_ilsan_2f_guideImg04.avif', desc: '신비롭고 아름다운 해파리들의 세계를 감상해보세요.' },
+      { key: 'yr-otter',      zone: 'E', name: '작은발톱수달 수조', floor: '2F', thumb: 'assets/images/location/location_gwanggyo_b2f_guideImg-2.avif', image: 'assets/images/location/location_gwanggyo_b2f_guideImg-2.avif', desc: '귀엽고 장난기 넘치는 작은발톱수달의 일상을 가까이서 관찰해보세요.' },
+      { key: 'yr-penguin2f',  zone: 'E', name: '펭귄 수조',         floor: '2F', thumb: 'assets/images/location/location_ilsan_3f_guideImg05.avif', image: 'assets/images/location/location_ilsan_3f_guideImg05.avif', desc: '아프리카 펭귄을 비롯한 귀여운 펭귄 친구들과 함께하세요.' },
+      { key: 'yr-beluga2f',   zone: 'E', name: '벨루가 수조',       floor: '2F', thumb: 'assets/images/location/location_yeosu_3f_guideImg02.avif', image: 'assets/images/location/location_yeosu_3f_guideImg02.avif', desc: '순백의 벨루가 고래를 유리 너머로 가까이 만나볼 수 있습니다.' },
+      { key: 'yr-sealion2f',  zone: 'E', name: '바다사자 수조',     floor: '2F', thumb: 'assets/images/location/location_yeosu_3f_guideImg01.avif', image: 'assets/images/location/location_yeosu_3f_guideImg01.avif', desc: '바다사자의 힘차고 우아한 유영을 관찰하세요.' },
+      { key: 'yr-seal2f',     zone: 'E', name: '참물범 수조',       floor: '2F', thumb: 'assets/images/location/location_yeosu_3f_guideImg04.avif', image: 'assets/images/location/location_yeosu_3f_guideImg04.avif', desc: '귀여운 참물범을 다양한 각도에서 만나보세요.' },
+      { key: 'yr-paludarium', zone: 'E', name: '팔루다리움 수조',   floor: '2F', thumb: 'assets/images/location/location_yeosu_guideImg05.avif', image: 'assets/images/location/location_yeosu_guideImg05.avif', desc: '수중과 육지 생태계가 공존하는 팔루다리움에서 독특한 자연을 경험하세요.' },
+      { key: 'yr-main',       zone: 'F', name: '메인 수조',         floor: '2F', thumb: 'assets/images/location/location_yeosu_guideImg07.avif', image: 'assets/images/location/location_yeosu_guideImg07.avif', desc: '국내 최대 규모의 메인 수조에서 상어, 가오리, 바다거북 등 다양한 대형 해양생물을 만나보세요.' },
+      { key: 'yr-pacific',    zone: 'F', name: '태평양 수조',       floor: '2F', thumb: 'assets/images/location/location_yeosu_guideImg04.avif', image: 'assets/images/location/location_yeosu_guideImg04.avif', desc: '태평양의 광활한 바다를 담은 대형 수조에서 다양한 해양생물을 만나보세요.' },
+      { key: 'yr-seaturtle',  zone: 'F', name: '푸른바다 거북 수조', floor: '2F', thumb: 'assets/images/location/location_gwanggyo_b2f_guideImg-1.avif', image: 'assets/images/location/location_gwanggyo_b2f_guideImg-1.avif', desc: '멸종위기 해양생물인 푸른바다거북을 가까이서 만날 수 있습니다.' },
+      { key: 'yr-sandtiger',  zone: 'F', name: '샌드타이거 샤크 수조', floor: '2F', thumb: 'assets/images/location/location_ilsan_2f_guideImg05.avif', image: 'assets/images/location/location_ilsan_2f_guideImg05.avif', desc: '날카로운 이빨의 샌드타이거 샤크를 가까이서 만나보세요.' },
+      { key: 'yr-aquadome',   zone: 'F', name: '아쿠아돔',          floor: '2F', thumb: 'assets/images/location/location_yeosu_guideImg06.avif', image: 'assets/images/location/location_yeosu_guideImg06.avif', desc: '돔형 수조 속 다양한 해양생물들을 360도로 감상해보세요.' },
+      { key: 'yr-tunnel2f',   zone: 'F', name: '터널 수조',         floor: '2F', thumb: 'assets/images/location/location_ilsan_3f_guideImg03.avif', image: 'assets/images/location/location_ilsan_3f_guideImg03.avif', desc: '바다 속을 걷는 듯한 터널형 수조를 통과하며 수중 생물들을 360도로 감상해보세요.' },
+      { key: 'yr-miniaqua',   zone: 'F', name: '미니 아쿠아리움',   floor: '2F', thumb: 'assets/images/location/location_yeosu_guideImg01.avif', image: 'assets/images/location/location_yeosu_guideImg01.avif', desc: '수십 개의 소형 수조가 줄지어 펼쳐지는 미니 아쿠아리움입니다.' }
     ],
     '3F': [
-      { key: 'yr-baikalseal', zone: 'G', name: '바이칼물범 수조',   floor: '3F', thumb: 'assets/images/yeosu_guide_thum30.jpg', image: 'assets/images/yeosu_guide_map30.jpg', desc: '시베리아 바이칼 호수에서 온 희귀한 바이칼물범을 만나보세요.' },
-      { key: 'yr-belugaseat', zone: 'G', name: '벨루가 관람석',     floor: '3F', thumb: 'assets/images/yeosu_guide_thum31.jpg', image: 'assets/images/yeosu_guide_map31.jpg', desc: '3층 관람석에서 순백의 벨루가 고래의 유영을 위에서 감상해보세요.' },
-      { key: 'yr-sealionstage',zone: 'G', name: '바다사자 관람석',  floor: '3F', thumb: 'assets/images/yeosu_guide_thum32.jpg', image: 'assets/images/yeosu_guide_map32.jpg', desc: '3층에서 내려다보는 바다사자의 힘차고 우아한 모습을 감상하세요.' },
-      { key: 'yr-seal3f',    zone: 'G', name: '참물범 수조',        floor: '3F', thumb: 'assets/images/yeosu_guide_thum33.jpg', image: 'assets/images/yeosu_guide_map33.jpg', desc: '3층에서 귀여운 참물범의 수중 생활을 가까이서 관찰해보세요.' }
+      { key: 'yr-baikalseal', zone: 'G', name: '바이칼물범 수조',   floor: '3F', thumb: 'assets/images/location/location_yeosu_3f_guideImg03.avif', image: 'assets/images/location/location_yeosu_3f_guideImg03.avif', desc: '시베리아 바이칼 호수에서 온 희귀한 바이칼물범을 만나보세요.' },
+      { key: 'yr-belugaseat', zone: 'G', name: '벨루가 관람석',     floor: '3F', thumb: 'assets/images/location/location_yeosu_3f_guideImg02.avif', image: 'assets/images/location/location_yeosu_3f_guideImg02.avif', desc: '3층 관람석에서 순백의 벨루가 고래의 유영을 위에서 감상해보세요.' },
+      { key: 'yr-sealionstage',zone: 'G', name: '바다사자 관람석',  floor: '3F', thumb: 'assets/images/location/location_yeosu_3f_guideImg01.avif', image: 'assets/images/location/location_yeosu_3f_guideImg01.avif', desc: '3층에서 내려다보는 바다사자의 힘차고 우아한 모습을 감상하세요.' },
+      { key: 'yr-seal3f',    zone: 'G', name: '참물범 수조',        floor: '3F', thumb: 'assets/images/location/location_yeosu_3f_guideImg04.avif', image: 'assets/images/location/location_yeosu_3f_guideImg04.avif', desc: '3층에서 귀여운 참물범의 수중 생활을 가까이서 관찰해보세요.' }
     ]
   };
 
   var YEOSU_MARKERS = {
     '1F': [
       { zone: 'A', left: 327, top: 190 },
-      { zone: 'B', left: 473, top: 395 },
-      { zone: 'C', left: 565, top: 480 },
-      { zone: 'C', left: 615, top: 420 },
-      { zone: 'C', left: 708, top: 270 },
-      { zone: 'C', left: 776, top: 403 },
-      { zone: 'C', left: 390, top: 437 },
-      { zone: 'C', left: 908, top: 440 }
+      { zone: 'B', left: 480, top: 425 },
+      { zone: 'C', left: 576, top: 513 },
+      { zone: 'C', left: 619, top: 445 },
+      { zone: 'C', left: 729, top: 280 },
+      { zone: 'C', left: 793, top: 426 },
+      { zone: 'C', left: 382, top: 457 },
+      { zone: 'C', left: 934, top: 480 }
     ],
     '2F': [
       { zone: 'D', left: 345, top: 185 },
@@ -564,21 +565,21 @@
 
   var GWANGGYO_EXHIBITS = {
     'B1F': [
-      { key: 'gw-penguin',   zone: 'A', name: '훔볼트 펭귄',    floor: 'B1F', thumb: 'assets/images/gwanggyo_guide_thum04.jpg', image: 'assets/images/gwanggyo_guide_map04.jpg',  desc: '귀여운 훔볼트 펭귄들이 사는 마을! 도도하면서도 귀여운 펭귄들의 일상을 가까이서 만나보세요.' },
-      { key: 'gw-jellyfish', zone: 'B', name: '보름달 물해파리', floor: 'B1F', thumb: 'assets/images/gwanggyo_guide_thum07.jpg', image: 'assets/images/gwanggyo_guide_map07.jpg',  desc: '형형색색 빛을 발하는 해파리의 신비로운 세계! 해파리 연구실에서 다양한 종류의 해파리를 가까이서 관찰해보세요.' },
-      { key: 'gw-archer',    zone: 'C', name: '물총고기',        floor: 'B1F', thumb: 'assets/images/gwanggyo_guide_thum01.jpg', image: 'assets/images/gwanggyo_guide_map01.jpg',  desc: '물을 발사해 먹이를 잡는 독특한 사냥꾼, 물총고기를 만나보세요.' },
-      { key: 'gw-angel',     zone: 'D', name: '엠페러엔젤',      floor: 'B1F', thumb: 'assets/images/gwanggyo_guide_thum01.jpg', image: 'assets/images/gwanggyo_guide_map01.jpg',  desc: '황제 엔젤피시를 비롯한 형형색색 열대어들이 여러분을 맞이합니다.' },
-      { key: 'gw-gardeneel', zone: 'E', name: '가든일 수조',     floor: 'B1F', thumb: 'assets/images/gwanggyo_guide_thum08.jpg', image: 'assets/images/gwanggyo_guide_map08.jpg',  desc: '반구형 버블 속에서 주변을 둘러싼 바다 생물들을 360도로 감상하는 특별한 공간입니다.' },
-      { key: 'gw-axolotl',   zone: 'E', name: '우파루파',        floor: 'B1F', thumb: 'assets/images/gwanggyo_guide_thum09.jpg', image: 'assets/images/gwanggyo_guide_map09.jpg',  desc: '신비로운 "영원의 동물" 우파루파(아홀로틀)를 만나보세요. 물 속에서 생활하면서도 폐로 숨 쉬는 독특한 생태를 관찰해보세요.' },
-      { key: 'gw-kidszone',  zone: 'F', name: '키즈존',          floor: 'B1F', thumb: 'assets/images/gwanggyo_guide_thum02.jpg', image: 'assets/images/gwanggyo_guide_map02.jpg',  desc: '잠수함 모양의 아쿠아 키즈 놀이터에서 아이들이 즐거운 해양 탐험을 즐길 수 있습니다.' },
-      { key: 'gw-ray-b1f',   zone: 'G', name: '얼룩매가오리',    floor: 'B1F', thumb: 'assets/images/gwanggyo_guide_thum12.jpg', image: 'assets/images/gwanggyo_guide_map12.jpg',  desc: '가오리와 함께하는 이색 수중 체험! 수조 위 투명한 공간에서 가오리를 바로 아래에서 생생하게 관찰해보세요.' },
-      { key: 'gw-shark',     zone: 'H', name: '샌드타이거샤크',  floor: 'B1F', thumb: 'assets/images/gwanggyo_guide_thum03.jpg', image: 'assets/images/gwanggyo_guide_map03.jpg',  desc: '상어수조 투명보트 체험! 투명 보트를 타고 상어 수조 위를 이동하며 상어를 바로 아래에서 생생하게 관찰하세요.' }
+      { key: 'gw-penguin',   zone: 'A', name: '훔볼트 펭귄',    floor: 'B1F', thumb: 'assets/images/location/location_gwanggyo_b1f_guideImg04.avif', image: 'assets/images/location/location_gwanggyo_b1f_guideImg04.avif',  desc: '귀여운 훔볼트 펭귄들이 사는 마을! 도도하면서도 귀여운 펭귄들의 일상을 가까이서 만나보세요.' },
+      { key: 'gw-jellyfish', zone: 'B', name: '보름달 물해파리', floor: 'B1F', thumb: 'assets/images/location/location_gwanggyo_b1f_guideImg03.avif', image: 'assets/images/location/location_gwanggyo_b1f_guideImg03.avif',  desc: '형형색색 빛을 발하는 해파리의 신비로운 세계! 해파리 연구실에서 다양한 종류의 해파리를 가까이서 관찰해보세요.' },
+      { key: 'gw-archer',    zone: 'C', name: '물총고기',        floor: 'B1F', thumb: 'assets/images/location/location_gwanggyo_b1f_guideImg01.avif', image: 'assets/images/location/location_gwanggyo_b1f_guideImg01.avif',  desc: '물을 발사해 먹이를 잡는 독특한 사냥꾼, 물총고기를 만나보세요.' },
+      { key: 'gw-angel',     zone: 'D', name: '엠페러엔젤',      floor: 'B1F', thumb: 'assets/images/location/location_gwanggyo_b1f_guideImg05.avif', image: 'assets/images/location/location_gwanggyo_b1f_guideImg05.avif',  desc: '황제 엔젤피시를 비롯한 형형색색 열대어들이 여러분을 맞이합니다.' },
+      { key: 'gw-gardeneel', zone: 'E', name: '가든일 수조',     floor: 'B1F', thumb: 'assets/images/location/location_gwanggyo_b1f_guideImg02.avif', image: 'assets/images/location/location_gwanggyo_b1f_guideImg02.avif',  desc: '반구형 버블 속에서 주변을 둘러싼 바다 생물들을 360도로 감상하는 특별한 공간입니다.' },
+      { key: 'gw-axolotl',   zone: 'E', name: '우파루파',        floor: 'B1F', thumb: 'assets/images/location/location_gwanggyo_b1f_guideImg06.avif', image: 'assets/images/location/location_gwanggyo_b1f_guideImg06.avif',  desc: '신비로운 "영원의 동물" 우파루파(아홀로틀)를 만나보세요. 물 속에서 생활하면서도 폐로 숨 쉬는 독특한 생태를 관찰해보세요.' },
+      { key: 'gw-kidszone',  zone: 'F', name: '키즈존',          floor: 'B1F', thumb: 'assets/images/location/location_gwanggyo_b1f_guideImg09.avif', image: 'assets/images/location/location_gwanggyo_b1f_guideImg09.avif',  desc: '잠수함 모양의 아쿠아 키즈 놀이터에서 아이들이 즐거운 해양 탐험을 즐길 수 있습니다.' },
+      { key: 'gw-ray-b1f',   zone: 'G', name: '얼룩매가오리',    floor: 'B1F', thumb: 'assets/images/location/location_gwanggyo_b2f_guideImg.avif', image: 'assets/images/location/location_gwanggyo_b2f_guideImg.avif',  desc: '가오리와 함께하는 이색 수중 체험! 수조 위 투명한 공간에서 가오리를 바로 아래에서 생생하게 관찰해보세요.' },
+      { key: 'gw-shark',     zone: 'H', name: '샌드타이거샤크',  floor: 'B1F', thumb: 'assets/images/location/location_ilsan_2f_guideImg05.avif', image: 'assets/images/location/location_ilsan_2f_guideImg05.avif',  desc: '상어수조 투명보트 체험! 투명 보트를 타고 상어 수조 위를 이동하며 상어를 바로 아래에서 생생하게 관찰하세요.' }
     ],
     'B2F': [
-      { key: 'gw-turtle',    zone: 'I', name: '푸른바다거북',    floor: 'B2F', thumb: 'assets/images/gwanggyo_guide_thum10.jpg', image: 'assets/images/gwanggyo_guide_map10.png',  desc: '유유자적 헤엄치는 바다거북을 가까이서 만나보세요. 멸종위기종 바다거북의 생태연구도 함께 진행하고 있습니다.' },
-      { key: 'gw-otter',     zone: 'I', name: '작은발톱수달',    floor: 'B2F', thumb: 'assets/images/gwanggyo_guide_thum11.jpg', image: 'assets/images/gwanggyo_guide_map11.png',  desc: '귀여운 수달의 재기발랄한 모습을 가까이서 만나보세요. 활달한 성격의 수달이 장난치며 노는 모습을 직접 관찰할 수 있습니다.' },
-      { key: 'gw-piranha',   zone: 'I', name: '피라니아',        floor: 'B2F', thumb: 'assets/images/gwanggyo_guide_thum16.jpg', image: 'assets/images/gwanggyo_guide_map16.jpg',  desc: '아마존 강의 피라냐를 비롯한 열대 민물 생물들의 세계로 빠져보세요.' },
-      { key: 'gw-ray-b2f',   zone: 'J', name: '얼룩매가오리',    floor: 'B2F', thumb: 'assets/images/gwanggyo_guide_thum12.jpg', image: 'assets/images/gwanggyo_guide_map12.jpg',  desc: '가오리와 함께하는 이색 수중 체험! 수조 위 투명한 공간에서 가오리를 바로 아래에서 생생하게 관찰해보세요.' }
+      { key: 'gw-turtle',    zone: 'I', name: '푸른바다거북',    floor: 'B2F', thumb: 'assets/images/location/location_gwanggyo_b2f_guideImg-1.avif', image: 'assets/images/location/location_gwanggyo_b2f_guideImg-1.avif',  desc: '유유자적 헤엄치는 바다거북을 가까이서 만나보세요. 멸종위기종 바다거북의 생태연구도 함께 진행하고 있습니다.' },
+      { key: 'gw-otter',     zone: 'I', name: '작은발톱수달',    floor: 'B2F', thumb: 'assets/images/location/location_gwanggyo_b2f_guideImg-2.avif', image: 'assets/images/location/location_gwanggyo_b2f_guideImg-2.avif',  desc: '귀여운 수달의 재기발랄한 모습을 가까이서 만나보세요. 활달한 성격의 수달이 장난치며 노는 모습을 직접 관찰할 수 있습니다.' },
+      { key: 'gw-piranha',   zone: 'I', name: '피라니아',        floor: 'B2F', thumb: 'assets/images/location/location_gwanggyo_b2f_guideImg-3.avif', image: 'assets/images/location/location_gwanggyo_b2f_guideImg-3.avif',  desc: '아마존 강의 피라냐를 비롯한 열대 민물 생물들의 세계로 빠져보세요.' },
+      { key: 'gw-ray-b2f',   zone: 'J', name: '얼룩매가오리',    floor: 'B2F', thumb: 'assets/images/location/location_gwanggyo_b2f_guideImg.avif', image: 'assets/images/location/location_gwanggyo_b2f_guideImg.avif',  desc: '가오리와 함께하는 이색 수중 체험! 수조 위 투명한 공간에서 가오리를 바로 아래에서 생생하게 관찰해보세요.' }
     ]
   };
 
@@ -699,6 +700,16 @@
     return bubble;
   }
 
+  function centerBubbleRail() {
+    if (!bubbleWrap) return;
+    bubbleWrap.style.setProperty('--bubble-rail-shift', '0px');
+    if (window.matchMedia('(max-width: 1180px)').matches) {
+      var staticScroller = bubbleWrap.parentElement;
+      if (staticScroller) staticScroller.scrollLeft = 0;
+      return;
+    }
+  }
+
   /* 중앙 → 위쪽 인접 → 아래쪽 인접 → 양 끝 순서로 우선 배치 */
   var BUBBLE_SLOT_PRIORITY = [2, 1, 3, 0, 4];
 
@@ -741,6 +752,7 @@
     activeZone = zone;
     mapBubbles = Array.from(bubbleWrap.querySelectorAll('.loc-map__bubble'));
     bindBubbleEvents();
+    centerBubbleRail();
 
     markerWrap.querySelectorAll('.loc-map__marker').forEach(function (marker) {
       marker.classList.toggle('is-active', marker.dataset.zone === zone);
@@ -841,40 +853,94 @@
     floorTabs.forEach(function (tab) {
       var active = tab.dataset.floor === floor;
       tab.classList.toggle('is-active', active);
+      tab.classList.toggle('cartegory-tabs-a__item--active', active);
       tab.setAttribute('aria-selected', active ? 'true' : 'false');
     });
   }
 
   function updateMapPin() {
-    /* 모바일 전용: sticky 해제된 상태에서 is-visible 제거 */
+    /* 모바일 전용: sticky 해제된 상태에서 exhibits를 일반 섹션으로 노출 */
     if (!mapSection) return;
     if (window.matchMedia('(max-width: 820px)').matches) {
-      mapSection.classList.remove('is-visible');
+      mapSection.classList.add('is-visible');
     }
   }
 
   /* solo → exhibits 스크롤 전환 애니메이션
      solo 섹션 sticky가 끝나기 전 ZONE px 구간에서 crossfade + 맵 이동 */
   var soloStageEl = soloSection ? soloSection.querySelector('.loc-map__stage') : null;
+  var soloAutoTimer = null;
+  var soloAutoTransition = false;
+  var soloAutoScrolled = false;
+
+  function clearSoloAutoTimer() {
+    if (!soloAutoTimer) return;
+    clearTimeout(soloAutoTimer);
+    soloAutoTimer = null;
+  }
+
+  function showExhibitsMap() {
+    soloSection.style.opacity = '0';
+    soloSection.style.pointerEvents = 'none';
+    if (soloStageEl) soloStageEl.style.transform = '';
+    mapSection.style.opacity = '1';
+    mapSection.style.pointerEvents = '';
+    mapSection.classList.add('is-visible');
+  }
+
+  function scrollToExhibitsMap() {
+    if (!soloWrapEl || soloAutoScrolled) return;
+    soloAutoScrolled = true;
+    var targetY = soloWrapEl.offsetTop + soloWrapEl.offsetHeight - window.innerHeight;
+    window.scrollTo({ top: targetY, behavior: 'smooth' });
+  }
 
   function updateSoloExhibitsTransition() {
     if (!soloSection || !mapSection || !soloWrapEl) return;
     if (window.matchMedia('(max-width: 820px)').matches) {
+      clearSoloAutoTimer();
+      soloAutoTransition = false;
+      soloAutoScrolled = false;
       soloSection.style.opacity       = '';
       soloSection.style.pointerEvents = '';
       if (soloStageEl) soloStageEl.style.transform = '';
-      mapSection.style.opacity        = '0';
-      mapSection.style.pointerEvents  = 'none';
+      mapSection.style.opacity        = '';
+      mapSection.style.pointerEvents  = '';
+      mapSection.classList.add('is-visible');
       return;
     }
 
     var s    = getMapScale();
     var vh   = window.innerHeight;
     var ZONE = 480; /* 전환 구간 (px) */
+    var soloRect = soloWrapEl.getBoundingClientRect();
+    var soloEntered = soloRect.top <= 0 && soloRect.bottom > 0;
+
+    if (soloRect.top > 0) {
+      clearSoloAutoTimer();
+      soloAutoTransition = false;
+      soloAutoScrolled = false;
+    } else if (soloEntered && !soloAutoTransition && !soloAutoTimer) {
+      soloAutoTimer = setTimeout(function () {
+        soloAutoTimer = null;
+        if (window.matchMedia('(max-width: 820px)').matches) return;
+        var rect = soloWrapEl.getBoundingClientRect();
+        if (rect.top <= 0 && rect.bottom > 0) {
+          soloAutoTransition = true;
+          scrollToExhibitsMap();
+          updateSoloExhibitsTransition();
+        }
+      }, 300);
+    }
+
+    if (soloAutoTransition) {
+      showExhibitsMap();
+      return;
+    }
 
     /* soloWrap.bottom 이 vh 에 가까워질수록 progress → 1
        solo sticky 종료 시점 = soloWrap.bottom == vh */
-    var sBottom  = soloWrapEl.getBoundingClientRect().bottom;
+    var sBottom  = soloRect.bottom;
     var progress = Math.max(0, Math.min(1, 1 - (sBottom - vh) / ZONE));
 
     if (progress <= 0) {
@@ -888,12 +954,7 @@
 
     } else if (progress >= 1) {
       /* 전환 완료: solo 숨김, exhibits 완전 표시 */
-      soloSection.style.opacity      = '0';
-      soloSection.style.pointerEvents = 'none';
-      if (soloStageEl) soloStageEl.style.transform = '';
-      mapSection.style.opacity       = '1';
-      mapSection.style.pointerEvents = '';
-      mapSection.classList.add('is-visible');
+      showExhibitsMap();
 
     } else {
       /* 전환 중: solo 맵이 exhibits 위치로 이동하며 페이드아웃
@@ -942,14 +1003,18 @@
 
   var bubbleResizeTimer;
   window.addEventListener('resize', function () {
-    if (window.matchMedia('(max-width: 820px)').matches) return;
     clearTimeout(bubbleResizeTimer);
     bubbleResizeTimer = setTimeout(function () {
       updateMapScale();
-      repositionBubbles();
+      if (!window.matchMedia('(max-width: 820px)').matches) {
+        repositionBubbles();
+      }
       updateSoloExhibitsTransition();
+      centerBubbleRail();
     }, 150);
   }, { passive: true });
+
+  window.addEventListener('load', centerBubbleRail);
 
   if (mapSection && bubbleWrap) {
 

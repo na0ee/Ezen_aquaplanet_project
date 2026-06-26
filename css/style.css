@@ -733,8 +733,9 @@ button {
   transform: translate(-50%, -50%);
 }
 
-/* 햄버거 — 모바일에서만 표시 */
-.gnb__hamburger {
+/* 햄버거 + 모바일 메뉴 — 모바일에서만 표시 */
+.gnb__hamburger,
+.gnb__mobile-menu {
   display: none;
 }
 
@@ -893,19 +894,6 @@ body.is-logo-at-header .gnb__logo {
   overflow: visible;
   background: transparent;
   position: relative;
-}
-
-/* 로고 섹션 배경 영상 — 유리 굴절 재질이 참조하는 같은 비디오를 실제 배경으로 사용 */
-.logo-bg-video {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: 0;
-  pointer-events: none;
-  -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
-  mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
 }
 
 #sec-logo,
@@ -1705,33 +1693,22 @@ body.is-logo-at-header .gnb__logo {
   white-space: nowrap;
 }
 
-/* dl 목록 */
 .creature-info__meta {
-  list-style: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
   padding-left: 6px;
   margin-bottom: 8px;
-}
-
-.creature-info__meta>div {
-  margin-bottom: 0;
-}
-
-.creature-info__meta dt,
-.creature-info__meta dd {
-  display: inline;
   font-family: var(--font-kr);
   font-size: var(--fs-body);
   letter-spacing: var(--ls-normal);
   color: var(--clr-text);
 }
 
-.creature-info__meta dt {
+.creature-info__meta span {
   font-weight: 400;
-}
-
-.creature-info__meta dd {
-  font-weight: 400;
-  margin-left: 0;
+  white-space: nowrap;
 }
 
 .creature-info__desc {
@@ -2104,7 +2081,7 @@ body.is-logo-at-header .gnb__logo {
   text-align: center;
   font-family: var(--font-kr);
   font-size: var(--fs-caption);
-  letter-spacing: 0;
+  letter-spacing: -1.4px;
   color: var(--clr-text);
   text-shadow: 0 1px 10px rgba(0, 28, 70, 0.28);
   transition: transform var(--tr-base);
@@ -2319,8 +2296,8 @@ body.is-logo-at-header .gnb__logo {
   left: calc(50% - 165px);
   top: 50%;
   z-index: 1;
-  width: min(904px, calc(100vw - 830px));
-  min-width: 640px;
+  width: min(850px, calc(100vw - 830px));
+  min-width: 560px;
   min-height: 394px;
   padding: 12px 12px 12px 24px;
   opacity: 0;
@@ -2504,14 +2481,14 @@ body.is-logo-at-header .gnb__logo {
 
 .location-hover-card__image {
   position: relative;
-  flex: 0 0 clamp(240px, 44%, 380px);
-  max-width: 380px;
+  flex: 0 0 clamp(210px, 36%, 300px);
+  max-width: 300px;
   margin-left: auto;
   margin-right: 0;
   min-width: 0;
   min-height: 370px;
   border-radius: 12px;
-  border: 1px dashed rgba(255, 255, 255, 0.5);
+  border: none;
   background: #dfe9ef;
   display: flex;
   align-items: center;
@@ -2528,12 +2505,17 @@ body.is-logo-at-header .gnb__logo {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
   display: block;
   transform: scale(1);
   filter: saturate(1) brightness(1);
   transition:
     transform 0.48s cubic-bezier(0.22, 0.72, 0.28, 1),
     filter 0.34s ease;
+}
+
+.location-hover-card__img[src*="Frame 22"] {
+  object-position: left center;
 }
 
 .location-hover-card.is-switching .location-hover-card__copy {
@@ -5973,18 +5955,27 @@ body.biz-page {
   }
 
   .index-page .location-map-wrap {
-    height: 610px;
+    display: grid;
+    grid-template-columns: minmax(300px, 0.95fr) minmax(300px, 1fr);
+    align-items: center;
+    width: min(calc(100% - 48px), 900px);
+    height: auto;
     margin-top: 24px;
+    margin-inline: auto;
+    gap: 20px;
   }
 
   .index-page .location-map {
-    width: clamp(430px, 50vw, 540px);
-    height: clamp(455px, 53vw, 560px);
+    width: 100%;
+    max-width: 430px;
+    height: auto;
+    aspect-ratio: 640 / 660;
+    justify-self: center;
   }
 
   .index-page .location-map-wrap.is-hovering .location-map,
   .index-page .location-map-wrap:focus-within .location-map {
-    transform: translateX(-230px);
+    transform: none;
   }
 
   .index-page .map-marker {
@@ -5998,12 +5989,24 @@ body.biz-page {
   }
 
   .index-page .location-hover-card {
-    left: calc(50% - 42px);
-    width: min(510px, calc(100vw - 508px));
-    min-width: 430px;
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 100%;
+    min-width: 0;
     min-height: 318px;
     padding: 10px;
-    transform: translate(26px, -50%);
+    transform: none;
+    justify-self: stretch;
+  }
+
+  .index-page .location-map-wrap.is-hovering .location-hover-card,
+  .index-page .location-map-wrap:focus-within .location-hover-card {
+    transform: none;
+  }
+
+  .index-page .location-indicator {
+    display: none;
   }
 
   .index-page .location-hover-card__body {
@@ -6032,8 +6035,8 @@ body.biz-page {
   }
 
   .index-page .location-hover-card__image {
-    flex-basis: 176px;
-    max-width: 176px;
+    flex: 0 0 158px;
+    max-width: 158px;
     min-height: 298px;
   }
 
@@ -6138,6 +6141,15 @@ body.biz-page {
    모든 규칙은 .index-page 스코프 안에서만 작동한다.
    ============================================================= */
 @media (max-width: 768px) {
+
+  body.has-custom-cursor,
+  body.has-custom-cursor * {
+    cursor: auto !important;
+  }
+
+  body.has-custom-cursor #custom-cursor {
+    display: none !important;
+  }
 
   /* ── 디자인 토큰 재정의 ── */
   .index-page {
@@ -6420,14 +6432,54 @@ body.biz-page {
     transform: translate(-50%, -50%);
   }
 
-  /* canvas-wrap: 최소화 (실제 GLB는 Three.js fixed 캔버스에 렌더) */
+  /* 모바일에서는 3D 대신 가벼운 생물 이미지를 표시 */
   .index-page .crew-canvas-wrap {
-    flex: 0 0 0px;
-    width: 0;
-    height: 0;
-    overflow: hidden;
-    opacity: 0 !important;
+    flex: 0 0 auto;
+    width: min(72vw, 260px);
+    height: min(50vw, 180px);
+    margin-bottom: 8px;
+    overflow: visible;
+    opacity: 1 !important;
     pointer-events: none;
+  }
+
+  .index-page .crew-canvas__placeholder {
+    opacity: 1 !important;
+  }
+
+  .index-page .crew-canvas__shape {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    border-radius: 0;
+    background:
+      url('../assets/images/index/mobile_walrus.png') center / contain no-repeat,
+      radial-gradient(circle at 38% 34%, rgba(34, 178, 234, 0.22), rgba(34, 178, 234, 0.04));
+    animation-duration: 5.2s;
+    filter: drop-shadow(0 18px 28px rgba(0, 52, 90, 0.28));
+  }
+
+  .index-page .crew-canvas__placeholder[data-creature="beluga"] .crew-canvas__shape {
+    background:
+      url('../assets/images/index/mobile_belluga.png') center / contain no-repeat,
+      radial-gradient(circle at 38% 34%, rgba(100, 200, 240, 0.22), rgba(100, 200, 240, 0.04));
+  }
+
+  .index-page .crew-canvas__placeholder[data-creature="whaleshark"] .crew-canvas__shape {
+    background:
+      url('../assets/images/index/mobile_shark.png') center / contain no-repeat,
+      radial-gradient(circle at 38% 34%, rgba(15, 160, 210, 0.22), rgba(15, 160, 210, 0.04));
+  }
+
+  .index-page .crew-canvas__placeholder[data-creature="turtle"] .crew-canvas__shape {
+    background:
+      url('../assets/images/index/mobile_turtle.png') center / contain no-repeat,
+      radial-gradient(circle at 38% 34%, rgba(20, 180, 120, 0.22), rgba(20, 180, 120, 0.04));
+  }
+
+  .index-page .crew-canvas__glow {
+    width: 190px;
+    height: 130px;
   }
 
   /* info-wrap: 항상 표시 + 명시적 높이로 유리 배경 강제 렌더 */
@@ -6460,13 +6512,7 @@ body.biz-page {
   }
 
   .index-page .crew-rotate-hint {
-    top: auto;
-    right: auto;
-    bottom: 6px;
-    left: 50%;
-    transform: translateX(-50%);
-    flex-direction: row;
-    gap: 6px;
+    display: none;
   }
 
   .index-page .crew-dots {

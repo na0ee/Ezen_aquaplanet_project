@@ -5,6 +5,7 @@
 'use strict';
 
 document.addEventListener('DOMContentLoaded', () => {
+  disableMobileDecorativeMedia();
   initReveal();
   initGnb();
   initMobileMenu();
@@ -24,6 +25,94 @@ document.addEventListener('DOMContentLoaded', () => {
   initCustomCursor();
   initCursorWave();
 });
+
+function isMobileViewport() {
+  return window.matchMedia('(max-width: 768px)').matches;
+}
+
+function disableMobileDecorativeMedia() {
+  const mediaQuery = window.matchMedia('(max-width: 768px)');
+  const videos = document.querySelectorAll('.location-fish-bg, .booking-bg-video');
+  if (!videos.length) return;
+
+  function disableVideo(video) {
+    video.pause();
+    if (video.hasAttribute('src')) {
+      video.dataset.src = video.getAttribute('src') || '';
+      video.removeAttribute('src');
+    }
+    video.querySelectorAll('source').forEach((source) => {
+      if (source.hasAttribute('src')) {
+        source.dataset.src = source.getAttribute('src') || '';
+        source.removeAttribute('src');
+      }
+    });
+    video.load();
+  }
+
+  function restoreVideo(video) {
+    let restored = false;
+
+    if (!video.hasAttribute('src') && video.dataset.src) {
+      video.setAttribute('src', video.dataset.src);
+      restored = true;
+    }
+
+    video.querySelectorAll('source').forEach((source) => {
+      if (!source.hasAttribute('src') && source.dataset.src) {
+        source.setAttribute('src', source.dataset.src);
+        restored = true;
+      }
+    });
+
+    if (restored) video.load();
+    if (video.autoplay) video.play().catch(() => {});
+  }
+
+  function syncDecorativeMedia() {
+    videos.forEach((video) => {
+      if (mediaQuery.matches) {
+        disableVideo(video);
+      } else {
+        restoreVideo(video);
+      }
+    });
+  }
+
+  syncDecorativeMedia();
+
+  if (typeof mediaQuery.addEventListener === 'function') {
+    mediaQuery.addEventListener('change', syncDecorativeMedia);
+  } else if (typeof mediaQuery.addListener === 'function') {
+    mediaQuery.addListener(syncDecorativeMedia);
+  }
+}
+
+function getResponsiveSequenceTiming() {
+  const isResponsive = window.matchMedia('(max-width: 1024px)').matches;
+
+  if (!isResponsive) {
+    return {
+      titleEnter: [0.24, 0.56],
+      contentEnter: [0.50, 0.72],
+      contentExit: [0.82, 1.08],
+      overlapExit: [0.42, 0.82],
+      bottomExit: 0.18,
+      holdProgress: 0.72,
+      exitProgress: 1.02,
+    };
+  }
+
+  return {
+    titleEnter: [0.20, 0.50],
+    contentEnter: [0.42, 0.66],
+    contentExit: [1.08, 1.58],
+    overlapExit: [-0.30, 0.58],
+    bottomExit: 0.02,
+    holdProgress: 0.82,
+    exitProgress: 1.28,
+  };
+}
 
 
 /* =============================================================
@@ -112,6 +201,15 @@ function initSmoothScroll() {
       rafId = null;
     }
   };
+
+  window.addEventListener('resize', () => {
+    targetY = clamp(window.scrollY);
+    currentY = targetY;
+    if (rafId) {
+      cancelAnimationFrame(rafId);
+      rafId = null;
+    }
+  }, { passive: true });
 }
 
 
@@ -158,14 +256,15 @@ function initSectionScrollAnim() {
       const scrollSpan = vh + Math.max(0, rect.height - vh);
       const rawProgress = (vh - rect.top) / scrollSpan;
       const progress = clamp01(rawProgress);
+      const timing = getResponsiveSequenceTiming();
 
-      const nextOverlapExit = 1 - smoothstep(vh * 0.42, vh * 0.82, rect.bottom);
-      const bottomExit = clamp01((vh * 0.18 - rect.bottom) / (vh * 0.18));
+      const nextOverlapExit = 1 - smoothstep(vh * timing.overlapExit[0], vh * timing.overlapExit[1], rect.bottom);
+      const bottomExit = clamp01((vh * timing.bottomExit - rect.bottom) / (vh * timing.bottomExit));
       const exitProgress = Math.max(nextOverlapExit, bottomExit);
 
-      const titleProgress = smoothstep(0.24, 0.56, progress);
-      const contentEnterProgress = smoothstep(0.50, 0.72, progress);
-      const contentExitLift = smoothstep(0.82, 1.08, rawProgress);
+      const titleProgress = smoothstep(timing.titleEnter[0], timing.titleEnter[1], progress);
+      const contentEnterProgress = smoothstep(timing.contentEnter[0], timing.contentEnter[1], progress);
+      const contentExitLift = smoothstep(timing.contentExit[0], timing.contentExit[1], rawProgress);
       const contentLeaveProgress = Math.max(exitProgress, contentExitLift);
       const contentY = (1 - contentEnterProgress) * 60 - contentExitLift * 56;
       const titleY = (1 - titleProgress) * 72 - contentExitLift * 34;
@@ -386,6 +485,13 @@ function initGnb() {
   }
 
   window.addEventListener('scroll', onScroll, { passive: true });
+
+  let gnbResizeTimer = null;
+  window.addEventListener('resize', () => {
+    clearTimeout(gnbResizeTimer);
+    gnbResizeTimer = setTimeout(onScroll, 200);
+  }, { passive: true });
+
   onScroll();
 }
 
@@ -699,7 +805,7 @@ function initIntroScrollGate() {
   window.addEventListener('resize', updateIntroPinState, { passive: true });
   updateIntroPinState();
   window.__syncSmoothScroll?.();
-  ScrollTrigger?.refresh?.();
+  window.ScrollTrigger?.refresh?.();
 }
 
 
@@ -707,6 +813,8 @@ function initIntroScrollGate() {
    0-D. LOCATION FISH BACKGROUND
    ============================================================= */
 function initLocationFishBgMatte() {
+  if (isMobileViewport()) return;
+
   const section = document.getElementById('sec-location');
   if (!section) return;
 
@@ -1765,6 +1873,8 @@ function initBookingSequence() {
 }
 
 function initBookingBgVideo() {
+  if (isMobileViewport()) return;
+
   const videos = document.querySelectorAll('.booking-bg-video');
   if (!videos.length) return;
 
@@ -1841,12 +1951,13 @@ function initStickySequenceSection(sectionId) {
   }
   function _onScrollImpl() {
     const { rect, vh, scrollSpan, progress, rawProgress } = getSectionMetrics();
-    const nextOverlapExit = 1 - smoothstep(vh * 0.42, vh * 0.82, rect.bottom);
-    const bottomExit = clamp01((vh * 0.18 - rect.bottom) / (vh * 0.18));
+    const timing = getResponsiveSequenceTiming();
+    const nextOverlapExit = 1 - smoothstep(vh * timing.overlapExit[0], vh * timing.overlapExit[1], rect.bottom);
+    const bottomExit = clamp01((vh * timing.bottomExit - rect.bottom) / (vh * timing.bottomExit));
     const exitProgress = Math.max(nextOverlapExit, bottomExit);
-    const titleProgress = smoothstep(0.24, 0.56, progress);
-    const contentEnterProgress = smoothstep(0.50, 0.72, progress);
-    const contentExitLift = smoothstep(0.82, 1.08, rawProgress);
+    const titleProgress = smoothstep(timing.titleEnter[0], timing.titleEnter[1], progress);
+    const contentEnterProgress = smoothstep(timing.contentEnter[0], timing.contentEnter[1], progress);
+    const contentExitLift = smoothstep(timing.contentExit[0], timing.contentExit[1], rawProgress);
     const contentLeaveProgress = Math.max(exitProgress, contentExitLift);
     const contentY = (1 - contentEnterProgress) * 52 - contentExitLift * 48;
     const titleY = (1 - titleProgress) * 72 - contentExitLift * 34;
@@ -1984,8 +2095,9 @@ function handleStickySequenceWheel(e) {
   }
 
   const { progress } = metrics;
-  const holdProgress = 0.72;
-  const exitProgress = 1.02;
+  const timing = getResponsiveSequenceTiming();
+  const holdProgress = timing.holdProgress;
+  const exitProgress = timing.exitProgress;
   const lockedWheelLimit = 1;
   const wheelThreshold = 90;
   const rawGoingDown = e.deltaY > 0;
@@ -2339,6 +2451,8 @@ function initTopBtn() {
    11. CUSTOM CURSOR — 흰색 원형 커서
    ============================================================= */
 function initCustomCursor() {
+  if (isMobileViewport()) return;
+
   const el = document.getElementById('custom-cursor');
   if (!el) return;
 
@@ -2353,14 +2467,24 @@ function initCustomCursor() {
   window.addEventListener('mousemove', e => {
     tx = e.clientX;
     ty = e.clientY;
-    if (!snapped) {
+    if (!snapped || !Number.isFinite(cx) || !Number.isFinite(cy)) {
       snapped = true;
       cx = tx; cy = ty;
     }
   }, { passive: true });
 
-  document.addEventListener('mouseleave', () => { el.style.opacity = '0'; });
-  document.addEventListener('mouseenter', () => { el.style.opacity = '1'; });
+  document.addEventListener('mouseleave', () => {
+    snapped = false;
+    el.style.opacity = '0';
+  });
+  document.addEventListener('mouseenter', () => {
+    snapped = false;
+    el.style.opacity = '1';
+  });
+  document.addEventListener('visibilitychange', () => {
+    snapped = false;
+    el.style.opacity = document.hidden ? '0' : '1';
+  });
   document.addEventListener('mousedown',  () => el.classList.add('is-clicking'));
   document.addEventListener('mouseup',    () => el.classList.remove('is-clicking'));
 
@@ -2370,8 +2494,12 @@ function initCustomCursor() {
   });
 
   (function loop() {
-    cx += (tx - cx) * 0.2;
-    cy += (ty - cy) * 0.2;
+    cx += (tx - cx) * 0.38;
+    cy += (ty - cy) * 0.38;
+    if (!Number.isFinite(cx) || !Number.isFinite(cy)) {
+      cx = tx;
+      cy = ty;
+    }
     el.style.transform = `translate(${(cx - HALF).toFixed(1)}px,${(cy - HALF).toFixed(1)}px)`;
     requestAnimationFrame(loop);
   })();
@@ -2382,6 +2510,7 @@ function initCustomCursor() {
    11. CURSOR WAVE — 잔잔한 수면 수평 반사 흔들림
    ============================================================= */
 function initCursorWave() {
+  if (isMobileViewport()) return;
 
   const canvas = document.createElement('canvas');
   canvas.setAttribute('aria-hidden', 'true');
@@ -2406,10 +2535,13 @@ function initCursorWave() {
 
   let W, H, bW, bH, cur, prv, offscreen, offCtx, imgData;
   let running = true;
+  let waveRafId = null;
+  let pointerReady = false;
+  let mx = 0, my = 0, pmx = 0, pmy = 0, distAccum = 0;
 
   function resize() {
-    W  = window.innerWidth;
-    H  = window.innerHeight;
+    W  = Math.max(window.innerWidth || document.documentElement.clientWidth || 1, 1);
+    H  = Math.max(window.innerHeight || document.documentElement.clientHeight || 1, 1);
     bW = Math.ceil(W / SCALE) + 2;
     bH = Math.ceil(H / SCALE) + 2;
     canvas.width  = W;
@@ -2421,17 +2553,33 @@ function initCursorWave() {
     offscreen.height = bH;
     offCtx   = offscreen.getContext('2d');
     imgData  = offCtx.createImageData(bW, bH);
+    pointerReady = false;
+    distAccum = 0;
   }
 
+  let waveResizeTimer = null;
   resize();
-  window.addEventListener('resize', resize, { passive: true });
+  window.addEventListener('resize', () => {
+    clearTimeout(waveResizeTimer);
+    waveResizeTimer = setTimeout(resize, 200);
+  }, { passive: true });
 
-  let mx = 0, my = 0, pmx = 0, pmy = 0, distAccum = 0;
-  window.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; }, { passive: true });
+  window.addEventListener('mousemove', e => {
+    mx = e.clientX;
+    my = e.clientY;
+    if (!pointerReady) {
+      pointerReady = true;
+      pmx = mx;
+      pmy = my;
+      distAccum = 0;
+    }
+  }, { passive: true });
 
   document.addEventListener('visibilitychange', () => {
     running = !document.hidden;
-    if (running) tick();
+    pointerReady = false;
+    distAccum = 0;
+    if (running) startTick();
   });
 
   function disturb(cx, cy, force = FORCE, rx = RX, ry = RY) {
@@ -2460,8 +2608,9 @@ function initCursorWave() {
   };
 
   function tick() {
+    waveRafId = null;
     if (!running) return;
-    requestAnimationFrame(tick);
+    waveRafId = requestAnimationFrame(tick);
 
     const spd = Math.hypot(mx - pmx, my - pmy);
     if (spd > 0.5) {
@@ -2520,7 +2669,13 @@ function initCursorWave() {
     ctx.restore();
   }
 
-  tick();
+  function startTick() {
+    if (waveRafId === null) {
+      waveRafId = requestAnimationFrame(tick);
+    }
+  }
+
+  startTick();
 }
 
 
@@ -2581,7 +2736,7 @@ function initMobileMenu() {
 
   /* 820px 초과로 리사이즈되면 강제 닫기 */
   window.addEventListener('resize', () => {
-    if (window.innerWidth > 820) closeMenu();
+    if (!isMobileViewport()) closeMenu();
   });
 }
 
