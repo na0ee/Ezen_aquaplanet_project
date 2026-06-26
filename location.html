@@ -211,7 +211,6 @@
 
       <!-- intro 콘텐츠 — hero 안에서 스크롤 시 페이드인 (JS 제어) -->
       <div class="loc-intro__content">
-        <div class="loc-intro__rule" aria-hidden="true"></div>
         <div class="loc-intro__body">
           <div class="loc-intro__brand-group">
             <div class="loc-intro__brand-row">
@@ -232,7 +231,6 @@
             <p>아쿠아플라넷 제주의 전시생물은 500여 종 2만 8000마리이며, 제주의 앞 바다를 재현한 초대형 수조 '제주의 바다'를 비롯해 '해양과학 체험관, 대형 해양공연장' 등 운영하고 있습니다.</p>
           </div>
         </div>
-        <div class="loc-intro__rule" aria-hidden="true"></div>
       </div><!-- /.loc-intro__content -->
 
     </section><!-- /.loc-hero -->
@@ -303,10 +301,10 @@
         <h2 class="loc-map__title">
           <span class="loc-map__title-light">Guide</span><em class="loc-map__title-serif"> Map</em>
         </h2>
-        <div class="loc-map__floor-tabs" role="tablist" aria-label="층 선택">
-          <button class="loc-map__floor-tab" role="tab" data-floor="B1F" aria-selected="false">B1F</button>
-          <button class="loc-map__floor-tab is-active" role="tab" data-floor="1F" aria-selected="true">1F</button>
-          <button class="loc-map__floor-tab" role="tab" data-floor="2F" aria-selected="false">2F</button>
+        <div class="loc-map__floor-tabs cartegory-tabs cartegory-tabs-a" role="tablist" aria-label="층 선택">
+          <button class="loc-map__floor-tab cartegory-tabs-a__item" role="tab" data-floor="B1F" aria-selected="false">B1F</button>
+          <button class="loc-map__floor-tab cartegory-tabs-a__item cartegory-tabs-a__item--active is-active" role="tab" data-floor="1F" aria-selected="true">1F</button>
+          <button class="loc-map__floor-tab cartegory-tabs-a__item" role="tab" data-floor="2F" aria-selected="false">2F</button>
         </div>
       </div>
 
@@ -341,10 +339,10 @@
     <section class="loc-map loc-map--exhibits" aria-label="전시관 안내">
 
       <div class="loc-map__header">
-        <div class="loc-map__floor-tabs" role="tablist" aria-label="층 선택">
-          <button class="loc-map__floor-tab" role="tab" data-floor="B1F" aria-selected="false">B1F</button>
-          <button class="loc-map__floor-tab is-active" role="tab" data-floor="1F" aria-selected="true">1F</button>
-          <button class="loc-map__floor-tab" role="tab" data-floor="2F" aria-selected="false">2F</button>
+        <div class="loc-map__floor-tabs cartegory-tabs cartegory-tabs-a" role="tablist" aria-label="층 선택">
+          <button class="loc-map__floor-tab cartegory-tabs-a__item" role="tab" data-floor="B1F" aria-selected="false">B1F</button>
+          <button class="loc-map__floor-tab cartegory-tabs-a__item cartegory-tabs-a__item--active is-active" role="tab" data-floor="1F" aria-selected="true">1F</button>
+          <button class="loc-map__floor-tab cartegory-tabs-a__item" role="tab" data-floor="2F" aria-selected="false">2F</button>
         </div>
       </div>
 
@@ -388,6 +386,15 @@
         </div><!-- /.loc-exhibits__bubble-side -->
 
       </div><!-- /.loc-exhibits__inner -->
+
+      <p class="loc-map__bubble-hint">
+        <svg class="loc-map__hint-icon" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <circle cx="7" cy="7" r="6" stroke="white" stroke-width="1.2"/>
+          <line x1="7" y1="4.5" x2="7" y2="7.5" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
+          <circle cx="7" cy="10" r="0.8" fill="white"/>
+        </svg>
+        버블을 클릭하시면 시설정보를 확인하실 수 있습니다.
+      </p>
 
     </section><!-- /.loc-map--exhibits -->
     </div><!-- /.loc-map-wrap--exhibits -->
