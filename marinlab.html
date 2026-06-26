@@ -1200,19 +1200,28 @@
 
       let casePinActive = false;
 
+      // PC(1025px~)에서만 카드 pin + wheel 인터랙션 활성화.
+      // 태블릿/모바일에서는 pin을 만들지 않고, 페이지 세로 스크롤을 우선한다.
       if (hasGsap && !prefersReducedMotion && typeof ScrollTrigger !== 'undefined') {
         gsap.registerPlugin(ScrollTrigger);
 
-        ScrollTrigger.create({
-          trigger: spotlight,
-          start: 'center center+=51',
-          end: '+=60%',
-          pin: spotlight,
-          pinSpacing: true,
-          onEnter: () => { casePinActive = true; },
-          onEnterBack: () => { casePinActive = true; },
-          onLeave: () => { casePinActive = false; },
-          onLeaveBack: () => { casePinActive = false; }
+        ScrollTrigger.matchMedia({
+          '(min-width: 1025px)': function () {
+            ScrollTrigger.create({
+              trigger: spotlight,
+              start: 'center center+=51',
+              end: '+=60%',
+              pin: spotlight,
+              pinSpacing: true,
+              onEnter: () => { casePinActive = true; },
+              onEnterBack: () => { casePinActive = true; },
+              onLeave: () => { casePinActive = false; },
+              onLeaveBack: () => { casePinActive = false; },
+              onRefreshInit: () => { casePinActive = false; }
+            });
+
+            return () => { casePinActive = false; };
+          }
         });
       }
 
@@ -1229,7 +1238,10 @@
         return direction > 0 ? next() : prev();
       }
 
+      const isDesktopViewport = () => window.matchMedia('(min-width: 1025px)').matches;
+
       function handleCaseWheel(event) {
+        if (!isDesktopViewport()) return; // 태블릿/모바일: 페이지 스크롤을 막지 않음
         if (!casePinActive) return; // outside the pinned zone: let the page scroll normally
         if (document.body.classList.contains('marin-view-conservation')) return; // conservation 뷰에서는 스크롤 차단 안 함
         if (Math.abs(event.deltaY) < 1) return; // ignore near-zero scroll noise only
@@ -1238,6 +1250,8 @@
         requestStep(direction, event);
       }
 
+      // 항상 등록하되, handleCaseWheel 내부에서 PC 여부를 매번 다시 확인한다.
+      // (리사이즈로 태블릿/모바일 ↔ PC 경계를 넘어가도 항상 정확하게 동작)
       spotlight.addEventListener('wheel', handleCaseWheel, { passive: false });
     })();
   </script>
