@@ -1284,7 +1284,7 @@ async function initLogo3D() {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(() => {
       sizeRenderer();
-      if (ScrollTrigger) ScrollTrigger.refresh();
+      window.ScrollTrigger?.refresh?.();
       requestRender();
     }, 200);
   });
