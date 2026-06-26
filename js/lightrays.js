@@ -186,8 +186,8 @@ export function initLightRays(container, options = {}) {
     if (!renderer) return;
     renderer.dpr = renderer_dpr();
 
-    const wCSS = container.clientWidth;
-    const hCSS = container.clientHeight;
+    const wCSS = Math.max(container.clientWidth || 0, 1);
+    const hCSS = Math.max(container.clientHeight || 0, 1);
     renderer.setSize(wCSS, hCSS);
 
     const dpr = renderer.dpr;
@@ -224,8 +224,10 @@ export function initLightRays(container, options = {}) {
   const handleMouseMove = (e) => {
     if (!renderer) return;
     const rect = container.getBoundingClientRect();
-    mouse.x = (e.clientX - rect.left) / rect.width;
-    mouse.y = (e.clientY - rect.top) / rect.height;
+    const width = Math.max(rect.width || 0, 1);
+    const height = Math.max(rect.height || 0, 1);
+    mouse.x = (e.clientX - rect.left) / width;
+    mouse.y = (e.clientY - rect.top) / height;
   };
 
   const start = () => {

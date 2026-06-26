@@ -24,6 +24,17 @@ const CREATURES = [
 const CREW_TABLET_QUERY = window.matchMedia('(min-width: 821px) and (max-width: 1180px)');
 const CREW_MOBILE_QUERY = window.matchMedia('(max-width: 820px)');
 
+function getViewportSize() {
+  return {
+    width: Math.max(window.innerWidth || document.documentElement.clientWidth || 1, 1),
+    height: Math.max(window.innerHeight || document.documentElement.clientHeight || 1, 1),
+  };
+}
+
+function isCrewGlbDisabled() {
+  return CREW_MOBILE_QUERY.matches;
+}
+
 function getCrewViewportScale() {
   if (CREW_MOBILE_QUERY.matches) return 0.70; /* 모바일: 카드와 겹치지 않도록 모델 축소 */
   return CREW_TABLET_QUERY.matches ? 0.70 : 1;
@@ -97,7 +108,10 @@ const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1;
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-renderer.setSize(window.innerWidth, window.innerHeight);
+{
+  const { width, height } = getViewportSize();
+  renderer.setSize(width, height);
+}
 if (THREE.SRGBColorSpace !== undefined) {
   renderer.outputColorSpace = THREE.SRGBColorSpace;
 } else {
@@ -279,9 +293,10 @@ if (crewSection) {
 }
 
 const scene  = new THREE.Scene();
+const initialViewport = getViewportSize();
 const camera = new THREE.PerspectiveCamera(
   42,
-  window.innerWidth / window.innerHeight,
+  initialViewport.width / initialViewport.height,
   0.1,
   100
 );
@@ -294,6 +309,8 @@ camera.position.set(getCrewCamX(), getCrewCamY(), 8);
    착지 후: 모델 자체를 드래그 회전
 --------------------------------------------------------------- */
 const orbitHit = document.createElement('div');
+orbitHit.id = 'crew-orbit-hit-area';
+orbitHit.setAttribute('aria-hidden', 'true');
 Object.assign(orbitHit.style, {
   position:      'fixed',
   top:           '0',
@@ -320,9 +337,23 @@ function getCurrentPivot() {
 }
 
 function syncControls() {
-  const interactive = controlsActive && crewInView;
+  const interactive = !isCrewGlbDisabled() && controlsActive && crewInView;
   orbitHit.style.pointerEvents = interactive ? 'auto' : 'none';
   orbitHit.style.cursor        = interactive ? 'grab' : '';
+  orbitHit.style.display       = isCrewGlbDisabled() ? 'none' : 'block';
+}
+
+function applyCrewGlbDisabledState() {
+  if (isCrewGlbDisabled()) {
+    crewCanvas.style.display = 'none';
+    orbitHit.style.display = 'none';
+    hideCrewCanvas();
+    return true;
+  }
+
+  crewCanvas.style.display = 'block';
+  syncControls();
+  return false;
 }
 
 function enableControls() {
@@ -338,6 +369,8 @@ function disableControls() {
   /* 카메라를 기본 위치로 복원해 bob 애니메이션이 올바르게 재개 */
   camera.position.set(getCrewCamX(), getCrewCamY(), 8);
 }
+
+applyCrewGlbDisabledState();
 
 orbitHit.addEventListener('pointerdown', (e) => {
   const pivot = getCurrentPivot();
@@ -476,6 +509,8 @@ let exitActive   = false;
 let hideCanvasAfterExit = false;
 
 function enterCrewSection() {
+  if (applyCrewGlbDisabledState()) return;
+
   crewCanvas.style.transition = 'opacity 0.35s ease';
   crewCanvas.style.opacity    = '1';
 
@@ -556,6 +591,11 @@ function startSectionExit(leavingDown = true) {
 }
 
 function showCreature(idx, immediate = false) {
+  if (applyCrewGlbDisabledState()) {
+    pendingIdx = idx;
+    return;
+  }
+
   const { inPanelRange, scrolled } = getCrewScrollState();
   const forceEntry = performance.now() < forceCrewEntryUntil;
   if (!forceEntry && !inPanelRange && scrolled < -10) {
@@ -796,12 +836,15 @@ const clock = new THREE.Clock();
    리사이즈 대응 — 윈도우 기준 (full-screen fixed canvas)
 --------------------------------------------------------------- */
 window.addEventListener('resize', () => {
-  camera.aspect = window.innerWidth / window.innerHeight;
+  const glbDisabled = applyCrewGlbDisabledState();
+  const { width, height } = getViewportSize();
+  camera.aspect = width / height;
   camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setSize(width, height);
   camera.position.x = getCrewCamX();
   camera.position.y = getCrewCamY();
   applyCrewViewportScale();
+  if (glbDisabled) return;
   clampCanvasToSticky();
 });
 
