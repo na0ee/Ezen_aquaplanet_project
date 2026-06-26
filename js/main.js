@@ -2414,14 +2414,24 @@ function initCustomCursor() {
   window.addEventListener('mousemove', e => {
     tx = e.clientX;
     ty = e.clientY;
-    if (!snapped) {
+    if (!snapped || !Number.isFinite(cx) || !Number.isFinite(cy)) {
       snapped = true;
       cx = tx; cy = ty;
     }
   }, { passive: true });
 
-  document.addEventListener('mouseleave', () => { el.style.opacity = '0'; });
-  document.addEventListener('mouseenter', () => { el.style.opacity = '1'; });
+  document.addEventListener('mouseleave', () => {
+    snapped = false;
+    el.style.opacity = '0';
+  });
+  document.addEventListener('mouseenter', () => {
+    snapped = false;
+    el.style.opacity = '1';
+  });
+  document.addEventListener('visibilitychange', () => {
+    snapped = false;
+    el.style.opacity = document.hidden ? '0' : '1';
+  });
   document.addEventListener('mousedown',  () => el.classList.add('is-clicking'));
   document.addEventListener('mouseup',    () => el.classList.remove('is-clicking'));
 
@@ -2431,8 +2441,12 @@ function initCustomCursor() {
   });
 
   (function loop() {
-    cx += (tx - cx) * 0.2;
-    cy += (ty - cy) * 0.2;
+    cx += (tx - cx) * 0.35;
+    cy += (ty - cy) * 0.35;
+    if (!Number.isFinite(cx) || !Number.isFinite(cy)) {
+      cx = tx;
+      cy = ty;
+    }
     el.style.transform = `translate(${(cx - HALF).toFixed(1)}px,${(cy - HALF).toFixed(1)}px)`;
     requestAnimationFrame(loop);
   })();
@@ -2468,6 +2482,9 @@ function initCursorWave() {
 
   let W, H, bW, bH, cur, prv, offscreen, offCtx, imgData;
   let running = true;
+  let waveRafId = null;
+  let pointerReady = false;
+  let mx = 0, my = 0, pmx = 0, pmy = 0, distAccum = 0;
 
   function resize() {
     W  = window.innerWidth;
@@ -2483,6 +2500,8 @@ function initCursorWave() {
     offscreen.height = bH;
     offCtx   = offscreen.getContext('2d');
     imgData  = offCtx.createImageData(bW, bH);
+    pointerReady = false;
+    distAccum = 0;
   }
 
   let waveResizeTimer = null;
@@ -2492,12 +2511,22 @@ function initCursorWave() {
     waveResizeTimer = setTimeout(resize, 200);
   }, { passive: true });
 
-  let mx = 0, my = 0, pmx = 0, pmy = 0, distAccum = 0;
-  window.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; }, { passive: true });
+  window.addEventListener('mousemove', e => {
+    mx = e.clientX;
+    my = e.clientY;
+    if (!pointerReady) {
+      pointerReady = true;
+      pmx = mx;
+      pmy = my;
+      distAccum = 0;
+    }
+  }, { passive: true });
 
   document.addEventListener('visibilitychange', () => {
     running = !document.hidden;
-    if (running) tick();
+    pointerReady = false;
+    distAccum = 0;
+    if (running) startTick();
   });
 
   function disturb(cx, cy, force = FORCE, rx = RX, ry = RY) {
@@ -2526,8 +2555,9 @@ function initCursorWave() {
   };
 
   function tick() {
+    waveRafId = null;
     if (!running) return;
-    requestAnimationFrame(tick);
+    waveRafId = requestAnimationFrame(tick);
 
     const spd = Math.hypot(mx - pmx, my - pmy);
     if (spd > 0.5) {
@@ -2586,7 +2616,13 @@ function initCursorWave() {
     ctx.restore();
   }
 
-  tick();
+  function startTick() {
+    if (waveRafId === null) {
+      waveRafId = requestAnimationFrame(tick);
+    }
+  }
+
+  startTick();
 }
 
 

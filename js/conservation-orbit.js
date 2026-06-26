@@ -344,9 +344,13 @@
   function openCard(category) {
     var overlay = document.getElementById('cons-card-overlay');
     if (!overlay || !category) return;
+    var isGroupCard = category === 'pinniped' || category === 'seahorse';
     Array.prototype.forEach.call(overlay.querySelectorAll('.m-cons-card, .m-cons-card-group'), function (card) {
       card.classList.toggle('is-active', card.getAttribute('data-card') === category);
     });
+    overlay.classList.toggle('is-single-card', !isGroupCard);
+    overlay.classList.toggle('is-group-card', isGroupCard);
+    overlay.setAttribute('data-active-card', category);
     overlay.classList.add('is-open');
     overlay.setAttribute('aria-hidden', 'false');
   }
@@ -363,43 +367,75 @@
     void circle.offsetWidth;
     circle.classList.add('is-bursting');
     spawnOrbBubbleSparks(circle);
+    if (circle._consBurstEndHandler) {
+      circle.removeEventListener('animationend', circle._consBurstEndHandler);
+      circle._consBurstEndHandler = null;
+    }
 
-    cardOpenTimer = window.setTimeout(function () {
-      cardOpenTimer = null;
+    function finishOpen() {
+      if (cardOpenTimer) {
+        window.clearTimeout(cardOpenTimer);
+        cardOpenTimer = null;
+      }
+      circle.removeEventListener('animationend', onBurstEnd);
+      circle._consBurstEndHandler = null;
       circle.classList.remove('is-bursting');
       isOpeningCard = false;
       openCard(category);
-    }, 600);
+    }
+
+    function onBurstEnd(event) {
+      if (event.animationName !== 'mConsTicketBubbleBurst') return;
+      finishOpen();
+    }
+
+    circle._consBurstEndHandler = onBurstEnd;
+    circle.addEventListener('animationend', onBurstEnd);
+    cardOpenTimer = window.setTimeout(function () {
+      finishOpen();
+    }, 760);
   }
 
   function spawnOrbBubbleSparks(circle) {
     var rect = circle.getBoundingClientRect();
     var cx = rect.left + rect.width / 2;
     var cy = rect.top + rect.height / 2;
-    var count = 24;
+    var count = 20;
 
     for (var i = 0; i < count; i += 1) {
       var spark = document.createElement('span');
-      var size = 7 + Math.random() * 20;
+      var size = 7 + Math.random() * 18;
       var angle = Math.random() * Math.PI * 2;
-      var distance = rect.width * (0.42 + Math.random() * 0.72);
+      var distance = rect.width * (0.42 + Math.random() * 0.62);
       var dx = Math.cos(angle) * distance;
-      var dy = Math.sin(angle) * distance;
-      var drift = -18 - Math.random() * 42;
-      var duration = 520 + Math.random() * 320;
+      var dy = Math.sin(angle) * distance - Math.random() * 28;
+      var duration = 800 + Math.random() * 480;
 
       spark.className = 'm-cons-bubble-spark';
       spark.style.width = size.toFixed(1) + 'px';
       spark.style.height = size.toFixed(1) + 'px';
       spark.style.left = (cx - size / 2).toFixed(1) + 'px';
       spark.style.top = (cy - size / 2).toFixed(1) + 'px';
-      spark.style.setProperty('--dx', dx.toFixed(1) + 'px');
-      spark.style.setProperty('--dy', (dy + drift).toFixed(1) + 'px');
-      spark.style.setProperty('--dur', duration.toFixed(0) + 'ms');
       document.body.appendChild(spark);
-      spark.addEventListener('animationend', function (event) {
-        event.currentTarget.remove();
-      });
+
+      var anim = spark.animate(
+        [
+          { transform: 'translate(0,0) scale(0.2)', opacity: 0, offset: 0 },
+          { opacity: 0.9, offset: 0.18 },
+          { transform: 'translate(' + dx.toFixed(1) + 'px, ' + dy.toFixed(1) + 'px) scale(1)', opacity: 0, offset: 1 }
+        ],
+        {
+          duration: duration,
+          easing: 'cubic-bezier(.22,.61,.36,1)',
+          delay: Math.random() * 120,
+          fill: 'forwards'
+        }
+      );
+      (function (el) {
+        anim.onfinish = function () {
+          el.remove();
+        };
+      })(spark);
     }
   }
 
@@ -410,6 +446,10 @@
     }
     isOpeningCard = false;
     Array.prototype.forEach.call(document.querySelectorAll('.m-cons-orb__circle.is-bursting'), function (circle) {
+      if (circle._consBurstEndHandler) {
+        circle.removeEventListener('animationend', circle._consBurstEndHandler);
+        circle._consBurstEndHandler = null;
+      }
       circle.classList.remove('is-bursting');
     });
     Array.prototype.forEach.call(document.querySelectorAll('.m-cons-bubble-spark'), function (spark) {
@@ -422,6 +462,8 @@
     clearPendingCardOpen();
     if (!overlay) return;
     overlay.classList.remove('is-open');
+    overlay.classList.remove('is-single-card', 'is-group-card');
+    overlay.removeAttribute('data-active-card');
     overlay.setAttribute('aria-hidden', 'true');
     Array.prototype.forEach.call(overlay.querySelectorAll('.m-cons-flip.is-flipped'), function (flip) {
       flip.classList.remove('is-flipped');
@@ -466,6 +508,12 @@
       }
 
       var overlay = document.getElementById('cons-card-overlay');
+      var activeSingleCard = event.target.closest ? event.target.closest('.m-cons-card.is-active') : null;
+      if (overlay && overlay.classList.contains('is-single-card') && activeSingleCard) {
+        closeCard();
+        return;
+      }
+
       if (overlay && event.target === overlay) closeCard();
     });
 

@@ -2222,7 +2222,7 @@ body.marin-view-conservation .m-pill-tabs:not(.m-pill-tabs--cases) {
 }
 
 .m-cons-orb__circle.ticket-bubble.is-bursting::after {
-  animation: mConsTicketBubbleBurst 0.6s cubic-bezier(.16, .84, .34, 1) forwards;
+  animation: mConsTicketBubbleBurst 0.62s ease-out forwards;
 }
 
 .m-cons-bubble-spark {
@@ -2235,7 +2235,7 @@ body.marin-view-conservation .m-pill-tabs:not(.m-pill-tabs--cases) {
     0 0 8px rgba(132, 215, 255, 0.72),
     inset 0 0 5px rgba(255, 255, 255, 0.74);
   pointer-events: none;
-  animation: mConsBubbleSpark var(--dur, 680ms) cubic-bezier(.18, .72, .24, 1) forwards;
+  will-change: transform, opacity;
 }
 
 @keyframes mConsTicketBubbleBurst {
@@ -2245,35 +2245,12 @@ body.marin-view-conservation .m-pill-tabs:not(.m-pill-tabs--cases) {
   }
 
   45% {
-    transform: scale(1.18);
-    opacity: 0.96;
-    filter: brightness(1.16) saturate(1.12);
-  }
-
-  72% {
-    transform: scale(1.48);
-    opacity: 0.52;
+    transform: scale(1.28);
+    opacity: 0.85;
   }
 
   100% {
-    transform: scale(1.86);
-    opacity: 0;
-    filter: brightness(1.32) saturate(1.18);
-  }
-}
-
-@keyframes mConsBubbleSpark {
-  0% {
-    transform: translate3d(0, 0, 0) scale(0.25);
-    opacity: 0;
-  }
-
-  18% {
-    opacity: 1;
-  }
-
-  100% {
-    transform: translate3d(var(--dx), var(--dy), 0) scale(1);
+    transform: scale(1.7);
     opacity: 0;
   }
 }
@@ -2326,15 +2303,31 @@ body.marin-view-conservation .m-pill-tabs:not(.m-pill-tabs--cases) {
   position: absolute;
   top: 28px;
   right: 32px;
-  width: 44px;
-  height: 44px;
+  width: 34px;
+  height: 34px;
   border: 1px solid rgba(255, 255, 255, 0.5);
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.08);
   color: #ffffff;
-  font-size: 22px;
+  font-size: 16px;
   line-height: 1;
   cursor: pointer;
+}
+
+.m-cons-card-overlay.is-open .m-cons-card-overlay__close {
+  top: calc(50% - min(31vh, 310px) - 58px);
+  right: max(40px, calc((100vw - 1240px) / 2));
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.16);
+  box-shadow: 0 10px 24px rgba(0, 44, 84, 0.18);
+}
+
+.m-cons-card-overlay.is-open[data-active-card="pinniped"] .m-cons-card-overlay__close {
+  top: calc(50% - 16px - min(29vh, 280px));
+}
+
+.m-cons-card-overlay.is-open[data-active-card="seahorse"] .m-cons-card-overlay__close {
+  top: calc(50% - 28px - min(29vh, 280px));
 }
 
 .m-cons-card-overlay__inner {
@@ -2422,7 +2415,7 @@ body.marin-view-conservation .m-pill-tabs:not(.m-pill-tabs--cases) {
 }
 
 .m-cons-card-group__intro {
-  margin: 0 0 28px;
+  margin: 0 0 48px;
   color: #ffffff;
   text-align: center;
 }
@@ -2885,6 +2878,19 @@ body.marin-view-conservation #marinFooter {
     padding: 20px;
   }
 
+  .m-cons-card-overlay.is-open .m-cons-card-overlay__close {
+    top: calc(50% - min(30vh, 250px) - 54px);
+    right: max(20px, calc((100vw - min(880px, calc(100vw - 40px))) / 2));
+  }
+
+  .m-cons-card-overlay.is-open[data-active-card="pinniped"] .m-cons-card-overlay__close {
+    top: calc(50% - 16px - min(29vh, 280px));
+  }
+
+  .m-cons-card-overlay.is-open[data-active-card="seahorse"] .m-cons-card-overlay__close {
+    top: calc(50% - 28px - min(29vh, 280px));
+  }
+
   .m-cons-card-overlay__inner {
     width: min(100%, 880px);
     max-width: calc(100vw - 40px);
@@ -2921,6 +2927,10 @@ body.marin-view-conservation #marinFooter {
   }
 
   /* ── Conservation 플립 카드 그룹 ── */
+  .m-cons-card-group__intro {
+    margin-bottom: 38px;
+  }
+
   .m-cons-card-group__intro h3 {
     font-size: clamp(19px, 2.2vw, 22px);
   }
@@ -3180,8 +3190,21 @@ body.marin-view-conservation #marinFooter {
   body.marin-view-conservation .m-cons-card-overlay__close {
     top: 16px;
     right: 16px;
-    width: 40px;
-    height: 40px;
+    width: 32px;
+    height: 32px;
+  }
+
+  body.marin-view-conservation .m-cons-card-overlay.is-open .m-cons-card-overlay__close {
+    top: calc(50% - min(23vh, 160px) - 52px);
+    right: max(16px, calc((100vw - min(340px, calc(100vw - 32px))) / 2));
+  }
+
+  body.marin-view-conservation .m-cons-card-overlay.is-open[data-active-card="pinniped"] .m-cons-card-overlay__close {
+    top: calc(50% - 21px - min(45vh, 330px));
+  }
+
+  body.marin-view-conservation .m-cons-card-overlay.is-open[data-active-card="seahorse"] .m-cons-card-overlay__close {
+    top: calc(50% - 26px - min(30vh, 220px));
   }
 
   body.marin-view-conservation .m-cons-card {
@@ -3211,7 +3234,7 @@ body.marin-view-conservation #marinFooter {
   }
 
   body.marin-view-conservation .m-cons-card-group__intro {
-    margin-bottom: 16px;
+    margin-bottom: 26px;
   }
 
   body.marin-view-conservation .m-cons-card-group__intro h3 {
