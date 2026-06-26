@@ -44,8 +44,61 @@
   }
 
   function getSizeFactor() {
-    if (window.innerWidth <= 760) return 0.58;
+    if (window.innerWidth <= 760) return 0.4;
     return window.innerWidth <= 1280 ? 0.84 : 1;
+  }
+
+  function isMobileStatic() {
+    return window.matchMedia && window.matchMedia('(max-width: 760px)').matches;
+  }
+
+  function isTabletLayout() {
+    return window.matchMedia && window.matchMedia('(min-width: 761px) and (max-width: 1280px)').matches;
+  }
+
+  function getPinOffsetY() {
+    if (!isTabletLayout()) return 0;
+    return (window.innerHeight - 1080) / 2;
+  }
+
+  function clearInlineOrbitStyles(pin) {
+    var stage1 = document.getElementById('cons-orbit-stage-1');
+    var stage2 = document.getElementById('cons-orbit-stage-2');
+    var hint = document.getElementById('cons-orbit-hint');
+
+    if (pin) {
+      pin.style.visibility = '';
+      pin.style.pointerEvents = '';
+      pin.style.transform = '';
+      pin.style.opacity = '';
+    }
+
+    [stage1, stage2, hint].forEach(function (node) {
+      if (node) node.style.transform = '';
+    });
+
+    orbEls.forEach(function (orb) {
+      orb.el.style.transform = '';
+      orb.el.style.opacity = '';
+      orb.el.style.zIndex = '';
+      orb.el.style.pointerEvents = '';
+      orb.el.classList.remove('is-featured');
+      if (orb.circle) orb.circle.style.transform = '';
+    });
+  }
+
+  function updateMobileContentState() {
+    var section = document.getElementById('cons-orbit');
+    var footer = document.getElementById('marinFooter');
+    var isContent = false;
+
+    if (section && isMobileStatic() && document.body.classList.contains('marin-view-conservation')) {
+      var rect = section.getBoundingClientRect();
+      var footerIsEntering = footer && footer.getBoundingClientRect().top < window.innerHeight;
+      isContent = rect.top < window.innerHeight && rect.bottom > window.innerHeight * 0.18 && !footerIsEntering;
+    }
+
+    document.body.classList.toggle('is-cons-content', isContent);
   }
 
   function attachFixedPin(pin) {
@@ -203,7 +256,8 @@
 
     var isPinned = rect.top <= 0 && rect.bottom >= 0;
     var enterOpacity = isPinned ? easeInOut(clamp01(-rect.top / (vh * 0.55))) : 0;
-    pin.style.transform = 'translateX(-50%) scale(' + scale.toFixed(6) + ')';
+    var pinOffsetY = getPinOffsetY();
+    pin.style.transform = 'translateX(-50%) translateY(' + pinOffsetY.toFixed(2) + 'px) scale(' + scale.toFixed(6) + ')';
     pin.style.opacity = String(enterOpacity);
     pin.style.visibility = isPinned ? 'visible' : 'hidden';
     pin.style.pointerEvents = isPinned ? 'auto' : 'none';
@@ -265,7 +319,7 @@
     document.addEventListener('click', function (event) {
       var orb = event.target.closest ? event.target.closest('.m-cons-orb') : null;
       if (orb) {
-        if (!orb.classList.contains('is-featured')) return;
+        if (!isMobileStatic() && !orb.classList.contains('is-featured')) return;
         openCard(orb.getAttribute('data-category'));
         return;
       }
@@ -295,15 +349,40 @@
     var section = document.getElementById('cons-orbit');
     var pin = document.getElementById('cons-orbit-pin');
     if (!section || !pin) return;
-    attachFixedPin(pin);
-    pin.style.visibility = 'hidden';
-    pin.style.pointerEvents = 'none';
     collectOrbs();
     bindOnce();
     currentProgress = 0;
     targetProgress = 0;
     currentCarouselPosition = 0;
     targetCarouselPosition = 0;
+
+    if (isMobileStatic()) {
+      active = false;
+      window.removeEventListener('scroll', requestUpdate);
+      window.removeEventListener('resize', requestUpdate);
+      window.removeEventListener('touchmove', requestUpdate);
+      if (rafId) {
+        window.cancelAnimationFrame(rafId);
+        rafId = null;
+      }
+      section.classList.add('is-static-mobile');
+      restorePin(pin);
+      clearInlineOrbitStyles(pin);
+      window.addEventListener('scroll', updateMobileContentState, { passive: true });
+      window.addEventListener('resize', updateMobileContentState, { passive: true });
+      window.addEventListener('touchmove', updateMobileContentState, { passive: true });
+      updateMobileContentState();
+      return;
+    }
+
+    document.body.classList.remove('is-cons-content');
+    window.removeEventListener('scroll', updateMobileContentState);
+    window.removeEventListener('resize', updateMobileContentState);
+    window.removeEventListener('touchmove', updateMobileContentState);
+    section.classList.remove('is-static-mobile');
+    attachFixedPin(pin);
+    pin.style.visibility = 'hidden';
+    pin.style.pointerEvents = 'none';
     active = true;
     window.addEventListener('scroll', requestUpdate, { passive: true });
     window.addEventListener('resize', requestUpdate, { passive: true });
@@ -312,12 +391,23 @@
   }
 
   function destroyConservationOrbit() {
+    var section = document.getElementById('cons-orbit');
     var pin = document.getElementById('cons-orbit-pin');
     active = false;
     window.removeEventListener('scroll', requestUpdate);
     window.removeEventListener('resize', requestUpdate);
     window.removeEventListener('touchmove', requestUpdate);
+    window.removeEventListener('scroll', updateMobileContentState);
+    window.removeEventListener('resize', updateMobileContentState);
+    window.removeEventListener('touchmove', updateMobileContentState);
+    if (rafId) {
+      window.cancelAnimationFrame(rafId);
+      rafId = null;
+    }
+    document.body.classList.remove('is-cons-content');
+    if (section) section.classList.remove('is-static-mobile');
     restorePin(pin);
+    clearInlineOrbitStyles(pin);
     closeCard();
   }
 

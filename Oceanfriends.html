@@ -85,7 +85,6 @@
   </header>
 
   <main class="of-main">
-
     <div class="of-visual-stage">
       <div class="friends-bg" aria-hidden="true"></div>
       <!-- 인트로 콘텐츠 -->
@@ -93,7 +92,7 @@
         <div class="intro__content-inner">
           <span class="of-eyebrow">Welcome</span>
           <h1 class="of-title"><span>aqua planet </span><em>Friends</em></h1>
-          <p class="of-hero__lead">
+          <p class="intro__lead">
             아쿠아플라넷의 다양한 해양생물들을 만나보세요
           </p>
         </div>
@@ -105,9 +104,7 @@
         </a>
       </section>
 
-      <!-- 히어로 -->
-      <section class="of-hero" aria-label="Ocean Friends 소개">
-      </section>
+
 
       <!-- 시그니처 생물 캐러셀 -->
       <section id="signature" class="of-signature" aria-label="시그니처 생물">
@@ -211,11 +208,11 @@
             </svg>
             <input type="text" placeholder="검색하기" aria-label="생물 검색">
           </div>
-          <div class="cartegory-tabs-b">
-            <button class="cartegory-tabs-b__item cartegory-tabs-b__item--active" type="button">Jeju</button>
-            <button class="cartegory-tabs-b__item" type="button">Yeosu</button>
-            <button class="cartegory-tabs-b__item" type="button">Ilsan</button>
-            <button class="cartegory-tabs-b__item" type="button">Gwanggyo</button>
+          <div class="cartegory-tabs-a">
+            <button class="cartegory-tabs-a__item cartegory-tabs-a__item--active" type="button">Jeju</button>
+            <button class="cartegory-tabs-a__item" type="button">Yeosu</button>
+            <button class="cartegory-tabs-a__item" type="button">Ilsan</button>
+            <button class="cartegory-tabs-a__item" type="button">Gwanggyo</button>
           </div>
         </div>
       </div>
@@ -2416,7 +2413,6 @@
 
   </main>
 
-  <div id="custom-cursor" aria-hidden="true"></div>
 
   <footer id="footer" class="footer">
     <div class="footer__inner">
@@ -2539,41 +2535,12 @@
       });
     })();
 
-    /* ── 커스텀 커서 ── */
-    (function () {
-      if (window.matchMedia('(hover: none)').matches) return;
-      const el = document.getElementById('custom-cursor');
-      if (!el) return;
-      const HALF = 17;
-      const LIGHT_SELS = '.of-detail, .of-filter, .of-detail-card';
-      let tx = -200, ty = -200, cx = -200, cy = -200, firstMove = false;
-      window.addEventListener('mousemove', function (e) {
-        tx = e.clientX; ty = e.clientY;
-        if (!firstMove) { firstMove = true; cx = tx; cy = ty; el.style.opacity = '1'; }
-        const hit = document.elementFromPoint(e.clientX, e.clientY);
-        el.classList.toggle('is-over-light', !!(hit && hit.closest(LIGHT_SELS)));
-      }, { passive: true });
-      document.addEventListener('mouseleave', function () { el.style.opacity = '0'; });
-      document.addEventListener('mouseenter', function () { if (firstMove) el.style.opacity = '1'; });
-      document.addEventListener('mousedown', function () { el.classList.add('is-clicking'); });
-      document.addEventListener('mouseup', function () { el.classList.remove('is-clicking'); });
-      document.addEventListener('mouseover', function (e) {
-        const over = e.target.closest('a, button, [role="button"]');
-        el.classList.toggle('is-hovering', !!over);
-      });
-      (function loop() {
-        cx += (tx - cx) * 0.2;
-        cy += (ty - cy) * 0.2;
-        el.style.transform = 'translate(' + (cx - HALF).toFixed(1) + 'px,' + (cy - HALF).toFixed(1) + 'px)';
-        requestAnimationFrame(loop);
-      })();
-    })();
   </script>
 
   <!-- 필터 칩 활성화 + 리스트 전환 + 검색 -->
   <script>
     (function () {
-      const chips = document.querySelectorAll('.cartegory-tabs-b .cartegory-tabs-b__item');
+      const chips = document.querySelectorAll('.cartegory-tabs-a .cartegory-tabs-a__item');
       const lists = document.querySelectorAll('.of-detail-list[data-list]');
       const searchInput = document.querySelector('.of-search input');
 
@@ -2602,8 +2569,8 @@
 
       chips.forEach(function (chip) {
         chip.addEventListener('click', function () {
-          chips.forEach(function (c) { c.classList.remove('cartegory-tabs-b__item--active'); });
-          chip.classList.add('cartegory-tabs-b__item--active');
+          chips.forEach(function (c) { c.classList.remove('cartegory-tabs-a__item--active'); });
+          chip.classList.add('cartegory-tabs-a__item--active');
           showList(chip.textContent.trim().toLowerCase());
         });
       });
@@ -2808,7 +2775,7 @@
 
       function showDetailList(key) {
         const lists = document.querySelectorAll('.of-detail-list[data-list]');
-        const chips = document.querySelectorAll('.cartegory-tabs-b .cartegory-tabs-b__item');
+        const chips = document.querySelectorAll('.cartegory-tabs-a .cartegory-tabs-a__item');
         const searchInput = document.querySelector('.of-search input');
 
         lists.forEach(list => {
@@ -2819,7 +2786,7 @@
         });
 
         chips.forEach(chip => {
-          chip.classList.toggle('cartegory-tabs-b__item--active', chip.textContent.trim().toLowerCase() === key);
+          chip.classList.toggle('cartegory-tabs-a__item--active', chip.textContent.trim().toLowerCase() === key);
         });
 
         if (searchInput) searchInput.value = '';

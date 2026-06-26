@@ -344,6 +344,11 @@
     if (heroLoc) heroLoc.textContent = loc;
 
     LOCATIONS.forEach(name => {
+      const sub = document.getElementById('hero-sub-' + name);
+      if (sub) sub.hidden = name !== loc;
+    });
+
+    LOCATIONS.forEach(name => {
       const vid = document.getElementById('hero-video-' + name);
       if (!vid) return;
       if (name === loc) {
@@ -612,12 +617,16 @@
       const tagEl  = card.querySelector('.tag');
       const imgEls = card.querySelectorAll('.program-card__detail-img');
       const imgSrcs = Array.from(imgEls).map(el => el.getAttribute('src')).filter(Boolean);
+      const imgTransforms = Array.from(imgEls).map(el => el.style.transform || '');
+      const imgPositions = Array.from(imgEls).map(el => el.style.objectPosition || '');
       openDetailModal({
         key,
         name:    nameEl ? nameEl.textContent.trim() : '',
         tagText: tagEl  ? tagEl.textContent.trim()  : '',
         imgSrc:  imgSrcs[0] || '',
-        imgSrcs
+        imgSrcs,
+        imgTransforms,
+        imgPositions
       }, guideSection);
     }
   });
@@ -672,10 +681,16 @@
     modalTitle.textContent = prog.name;
 
     const srcs = (prog.imgSrcs && prog.imgSrcs.length) ? prog.imgSrcs : (prog.imgSrc ? [prog.imgSrc] : []);
+    const transforms = prog.imgTransforms || [];
+    const positions  = prog.imgPositions  || [];
     imgA.src = srcs[0] || '';
     imgA.alt = prog.name;
+    imgA.style.transform = transforms[0] || '';
+    imgA.style.objectPosition = positions[0] || '';
     imgB.src = srcs[1] || srcs[0] || '';
     imgB.alt = prog.name;
+    imgB.style.transform = transforms[1] || transforms[0] || '';
+    imgB.style.objectPosition = positions[1] || positions[0] || '';
     imgA.classList.add('active');
     imgB.classList.remove('active');
 
@@ -714,6 +729,12 @@
 
     detailOverlay.classList.add('program-detail-overlay--open');
     document.body.style.overflow = 'hidden';
+
+    const modalHeader = detailOverlay.querySelector('.program-detail-modal__header');
+    requestAnimationFrame(() => {
+      const lineHeight = parseFloat(getComputedStyle(modalTitle).lineHeight) || modalTitle.offsetHeight;
+      modalHeader.classList.toggle('title-wrapped', modalTitle.offsetHeight > lineHeight * 1.2);
+    });
   }
 
   function closeDetailModal() {
@@ -753,10 +774,16 @@
       let imgSrc = '';
 
       let imgSrcs = [];
+      let imgTransforms = [];
+      let imgPositions = [];
       if (guideSection) {
         const card = guideSection.querySelector(`.program-card[data-program="${key}"]`);
         const imgs = card && card.querySelectorAll('.program-card__detail-img');
-        if (imgs) imgSrcs = Array.from(imgs).map(el => el.getAttribute('src')).filter(Boolean);
+        if (imgs) {
+          imgSrcs = Array.from(imgs).map(el => el.getAttribute('src')).filter(Boolean);
+          imgTransforms = Array.from(imgs).map(el => el.style.transform || '');
+          imgPositions = Array.from(imgs).map(el => el.style.objectPosition || '');
+        }
         if (imgSrcs.length) imgSrc = imgSrcs[0];
       }
 
@@ -765,7 +792,9 @@
         name:    nameEl ? nameEl.textContent.trim() : '',
         tagText: tagEl  ? tagEl.textContent.trim()  : '',
         imgSrc,
-        imgSrcs
+        imgSrcs,
+        imgTransforms,
+        imgPositions
       });
     });
 
@@ -825,6 +854,7 @@
       div.className = 'program-preview__card';
       const tagCls = TAG_CLASS[prog.tagText] || '';
       const srcs = (prog.imgSrcs && prog.imgSrcs.length >= 2) ? prog.imgSrcs : [prog.imgSrc || ''];
+      const transforms = prog.imgTransforms || [];
       div.innerHTML = `
         <div class="card-img-wrap">
           <img class="card-img--a active" src="${srcs[0]}" alt="${prog.name}">
@@ -834,16 +864,23 @@
           <span class="program-preview__tag ${tagCls}">${prog.tagText}</span>
           <p class="program-preview__title">${prog.name}</p>
         </div>`;
+      const positions = prog.imgPositions || [];
+      const imgA = div.querySelector('.card-img--a');
+      const imgB = div.querySelector('.card-img--b');
+      if (imgA) { imgA.style.transform = transforms[0] || ''; imgA.style.objectPosition = positions[0] || ''; }
+      if (imgB) { imgB.style.transform = transforms[1] || transforms[0] || ''; imgB.style.objectPosition = positions[1] || positions[0] || ''; }
       startCardImgCycle(div, srcs);
       return div;
     }
 
     function fillCard(card, prog) {
       const srcs = (prog.imgSrcs && prog.imgSrcs.length >= 2) ? prog.imgSrcs : [prog.imgSrc || ''];
+      const transforms = prog.imgTransforms || [];
       const imgA = card.querySelector('.card-img--a');
       const imgB = card.querySelector('.card-img--b');
-      if (imgA) { imgA.src = srcs[0]; imgA.alt = prog.name; }
-      if (imgB) { imgB.src = srcs[1] || srcs[0]; imgB.alt = prog.name; }
+      const positions = prog.imgPositions || [];
+      if (imgA) { imgA.src = srcs[0]; imgA.alt = prog.name; imgA.style.transform = transforms[0] || ''; imgA.style.objectPosition = positions[0] || ''; }
+      if (imgB) { imgB.src = srcs[1] || srcs[0]; imgB.alt = prog.name; imgB.style.transform = transforms[1] || transforms[0] || ''; imgB.style.objectPosition = positions[1] || positions[0] || ''; }
       startCardImgCycle(card, srcs);
       const tagEl = card.querySelector('.program-preview__tag');
       tagEl.className = 'program-preview__tag ' + (TAG_CLASS[prog.tagText] || '');
@@ -864,6 +901,7 @@
         setCardTransform(C, 50);
         previewEl.append(C);
         cards = [null, C, null];
+        updateCenterClass();
         requestAnimationFrame(() => requestAnimationFrame(() => { C.style.transition = ''; }));
         return;
       }
@@ -885,6 +923,7 @@
 
       previewEl.append(L, C, R, extraCard);
       cards = [L, C, R];
+      updateCenterClass();
 
       requestAnimationFrame(() => requestAnimationFrame(() => {
         [L, C, R].forEach(el => { el.style.transition = ''; });
@@ -975,6 +1014,7 @@
             setCardTransform(extraCard, -1 - STEP);
             cards = [newL, newC, newR];
           }
+          updateCenterClass();
           track = cards;
         } else {
           // 복귀: extraCard를 다시 원래 자리로
@@ -1011,7 +1051,15 @@
         extraCard = oldR;
         cards = [newL, newC, newR];
       }
+      updateCenterClass();
       track = cards;
+    }
+
+    function updateCenterClass() {
+      cards.forEach((c, i) => {
+        if (!c) return;
+        c.classList.toggle('is-center', i === 1);
+      });
     }
 
     previewEl.style.userSelect = 'none';
@@ -1338,7 +1386,7 @@
     });
 
     window.addEventListener('resize', () => {
-      if (window.innerWidth > 768) closeMenu();
+      if (window.innerWidth > 1024) closeMenu();
     });
   })();
 

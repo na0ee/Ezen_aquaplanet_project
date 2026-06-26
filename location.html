@@ -168,7 +168,14 @@
 
       <!-- 배경 이미지 (Figma: img_name_20240305175381206 2) -->
       <div class="loc-hero__bg" aria-hidden="true">
-        <img src="assets/images/locationJeju_hero.gif" alt="" class="loc-hero__bg-img">
+        <video
+          src="assets/video/program_Jeju_hero.webm"
+          class="loc-hero__bg-img"
+          muted
+          loop
+          autoplay
+          playsinline
+        ></video>
       </div>
 
       <!-- 히어로 콘텐츠 — 중앙 (Figma: Frame 1707483132, x=576, y=306, 768×384) -->
@@ -297,17 +304,17 @@
           <span class="loc-map__title-light">Guide</span><em class="loc-map__title-serif"> Map</em>
         </h2>
         <div class="loc-map__floor-tabs" role="tablist" aria-label="층 선택">
-          <button class="loc-map__floor-tab is-active" role="tab" data-floor="2F" aria-selected="true">2F</button>
-          <button class="loc-map__floor-tab" role="tab" data-floor="1F" aria-selected="false">1F</button>
           <button class="loc-map__floor-tab" role="tab" data-floor="B1F" aria-selected="false">B1F</button>
+          <button class="loc-map__floor-tab is-active" role="tab" data-floor="1F" aria-selected="true">1F</button>
+          <button class="loc-map__floor-tab" role="tab" data-floor="2F" aria-selected="false">2F</button>
         </div>
       </div>
 
       <div class="loc-map__stage">
         <div class="loc-map__img-wrap">
           <img
-            src="assets/images/location/jeju2f.svg"
-            alt="아쿠아플라넷 가이드 맵 2F"
+            src="assets/images/location/jeju1f.svg"
+            alt="아쿠아플라넷 가이드 맵 1F"
             class="loc-map__img"
             id="loc-map-img-solo"
           >
@@ -335,9 +342,9 @@
 
       <div class="loc-map__header">
         <div class="loc-map__floor-tabs" role="tablist" aria-label="층 선택">
-          <button class="loc-map__floor-tab is-active" role="tab" data-floor="2F" aria-selected="true">2F</button>
-          <button class="loc-map__floor-tab" role="tab" data-floor="1F" aria-selected="false">1F</button>
           <button class="loc-map__floor-tab" role="tab" data-floor="B1F" aria-selected="false">B1F</button>
+          <button class="loc-map__floor-tab is-active" role="tab" data-floor="1F" aria-selected="true">1F</button>
+          <button class="loc-map__floor-tab" role="tab" data-floor="2F" aria-selected="false">2F</button>
         </div>
       </div>
 
@@ -348,8 +355,8 @@
           <div class="loc-map__stage">
             <div class="loc-map__img-wrap">
               <img
-                src="assets/images/location/jeju2f.svg"
-                alt="아쿠아플라넷 가이드 맵 2F"
+                src="assets/images/location/jeju1f.svg"
+                alt="아쿠아플라넷 가이드 맵 1F"
                 class="loc-map__img"
                 id="loc-map-img"
               >
