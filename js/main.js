@@ -2441,8 +2441,8 @@ function initCustomCursor() {
   });
 
   (function loop() {
-    cx += (tx - cx) * 0.35;
-    cy += (ty - cy) * 0.35;
+    cx += (tx - cx) * 0.38;
+    cy += (ty - cy) * 0.38;
     if (!Number.isFinite(cx) || !Number.isFinite(cy)) {
       cx = tx;
       cy = ty;
