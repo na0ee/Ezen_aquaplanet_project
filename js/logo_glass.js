@@ -113,8 +113,8 @@ const REFRACT = {
   tex: null,
   shaders: [],
   videoAspect: 16 / 9,
-  videoObjectPositionY: 1.0,
-  videoZoom: 1.22,
+  videoObjectPositionY: 0.5,
+  videoZoom: 1.0,
   refractAmt: STYLE.refractAmt ?? 0.07,
   refractMix: STYLE.refractMix ?? 0.9,
   waveAmt: STYLE.waveAmt ?? 0.0,
@@ -648,7 +648,6 @@ async function initLogo3D() {
     videoEl.autoplay = true;
     videoEl.setAttribute('aria-hidden', 'true');
     videoEl.className = 'logo-bg-video';
-    hero.appendChild(videoEl);
     if (videoEl) {
       REFRACT.tex = new THREE.VideoTexture(videoEl);
       REFRACT.tex.colorSpace = THREE.SRGBColorSpace;
