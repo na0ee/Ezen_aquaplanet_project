@@ -294,13 +294,50 @@ button {
   width: 100%;
 }
 
-@media (max-width: 1024px) {
+/* =================================================================
+   GNB — Tablet (1024px ~ 769px)
+   PC 구조(메뉴/로고/Ticket) 유지, 겹치지 않게 간격만 축소
+================================================================= */
+@media (max-width: 1024px) and (min-width: 769px) {
   .gnb {
-    padding: 24px 24px;
+    height: auto;
+    padding: 20px 24px;
   }
 
   .gnb__inner {
     max-width: calc(100% - 48px);
+  }
+
+  .gnb__nav {
+    gap: clamp(20px, 3vw, 36px);
+  }
+
+  .gnb__link,
+  .gnb__item {
+    font-size: 15px;
+    letter-spacing: -0.6px;
+  }
+
+  .gnb__link.gnb__link--active,
+  .gnb__item.gnb__item--active {
+    font-size: 17px;
+  }
+
+  .gnb__logo-wrap,
+  .gnb__logo {
+    width: 48px;
+    height: 48px;
+  }
+
+  .gnb__ticket {
+    height: 38px;
+    font-size: 15px;
+    padding: 0 12px 0 14px;
+  }
+
+  .gnb__ticket .img {
+    width: 20px;
+    height: 20px;
   }
 }
 
@@ -396,56 +433,9 @@ button {
     flex-direction: column;
     align-items: center;
     gap: 4px;
-  }
-
-  .gnb__category {
-    gap: 16px;
-  }
     width: 100%;
     max-width: 380px;
     padding: 0 32px;
-  }
-
-  .gnb__mobile-item {
-    width: 100%;
-    text-align: center;
-  }
-
-  .gnb__mobile-link {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    font-family: "Poppins", sans-serif;
-    font-weight: 300;
-    font-size: clamp(24px, 7vw, 32px);
-    letter-spacing: -0.04em;
-    color: rgba(255, 255, 255, 0.65);
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 10px 0;
-    text-decoration: none;
-    transition: color 0.2s ease;
-  }
-
-  .gnb__mobile-menu.is-open {
-    opacity: 1;
-    pointer-events: auto;
-  }
-
-  .gnb__mobile-nav {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-    width: 100%;
-    max-width: 380px;
-    padding: 0 32px;
-  }
-
-  .gnb__category {
-    gap: 16px;
   }
 
   .gnb__mobile-item {
@@ -694,6 +684,144 @@ button {
 .hero__scroll-explore {
   font-family: "EB Garamond", serif;
   font-style: normal;
+}
+
+/* =================================================================
+   Hero — Tablet (1024px ~ 769px)
+   PC 비율을 유지하되 텍스트가 화면 밖으로 나가지 않게 축소
+================================================================= */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .hero__content-inner {
+    width: min(860px, calc(100% - 80px));
+    max-width: min(860px, calc(100% - 80px));
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .hero__eyebrow {
+    font-size: clamp(24px, 3.4vw, 30px);
+    margin-bottom: -12px;
+  }
+
+  .hero__title {
+    font-size: clamp(48px, 6.4vw, 72px);
+    line-height: 1.08;
+  }
+
+  /* "aqua planet" 줄 — 폭이 충분하면 다음 줄(Rescue & Care)과 한 줄로 붙어도 되므로
+     display:block으로 강제하지 않고, 줄바꿈이 필요할 때 자연스럽게 떨어지게 둔다. */
+  .hero__title span {
+    font-size: clamp(48px, 6.4vw, 72px);
+    letter-spacing: -2px;
+  }
+
+  /* "Rescue & Care"는 한 덩어리로 유지 — Care만 혼자 떨어지는 것을 방지 */
+  .hero__title em {
+    display: inline-block;
+    margin-top: 4px;
+    font-size: clamp(54px, 7vw, 80px);
+    letter-spacing: -2px;
+    white-space: nowrap;
+  }
+
+  .hero__sub {
+    width: min(720px, calc(100% - 80px));
+    max-width: min(720px, calc(100% - 80px));
+    margin: 22px auto 0;
+    font-size: clamp(18px, 2vw, 22px);
+    line-height: 1.5;
+    word-break: keep-all;
+    white-space: normal;
+    overflow: visible;
+  }
+
+  .hero__scroll-line {
+    height: 64px;
+  }
+
+  .hero__scroll-text {
+    font-size: 24px;
+  }
+}
+
+/* =================================================================
+   Hero — Mobile (768px ~ 390px)
+   hero만 100svh, body/main은 고정하지 않음
+================================================================= */
+@media (max-width: 768px) {
+  .hero {
+    height: 100svh;
+    min-height: 620px;
+  }
+
+  .hero__content {
+    height: 100svh;
+    gap: 12px;
+  }
+
+  .hero__content-inner {
+    margin-top: 0;
+    max-width: calc(100% - 40px);
+  }
+
+  .hero__eyebrow {
+    font-size: clamp(18px, 5vw, 23px);
+    margin-bottom: -8px;
+  }
+
+  .hero__title {
+    font-size: clamp(38px, 11vw, 58px);
+  }
+
+  .hero__title span {
+    font-size: clamp(38px, 11vw, 58px);
+    letter-spacing: -1.5px;
+  }
+
+  .hero__title em {
+    font-size: clamp(44px, 13vw, 68px);
+    letter-spacing: -1.5px;
+  }
+
+  .hero__sub {
+    margin-top: 14px;
+    max-width: 300px;
+    font-size: 15px;
+    word-break: keep-all;
+  }
+
+  .hero__scroll {
+    margin-top: 12px;
+    gap: 12px;
+  }
+
+  .hero__scroll-line {
+    height: 46px;
+  }
+
+  .hero__scroll-text {
+    font-size: 18px;
+  }
+}
+
+/* Small Mobile (390px 이하 추가 보정) */
+@media (max-width: 390px) {
+  .hero {
+    min-height: 560px;
+  }
+
+  .hero__title span {
+    font-size: clamp(34px, 11vw, 44px);
+  }
+
+  .hero__title em {
+    font-size: clamp(40px, 13vw, 52px);
+  }
+
+  .hero__sub {
+    max-width: 260px;
+    font-size: 14px;
+  }
 }
 
 .rescue {
@@ -1331,121 +1459,269 @@ button {
   background: #fff;
 }
 
-@media (max-width: 760px) {
-  .case-dots {
-    --dot-size: 24px;
+/* =================================================================
+   Rescue & Care Activities / Cases — Tablet (1024px ~ 769px)
+================================================================= */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .rescue {
+    min-height: 0;
+    padding: 90px 0 100px;
   }
-}
 
-@media (max-width: 1180px) {
+  .section-head {
+    margin-top: 64px;
+  }
+
+  .section-head h2 {
+    font-size: 38px;
+  }
+
+  .section-head p {
+    margin: 14px auto 40px;
+    font-size: 16px;
+    max-width: min(720px, calc(100% - 40px));
+    word-break: keep-all;
+  }
+
+  /* PC와 동일한 스크롤 연동 크로스페이드 인터랙션을 유지한다.
+     (.activity-stack의 position:sticky, .activity-card의 position:absolute +
+     opacity/transform 전환을 그대로 두고, 크기·배치만 태블릿에 맞게 조정) */
+  .activity-scroll {
+    height: 1500px;
+    margin-top: 48px;
+  }
+
+  .activity-stack {
+    top: calc(50vh - (clamp(760px, 86vh, 920px) / 2));
+    width: min(82vw, 820px);
+    height: clamp(760px, 86vh, 920px);
+    overflow: visible;
+  }
+
   .activity-card {
-    width: min(760px, calc(100% - 48px));
+    width: 100%;
     height: auto;
     flex-direction: column;
     align-items: flex-start;
-    gap: 30px;
-  }
-
-  .activity-card__body {
-    position: static;
-  }
-
-  .activity-card__content,
-  .activity-card__content--wide {
-    width: 100%;
-    height: auto;
-    flex-basis: auto;
-    margin-top: 0;
-  }
-
-  .activity-card__num {
-    position: static;
+    gap: 36px;
   }
 
   .activity-card__image {
     width: 100%;
     height: auto;
     aspect-ratio: 620 / 415;
-    flex-basis: auto;
+    flex: none;
   }
 
-  .case-card__date {
-    font-size: clamp(56px, 9vw, 120px);
-    gap: 18px;
-  }
-}
-
-@media (max-width: 760px) {
-  .hero {
-    min-height: 760px;
-  }
-
-  .hero__sub {
-    font-size: 15px;
-  }
-
-  .rescue {
-    min-height: 0;
-    padding-top: 58px;
-    padding-bottom: 120px;
-  }
-
-  .tabs {
-    padding-top: 34px;
-  }
-
-  .section-head {
-    margin-top: 58px;
-  }
-
-  .section-head h2 {
-    font-size: 36px;
-  }
-
-  .activity-scroll {
-    height: 1720px;
-  }
-
-  .activity-stack {
-    top: 112px;
-    width: calc(100% - 32px);
-    height: 620px;
-  }
-
-  .activity-card__num,
-  .activity-card h3 {
-    font-size: 54px;
-  }
-
-  .activity-card h3 {
+  .activity-card__content,
+  .activity-card__content--wide {
+    width: 100%;
     height: auto;
+    flex: none;
+    flex-basis: auto;
+    margin-top: 0;
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .activity-card__num {
+    position: static;
+    display: block;
+    font-size: 40px;
     letter-spacing: -2px;
   }
 
-  .activity-card p {
+  .activity-card__body {
+    position: static;
+    top: auto;
+  }
+
+  .activity-card h3 {
     height: auto;
-    font-size: 14px;
+    font-size: 56px;
+    letter-spacing: -2px;
+  }
+
+  .activity-card .activity-card__body>p {
+    height: auto;
+    margin-top: 12px;
+    font-size: 16px;
     white-space: normal;
+    text-align: left;
   }
 
   .chips {
     flex-wrap: wrap;
     justify-content: flex-start;
     height: auto;
+    margin-top: 28px;
+  }
+
+  .cases {
+    padding-top: 56px;
+  }
+
+  .case-spotlight {
+    width: min(86vw, 880px);
+    margin: 36px auto 0;
+  }
+
+  .case-card {
+    height: clamp(520px, 74vh, 720px);
+  }
+
+  .case-card__footer {
+    left: 28px;
+    right: 28px;
+    bottom: 28px;
+    gap: 20px;
+  }
+
+  .case-card__date {
+    font-size: clamp(56px, 9vw, 100px);
+    gap: 16px;
+  }
+
+  .case-card__title {
+    font-size: 28px;
+    margin-bottom: 16px;
+  }
+
+  .case-dots {
+    margin-top: 20px;
+  }
+}
+
+/* =================================================================
+   Rescue & Care Activities / Cases — Mobile (768px ~ 390px)
+================================================================= */
+@media (max-width: 768px) {
+  .rescue {
+    min-height: 0;
+    padding: 56px 0 72px;
+  }
+
+  .section-head {
+    margin-top: 48px;
+  }
+
+  .section-head h2 {
+    font-size: 30px;
+  }
+
+  .section-head p {
+    margin: 12px auto 24px;
+    font-size: 14px;
+    max-width: calc(100% - 40px);
+    word-break: keep-all;
+  }
+
+  .activity-scroll {
+    height: auto;
+    margin-top: 36px;
+  }
+
+  .activity-stack {
+    position: static;
+    top: auto;
+    width: calc(100% - 40px);
+    height: auto;
+    overflow: visible;
+    pointer-events: auto;
+  }
+
+  .activity-card,
+  .activity-card.is-active,
+  .activity-card.is-prev {
+    position: relative;
+    top: auto;
+    left: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    height: auto;
+    gap: 24px;
+    margin-bottom: 48px;
+    opacity: 1;
+    pointer-events: auto;
+    transform: none;
+  }
+
+  .activity-card:last-child {
+    margin-bottom: 0;
+  }
+
+  .activity-card__image {
+    position: relative;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 620 / 415;
+    flex: none;
+    border-radius: 12px;
+  }
+
+  .activity-card__image img {
+    border-radius: 12px;
+  }
+
+  .activity-card__content,
+  .activity-card__content--wide {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: auto;
+    flex: none;
+    flex-basis: auto;
+    margin-top: 0;
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .activity-card__num {
+    position: static;
+    display: block;
+    margin: 0 0 10px;
+    font-size: 44px;
+    letter-spacing: -1.5px;
+  }
+
+  .activity-card__body {
+    position: static;
+    top: auto;
+  }
+
+  .activity-card h3 {
+    height: auto;
+    font-size: 44px;
+    letter-spacing: -1.5px;
+  }
+
+  .activity-card .activity-card__body>p {
+    height: auto;
+    margin-top: 8px;
+    font-size: 14px;
+    white-space: normal;
+    text-align: left;
+    word-break: keep-all;
+  }
+
+  .chips {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    height: auto;
+    margin-top: 20px;
+    gap: 8px;
   }
 
   .chips li {
-    height: 28px;
+    height: 30px;
+    padding: 0 14px;
     font-size: 13px;
   }
 
   .cases {
-    padding-top: 150px;
-  }
-
-  .case-tabs {
-    margin-top: 0;
-    margin-bottom: 0;
+    padding-top: 56px;
   }
 
   .case-tabs .tabs__inner {
@@ -1466,19 +1742,20 @@ button {
   }
 
   .case-spotlight {
-    margin-top: 50px;
+    width: calc(100vw - 40px);
+    margin: 32px auto 0;
   }
 
   .case-card {
-    height: min(620px, calc(100vh - 120px));
-    min-height: 520px;
+    height: min(620px, calc(100vh - 160px));
+    min-height: 480px;
   }
 
   .case-card__footer {
     left: 18px;
     right: 18px;
     bottom: 18px;
-    gap: 24px;
+    gap: 14px;
     flex-direction: column;
     align-items: flex-start;
   }
@@ -1488,7 +1765,7 @@ button {
     margin: 0;
     justify-content: center;
     gap: 10px;
-    font-size: clamp(40px, 16vw, 64px);
+    font-size: clamp(36px, 15vw, 60px);
   }
 
   .case-card__info {
@@ -1496,13 +1773,45 @@ button {
   }
 
   .case-card__title {
-    font-size: 24px;
-    margin-bottom: 14px;
+    font-size: 22px;
+    margin-bottom: 12px;
   }
 
   .case-card__row {
     grid-template-columns: 68px 1fr;
     font-size: 13px;
+  }
+
+  .case-dots {
+    margin-top: 18px;
+    gap: 7px;
+  }
+}
+
+/* Small Mobile (390px 이하 추가 보정) */
+@media (max-width: 390px) {
+  .section-head h2 {
+    font-size: 26px;
+  }
+
+  .activity-card__num {
+    font-size: 36px;
+  }
+
+  .activity-card h3 {
+    font-size: 36px;
+  }
+
+  .case-card {
+    min-height: 420px;
+  }
+
+  .case-card__date {
+    font-size: clamp(32px, 15vw, 48px);
+  }
+
+  .case-dots {
+    --dot-size: 22px;
   }
 }
 

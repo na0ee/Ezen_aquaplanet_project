@@ -3,7 +3,7 @@ const path = require('path');
 const sharp = require('sharp');
 
 const SRC_DIR = path.join(__dirname, 'assets/images/oceanfriends');
-const DEST_DIR = path.join(__dirname, 'assets/images/avif');
+const DEST_DIR = path.join(__dirname, 'assets/images/oceanfriends/avif');
 const QUALITY = 65;
 const EXTS = ['.jpg', '.jpeg', '.png', '.webp'];
 
