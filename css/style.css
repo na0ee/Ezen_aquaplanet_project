@@ -895,22 +895,6 @@ body.is-logo-at-header .gnb__logo {
   position: relative;
 }
 
-/* 로고 섹션 배경 영상 — 유리 굴절 재질이 참조하는 같은 비디오를 실제 배경으로 사용 */
-.logo-bg-video {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center top;
-  transform: scale(1.22);
-  transform-origin: center top;
-  z-index: 0;
-  pointer-events: none;
-  -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
-  mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
-}
-
 #sec-logo,
 #sec-intro {
   background: transparent;

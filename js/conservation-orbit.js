@@ -29,6 +29,8 @@
   var targetCarouselPosition = 0;
   var pinOriginalParent = null;
   var pinOriginalNextSibling = null;
+  var isOpeningCard = false;
+  var cardOpenTimer = null;
 
   function clamp01(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
   function lerp(a, b, t) { return a + (b - a) * t; }
@@ -101,6 +103,51 @@
     document.body.classList.toggle('is-cons-content', isContent);
   }
 
+  function random(min, max) {
+    return Math.random() * (max - min) + min;
+  }
+
+  function clearConservationBubbles() {
+    Array.prototype.forEach.call(document.querySelectorAll('[data-cons-bubble-side]'), function (side) {
+      side.replaceChildren();
+    });
+  }
+
+  function buildConservationBubbles() {
+    var root = document.querySelector('[data-cons-bubble-root]');
+    if (!root) return;
+    clearConservationBubbles();
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    var rootHeight = Math.max(root.offsetHeight, window.innerHeight);
+    var powerSaving = window.devicePixelRatio > 2 || (navigator.deviceMemory && navigator.deviceMemory < 4);
+    var bubblesPerSide = Math.min(powerSaving ? 14 : 30, Math.max(powerSaving ? 10 : 16, Math.round(rootHeight / (powerSaving ? 360 : 260))));
+
+    Array.prototype.forEach.call(root.querySelectorAll('[data-cons-bubble-side]'), function (side) {
+      var sideWidth = Math.max(side.clientWidth, 72);
+
+      for (var i = 0; i < bubblesPerSide; i += 1) {
+        var bubble = document.createElement('span');
+        var size = random(14, 54);
+        var maxX = Math.max(4, sideWidth - size - 8);
+        var duration = random(15, 30);
+
+        bubble.className = 'm-cons-glass-bubble';
+        bubble.style.setProperty('--bubble-size', size.toFixed(1) + 'px');
+        bubble.style.setProperty('--bubble-x', random(4, maxX).toFixed(1) + 'px');
+        bubble.style.setProperty('--bubble-y', random(0, rootHeight + window.innerHeight * 0.35).toFixed(1) + 'px');
+        bubble.style.setProperty('--bubble-duration', duration.toFixed(2) + 's');
+        bubble.style.setProperty('--bubble-delay', random(-duration, 4).toFixed(2) + 's');
+        bubble.style.setProperty('--bubble-drift', random(-34, 34).toFixed(1) + 'px');
+        bubble.style.setProperty('--bubble-sway', random(6, 22).toFixed(1) + 'px');
+        bubble.style.setProperty('--bubble-sway-duration', random(3.8, 7.8).toFixed(2) + 's');
+        bubble.style.setProperty('--bubble-opacity', random(0.16, 0.42).toFixed(2));
+
+        side.appendChild(bubble);
+      }
+    });
+  }
+
   function attachFixedPin(pin) {
     if (!pin) return;
     if (!pinOriginalParent) {
@@ -136,6 +183,19 @@
   function wrapDistance(value, period) {
     var half = period / 2;
     return ((value + half) % period + period) % period - half;
+  }
+
+  function steppedCarouselPosition(progress) {
+    var totalSteps = N * 2;
+    var raw = progress * totalSteps;
+    var step = Math.floor(raw);
+    var phase = raw - step;
+    var holdRatio = 0.58;
+
+    if (step >= totalSteps) return totalSteps;
+    if (phase < holdRatio) return step;
+
+    return step + easeInOut((phase - holdRatio) / (1 - holdRatio));
   }
 
   function slotPose(s) {
@@ -245,7 +305,7 @@
     }
 
     var carouselProgress = clamp01((currentProgress - 0.44) / 0.56);
-    var targetStep = carouselProgress * N * 2;
+    var targetStep = steppedCarouselPosition(carouselProgress);
     var positionDelta = targetStep - currentCarouselPosition;
 
     targetCarouselPosition = targetStep;
@@ -256,8 +316,12 @@
 
     var isPinned = rect.top <= 0 && rect.bottom >= 0;
     var enterOpacity = isPinned ? easeInOut(clamp01(-rect.top / (vh * 0.55))) : 0;
-    var pinOffsetY = getPinOffsetY();
-    pin.style.transform = 'translateX(-50%) translateY(' + pinOffsetY.toFixed(2) + 'px) scale(' + scale.toFixed(6) + ')';
+    if (isTabletLayout()) {
+      var pinOffsetY = getPinOffsetY();
+      pin.style.transform = 'translateX(-50%) translateY(' + pinOffsetY.toFixed(2) + 'px) scale(' + scale.toFixed(6) + ')';
+    } else {
+      pin.style.transform = 'translateX(-50%) scale(' + scale.toFixed(6) + ')';
+    }
     pin.style.opacity = String(enterOpacity);
     pin.style.visibility = isPinned ? 'visible' : 'hidden';
     pin.style.pointerEvents = isPinned ? 'auto' : 'none';
@@ -287,8 +351,75 @@
     overlay.setAttribute('aria-hidden', 'false');
   }
 
+  function burstOrbThenOpen(orb, category) {
+    var circle = orb ? orb.querySelector('.m-cons-orb__circle.ticket-bubble') : null;
+    if (!circle) {
+      openCard(category);
+      return;
+    }
+
+    isOpeningCard = true;
+    circle.classList.remove('is-bursting');
+    void circle.offsetWidth;
+    circle.classList.add('is-bursting');
+    spawnOrbBubbleSparks(circle);
+
+    cardOpenTimer = window.setTimeout(function () {
+      cardOpenTimer = null;
+      circle.classList.remove('is-bursting');
+      isOpeningCard = false;
+      openCard(category);
+    }, 600);
+  }
+
+  function spawnOrbBubbleSparks(circle) {
+    var rect = circle.getBoundingClientRect();
+    var cx = rect.left + rect.width / 2;
+    var cy = rect.top + rect.height / 2;
+    var count = 24;
+
+    for (var i = 0; i < count; i += 1) {
+      var spark = document.createElement('span');
+      var size = 7 + Math.random() * 20;
+      var angle = Math.random() * Math.PI * 2;
+      var distance = rect.width * (0.42 + Math.random() * 0.72);
+      var dx = Math.cos(angle) * distance;
+      var dy = Math.sin(angle) * distance;
+      var drift = -18 - Math.random() * 42;
+      var duration = 520 + Math.random() * 320;
+
+      spark.className = 'm-cons-bubble-spark';
+      spark.style.width = size.toFixed(1) + 'px';
+      spark.style.height = size.toFixed(1) + 'px';
+      spark.style.left = (cx - size / 2).toFixed(1) + 'px';
+      spark.style.top = (cy - size / 2).toFixed(1) + 'px';
+      spark.style.setProperty('--dx', dx.toFixed(1) + 'px');
+      spark.style.setProperty('--dy', (dy + drift).toFixed(1) + 'px');
+      spark.style.setProperty('--dur', duration.toFixed(0) + 'ms');
+      document.body.appendChild(spark);
+      spark.addEventListener('animationend', function (event) {
+        event.currentTarget.remove();
+      });
+    }
+  }
+
+  function clearPendingCardOpen() {
+    if (cardOpenTimer) {
+      window.clearTimeout(cardOpenTimer);
+      cardOpenTimer = null;
+    }
+    isOpeningCard = false;
+    Array.prototype.forEach.call(document.querySelectorAll('.m-cons-orb__circle.is-bursting'), function (circle) {
+      circle.classList.remove('is-bursting');
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('.m-cons-bubble-spark'), function (spark) {
+      spark.remove();
+    });
+  }
+
   function closeCard() {
     var overlay = document.getElementById('cons-card-overlay');
+    clearPendingCardOpen();
     if (!overlay) return;
     overlay.classList.remove('is-open');
     overlay.setAttribute('aria-hidden', 'true');
@@ -319,8 +450,9 @@
     document.addEventListener('click', function (event) {
       var orb = event.target.closest ? event.target.closest('.m-cons-orb') : null;
       if (orb) {
+        if (isOpeningCard) return;
         if (!isMobileStatic() && !orb.classList.contains('is-featured')) return;
-        openCard(orb.getAttribute('data-category'));
+        burstOrbThenOpen(orb, orb.getAttribute('data-category'));
         return;
       }
 
@@ -351,6 +483,7 @@
     if (!section || !pin) return;
     collectOrbs();
     bindOnce();
+    buildConservationBubbles();
     currentProgress = 0;
     targetProgress = 0;
     currentCarouselPosition = 0;
@@ -408,6 +541,7 @@
     if (section) section.classList.remove('is-static-mobile');
     restorePin(pin);
     clearInlineOrbitStyles(pin);
+    clearConservationBubbles();
     closeCard();
   }
 
