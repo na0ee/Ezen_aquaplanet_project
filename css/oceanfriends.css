@@ -302,6 +302,23 @@ body.oceanfriends-page {
   .oceanfriends-page .gnb__inner {
     max-width: calc(100% - 48px);
   }
+
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  /* intro__content-inner 태블릿 반응형 */
+  .intro__content-inner .of-eyebrow {
+    font-size: clamp(22px, 2.8vw, 28px);
+  }
+  .intro__content-inner .of-title span {
+    font-size: clamp(60px, 8vw, 90px);
+  }
+  .intro__content-inner .of-title em {
+    font-size: clamp(76px, 10vw, 116px);
+  }
+  .intro__content-inner .intro__lead {
+    font-size: clamp(18px, 2.2vw, 22px);
+  }
 }
 
 @media (max-width: 768px) {
@@ -384,9 +401,6 @@ body.oceanfriends-page {
   margin-top: 84px;
 }
 
-.of-hero {
-  display: none;
-}
 
 .of-eyebrow {
   display: block;
@@ -415,7 +429,7 @@ body.oceanfriends-page {
   font-weight: 200;
   color: #ffffff;
   letter-spacing: -4px;
-  line-height: normal;
+  line-height: 1;
 }
 
 .of-title em {
@@ -425,10 +439,10 @@ body.oceanfriends-page {
   font-size: 128px;
   color: #ffffff;
   letter-spacing: -2.56px;
-  line-height: normal;
+  line-height: 1;
 }
 
-.of-hero__lead {
+.intro__lead {
   margin: 22px auto 0;
   max-width: 760px;
   font-family: "Pretendard", sans-serif;
@@ -486,34 +500,35 @@ body.oceanfriends-page {
 }
 
 .of-section-title {
-  margin: 0;
-  font-size: 0;
-  color: #111;
-}
-
-.of-section-title span {
   font-family: "Poppins", sans-serif;
-  font-size: clamp(30px, 2.2vw, 42px);
+  font-size: 58px;
   font-weight: 300;
-  letter-spacing: 0;
-  line-height: 1.4;
+  letter-spacing: -2.24px;
+  color: #ffffff;
+  margin-bottom: 14px;
 }
 
 .of-section-title em {
   font-family: "EB Garamond", serif;
-  font-size: clamp(34px, 2.5vw, 48px);
+  font-size: 56px;
   font-weight: 500;
   font-style: italic;
-  letter-spacing: 0;
-  line-height: 1.4;
+  color: #ffffff;
 }
 
 .of-section-sub {
-  margin-top: 7px;
-  font-family: var(--font-kr);
-  font-size: 18px;
-  line-height: 1.4;
-  color: #1a1a1a;
+  color: #ffffff;
+  text-align: center;
+  font-family: "Pretendard", sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 200;
+  line-height: 1.6;
+  letter-spacing: -0.36px;
+}
+
+.of-signature .of-section-sub {
+  font-weight: 300;
 }
 
 /* ── 섹션 순차 페이드인 ── */
@@ -573,7 +588,7 @@ body.oceanfriends-page {
   animation: of-intro-rise 1.05s cubic-bezier(0.22, 1, 0.36, 1) 170ms both;
 }
 
-.oceanfriends-page .intro__content .of-hero__lead {
+.oceanfriends-page .intro__content .intro__lead {
   animation: of-intro-rise 1.05s cubic-bezier(0.22, 1, 0.36, 1) 340ms both;
 }
 
@@ -590,7 +605,7 @@ body.oceanfriends-page {
 
   .oceanfriends-page .intro__content .of-eyebrow,
   .oceanfriends-page .intro__content .of-title,
-  .oceanfriends-page .intro__content .of-hero__lead,
+  .oceanfriends-page .intro__content .intro__lead,
   .oceanfriends-page .intro__content .of-scroll {
     animation: none;
     opacity: 1;
@@ -641,16 +656,6 @@ body.oceanfriends-page {
 .signature-gallery-track .of-species-card {
   opacity: 0;
   will-change: opacity, transform, filter;
-}
-
-.of-signature .of-section-title,
-.of-signature .of-section-title span,
-.of-signature .of-section-title em {
-  color: #ffffff;
-}
-
-.of-signature .of-section-sub {
-  color: rgba(255, 255, 255, 0.92);
 }
 
 /* ── 종 카드 (grid 기본) ── */
@@ -751,7 +756,7 @@ body.oceanfriends-page {
   z-index: 2;
   left: 16px;
   right: 16px;
-  bottom: 18px;
+  bottom: 16px;
 }
 
 .of-species-card__text strong {
@@ -761,13 +766,12 @@ body.oceanfriends-page {
   font-weight: 500;
   line-height: 1;
   color: #fff;
-  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.45);
   -webkit-font-smoothing: antialiased;
 }
 
 .of-species-card__text span {
   display: block;
-  margin-top: 7px;
+  margin-top: 8px;
   font-size: 12px;
   color: rgba(255, 255, 255, 0.7);
 }
@@ -819,7 +823,7 @@ body.oceanfriends-page {
 /* ── 디테일 섹션 ── */
 .of-detail {
   min-height: 100svh;
-  padding: clamp(70px, 8vh, 96px) 0 clamp(220px, 18vh, 320px);
+  padding: 210px 0 clamp(220px, 18vh, 320px);
   background: #2686E7;
   color: #ffffff;
 }
@@ -859,18 +863,17 @@ body.oceanfriends-page {
   margin: 0 auto;
 }
 
-.cartegory-tabs-b {
+.cartegory-tabs-a {
   display: flex;
+  align-items: center;
   justify-content: center;
-  margin-bottom: 0;
+  position: relative;
   flex-wrap: nowrap;
-  gap: 2px;
   background: rgba(255, 255, 255, 0.02);
   padding: 3px;
   border-radius: 14px;
   border: 1px solid rgba(255, 255, 255, 0.50);
-  width: max-content;
-  max-width: 100%;
+  width: fit-content;
   margin-left: auto;
   margin-right: auto;
 }
@@ -923,16 +926,16 @@ body.oceanfriends-page {
   opacity: 1;
 }
 
-.cartegory-tabs-b__item {
+.cartegory-tabs-a__item {
   justify-content: center;
-  height: 48px;
+  height: 44px;
   padding: 0 20px;
   border-radius: 12px;
-  font-family: "Pretendard", sans-serif;
+  font-family: "Poppins", sans-serif;
   font-size: 16px;
-  font-weight: 500;
-  letter-spacing: 0;
-  color: rgba(255, 255, 255, 0.85);
+  font-weight: 400;
+  letter-spacing: -0.64px;
+  color: #ffffff;
   background-color: transparent;
   border: none;
   cursor: pointer;
@@ -946,21 +949,20 @@ body.oceanfriends-page {
     transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.cartegory-tabs-b__item--active {
+.cartegory-tabs-a__item--active {
   background-color: #ffffff;
   color: var(--Brand-Primary, #22B2EA);
-  font-family: "EB Garamond";
+  font-family: "EB Garamond", serif;
   font-size: 20px;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
-  letter-spacing: 0;
+  letter-spacing: -0.8px;
   border: none;
-  transform: translateY(-1px);
 }
 
-.cartegory-tabs-b__item:hover,
-.cartegory-tabs-b__item:focus-visible {
+.cartegory-tabs-a__item:hover,
+.cartegory-tabs-a__item:focus-visible {
   color: #22b2ea;
   background: rgba(255, 255, 255, 0.92);
   outline: none;
@@ -1049,7 +1051,7 @@ body.oceanfriends-page {
   align-items: center;
   gap: 8px;
   flex-wrap: wrap;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .of-detail-card__body {
@@ -1061,12 +1063,13 @@ body.oceanfriends-page {
 .of-badge {
   display: inline-flex;
   align-items: center;
-  min-height: 22px;
-  padding: 0 14px;
-  border-radius: 999px;
+  height: 26px;
+  padding: 0 10px;
+  border-radius: 50px;
+  letter-spacing: -2%;
   border: 1px solid rgba(255, 255, 255, 0.26);
   font-size: 12px;
-  line-height: 1;
+  font-weight: 400;
   color: #ffffff;
   background: rgba(255, 255, 255, 0.04);
 }
@@ -1088,7 +1091,7 @@ body.oceanfriends-page {
 
 .of-detail-card i {
   display: block;
-  margin-top: 6px;
+  margin-top: 2px;
   font-family: var(--font-serif);
   font-size: 18px;
   color: rgba(255, 255, 255, 0.88);
@@ -1106,22 +1109,23 @@ body.oceanfriends-page {
 .of-detail-card p {
   margin: 22px 0 18px;
   font-family: var(--font-kr);
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1.4;
-  color: rgba(255, 255, 255, 0.88);
+  color: #ffffff;
+  font-weight: 300;
 }
 
 .of-more {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 30px;
+  height: 32px;
   padding: 0 16px;
   border-radius: 999px;
   background: #ffffff;
   border: 1px solid #ffffff;
   color: #22b2ea;
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 500;
   text-decoration: none;
   transition: background 0.2s, color 0.2s;
@@ -1308,20 +1312,6 @@ body.oceanfriends-page {
   outline: none;
 }
 
-/* ── 흰색 배경 위 파란 커서 ── */
-#custom-cursor.is-over-light {
-  border-color: rgba(34, 178, 234, 0.9);
-}
-
-#custom-cursor.is-over-light.is-hovering {
-  border-color: rgba(34, 178, 234, 1);
-  background: rgba(34, 178, 234, 0.08);
-}
-
-#custom-cursor.is-over-light.is-clicking {
-  background: rgba(34, 178, 234, 0.2);
-  border-color: rgba(34, 178, 234, 1);
-}
 
 /* ── 1100px 이하 카드 높이 조정 ── */
 @media (max-width: 1100px) {
@@ -1331,7 +1321,7 @@ body.oceanfriends-page {
 }
 
 /* ── Signature Species — draggable infinite gallery ── */
-@media (min-width: 761px) {
+@media (min-width: 769px) {
   .signature-gallery-viewport {
     display: block;
     width: 100%;
@@ -1426,22 +1416,40 @@ body.oceanfriends-page {
 }
 
 /* ── 모바일 ── */
-@media (max-width: 760px) {
+@media (max-width: 768px) {
   .of-container {
     width: min(100% - 32px, 1320px);
   }
 
-  .of-hero {
-    min-height: 880px;
-    padding-top: 112px;
-    padding-bottom: 220px;
+
+  /* intro__content-inner 모바일 반응형 (location .loc-hero__text-group 기준) */
+  .intro__content-inner .of-eyebrow {
+    font-size: clamp(17px, 4.8vw, 23px);
+  }
+  .intro__content-inner .of-title span {
+    display: block;
+    margin-top: 16px;
+    margin-bottom: -20px;
+    font-size: clamp(36px, 10vw, 60px);
+    letter-spacing: -1.5px;
+    white-space: normal;
+  }
+  .intro__content-inner .of-title em {
+    font-size: clamp(46px, 13vw, 76px);
+    letter-spacing: -1px;
+  }
+  .intro__content-inner .intro__lead {
+    font-size: clamp(14px, 4vw, 16px);
+    white-space: normal;
+    text-align: center;
+    padding-inline: 24px;
   }
 
   .of-title {
     font-size: clamp(46px, 15vw, 72px);
   }
 
-  .of-hero__lead {
+  .intro__lead {
     max-width: 320px;
   }
 
@@ -1512,13 +1520,13 @@ body.oceanfriends-page {
     height: 54px;
   }
 
-  .cartegory-tabs-b {
+  .cartegory-tabs-a {
     max-width: 100%;
     overflow-x: auto;
     scrollbar-width: none;
   }
 
-  .cartegory-tabs-b::-webkit-scrollbar {
+  .cartegory-tabs-a::-webkit-scrollbar {
     display: none;
   }
 

@@ -185,7 +185,6 @@
 
   const pin = section.querySelector('.biz-blue-stack');
   const head = section.querySelector('.biz-overview-head');
-  const label = section.querySelector('.biz-area-vision-label');
   const mobileQuery = window.matchMedia('(max-width: 768px)');
   const slides = Array.from(section.querySelectorAll('.biz-blue-card'))
     .sort(function (a, b) {
@@ -230,6 +229,17 @@
   function renderOverview(rect) {
     if (!head) return;
 
+<<<<<<< HEAD
+=======
+    if (mobileQuery.matches) {
+      head.style.removeProperty('--biz-overview-opacity');
+      head.style.removeProperty('--biz-overview-y');
+      head.style.removeProperty('--biz-overview-max-height');
+      head.style.visibility = '';
+      return;
+    }
+
+>>>>>>> 9df11a80d55597ac242b77fdf0b01ee0c6e3c8fb
     const viewport = window.innerHeight || document.documentElement.clientHeight;
     const fadeDistance = Math.max(320, viewport * 0.46);
     const progress = smooth(clamp(-rect.top / fadeDistance, 0, 1));
@@ -237,8 +247,6 @@
     head.style.setProperty('--biz-overview-opacity', (1 - progress).toFixed(3));
     head.style.setProperty('--biz-overview-y', (-72 * progress).toFixed(2) + 'px');
     head.style.setProperty('--biz-overview-max-height', (180 * (1 - progress)).toFixed(2) + 'px');
-    if (label) label.style.setProperty('--biz-overview-follow-y', (-128 * progress).toFixed(2) + 'px');
-    if (pin) pin.style.setProperty('--biz-overview-follow-y', (-128 * progress).toFixed(2) + 'px');
     head.style.visibility = progress > 0.985 ? 'hidden' : 'visible';
   }
 
@@ -276,6 +284,144 @@
     mobileQuery.addListener(requestUpdate);
   }
   activate(0);
+  update();
+})();
+
+/* ── Vision 카드: 화면 고정 후 스크롤로 행 순서대로 펼치기 ── */
+(function () {
+  var wrap = document.querySelector('.biz-vision-pin-wrap');
+  var vision = document.querySelector('.biz-vision');
+  if (!wrap || !vision) return;
+
+  var rowDefs = [
+    ['.biz-glass-card--mission',   '.biz-glass-card--creative'],
+    ['.biz-glass-card--statement', '.biz-glass-card--responsible'],
+    ['.biz-glass-card--core',      '.biz-glass-card--tech'],
+    ['.biz-glass-card--goal',      '.biz-glass-card--staff'],
+    [null,                          '.biz-glass-card--network'],
+  ];
+
+  var rows = rowDefs.map(function (def) {
+    return [
+      def[0] ? vision.querySelector(def[0]) : null,
+      def[1] ? vision.querySelector(def[1]) : null,
+    ];
+  }).filter(function (row) { return row[0] || row[1]; });
+
+  var STEP = 600;         // 행 하나당 스크롤 거리 (px)
+  var MOBILE_BREAK = 900;
+  var activeRow = -1;
+  var rafId = null;
+  var sectionH = 0;
+  var groupHeadOffset = 0; // 섹션 상단 → .biz-vision-group-head 상단까지 거리
+  var wrapAbsTop = 0;      // 래퍼 절대 위치 캐시 (스크롤 중 재계산 안 함)
+  var pinState = 'before'; // 'before' | 'pinned' | 'after'
+
+  function activateRow(index) {
+    if (index === activeRow) return;
+    activeRow = index;
+    rows.forEach(function (row, i) {
+      row.forEach(function (card) {
+        if (card) card.classList.toggle('is-expanded', i === index);
+      });
+    });
+  }
+
+  function deactivateAll() {
+    if (activeRow === -1) return;
+    activeRow = -1;
+    rows.forEach(function (row) {
+      row.forEach(function (card) { if (card) card.classList.remove('is-expanded'); });
+    });
+  }
+
+  function clearPinStyles() {
+    vision.style.position = '';
+    vision.style.top = '';
+    vision.style.bottom = '';
+    vision.style.left = '';
+    vision.style.width = '';
+    vision.style.zIndex = '';
+    vision.style.removeProperty('margin-top');
+  }
+
+  function init() {
+    clearPinStyles();
+    wrap.style.height = '';
+    pinState = 'before';
+    if (window.innerWidth <= MOBILE_BREAK) return;
+
+    // .biz-vision-group-head 상단이 섹션 상단에서 얼마나 아래에 있는지 측정
+    var groupHead = vision.querySelector('.biz-vision-group-head');
+    if (groupHead) {
+      var vRect = vision.getBoundingClientRect();
+      var gRect = groupHead.getBoundingClientRect();
+      groupHeadOffset = Math.round(gRect.top - vRect.top);
+    } else {
+      groupHeadOffset = 0;
+    }
+
+    sectionH = vision.offsetHeight;
+    // 래퍼 높이 = 섹션 자연 높이 + group-head까지 여백 + 행 수 × 스텝
+    wrap.style.height = (sectionH + groupHeadOffset + rows.length * STEP) + 'px';
+    // 래퍼 절대 위치 캐시 — resize/init 시점에만 계산
+    wrapAbsTop = window.pageYOffset + wrap.getBoundingClientRect().top;
+  }
+
+  function update() {
+    if (window.innerWidth <= MOBILE_BREAK) {
+      clearPinStyles();
+      deactivateAll();
+      return;
+    }
+
+    // 스크롤 중 getBoundingClientRect 호출 없이 산술만으로 계산
+    var excess = window.pageYOffset - wrapAbsTop;
+    var pinStart  = groupHeadOffset;                       // group-head가 뷰포트 상단에 닿는 시점
+    var pinEnd    = groupHeadOffset + rows.length * STEP;  // 고정 해제 시점
+
+    if (excess < pinStart) {
+      // 고정 전 — 제목까지 자연 스크롤
+      if (pinState !== 'before') { clearPinStyles(); pinState = 'before'; }
+      deactivateAll();
+    } else if (excess >= pinEnd) {
+      // 고정 해제 후 — 래퍼 하단에 절대 위치
+      if (pinState !== 'after') {
+        vision.style.position = 'absolute';
+        vision.style.top = (rows.length * STEP) + 'px';
+        vision.style.bottom = '';
+        vision.style.left = '0';
+        vision.style.width = '100%';
+        vision.style.zIndex = '';
+        vision.style.setProperty('margin-top', '0', 'important');
+        pinState = 'after';
+      }
+      activateRow(rows.length - 1);
+    } else {
+      // 고정 구간 — .biz-vision-group-head가 뷰포트 상단에 고정
+      if (pinState !== 'pinned') {
+        vision.style.position = 'fixed';
+        vision.style.top = -groupHeadOffset + 'px'; // group-head를 뷰포트 상단에 맞춤
+        vision.style.bottom = '';
+        vision.style.left = '0';
+        vision.style.width = '100%';
+        vision.style.zIndex = '100';
+        vision.style.setProperty('margin-top', '0', 'important');
+        pinState = 'pinned';
+      }
+      var index = Math.min(rows.length - 1, Math.max(0, Math.floor((excess - pinStart) / STEP)));
+      activateRow(index);
+    }
+  }
+
+  function onScroll() {
+    if (rafId) return;
+    rafId = requestAnimationFrame(function () { rafId = null; update(); });
+  }
+
+  init();
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', function () { init(); update(); });
   update();
 })();
 
