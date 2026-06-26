@@ -733,8 +733,9 @@ button {
   transform: translate(-50%, -50%);
 }
 
-/* 햄버거 — 모바일에서만 표시 */
-.gnb__hamburger {
+/* 햄버거 + 모바일 메뉴 — 모바일에서만 표시 */
+.gnb__hamburger,
+.gnb__mobile-menu {
   display: none;
 }
 
@@ -2091,7 +2092,7 @@ body.is-logo-at-header .gnb__logo {
   text-align: center;
   font-family: var(--font-kr);
   font-size: var(--fs-caption);
-  letter-spacing: 0;
+  letter-spacing: -1.4px;
   color: var(--clr-text);
   text-shadow: 0 1px 10px rgba(0, 28, 70, 0.28);
   transition: transform var(--tr-base);
@@ -2306,8 +2307,8 @@ body.is-logo-at-header .gnb__logo {
   left: calc(50% - 165px);
   top: 50%;
   z-index: 1;
-  width: min(904px, calc(100vw - 830px));
-  min-width: 640px;
+  width: min(850px, calc(100vw - 830px));
+  min-width: 560px;
   min-height: 394px;
   padding: 12px 12px 12px 24px;
   opacity: 0;
@@ -2491,8 +2492,8 @@ body.is-logo-at-header .gnb__logo {
 
 .location-hover-card__image {
   position: relative;
-  flex: 0 0 clamp(240px, 44%, 380px);
-  max-width: 380px;
+  flex: 0 0 clamp(210px, 36%, 300px);
+  max-width: 300px;
   margin-left: auto;
   margin-right: 0;
   min-width: 0;
@@ -2515,12 +2516,17 @@ body.is-logo-at-header .gnb__logo {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
   display: block;
   transform: scale(1);
   filter: saturate(1) brightness(1);
   transition:
     transform 0.48s cubic-bezier(0.22, 0.72, 0.28, 1),
     filter 0.34s ease;
+}
+
+.location-hover-card__img[src*="Frame 22"] {
+  object-position: left center;
 }
 
 .location-hover-card.is-switching .location-hover-card__copy {
