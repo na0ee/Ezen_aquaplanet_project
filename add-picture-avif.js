@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 const HTML_PATH = path.join(__dirname, 'Oceanfriends.html');
-const AVIF_DIR = path.join(__dirname, 'assets/images/avif');
+const AVIF_DIR = path.join(__dirname, 'assets/images/oceanfriends/avif');
 
 const avifFiles = new Set(fs.readdirSync(AVIF_DIR));
 
@@ -24,7 +24,7 @@ html = html.replace(imgTagRegex, (match, indent, filename, rest) => {
   wrapped++;
   return (
     `${indent}<picture>\n` +
-    `${indent}  <source srcset="assets/images/avif/${avifName}" type="image/avif">\n` +
+    `${indent}  <source srcset="assets/images/oceanfriends/avif/${avifName}" type="image/avif">\n` +
     `${indent}  <img src="assets/images/oceanfriends/${filename}"${rest}>\n` +
     `${indent}</picture>`
   );
