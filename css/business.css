@@ -3358,12 +3358,9 @@ body.biz-page.mobile-menu-open .gnb {
 
 .biz-vision .biz-glass-card::before {
   position: absolute;
-  top: 14px;
-  right: 12px;
-  bottom: 15px;
-  left: 12px;
+  inset: 0;
   z-index: 0;
-  border-radius: 21px;
+  border-radius: inherit;
   background: var(--biz-hover-image) var(--biz-hover-position, center) / cover no-repeat;
   content: "";
   opacity: 0;
@@ -3421,8 +3418,7 @@ body.biz-page.mobile-menu-open .gnb {
   justify-content: flex-start;
   padding: 34px 69px;
   background: rgba(217, 217, 217, 0.2);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1),
-    inset 0 0 0 8px rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 0 0 10px rgba(255, 255, 255, 0.12);
 }
 
 .biz-vision-column:first-child .biz-glass-card:hover,
