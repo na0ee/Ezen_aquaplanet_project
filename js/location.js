@@ -1,35 +1,305 @@
 /* ================================================================
-   커스텀 커서 (business.js와 동일 패턴)
-   style.css: cursor: none !important 전역 적용돼 있음
+   커스텀 커서 (랜딩페이지와 동일 패턴)
+   style.css: body.has-custom-cursor cursor none 전역 적용
    ================================================================ */
 (function () {
   if (window.matchMedia('(hover: none)').matches) return;
   var el = document.getElementById('custom-cursor');
   if (!el) return;
   var HALF = 17;
-  var tx = -200, ty = -200, cx = -200, cy = -200, firstMove = false;
+  var tx = -200, ty = -200, cx = tx, cy = ty, snapped = false;
+
+  el.style.opacity = '1';
 
   window.addEventListener('mousemove', function (e) {
     tx = e.clientX; ty = e.clientY;
-    if (!firstMove) { firstMove = true; cx = tx; cy = ty; el.style.opacity = '1'; }
+    if (!snapped || !Number.isFinite(cx) || !Number.isFinite(cy)) {
+      snapped = true;
+      cx = tx; cy = ty;
+    }
   }, { passive: true });
 
-  document.addEventListener('mouseleave', function () { el.style.opacity = '0'; });
-  document.addEventListener('mouseenter', function () { if (firstMove) el.style.opacity = '1'; });
+  document.addEventListener('mouseleave', function () {
+    snapped = false;
+    el.style.opacity = '0';
+  });
+  document.addEventListener('mouseenter', function () {
+    snapped = false;
+    el.style.opacity = '1';
+  });
+  document.addEventListener('visibilitychange', function () {
+    snapped = false;
+    el.style.opacity = document.hidden ? '0' : '1';
+  });
   document.addEventListener('mousedown',  function () { el.classList.add('is-clicking'); });
   document.addEventListener('mouseup',    function () { el.classList.remove('is-clicking'); });
 
   document.addEventListener('mouseover', function (e) {
-    var over = e.target.closest('a, button, [role="button"]');
+    var over = e.target.closest('a, button, [role="button"], .loc-map__marker, .loc-map__bubble, .loc-floor-btn, .loc-side-nav__link, .gnb__link, .gnb__dropdown-item');
     el.classList.toggle('is-hovering', !!over);
   });
 
   (function loop() {
-    cx += (tx - cx) * 0.2;
-    cy += (ty - cy) * 0.2;
+    cx += (tx - cx) * 0.38;
+    cy += (ty - cy) * 0.38;
+    if (!Number.isFinite(cx) || !Number.isFinite(cy)) {
+      cx = tx;
+      cy = ty;
+    }
     el.style.transform = 'translate(' + (cx - HALF).toFixed(1) + 'px,' + (cy - HALF).toFixed(1) + 'px)';
     requestAnimationFrame(loop);
   })();
+}());
+
+/* ================================================================
+   랜딩 배경 glass bubble
+   ================================================================ */
+(function () {
+  var roots = document.querySelectorAll('[data-bubble-root]');
+  if (!roots.length) return;
+
+  var motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var powerSaving = motionQuery.matches || window.devicePixelRatio > 2 || (navigator.deviceMemory && navigator.deviceMemory < 4);
+  var resizeTimer = null;
+
+  function random(min, max) {
+    return Math.random() * (max - min) + min;
+  }
+
+  function buildBubbles() {
+    roots.forEach(function (root) {
+      root.querySelectorAll('[data-bubble-side]').forEach(function (side) {
+        side.replaceChildren();
+      });
+    });
+
+    if (motionQuery.matches) return;
+
+    roots.forEach(function (root) {
+      var sides = root.querySelectorAll('[data-bubble-side]');
+      var rootHeight = Math.max(root.offsetHeight, document.documentElement.scrollHeight, window.innerHeight);
+      var bubblesPerSide = Math.min(powerSaving ? 14 : 30, Math.max(powerSaving ? 10 : 16, Math.round(rootHeight / (powerSaving ? 360 : 260))));
+
+      sides.forEach(function (side) {
+        var sideWidth = Math.max(side.clientWidth, 72);
+
+        for (var i = 0; i < bubblesPerSide; i += 1) {
+          var bubble = document.createElement('span');
+          var size = random(14, 54);
+          var maxX = Math.max(4, sideWidth - size - 8);
+          var y = random(0, rootHeight + window.innerHeight * 0.35);
+          var duration = random(15, 30);
+          var delay = random(-duration, 4);
+          var drift = random(-34, 34);
+
+          bubble.className = 'glass-bubble';
+          bubble.style.setProperty('--bubble-size', size.toFixed(1) + 'px');
+          bubble.style.setProperty('--bubble-x', random(4, maxX).toFixed(1) + 'px');
+          bubble.style.setProperty('--bubble-y', y.toFixed(1) + 'px');
+          bubble.style.setProperty('--bubble-duration', duration.toFixed(2) + 's');
+          bubble.style.setProperty('--bubble-delay', delay.toFixed(2) + 's');
+          bubble.style.setProperty('--bubble-drift', drift.toFixed(1) + 'px');
+          bubble.style.setProperty('--bubble-sway', random(6, 22).toFixed(1) + 'px');
+          bubble.style.setProperty('--bubble-sway-duration', random(3.8, 7.8).toFixed(2) + 's');
+          bubble.style.setProperty('--bubble-opacity', random(0.16, 0.42).toFixed(2));
+
+          side.appendChild(bubble);
+        }
+      });
+    });
+  }
+
+  function scheduleBuild() {
+    window.clearTimeout(resizeTimer);
+    resizeTimer = window.setTimeout(buildBubbles, 120);
+  }
+
+  buildBubbles();
+  window.addEventListener('resize', scheduleBuild, { passive: true });
+
+  if (typeof motionQuery.addEventListener === 'function') {
+    motionQuery.addEventListener('change', buildBubbles);
+  } else if (typeof motionQuery.addListener === 'function') {
+    motionQuery.addListener(buildBubbles);
+  }
+}());
+
+/* ================================================================
+   커서 물결 파동 (랜딩페이지와 동일 패턴)
+   ================================================================ */
+(function () {
+  if (window.matchMedia('(max-width: 820px), (hover: none)').matches) return;
+
+  var canvas = document.createElement('canvas');
+  canvas.setAttribute('aria-hidden', 'true');
+  Object.assign(canvas.style, {
+    position: 'fixed',
+    inset: '0',
+    width: '100%',
+    height: '100%',
+    pointerEvents: 'none',
+    zIndex: '10000',
+    opacity: '0.72'
+  });
+  document.body.appendChild(canvas);
+
+  var ctx = canvas.getContext('2d');
+  var SCALE = 14;
+  var DAMP = 0.92;
+  var DIST_INTERVAL = 16;
+  var RX = 4;
+  var RY = 1;
+  var FORCE = 60;
+
+  var W, H, bW, bH, cur, prv, offscreen, offCtx, imgData;
+  var running = true;
+  var waveRafId = null;
+  var pointerReady = false;
+  var mx = 0, my = 0, pmx = 0, pmy = 0, distAccum = 0;
+
+  function resize() {
+    W = Math.max(window.innerWidth || document.documentElement.clientWidth || 1, 1);
+    H = Math.max(window.innerHeight || document.documentElement.clientHeight || 1, 1);
+    bW = Math.ceil(W / SCALE) + 2;
+    bH = Math.ceil(H / SCALE) + 2;
+    canvas.width = W;
+    canvas.height = H;
+    cur = new Float32Array(bW * bH);
+    prv = new Float32Array(bW * bH);
+    offscreen = document.createElement('canvas');
+    offscreen.width = bW;
+    offscreen.height = bH;
+    offCtx = offscreen.getContext('2d');
+    imgData = offCtx.createImageData(bW, bH);
+    pointerReady = false;
+    distAccum = 0;
+  }
+
+  var waveResizeTimer = null;
+  resize();
+  window.addEventListener('resize', function () {
+    clearTimeout(waveResizeTimer);
+    waveResizeTimer = setTimeout(resize, 200);
+  }, { passive: true });
+
+  window.addEventListener('mousemove', function (e) {
+    mx = e.clientX;
+    my = e.clientY;
+    if (!pointerReady) {
+      pointerReady = true;
+      pmx = mx;
+      pmy = my;
+      distAccum = 0;
+    }
+  }, { passive: true });
+
+  document.addEventListener('visibilitychange', function () {
+    running = !document.hidden;
+    pointerReady = false;
+    distAccum = 0;
+    if (running) startTick();
+  });
+
+  function disturb(cx, cy, force, rx, ry) {
+    force = Number.isFinite(force) ? force : FORCE;
+    rx = Number.isFinite(rx) ? rx : RX;
+    ry = Number.isFinite(ry) ? ry : RY;
+    for (var dy = -ry; dy <= ry; dy++) {
+      for (var dx = -rx; dx <= rx; dx++) {
+        var d = Math.hypot(dx / rx, dy / ry);
+        if (d > 1) continue;
+        var nx = cx + dx;
+        var ny = cy + dy;
+        if (nx < 1 || nx >= bW - 1 || ny < 1 || ny >= bH - 1) continue;
+        cur[ny * bW + nx] += force * (1 - d);
+      }
+    }
+  }
+
+  window.__cursorWaveSubmerge = function submergeCursorWave(opts) {
+    opts = opts || {};
+    var y = Number.isFinite(opts.y) ? opts.y : H * 0.58;
+    var strength = Number.isFinite(opts.strength) ? opts.strength : 0.7;
+    var phase = Number.isFinite(opts.phase) ? opts.phase : performance.now() * 0.003;
+    var step = Math.max(32, Number.isFinite(opts.step) ? opts.step : 48);
+    var amp = Number.isFinite(opts.amp) ? opts.amp : 9;
+
+    for (var x = -step; x <= W + step; x += step) {
+      var yy = y + Math.sin(x * 0.012 + phase) * amp + Math.sin(x * 0.027 - phase * 0.7) * amp * 0.32;
+      disturb(Math.round(x / SCALE), Math.round(yy / SCALE), FORCE * strength, 3, 1);
+    }
+  };
+
+  function tick() {
+    waveRafId = null;
+    if (!running) return;
+    waveRafId = requestAnimationFrame(tick);
+
+    var spd = Math.hypot(mx - pmx, my - pmy);
+    if (spd > 0.5) {
+      distAccum += spd;
+      pmx = mx;
+      pmy = my;
+      if (distAccum >= DIST_INTERVAL) {
+        disturb(Math.round(mx / SCALE), Math.round(my / SCALE));
+        distAccum = 0;
+      }
+    }
+
+    var nxt = prv;
+    for (var y = 1; y < bH - 1; y++) {
+      for (var x = 1; x < bW - 1; x++) {
+        var i = y * bW + x;
+        nxt[i] = ((cur[i - 1] + cur[i + 1] + cur[i - bW] + cur[i + bW]) / 2 - nxt[i]) * DAMP;
+      }
+    }
+    prv = cur;
+    cur = nxt;
+
+    var px = imgData.data;
+    px.fill(0);
+
+    for (var py = 1; py < bH - 1; py++) {
+      for (var pxIndex = 1; pxIndex < bW - 1; pxIndex++) {
+        var pi = py * bW + pxIndex;
+        var v = cur[pi];
+        if (Math.abs(v) < 1.5) continue;
+
+        var lx = cur[pi - 1] - cur[pi + 1];
+        var ly = cur[pi - bW] - cur[pi + bW];
+        var shine = lx * 0.85 + ly * 0.15;
+        if (shine <= 0) continue;
+
+        var waveAmp = Math.min(Math.abs(v) / 48, 1);
+        var alpha = Math.min(shine * waveAmp * 1.0, 1) * 160;
+        if (alpha < 2) continue;
+
+        var t = Math.min(shine * waveAmp * 0.5, 1);
+        var pidx = (py * bW + pxIndex) * 4;
+        px[pidx] = Math.round(190 + t * 65);
+        px[pidx + 1] = Math.round(220 + t * 35);
+        px[pidx + 2] = Math.round(245 + t * 10);
+        px[pidx + 3] = alpha;
+      }
+    }
+
+    offCtx.putImageData(imgData, 0, 0);
+    ctx.clearRect(0, 0, W, H);
+    ctx.save();
+    ctx.filter = 'blur(5px)';
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+    ctx.drawImage(offscreen, 0, 0, W, H);
+    ctx.restore();
+  }
+
+  function startTick() {
+    if (waveRafId === null) {
+      waveRafId = requestAnimationFrame(tick);
+    }
+  }
+
+  startTick();
 }());
 
 

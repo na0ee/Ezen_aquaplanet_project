@@ -21,6 +21,22 @@ body {
   background-color: var(--bg-detail);
 }
 
+.location-bubble-layer {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  min-height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.location-page .loc-hero,
+.location-page .loc-programs,
+.location-page .loc-map,
+.location-page .loc-hours {
+  isolation: isolate;
+}
+
 /* 햄버거·모바일메뉴 — 기본(PC/태블릿)에서 숨김 */
 .location-page .gnb__hamburger {
   display: none;
