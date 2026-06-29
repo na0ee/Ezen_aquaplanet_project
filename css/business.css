@@ -26,20 +26,42 @@ body.biz-page.mobile-menu-open .gnb {
   height: 102px;
   padding: 24px 32px;
   background: transparent;
+  display: flex;
+  justify-content: center;
+  transition: transform 0.35s ease;
+  will-change: transform;
+}
+
+.biz-page .gnb::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  background: linear-gradient(180deg, rgba(10, 30, 80, 0.35) 0%, rgba(10, 30, 80, 0) 100%);
+  -webkit-mask-image: linear-gradient(180deg, black 60%, transparent 100%);
+  mask-image: linear-gradient(180deg, black 60%, transparent 100%);
 }
 
 .biz-page .gnb__inner {
+  position: relative;
+  display: flex;
+  width: 100%;
   height: 54px;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .biz-page .gnb__nav {
+  display: flex;
   gap: 44px;
+  align-items: center;
 }
 
 .biz-page .gnb__link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  display: inline-block;
   color: #fff;
   font-family: "Poppins", sans-serif;
   font-size: 18px;
@@ -47,6 +69,8 @@ body.biz-page.mobile-menu-open .gnb {
   line-height: normal;
   letter-spacing: -0.96px;
   text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.2s ease, transform 0.2s ease;
 }
 
 .biz-page .gnb__link.gnb__link--active {
@@ -57,9 +81,114 @@ body.biz-page.mobile-menu-open .gnb {
   letter-spacing: -1.12px;
 }
 
+.biz-page .gnb__link:hover,
+.biz-page .gnb__link.gnb__link--active:hover {
+  color: #fff;
+  transform: scale(1.06);
+}
+
+.biz-page .gnb__nav-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.biz-page .gnb__dropdown {
+  position: absolute;
+  top: 48px;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3px;
+  border-radius: 14px;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.01) 45%, rgba(255, 255, 255, 0.04) 100%);
+  backdrop-filter: url(#glass-refract-light) blur(4px);
+  -webkit-backdrop-filter: url(#glass-refract-light) blur(4px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.75),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.12),
+    inset 1px 0 0 rgba(255, 255, 255, 0.2),
+    inset -1px 0 0 rgba(255, 255, 255, 0.08);
+  opacity: 0;
+  pointer-events: none;
+  transform: none;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.biz-page .gnb__dropdown::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  padding: 1.5px;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.2) 25%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.2) 75%, rgba(255, 255, 255, 0.55) 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.biz-page .gnb__dropdown::after {
+  content: none;
+}
+
+.biz-page .gnb__nav-item:hover .gnb__dropdown,
+.biz-page .gnb__dropdown:hover {
+  opacity: 1;
+  pointer-events: auto;
+  transform: none;
+  visibility: visible;
+}
+
+.biz-page .gnb__dropdown-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 153px;
+  height: 48px;
+  border-radius: 12px;
+  color: #fff;
+  font-family: "Poppins", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: -0.64px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.biz-page .gnb__dropdown-item--active,
+.biz-page .gnb__dropdown-item:hover {
+  background-color: #fff;
+  color: #22b2ea !important;
+  font-family: "EB Garamond", serif;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: -0.72px;
+}
+
+.biz-page .gnb__dropdown:hover .gnb__dropdown-item:not(:hover) {
+  background-color: transparent;
+  color: #fff !important;
+  font-family: "Poppins", sans-serif;
+  font-size: 16px;
+  letter-spacing: -0.64px;
+}
+
 .biz-page .gnb__logo-wrap {
+  position: absolute;
+  left: 50%;
+  z-index: 10;
+  display: flex;
   width: 60px;
   height: 60px;
+  align-items: center;
+  justify-content: center;
+  transform: translateX(-50%);
 }
 
 .biz-page .gnb__logo {
@@ -76,15 +205,17 @@ body.biz-page.mobile-menu-open .gnb {
   align-items: center;
   justify-content: center;
   gap: 6px;
-  box-sizing: border-box;
-  width: auto;
   height: 42px;
   padding: 0 14px 0 18px;
-  border: 0;
+  border: none;
   border-radius: 100px;
   overflow: hidden;
-  background: transparent;
-  box-shadow: none;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.01) 45%, rgba(255, 255, 255, 0.04) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.75),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.12),
+    inset 1px 0 0 rgba(255, 255, 255, 0.2),
+    inset -1px 0 0 rgba(255, 255, 255, 0.08);
   color: #fff;
   font-family: "Poppins", sans-serif;
   font-size: 18px;
@@ -92,40 +223,37 @@ body.biz-page.mobile-menu-open .gnb {
   line-height: normal;
   letter-spacing: -0.48px;
   text-decoration: none;
-  transition: none;
-  isolation: isolate;
+  white-space: nowrap;
 }
 
 .biz-page .gnb__ticket::before {
   content: "";
   position: absolute;
   inset: 0;
-  z-index: -2;
-  border-radius: inherit;
-  background: rgba(255, 255, 255, 0.02);
-  backdrop-filter: blur(22px) saturate(150%);
-  -webkit-backdrop-filter: blur(22px) saturate(150%);
+  border-radius: 100px;
+  padding: 1.5px;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.2) 25%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.2) 75%, rgba(255, 255, 255, 0.55) 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
 }
 
-.biz-page .gnb__ticket::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  border-radius: inherit;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.02) 42%, rgba(255, 255, 255, 0.08)),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.08), transparent 22%, transparent 78%, rgba(255, 255, 255, 0.08));
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.16),
-    inset 0 1px 0 rgba(255, 255, 255, 0.24),
-    inset 0 -1px 0 rgba(255, 255, 255, 0.08);
-  opacity: 0.55;
+.biz-page .gnb__ticket p {
+  margin: 0;
 }
 
-.biz-page .gnb__ticket-icon {
-  display: block;
+.biz-page .gnb__ticket .img {
+  display: flex;
   width: 24px;
   height: 24px;
-  flex: 0 0 24px;
+  justify-content: center;
+}
+
+.biz-page .gnb__ticket .img img {
+  display: block;
+  width: 100%;
 }
 
 .biz-page .gnb__mobile-menu {
@@ -190,10 +318,9 @@ body.biz-page.mobile-menu-open .gnb {
     letter-spacing: -0.48px;
   }
 
-  .biz-page .gnb__ticket-icon {
+  .biz-page .gnb__ticket .img {
     width: 24px;
     height: 24px;
-    flex-basis: 24px;
   }
 }
 
