@@ -510,79 +510,6 @@ body {
 
 .mo-only { display: none; }
 
-/* Location Tabs */
-.cartegory-tabs-a {
-  margin-top: 140px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.1) 0%,
-    rgba(255, 255, 255, 0) 15%,
-    rgba(255, 255, 255, 0) 85%,
-    rgba(255, 255, 255, 0.1) 100%
-  );
-  backdrop-filter: blur(16px);
-  border: none;
-  padding: 3px;
-  border-radius: 14px;
-  width: fit-content;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.cartegory-tabs-a::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 14px;
-  padding: 1.5px;
-  background: linear-gradient(
-    160deg,
-    rgba(255, 255, 255, 0.55) 0%,
-    rgba(255, 255, 255, 0.20) 25%,
-    rgba(255, 255, 255, 0.08) 50%,
-    rgba(255, 255, 255, 0.20) 75%,
-    rgba(255, 255, 255, 0.55) 100%
-  );
-  -webkit-mask: linear-gradient(#fff 0 0) content-box,
-                linear-gradient(#fff 0 0);
-  -webkit-mask-composite: destination-out;
-  mask: linear-gradient(#fff 0 0) content-box,
-        linear-gradient(#fff 0 0);
-  mask-composite: exclude;
-  pointer-events: none;
-}
-
-.cartegory-tabs-a__item {
-  height: 44px;
-  padding: 0 20px;
-  border-radius: 12px;
-  font-family: "Poppins", sans-serif;
-  font-size: 16px;
-  font-weight: 400;
-  letter-spacing: -0.64px;
-  color: #ffffff;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  white-space: nowrap;
-}
-
-.cartegory-tabs-a__item--active {
-  background-color: #ffffff;
-  color: var(--Brand-Primary, #22B2EA);
-  font-family: "EB Garamond", serif;
-  font-size: 20px;
-  font-weight: 500;
-  line-height: normal;
-  letter-spacing: -0.8px;
-}
-
 /* Category Tabs B */
 .cartegory-tabs-b {
   margin: 140px 0 60px;
@@ -1483,7 +1410,6 @@ body {
     font-size: 14px;
   }
 
-  .cartegory-tabs-a__item,
   .cartegory-tabs-b__item {
     font-size: 14px;
     height: 40px;
@@ -1491,12 +1417,6 @@ body {
   }
 
   .mo-only { display: inline; }
-
-  .cartegory-tabs-a {
-    margin-bottom: 40px;
-    flex-wrap: wrap;
-    max-width: 100%;
-  }
 
   .cartegory-tabs-b {
     margin-bottom: 40px;
