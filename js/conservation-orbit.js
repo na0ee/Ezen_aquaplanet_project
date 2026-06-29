@@ -42,12 +42,12 @@
 
   function getOrbitFactor() {
     if (window.innerWidth <= 760) return 0.42;
-    return window.innerWidth <= 1280 ? 0.78 : 1;
+    return window.innerWidth <= 1440 ? 0.78 : 1;
   }
 
   function getSizeFactor() {
     if (window.innerWidth <= 760) return 0.4;
-    return window.innerWidth <= 1280 ? 0.84 : 1;
+    return window.innerWidth <= 1440 ? 0.84 : 1;
   }
 
   function isMobileStatic() {
@@ -55,7 +55,7 @@
   }
 
   function isTabletLayout() {
-    return window.matchMedia && window.matchMedia('(min-width: 761px) and (max-width: 1280px)').matches;
+    return window.matchMedia && window.matchMedia('(min-width: 761px) and (max-width: 1440px)').matches;
   }
 
   function getPinOffsetY() {
@@ -67,6 +67,7 @@
     var stage1 = document.getElementById('cons-orbit-stage-1');
     var stage2 = document.getElementById('cons-orbit-stage-2');
     var hint = document.getElementById('cons-orbit-hint');
+    var finalGrid = document.getElementById('cons-final-grid');
 
     if (pin) {
       pin.style.visibility = '';
@@ -78,6 +79,12 @@
     [stage1, stage2, hint].forEach(function (node) {
       if (node) node.style.transform = '';
     });
+
+    if (finalGrid) {
+      finalGrid.style.opacity = '';
+      finalGrid.style.transform = '';
+      finalGrid.classList.remove('is-visible');
+    }
 
     orbEls.forEach(function (orb) {
       orb.el.style.transform = '';
@@ -237,6 +244,7 @@
     var stage1 = document.getElementById('cons-orbit-stage-1');
     var stage2 = document.getElementById('cons-orbit-stage-2');
     var hint = document.getElementById('cons-orbit-hint');
+    var finalGrid = document.getElementById('cons-final-grid');
 
     var textOut = easeInOut(clamp01((progress - 0.08) / 0.04));
     if (stage1) {
@@ -249,9 +257,17 @@
     }
     if (hint) hint.classList.remove('is-visible');
 
-    var toCarousel = easeInOut(clamp01((progress - 0.32) / 0.12));
+    var finalGridIn = isTabletLayout() ? easeInOut(clamp01((progress - 0.30) / 0.08)) : 0;
+    var toCarousel = easeInOut(clamp01((progress - 0.32) / 0.12)) * (1 - finalGridIn);
     var featuredOrb = null;
     var featuredScore = -1;
+
+    if (finalGrid) {
+      var finalDrop = (1 - finalGridIn) * -90;
+      finalGrid.style.opacity = finalGridIn.toFixed(3);
+      finalGrid.style.transform = 'translate3d(calc(-50% + var(--cons-final-offset-x, 0px)), -50%, 0) translate3d(0, ' + finalDrop.toFixed(2) + 'px, 0) scale(' + (0.94 + finalGridIn * 0.06).toFixed(3) + ')';
+      finalGrid.classList.toggle('is-visible', finalGridIn > 0.82);
+    }
 
     orbEls.forEach(function (orb, index) {
       var intro = introPose(index, progress);
@@ -261,7 +277,7 @@
       var x = lerp(intro.x, slot.x, toCarousel);
       var y = lerp(intro.y, slot.y, toCarousel);
       var size = lerp(baseSize, slot.size, toCarousel);
-      var opacity = lerp(1, slot.opacity, toCarousel);
+      var opacity = lerp(1, slot.opacity, toCarousel) * (1 - finalGridIn);
       var centerScore = toCarousel > 0.92 ? slot.centerWeight : 0;
 
       if (centerScore > featuredScore) {
@@ -277,7 +293,7 @@
       orb.el.classList.remove('is-featured');
     });
 
-    if (featuredOrb && featuredScore > 0.35) {
+    if (featuredOrb && featuredScore > 0.35 && finalGridIn < 0.2) {
       featuredOrb.el.style.opacity = '1';
       featuredOrb.el.style.pointerEvents = 'auto';
       featuredOrb.el.classList.add('is-featured');
@@ -297,8 +313,9 @@
     var vh = window.innerHeight;
     var rect = section.getBoundingClientRect();
     var travel = Math.max(1, rect.height - vh);
+    var progressTravel = isTabletLayout() ? Math.max(1, 8400 - vh) : travel;
     var shiftScreen = Math.min(Math.max(-rect.top, 0), travel);
-    targetProgress = clamp01(shiftScreen / travel);
+    targetProgress = clamp01(shiftScreen / progressTravel);
     currentProgress += (targetProgress - currentProgress) * 0.075;
     if (Math.abs(targetProgress - currentProgress) < 0.0008) {
       currentProgress = targetProgress;
@@ -473,6 +490,58 @@
   function bindOnce() {
     if (bound) return;
     bound = true;
+    var draggedBubbleScroller = false;
+
+    function bindBubbleScroller() {
+      var field = document.getElementById('cons-orbit-field');
+      if (!field || field._consDragBound) return;
+      var isDragging = false;
+      var startX = 0;
+      var startScrollLeft = 0;
+      var dragDistance = 0;
+
+      field._consDragBound = true;
+
+      field.addEventListener('pointerdown', function (event) {
+        if (event.pointerType === 'mouse' && event.button !== 0) return;
+        isDragging = true;
+        dragDistance = 0;
+        startX = event.clientX;
+        startScrollLeft = field.scrollLeft;
+        field.classList.add('is-dragging');
+        if (field.setPointerCapture) field.setPointerCapture(event.pointerId);
+      });
+
+      field.addEventListener('pointermove', function (event) {
+        if (!isDragging) return;
+        var deltaX = event.clientX - startX;
+        dragDistance = Math.max(dragDistance, Math.abs(deltaX));
+        field.scrollLeft = startScrollLeft - deltaX;
+        if (dragDistance > 4) {
+          draggedBubbleScroller = true;
+          event.preventDefault();
+        }
+      });
+
+      function stopDrag(event) {
+        if (!isDragging) return;
+        isDragging = false;
+        field.classList.remove('is-dragging');
+        if (field.releasePointerCapture) {
+          try {
+            field.releasePointerCapture(event.pointerId);
+          } catch (error) {
+            // Pointer capture may already be released by the browser.
+          }
+        }
+      }
+
+      field.addEventListener('pointerup', stopDrag);
+      field.addEventListener('pointercancel', stopDrag);
+      field.addEventListener('pointerleave', stopDrag);
+    }
+
+    bindBubbleScroller();
 
     document.addEventListener('click', function (event) {
       var trigger = event.target.closest ? event.target.closest('.hero__scroll[href="#cons-orbit"]') : null;
@@ -490,11 +559,25 @@
     });
 
     document.addEventListener('click', function (event) {
+      if (draggedBubbleScroller) {
+        draggedBubbleScroller = false;
+        event.preventDefault();
+        event.stopPropagation();
+        return;
+      }
+
       var orb = event.target.closest ? event.target.closest('.m-cons-orb') : null;
       if (orb) {
         if (isOpeningCard) return;
-        if (!isMobileStatic() && !orb.classList.contains('is-featured')) return;
+        if (!isMobileStatic() && !isTabletLayout() && !orb.classList.contains('is-featured')) return;
         burstOrbThenOpen(orb, orb.getAttribute('data-category'));
+        return;
+      }
+
+      var finalBubble = event.target.closest ? event.target.closest('.m-cons-final-bubble') : null;
+      if (finalBubble) {
+        if (isOpeningCard) return;
+        burstOrbThenOpen(finalBubble, finalBubble.getAttribute('data-category'));
         return;
       }
 

@@ -31,17 +31,61 @@ function isMobileViewport() {
 }
 
 function disableMobileDecorativeMedia() {
-  if (!isMobileViewport()) return;
+  const mediaQuery = window.matchMedia('(max-width: 768px)');
+  const videos = document.querySelectorAll('.location-fish-bg, .booking-bg-video');
+  if (!videos.length) return;
 
-  document.querySelectorAll('.location-fish-bg, .booking-bg-video').forEach((video) => {
+  function disableVideo(video) {
     video.pause();
-    video.removeAttribute('src');
+    if (video.hasAttribute('src')) {
+      video.dataset.src = video.getAttribute('src') || '';
+      video.removeAttribute('src');
+    }
     video.querySelectorAll('source').forEach((source) => {
-      source.dataset.src = source.getAttribute('src') || '';
-      source.removeAttribute('src');
+      if (source.hasAttribute('src')) {
+        source.dataset.src = source.getAttribute('src') || '';
+        source.removeAttribute('src');
+      }
     });
     video.load();
-  });
+  }
+
+  function restoreVideo(video) {
+    let restored = false;
+
+    if (!video.hasAttribute('src') && video.dataset.src) {
+      video.setAttribute('src', video.dataset.src);
+      restored = true;
+    }
+
+    video.querySelectorAll('source').forEach((source) => {
+      if (!source.hasAttribute('src') && source.dataset.src) {
+        source.setAttribute('src', source.dataset.src);
+        restored = true;
+      }
+    });
+
+    if (restored) video.load();
+    if (video.autoplay) video.play().catch(() => {});
+  }
+
+  function syncDecorativeMedia() {
+    videos.forEach((video) => {
+      if (mediaQuery.matches) {
+        disableVideo(video);
+      } else {
+        restoreVideo(video);
+      }
+    });
+  }
+
+  syncDecorativeMedia();
+
+  if (typeof mediaQuery.addEventListener === 'function') {
+    mediaQuery.addEventListener('change', syncDecorativeMedia);
+  } else if (typeof mediaQuery.addListener === 'function') {
+    mediaQuery.addListener(syncDecorativeMedia);
+  }
 }
 
 function getResponsiveSequenceTiming() {
@@ -157,6 +201,15 @@ function initSmoothScroll() {
       rafId = null;
     }
   };
+
+  window.addEventListener('resize', () => {
+    targetY = clamp(window.scrollY);
+    currentY = targetY;
+    if (rafId) {
+      cancelAnimationFrame(rafId);
+      rafId = null;
+    }
+  }, { passive: true });
 }
 
 
@@ -752,7 +805,7 @@ function initIntroScrollGate() {
   window.addEventListener('resize', updateIntroPinState, { passive: true });
   updateIntroPinState();
   window.__syncSmoothScroll?.();
-  ScrollTrigger?.refresh?.();
+  window.ScrollTrigger?.refresh?.();
 }
 
 
@@ -2487,8 +2540,8 @@ function initCursorWave() {
   let mx = 0, my = 0, pmx = 0, pmy = 0, distAccum = 0;
 
   function resize() {
-    W  = window.innerWidth;
-    H  = window.innerHeight;
+    W  = Math.max(window.innerWidth || document.documentElement.clientWidth || 1, 1);
+    H  = Math.max(window.innerHeight || document.documentElement.clientHeight || 1, 1);
     bW = Math.ceil(W / SCALE) + 2;
     bH = Math.ceil(H / SCALE) + 2;
     canvas.width  = W;
@@ -2683,7 +2736,7 @@ function initMobileMenu() {
 
   /* 820px 초과로 리사이즈되면 강제 닫기 */
   window.addEventListener('resize', () => {
-    if (window.innerWidth > 820) closeMenu();
+    if (!isMobileViewport()) closeMenu();
   });
 }
 

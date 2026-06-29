@@ -2432,7 +2432,7 @@ body.marin-view-conservation .m-pill-tabs:not(.m-pill-tabs--cases) {
   width: 160px;
   height: 160px;
   border-radius: 50%;
-  overflow: hidden;
+  overflow: visible;
   background: #ffffff;
   box-shadow: 0 18px 40px rgba(0, 40, 70, 0.22);
   transform-origin: center center;
@@ -2456,12 +2456,82 @@ body.marin-view-conservation .m-pill-tabs:not(.m-pill-tabs--cases) {
   display: block;
   width: 100%;
   height: 100%;
+  border-radius: 50%;
   object-fit: cover;
   transition: transform 0.35s ease, filter 0.35s ease;
 }
 
+.m-cons-orb[data-category="pinniped"] .m-cons-orb__circle img {
+  width: 84%;
+  height: 84%;
+  margin: 8%;
+}
+
 .m-cons-orb.is-featured:hover .m-cons-orb__circle img {
   transform: scale(1.035);
+}
+
+.m-cons-orb[data-category="pinniped"].is-featured:hover .m-cons-orb__circle img {
+  transform: scale(1.035);
+}
+
+.m-cons-final-grid {
+  --cons-final-size: 156px;
+  --cons-final-gap-x: 30px;
+  --cons-final-gap-y: 26px;
+  --cons-final-offset-x: 0px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 4;
+  display: none;
+  grid-template-columns: repeat(4, var(--cons-final-size));
+  grid-auto-rows: var(--cons-final-size);
+  gap: var(--cons-final-gap-y) var(--cons-final-gap-x);
+  opacity: 0;
+  transform: translate3d(calc(-50% + var(--cons-final-offset-x)), calc(-50% - 90px), 0) scale(0.94);
+  transition: opacity 0.24s ease;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+.m-cons-final-grid.is-visible {
+  pointer-events: auto;
+}
+
+.m-cons-final-bubble {
+  display: block;
+  width: var(--cons-final-size);
+  height: var(--cons-final-size);
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.m-cons-final-bubble .m-cons-orb__circle {
+  width: var(--cons-final-size);
+  height: var(--cons-final-size);
+}
+
+.m-cons-final-bubble:hover .m-cons-orb__circle {
+  filter: saturate(1.08) contrast(1.04);
+  box-shadow: 0 32px 90px rgba(0, 63, 122, 0.28);
+}
+
+.m-cons-final-bubble:nth-child(5) {
+  grid-column: 1;
+  transform: translateX(calc((var(--cons-final-size) + var(--cons-final-gap-x)) / 2));
+}
+
+.m-cons-final-bubble:nth-child(6) {
+  grid-column: 2;
+  transform: translateX(calc((var(--cons-final-size) + var(--cons-final-gap-x)) / 2));
+}
+
+.m-cons-final-bubble:nth-child(7) {
+  grid-column: 3;
+  transform: translateX(calc((var(--cons-final-size) + var(--cons-final-gap-x)) / 2));
 }
 
 .m-cons-card-overlay {
@@ -2901,12 +2971,13 @@ body.marin-view-conservation .m-pill-tabs:not(.m-pill-tabs--cases) {
 
 /* ================================
    Marin Lab Tablet Responsive
-   (769px ~ 1024px — 모바일 768px 블록과 충돌 방지를 위해 min-width 사용)
+   (761px ~ 1180px — 모바일 760px 블록과 충돌 방지를 위해 min-width 사용)
 ================================ */
 
-@media (min-width: 769px) and (max-width: 1024px) {
+@media (min-width: 761px) and (max-width: 1280px) {
   :root {
     --cons-tablet-hero-height: max(100vh, 120vw);
+    --cons-tablet-orbit-height: 5200px;
   }
 
   @media (max-width: 900px) {
@@ -2921,14 +2992,14 @@ body.marin-view-conservation .m-pill-tabs:not(.m-pill-tabs--cases) {
 
   body.marin-view-conservation .marin-shell--conservation {
     overflow: hidden;
-    height: calc(var(--cons-tablet-hero-height) + 8400px) !important;
+    height: calc(var(--cons-tablet-hero-height) + var(--cons-tablet-orbit-height)) !important;
   }
 
   body.marin-view-conservation .marin-shell--conservation .marin-stage,
   body.marin-view-conservation .m-conservation-view {
     left: 0;
     width: 100%;
-    height: calc(var(--cons-tablet-hero-height) + 8400px) !important;
+    height: calc(var(--cons-tablet-hero-height) + var(--cons-tablet-orbit-height)) !important;
     transform: none !important;
   }
 
@@ -2943,6 +3014,7 @@ body.marin-view-conservation .m-pill-tabs:not(.m-pill-tabs--cases) {
   body.marin-view-conservation .m-cons-orbit {
     top: var(--cons-tablet-hero-height) !important;
     width: 100%;
+    height: var(--cons-tablet-orbit-height);
   }
 
   body.marin-view-conservation .m-pill-tabs:not(.m-pill-tabs--cases) {
@@ -2984,6 +3056,10 @@ body.marin-view-conservation .m-pill-tabs:not(.m-pill-tabs--cases) {
     height: 68px;
   }
 
+  body.marin-view-conservation .m-cons-orbit-pin {
+    width: 100%;
+  }
+
   body.marin-view-conservation .m-cons-orbit-stage {
     width: 820px;
   }
@@ -3007,6 +3083,19 @@ body.marin-view-conservation .m-pill-tabs:not(.m-pill-tabs--cases) {
   /* ── Conservation 카드 오버레이 (position:fixed — 스케일 외부) ── */
   .m-cons-card-overlay {
     padding: 20px;
+  }
+
+  .m-cons-card-overlay.is-open .m-cons-card-overlay__close {
+    top: calc(50% - min(30vh, 250px) - 54px);
+    right: max(20px, calc((100vw - min(880px, calc(100vw - 40px))) / 2));
+  }
+
+  .m-cons-card-overlay.is-open[data-active-card="pinniped"] .m-cons-card-overlay__close {
+    top: calc(50% - 16px - min(29vh, 280px));
+  }
+
+  .m-cons-card-overlay.is-open[data-active-card="seahorse"] .m-cons-card-overlay__close {
+    top: calc(50% - 28px - min(29vh, 280px));
   }
 
   .m-cons-card-overlay__inner {
@@ -3225,8 +3314,21 @@ body.marin-view-conservation .m-pill-tabs:not(.m-pill-tabs--cases) {
   body.marin-view-conservation .m-cons-card-overlay__close {
     top: 16px;
     right: 16px;
-    width: 40px;
-    height: 40px;
+    width: 32px;
+    height: 32px;
+  }
+
+  body.marin-view-conservation .m-cons-card-overlay.is-open .m-cons-card-overlay__close {
+    top: calc(50% - min(23vh, 160px) - 52px);
+    right: max(16px, calc((100vw - min(340px, calc(100vw - 32px))) / 2));
+  }
+
+  body.marin-view-conservation .m-cons-card-overlay.is-open[data-active-card="pinniped"] .m-cons-card-overlay__close {
+    top: calc(50% - 21px - min(45vh, 330px));
+  }
+
+  body.marin-view-conservation .m-cons-card-overlay.is-open[data-active-card="seahorse"] .m-cons-card-overlay__close {
+    top: calc(50% - 26px - min(30vh, 220px));
   }
 
   body.marin-view-conservation .m-cons-card {

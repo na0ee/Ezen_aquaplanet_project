@@ -15,7 +15,6 @@
     rel="stylesheet" />
   <link rel="stylesheet" href="css/marinlab.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Observer.min.js"></script>
 </head>
 
@@ -330,31 +329,31 @@
 
             <div class="m-cons-orbit-field" id="cons-orbit-field">
               <button class="m-cons-orb" type="button" data-category="whale" aria-label="고래류 자세히 보기">
-                <span class="m-cons-orb__circle"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_01_01.avif"
+                <span class="m-cons-orb__circle ticket-bubble"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_01_01.avif"
                     alt=""></span>
               </button>
               <button class="m-cons-orb" type="button" data-category="pinniped" aria-label="기각류 자세히 보기">
-                <span class="m-cons-orb__circle"><img src="assets/images/sec.aboutus/marinlab/conservation_walrus.avif"
+                <span class="m-cons-orb__circle ticket-bubble"><img src="assets/images/sec.aboutus/marinlab/conservation_walrus.avif"
                     alt=""></span>
               </button>
               <button class="m-cons-orb" type="button" data-category="otter" aria-label="수달 자세히 보기">
-                <span class="m-cons-orb__circle"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_03_01.avif"
+                <span class="m-cons-orb__circle ticket-bubble"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_03_01.avif"
                     alt=""></span>
               </button>
               <button class="m-cons-orb" type="button" data-category="penguin" aria-label="펭귄류 자세히 보기">
-                <span class="m-cons-orb__circle"><img src="assets/images/sec.aboutus/marinlab/conservation_penguin.avif"
+                <span class="m-cons-orb__circle ticket-bubble"><img src="assets/images/sec.aboutus/marinlab/conservation_penguin.avif"
                     alt=""></span>
               </button>
               <button class="m-cons-orb" type="button" data-category="turtle" aria-label="바다거북 자세히 보기">
-                <span class="m-cons-orb__circle"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_05_01.avif"
+                <span class="m-cons-orb__circle ticket-bubble"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_05_01.avif"
                     alt=""></span>
               </button>
               <button class="m-cons-orb" type="button" data-category="seahorse" aria-label="해마와 해룡 자세히 보기">
-                <span class="m-cons-orb__circle"><img
+                <span class="m-cons-orb__circle ticket-bubble"><img
                     src="assets/images/sec.aboutus/marinlab/conservation_seadragon.avif" alt=""></span>
               </button>
               <button class="m-cons-orb" type="button" data-category="shark" aria-label="상어류 자세히 보기">
-                <span class="m-cons-orb__circle"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_07_01.avif"
+                <span class="m-cons-orb__circle ticket-bubble"><img src="assets/images/sec.aboutus/marinlab/hmbrc_pre_07_01.avif"
                     alt=""></span>
               </button>
             </div>
@@ -634,10 +633,13 @@
       }
 
       function resizeConservation() {
-        const isResponsiveConservation = window.matchMedia('(max-width: 1280px)').matches;
+        const isMobileConservation = window.matchMedia('(max-width: 760px)').matches;
+        const isTabletConservation = window.matchMedia('(min-width: 761px) and (max-width: 1280px)').matches;
+        const isResponsiveConservation = isMobileConservation || isTabletConservation;
         const scale = isResponsiveConservation ? 1 : getConservationScale();
-        const heroHeight = isResponsiveConservation ? window.innerHeight : 1080;
-        const totalHeight = isResponsiveConservation ? 9500 : heroHeight + 8400;
+        const tabletHeroHeight = Math.max(window.innerHeight, window.innerWidth * (window.innerWidth <= 900 ? 1.44 : 1.2));
+        const heroHeight = isMobileConservation ? window.innerHeight : (isTabletConservation ? tabletHeroHeight : 1080);
+        const totalHeight = isMobileConservation ? null : heroHeight + 8400;
         const stage = conservationMain ? conservationMain.querySelector('.marin-stage') : null;
         const conservationView = conservationMain ? conservationMain.querySelector('.m-conservation-view') : null;
         const videoHero = conservationMain ? conservationMain.querySelector('.hero') : null;

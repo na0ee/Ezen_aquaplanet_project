@@ -1737,7 +1737,13 @@ body[data-location="gwanggyo"] .loc-map {
   }
   .location-page .loc-map--exhibits .loc-map__markers {
     transform-origin: top left;
-    transform: scale(calc(min(calc(100vw - 64px), 760px) / 1320px));
+    transform: none;
+  }
+  .location-page .loc-map--exhibits .loc-map__marker {
+    transform: scale(calc(1.35 / var(--map-s, 1)));
+  }
+  .location-page .loc-map--exhibits .loc-map__marker:hover {
+    transform: scale(calc(1.48 / var(--map-s, 1)));
   }
   .location-page .loc-exhibits__bubble-side {
     display: flex;
@@ -1818,6 +1824,7 @@ body[data-location="gwanggyo"] .loc-map {
     height: auto;
   }
   .location-page .loc-map--exhibits.has-detail .loc-map__detail {
+    left: 50%;
     transform: translate(-50%, -50%);
   }
   .location-page .loc-map__detail-img-wrap {
@@ -2107,13 +2114,14 @@ body[data-location="gwanggyo"] .loc-map {
 
   /* ── Sticky 유지 (스크롤 기반 전환) ─────────────────── */
   .location-page .loc-sticky-wrap {
-    height: 200vh;
+    height: auto;
+    margin-bottom: 0;
   }
   .location-page .loc-hero {
-    position: sticky;
+    position: relative;
     top: 0;
-    height: 100vh;
-    height: 100svh;
+    min-height: 100vh;
+    min-height: 100svh;
   }
 
   /* ── Hero ────────────────────────────────────────── */
@@ -2186,15 +2194,18 @@ body[data-location="gwanggyo"] .loc-map {
   /* ── Programs — 1열 ─────────────────────────────── */
   .location-page .loc-programs {
     height: auto;
-    padding: 76px 0 60px;
+    min-height: auto;
+    padding: 24px 0 120px;
     margin-bottom: 0;
+    overflow: visible !important;
   }
   .location-page .loc-programs__header {
-    position: relative;
-    left: unset;
-    transform: none;
-    top: unset;
+    position: static !important;
+    left: auto !important;
+    transform: none !important;
+    top: auto !important;
     margin-inline: auto;
+    margin-top: 0;
     margin-bottom: 32px;
     text-align: center;
     white-space: normal;
@@ -2217,24 +2228,35 @@ body[data-location="gwanggyo"] .loc-map {
     gap: 10px !important;
     padding: 10px;
     border-radius: 20px;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
   }
   .location-page .loc-programs__card {
     width: 100% !important;
-    height: clamp(190px, 48vw, 250px) !important;
+    height: clamp(260px, 68vw, 340px) !important;
+    min-height: 260px;
+    max-height: none !important;
+    aspect-ratio: auto;
   }
   .location-page .loc-programs__card-grad {
     top: unset;
     bottom: 0;
-    height: 53px;
+    height: 42%;
   }
   .location-page .loc-programs__card-bar {
     top: unset;
     bottom: 0;
-    padding: 0 14px 14px;
+    min-height: 68px;
+    padding: 14px;
+    gap: 10px;
+    align-items: flex-end;
+    z-index: 2;
   }
   .location-page .loc-programs__card-title {
     font-size: 12px;
     line-height: 1.35;
+    min-width: 0;
   }
   .location-page .loc-programs__card-btn {
     height: 24px;
@@ -2322,7 +2344,10 @@ body[data-location="gwanggyo"] .loc-map {
   }
   /* ── Solo / Exhibits 모바일 오버라이드 ── */
   /* Solo wrap: sticky 해제 */
-  .location-page .loc-map-wrap--solo { height: auto; }
+  .location-page .loc-map-wrap--solo {
+    height: auto;
+    margin-top: 0;
+  }
 
   /* Solo section: 일반 flow */
   .location-page .loc-map--solo {
@@ -2334,7 +2359,14 @@ body[data-location="gwanggyo"] .loc-map {
   }
 
   /* Exhibits: 모바일에서도 flow 안에 노출 */
-  .location-page .loc-map-wrap--exhibits { display: block; }
+  .location-page .loc-map-wrap--exhibits {
+    display: none;
+    height: auto;
+    margin-top: 0;
+  }
+  .location-page .loc-map-wrap--exhibits.is-revealed {
+    display: block;
+  }
   .location-page .loc-map--exhibits {
     opacity: 1 !important;
     pointer-events: auto !important;
@@ -2354,25 +2386,35 @@ body[data-location="gwanggyo"] .loc-map {
   .location-page .loc-map--exhibits .loc-exhibits__map-side {
     width: 100%;
     height: auto;
-    aspect-ratio: 1320 / 790;
+    aspect-ratio: auto;
   }
   .location-page .loc-map--exhibits .loc-map__stage {
     position: relative;
     left: unset;
     top: unset;
     width: 100%;
-    height: 100%;
-    aspect-ratio: 1320 / 790;
+    height: auto;
+    aspect-ratio: auto;
     transform: none !important;
     margin-inline: auto;
   }
-  .location-page .loc-map--exhibits .loc-map__img-wrap,
-  .location-page .loc-map--exhibits .loc-map__img {
+  .location-page .loc-map--exhibits .loc-map__img-wrap {
+    position: relative;
     width: 100%;
-    height: 100%;
+    height: auto;
+  }
+  .location-page .loc-map--exhibits .loc-map__img {
+    position: relative;
+    inset: auto;
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
   }
   .location-page .loc-map--exhibits .loc-map__markers {
     transform-origin: top left;
+    width: 1320px;
+    height: 790px;
     transform: scale(calc(min(calc(100vw - 40px), 380px) / 1320px));
   }
   .location-page .loc-map--exhibits .loc-exhibits__bubble-side {
@@ -2393,8 +2435,9 @@ body[data-location="gwanggyo"] .loc-map {
     position: relative;
     inset: unset;
     display: flex;
-    gap: 14px;
-    width: max-content;
+    justify-content: center;
+    gap: clamp(10px, 2vw, 18px);
+    width: 100%;
     padding: 0 0 4px;
     margin-inline: 0;
     transform: none;
@@ -2404,29 +2447,29 @@ body[data-location="gwanggyo"] .loc-map {
     position: relative;
     left: unset !important;
     top: unset !important;
-    width: 83px !important;
-    flex: 0 0 83px;
-    gap: 8px;
+    width: clamp(52px, 17vw, 66px) !important;
+    flex: 0 1 clamp(52px, 17vw, 66px);
+    gap: 6px;
     opacity: 1;
     transform: none !important;
     pointer-events: auto;
     scroll-snap-align: center;
   }
   .location-page .loc-map--exhibits .loc-map__bubble-circle {
-    width: 65px;
+    width: clamp(42px, 13.5vw, 52px);
     margin-inline: auto;
   }
   .location-page .loc-map--exhibits .loc-map__bubble-label {
     justify-content: center;
-    gap: 5px;
+    gap: 4px;
   }
   .location-page .loc-map--exhibits .loc-map__bubble-badge {
-    width: 18px;
-    height: 18px;
-    font-size: 9px;
+    width: 14px;
+    height: 14px;
+    font-size: 7px;
   }
   .location-page .loc-map--exhibits .loc-map__bubble-name {
-    font-size: 10px;
+    font-size: 8px;
     white-space: normal;
     text-align: center;
   }
@@ -2497,21 +2540,72 @@ body[data-location="gwanggyo"] .loc-map {
     pointer-events: none;
     transition: opacity 0.25s ease;
   }
+  .location-page .loc-map__bubble-hint {
+    font-size: 10px;
+  }
   .location-page .loc-map__detail.is-visible {
     opacity: 1;
     pointer-events: auto;
+  }
+  .location-page .loc-map__detail {
+    width: min(80% - 24px, 320px);
+    padding: 11px;
+    border-radius: 11px;
+  }
+  .location-page .loc-map__detail-close {
+    top: -24px;
+    width: 16px;
+    height: 16px;
+  }
+  .location-page .loc-map__detail-close svg {
+    width: 10px;
+    height: 10px;
   }
   .location-page .loc-map__detail-img-wrap {
     width: 100%;
     height: auto;
     aspect-ratio: 16 / 9;
-    margin-bottom: 16px;
+    margin-bottom: 13px;
+  }
+  .location-page .loc-map__detail-header {
+    height: auto;
+    gap: 14px;
+    margin-bottom: 13px;
+  }
+  .location-page .loc-map__detail-name {
+    font-size: 19px;
+    line-height: 1.25;
+  }
+  .location-page .loc-map__detail-floor {
+    font-size: 13px;
+    line-height: 1.25;
+  }
+  .location-page .loc-map__detail-desc {
+    font-size: 13px;
+    line-height: 1.45;
+  }
+  .location-page .loc-map--exhibits .loc-map__detail {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: min(80% - 24px, 320px);
+    margin: 0;
+    transform: translate(-50%, calc(-50% - 10px));
+    z-index: 5;
+  }
+  .location-page .loc-map--exhibits .loc-map__detail.is-visible,
+  .location-page .loc-map--exhibits.has-detail .loc-map__detail {
+    transform: translate(-50%, calc(-50% - 32px));
   }
   /* 맵 hover/detail 시 stage 이동 효과 제거 */
   .location-page .loc-map.is-hovering .loc-map__stage,
   .location-page .loc-map.has-detail .loc-map__stage {
     transform: none !important;
     opacity: 1 !important;
+  }
+  .location-page .loc-map--exhibits.has-detail .loc-map__stage {
+    opacity: 0 !important;
+    pointer-events: none;
   }
 
   /* ── Hours — 수직 스택 ─────────────────────────── */
@@ -2576,8 +2670,17 @@ body[data-location="gwanggyo"] .loc-map {
     transform: none;
     width: min(100% - 56px, 400px);
     margin-inline: auto;
-    margin-top: 32px;
+    margin-top: 16px;
     gap: 20px;
+  }
+  .location-page .loc-hours__notice-caption {
+    margin: 0;
+    font-family: var(--font-kr);
+    font-weight: 400;
+    font-size: 10px;
+    color: #ffffff;
+    letter-spacing: -0.28px;
+    text-align: center;
   }
   .location-page .loc-hours__notice-row {
     flex-direction: column;
@@ -2593,4 +2696,62 @@ body[data-location="gwanggyo"] .loc-map {
     display: none !important;
   }
 
+}
+
+@media (max-width: 900px) {
+  body.location-page .loc-sticky-wrap {
+    height: auto !important;
+    margin-bottom: 0 !important;
+  }
+
+  body.location-page .loc-hero {
+    position: relative !important;
+    min-height: 100svh;
+  }
+
+  body.location-page .loc-programs {
+    padding-top: 76px !important;
+    position: relative;
+    z-index: 2;
+  }
+
+  body.location-page .loc-programs__header {
+    position: static !important;
+    inset: auto !important;
+    transform: none !important;
+    margin-top: 0 !important;
+  }
+
+  body.location-page .loc-map-wrap,
+  body.location-page .loc-map-wrap--solo,
+  body.location-page .loc-map-wrap--exhibits {
+    position: relative !important;
+    height: auto !important;
+    margin-top: 0 !important;
+    z-index: 1;
+  }
+
+  body.location-page .loc-map,
+  body.location-page .loc-map--solo,
+  body.location-page .loc-map--exhibits {
+    position: relative !important;
+    top: auto !important;
+    margin-top: 0 !important;
+    transform: none !important;
+  }
+}
+
+@media (max-width: 820px) {
+  body.location-page .loc-sticky-wrap {
+    height: 200svh !important;
+    margin-bottom: 0 !important;
+  }
+
+  body.location-page .loc-hero {
+    position: sticky !important;
+    top: 0 !important;
+    height: 100svh !important;
+    min-height: 100svh !important;
+    overflow: hidden;
+  }
 }
