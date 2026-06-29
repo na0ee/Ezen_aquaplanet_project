@@ -2440,6 +2440,111 @@ body.marin-view-conservation .m-pill-tabs:not(.m-pill-tabs--cases) {
   opacity: 1;
 }
 
+.m-cons-bubble-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.m-cons-bubble-side {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 280px;
+  pointer-events: none;
+}
+
+.m-cons-bubble-side--left {
+  left: 0;
+}
+
+.m-cons-bubble-side--right {
+  right: 0;
+}
+
+.m-cons-glass-bubble {
+  position: absolute;
+  top: var(--bubble-y);
+  left: var(--bubble-x);
+  width: var(--bubble-size);
+  height: var(--bubble-size);
+  border: 1.5px solid transparent;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 31% 25%, rgba(255, 255, 255, 0.88) 0 8%, rgba(255, 255, 255, 0.22) 9%, transparent 24%) padding-box,
+    radial-gradient(circle at 68% 72%, rgba(112, 218, 255, 0.20) 0 13%, transparent 35%) padding-box,
+    radial-gradient(circle at 48% 50%, rgba(255, 255, 255, 0.10), rgba(255, 255, 255, 0.025) 58%, rgba(255, 255, 255, 0.12) 100%) padding-box,
+    linear-gradient(135deg,
+      rgba(255, 255, 255, 0.92) 0%,
+      rgba(255, 255, 255, 0.92) 7%,
+      rgba(255, 255, 255, 0.14) 28%,
+      rgba(255, 255, 255, 0.04) 52%,
+      rgba(255, 255, 255, 0.10) 74%,
+      rgba(255, 255, 255, 0.58) 100%) border-box;
+  box-shadow:
+    inset 0 0 10px rgba(255, 255, 255, 0.28),
+    inset -8px -10px 18px rgba(34, 178, 234, 0.08),
+    0 0 16px rgba(183, 239, 255, 0.13);
+  opacity: var(--bubble-opacity);
+  animation:
+    mConsGlassBubbleRise var(--bubble-duration) linear var(--bubble-delay) infinite,
+    mConsGlassBubbleSway var(--bubble-sway-duration) ease-in-out var(--bubble-delay) infinite alternate;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+.m-cons-glass-bubble::before,
+.m-cons-glass-bubble::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.m-cons-glass-bubble::before {
+  inset: 13% 17% 42% 22%;
+  border-top: 1px solid rgba(255, 255, 255, 0.72);
+  filter: blur(0.25px);
+  transform: rotate(-24deg);
+}
+
+.m-cons-glass-bubble::after {
+  right: 18%;
+  bottom: 18%;
+  width: 28%;
+  height: 28%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.22), transparent 70%);
+}
+
+@keyframes mConsGlassBubbleRise {
+  0% {
+    transform: translate3d(0, 80px, 0) scale(0.86);
+    opacity: 0;
+  }
+
+  12%,
+  78% {
+    opacity: var(--bubble-opacity);
+  }
+
+  100% {
+    transform: translate3d(var(--bubble-drift), -118vh, 0) scale(1.08);
+    opacity: 0;
+  }
+}
+
+@keyframes mConsGlassBubbleSway {
+  0% {
+    margin-left: calc(var(--bubble-sway) * -1);
+  }
+
+  100% {
+    margin-left: var(--bubble-sway);
+  }
+}
+
 .m-cons-orbit-field {
   position: absolute;
   left: 50%;
@@ -2464,16 +2569,26 @@ body.marin-view-conservation .m-pill-tabs:not(.m-pill-tabs--cases) {
 }
 
 .m-cons-orb__circle {
+  position: relative;
   display: block;
   width: 160px;
   height: 160px;
   border-radius: 50%;
   overflow: visible;
-  background: #ffffff;
+  background: transparent;
   box-shadow: 0 18px 40px rgba(0, 40, 70, 0.22);
   transform-origin: center center;
   transition: box-shadow 0.28s ease, filter 0.28s ease;
   will-change: transform;
+}
+
+.m-cons-orb__circle.ticket-bubble::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('../assets/images/bubble_transparent.png') center / cover no-repeat;
+  pointer-events: none;
+  z-index: 1;
 }
 
 .m-cons-orb.is-featured .m-cons-orb__circle {
@@ -2496,8 +2611,7 @@ body.marin-view-conservation .m-pill-tabs:not(.m-pill-tabs--cases) {
   display: block;
   width: 100%;
   height: 100%;
-  border-radius: 50%;
-  object-fit: cover;
+  object-fit: contain;
   transition: transform 0.35s ease, filter 0.35s ease;
 }
 
@@ -2507,6 +2621,12 @@ body.marin-view-conservation .m-pill-tabs:not(.m-pill-tabs--cases) {
   margin: 8%;
 }
 
+.m-cons-orb[data-category="seahorse"] .m-cons-orb__circle img {
+  width: 75%;
+  height: 75%;
+  margin: 12.5%;
+}
+
 .m-cons-orb.is-featured:hover .m-cons-orb__circle img {
   transform: scale(1.035);
 }
@@ -2514,6 +2634,7 @@ body.marin-view-conservation .m-pill-tabs:not(.m-pill-tabs--cases) {
 .m-cons-orb[data-category="pinniped"].is-featured:hover .m-cons-orb__circle img {
   transform: scale(1.035);
 }
+
 
 .m-cons-final-grid {
   --cons-final-size: 156px;
@@ -3417,5 +3538,9 @@ body.marin-view-conservation .m-pill-tabs:not(.m-pill-tabs--cases) {
 
   body.marin-view-conservation .m-cons-flip {
     height: min(58vh, 420px);
+<<<<<<< HEAD
     border-radius: 12px;
+=======
+    border-radius: 12px;}
+>>>>>>> origin/main
   }
