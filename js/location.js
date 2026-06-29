@@ -119,7 +119,7 @@
       description: [
         '지금까지 경험해보지 못한 Funny한 체험과 Fantasy한 바닷속 세상, 아쿠아플라넷 광교입니다.',
         '도심 속 바다에 살고 있는 210여종 30,000마리의 해양 및 육지 생물들을 <br> 가장 가까운 거리에서 생생하게 만나보세요.',
-        '빛과 생물이 어우러진, 환상의 아쿠아리움, <br> 아쿠아플라넷 광교에서 바닷속 탐험의 즐거움을 느껴보세요.'
+        '빛과 생물이 어우러진, 환상의 아쿠아리움, 아쿠아플라넷 광교에서 바닷속 탐험의 즐거움을 느껴보세요.'
       ],
       programDescription: '쇼핑과 문화, 체험이 결합된 도심형 아쿠아리움입니다<br><strong>생물 관람</strong>뿐 아니라 체험 콘텐츠와 다양한 테마 공간을 통해 새로운 해양문화 경험을 제공합니다',
       programs: [
@@ -623,11 +623,11 @@
   /* leftOffset: 맵 우측 기준 상대값 (slot2=0, slot1/3=+120, slot0/4=+270)
      hover 맵 우측 = innerWidth/2 + 294, Figma 기준 gap = 190px */
   var BUBBLE_LAYOUT = [
-    { leftOffset: 180, top: 500,  size: 108 },
+    { leftOffset: 174, top: 510,  size: 108 },
     { leftOffset:  70, top: 649,  size: 130 },
     { leftOffset:   0, top: 844,  size: 155 },
     { leftOffset:  70, top: 1039, size: 130 },
-    { leftOffset: 180, top: 1188, size: 108 }
+    { leftOffset: 174, top: 1188, size: 108 }
   ];
 
   /* 뷰포트 너비 기준 맵 스케일 계산
