@@ -322,6 +322,7 @@
   /* exhibits 섹션을 기준으로 모든 인터랙션 처리 */
   var mapSection  = document.querySelector('.loc-map--exhibits');
   var soloSection = document.querySelector('.loc-map--solo');
+  var mapTransitionEl = document.querySelector('.loc-map-transition');
   var soloWrapEl  = document.querySelector('.loc-map-wrap--solo');
   var exhibitsWrapEl = document.querySelector('.loc-map-wrap--exhibits');
   var soloImg     = document.getElementById('loc-map-img-solo');
@@ -622,11 +623,11 @@
   /* leftOffset: 맵 우측 기준 상대값 (slot2=0, slot1/3=+120, slot0/4=+270)
      hover 맵 우측 = innerWidth/2 + 294, Figma 기준 gap = 190px */
   var BUBBLE_LAYOUT = [
-    { leftOffset: 230, top: 510,  size: 108 },
-    { leftOffset: 100, top: 669,  size: 130 },
+    { leftOffset: 180, top: 500,  size: 108 },
+    { leftOffset:  70, top: 649,  size: 130 },
     { leftOffset:   0, top: 844,  size: 155 },
-    { leftOffset: 100, top: 1040, size: 130 },
-    { leftOffset: 230, top: 1210, size: 108 }
+    { leftOffset:  70, top: 1039, size: 130 },
+    { leftOffset: 180, top: 1188, size: 108 }
   ];
 
   /* 뷰포트 너비 기준 맵 스케일 계산
@@ -741,11 +742,42 @@
     });
   }
 
-  function renderZone(zone, advance) {
+  var bubbleEntranceTimer = null;
+
+  function animateBubbleEntrance(reason) {
+    if (!mapBubbles.length) return;
+    if (bubbleEntranceTimer) clearTimeout(bubbleEntranceTimer);
+    var actionVersion = renderVersion;
+    var delayBase = reason === 'marker' ? 220 : 40;
+    var dir = reason === 'floor' ? -1 : 1;
+
+    bubbleEntranceTimer = setTimeout(function () {
+      if (actionVersion !== renderVersion) return;
+      mapBubbles.forEach(function (bubble, index) {
+        var parts = Array.from(bubble.querySelectorAll('.loc-map__bubble-circle, .loc-map__bubble-label'));
+        parts.forEach(function (part) {
+          if (!part.animate) return;
+          part.animate([
+            { transform: 'translateX(' + (dir * 34) + 'px) scale(0.94)' },
+            { transform: 'translateX(' + (dir * -9) + 'px) scale(1.035)', offset: 0.72 },
+            { transform: 'translateX(0) scale(1)' }
+          ], {
+            duration: 520,
+            delay: index * 42,
+            easing: 'cubic-bezier(0.2, 0.9, 0.2, 1)',
+            fill: 'both'
+          });
+        });
+      });
+    }, delayBase);
+  }
+
+  function renderZone(zone, advance, reason) {
     var visible = getPriorityBubbles(zone, advance);
     renderVersion += 1;
     isOrbiting = false;
     mapSection.classList.remove('has-detail');
+    if (mapTransitionEl) mapTransitionEl.classList.remove('has-detail');
     bubbleWrap.replaceChildren();
     visible.forEach(function (item) {
       bubbleWrap.appendChild(createBubble(item.exhibit, item.slot));
@@ -754,9 +786,13 @@
     mapBubbles = Array.from(bubbleWrap.querySelectorAll('.loc-map__bubble'));
     bindBubbleEvents();
     centerBubbleRail();
+    animateBubbleEntrance(reason || (advance ? 'marker' : 'zone'));
 
-    markerWrap.querySelectorAll('.loc-map__marker').forEach(function (marker) {
-      marker.classList.toggle('is-active', marker.dataset.zone === zone);
+    [markerWrap, soloMarkersEl].forEach(function (wrap) {
+      if (!wrap) return;
+      wrap.querySelectorAll('.loc-map__marker').forEach(function (marker) {
+        marker.classList.toggle('is-active', marker.dataset.zone === zone);
+      });
     });
   }
 
@@ -784,7 +820,7 @@
         marker.textContent = position.zone;
         marker.setAttribute('aria-label', position.zone + '구역 ' + (labels[position.zone] || '') + ' 보기');
         marker.addEventListener('click', function () {
-          renderZone(position.zone, true);
+          renderZone(position.zone, true, 'marker');
         });
         markerWrap.appendChild(marker);
       });
@@ -803,12 +839,11 @@
         marker.textContent = position.zone;
         marker.setAttribute('aria-label', (labels[position.zone] || position.zone) + '구역 보기');
         marker.addEventListener('click', function () {
-          renderZone(position.zone, false);
+          renderZone(position.zone, false, 'marker');
           if (window.matchMedia('(max-width: 820px)').matches) {
             revealExhibitsMap();
-          } else if (soloWrapEl) {
-            var targetY = soloWrapEl.offsetTop + soloWrapEl.offsetHeight - window.innerHeight;
-            window.scrollTo({ top: targetY, behavior: 'smooth' });
+          } else {
+            scrollToExhibitsMap();
           }
         });
         soloMarkersEl.appendChild(marker);
@@ -837,7 +872,7 @@
                     : isYeosu    ? YEOSU_DEFAULT_ZONE[floor]
                     : isGwanggyo ? GWANGGYO_DEFAULT_ZONE[floor]
                     : DEFAULT_ZONE[floor];
-    renderZone(defaultZone, false);
+    renderZone(defaultZone, false, 'floor');
 
     var locationName = isIlsan ? '일산' : isYeosu ? '여수' : isGwanggyo ? '광교' : '제주';
     if (mapImg) {
@@ -872,6 +907,8 @@
   /* solo → exhibits 스크롤 전환 애니메이션
      solo 섹션 sticky가 끝나기 전 ZONE px 구간에서 crossfade + 맵 이동 */
   var soloStageEl = soloSection ? soloSection.querySelector('.loc-map__stage') : null;
+  var soloHeaderEl = soloSection ? soloSection.querySelector('.loc-map__header') : null;
+  var soloHintEl = soloSection ? soloSection.querySelector('.loc-map__hint') : null;
   var soloAutoTimer = null;
   var soloAutoTransition = false;
   var soloAutoScrolled = false;
@@ -882,13 +919,26 @@
     soloAutoTimer = null;
   }
 
+  var MAP_TRANSITION_START = 0.06;
+  var MAP_TRANSITION_LENGTH = 0.36;
+
   function showExhibitsMap() {
-    soloSection.style.opacity = '0';
+    soloSection.style.opacity = '1';
     soloSection.style.pointerEvents = 'none';
-    if (soloStageEl) soloStageEl.style.transform = '';
+    applySingleMapTransition(1);
+    updateSoloChrome(1);
     mapSection.style.opacity = '1';
     mapSection.style.pointerEvents = '';
     mapSection.classList.add('is-visible');
+  }
+
+  function updateSoloChrome(progress) {
+    var opacity = Math.max(0, 1 - progress * 1.4).toFixed(3);
+    if (soloHeaderEl) {
+      soloHeaderEl.style.opacity = opacity;
+      soloHeaderEl.style.pointerEvents = progress > 0.2 ? 'none' : '';
+    }
+    if (soloHintEl) soloHintEl.style.opacity = opacity;
   }
 
   function revealExhibitsMap() {
@@ -909,14 +959,38 @@
   }
 
   function scrollToExhibitsMap() {
-    if (!soloWrapEl || soloAutoScrolled) return;
+    var transitionEl = mapTransitionEl || soloWrapEl;
+    if (!transitionEl || soloAutoScrolled) return;
     soloAutoScrolled = true;
-    var targetY = soloWrapEl.offsetTop + soloWrapEl.offsetHeight - window.innerHeight;
+    var scrollSpan = Math.max(1, transitionEl.offsetHeight - window.innerHeight);
+    var targetY = transitionEl.offsetTop + scrollSpan * (MAP_TRANSITION_START + MAP_TRANSITION_LENGTH);
     window.scrollTo({ top: targetY, behavior: 'smooth' });
   }
 
+  function getExhibitsMapScale() {
+    return window.matchMedia('(min-width: 821px) and (max-width: 1180px)').matches ? 0.45 : 0.7;
+  }
+
+  function getExhibitsMapXOffset(scale) {
+    if (window.matchMedia('(min-width: 821px) and (max-width: 1180px)').matches) return 0;
+    return -235 * scale;
+  }
+
+  function applySingleMapTransition(progress) {
+    if (!soloStageEl) return;
+    var s = getMapScale();
+    var startScale = getSoloMapScale();
+    var endScale = getExhibitsMapScale();
+    var sc = (startScale + (endScale - startScale) * progress) * s;
+    var xOff = (getExhibitsMapXOffset(s) * progress).toFixed(2);
+    var yOff = getMapOffsetY().toFixed(2);
+    soloStageEl.style.transform =
+      'translate(calc(-50% + ' + xOff + 'px), calc(-50% + ' + yOff + 'px)) scale(' + sc.toFixed(4) + ')';
+  }
+
   function updateSoloExhibitsTransition() {
-    if (!soloSection || !mapSection || !soloWrapEl) return;
+    var transitionEl = mapTransitionEl || soloWrapEl;
+    if (!soloSection || !mapSection || !transitionEl) return;
     if (window.matchMedia('(max-width: 820px)').matches) {
       clearSoloAutoTimer();
       soloAutoTransition = false;
@@ -924,6 +998,7 @@
       soloSection.style.opacity       = '';
       soloSection.style.pointerEvents = '';
       if (soloStageEl) soloStageEl.style.transform = '';
+      updateSoloChrome(0);
       mapSection.style.opacity        = '';
       mapSection.style.pointerEvents  = '';
       if (!exhibitsWrapEl || !exhibitsWrapEl.classList.contains('is-revealed')) {
@@ -936,42 +1011,27 @@
 
     var s    = getMapScale();
     var vh   = window.innerHeight;
-    var ZONE = 480; /* 전환 구간 (px) */
-    var soloRect = soloWrapEl.getBoundingClientRect();
-    var soloEntered = soloRect.top <= 0 && soloRect.bottom > 0;
+    var transitionRect = transitionEl.getBoundingClientRect();
+    var scrollSpan = Math.max(1, transitionEl.offsetHeight - vh);
+    var rawProgress = Math.max(0, Math.min(1, -transitionRect.top / scrollSpan));
+    var progress = Math.max(0, Math.min(1, (rawProgress - MAP_TRANSITION_START) / MAP_TRANSITION_LENGTH));
 
-    if (soloRect.top > 0) {
+    if (transitionRect.top > 0) {
       clearSoloAutoTimer();
       soloAutoTransition = false;
       soloAutoScrolled = false;
-    } else if (soloEntered && !soloAutoTransition && !soloAutoTimer) {
-      soloAutoTimer = setTimeout(function () {
-        soloAutoTimer = null;
-        if (window.matchMedia('(max-width: 820px)').matches) return;
-        var rect = soloWrapEl.getBoundingClientRect();
-        if (rect.top <= 0 && rect.bottom > 0) {
-          soloAutoTransition = true;
-          scrollToExhibitsMap();
-          updateSoloExhibitsTransition();
-        }
-      }, 300);
     }
 
     if (soloAutoTransition) {
-      showExhibitsMap();
-      return;
+      soloAutoTransition = false;
     }
-
-    /* soloWrap.bottom 이 vh 에 가까워질수록 progress → 1
-       solo sticky 종료 시점 = soloWrap.bottom == vh */
-    var sBottom  = soloRect.bottom;
-    var progress = Math.max(0, Math.min(1, 1 - (sBottom - vh) / ZONE));
 
     if (progress <= 0) {
       /* 전환 전: solo 완전 표시, exhibits 숨김 */
       soloSection.style.opacity      = '';
       soloSection.style.pointerEvents = '';
       if (soloStageEl) soloStageEl.style.transform = '';
+      updateSoloChrome(0);
       mapSection.style.opacity       = '0';
       mapSection.style.pointerEvents = 'none';
       mapSection.classList.remove('is-visible', 'has-detail');
@@ -981,24 +1041,19 @@
       showExhibitsMap();
 
     } else {
-      /* 전환 중: solo 맵이 exhibits 위치로 이동하며 페이드아웃
-         exhibits는 후반부(progress > 0.5)부터 페이드인 */
-      soloSection.style.opacity      = Math.max(0, 1 - progress * 1.8).toFixed(3);
+      /* 전환 중: 실제 맵은 solo stage 하나만 유지하고 UI만 페이드인 */
+      var mapProg = Math.max(0, Math.min(1, progress / 0.45));
+      var exProg = Math.max(0, Math.min(1, (progress - 0.16) / 0.84));
+      soloSection.style.opacity      = '1';
       soloSection.style.pointerEvents = 'none';
+      applySingleMapTransition(mapProg);
+      updateSoloChrome(mapProg);
 
-      /* solo 맵: scale 0.8→0.7, 중앙→exhibits 맵 위치(-235*s) */
-      if (soloStageEl) {
-        var sc   = (getSoloMapScale() - 0.07 * progress) * s;
-        var xOff = (-235 * s * progress).toFixed(2);
-        var yOff = getMapOffsetY().toFixed(2);
-        soloStageEl.style.transform =
-          'translate(calc(-50% + ' + xOff + 'px), calc(-50% + ' + yOff + 'px)) scale(' + sc.toFixed(4) + ')';
-      }
-
-      var exProg = Math.max(0, (progress - 0.5) * 2);
       mapSection.style.opacity       = exProg.toFixed(3);
-      mapSection.style.pointerEvents = 'none';
-      mapSection.classList.remove('is-visible', 'has-detail');
+      mapSection.style.pointerEvents = exProg > 0.85 ? '' : 'none';
+      mapSection.classList.add('is-visible');
+      mapSection.classList.remove('has-detail');
+      if (mapTransitionEl) mapTransitionEl.classList.remove('has-detail');
     }
   }
 
@@ -1164,6 +1219,7 @@
         img.alt = data.name;
 
         mapSection.classList.add('has-detail');
+        if (mapTransitionEl) mapTransitionEl.classList.add('has-detail');
         isOrbiting = false;
       }, TOTAL);
     }
@@ -1181,6 +1237,7 @@
             b.style.transform  = '';
           });
           mapSection.classList.remove('has-detail');
+          if (mapTransitionEl) mapTransitionEl.classList.remove('has-detail');
 
           /* 한 프레임 뒤 orbit 시작 (DOM transition reset 보장) */
           requestAnimationFrame(function () {
@@ -1209,6 +1266,7 @@
           b.classList.remove('is-selected');
         });
         mapSection.classList.remove('has-detail');
+        if (mapTransitionEl) mapTransitionEl.classList.remove('has-detail');
         setTimeout(function () {
           mapBubbles.forEach(function (b) { b.style.transition = ''; });
         }, 560);
