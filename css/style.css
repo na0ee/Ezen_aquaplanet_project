@@ -6011,7 +6011,7 @@ body.biz-page {
 
   .index-page .location-hover-card__body {
     min-height: 298px;
-    gap: 14px;
+    gap: 12px;
   }
 
   .index-page .location-hover-card__copy {
@@ -6020,9 +6020,19 @@ body.biz-page {
     padding-top: 14px;
   }
 
+  .index-page .location-hover-card__title {
+    flex-wrap: wrap;
+    gap: 2px 8px;
+    width: 100%;
+    min-width: 0;
+    white-space: normal;
+  }
+
   .index-page .location-hover-card__logo,
   .index-page .location-hover-card__branch {
     font-size: 23px;
+    line-height: 1.15;
+    white-space: normal;
   }
 
   .index-page .location-hover-card__desc {
@@ -6035,8 +6045,8 @@ body.biz-page {
   }
 
   .index-page .location-hover-card__image {
-    flex: 0 0 158px;
-    max-width: 158px;
+    flex: 0 0 144px;
+    max-width: 144px;
     min-height: 298px;
   }
 

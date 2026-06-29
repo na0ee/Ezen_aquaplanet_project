@@ -2519,7 +2519,7 @@ body.marin-view-conservation .m-pill-tabs:not(.m-pill-tabs--cases) {
   height: 160px;
   border-radius: 50%;
   overflow: visible;
-  background: #ffffff;
+  background: transparent;
   box-shadow: 0 18px 40px rgba(0, 40, 70, 0.22);
   transform-origin: center center;
   transition: box-shadow 0.28s ease, filter 0.28s ease;
@@ -2583,15 +2583,86 @@ body.marin-view-conservation .m-pill-tabs:not(.m-pill-tabs--cases) {
 
 .m-cons-orb__circle img {
   display: block;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  object-fit: cover;
+  width: 94%;
+  height: 94%;
+  margin: 3%;
+  border-radius: 0;
+  object-fit: contain;
+  object-position: center;
   transition: transform 0.35s ease, filter 0.35s ease;
+}
+
+.m-cons-orb[data-category="pinniped"] .m-cons-orb__circle img {
+  width: 84%;
+  height: 84%;
+  margin: 8%;
 }
 
 .m-cons-orb.is-featured:hover .m-cons-orb__circle img {
   transform: scale(1.035);
+}
+
+.m-cons-orb[data-category="pinniped"].is-featured:hover .m-cons-orb__circle img {
+  transform: scale(1.035);
+}
+
+.m-cons-final-grid {
+  --cons-final-size: 156px;
+  --cons-final-gap-x: 30px;
+  --cons-final-gap-y: 26px;
+  --cons-final-offset-x: 0px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 4;
+  display: none;
+  grid-template-columns: repeat(4, var(--cons-final-size));
+  grid-auto-rows: var(--cons-final-size);
+  gap: var(--cons-final-gap-y) var(--cons-final-gap-x);
+  opacity: 0;
+  transform: translate3d(calc(-50% + var(--cons-final-offset-x)), calc(-50% - 90px), 0) scale(0.94);
+  transition: opacity 0.24s ease;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+.m-cons-final-grid.is-visible {
+  pointer-events: auto;
+}
+
+.m-cons-final-bubble {
+  display: block;
+  width: var(--cons-final-size);
+  height: var(--cons-final-size);
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.m-cons-final-bubble .m-cons-orb__circle {
+  width: var(--cons-final-size);
+  height: var(--cons-final-size);
+}
+
+.m-cons-final-bubble:hover .m-cons-orb__circle {
+  filter: saturate(1.08) contrast(1.04);
+  box-shadow: 0 32px 90px rgba(0, 63, 122, 0.28);
+}
+
+.m-cons-final-bubble:nth-child(5) {
+  grid-column: 1;
+  transform: translateX(calc((var(--cons-final-size) + var(--cons-final-gap-x)) / 2));
+}
+
+.m-cons-final-bubble:nth-child(6) {
+  grid-column: 2;
+  transform: translateX(calc((var(--cons-final-size) + var(--cons-final-gap-x)) / 2));
+}
+
+.m-cons-final-bubble:nth-child(7) {
+  grid-column: 3;
+  transform: translateX(calc((var(--cons-final-size) + var(--cons-final-gap-x)) / 2));
 }
 
 .m-cons-card-overlay {
@@ -3083,12 +3154,13 @@ body.marin-view-conservation #marinFooter {
 
 /* ================================
    Marin Lab Tablet Responsive
-   (761px ~ 1180px — 모바일 760px 블록과 충돌 방지를 위해 min-width 사용)
+   (761px ~ 1440px — 모바일 760px 블록과 충돌 방지를 위해 min-width 사용)
 ================================ */
 
-@media (min-width: 761px) and (max-width: 1280px) {
+@media (min-width: 761px) and (max-width: 1440px) {
   :root {
     --cons-tablet-hero-height: max(100vh, 120vw);
+    --cons-tablet-orbit-height: 5200px;
   }
 
   @media (max-width: 900px) {
@@ -3103,14 +3175,14 @@ body.marin-view-conservation #marinFooter {
 
   body.marin-view-conservation .marin-shell--conservation {
     overflow: hidden;
-    height: calc(var(--cons-tablet-hero-height) + 8400px) !important;
+    height: calc(var(--cons-tablet-hero-height) + var(--cons-tablet-orbit-height)) !important;
   }
 
   body.marin-view-conservation .marin-shell--conservation .marin-stage,
   body.marin-view-conservation .m-conservation-view {
     left: 0;
     width: 100%;
-    height: calc(var(--cons-tablet-hero-height) + 8400px) !important;
+    height: calc(var(--cons-tablet-hero-height) + var(--cons-tablet-orbit-height)) !important;
     transform: none !important;
   }
 
@@ -3125,6 +3197,7 @@ body.marin-view-conservation #marinFooter {
   body.marin-view-conservation .m-cons-orbit {
     top: var(--cons-tablet-hero-height) !important;
     width: 100%;
+    height: var(--cons-tablet-orbit-height);
   }
 
   body.marin-view-conservation .m-pill-tabs:not(.m-pill-tabs--cases) {
@@ -3167,6 +3240,71 @@ body.marin-view-conservation #marinFooter {
     width: 100%;
   }
 
+  body.marin-view-conservation .m-cons-orbit-field {
+    left: 0;
+    top: 220px;
+    width: 100%;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: clamp(16px, 2vw, 26px);
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 0 clamp(28px, 6vw, 72px) 12px;
+    box-sizing: border-box;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    cursor: grab;
+    user-select: none;
+    transform: none;
+  }
+
+  body.marin-view-conservation .m-cons-orbit-field.is-dragging {
+    cursor: grabbing;
+  }
+
+  body.marin-view-conservation .m-cons-orbit-field::-webkit-scrollbar {
+    display: none;
+  }
+
+  body.marin-view-conservation .m-cons-orb {
+    position: relative;
+    left: auto;
+    top: auto;
+    flex: 0 0 auto;
+    opacity: 1;
+    pointer-events: auto;
+    transform: none !important;
+  }
+
+  body.marin-view-conservation .m-cons-orb__circle {
+    width: clamp(108px, 11vw, 150px);
+    height: clamp(108px, 11vw, 150px);
+    transform: none !important;
+  }
+
+  body.marin-view-conservation .m-cons-final-grid {
+    --cons-final-size: clamp(132px, 16vw, 210px);
+    --cons-final-gap-x: clamp(18px, 2.4vw, 34px);
+    --cons-final-gap-y: clamp(18px, 2.4vw, 34px);
+    --cons-final-offset-x: clamp(22px, 3vw, 44px);
+    display: grid;
+    top: 50%;
+  }
+
+  body.marin-view-conservation .m-cons-orb[data-category="pinniped"] .m-cons-orb__circle img,
+  body.marin-view-conservation .m-cons-final-bubble[data-category="pinniped"] .m-cons-orb__circle img {
+    width: 90%;
+    height: 90%;
+    margin: 5%;
+    transform: translateY(7%);
+  }
+
+  body.marin-view-conservation .m-cons-orb[data-category="pinniped"].is-featured:hover .m-cons-orb__circle img {
+    transform: translateY(7%) scale(1.035);
+  }
+
   body.marin-view-conservation .m-cons-orbit-stage {
     width: 820px;
   }
@@ -3198,11 +3336,13 @@ body.marin-view-conservation #marinFooter {
   }
 
   .m-cons-card-overlay.is-open[data-active-card="pinniped"] .m-cons-card-overlay__close {
-    top: calc(50% - 16px - min(29vh, 280px));
+    top: 24px;
+    right: 20px;
   }
 
   .m-cons-card-overlay.is-open[data-active-card="seahorse"] .m-cons-card-overlay__close {
-    top: calc(50% - 28px - min(29vh, 280px));
+    top: 24px;
+    right: 20px;
   }
 
   .m-cons-card-overlay__inner {
@@ -3514,11 +3654,13 @@ body.marin-view-conservation #marinFooter {
   }
 
   body.marin-view-conservation .m-cons-card-overlay.is-open[data-active-card="pinniped"] .m-cons-card-overlay__close {
-    top: calc(50% - 21px - min(45vh, 330px));
+    top: 24px;
+    right: 20px;
   }
 
   body.marin-view-conservation .m-cons-card-overlay.is-open[data-active-card="seahorse"] .m-cons-card-overlay__close {
-    top: calc(50% - 26px - min(30vh, 220px));
+    top: 24px;
+    right: 20px;
   }
 
   body.marin-view-conservation .m-cons-card {
