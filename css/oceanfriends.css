@@ -117,10 +117,12 @@ body.oceanfriends-page {
   align-items: center;
   padding: 3px;
   border-radius: 14px;
-  background: linear-gradient(160deg,
-      rgba(255, 255, 255, 0.06) 0%,
-      rgba(255, 255, 255, 0.01) 45%,
-      rgba(255, 255, 255, 0.04) 100%);
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    rgba(255, 255, 255, 0.01) 45%,
+    rgba(255, 255, 255, 0.04) 100%
+  );
   backdrop-filter: url(#glass-refract-light) blur(4px);
   -webkit-backdrop-filter: url(#glass-refract-light) blur(4px);
   box-shadow:
@@ -145,12 +147,14 @@ body.oceanfriends-page {
   inset: 0;
   border-radius: 14px;
   padding: 1.5px;
-  background: linear-gradient(160deg,
-      rgba(255, 255, 255, 0.55) 0%,
-      rgba(255, 255, 255, 0.20) 25%,
-      rgba(255, 255, 255, 0.08) 50%,
-      rgba(255, 255, 255, 0.20) 75%,
-      rgba(255, 255, 255, 0.55) 100%);
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.55) 0%,
+    rgba(255, 255, 255, 0.20) 25%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(255, 255, 255, 0.20) 75%,
+    rgba(255, 255, 255, 0.55) 100%
+  );
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: destination-out;
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -249,10 +253,12 @@ body.oceanfriends-page {
   font-weight: 400;
   letter-spacing: -0.48px;
   color: #ffffff;
-  background: linear-gradient(160deg,
-      rgba(255, 255, 255, 0.06) 0%,
-      rgba(255, 255, 255, 0.01) 45%,
-      rgba(255, 255, 255, 0.04) 100%);
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    rgba(255, 255, 255, 0.01) 45%,
+    rgba(255, 255, 255, 0.04) 100%
+  );
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.75),
     inset 0 -1px 0 rgba(255, 255, 255, 0.12),
@@ -269,12 +275,14 @@ body.oceanfriends-page {
   inset: 0;
   border-radius: 100px;
   padding: 1.5px;
-  background: linear-gradient(160deg,
-      rgba(255, 255, 255, 0.55) 0%,
-      rgba(255, 255, 255, 0.20) 25%,
-      rgba(255, 255, 255, 0.08) 50%,
-      rgba(255, 255, 255, 0.20) 75%,
-      rgba(255, 255, 255, 0.55) 100%);
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.55) 0%,
+    rgba(255, 255, 255, 0.20) 25%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(255, 255, 255, 0.20) 75%,
+    rgba(255, 255, 255, 0.55) 100%
+  );
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: destination-out;
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -293,155 +301,36 @@ body.oceanfriends-page {
   width: 100%;
 }
 
-.gnb__hamburger {
-  display: none;
-}
-
-@media (max-width: 1024px) and (min-width: 769px) {
-
-  /* Tablet Header */
+@media (max-width: 1024px) {
   .oceanfriends-page .gnb {
-    padding: 24px 32px;
-    height: 102px;
+    padding: 24px 24px;
   }
-
   .oceanfriends-page .gnb__inner {
-    max-width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .oceanfriends-page .gnb__nav {
-    gap: 20px;
-  }
-
-  .oceanfriends-page .gnb__link,
-  .oceanfriends-page .gnb__item {
-    font-size: 16px;
-  }
-
-  .oceanfriends-page .gnb__link.gnb__link--active,
-  .oceanfriends-page .gnb__item.gnb__item--active {
-    font-size: 18px;
-  }
-
-}
-
-@media (min-width: 769px) and (max-width: 1024px) {
-  /* intro__content-inner 태블릿 반응형 */
-  .intro__content-inner .of-eyebrow {
-    font-size: clamp(22px, 2.8vw, 28px);
-  }
-  .intro__content-inner .of-title span {
-    font-size: clamp(60px, 8vw, 90px);
-  }
-  .intro__content-inner .of-title em {
-    font-size: clamp(76px, 10vw, 116px);
-  }
-  .intro__content-inner .intro__lead {
-    font-size: clamp(18px, 2.2vw, 22px);
+    max-width: calc(100% - 48px);
   }
 }
 
 @media (max-width: 768px) {
-
-  /* Mobile Header */
   .oceanfriends-page .gnb {
-    padding: 16px 20px;
     height: auto;
-  }
-
-  .oceanfriends-page .gnb__inner {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: relative;
-    height: 48px;
-    flex-direction: row;
-    gap: 0;
-    max-width: 100%;
-  }
-
-  .oceanfriends-page .gnb__nav {
-    display: none;
-  }
-
-  .gnb__hamburger {
-    display: block;
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    background: none;
-    border: none;
-    padding: 8px;
-    cursor: pointer;
-  }
-
-  .gnb__hamburger img {
-    width: 24px;
-    height: 24px;
-  }
-
-  .oceanfriends-page .gnb__logo-wrap {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 48px;
-    height: 48px;
-  }
-
-  .oceanfriends-page .gnb__logo {
-    position: static;
-    transform: none;
-    width: 100%;
-    height: 100%;
-  }
-
-  .oceanfriends-page .gnb__ticket {
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    height: 36px;
-    padding: 0 12px;
-    font-size: 14px;
-  }
-
-  .oceanfriends-page .gnb__ticket .img {
-    width: 20px;
-    height: 20px;
-  }
-}
-
-@media (max-width: 390px) {
-
-  /* Small Mobile Header */
-  .oceanfriends-page .gnb {
     padding: 12px 16px;
   }
-
-  .gnb__hamburger img {
-    width: 20px;
-    height: 20px;
+  .oceanfriends-page .gnb__inner {
+    flex-direction: column;
+    height: auto;
+    gap: 12px;
+    max-width: calc(100% - 32px);
   }
-
-  .oceanfriends-page .gnb__logo-wrap {
-    width: 40px;
-    height: 40px;
+  .oceanfriends-page .gnb__category {
+    gap: 16px;
+    width: 100%;
+    justify-content: center;
   }
-
-  .oceanfriends-page .gnb__ticket {
-    height: 32px;
-    padding: 0 10px;
-    font-size: 12px;
+  .oceanfriends-page .gnb__item {
+    font-size: 16px;
   }
-
-  .oceanfriends-page .gnb__ticket .img {
-    width: 16px;
-    height: 16px;
+  .oceanfriends-page .gnb__item--active {
+    font-size: 18px;
   }
 }
 
@@ -502,6 +391,9 @@ body.oceanfriends-page {
   margin-top: 84px;
 }
 
+.of-hero {
+  display: none;
+}
 
 .of-eyebrow {
   display: block;
@@ -530,7 +422,7 @@ body.oceanfriends-page {
   font-weight: 200;
   color: #ffffff;
   letter-spacing: -4px;
-  line-height: 1;
+  line-height: normal;
 }
 
 .of-title em {
@@ -540,10 +432,10 @@ body.oceanfriends-page {
   font-size: 128px;
   color: #ffffff;
   letter-spacing: -2.56px;
-  line-height: 1;
+  line-height: normal;
 }
 
-.intro__lead {
+.of-hero__lead {
   margin: 22px auto 0;
   max-width: 760px;
   font-family: "Pretendard", sans-serif;
@@ -601,35 +493,34 @@ body.oceanfriends-page {
 }
 
 .of-section-title {
+  margin: 0;
+  font-size: 0;
+  color: #111;
+}
+
+.of-section-title span {
   font-family: "Poppins", sans-serif;
-  font-size: 58px;
+  font-size: clamp(30px, 2.2vw, 42px);
   font-weight: 300;
-  letter-spacing: -2.24px;
-  color: #ffffff;
-  margin-bottom: 14px;
+  letter-spacing: 0;
+  line-height: 1.4;
 }
 
 .of-section-title em {
   font-family: "EB Garamond", serif;
-  font-size: 56px;
+  font-size: clamp(34px, 2.5vw, 48px);
   font-weight: 500;
   font-style: italic;
-  color: #ffffff;
+  letter-spacing: 0;
+  line-height: 1.4;
 }
 
 .of-section-sub {
-  color: #ffffff;
-  text-align: center;
-  font-family: "Pretendard", sans-serif;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 200;
-  line-height: 1.6;
-  letter-spacing: -0.36px;
-}
-
-.of-signature .of-section-sub {
-  font-weight: 300;
+  margin-top: 7px;
+  font-family: var(--font-kr);
+  font-size: 18px;
+  line-height: 1.4;
+  color: #1a1a1a;
 }
 
 /* ── 섹션 순차 페이드인 ── */
@@ -689,7 +580,7 @@ body.oceanfriends-page {
   animation: of-intro-rise 1.05s cubic-bezier(0.22, 1, 0.36, 1) 170ms both;
 }
 
-.oceanfriends-page .intro__content .intro__lead {
+.oceanfriends-page .intro__content .of-hero__lead {
   animation: of-intro-rise 1.05s cubic-bezier(0.22, 1, 0.36, 1) 340ms both;
 }
 
@@ -706,7 +597,7 @@ body.oceanfriends-page {
 
   .oceanfriends-page .intro__content .of-eyebrow,
   .oceanfriends-page .intro__content .of-title,
-  .oceanfriends-page .intro__content .intro__lead,
+  .oceanfriends-page .intro__content .of-hero__lead,
   .oceanfriends-page .intro__content .of-scroll {
     animation: none;
     opacity: 1;
@@ -740,16 +631,16 @@ body.oceanfriends-page {
   pointer-events: none;
 }
 
-.of-signature>.of-section-head,
-.of-signature>.signature-gallery-viewport,
-.of-signature>.of-pager {
+.of-signature > .of-section-head,
+.of-signature > .signature-gallery-viewport,
+.of-signature > .of-pager {
   position: relative;
   z-index: 2;
 }
 
 /* hero에서는 보이지 않는 기본 상태 — JS(ScrollTrigger)가 스크롤 위치에 맞춰
    opacity/translateY/blur를 직접 갱신한다 */
-.of-signature>.of-section-head {
+.of-signature > .of-section-head {
   opacity: 0;
   will-change: opacity, transform, filter;
 }
@@ -757,6 +648,16 @@ body.oceanfriends-page {
 .signature-gallery-track .of-species-card {
   opacity: 0;
   will-change: opacity, transform, filter;
+}
+
+.of-signature .of-section-title,
+.of-signature .of-section-title span,
+.of-signature .of-section-title em {
+  color: #ffffff;
+}
+
+.of-signature .of-section-sub {
+  color: rgba(255, 255, 255, 0.92);
 }
 
 /* ── 종 카드 (grid 기본) ── */
@@ -857,7 +758,7 @@ body.oceanfriends-page {
   z-index: 2;
   left: 16px;
   right: 16px;
-  bottom: 16px;
+  bottom: 18px;
 }
 
 .of-species-card__text strong {
@@ -867,12 +768,13 @@ body.oceanfriends-page {
   font-weight: 500;
   line-height: 1;
   color: #fff;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.45);
   -webkit-font-smoothing: antialiased;
 }
 
 .of-species-card__text span {
   display: block;
-  margin-top: 8px;
+  margin-top: 7px;
   font-size: 12px;
   color: rgba(255, 255, 255, 0.7);
 }
@@ -924,7 +826,7 @@ body.oceanfriends-page {
 /* ── 디테일 섹션 ── */
 .of-detail {
   min-height: 100svh;
-  padding: 210px 0 clamp(220px, 18vh, 320px);
+  padding: clamp(70px, 8vh, 96px) 0 clamp(220px, 18vh, 320px);
   background: #2686E7;
   color: #ffffff;
   overflow-x: clip;
@@ -965,17 +867,18 @@ body.oceanfriends-page {
   margin: 0 auto;
 }
 
-.cartegory-tabs-a {
+.cartegory-tabs-b {
   display: flex;
-  align-items: center;
   justify-content: center;
-  position: relative;
+  margin-bottom: 0;
   flex-wrap: nowrap;
+  gap: 2px;
   background: rgba(255, 255, 255, 0.02);
   padding: 3px;
   border-radius: 14px;
   border: 1px solid rgba(255, 255, 255, 0.50);
-  width: fit-content;
+  width: max-content;
+  max-width: 100%;
   margin-left: auto;
   margin-right: auto;
 }
@@ -1028,16 +931,16 @@ body.oceanfriends-page {
   opacity: 1;
 }
 
-.cartegory-tabs-a__item {
+.cartegory-tabs-b__item {
   justify-content: center;
-  height: 44px;
+  height: 48px;
   padding: 0 20px;
   border-radius: 12px;
-  font-family: "Poppins", sans-serif;
+  font-family: "Pretendard", sans-serif;
   font-size: 16px;
-  font-weight: 400;
-  letter-spacing: -0.64px;
-  color: #ffffff;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: rgba(255, 255, 255, 0.85);
   background-color: transparent;
   border: none;
   cursor: pointer;
@@ -1051,20 +954,21 @@ body.oceanfriends-page {
     transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.cartegory-tabs-a__item--active {
+.cartegory-tabs-b__item--active {
   background-color: #ffffff;
   color: var(--Brand-Primary, #22B2EA);
-  font-family: "EB Garamond", serif;
+  font-family: "EB Garamond";
   font-size: 20px;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
-  letter-spacing: -0.8px;
+  letter-spacing: 0;
   border: none;
+  transform: translateY(-1px);
 }
 
-.cartegory-tabs-a__item:hover,
-.cartegory-tabs-a__item:focus-visible {
+.cartegory-tabs-b__item:hover,
+.cartegory-tabs-b__item:focus-visible {
   color: #22b2ea;
   background: rgba(255, 255, 255, 0.92);
   outline: none;
@@ -1153,7 +1057,7 @@ body.oceanfriends-page {
   align-items: center;
   gap: 8px;
   flex-wrap: wrap;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
 .of-detail-card__body {
@@ -1165,13 +1069,12 @@ body.oceanfriends-page {
 .of-badge {
   display: inline-flex;
   align-items: center;
-  height: 26px;
-  padding: 0 10px;
-  border-radius: 50px;
-  letter-spacing: -2%;
+  min-height: 22px;
+  padding: 0 14px;
+  border-radius: 999px;
   border: 1px solid rgba(255, 255, 255, 0.26);
   font-size: 12px;
-  font-weight: 400;
+  line-height: 1;
   color: #ffffff;
   background: rgba(255, 255, 255, 0.04);
 }
@@ -1193,7 +1096,7 @@ body.oceanfriends-page {
 
 .of-detail-card i {
   display: block;
-  margin-top: 2px;
+  margin-top: 6px;
   font-family: var(--font-serif);
   font-size: 18px;
   color: rgba(255, 255, 255, 0.88);
@@ -1211,23 +1114,22 @@ body.oceanfriends-page {
 .of-detail-card p {
   margin: 22px 0 18px;
   font-family: var(--font-kr);
-  font-size: 16px;
+  font-size: 15px;
   line-height: 1.4;
-  color: #ffffff;
-  font-weight: 300;
+  color: rgba(255, 255, 255, 0.88);
 }
 
 .of-more {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 32px;
+  height: 30px;
   padding: 0 16px;
   border-radius: 999px;
   background: #ffffff;
   border: 1px solid #ffffff;
   color: #22b2ea;
-  font-size: 16px;
+  font-size: 13px;
   font-weight: 500;
   text-decoration: none;
   transition: background 0.2s, color 0.2s;
@@ -1414,6 +1316,20 @@ body.oceanfriends-page {
   outline: none;
 }
 
+/* ── 흰색 배경 위 파란 커서 ── */
+#custom-cursor.is-over-light {
+  border-color: rgba(34, 178, 234, 0.9);
+}
+
+#custom-cursor.is-over-light.is-hovering {
+  border-color: rgba(34, 178, 234, 1);
+  background: rgba(34, 178, 234, 0.08);
+}
+
+#custom-cursor.is-over-light.is-clicking {
+  background: rgba(34, 178, 234, 0.2);
+  border-color: rgba(34, 178, 234, 1);
+}
 
 /* ── 1100px 이하 카드 높이 조정 ── */
 @media (max-width: 1100px) {
@@ -1423,7 +1339,7 @@ body.oceanfriends-page {
 }
 
 /* ── Signature Species — draggable infinite gallery ── */
-@media (min-width: 769px) {
+@media (min-width: 761px) {
   .signature-gallery-viewport {
     display: block;
     width: 100%;
@@ -1517,55 +1433,20 @@ body.oceanfriends-page {
   }
 }
 
-/* ── 반응형 Hero 및 Signature ── */
-@media (max-width: 1024px) and (min-width: 769px) {
-
-  /* Tablet */
-  .of-visual-stage {
-    position: relative;
-    overflow: hidden;
+/* ── 모바일 ── */
+@media (max-width: 760px) {
+  .of-container {
+    width: min(100% - 32px, 1320px);
   }
 
-  .intro__content {
-    height: 100vh;
-    min-height: auto;
-    padding-top: 102px;
-    justify-content: center;
+  .of-hero {
+    min-height: 880px;
+    padding-top: 112px;
+    padding-bottom: 220px;
   }
 
-  .intro__content-inner {
-    margin-top: 0;
-  }
-
-  .of-signature {
-    height: auto;
-    min-height: auto;
-    padding: 60px 0 80px;
-    margin-bottom: 0;
-  }
-
-  .friends-bg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-attachment: fixed;
-    background-size: cover;
-    background-position: center top;
-  }
-
-  .of-title span {
-    font-size: 80px;
-  }
-
-  .of-title em {
-    font-size: 96px;
-  }
-
-  .of-eyebrow {
-    font-size: 28px;
-    margin-bottom: -12px;
+  .of-title {
+    font-size: clamp(46px, 15vw, 72px);
   }
 
   .of-hero__lead {
@@ -1598,8 +1479,7 @@ body.oceanfriends-page {
   main,
   .of-main {
     min-height: 100%;
-    overflow-x: clip;
-    overflow-y: visible;
+    overflow: visible;
   }
 
   .of-visual-stage {
@@ -1638,31 +1518,11 @@ body.oceanfriends-page {
   }
 
   .of-signature {
-    position: relative;
-    display: block;
-    visibility: visible;
-    opacity: 1;
-    height: auto;
-    min-height: auto;
-    padding: 60px 0 40px;
-    margin-bottom: 0;
-    overflow: visible;
-    background: #001026;
-    z-index: 2;
+    min-height: 108svh;
+    padding: 180px 0 180px;
   }
 
-  .of-signature>.of-section-head,
-  .signature-gallery-viewport,
-  .signature-gallery-track,
-  .signature-gallery-track .of-species-card,
-  .of-species-card img {
-    opacity: 1 !important;
-    visibility: visible !important;
-    transform: none !important;
-  }
-
-  .of-signature>.of-section-head {
-    display: block;
+  .of-section-head {
     margin-bottom: 44px;
   }
 
@@ -1670,24 +1530,22 @@ body.oceanfriends-page {
     display: block;
     width: 100%;
     margin: 0 auto;
-    overflow-x: auto;
-    overflow-y: hidden;
-    padding: 16px 24px 40px;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    touch-action: auto;
-  }
-
-  .signature-gallery-viewport::-webkit-scrollbar {
-    display: none;
+    overflow: hidden;
+    padding: 16px 0 84px;
+    perspective: 900px;
+    perspective-origin: center center;
+    touch-action: pan-y;
+    user-select: none;
   }
 
   .signature-gallery-track {
     display: flex;
     align-items: center;
-    gap: 16px;
-    width: max-content;
+    gap: 8px;
     padding: 0;
+    width: max-content;
+    transform-style: preserve-3d;
+    will-change: transform;
   }
 
   .of-species-card {
@@ -1811,10 +1669,7 @@ body.oceanfriends-page {
     grid-template-columns: 1fr;
     gap: 24px;
     min-height: 0;
-    width: 100%;
-    max-width: 100%;
     padding-bottom: 34px;
-    overflow: hidden;
   }
 
   .of-detail-card:nth-child(even) .of-detail-card__media {
@@ -1887,11 +1742,10 @@ body.oceanfriends-page {
   }
 }
 
-@media (max-width: 768px) {
-  .of-detail {
-    padding-top: 132px;
-    padding-bottom: 160px;
-  }
+.of-detail {
+  padding-top: 132px;
+  padding-bottom: 160px;
+}
 
   .of-detail__sticky {
     padding: 22px 0 18px;
@@ -1914,15 +1768,15 @@ body.oceanfriends-page {
     height: 54px;
   }
 
-  .cartegory-tabs-a {
-    max-width: 100%;
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
+.cartegory-tabs-a {
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
 
-  .cartegory-tabs-a::-webkit-scrollbar {
-    display: none;
-  }
+.cartegory-tabs-a::-webkit-scrollbar {
+  display: none;
+}
 
   .of-detail-card,
   .of-detail-card:nth-child(even) {
@@ -1962,9 +1816,8 @@ body.oceanfriends-page {
     padding-bottom: 44px;
   }
 
-  .of-meet,
-  .of-footer-note {
-    flex-direction: column;
-    align-items: center;
-  }
+.of-meet,
+.of-footer-note {
+  flex-direction: column;
+  align-items: center;
 }
