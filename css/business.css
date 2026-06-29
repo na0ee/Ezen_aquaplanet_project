@@ -374,7 +374,7 @@ body.biz-page.mobile-menu-open .gnb {
   position: relative;
   box-sizing: border-box;
   width: 100%;
-  height: 520vh;
+  height: 430vh;
   padding: 0;
   overflow: visible;
   background: #2686E7;
@@ -1557,7 +1557,7 @@ body.biz-page.mobile-menu-open .gnb {
   }
 
   .biz-page .biz-areas {
-    height: 460vh !important;
+    height: 400vh !important;
   }
 
   .biz-page .biz-figma-panel {
@@ -1713,8 +1713,8 @@ body.biz-page.mobile-menu-open .gnb {
     width: 100% !important;
     min-height: 0 !important;
     gap: 24px !important;
-    padding: 0 !important;
-    overflow: visible !important;
+    padding: 24px !important;
+    overflow: hidden !important;
   }
 
   .biz-page .biz-vision-column:first-child .biz-vision-group-head,
@@ -1734,8 +1734,8 @@ body.biz-page.mobile-menu-open .gnb {
 
   .biz-page .biz-glass-card,
   .biz-page .biz-vision-column:first-child .biz-glass-card {
-    min-height: 86px;
-    padding: 24px 28px;
+    min-height: 78px;
+    padding: 20px clamp(34px, 4.8vw, 46px);
     border-radius: 18px;
   }
 
@@ -1752,8 +1752,8 @@ body.biz-page.mobile-menu-open .gnb {
   .biz-page .biz-vision .biz-glass-card:focus-visible,
   .biz-page .biz-vision-column:first-child .biz-glass-card.is-expanded,
   .biz-page .biz-vision-column:first-child .biz-glass-card:focus-visible {
-    min-height: 184px;
-    padding: 28px;
+    min-height: 164px;
+    padding: 24px clamp(34px, 4.8vw, 46px);
   }
 
   .biz-page .biz-vision .biz-glass-card.is-expanded h4,
@@ -3159,6 +3159,7 @@ body.biz-page.mobile-menu-open .gnb {
 .biz-vision-grid {
   display: grid;
   grid-template-columns: repeat(2, 649px);
+  align-items: start;
   justify-content: center;
   gap: 51px;
   width: 100%;
@@ -3168,10 +3169,10 @@ body.biz-page.mobile-menu-open .gnb {
   display: flex;
   box-sizing: border-box;
   width: 649px;
-  min-height: 708px;
+  min-height: 0;
   flex-direction: column;
   gap: 20px;
-  padding: 23px 38px 0;
+  padding: 23px 38px;
   overflow: hidden;
   border-radius: 21px;
   border: 1px solid rgba(255, 255, 255, 0.28);
@@ -3185,7 +3186,9 @@ body.biz-page.mobile-menu-open .gnb {
 }
 
 .biz-vision-column--caps {
+  min-height: 0;
   padding-top: 23px;
+  padding-bottom: 23px;
   transform: translateY(34px);
 }
 
@@ -3254,11 +3257,11 @@ body.biz-page.mobile-menu-open .gnb {
   display: flex;
   box-sizing: border-box;
   width: 100%;
-  min-height: 96px;
+  min-height: 80px;
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-  padding: 30px 76px;
+  padding: 20px 76px;
   overflow: hidden;
   border-radius: 21px;
   background: rgba(217, 217, 217, 0.2);
@@ -3270,8 +3273,8 @@ body.biz-page.mobile-menu-open .gnb {
 
 .biz-glass-card:hover,
 .biz-glass-card:focus-visible {
-  min-height: 172px;
-  padding: 32px 64px;
+  min-height: 140px;
+  padding: 24px 64px;
   background: linear-gradient(rgba(38, 134, 231, 0.48), rgba(38, 134, 231, 0.48)),
     url("../assets/images/sec.aboutus/business/figma-image-152.png") center / cover no-repeat;
   box-shadow: inset 0 0 0 8px rgba(255, 255, 255, 0.12),
@@ -3317,7 +3320,7 @@ body.biz-page.mobile-menu-open .gnb {
 
 .biz-glass-card:hover .biz-glass-card__detail,
 .biz-glass-card:focus-visible .biz-glass-card__detail {
-  max-height: 90px;
+  max-height: 84px;
   opacity: 1;
   transform: translateY(0);
 }
@@ -3414,9 +3417,9 @@ body.biz-page.mobile-menu-open .gnb {
 .biz-vision .biz-glass-card:hover,
 .biz-vision .biz-glass-card.is-expanded,
 .biz-vision .biz-glass-card:focus-visible {
-  min-height: 222px;
+  min-height: 176px;
   justify-content: flex-start;
-  padding: 34px 69px;
+  padding: 26px 69px;
   background: rgba(217, 217, 217, 0.2);
   box-shadow: inset 0 0 0 10px rgba(255, 255, 255, 0.12);
 }
@@ -3429,10 +3432,10 @@ body.biz-page.mobile-menu-open .gnb {
 }
 
 .biz-vision-grid:has(.biz-glass-card:hover) .biz-glass-card--mission.is-expanded:not(:hover) {
-  min-height: 96px;
+  min-height: 80px;
   justify-content: center;
-  padding-top: 30px;
-  padding-bottom: 30px;
+  padding-top: 20px;
+  padding-bottom: 20px;
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
 }
 
@@ -3459,15 +3462,15 @@ body.biz-page.mobile-menu-open .gnb {
 .biz-vision .biz-glass-card:hover h4,
 .biz-vision .biz-glass-card.is-expanded h4,
 .biz-vision .biz-glass-card:focus-visible h4 {
-  margin-bottom: 22px;
-  font-size: 26px;
+  margin-bottom: 14px;
+  font-size: 24px;
   letter-spacing: -0.02em;
 }
 
 .biz-vision .biz-glass-card:hover .biz-glass-card__detail,
 .biz-vision .biz-glass-card.is-expanded .biz-glass-card__detail,
 .biz-vision .biz-glass-card:focus-visible .biz-glass-card__detail {
-  max-height: 130px;
+  max-height: 118px;
   opacity: 1;
   transform: translateY(0);
 }
@@ -3475,25 +3478,26 @@ body.biz-page.mobile-menu-open .gnb {
 .biz-vision .biz-glass-card--tech:hover,
 .biz-vision .biz-glass-card--tech.is-expanded,
 .biz-vision .biz-glass-card--tech:focus-visible {
-  min-height: 287px;
+  min-height: 230px;
 }
 
 .biz-vision .biz-glass-card--tech:hover .biz-glass-card__detail,
 .biz-vision .biz-glass-card--tech.is-expanded .biz-glass-card__detail,
 .biz-vision .biz-glass-card--tech:focus-visible .biz-glass-card__detail {
-  max-height: 190px;
+  max-height: 174px;
 }
 
 .biz-vision .biz-glass-card strong {
-  margin-bottom: 9px;
-  font-size: 18px;
+  margin-bottom: 7px;
+  font-size: 16px;
   font-weight: 500;
   letter-spacing: -0.02em;
 }
 
 .biz-vision .biz-glass-card p {
   margin: 0;
-  font-size: 16px;
+  font-size: 15px;
+  line-height: 1.45;
   letter-spacing: -0.02em;
 }
 
@@ -3605,7 +3609,7 @@ body.biz-page.mobile-menu-open .gnb {
     width: 100%;
     min-height: 0;
     gap: 22px;
-    padding: 22px 16px 18px;
+    padding: 24px 28px 26px !important;
     overflow: hidden;
     border-radius: 21px;
     transform: none;
@@ -3631,8 +3635,8 @@ body.biz-page.mobile-menu-open .gnb {
   .biz-page .biz-vision .biz-glass-card,
   .biz-page .biz-vision-column:first-child .biz-glass-card {
     width: 100%;
-    min-height: 84px;
-    padding: 22px 24px;
+    min-height: 76px;
+    padding: 18px clamp(36px, 7vw, 52px);
     border-radius: 18px;
   }
 
@@ -3642,14 +3646,14 @@ body.biz-page.mobile-menu-open .gnb {
   .biz-page .biz-vision-column:first-child .biz-glass-card:hover,
   .biz-page .biz-vision-column:first-child .biz-glass-card.is-expanded,
   .biz-page .biz-vision-column:first-child .biz-glass-card:focus-visible {
-    min-height: 172px;
-    padding: 26px 24px;
+    min-height: 150px;
+    padding: 22px clamp(36px, 7vw, 52px);
   }
 
   .biz-page .biz-vision .biz-glass-card--tech:hover,
   .biz-page .biz-vision .biz-glass-card--tech.is-expanded,
   .biz-page .biz-vision .biz-glass-card--tech:focus-visible {
-    min-height: 224px;
+    min-height: 198px;
   }
 
   .biz-page .biz-glass-card h4,
@@ -3693,7 +3697,7 @@ body.biz-page.mobile-menu-open .gnb {
 
 @media (max-width: 768px) {
   .biz-page .biz-areas {
-    height: 420svh !important;
+    height: 380svh !important;
     padding: 0 !important;
     overflow: visible !important;
   }
