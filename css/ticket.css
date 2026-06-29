@@ -1,10 +1,878 @@
 /* aqua planet — ticket.css */
 
+/* 모바일 풀스크린 메뉴 — 기본은 숨김 (style.css 에 base 규칙이 없어 여기서 선언) */
+.gnb__mobile-menu {
+  display: none;
+}
+
+/* 네비 로고 — 화면 폭에 따라 60px(≥1024) → 36px(≤390)까지 부드럽게 축소 */
+.ticket-page .gnb__logo {
+  width: clamp(36px, 3.79vw + 21.2px, 60px);
+}
+
+
+/* ============================================================
+   TICKET PAGE — 기본 스타일 (style.css 에서 이동)
+   ============================================================ */
+
+/* =============================================================
+   =============================================================
+   ████████████████  예매 페이지 (Ticket Page)  ████████████████
+   Figma node 1284:127 구현 — 디자인 토큰/.gnb/.footer/.btn-pill 재사용
+   =============================================================
+   ============================================================= */
+
+/* 페이지 래퍼 — 메인 네비의 Ticket 버튼 클릭 시 나타나는 전체화면 오버레이.
+   평소 숨김(.is-open 으로 표시). 내부 GNB는 오버레이 상단에 absolute 고정,
+   나머지 .gnb / .footer 스타일은 그대로 상속 */
+.ticket-page {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  /* 메인 GNB(1000) 위 */
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.45s ease, visibility 0.45s ease;
+}
+
+.ticket-page.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.ticket-page .gnb {
+  position: fixed;
+}
+
+/* 오버레이 열림 동안 뒤 본문 스크롤 잠금 */
+body.ticket-open {
+  overflow: hidden;
+}
+
+.ticket-main {
+  position: relative;
+  z-index: 1;
+}
+
+/* --- 메인 무대 --- */
+.ticket {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  /* 단색 바다 배경 */
+  /* background: #22B2EA; */
+}
+
+/* 하단 흰색 그라데이션 —
+   · 초기(버블 선택 전) : 완전 투명 → 단색 배경만 보임
+   · 버블 터진 뒤(is-selected) : 스크롤 모션과 함께 서서히 페이드인 */
+
+#light-rays {
+  width: 100%;
+  height: 600px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+  opacity: 0.8;
+  /* Mac/Safari 등에서 WebGL alpha 합성 오류로 흰색으로 보이지 않도록
+       컨테이너 배경을 #22B2EA로 고정. 실제 빛 이펙트만 위에 합성됨 */
+  background: rgba(34, 178, 234, 0.18);
+  /* 하단 경계선이 보이지 않도록 아래로 갈수록 부드럽게 사라지게 마스킹 */
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 55%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 55%, transparent 100%);
+}
+
+/* WebGL 캔버스는 빛 이펙트만 오버레이 — 배경이 흰색으로 새어나오지 않도록 screen 합성 */
+#light-rays canvas {
+  display: block;
+  mix-blend-mode: screen;
+}
+
+
+/* --- 타이틀 --- */
+.ticket__title {
+  position: absolute;
+  top: clamp(108px, 13vh, 150px);
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 48px;
+  letter-spacing: var(--ls-tight);
+  color: var(--clr-text);
+  z-index: 2;
+}
+
+/* --- 타이틀 하단 서브카피 --- */
+.ticket__sub {
+  position: absolute;
+  top: calc(clamp(108px, 13vh, 150px) + 62px);
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-kr);
+  font-weight: 400;
+  font-size: 22px;
+  letter-spacing: var(--ls-normal);
+  color: var(--clr-text);
+  text-shadow: 0 2px 10px rgba(0, 60, 100, 0.22);
+  white-space: nowrap;
+  z-index: 2;
+  transition: opacity 0.6s ease, transform 0.8s ease;
+}
+
+/* --- 떠다니는 장식 거품 --- */
+.ticket__decor {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.deco-bubble {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: var(--s, 40px);
+  height: var(--s, 40px);
+  background: url("../assets/images/ticket/ticket-bubble.png") center / contain no-repeat;
+  opacity: 0.7;
+  animation: ticket-float var(--d, 8s) ease-in-out infinite;
+}
+
+/* --- 지점 버블 (일산/여수/제주/광교) --- */
+/* 지점 버블 + 예매 패널을 함께 묶는 무대 — 이 박스를 기준으로 둘 다 정렬된다 */
+.ticket-stage {
+  position: absolute;
+  margin: 0 auto;
+  width: 80%;
+  inset: 0;
+  z-index: 1;
+}
+
+/* 지점 버블 묶음 — 80% 폭으로 항상 수평 중앙정렬, 버블 배치 기준 컨텍스트 */
+.ticket .wrap {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+}
+
+.ticket-spot {
+  position: absolute;
+  display: block;
+  width: clamp(240px, 30vw, 560px);
+  aspect-ratio: 587 / 522;
+  z-index: 1;
+  transition: transform 0.8s cubic-bezier(.22, .61, .36, 1),
+    top 0.8s cubic-bezier(.22, .61, .36, 1),
+    left 0.8s cubic-bezier(.22, .61, .36, 1),
+    opacity 0.5s ease;
+}
+
+.ticket-spot:hover {
+  transform: translateY(-12px) scale(1.035);
+}
+
+/* 내부 래퍼 — 둥실 떠다니는 애니메이션 (hover 변형과 분리) */
+.ticket-spot__inner {
+  position: absolute;
+  inset: 0;
+  display: block;
+  animation: ticket-float var(--float, 8s) ease-in-out infinite;
+}
+
+.ticket-spot__bubble {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 85%;
+  height: 85%;
+  transform: translate(-50%, -50%);
+  /* spot 중심 기준으로 확대 → 동물과 중심 일치 */
+  object-fit: contain;
+  pointer-events: none;
+  filter: drop-shadow(0 10px 34px rgba(0, 70, 120, 0.18));
+}
+
+.ticket-spot__animal {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 100%;
+  height: auto;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  filter: drop-shadow(0 6px 14px rgba(0, 40, 70, 0.22));
+}
+
+.ticket-spot__label {
+  position: absolute;
+  left: 50%;
+  top: 44%;
+  transform: translateX(-50%);
+  font-family: var(--font-serif);
+  font-weight: 400;
+  /* PC(1025px+): 1920에서 32px → 1025에서 20px 까지 부드럽게 축소 (태블릿 20px 상단과 연속) */
+  font-size: clamp(20px, 1.34vw + 6.26px, 32px);
+  letter-spacing: var(--ls-tight);
+  color: var(--clr-text);
+  text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* 지점별 위치 + 강약 (크기·불투명도·그림자로 원근감 표현) */
+.ticket-spot--ilsan {
+  left: 15%;
+  top: 46%;
+  width: clamp(220px, 28vw, 500px);
+}
+.ticket-spot--ilsan .ticket-spot__bubble {
+  filter: drop-shadow(0 20px 56px rgba(0, 60, 110, 0.36));
+}
+
+.ticket-spot--yeosu {
+  left: 35%;
+  top: 25%;
+  width: clamp(140px, 17vw, 310px);
+}
+.ticket-spot--yeosu .ticket-spot__bubble {
+  filter: drop-shadow(0 4px 12px rgba(0, 60, 110, 0.10));
+}
+
+.ticket-spot--jeju {
+  left: 50%;
+  top: 57%;
+  width: clamp(175px, 21vw, 385px);
+}
+.ticket-spot--jeju .ticket-spot__bubble {
+  filter: drop-shadow(0 8px 24px rgba(0, 60, 110, 0.16));
+}
+
+.ticket-spot--gwanggyo {
+  left: 60%;
+  top: 23%;
+  width: clamp(190px, 23vw, 420px);
+}
+.ticket-spot--gwanggyo .ticket-spot__bubble {
+  filter: drop-shadow(0 10px 30px rgba(0, 60, 110, 0.20));
+}
+
+/* 지점별 동물 크기/회전 — 모두 버블 정중앙(translate -50%,-50%)에 배치 */
+.ticket-spot--ilsan .ticket-spot__animal {
+  width: 67%;
+  transform: translate(-52%, -38%) rotate(18deg);
+}
+
+.ticket-spot--yeosu .ticket-spot__animal {
+  width: 77%;
+  transform: translate(-50%, -50%) scaleX(-1);
+}
+
+.ticket-spot--jeju .ticket-spot__animal {
+  width: 55%;
+  transform: translate(-50%, -50%);
+}
+
+.ticket-spot--gwanggyo .ticket-spot__animal {
+  width: 72%;
+  transform: translate(-50%, -50%);
+}
+
+/* 지점별 라벨 — 동물 위(버블 상단)로 올려 겹치지 않게 */
+.ticket-spot--ilsan .ticket-spot__label {
+  top: 35%;
+  left: 47%;
+}
+
+.ticket-spot--yeosu .ticket-spot__label {
+  top: 30%;
+}
+
+.ticket-spot--jeju .ticket-spot__label {
+  top: 37%;
+  left: 62%;
+}
+
+.ticket-spot--gwanggyo .ticket-spot__label {
+  top: 35%;
+  left: 70%;
+}
+
+@keyframes ticket-float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-14px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .ticket-spot__inner,
+  .deco-bubble {
+    animation: none;
+  }
+}
+
+/* ============================================================
+   지점 선택(예매) 모드
+   · 클릭한 spot → 버블이 터지며 아래로 내려감
+   · 나머지 spot → 위로 올라가며 작아짐
+   · 우측에 가격 / 할인 패널 등장
+   ============================================================ */
+
+/* 선택된 지점: 화면 중앙선의 왼쪽에 붙어 예매 패널과 나란히 정렬 */
+.ticket.is-selected .ticket-spot.is-selected {
+  left: 50% !important;
+  top: 55% !important;
+  /* 선택 레이아웃을 좀더 위로 */
+  transform: translate(-96%, -50%) scale(1.12);
+  /* 박스 오른쪽 끝이 중앙선에 거의 닿음 */
+  z-index: 3;
+}
+
+/* 버블 터짐 — 부풀었다가 사라짐 */
+.ticket.is-selected .ticket-spot.is-selected .ticket-spot__bubble {
+  animation: ticket-bubble-burst 0.6s ease-out forwards;
+}
+
+/* 지점 선택 시 스테이지 스크롤-다운 효과
+   · 콘텐츠가 위에서 아래로 흘러내리듯 등장 */
+@keyframes stage-scroll-reveal {
+  0% {
+    transform: translateY(-36px);
+    opacity: 0;
+  }
+
+  40% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.ticket-stage.scroll-reveal {
+  animation: stage-scroll-reveal 1s cubic-bezier(.22, .61, .36, 1) both;
+}
+
+/* 선택되지 않은 지점: 윗줄로 올라가며 축소 */
+.ticket.is-selected .ticket-spot.is-top {
+  top: 4% !important;
+  transform: scale(0.5);
+  opacity: 0.92;
+}
+
+/* 상단 행 4슬롯 — 일산0·여수1·제주2·광교3 (JS SLOT_LEFT 와 값 일치)
+   지그재그 배치: 일산·제주 ↓(아래) / 여수·광교 ↑(위) */
+.ticket.is-selected .ticket-spot.is-top.slot-0 {
+  left: -4% !important;
+  top: 5% !important;
+}
+
+.ticket.is-selected .ticket-spot.is-top.slot-1 {
+  left: 20% !important;
+  top: 7% !important;
+}
+
+.ticket.is-selected .ticket-spot.is-top.slot-2 {
+  left: 44% !important;
+  top: 5% !important;
+}
+
+.ticket.is-selected .ticket-spot.is-top.slot-3 {
+  left: 68% !important;
+  top: -7% !important;
+}
+
+@keyframes ticket-bubble-burst {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+
+  45% {
+    transform: translate(-50%, -50%) scale(1.28);
+    opacity: 0.85;
+  }
+
+  100% {
+    transform: translate(-50%, -50%) scale(1.7);
+    opacity: 0;
+  }
+}
+
+/* 선택 시: 서브카피는 위로 떠오르며 사라짐 */
+.ticket.is-selected .ticket__sub {
+  opacity: 0;
+  transform: translate(-50%, -48px);
+}
+
+/* 작은 거품(JS가 is-floating + --rise 부여): 위로 떠오른 뒤
+   상단(축소된 spot 근처)에서 둥둥 떠다님 */
+.ticket.is-selected .deco-bubble.is-floating {
+  animation:
+    deco-rise 1.4s ease-out forwards,
+    deco-drift var(--drift-dur, 6s) ease-in-out 1.4s infinite;
+}
+
+/* 큰 거품(JS가 큰 순서대로 6개에 is-bursting + animation-delay 부여)은
+   떠오르다가 '펑' 터져서 사라짐 */
+.ticket.is-selected .deco-bubble.is-bursting {
+  animation: deco-pop 0.55s ease-out forwards;
+}
+
+/* 살아남은 거품: 빈 슬롯 자리로 가로 이동(left)은 부드럽게 슬라이드 */
+.deco-bubble.is-survivor {
+  transition: left 1.2s cubic-bezier(.22, .61, .36, 1);
+}
+
+/* 선택 시 생겨나 사방으로 퍼지며 사라지는 작은 버블 파티클(<20px, JS 가 동적 생성).
+   위치/이동/페이드는 Web Animations API(ticket.js)가 개별 지정 */
+.bubble-spark {
+  position: absolute;
+  border-radius: 50%;
+  background: url("../assets/images/ticket/ticket-bubble.png") center / contain no-repeat;
+  /* 밝은 빛 위에서도 윤곽이 살도록 테두리 + 발광으로 분리 */
+  border: 1.5px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 0 0 5px rgba(120, 200, 255, 0.7), inset 0 0 4px rgba(255, 255, 255, 0.6);
+  pointer-events: none;
+  z-index: 2;
+  will-change: transform, opacity;
+}
+
+/* 시작점 → 상단 목표 위치(--rise)까지 떠오름. 사라지지 않고 살짝 옅어진 채 유지 */
+@keyframes deco-rise {
+  0% {
+    transform: translateY(0);
+    opacity: 0.7;
+  }
+
+  100% {
+    transform: translateY(var(--rise, -45vh));
+    opacity: 0.85;
+  }
+}
+
+/* 떠오른 위치(--rise) 주변에서 좌우·상하로 잔잔하게 떠다님 */
+@keyframes deco-drift {
+  0% {
+    transform: translate(0, var(--rise, -45vh));
+  }
+
+  25% {
+    transform: translate(7px, calc(var(--rise, -45vh) - 10px));
+  }
+
+  50% {
+    transform: translate(0, calc(var(--rise, -45vh) - 16px));
+  }
+
+  75% {
+    transform: translate(-7px, calc(var(--rise, -45vh) - 8px));
+  }
+
+  100% {
+    transform: translate(0, var(--rise, -45vh));
+  }
+}
+
+@keyframes deco-pop {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0.75;
+  }
+
+  60% {
+    transform: translateY(-36px) scale(1.45);
+    opacity: 0.5;
+  }
+
+  100% {
+    transform: translateY(-64px) scale(1.95);
+    opacity: 0;
+  }
+}
+
+/* --- 가격 / 할인 패널 --- */
+.ticket-booking {
+  position: absolute;
+  top: 55%;
+  /* 선택된 spot 과 같은 수직 중심선 (좀더 위로) */
+  left: 50%;
+  /* 중앙선의 오른쪽에 배치 → 동물과 나란히 */
+  right: auto;
+  width: min(480px, 40vw);
+  z-index: 4;
+  opacity: 0;
+  transform: translate(24px, calc(-50% + 24px));
+  /* 중앙선 +24px 오른쪽 / 등장 시 살짝 아래 */
+  pointer-events: none;
+  transition: opacity 0.6s ease 0.35s, transform 0.6s ease 0.35s;
+}
+
+.ticket.is-selected .ticket-booking {
+  opacity: 1;
+  transform: translate(24px, -50%);
+  /* 중앙선 +24px, 세로 중앙 */
+  pointer-events: auto;
+}
+
+.ticket-booking__price {
+  font-family: var(--font-serif);
+  font-size: 30px;
+  color: var(--clr-text);
+  margin: 0 0 18px;
+  text-align: center;
+  text-shadow: 0 2px 10px rgba(0, 60, 100, 0.22);
+}
+
+.ticket-booking__price span {
+  font-size: 22px;
+}
+
+.ticket-booking__price strong {
+  font-weight: 500;
+}
+
+/* 패널 — Figma node 1284:263 (glass card, 좌우 대각선 하이라이트 그라데이션) */
+.ticket-booking__panel {
+  background-image: linear-gradient(231.21deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.2) 49.346%,
+      rgba(255, 255, 255, 0) 98.692%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  padding: 51px 49px 51px 47px;
+  box-shadow: 0 18px 50px rgba(0, 70, 120, 0.12);
+}
+
+/* 제목 "Discont" — EB Garamond Medium 33px */
+.ticket-booking__title {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: 33px;
+  line-height: 1.4;
+  letter-spacing: -0.66px;
+  color: #fff;
+  margin: 0 0 27px;
+}
+
+/* 할인 드롭다운 — 흰색 0.8, radius 3px, 12px 텍스트 */
+.ticket-discount {
+  position: relative;
+  /* 펼침 목록(absolute)의 기준 */
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 3px;
+  margin-bottom: 18px;
+}
+
+.ticket-discount>summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 14px 15px 14px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--font-kr);
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.5;
+  letter-spacing: -0.264px;
+  color: #000;
+}
+
+/* 할인 라벨 — 화면 크기와 무관하게 항상 12px */
+.ticket-discount__label {
+  font-size: 12px;
+}
+
+.ticket-discount>summary::-webkit-details-marker {
+  display: none;
+}
+
+.ticket-discount>summary::after {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-right: 1.5px solid #1f1f1f;
+  border-bottom: 1.5px solid #1f1f1f;
+  transform: rotate(45deg);
+  transition: transform 0.25s ease;
+  margin: -3px 0 0 12px;
+  flex: none;
+}
+
+.ticket-discount[open]>summary::after {
+  transform: rotate(-135deg);
+  margin-top: 2px;
+}
+
+/* 클릭 시 아래로 펼쳐지는 드롭다운 목록 — absolute 로 아래 항목들을 덮음 */
+.ticket-discount__body {
+  position: absolute;
+  top: calc(100% + 5px);
+  left: 0;
+  right: 0;
+  z-index: 20;
+  background: #fff;
+  border-radius: 6px;
+  padding: 4px 0 6px;
+  box-shadow: 0 12px 28px rgba(0, 40, 70, 0.22);
+  /* 항목 4개 높이로 고정하고 넘치면 스크롤 (행 약 33.4px × 4 + 상하 padding) */
+  max-height: 144px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+/* 드롭다운 스크롤바 — 얇고 은은하게 */
+.ticket-discount__body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.ticket-discount__body::-webkit-scrollbar-thumb {
+  background: rgba(120, 112, 104, 0.45);
+  border-radius: 3px;
+}
+
+.ticket-discount__body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.ticket-discount[open]>.ticket-discount__body {
+  animation: ticket-dropdown 0.22s ease-out;
+}
+
+.ticket-discount__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 9px 15px 9px 8px;
+  font-family: var(--font-kr);
+  font-size: 11px;
+  line-height: 1.4;
+  letter-spacing: -0.2px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.ticket-discount__row:hover,
+.ticket-discount__row.is-active {
+  background: #D9D9D9;
+  /* 호버·클릭(활성) 시 강조 배경 */
+}
+
+.ticket-discount__name {
+  color: #2b2b2b;
+  word-break: keep-all;
+  /* 한글 단어 단위 줄바꿈 (긴 항목명 대응) */
+}
+
+.ticket-discount__val {
+  color: #5b6671;
+  white-space: nowrap;
+  flex: none;
+  text-align: right;
+}
+
+.ticket-discount__row:hover .ticket-discount__name,
+.ticket-discount__row:hover .ticket-discount__val,
+.ticket-discount__row.is-active .ticket-discount__name,
+.ticket-discount__row.is-active .ticket-discount__val {
+  color: #1a1a1a;
+}
+
+@keyframes ticket-dropdown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 예매하기 버튼 — 글래스모피즘 */
+.ticket-booking__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  width: 94px;
+  height: 32px;
+  padding: 6px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #fff;
+  font-family: var(--font-kr);
+  font-weight: 500;
+  font-size: 16px;
+  letter-spacing: -0.32px;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0, 100, 180, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
+}
+
+.ticket-booking__btn:hover {
+  background: rgba(255, 255, 255, 0.30);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 100, 180, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.45);
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .ticket-spot,
+  .ticket-booking {
+    transition: none;
+  }
+
+  .ticket.is-selected .ticket-spot.is-selected .ticket-spot__bubble {
+    animation: none;
+    opacity: 0;
+  }
+
+  .ticket.is-selected .deco-bubble {
+    animation: none;
+    opacity: 0;
+  }
+}
+
+/* =========================================================
+   추가 스타일 (할인 아코디언 및 스크롤 다운 그라데이션)
+========================================================== */
+.ticket-discount-list {
+  padding-right: 6px;
+}
+
+/* .ticket-page {
+  /* 솔리드 베이스 (바다색). 실제 그라데이션은 스크롤 콘텐츠를 감싼 .ticket-bg 가 담당
+     → background-attachment:local 의 iOS 버그를 피해 모든 기기에서 동일하게 보인다. */
+  /* background: #22B2EA;
+} */
+
+/* 스크롤 콘텐츠 전체(main+하단영역+footer)를 감싸는 배경 그라데이션 레이어.
+   일반 흐름이라 콘텐츠 전체 높이에 맞춰 그라데이션이 잡히고 함께 스크롤된다. */
+.ticket-bg {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.ticket-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(34, 178, 234, 0.48) 0%, rgba(34, 178, 234, 0.2) 42%, rgba(255, 255, 255, 0.26) 100%),
+    radial-gradient(circle at 50% 18%, rgba(255, 255, 255, 0.28), transparent 42%);
+}
+
+.ticket-bg__video {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.ticket {
+  background: transparent !important;
+}
+
+/* ============================================================
+   TICKET PAGE — PC (1025px+)
+   ============================================================ */
+@media (min-width: 1025px) {
+  /* 8번째 장식 거품(--s:28px): PC(1025+) 구간에서 x 20% 고정 */
+  .ticket__decor .deco-bubble:nth-child(8) {
+    left: 20%;
+  }
+
+  /* 선택 시 윗줄 지점: ticket__title 아래로 위치 제한 (상단 행 top 통일)
+     ticket__title top = clamp(108px, 13vh, 150px). 그 아래 + 여백.
+     (is-top 은 scale(0.5)라 시각 위치가 박스보다 아래로 내려옴 → 값은 미세조정 가능) */
+  .ticket.is-selected .ticket-spot.is-top,
+  .ticket.is-selected .ticket-spot.is-top.slot-0,
+  .ticket.is-selected .ticket-spot.is-top.slot-1,
+  .ticket.is-selected .ticket-spot.is-top.slot-2,
+  .ticket.is-selected .ticket-spot.is-top.slot-3 {
+    top: calc(clamp(108px, 13vh, 150px) + 20px) !important;
+  }
+}
+
+/* ============================================================
+   TICKET PAGE — 1024px 이하: 내용이 길면 세로 스크롤 허용
+   (기본은 .ticket-page fixed+overflow:hidden, .ticket-bg 100vh 고정이라 잘림)
+   ============================================================ */
+@media (max-width: 1024px) {
+  .ticket-page {
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .ticket-bg {
+    height: auto;
+    min-height: 100dvh;
+    overflow: visible;
+  }
+
+  .ticket {
+    overflow: visible;
+  }
+
+  /* 상단 빛 일렁임(light-rays) 효과 제거 (태블릿 이하) */
+  #light-rays {
+    display: none;
+  }
+
+  /* GNB 로고 — 가이드(랜딩)와 동일: 1024px에서 52px → 390px에서 36px (PC는 60px 유지) */
+  .ticket-page .gnb__logo {
+    width: clamp(36px, 2.52vw + 26.2px, 52px);
+  }
+
+  /* 할인 카드 gap — 가이드 카드 gap 적용: 태블릿 14px (모바일 블록에서 10px 로 덮음) */
+  .ticket-discount-list {
+    gap: 14px;
+  }
+  .ticket-discount {
+    margin-bottom: 0;
+  }
+}
+
 /* ============================================================
    TICKET PAGE — 태블릿 반응형
-   대상: 768px ~ 1024px   (PC 스타일 style.css 는 그대로 유지)
+   대상: 769px ~ 1024px   (PC 스타일 style.css 는 그대로 유지 / 가이드 문서 기준)
    ============================================================ */
-@media (min-width: 768px) and (max-width: 1024px) {
+@media (min-width: 769px) and (max-width: 1024px) {
 
   /* ── GNB ── */
   .ticket-page .gnb {
@@ -31,152 +899,10 @@
     height: 18px;
   }
 
-  /* ── 타이틀 / 서브카피 ── */
-  .ticket__title {
-    font-size: 36px;
-    top: clamp(88px, 11vh, 114px);
-  }
-
-  .ticket__sub {
-    font-size: 16px;
-    white-space: normal;
-    text-align: center;
-    width: 90%;
-    top: calc(clamp(88px, 11vh, 114px) + 48px);
-  }
-
-  /* ── 버블 라벨 ── */
-  .ticket-spot__label {
-    font-size: 124px;
-  }
-
-  /* ── 지점 버블 위치 / 크기 (2×2 그리드 배치) ── */
-  .ticket-spot--ilsan {
-    left: -5%;
-    top: 56%;
-    width: clamp(280px, 38vw, 420px);
-  }
-
-  .ticket-spot--yeosu {
-    left: 18%;
-    top: 35%;
-    width: clamp(220px, 30vw, 340px);
-  }
-
-  .ticket-spot--jeju {
-    left: 55%;
-    top: 57%;
-    width: clamp(175px, 25vw, 280px);
-  }
-
-  .ticket-spot--gwanggyo {
-    left: 64%;
-    top: 30%;
-    width: clamp(220px, 30vw, 340px);
-  }
-
-  /* ── 선택 상태: 선택된 spot ── */
-  .ticket.is-selected .ticket-spot.is-selected {
-    left: 50% !important;
-    top: 52% !important;
-    transform: translate(-100%, -50%) scale(1.1);
-    z-index: 3;
-  }
-
-  /* ── 선택 상태: 미선택 spot → 상단 배치 ── */
-  .ticket.is-selected .ticket-spot.is-top {
-    top: 9% !important;
-    transform: scale(0.42);
-    opacity: 0.9;
-  }
-
-  .ticket.is-selected .ticket-spot.is-top.slot-0 {
-    left: -8% !important;
-    top: 4% !important;
-  }
-
-  .ticket.is-selected .ticket-spot.is-top.slot-1 {
-    left: 16% !important;
-    top: 6% !important;
-  }
-
-  .ticket.is-selected .ticket-spot.is-top.slot-2 {
-    left: 40% !important;
-    top: 15% !important;
-  }
-
-  .ticket.is-selected .ticket-spot.is-top.slot-3 {
-    left: 64% !important;
-    top: 5% !important;
-  }
-
-  /* ── 예매 패널 ── */
-  .ticket-booking {
-    width: min(380px, 38vw);
-    top: 52%;
-    left: 50%;
-    transform: translate(16px, calc(-50% + 24px));
-  }
-
-  .ticket.is-selected .ticket-booking {
-    transform: translate(16px, -50%);
-  }
-
-  /* 패널 내부 여백 / 폰트 축소 */
-  .ticket-booking__panel {
-    padding: 36px 30px;
-  }
-
-  .ticket-booking__title {
-    font-size: 26px;
-    margin-bottom: 20px;
-  }
-
-  .ticket-booking__price {
-    font-size: 24px;
-    margin-bottom: 14px;
-  }
-
-  .ticket-booking__price span {
-    font-size: 18px;
-  }
-
-  .ticket-discount {
-    margin-bottom: 14px;
-  }
-
-  .ticket-discount > summary {
-    font-size: 11px;
-    padding: 12px 12px 12px 8px;
-  }
-
-  .ticket-booking__btn {
-    width: 86px;
-    height: 30px;
-    font-size: 14px;
-  }
-
-  /* ── 장식 거품 크기 조정 ── */
-  .ticket__decor .deco-bubble {
-    opacity: 0.5;
-  }
-}
-
-/* ============================================================
-   TICKET PAGE — 모바일
-   대상: ~767px
-   ============================================================ */
-@media (max-width: 767px) {
-
-  /* ── 장식 거품 전부 숨김 ── */
-  .ticket__decor {
-    display: none;
-  }
-
-  /* ── 타이틀 / 서브카피 ── */
+  /* ── 타이틀 / 서브카피 (390 설정 적용) ── */
   .ticket__title {
     font-size: 28px;
-    top: 64px;
+    top: 114px;
   }
 
   .ticket__sub {
@@ -184,82 +910,86 @@
     white-space: normal;
     text-align: center;
     width: 88%;
-    top: calc(64px + 38px);
+    top: 152px;
   }
 
-  /* ── ticket-stage: 절대위치 → 플렉스 컬럼 ── */
+  /* ── 버블 라벨 ── */
+  .ticket-spot__label {
+    font-size: clamp(16px, 1.96vw, 20px);
+  }
+
+  /* ── ticket-stage: 절대위치 → 플렉스 컬럼 (지점 2줄 그리드, 390 설정) ── */
   .ticket-stage {
     position: relative;
     inset: auto;
     width: 100%;
-    min-height: 100vh;
+    min-height: 100dvh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 140px;
-    padding-bottom: 40px;
+    justify-content: flex-start;
+    gap: 12px;
+    padding-top: 248px;
+    padding-bottom: 16px;
   }
 
-  /* ── wrap: 2×2 그리드 ── */
+  /* ── wrap: 2×2 그리드 (300px 버블 2개 수용 위해 폭 확대) ── */
   .ticket .wrap {
     position: relative;
     left: auto;
-    top: 150px;
+    top: 0;
     bottom: auto;
     transform: translateY(0);
     transition: transform 0.5s cubic-bezier(.22, .61, .36, 1);
-    width: 92%;
+    width: min(92%, 640px);
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 10px;
+    justify-items: center;
+    gap: 0;
   }
 
-  /* ── 선택 시: wrap 위로 이동해 카드와 겹치지 않게 ── */
-  .ticket.is-selected .wrap {
-    transform: translateY(-80px);
-  }
-
-  /* ── 버블 spot: 절대위치 해제 ── */
+  /* ── 버블 spot: 절대위치 해제 + 너비 300px ── */
   .ticket-spot {
     position: relative;
     left: auto !important;
     top: auto !important;
-    width: 100%;
+    width: 300px;
+    max-width: 100%;
   }
 
-  /* ── 버블 라벨 폰트 축소 ── */
-  .ticket-spot__label {
-    font-size: 16px;
+  /* ── 지점 순서: 윗줄 여수·광교 / 아랫줄 일산·제주 ── */
+  .ticket-spot--yeosu    { order: 1; }
+  .ticket-spot--gwanggyo { order: 2; }
+  .ticket-spot--ilsan    { order: 3; }
+  .ticket-spot--jeju     { order: 4; }
+
+  /* 좌우 열을 안쪽으로 모음 + 우측 열(광교·제주) 지그재그 */
+  .ticket-spot--yeosu,
+  .ticket-spot--ilsan {
+    justify-self: end;
   }
 
-  /* ── 선택 시: 선택된 spot 제자리에서 강조 ── */
-  .ticket.is-selected .ticket-spot.is-selected {
-    left: auto !important;
-    top: auto !important;
-    transform: scale(1.06) !important;
-    z-index: 2;
+  .ticket-spot--gwanggyo,
+  .ticket-spot--jeju {
+    justify-self: start;
+    margin-top: 27px;
   }
 
-  /* ── 선택 시: 나머지 spot 제자리에서 축소 (slot 이동 없음) ── */
-  .ticket.is-selected .ticket-spot.is-top,
-  .ticket.is-selected .ticket-spot.is-top.slot-0,
-  .ticket.is-selected .ticket-spot.is-top.slot-1,
-  .ticket.is-selected .ticket-spot.is-top.slot-2,
-  .ticket.is-selected .ticket-spot.is-top.slot-3 {
-    left: auto !important;
-    top: auto !important;
-    transform: scale(0.88) !important;
-    opacity: 0.55;
+  /* ── 장식 거품: 390 화면과 동일하게 숨김 (그리드 배치와 겹침 방지) ── */
+  .ticket__decor {
+    display: none;
   }
 
-  /* ── 예매 패널: 그리드 아래로 ── */
+  /* (선택 시 배치는 파일 하단의 "선택 시 배치 (390~1024)" 블록에서 통합 처리) */
+
+  /* ── 예매 패널: 그리드 아래로 (2줄 그리드와 함께, 선택 시 등장) ── */
   .ticket-booking {
     position: relative !important;
     left: auto !important;
     top: auto !important;
     transform: translateY(12px) !important;
-    width: 92%;
-    margin-top: 14px;
+    width: 45vw;
+    margin-top: 8px;
     opacity: 0;
     transition: opacity 0.4s ease, transform 0.4s ease;
     pointer-events: none;
@@ -271,16 +1001,463 @@
     pointer-events: auto;
   }
 
-  /* ── 패널 내부 ── */
-  .ticket-booking__panel { padding: 28px 24px; }
-  .ticket-booking__title { font-size: 22px; margin-bottom: 16px; }
-  .ticket-booking__price { font-size: 20px; margin-bottom: 12px; }
-  .ticket-booking__price span { font-size: 15px; }
-  .ticket-booking__btn { width: 100%; height: 44px; font-size: 15px; }
+  /* 패널 내부 여백 / 폰트 축소 (높이는 1920처럼 내용에 맞춰 자동) */
+  .ticket-booking__panel {
+    width: 250px;
+    height: auto;
+    padding: 26px 20px;
+  }
 
-  /* ── GNB ── */
+  .ticket-booking__title {
+    font-size: 28px;
+    margin-bottom: 15px;
+  }
+
+  .ticket-booking__price {
+    font-size: 28px;
+    margin-bottom: 8px;
+  }
+
+  .ticket-booking__price span {
+    font-size: 18px;
+  }
+
+  .ticket-discount > summary {
+    font-size: 11px;
+    padding: 5px 10px;
+  }
+
+  .ticket-discount__name {
+    font-size: 10px;
+  }
+
+
+  .ticket-booking__btn {
+    width: 82px;
+    height: 28px;
+    font-size: 14px;
+    margin-top: 20px;
+  }
+}
+
+/* ============================================================
+   TICKET PAGE — 모바일
+   대상: 390px ~ 768px   (가이드 문서 기준)
+   ============================================================ */
+@media (min-width: 390px) and (max-width: 768px) {
+
+  /* 카드 gap 10px (가이드 모바일 카드 gap) */
+  .ticket-discount-list {
+    gap: 10px;
+  }
+
+  /* ── 장식 거품 전부 숨김 ── */
+  .ticket__decor {
+    display: none;
+  }
+
+  /* ── 타이틀 / 서브카피 (390 설정으로 통일) ── */
+  .ticket__title {
+    font-size: 28px;
+    top: 114px;
+  }
+
+  .ticket__sub {
+    font-size: 13px;
+    white-space: normal;
+    text-align: center;
+    width: 88%;
+    top: 152px;
+  }
+
+  /* ── ticket-stage: 절대위치 → 플렉스 컬럼 (상단 정렬, 390 설정) ── */
+  .ticket-stage {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+    padding-top: 248px;
+    padding-bottom: 16px;
+  }
+
+  /* ── wrap: 2×2 그리드 (버블 폭 수용 위해 확대) ── */
+  .ticket .wrap {
+    position: relative;
+    left: auto;
+    top: 0;
+    bottom: auto;
+    transform: translateY(0);
+    transition: transform 0.5s cubic-bezier(.22, .61, .36, 1);
+    width: min(92%, 640px);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-items: center;
+    gap: 0;
+  }
+
+  /* ── 지점 순서 재배치: 윗줄 여수·광교 / 아랫줄 일산·제주 ──
+     (모바일 그리드 전 구간에 적용해 화면 폭에 따라 일관 유지) */
+  .ticket-spot--yeosu    { order: 1; }   /* 좌열 1행 */
+  .ticket-spot--gwanggyo { order: 2; }   /* 우열 1행 */
+  .ticket-spot--ilsan    { order: 3; }   /* 좌열 2행 */
+  .ticket-spot--jeju     { order: 4; }   /* 우열 2행 */
+
+  /* ── 좌우 열을 가운데로 모음 + 우측 열(광교·제주) 지그재그 ── */
+  .ticket-spot--yeosu,
+  .ticket-spot--ilsan {
+    justify-self: end;     /* 좌열 → 안쪽(오른쪽) */
+  }
+
+  .ticket-spot--gwanggyo,
+  .ticket-spot--jeju {
+    justify-self: start;   /* 우열 → 안쪽(왼쪽) */
+    margin-top: 27px;      /* 지그재그: 우측 열을 아래로 */
+  }
+
+  /* ── 버블 spot: 절대위치 해제 + 너비 768→300px ~ 390→200px ── */
+  .ticket-spot {
+    position: relative;
+    left: auto !important;
+    top: auto !important;
+    width: clamp(200px, 26.46vw + 96.82px, 300px);
+    max-width: 100%;
+  }
+
+  /* ── 버블 라벨 폰트 축소 ── */
+  .ticket-spot__label {
+    font-size: clamp(12px, 1.06vw + 7.87px, 16px);
+  }
+
+  /* ── 장식 거품: 더 바깥으로 (중심 거리 1.3배) ── */
+  .ticket-page .deco-bubble {
+    left: calc(50% + (var(--x) - 50%) * 1.3);
+  }
+
+
+  /* ── 예매 패널: 그리드 아래로 (압축) ── */
+  .ticket-booking {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    transform: translateY(12px) !important;
+    width: 60vw;
+    margin-top: 8px;
+    opacity: 0;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    pointer-events: none;
+  }
+
+  .ticket.is-selected .ticket-booking {
+    opacity: 1;
+    transform: translateY(0) !important;
+    pointer-events: auto;
+  }
+
+  /* ── 패널 내부 (높이 절약) ── */
+  .ticket-booking__panel { padding: 16px 18px; }
+  .ticket-booking__title { font-size: clamp(24px, 1.06vw + 19.87px, 28px); margin-bottom: 10px; }
+  .ticket-booking__price { font-size: clamp(24px, 1.06vw + 19.87px, 28px); margin-bottom: 8px; }
+  .ticket-booking__price span { font-size: 14px; }
+  .ticket-booking__btn { width: 100%; height: 40px; font-size: 14px; }
+
+  /* ── GNB: 데스크탑 nav 숨기고 햄버거 메뉴로 전환 (랜딩 페이지와 동일) ── */
   .ticket-page .gnb { padding: 14px 16px; }
-  .ticket-page .gnb__nav { gap: 12px; }
-  .ticket-page .gnb__link { font-size: 13px; }
-  .ticket-page .gnb__ticket { height: 38px; padding: 0 14px; font-size: 13px; }
+  .ticket-page .gnb__nav { display: none; }
+
+  /* Close 버튼: 390px에서 12px, 767px에서 13px까지 화면 폭에 따라 서서히 변화 */
+  .ticket-page .gnb__ticket {
+    height: 38px;
+    padding: 0 14px;
+    font-size: clamp(12px, 0.265vw + 10.96px, 13px);
+  }
+
+  .gnb__hamburger {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 26px;
+    height: 18px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    position: relative;
+    z-index: 3200;
+    flex-shrink: 0;
+    order: -1;
+  }
+
+  .gnb__hamburger-line {
+    display: block;
+    width: 100%;
+    height: 1.5px;
+    background: #fff;
+    border-radius: 2px;
+    transition: transform 0.3s ease, opacity 0.25s ease;
+    transform-origin: center;
+  }
+
+  /* X 아이콘 (메뉴 열림 상태) */
+  .gnb__hamburger.is-active .gnb__hamburger-line:nth-child(1) {
+    transform: translateY(8.25px) rotate(45deg);
+  }
+  .gnb__hamburger.is-active .gnb__hamburger-line:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+  .gnb__hamburger.is-active .gnb__hamburger-line:nth-child(3) {
+    transform: translateY(-8.25px) rotate(-45deg);
+  }
+
+  /* ── 모바일 풀스크린 메뉴 ── */
+  .gnb__mobile-menu {
+    position: fixed;
+    inset: 0;
+    z-index: 3100;
+    background: rgba(8, 28, 52, 0.88);
+    backdrop-filter: blur(28px) saturate(1.3);
+    -webkit-backdrop-filter: blur(28px) saturate(1.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.32s ease;
+  }
+
+  .gnb__mobile-menu.is-open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .gnb__mobile-nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    width: 100%;
+    max-width: 380px;
+    padding: 0 32px;
+  }
+
+  .gnb__mobile-item {
+    width: 100%;
+    text-align: center;
+  }
+
+  .gnb__mobile-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    font-family: var(--font-en);
+    font-weight: 300;
+    font-size: clamp(24px, 7vw, 32px);
+    letter-spacing: -0.04em;
+    color: rgba(255, 255, 255, 0.65);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px 0;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .gnb__mobile-link:hover,
+  .gnb__mobile-link:focus-visible {
+    color: #fff;
+  }
+
+  .gnb__mobile-link--toggle {
+    gap: 10px;
+  }
+
+  .gnb__mobile-link--toggle::after {
+    content: '';
+    display: block;
+    width: 9px;
+    height: 9px;
+    border-right: 1.5px solid currentColor;
+    border-bottom: 1.5px solid currentColor;
+    transform: rotate(45deg) translateY(-2px);
+    transition: transform 0.25s ease;
+    flex-shrink: 0;
+  }
+
+  .gnb__mobile-item.is-open .gnb__mobile-link--toggle::after {
+    transform: rotate(-135deg) translateY(-2px);
+  }
+
+  .gnb__mobile-sub {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.35s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .gnb__mobile-item.is-open .gnb__mobile-sub {
+    max-height: 260px;
+  }
+
+  .gnb__mobile-sub a {
+    display: block;
+    font-family: var(--font-en);
+    font-weight: 300;
+    font-size: 17px;
+    letter-spacing: -0.02em;
+    color: rgba(255, 255, 255, 0.42);
+    padding: 7px 0;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .gnb__mobile-sub a:hover {
+    color: var(--clr-primary);
+  }
+
+  body.mobile-menu-open {
+    overflow: hidden;
+  }
+
+  body.mobile-menu-open .gnb {
+    z-index: 3300;
+  }
+}
+
+/* ============================================================
+   TICKET PAGE — 선택 시 배치 (390~1024)
+   1920(PC)처럼: 상단에 일산-여수-제주-광교 행(빈칸 없이 순서 유지) → 아래로 선택 지점 → 예매 패널
+   상단 행 버블 너비 = 화면 폭의 25%(25vw), flex 로 빈칸 없이 채움
+   ============================================================ */
+@media (min-width: 390px) and (max-width: 1024px) {
+  /* 선택 시(scroll-reveal): 스테이지 상단 여백 축소 248 → 200px */
+  .ticket-stage.scroll-reveal {
+    padding-top: 170px;
+  }
+
+  /* 선택된 지점 ↔ 예매 패널 사이 간격 제거 */
+  .ticket.is-selected .ticket-stage {
+    gap: 0;
+  }
+  .ticket.is-selected .ticket-booking {
+    margin-top: 0 !important;
+  }
+
+  /* 예매 패널 너비: 태블릿 45vw / 모바일 60vw (각 블록에서 지정) */
+
+  /* 패널: booking 100% + 1920 비율(382:361). flex 컬럼으로 내용이 패널을 꽉 채움 */
+  .ticket-booking__panel {
+    width: 100% !important;
+    aspect-ratio: 382 / 361;
+    height: auto !important;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* 할인 목록: 카드(.ticket-discount)들을 고정 gap 으로 배치 (gap 값은 태블릿/모바일 블록에서 지정) */
+  .ticket-discount-list {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    min-height: 0;
+  }
+
+  /* 드롭다운 각 항목: 높이 17% */
+  .ticket-discount {
+    height: 17%;
+    min-height: 0;
+  }
+
+  .ticket-discount > summary {
+    height: 100%;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+  }
+
+  /* wrap: 그리드 해제 → flex 줄바꿈 (윗줄=지점 행 / 아랫줄=선택 지점) */
+  .ticket.is-selected .wrap {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    column-gap: 1vw;
+    row-gap: 0;
+    width: 100%;
+    height: auto;
+    transform: none;
+    margin: 0 auto;
+  }
+
+  /* 모든 spot: flex 흐름 + 상단 행 너비 25vw
+     (position:relative 유지 — 내부 이미지가 spot 기준으로 inset:0 되어야 함) */
+  .ticket.is-selected .ticket-spot {
+    position: relative !important;
+    width: 25vw !important;
+    max-width: none !important;
+    margin: 0 !important;
+    flex: 0 0 auto;
+    transition: transform .6s cubic-bezier(.22, .61, .36, 1);
+  }
+
+  /* 상단 행 순서: 일산 → 여수 → 제주 → 광교 (선택된 칸은 빠지고 나머지가 당겨짐 = 빈칸 없음) */
+  .ticket.is-selected .ticket-spot--ilsan    { order: 1; }
+  .ticket.is-selected .ticket-spot--yeosu    { order: 2; }
+  .ticket.is-selected .ticket-spot--jeju     { order: 3; }
+  .ticket.is-selected .ticket-spot--gwanggyo { order: 4; }
+
+  /* 상단 행 spot: PC 기본 선택 좌표/축소 해제, flex 흐름 그대로 표시 */
+  .ticket.is-selected .ticket-spot.is-top,
+  .ticket.is-selected .ticket-spot.is-top.slot-0,
+  .ticket.is-selected .ticket-spot.is-top.slot-1,
+  .ticket.is-selected .ticket-spot.is-top.slot-2,
+  .ticket.is-selected .ticket-spot.is-top.slot-3 {
+    left: auto !important;
+    top: auto !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  /* 선택된 지점: 다음 줄(아래)로 내려와 가운데 크게 */
+  .ticket.is-selected .ticket-spot.is-selected {
+    order: 10 !important;          /* 행 다음 = 아랫줄 */
+    flex: 0 0 100% !important;     /* 한 줄 전체 차지 → 줄바꿈 */
+    left: auto !important;         /* PC 기본 선택 좌표 제거 */
+    top: auto !important;
+    width: auto !important;
+    max-width: 240px !important;
+    margin: 0 auto !important;     /* 가운데 정렬, margin-top 0 */
+    transform: none !important;    /* PC 기본 선택 transform 제거 */
+    opacity: 1 !important;
+    z-index: 3;
+  }
+
+  /* 선택된 지점의 동물 이미지 크기 = 전체 화면 폭의 40% */
+  .ticket.is-selected .ticket-spot.is-selected .ticket-spot__animal {
+    width: 40vw !important;
+  }
+
+  /* ★★★ 클릭(선택) 시 라벨 위치 — 지점별로 따로 수정 ★★★
+     (transform: translateX(-50%) 적용돼 left 는 '가운데 기준') */
+
+  /* ── 윗줄(축소) 상태일 때: 그 지점이 클릭 안 된 경우 ── */
+  .ticket.is-selected .ticket-spot--ilsan.is-top    .ticket-spot__label { top: 30%; left: 50%; }
+  .ticket.is-selected .ticket-spot--yeosu.is-top    .ticket-spot__label { top: 30%; left: 48%; }
+  .ticket.is-selected .ticket-spot--jeju.is-top     .ticket-spot__label { top: 30%; left: 55%; }
+  .ticket.is-selected .ticket-spot--gwanggyo.is-top .ticket-spot__label { top: 35%; left: 70%; }
+
+  /* ── 아래로 내려온 '선택된' 상태일 때: 그 지점이 클릭된 경우 ── */
+  .ticket.is-selected .ticket-spot--ilsan.is-selected    .ticket-spot__label { top: 28%; left: 40%; }
+  .ticket.is-selected .ticket-spot--yeosu.is-selected    .ticket-spot__label { top: 25%; left: 50%; }
+  .ticket.is-selected .ticket-spot--jeju.is-selected     .ticket-spot__label { top: 35%; left: 70%; }
+  .ticket.is-selected .ticket-spot--gwanggyo.is-selected .ticket-spot__label { top: 30%; left: 80%; }
 }

@@ -532,3 +532,241 @@ function bindDiscountAccordion() {
 
 // 선택 전에도 패널이 비지 않도록 기본 내용으로 초기 렌더
 renderDiscounts('default');
+
+// ============================================================
+//  커스텀 커서 + 수면 물결 효과 (index.html / main.js 와 동일)
+//  · style.css 의 `html,body,* { cursor:none }` 때문에 기본 커서가 숨겨지므로
+//    이 페이지에도 동일한 대체 커서를 띄운다.
+// ============================================================
+function initCustomCursor() {
+  const el = document.getElementById('custom-cursor');
+  if (!el) return;
+
+  const HALF = 17;
+  let tx = -200, ty = -200;
+  let cx = tx, cy = ty;
+  let snapped = false;
+
+  // 즉시 보이게 (마우스 이동 전엔 화면 밖 위치에 있으므로 안 보임)
+  el.style.opacity = '1';
+
+  // 밝은(흰) 영역 위에서는 파란 링으로 전환 (location 페이지와 동일)
+  const LIGHT_SELS = '.ticket-booking, .ticket-discount, .ticket-scroll-below';
+
+  window.addEventListener('mousemove', e => {
+    tx = e.clientX;
+    ty = e.clientY;
+    if (!snapped) {
+      snapped = true;
+      cx = tx; cy = ty;
+    }
+    const hit = document.elementFromPoint(e.clientX, e.clientY);
+    el.classList.toggle('is-over-light', !!(hit && hit.closest(LIGHT_SELS)));
+  }, { passive: true });
+
+  document.addEventListener('mouseleave', () => { el.style.opacity = '0'; });
+  document.addEventListener('mouseenter', () => { el.style.opacity = '1'; });
+  document.addEventListener('mousedown',  () => el.classList.add('is-clicking'));
+  document.addEventListener('mouseup',    () => el.classList.remove('is-clicking'));
+
+  document.addEventListener('mouseover', e => {
+    const over = e.target.closest('a, button, [role="button"], .map-marker, .program-card, .booking-card');
+    el.classList.toggle('is-hovering', !!over);
+  });
+
+  (function loop() {
+    cx += (tx - cx) * 0.2;
+    cy += (ty - cy) * 0.2;
+    el.style.transform = `translate(${(cx - HALF).toFixed(1)}px,${(cy - HALF).toFixed(1)}px)`;
+    requestAnimationFrame(loop);
+  })();
+}
+
+function initCursorWave() {
+  const canvas = document.createElement('canvas');
+  canvas.setAttribute('aria-hidden', 'true');
+  Object.assign(canvas.style, {
+    position:      'fixed',
+    inset:         '0',
+    width:         '100%',
+    height:        '100%',
+    pointerEvents: 'none',
+    zIndex:        '9996',
+  });
+  document.body.appendChild(canvas);
+
+  const ctx = canvas.getContext('2d');
+
+  const SCALE         = 9;
+  const DAMP          = 0.92;
+  const DIST_INTERVAL = 16;
+  const RX = 4, RY = 1;
+  const FORCE = 60;
+
+  let W, H, bW, bH, cur, prv, offscreen, offCtx, imgData;
+  let running = true;
+
+  function resize() {
+    W  = window.innerWidth;
+    H  = window.innerHeight;
+    bW = Math.ceil(W / SCALE) + 2;
+    bH = Math.ceil(H / SCALE) + 2;
+    canvas.width  = W;
+    canvas.height = H;
+    cur      = new Float32Array(bW * bH);
+    prv      = new Float32Array(bW * bH);
+    offscreen        = document.createElement('canvas');
+    offscreen.width  = bW;
+    offscreen.height = bH;
+    offCtx   = offscreen.getContext('2d');
+    imgData  = offCtx.createImageData(bW, bH);
+  }
+
+  resize();
+  window.addEventListener('resize', resize, { passive: true });
+
+  let mx = 0, my = 0, pmx = 0, pmy = 0, distAccum = 0;
+  window.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; }, { passive: true });
+
+  document.addEventListener('visibilitychange', () => {
+    running = !document.hidden;
+    if (running) tick();
+  });
+
+  function disturb(cx, cy) {
+    for (let dy = -RY; dy <= RY; dy++) {
+      for (let dx = -RX; dx <= RX; dx++) {
+        const d = Math.hypot(dx / RX, dy / RY);
+        if (d > 1) continue;
+        const nx = cx + dx, ny = cy + dy;
+        if (nx < 1 || nx >= bW - 1 || ny < 1 || ny >= bH - 1) continue;
+        cur[ny * bW + nx] += FORCE * (1 - d);
+      }
+    }
+  }
+
+  function tick() {
+    if (!running) return;
+    requestAnimationFrame(tick);
+
+    const spd = Math.hypot(mx - pmx, my - pmy);
+    if (spd > 0.5) {
+      distAccum += spd;
+      pmx = mx; pmy = my;
+      if (distAccum >= DIST_INTERVAL) {
+        disturb(Math.round(mx / SCALE), Math.round(my / SCALE));
+        distAccum = 0;
+      }
+    }
+
+    const nxt = prv;
+    for (let y = 1; y < bH - 1; y++) {
+      for (let x = 1; x < bW - 1; x++) {
+        const i = y * bW + x;
+        nxt[i] = ((cur[i-1] + cur[i+1] + cur[i-bW] + cur[i+bW]) / 2 - nxt[i]) * DAMP;
+      }
+    }
+    prv = cur;
+    cur = nxt;
+
+    const px = imgData.data;
+    px.fill(0);
+
+    for (let y = 1; y < bH - 1; y++) {
+      for (let x = 1; x < bW - 1; x++) {
+        const i = y * bW + x;
+        const v = cur[i];
+        if (Math.abs(v) < 1.5) continue;
+
+        const lx    = cur[i - 1] - cur[i + 1];
+        const ly    = cur[i - bW] - cur[i + bW];
+        const shine = lx * 0.85 + ly * 0.15;
+        if (shine <= 0) continue;
+
+        const amp   = Math.min(Math.abs(v) / 48, 1);
+        const alpha = Math.min(shine * amp * 1.0, 1) * 160;
+        if (alpha < 2) continue;
+
+        const t    = Math.min(shine * amp * 0.5, 1);
+        const pidx = (y * bW + x) * 4;
+        px[pidx]     = Math.round(190 + t * 65);
+        px[pidx + 1] = Math.round(220 + t * 35);
+        px[pidx + 2] = Math.round(245 + t * 10);
+        px[pidx + 3] = alpha;
+      }
+    }
+
+    offCtx.putImageData(imgData, 0, 0);
+    ctx.clearRect(0, 0, W, H);
+    ctx.save();
+    ctx.filter = 'blur(7px)';
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+    ctx.drawImage(offscreen, 0, 0, W, H);
+    ctx.restore();
+  }
+
+  tick();
+}
+
+initCustomCursor();
+// initCursorWave();   // location 커서와 동일하게 — 수면 물결 효과 비활성화 (복원하려면 주석 해제)
+
+
+/* =============================================================
+   MOBILE MENU — 햄버거 토글 (768px 이하 전용, 가이드 문서 기준)
+   ============================================================= */
+(function initMobileMenu() {
+  const hamburger  = document.querySelector('.gnb__hamburger');
+  const mobileMenu = document.querySelector('.gnb__mobile-menu');
+  if (!hamburger || !mobileMenu) return;
+
+  function openMenu() {
+    hamburger.classList.add('is-active');
+    hamburger.setAttribute('aria-expanded', 'true');
+    mobileMenu.classList.add('is-open');
+    mobileMenu.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('mobile-menu-open');
+  }
+
+  function closeMenu() {
+    hamburger.classList.remove('is-active');
+    hamburger.setAttribute('aria-expanded', 'false');
+    mobileMenu.classList.remove('is-open');
+    mobileMenu.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('mobile-menu-open');
+  }
+
+  hamburger.addEventListener('click', () => {
+    hamburger.getAttribute('aria-expanded') === 'true' ? closeMenu() : openMenu();
+  });
+
+  /* 서브메뉴 아코디언 */
+  mobileMenu.querySelectorAll('.gnb__mobile-link--toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.gnb__mobile-item');
+      const isOpen = item.classList.contains('is-open');
+      mobileMenu.querySelectorAll('.gnb__mobile-item.is-open').forEach(el => {
+        el.classList.remove('is-open');
+        el.querySelector('.gnb__mobile-link--toggle').setAttribute('aria-expanded', 'false');
+      });
+      if (!isOpen) {
+        item.classList.add('is-open');
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+
+  /* 내부 링크 클릭 시 메뉴 닫기 */
+  mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+
+  /* ESC 키로 닫기 */
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && mobileMenu.classList.contains('is-open')) closeMenu();
+  });
+
+  /* 768px 초과로 리사이즈되면 강제 닫기 (가이드 문서 기준) */
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 768) closeMenu();
+  });
+})();

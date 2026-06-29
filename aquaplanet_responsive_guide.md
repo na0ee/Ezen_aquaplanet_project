@@ -500,3 +500,63 @@ Implementation notes:
 - Card buttons below `11px` become hard to read; use `12px` as the mobile minimum.
 - Tablet side toggles should not drop to `10px`; use `12px` minimum and shorten only the line length if space is tight.
 - Detail descriptions must keep readable line height, usually `1.45 ~ 1.6`; avoid `line-height: 0`.
+
+---
+
+## Ticket Page Responsive Addendum
+
+> 최종 갱신 — `css/ticket.css` 현재 상태 기준. 티켓은 지점 버블(`.ticket-spot`) + 예매 패널(`.ticket-booking`)의 **전용 인터랙션 페이지**라 가이드의 일반 `.card-grid` 패턴을 쓰지 않음. 스코프 클래스는 래퍼 `div.ticket-page`(body 아님).
+>
+> 브레이크포인트는 가이드와 동일: **PC 1025+ / 태블릿 769~1024 / 모바일 390~768**. 아래는 티켓 고유 값만 정리.
+
+### 1. ≤1024 공통 (스크롤·효과·로고)
+
+- 스크롤 허용: `.ticket-page{overflow-y:auto}`, `.ticket-bg{height:auto; min-height:100dvh; overflow:visible}`, `.ticket{overflow:visible}` (기본은 fixed+overflow hidden 이라 잘림)
+- 상단 빛 효과 제거: `#light-rays{display:none}`
+- GNB 로고: PC 60px → `≤1024`는 `width:clamp(36px, 2.52vw + 26.2px, 52px)` (1024=52, 390=36 — 랜딩과 동일)
+
+### 2. GNB 햄버거
+
+- 모바일(≤768)만 햄버거 전환(nav 숨김). 태블릿(769~1024)은 데스크탑 nav 유지 — 가이드와 동일.
+
+### 3. 지점 그리드 — 비선택 상태 (769~1024 & 390~768 공통)
+
+| 항목 | 값 |
+|---|---|
+| stage | `flex; column; justify-content:flex-start; min-height:100dvh; padding-top:248px` |
+| wrap | `grid; 1fr 1fr; justify-items:center; width:min(92%, 640px)` |
+| spot 너비 | 태블릿 `300px` / 모바일 `clamp(200px, 26.46vw + 96.82px, 300px)`, `max-width:100%` |
+| 순서(order) | 여수1·광교2·일산3·제주4 (윗줄 여수·광교 / 아랫줄 일산·제주) |
+| 좌우 정렬 | 좌열(여수·일산) `justify-self:end` / 우열(광교·제주) `justify-self:start` |
+| 지그재그 | 우열(광교·제주) `margin-top:27px` |
+| 타이틀/서브 | title `28px / top:114px`, sub `13px / top:152px / width:88%` |
+| 라벨 폰트 | PC `clamp(20px,1.34vw+6.26px,32px)` / 태블릿 `clamp(16px,1.96vw,20px)` / 모바일 `clamp(12px,1.06vw+7.87px,16px)` |
+| 장식 거품 | `display:none` (≤1024 전부 숨김) |
+
+### 4. 클릭(선택) 인터랙션 (390~1024) — 1920 동작 이식
+
+- wrap → `flex; flex-wrap; justify-content:center; column-gap:1vw`
+- 모든 spot → `position:relative; width:25vw` (상단 행 너비 = 화면폭 25%)
+- 순서: 일산1·여수2·제주3·광교4 → 선택 안 된 지점이 **빈칸 없이 윗줄**에 정렬
+- 선택 지점(`is-selected`) → `flex:0 0 100%`(아랫줄로), `max-width:240px; margin:0 auto`, 동물 `width:40vw`
+- `is-top` → PC 기본 좌표/축소 해제(`left/top:auto; transform:none`)
+- `.ticket-stage.scroll-reveal{padding-top:170px}`, 선택 시 stage `gap:0` + 패널 `margin-top:0` (간격 제거)
+- 라벨 위치 지점별 조정: `.ticket.is-selected .ticket-spot--지점.is-top / .is-selected .ticket-spot__label { top; left }`
+
+### 5. 예매 패널 (≤1024) — 그리드 아래로
+
+| 항목 | 값 |
+|---|---|
+| `.ticket-booking` | `position:relative`, 그리드 하단, 선택 시 `opacity` 토글. 너비 태블릿 `45vw` / 모바일 `60vw` |
+| `.ticket-booking__panel` | `width:100%; aspect-ratio:382/361` (1920 비율), `flex; column` |
+| title / price | 태블릿 `28px` / 모바일 `clamp(24px, 1.06vw + 19.87px, 28px)` |
+| 할인 라벨(`__label`) | **항상 12px** (화면 무관) |
+| 할인 목록(`-list`) | `flex:1; column; justify-content:flex-start`, 카드 gap 태블릿 `14px` / 모바일 `10px` |
+| 할인 항목(`.ticket-discount`) | `height:17%; margin-bottom:0`, `summary{height:100%}` |
+| Close 버튼 폰트 | `clamp(12px, 0.265vw + 10.96px, 13px)` (390=12) |
+
+### 6. 구현 노트
+
+- 지점 순서는 DOM/JS 순서(일산·여수·제주·광교) 유지 + CSS `order`로만 시각 재배치 → `ticket.js` 슬롯 로직과 충돌 없음.
+- 장식 거품 가로 위치는 인라인 `--x`만 지정, `left`는 CSS 계산 → 미디어쿼리 `left` 오버라이드 가능(JS는 `--x` 미변경).
+- 선택 지점 동물(40vw)이 spot 박스보다 커서 라벨/패널과 겹칠 수 있음 — 필요 시 동물 크기/라벨 위치로 조정.
