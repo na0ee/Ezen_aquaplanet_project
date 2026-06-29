@@ -514,7 +514,7 @@ body.biz-page.mobile-menu-open .gnb {
   left: 0;
   z-index: 3;
   width: 100%;
-  height: 415.055px;
+  height: 470px;
   overflow: hidden;
   pointer-events: none;
   transform: translateY(var(--biz-overview-stack-y, 0px));
@@ -527,7 +527,7 @@ body.biz-page.mobile-menu-open .gnb {
   left: 50%;
   display: flex;
   width: 1320px;
-  height: 415.055px;
+  height: 470px;
   align-items: flex-start;
   gap: 40px;
   transform: translateX(-50%) translateY(30px);
@@ -550,7 +550,7 @@ body.biz-page.mobile-menu-open .gnb {
 .biz-blue-card__image {
   position: relative;
   width: 620px;
-  height: 415px;
+  height: 470px;
   flex: 0 0 620px;
   overflow: hidden;
   border-radius: 14px;
@@ -588,18 +588,17 @@ body.biz-page.mobile-menu-open .gnb {
   height: auto;
   margin: 0;
   color: #ffffff;
-  font-family: "Poppins", sans-serif;
-  font-size: 60px;
+  font-family: "Cormorant Garamond", "EB Garamond", serif;
+  font-size: 70px;
   font-weight: 400;
-  line-height: normal;
+  line-height: 1;
   letter-spacing: -2.56px;
   white-space: nowrap;
-  opacity: 1;
 }
 
 .biz-blue-card__body {
   position: absolute;
-  top: 62px;
+  top: 108px;
   left: 0;
   display: flex;
   height: auto;
@@ -1592,18 +1591,18 @@ body.biz-page.mobile-menu-open .gnb {
 
   .biz-page .biz-blue-stack {
     top: calc(50vh + 180px - clamp(150px, 18vw, 174px)) !important;
-    height: clamp(390px, 44vw, 450px) !important;
+    height: clamp(440px, 48vw, 500px) !important;
   }
 
   .biz-page .biz-blue-card {
     width: var(--biz-tablet-container) !important;
-    height: clamp(390px, 44vw, 450px) !important;
+    height: clamp(440px, 48vw, 500px) !important;
     gap: 24px !important;
   }
 
   .biz-page .biz-blue-card__image {
     width: clamp(330px, 39vw, 400px) !important;
-    height: clamp(300px, 36vw, 360px) !important;
+    height: clamp(390px, 43vw, 460px) !important;
     flex-basis: clamp(330px, 39vw, 400px) !important;
   }
 
@@ -1622,13 +1621,13 @@ body.biz-page.mobile-menu-open .gnb {
   }
 
   .biz-page .biz-blue-card__num {
-    font-size: clamp(42px, 5.1vw, 56px) !important;
+    font-size: clamp(50px, 6vw, 66px) !important;
     letter-spacing: -0.04em !important;
   }
 
   .biz-page .biz-blue-card__body,
   .biz-page .biz-blue-card--acquisition .biz-blue-card__body {
-    top: clamp(52px, 6.8vw, 66px) !important;
+    top: clamp(94px, 10vw, 112px) !important;
     left: 0 !important;
   }
 
@@ -2168,8 +2167,8 @@ body.biz-page.mobile-menu-open .gnb {
     position: static !important;
     width: auto !important;
     height: auto !important;
-    margin: 0 0 8px !important;
-    font-size: clamp(40px, 9.6vw, 58px) !important;
+    margin: 0 0 14px !important;
+    font-size: clamp(48px, 10.8vw, 70px) !important;
     line-height: 1 !important;
     letter-spacing: -0.04em !important;
   }
@@ -3083,7 +3082,7 @@ body.biz-page.mobile-menu-open .gnb {
 }
 
 .biz-blue-card--acquisition .biz-blue-card__body {
-  top: 70px;
+  top: 116px;
   left: 0;
   align-items: flex-start;
   gap: 0;
@@ -3456,7 +3455,7 @@ body.biz-page.mobile-menu-open .gnb {
 .biz-vision .biz-glass-card:hover::before,
 .biz-vision .biz-glass-card.is-expanded::before,
 .biz-vision .biz-glass-card:focus-visible::before {
-  opacity: 0.2;
+  opacity: 0.36;
 }
 
 .biz-vision .biz-glass-card:hover h4,
