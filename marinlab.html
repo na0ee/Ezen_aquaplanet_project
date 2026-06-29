@@ -611,10 +611,8 @@
     </div>
   </div>
 
-  <div id="custom-cursor" aria-hidden="true"></div>
-
-  <script src="js/conservation-orbit.js"></script>
   <script src="js/marinlab-cursor.js"></script>
+  <script src="js/conservation-orbit.js"></script>
   <script>
     (function () {
       var footer = document.getElementById('marinFooter');
@@ -688,7 +686,6 @@
         if (rescueMain) rescueMain.hidden = isConservation;
         if (conservationMain) conservationMain.hidden = !isConservation;
         document.body.classList.toggle('marin-view-conservation', isConservation);
-        document.body.classList.toggle('has-custom-cursor', isConservation);
         window.scrollTo(0, 0);
 
         menuItems.forEach((item) => {
