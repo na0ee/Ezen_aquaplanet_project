@@ -101,8 +101,8 @@ function getResponsiveSequenceTiming() {
     return {
       titleEnter: [0.24, 0.56],
       contentEnter: [0.50, 0.72],
-      contentExit: [0.82, 1.08],
-      overlapExit: [0.42, 0.82],
+      contentExit: [0.98, 1.22],
+      overlapExit: [0.10, 0.34],
       bottomExit: 0.18,
       holdProgress: 0.72,
       exitProgress: 1.02,
@@ -199,25 +199,27 @@ function initSmoothScroll() {
         const panelCount = crewEl.querySelectorAll('.crew-panel').length || 4;
         const dir        = e.deltaY > 0 ? 1 : -1;
 
-        /* 잠금 해제이거나 위로 이동 시 실제 위치 기준으로 목표 패널 동기화 */
-        if (!crewSnapLocked || dir < 0) {
-          crewSnapTargetPanel = Math.round(
+        /* Sync from the real scroll position only when panel snapping is unlocked. */
+        if (!crewSnapLocked) {
+          crewSnapTargetPanel = Math.floor(
             Math.max(0, Math.min(panelCount - 1, (window.scrollY - crewTopAbs) / panelH))
           );
         }
 
-        if (dir > 0 && crewSnapTargetPanel >= panelCount - 1) {
+        if (!crewSnapLocked && dir > 0 && crewSnapTargetPanel >= panelCount - 1) {
           /* 마지막 패널에서 아래 스크롤 → 섹션 탈출 */
           targetY = clamp(crewTopAbs + panelCount * panelH);
-        } else if (crewSnapLocked && dir > 0) {
-          /* 카드 미출현 잠금 중 + 아래 방향 → 목표 고정 */
+        } else if (crewSnapLocked) {
+          /* While a card is re-entering, hold both scroll directions on the target panel. */
           targetY = clamp(crewTopAbs + crewSnapTargetPanel * panelH);
         } else {
           /* 패널 전환 허용 */
-          crewSnapTargetPanel = Math.max(0, Math.min(panelCount - 1, crewSnapTargetPanel + dir));
+          const nextPanel = Math.max(0, Math.min(panelCount - 1, crewSnapTargetPanel + dir));
+          const changedPanel = nextPanel !== crewSnapTargetPanel;
+          crewSnapTargetPanel = nextPanel;
           targetY = clamp(crewTopAbs + crewSnapTargetPanel * panelH);
-          if (dir > 0) {
-            /* 아래로 이동: transitionend 또는 crew-card-reenter+600ms 폴백까지 잠금 */
+          if (changedPanel) {
+            /* Panel move: lock until transitionend or the crew-card-reenter fallback releases it. */
             crewSnapLocked = true;
             clearTimeout(crewSnapLockTimer);
             crewSnapLockTimer = window.setTimeout(() => { crewSnapLocked = false; }, 2000);
@@ -250,6 +252,8 @@ function initSmoothScroll() {
       rafId = null;
     }
   };
+
+  window.__isCrewSnapLocked = () => crewSnapLocked;
 
   window.addEventListener('resize', () => {
     targetY = clamp(window.scrollY);
@@ -775,7 +779,7 @@ function initIntroScrollGate() {
   }
 
   function shouldBlockUp() {
-    return crewScrollUnlocked && !diveActive && !isTransitioning && isNearCrewStart();
+    return crewScrollUnlocked && !window.__isCrewSnapLocked?.() && !diveActive && !isTransitioning && isNearCrewStart();
   }
 
   window.addEventListener('wheel', (e) => {
@@ -1695,6 +1699,7 @@ function initCrewScroll() {
   let exitWavePlayed = false;
   let lastCrewCardWaveAt = 0;
   let crewCardWaveTl = null;
+  let crewCardSwapTimer = 0;
   let crewEnterTimer = 0;
   let crewSequencedEnterUntil = 0;
 
@@ -1779,6 +1784,7 @@ function initCrewScroll() {
   }
 
   function showCard(idx, force = false) {
+    window.clearTimeout(crewCardSwapTimer);
     if (idx === displayedIndex && !force) return;
     displayedIndex = idx;
     panels.forEach((p, i) => {
@@ -1786,6 +1792,18 @@ function initCrewScroll() {
       if      (i === idx) p.classList.add('is-active');
       else if (i  <  idx) p.classList.add('is-prev');
     });
+  }
+
+  function scheduleShowCard(idx, delay = 0, force = false) {
+    window.clearTimeout(crewCardSwapTimer);
+    if (delay <= 0) {
+      showCard(idx, force);
+      return;
+    }
+
+    crewCardSwapTimer = window.setTimeout(() => {
+      if (currentIndex === idx) showCard(idx, force);
+    }, delay);
   }
 
   function setActive(idx, force = false) {
@@ -1797,9 +1815,10 @@ function initCrewScroll() {
 
     if (placeholder) placeholder.dataset.creature = creatures[idx] ?? '';
 
-    showCard(idx, force || prevIndex < 0);
+    const isPanelChange = prevIndex >= 0 && prevIndex !== idx;
+    scheduleShowCard(idx, !force && isPanelChange ? 340 : 0, force || prevIndex < 0);
 
-    if (!force && prevIndex >= 0 && prevIndex !== idx && !diveActive) {
+    if (!force && isPanelChange && !diveActive) {
       playCrewCardWave();
     }
 
