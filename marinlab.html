@@ -14,6 +14,8 @@
     href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,500&family=Poppins:wght@200;300;400;500;600;700&display=swap"
     rel="stylesheet" />
   <link rel="stylesheet" href="css/marinlab.css" />
+  <link rel="stylesheet" href="css/detail-bubbles.css" />
+  <link rel="stylesheet" href="css/detail-hero-interaction.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Observer.min.js"></script>
@@ -491,6 +493,7 @@
               <div class="m-cons-flip__face m-cons-flip__face--front">
                 <img src="assets/images/sec.aboutus/marinlab/conservation_walrus.avif" alt="바다코끼리">
                 <div class="m-cons-flip__shade"></div>
+                <span class="m-cons-flip__hint" aria-hidden="true">CLICK</span>
                 <div class="m-cons-flip__caption">
                   <p class="m-cons-flip__en">Walrus</p>
                   <p class="m-cons-flip__kr">바다코끼리</p>
@@ -513,6 +516,7 @@
               <div class="m-cons-flip__face m-cons-flip__face--front">
                 <img src="assets/images/sec.aboutus/marinlab/conservation_sealion.avif" alt="바다사자">
                 <div class="m-cons-flip__shade"></div>
+                <span class="m-cons-flip__hint" aria-hidden="true">CLICK</span>
                 <div class="m-cons-flip__caption">
                   <p class="m-cons-flip__en">Sea Lion</p>
                   <p class="m-cons-flip__kr">바다사자</p>
@@ -535,6 +539,7 @@
               <div class="m-cons-flip__face m-cons-flip__face--front">
                 <img src="assets/images/sec.aboutus/marinlab/conservation_seal.avif" alt="물범">
                 <div class="m-cons-flip__shade"></div>
+                <span class="m-cons-flip__hint" aria-hidden="true">CLICK</span>
                 <div class="m-cons-flip__caption">
                   <p class="m-cons-flip__en">Seal</p>
                   <p class="m-cons-flip__kr">물범</p>
@@ -566,6 +571,7 @@
               <div class="m-cons-flip__face m-cons-flip__face--front">
                 <img src="assets/images/sec.aboutus/marinlab/conservation_seahorse.avif" alt="해마">
                 <div class="m-cons-flip__shade"></div>
+                <span class="m-cons-flip__hint" aria-hidden="true">CLICK</span>
                 <div class="m-cons-flip__caption">
                   <p class="m-cons-flip__en">Seahorse</p>
                   <p class="m-cons-flip__kr">해마</p>
@@ -588,6 +594,7 @@
               <div class="m-cons-flip__face m-cons-flip__face--front">
                 <img src="assets/images/sec.aboutus/marinlab/conservation_seadragon.avif" alt="해룡">
                 <div class="m-cons-flip__shade"></div>
+                <span class="m-cons-flip__hint" aria-hidden="true">CLICK</span>
                 <div class="m-cons-flip__caption">
                   <p class="m-cons-flip__en">Sea dragon</p>
                   <p class="m-cons-flip__kr">해룡</p>
@@ -612,6 +619,7 @@
   </div>
 
   <script src="js/marinlab-cursor.js"></script>
+  <script src="js/detail-bubbles.js"></script>
   <script src="js/conservation-orbit.js"></script>
   <script>
     (function () {
@@ -626,6 +634,83 @@
         });
       }, { threshold: 0.15 });
       observer.observe(footer);
+    })();
+  </script>
+  <script>
+    (function () {
+      var rescueMain = document.querySelector('[data-marin-rescue]');
+      if (!rescueMain) return;
+
+      var groups = [
+        {
+          section: rescueMain.querySelector('.activity-scroll'),
+          titles: [rescueMain.querySelector('.activity-scroll .section-head')],
+          contents: [rescueMain.querySelector('.activity-stack')]
+        },
+        {
+          section: rescueMain.querySelector('.cases'),
+          titles: [rescueMain.querySelector('.cases .section-head')],
+          contents: [
+            rescueMain.querySelector('.case-tabs'),
+            rescueMain.querySelector('.case-card'),
+            rescueMain.querySelector('.case-dots')
+          ]
+        }
+      ].filter(function (group) {
+        return group.section && (group.titles.some(Boolean) || group.contents.some(Boolean));
+      });
+
+      if (!groups.length) return;
+
+      groups.forEach(function (group) {
+        group.titles.forEach(function (el) {
+          if (el) el.classList.add('marin-reveal-title');
+        });
+        group.contents.forEach(function (el) {
+          if (el) el.classList.add('marin-reveal-content');
+        });
+      });
+
+      function showGroup(group) {
+        group.titles.concat(group.contents).forEach(function (el) {
+          if (!el) return;
+          window.clearTimeout(el._marinRevealTimer);
+          el.classList.add('is-marin-reveal-active', 'is-marin-reveal-visible');
+          el._marinRevealTimer = window.setTimeout(function () {
+            el.classList.add('is-marin-reveal-done');
+          }, 1300);
+        });
+      }
+
+      function resetGroup(group) {
+        group.titles.concat(group.contents).forEach(function (el) {
+          if (!el) return;
+          window.clearTimeout(el._marinRevealTimer);
+          el.classList.remove('is-marin-reveal-active', 'is-marin-reveal-visible', 'is-marin-reveal-done');
+        });
+      }
+
+      var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+      if (reduceMotion.matches || !('IntersectionObserver' in window)) {
+        groups.forEach(showGroup);
+        return;
+      }
+
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          var group = groups.find(function (item) { return item.section === entry.target; });
+          if (!group) return;
+          if (entry.isIntersecting) showGroup(group);
+          else resetGroup(group);
+        });
+      }, {
+        threshold: 0.08,
+        rootMargin: '0px 0px -22% 0px'
+      });
+
+      groups.forEach(function (group) {
+        observer.observe(group.section);
+      });
     })();
   </script>
   <script>
@@ -1053,6 +1138,7 @@
       let activeCategory = 'dolphin';
       let currentIndex = 0;
       let isAnimating = false;
+      let pendingScrollIndex = null;
       let cooldownUntil = 0;
       let activeLayer = imageA;
       let idleLayer = imageB;
@@ -1190,6 +1276,13 @@
             idleLayer = prevImg;
             isAnimating = false;
             cooldownUntil = performance.now() + 20;
+            if (pendingScrollIndex !== null && pendingScrollIndex !== currentIndex) {
+              const targetIndex = pendingScrollIndex;
+              pendingScrollIndex = null;
+              animateToCase(targetIndex, targetIndex > currentIndex ? 1 : -1);
+            } else {
+              pendingScrollIndex = null;
+            }
           }
         });
 
@@ -1236,6 +1329,7 @@
         if (!caseGroups[category] || category === activeCategory || isAnimating) return false;
         activeCategory = category;
         currentIndex = 0;
+        pendingScrollIndex = null;
         cooldownUntil = 0;
         renderDots(getCurrentCases());
         updateCaseTabs();
@@ -1269,8 +1363,6 @@
       if (prevBtn) prevBtn.addEventListener('click', () => { if (!isAnimating) requestStep(-1); });
       if (nextBtn) nextBtn.addEventListener('click', () => { if (!isAnimating) requestStep(1); });
 
-      let casePinActive = false;
-
       if (hasGsap && !prefersReducedMotion && typeof ScrollTrigger !== 'undefined') {
         gsap.registerPlugin(ScrollTrigger);
 
@@ -1284,10 +1376,19 @@
             pin: spotlight,
             pinSpacing: true,
             invalidateOnRefresh: true,
-            onEnter: () => { casePinActive = true; },
-            onEnterBack: () => { casePinActive = true; },
-            onLeave: () => { casePinActive = false; },
-            onLeaveBack: () => { casePinActive = false; }
+            anticipatePin: 1,
+            onUpdate: (self) => {
+              const total = getTotal();
+              if (total <= 1) return;
+              const nextIndex = Math.round(self.progress * (total - 1));
+              if (isAnimating) {
+                pendingScrollIndex = nextIndex;
+                return;
+              }
+              if (nextIndex !== currentIndex) {
+                animateToCase(nextIndex, nextIndex > currentIndex ? 1 : -1);
+              }
+            }
           });
         });
       }
@@ -1335,9 +1436,6 @@
         lastCaseTouchY = currentY;
       }
 
-      window.addEventListener('wheel', handleCaseWheel, { passive: false });
-      window.addEventListener('touchstart', handleCaseTouchStart, { passive: true });
-      window.addEventListener('touchmove', handleCaseTouchMove, { passive: false });
     })();
   </script>
 </body>

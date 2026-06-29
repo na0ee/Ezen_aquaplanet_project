@@ -423,6 +423,65 @@
   });
 
   // ============================================================
+  // Section entrance reveal — title first, content follows
+  // ============================================================
+  (function initProgramSectionReveal() {
+    const groups = Array.from(document.querySelectorAll('.section--schedule')).map(section => ({
+      section,
+      titles: [section.querySelector('.section__header')],
+      contents: Array.from(section.querySelectorAll('.cartegory-tabs-b, .program-preview, .schedule-table'))
+    })).filter(group =>
+      group.section && (group.titles.some(Boolean) || group.contents.some(Boolean))
+    );
+
+    if (!groups.length) return;
+
+    groups.forEach(group => {
+      group.titles.forEach(el => el && el.classList.add('program-reveal-title'));
+      group.contents.forEach(el => el && el.classList.add('program-reveal-content'));
+    });
+
+    function showGroup(group) {
+      group.titles.concat(group.contents).forEach(el => {
+        if (!el) return;
+        window.clearTimeout(el._programRevealTimer);
+        el.classList.add('is-program-reveal-active', 'is-program-reveal-visible');
+        el._programRevealTimer = window.setTimeout(() => {
+          el.classList.add('is-program-reveal-done');
+        }, 1300);
+      });
+    }
+
+    function resetGroup(group) {
+      group.titles.concat(group.contents).forEach(el => {
+        if (!el) return;
+        window.clearTimeout(el._programRevealTimer);
+        el.classList.remove('is-program-reveal-active', 'is-program-reveal-visible', 'is-program-reveal-done');
+      });
+    }
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (reduceMotion.matches || !('IntersectionObserver' in window)) {
+      groups.forEach(showGroup);
+      return;
+    }
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        const group = groups.find(item => item.section === entry.target);
+        if (!group) return;
+        if (entry.isIntersecting) showGroup(group);
+        else resetGroup(group);
+      });
+    }, {
+      threshold: 0.08,
+      rootMargin: '0px 0px -22% 0px'
+    });
+
+    groups.forEach(group => observer.observe(group.section));
+  })();
+
+  // ============================================================
   // 프로그램 일정/안내 토글 (화면 우측 중앙 고정, 모든 지역 공용 1개)
   // 현재 보이는 지역의 schedule/guide 섹션을 대상으로 동작
   // ============================================================

@@ -1,0 +1,118 @@
+/* Shared sub-page hero title interaction, matched to Ocean Friends intro timing. */
+@keyframes detail-hero-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 38px, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes detail-hero-rise-centered {
+  from {
+    opacity: 0;
+    transform: translate3d(-50%, 38px, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+body.location-page .loc-hero__eyebrow,
+body.location-page .loc-hero__title-line,
+body.location-page .loc-hero__sub,
+body.location-page .loc-scroll,
+body.marinlab-page .hero__eyebrow,
+body.marinlab-page .hero__title,
+body.marinlab-page .hero__sub,
+body.marinlab-page .hero__scroll,
+body.biz-page .biz-hero__welcome,
+body.biz-page .biz-hero__title,
+body.biz-page .biz-hero__desc,
+body.biz-page .biz-hero__scroll,
+body:not([class]) .hero__welcome,
+body:not([class]) .hero__title-row,
+body:not([class]) .hero__sub,
+body:not([class]) .hero__scroll {
+  opacity: 0;
+  animation-name: detail-hero-rise;
+  animation-duration: 1.05s;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  animation-fill-mode: both;
+  will-change: opacity, transform;
+}
+
+body:not([class]) .ticket__title,
+body:not([class]) .ticket__sub {
+  opacity: 0;
+  animation-name: detail-hero-rise-centered;
+  animation-duration: 1.05s;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  animation-fill-mode: both;
+  will-change: opacity, transform;
+}
+
+body.location-page .loc-hero__eyebrow,
+body.marinlab-page .hero__eyebrow,
+body.biz-page .biz-hero__welcome,
+body:not([class]) .hero__welcome,
+body:not([class]) .ticket__title {
+  animation-delay: 0ms;
+}
+
+body.location-page .loc-hero__title-line,
+body.marinlab-page .hero__title,
+body.biz-page .biz-hero__title,
+body:not([class]) .hero__title-row,
+body:not([class]) .ticket__sub {
+  animation-delay: 170ms;
+}
+
+body.location-page .loc-hero__sub,
+body.marinlab-page .hero__sub,
+body.biz-page .biz-hero__desc,
+body:not([class]) .hero__sub {
+  animation-delay: 340ms;
+}
+
+body.location-page .loc-scroll,
+body.marinlab-page .hero__scroll,
+body.biz-page .biz-hero__scroll,
+body:not([class]) .hero__scroll {
+  animation-delay: 510ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.location-page .loc-hero__eyebrow,
+  body.location-page .loc-hero__title-line,
+  body.location-page .loc-hero__sub,
+  body.location-page .loc-scroll,
+  body.marinlab-page .hero__eyebrow,
+  body.marinlab-page .hero__title,
+  body.marinlab-page .hero__sub,
+  body.marinlab-page .hero__scroll,
+  body.biz-page .biz-hero__welcome,
+  body.biz-page .biz-hero__title,
+  body.biz-page .biz-hero__desc,
+  body.biz-page .biz-hero__scroll,
+  body:not([class]) .hero__welcome,
+  body:not([class]) .hero__title-row,
+  body:not([class]) .hero__sub,
+  body:not([class]) .hero__scroll,
+  body:not([class]) .ticket__title,
+  body:not([class]) .ticket__sub {
+    opacity: 1;
+    animation: none;
+    transform: none;
+  }
+
+  body:not([class]) .ticket__title,
+  body:not([class]) .ticket__sub {
+    transform: translateX(-50%);
+  }
+}

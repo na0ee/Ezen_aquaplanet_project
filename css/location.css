@@ -3105,3 +3105,84 @@ body.location-page .gnb__ticket .img img {
     margin: 0 !important;
   }
 }
+
+/* ----------------------------------------------------------------
+   Section reveal sequence
+   Title rises first, then the section content follows.
+---------------------------------------------------------------- */
+body.location-page .loc-reveal-title,
+body.location-page .loc-reveal-content {
+  opacity: 0;
+  --loc-reveal-y: 84px;
+  will-change: opacity, transform;
+  pointer-events: none;
+  backface-visibility: hidden;
+}
+
+body.location-page .loc-reveal-title {
+  transition:
+    opacity 0.72s ease,
+    transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+body.location-page .loc-reveal-content {
+  --loc-reveal-y: 104px;
+  transition:
+    opacity 0.78s ease 0.16s,
+    transform 1s cubic-bezier(0.16, 1, 0.3, 1) 0.18s;
+}
+
+body.location-page .loc-reveal-title.is-loc-reveal-active,
+body.location-page .loc-reveal-content.is-loc-reveal-active {
+  pointer-events: auto;
+}
+
+body.location-page .loc-reveal-title.is-loc-reveal-visible,
+body.location-page .loc-reveal-content.is-loc-reveal-visible {
+  opacity: 1;
+  --loc-reveal-y: 0px;
+}
+
+body.location-page .loc-reveal-title.is-loc-reveal-done,
+body.location-page .loc-reveal-content.is-loc-reveal-done {
+  will-change: auto;
+}
+
+body.location-page .loc-programs__header.loc-reveal-title {
+  transform: translateX(-50%) translateY(var(--loc-reveal-y, 48px));
+}
+
+body.location-page .loc-programs__cards.loc-reveal-content {
+  transform: translateX(-50%) translateY(var(--loc-reveal-y, 48px));
+}
+
+body.location-page .loc-hours__header.loc-reveal-title {
+  transform: translateX(-50%) translateY(var(--loc-reveal-y, 48px));
+}
+
+body.location-page .loc-hours__card.loc-reveal-content {
+  transform: translate(-50%, calc(-50% + var(--loc-reveal-y, 48px)));
+}
+
+body.location-page .loc-hours__notice.loc-reveal-content {
+  transform: translate(-50%, var(--loc-reveal-y, 48px));
+}
+
+@media (max-width: 820px) {
+  body.location-page .loc-programs__header.loc-reveal-title,
+  body.location-page .loc-programs__cards.loc-reveal-content,
+  body.location-page .loc-hours__header.loc-reveal-title,
+  body.location-page .loc-hours__card.loc-reveal-content,
+  body.location-page .loc-hours__notice.loc-reveal-content {
+    transform: translateY(var(--loc-reveal-y, 48px)) !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.location-page .loc-reveal-title,
+  body.location-page .loc-reveal-content {
+    opacity: 1;
+    transform: none !important;
+    pointer-events: auto;
+  }
+}
