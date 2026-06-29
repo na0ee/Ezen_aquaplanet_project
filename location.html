@@ -13,7 +13,7 @@
   <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Poppins:wght@200;300;400;500&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="css/location.css?v=20260629-10" />
+  <link rel="stylesheet" href="css/location.css?v=20260629-13" />
 
   <!-- Three.js importmap (footer_logo.js 용) -->
   <script type="importmap">
@@ -25,7 +25,7 @@
   }
   </script>
 </head>
-<body class="is-logo-at-header location-page">
+<body class="is-logo-at-header location-page has-custom-cursor">
 
   <div class="wrap">
 
@@ -162,6 +162,10 @@
          Hero 섹션 (Figma node 278:327 — 1920×1200)
     ================================================ -->
     <section class="loc-hero" aria-label="Location 히어로">
+      <div class="bubble-layer location-bubble-layer" data-bubble-root aria-hidden="true">
+        <div class="bubble-side bubble-side--left" data-bubble-side="left"></div>
+        <div class="bubble-side bubble-side--right" data-bubble-side="right"></div>
+      </div>
 
       <!-- 배경 이미지 (Figma: img_name_20240305175381206 2) -->
       <div class="loc-hero__bg" aria-hidden="true">
@@ -239,6 +243,10 @@
          Main Programs
     ================================================ -->
     <section class="loc-programs" id="programs" aria-label="주요 프로그램">
+      <div class="bubble-layer location-bubble-layer" data-bubble-root aria-hidden="true">
+        <div class="bubble-side bubble-side--left" data-bubble-side="left"></div>
+        <div class="bubble-side bubble-side--right" data-bubble-side="right"></div>
+      </div>
 
       <!-- 타이틀 + 서브텍스트 (Figma: 278:58, centered, top=160, gap=14) -->
       <div class="loc-programs__header">
@@ -298,6 +306,10 @@
     ================================================ -->
     <div class="loc-map-wrap loc-map-wrap--solo">
     <section class="loc-map loc-map--solo" aria-label="가이드맵">
+      <div class="bubble-layer location-bubble-layer" data-bubble-root aria-hidden="true">
+        <div class="bubble-side bubble-side--left" data-bubble-side="left"></div>
+        <div class="bubble-side bubble-side--right" data-bubble-side="right"></div>
+      </div>
 
       <div class="loc-map__header">
         <h2 class="loc-map__title">
@@ -339,6 +351,10 @@
     ================================================ -->
     <div class="loc-map-wrap loc-map-wrap--exhibits">
     <section class="loc-map loc-map--exhibits" aria-label="전시관 안내">
+      <div class="bubble-layer location-bubble-layer" data-bubble-root aria-hidden="true">
+        <div class="bubble-side bubble-side--left" data-bubble-side="left"></div>
+        <div class="bubble-side bubble-side--right" data-bubble-side="right"></div>
+      </div>
 
       <div class="loc-map__header">
         <div class="loc-map__floor-tabs cartegory-tabs cartegory-tabs-a" role="tablist" aria-label="층 선택">
@@ -408,6 +424,10 @@
          Opening Hours
     ================================================ -->
     <section class="loc-hours" id="hours" aria-label="운영시간">
+      <div class="bubble-layer location-bubble-layer" data-bubble-root aria-hidden="true">
+        <div class="bubble-side bubble-side--left" data-bubble-side="left"></div>
+        <div class="bubble-side bubble-side--right" data-bubble-side="right"></div>
+      </div>
 
       <!-- 타이틀 (Figma: 278:289, centered, top=160) -->
       <div class="loc-hours__header">
@@ -511,7 +531,7 @@
   </div><!-- /.wrap -->
 
   <script src="js/gnb-scroll.js"></script>
-  <script src="js/location.js?v=20260629-13"></script>
+  <script src="js/location.js?v=20260629-18"></script>
   <script type="module" src="js/footer_logo.js"></script>
 </body>
 </html>
