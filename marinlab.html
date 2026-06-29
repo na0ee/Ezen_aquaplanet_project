@@ -242,6 +242,9 @@
         <header class="section-head">
           <h2><em>Rescue <span class="amp">&amp;</span> Care</em> <span>Cases</span></h2>
           <p>제주 바다에서 구조된 <strong>돌고래</strong>들의 이야기입니다<br>구조와 치료를 거쳐 다시 바다를 향한 여정을 이어갑니다</p>
+        </header>
+
+        <div class="case-spotlight" data-case-spotlight aria-roledescription="carousel" aria-label="Dolphin 구조일지">
           <div class="case-tabs" aria-label="구조 사례 분류">
             <div class="tabs__inner">
               <button class="tab is-active" type="button" data-case-tab="dolphin">Dolphin</button>
@@ -249,9 +252,6 @@
               <button class="tab" type="button" data-case-tab="others">Others</button>
             </div>
           </div>
-        </header>
-
-        <div class="case-spotlight" data-case-spotlight aria-roledescription="carousel" aria-label="Dolphin 구조일지">
           <article class="case-card" data-case-card>
               <div class="case-card__media" data-case-media>
                 <img class="case-card__image case-card__image--a" data-case-image-a src="" alt="">
@@ -1273,16 +1273,20 @@
       if (hasGsap && !prefersReducedMotion && typeof ScrollTrigger !== 'undefined') {
         gsap.registerPlugin(ScrollTrigger);
 
-        ScrollTrigger.create({
-          trigger: spotlight,
-          start: 'center center+=51',
-          end: '+=60%',
-          pin: spotlight,
-          pinSpacing: true,
-          onEnter: () => { casePinActive = true; },
-          onEnterBack: () => { casePinActive = true; },
-          onLeave: () => { casePinActive = false; },
-          onLeaveBack: () => { casePinActive = false; }
+        let mm = gsap.matchMedia();
+
+        mm.add("all", () => {
+          ScrollTrigger.create({
+            trigger: spotlight,
+            start: 'center center+=51',
+            end: '+=60%',
+            pin: spotlight,
+            pinSpacing: true,
+            onEnter: () => { casePinActive = true; },
+            onEnterBack: () => { casePinActive = true; },
+            onLeave: () => { casePinActive = false; },
+            onLeaveBack: () => { casePinActive = false; }
+          });
         });
       }
 

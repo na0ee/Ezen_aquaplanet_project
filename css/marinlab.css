@@ -809,7 +809,7 @@ button {
   top: calc(50vh - 337px);
 }
 
-.activity-pin-wrapper > .section-head {
+.activity-pin-wrapper>.section-head {
   margin-top: 0;
 }
 
@@ -1051,14 +1051,16 @@ button {
 
 .case-tabs {
   position: static;
-  z-index: 40;
+  z-index: 50;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-top: 0;
-  margin-bottom: 0;
+  margin-bottom: 30px;
   pointer-events: none;
 }
+
+
 
 .case-tabs .tabs__inner {
   position: relative;
@@ -1129,6 +1131,21 @@ button {
   width: min(1480px, 100% - 32px);
   max-width: calc(100% - 32px);
   margin: 80px auto 0px;
+}
+
+@media (min-width: 1025px) {
+  .case-spotlight {
+    position: relative;
+    margin-top: 166px;
+  }
+
+  .case-tabs {
+    position: absolute;
+    bottom: 100%;
+    margin-bottom: 50px;
+    left: 0;
+    right: 0;
+  }
 }
 
 .case-card {
@@ -1786,7 +1803,7 @@ button {
 
   .case-tabs {
     margin-top: 0;
-    margin-bottom: 0;
+    margin-bottom: 30px;
   }
 
   .case-tabs .tabs__inner {
@@ -1813,7 +1830,7 @@ button {
   }
 
   .case-spotlight {
-    margin-top: 50px;
+    margin-top: 10px;
   }
 
   .case-card {
@@ -3521,5 +3538,9 @@ body.marin-view-conservation .m-pill-tabs:not(.m-pill-tabs--cases) {
 
   body.marin-view-conservation .m-cons-flip {
     height: min(58vh, 420px);
+<<<<<<< HEAD
+    border-radius: 12px;
+=======
     border-radius: 12px;}
+>>>>>>> origin/main
   }
