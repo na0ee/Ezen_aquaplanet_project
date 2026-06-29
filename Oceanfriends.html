@@ -200,24 +200,24 @@
           <h2 class="of-section-title"><span>Creature </span><em>Detail</em></h2>
           <p class="of-section-sub">선택한 생물의 서식 층, 학명, 분류와 이야기를 자세히 소개합니다</p>
         </div>
-
-        <div class="of-filter" aria-label="생물 필터">
-          <div class="of-search">
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <circle cx="6.5" cy="6.5" r="5" stroke="currentColor" stroke-width="1.6" />
-              <path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
-            </svg>
-            <input type="text" placeholder="검색하기" aria-label="생물 검색">
-          </div>
-          <div class="cartegory-tabs-a">
-            <button class="cartegory-tabs-a__item cartegory-tabs-a__item--active" type="button">Jeju</button>
-            <button class="cartegory-tabs-a__item" type="button">Yeosu</button>
-            <button class="cartegory-tabs-a__item" type="button">Ilsan</button>
-            <button class="cartegory-tabs-a__item" type="button">Gwanggyo</button>
-          </div>
+      </div>
+      <div class="of-filter" aria-label="생물 필터">
+        <div class="of-search">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <circle cx="6.5" cy="6.5" r="5" stroke="currentColor" stroke-width="1.6" />
+            <path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+          </svg>
+          <input type="text" placeholder="검색하기" aria-label="생물 검색">
+        </div>
+        <div class="cartegory-tabs-a">
+          <button class="cartegory-tabs-a__item cartegory-tabs-a__item--active" type="button">Jeju</button>
+          <button class="cartegory-tabs-a__item" type="button">Yeosu</button>
+          <button class="cartegory-tabs-a__item" type="button">Ilsan</button>
+          <button class="cartegory-tabs-a__item" type="button">Gwanggyo</button>
         </div>
       </div>
-
+      
+      <!-- ── 제주 리스트 ── -->
       <div class="of-detail-list" data-list="jeju">
 
         <article class="of-detail-card">
@@ -235,7 +235,7 @@
             <h3>부채제비활치</h3>
             <i>Platax orbicularis</i>
             <p>옆으로 납작한 몸이 마치 부채를 활짝 펼친 것 같아요. 은빛 비늘 위 흑갈색 줄무늬가 인상적인 물고기랍니다.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -254,7 +254,7 @@
             <h3>참물범</h3>
             <i>Phoca vitulina</i>
             <p>동글동글 동자승과 같은 머리를 가진 귀여운 참물범이에요. 온 몸에 거친 털이 빽빽하게 나 있고, 참깨를 흩뿌린 듯 반점이 많아요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -273,64 +273,7 @@
             <h3>아프리칸펭귄</h3>
             <i>Spheniscus demersus</i>
             <p>아담한 키에 뒤뚱뒤뚱 걷는 모습이 사랑스럽죠? 울음소리가 당나귀와 비슷해 '자카스펭귄'이라고 부르기도 해요. 가슴 아래 찍힌 점들은 펭귄마다 모두 달라요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
-          </div>
-        </article>
-
-        <article class="of-detail-card">
-          <div class="of-detail-card__media">
-            <picture>
-              <source srcset="assets/images/oceanfriends/avif/바이칼물범.avif" type="image/avif">
-              <img src="assets/images/oceanfriends/바이칼물범.png" alt="바이칼물범">
-            </picture>
-          </div>
-          <div class="of-detail-card__body">
-            <div class="of-detail-card__meta">
-              <span class="of-badge">1F · 아쿠아리움</span>
-              <span class="of-badge of-badge--fill">포유류</span>
-            </div>
-            <h3>바이칼물범</h3>
-            <i>Pusa sibirica</i>
-            <p>강아지를 닮은 순한 얼굴과 아담한 체구를 가진 귀여운 물범입니다. 주로 물고기를 잡아 먹고, 한 번 잠수하면 20분 정도 물 속에서 머무를 수 있어요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
-          </div>
-        </article>
-
-        <article class="of-detail-card">
-          <div class="of-detail-card__media">
-            <picture>
-              <source srcset="assets/images/oceanfriends/avif/샌드타이거샤크.avif" type="image/avif">
-              <img src="assets/images/oceanfriends/샌드타이거샤크.png" alt="샌드타이거샤크">
-            </picture>
-          </div>
-          <div class="of-detail-card__body">
-            <div class="of-detail-card__meta">
-              <span class="of-badge">1F · 아쿠아리움</span>
-              <span class="of-badge of-badge--fill">해수연골어류</span>
-            </div>
-            <h3>샌드타이거샤크</h3>
-            <i>Sand Tiger Shark</i>
-            <p>입안 가득 날카로운 이빨이 무시무시하게 돋아나 있어요. 이빨이 입 안쪽을 향해 휘어져 있어서 한 번 물은 먹잇감은 절대로 놓치지 않아요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
-          </div>
-        </article>
-
-        <article class="of-detail-card">
-          <div class="of-detail-card__media">
-            <picture>
-              <source srcset="assets/images/oceanfriends/avif/골든트레벌리.avif" type="image/avif">
-              <img src="assets/images/oceanfriends/골든트레벌리.png" alt="골든트레벌리">
-            </picture>
-          </div>
-          <div class="of-detail-card__body">
-            <div class="of-detail-card__meta">
-              <span class="of-badge">1F · 아쿠아리움</span>
-              <span class="of-badge of-badge--fill">해수경골어류</span>
-            </div>
-            <h3>골든트레벌리</h3>
-            <i>Caranx sexfasciatus</i>
-            <p>반짝이는 황금색 몸이 특징인 대형 물고기예요. 매우 빠른 속도로 헤엄치며, 먹이를 사냥할 때는 대단히 공격적이에요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -349,45 +292,7 @@
             <h3>퍼큘라클라운피쉬</h3>
             <i>Amphiprion percula</i>
             <p>주황색 몸에 하얀 줄무늬가 있는 물고기로, 아네모네와 공생 관계를 유지해요. 아네모네는 클라운피쉬에게 음식물 조각을 나눠주고, 클라운피쉬는 기생충을 제거해줘요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
-          </div>
-        </article>
-
-        <article class="of-detail-card">
-          <div class="of-detail-card__media">
-            <picture>
-              <source srcset="assets/images/oceanfriends/avif/물총고기.avif" type="image/avif">
-              <img src="assets/images/oceanfriends/물총고기.png" alt="물총고기">
-            </picture>
-          </div>
-          <div class="of-detail-card__body">
-            <div class="of-detail-card__meta">
-              <span class="of-badge">B1F · 아쿠아리움</span>
-              <span class="of-badge of-badge--fill">해수경골어류</span>
-            </div>
-            <h3>물총고기</h3>
-            <i>Toxotes chatareus</i>
-            <p>정확한 물총으로 먹이를 사냥하는 놀라운 능력을 가지고 있어요. 물 위의 곤충을 맞춘 후, 떨어진 곤충을 먹이로 삼지요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
-          </div>
-        </article>
-
-        <article class="of-detail-card">
-          <div class="of-detail-card__media">
-            <picture>
-              <source srcset="assets/images/oceanfriends/avif/얼룩매가오리.avif" type="image/avif">
-              <img src="assets/images/oceanfriends/얼룩매가오리.png" alt="얼룩매가오리">
-            </picture>
-          </div>
-          <div class="of-detail-card__body">
-            <div class="of-detail-card__meta">
-              <span class="of-badge">B1F · 아쿠아리움</span>
-              <span class="of-badge of-badge--fill">해수연골어류</span>
-            </div>
-            <h3>얼룩매가오리</h3>
-            <i>Aetobatus narinari</i>
-            <p>하얀색 배에 검은 반점이 있고, 검은색 등 부분에 흰 점들이 있는 아름다운 가오리예요. 우아한 날개 모양의 지느러미로 헤엄을 쳐요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -406,45 +311,45 @@
             <h3>보름달물해파리</h3>
             <i>Aurelia aurita</i>
             <p>무색 투명한 우산 모양의 몸에 특징적인 무늬가 있어요. 느리게 부유하면서 바다의 플랑크톤을 먹어요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/oceanfriends/avif/우파루파.avif" type="image/avif">
-              <img src="assets/images/oceanfriends/우파루파.png" alt="우파루파">
+              <source srcset="assets/images/oceanfriends/avif/물총고기.avif" type="image/avif">
+              <img src="assets/images/oceanfriends/물총고기.png" alt="물총고기">
             </picture>
           </div>
           <div class="of-detail-card__body">
             <div class="of-detail-card__meta">
-              <span class="of-badge">1F · 아쿠아리움</span>
-              <span class="of-badge of-badge--fill">양서파충류</span>
-            </div>
-            <h3>우파루파</h3>
-            <i>Ambystoma mexicanum</i>
-            <p>핑크빛 몸에 외부 아가미가 있는 양서류 중 특이한 모습을 하고 있어요. 아기처럼 웃는 표정을 하고 있다고 해서 '마일 물고기'라고도 불린답니다.</p>
-            <a class="of-more" href="#">자세히 보기</a>
-          </div>
-        </article>
-
-        <article class="of-detail-card">
-          <div class="of-detail-card__media">
-            <picture>
-              <source srcset="assets/images/oceanfriends/avif/플라워혼.avif" type="image/avif">
-              <img src="assets/images/oceanfriends/플라워혼.jpg" alt="플라워혼">
-            </picture>
-          </div>
-          <div class="of-detail-card__body">
-            <div class="of-detail-card__meta">
-              <span class="of-badge">1F · 아쿠아리움</span>
+              <span class="of-badge">B1F · 아쿠아리움</span>
               <span class="of-badge of-badge--fill">해수경골어류</span>
             </div>
-            <h3>플라워혼</h3>
-            <i>Vieja × Amphilophus</i>
-            <p>빨간색과 노란색, 파란색이 화려하게 섞여 있는 물고기에요. 이마에 크고 불룩한 혹이 있으며, 매우 공격적인 성격을 가지고 있어요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <h3>물총고기</h3>
+            <i>Toxotes chatareus</i>
+            <p>정확한 물총으로 먹이를 사냥하는 놀라운 능력을 가지고 있어요. 물 위의 곤충을 맞춘 후, 떨어진 곤충을 먹이로 삼지요.</p>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <picture>
+              <source srcset="assets/images/oceanfriends/avif/얼룩매가오리.avif" type="image/avif">
+              <img src="assets/images/oceanfriends/얼룩매가오리.png" alt="얼룩매가오리">
+            </picture>
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">B1F · 아쿠아리움</span>
+              <span class="of-badge of-badge--fill">해수연골어류</span>
+            </div>
+            <h3>얼룩매가오리</h3>
+            <i>Aetobatus narinari</i>
+            <p>하얀색 배에 검은 반점이 있고, 검은색 등 부분에 흰 점들이 있는 아름다운 가오리예요. 우아한 날개 모양의 지느러미로 헤엄을 쳐요.</p>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -463,7 +368,7 @@
             <h3>푸른바다거북</h3>
             <i>Chelonia mydas</i>
             <p>올리브색의 등갑과 하얀색의 배갑을 가진 대형 바다거북이에요. 초식 식성으로 바다풀을 주로 먹으며, 수천 km를 이동하는 철새 같은 거북이에요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -482,26 +387,7 @@
             <h3>디스커스</h3>
             <i>Symphysodon</i>
             <p>원판 모양의 몸과 화려한 무늬가 특징인 담수 물고기에요. 부모 물고기가 새끼에게 자신의 몸을 따라먹을 수 있도록 해주는 독특한 육아 방식을 가지고 있어요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
-          </div>
-        </article>
-
-        <article class="of-detail-card">
-          <div class="of-detail-card__media">
-            <picture>
-              <source srcset="assets/images/oceanfriends/avif/흑점꺼끌복.avif" type="image/avif">
-              <img src="assets/images/oceanfriends/흑점꺼끌복.png" alt="흑점꺼끌복">
-            </picture>
-          </div>
-          <div class="of-detail-card__body">
-            <div class="of-detail-card__meta">
-              <span class="of-badge">1F · 아쿠아리움</span>
-              <span class="of-badge of-badge--fill">해수경골어류</span>
-            </div>
-            <h3>흑점꺼끌복</h3>
-            <i>Arothron nigropunctatus</i>
-            <p>노란색 몸에 검은 점이 가득 있는 복어예요. 위험을 느끼면 물을 빨아들여 풍선처럼 부풀어 오르지요. 몸에는 독이 있어요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -520,7 +406,7 @@
             <h3>작은발톱수달</h3>
             <i>Aonyx cinereus</i>
             <p>세상에서 가장 작은 수달이에요. 까만 콧등과 흰 입 주위가 있고, 물고기 사냥을 아주 잘한답니다. 귀여운 외모와 사랑스러운 움직임이 매력적이에요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -539,9 +425,124 @@
             <h3>빅벨리드해마</h3>
             <i>Hippocampus abdominalis</i>
             <p>배 부분이 크게 불룩한 해마 종류예요. 수컷이 암컷의 알을 자신의 육낭에 보관했다가 새끼를 낳아요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <picture>
+              <source srcset="assets/images/oceanfriends/avif/바이칼물범.avif" type="image/avif">
+              <img src="assets/images/oceanfriends/바이칼물범.png" alt="바이칼물범">
+            </picture>
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">1F · 아쿠아리움</span>
+              <span class="of-badge of-badge--fill">포유류</span>
+            </div>
+            <h3>바이칼물범</h3>
+            <i>Pusa sibirica</i>
+            <p>강아지를 닮은 순한 얼굴과 아담한 체구를 가진 귀여운 물범입니다. 주로 물고기를 잡아 먹고, 한 번 잠수하면 20분 정도 물 속에서 머무를 수 있어요.</p>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <picture>
+              <source srcset="assets/images/oceanfriends/avif/샌드타이거샤크.avif" type="image/avif">
+              <img src="assets/images/oceanfriends/샌드타이거샤크.png" alt="샌드타이거샤크">
+            </picture>
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">1F · 아쿠아리움</span>
+              <span class="of-badge of-badge--fill">해수연골어류</span>
+            </div>
+            <h3>샌드타이거샤크</h3>
+            <i>Sand Tiger Shark</i>
+            <p>입안 가득 날카로운 이빨이 무시무시하게 돋아나 있어요. 이빨이 입 안쪽을 향해 휘어져 있어서 한 번 물은 먹잇감은 절대로 놓치지 않아요.</p>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <picture>
+              <source srcset="assets/images/oceanfriends/avif/골든트레벌리.avif" type="image/avif">
+              <img src="assets/images/oceanfriends/골든트레벌리.png" alt="골든트레벌리">
+            </picture>
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">1F · 아쿠아리움</span>
+              <span class="of-badge of-badge--fill">해수경골어류</span>
+            </div>
+            <h3>골든트레벌리</h3>
+            <i>Caranx sexfasciatus</i>
+            <p>반짝이는 황금색 몸이 특징인 대형 물고기예요. 매우 빠른 속도로 헤엄치며, 먹이를 사냥할 때는 대단히 공격적이에요.</p>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <picture>
+              <source srcset="assets/images/oceanfriends/avif/우파루파.avif" type="image/avif">
+              <img src="assets/images/oceanfriends/우파루파.png" alt="우파루파">
+            </picture>
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">1F · 아쿠아리움</span>
+              <span class="of-badge of-badge--fill">양서파충류</span>
+            </div>
+            <h3>우파루파</h3>
+            <i>Ambystoma mexicanum</i>
+            <p>핑크빛 몸에 외부 아가미가 있는 양서류 중 특이한 모습을 하고 있어요. 아기처럼 웃는 표정을 하고 있다고 해서 '마일 물고기'라고도 불린답니다.</p>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <picture>
+              <source srcset="assets/images/oceanfriends/avif/플라워혼.avif" type="image/avif">
+              <img src="assets/images/oceanfriends/플라워혼.jpg" alt="플라워혼">
+            </picture>
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">1F · 아쿠아리움</span>
+              <span class="of-badge of-badge--fill">해수경골어류</span>
+            </div>
+            <h3>플라워혼</h3>
+            <i>Vieja × Amphilophus</i>
+            <p>빨간색과 노란색, 파란색이 화려하게 섞여 있는 물고기에요. 이마에 크고 불룩한 혹이 있으며, 매우 공격적인 성격을 가지고 있어요.</p>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
+          </div>
+        </article>
+
+        <article class="of-detail-card">
+          <div class="of-detail-card__media">
+            <picture>
+              <source srcset="assets/images/oceanfriends/avif/흑점꺼끌복.avif" type="image/avif">
+              <img src="assets/images/oceanfriends/흑점꺼끌복.png" alt="흑점꺼끌복">
+            </picture>
+          </div>
+          <div class="of-detail-card__body">
+            <div class="of-detail-card__meta">
+              <span class="of-badge">1F · 아쿠아리움</span>
+              <span class="of-badge of-badge--fill">해수경골어류</span>
+            </div>
+            <h3>흑점꺼끌복</h3>
+            <i>Arothron nigropunctatus</i>
+            <p>노란색 몸에 검은 점이 가득 있는 복어예요. 위험을 느끼면 물을 빨아들여 풍선처럼 부풀어 오르지요. 몸에는 독이 있어요.</p>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
+          </div>
+        </article>
+
 
         <article class="of-detail-card">
           <div class="of-detail-card__media">
@@ -558,7 +559,7 @@
             <h3>베일드카멜레온</h3>
             <i>Chamaeleo calyptratus</i>
             <p>머리 위에 큰 프릴 같은 주머니가 있어 신기해요. 제각각 움직이는 눈과 말이 감긴 꼬리가 특징이에요. 몸 색깔을 자유롭게 바꿀 수 있답니다.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -577,7 +578,7 @@
             <h3>등꼬리치</h3>
             <i>Aulonocara</i>
             <p>파란색과 주황색이 아름답게 섞여 있는 물고기에요. 종류가 다양하며, 각각 독특한 색깔을 가지고 있답니다.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -596,7 +597,7 @@
             <h3>철갑상어</h3>
             <i>Acipenser baerii</i>
             <p>몸이 갑옷처럼 딱딱한 판으로 덮여 있는 고기 물고기예요. 매우 오래전부터 존재했던 원시 물고기이며, 알(캐비어)이 매우 귀중해요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -615,7 +616,7 @@
             <h3>흉상어</h3>
             <i>Carcharhinus leucas</i>
             <p>회색 등과 흰색 배를 가진 대형 상어예요. 담수에도 적응할 수 있는 드문 상어 종류로, 강 위쪽까지 올라가 사냥해요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -634,7 +635,7 @@
             <h3>블랙백나비고기</h3>
             <i>Platax pinnatus</i>
             <p>까만색 몸에 빨간 줄무늬가 있는 어린 물고기가 성장하면 색깔이 많이 바뀐답니다.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -653,7 +654,7 @@
             <h3>스톤피쉬</h3>
             <i>Synanceia verrucosa</i>
             <p>돌 모양으로 위장하고 있는 독이 있는 물고기예요. 세계에서 가장 독성이 강한 물고기로 알려져 있으며, 가시에 독이 있어요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -672,7 +673,7 @@
             <h3>아이스블루시클리드</h3>
             <i>Sciaenochromis fryeri</i>
             <p>밝은 파란색의 아름다운 담수 물고기예요. 수컷은 몸 크기가 더 크고 색깔이 더 화려해요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -691,7 +692,7 @@
             <h3>고스트스콜피온피쉬</h3>
             <i>Inimicus didactylus</i>
             <p>혼탁한 바다 밑바닥에 숨어 있으면서 먹이를 잡는 희귀한 물고기에요. 등지느러미에 독이 있어요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -710,7 +711,7 @@
             <h3>알비노무지개송어</h3>
             <i>Oncorhynchus mykiss</i>
             <p>흰색 몸에 분홍색이 돌아 있는 송어의 특이한 변종이에요. 일반적인 송어와 비슷한 습성을 가지고 있어요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -729,7 +730,7 @@
             <h3>자이언트모레이</h3>
             <i>Gymnothorax javanicus</i>
             <p>뱀처럼 생긴 대형 뱀장어로, 몸길이가 3m까지 자라는 거대한 물고기예요. 입이 매우 크고 이빨이 날카로워요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -748,7 +749,7 @@
             <h3>자이언트그루퍼</h3>
             <i>Epinephelus lanceolatus</i>
             <p>세계에서 가장 큰 바위고기로, 몸길이가 2.5m까지 자라요. 어두운 갈색 몸과 흐릿한 반점이 특징이에요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -767,7 +768,7 @@
             <h3>대문어</h3>
             <i>Enteroctopus dofleini</i>
             <p>세계에서 가장 큰 문어 종류예요. 매우 지능이 높고 호기심이 많으며, 스트레스를 받으면 색깔을 빠르게 바꾼답니다.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -786,7 +787,7 @@
             <h3>다람쥐</h3>
             <i>Sciurus</i>
             <p>푹신한 꼬리를 가진 작은 포유류예요. 민첩한 움직임과 귀여운 생김새가 특징이에요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -805,7 +806,7 @@
             <h3>철갑둥어</h3>
             <i>Megalops atlanticus</i>
             <p>큰 비늘로 덮여 있고 은색 몸이 특징인 거대한 담수 및 해수 물고기예요. 점프력이 뛰어나요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -824,7 +825,7 @@
             <h3>뱀목거북</h3>
             <i>Chelodina oblonga</i>
             <p>긴 목이 특징인 담수 거북이에요. 목을 크게 구부려 먹이를 잡아요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -843,7 +844,7 @@
             <h3>큰돌고래</h3>
             <i>Tursiops truncatus</i>
             <p>매우 지능이 높은 해양 포유류로, 사회적이고 친화적인 성격을 가지고 있어요. 음파 탐지로 먹이를 찾아요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -862,7 +863,7 @@
             <h3>뿔닭새우</h3>
             <i>Stenopus hispidus</i>
             <p>흰색 몸에 빨간 줄무늬가 있는 아름다운 새우예요. 큰 집게발로 작은 물고기와 기생충을 제거해줘요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -881,7 +882,7 @@
             <h3>훔볼트 펭귄</h3>
             <i>Spheniscus humboldti</i>
             <p>남미 해안에 사는 펭귄으로, 몸길이는 약 65cm예요. 수영을 매우 잘하며, 시간당 9km의 속도로 헤엄칠 수 있어요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -900,7 +901,7 @@
             <h3>점쏠배감펭</h3>
             <i>Pterois volitans</i>
             <p>화려한 줄무늬와 독이 있는 지느러미 가시가 특징인 물고기예요. 아름다운 외모와 달리 강한 독침을 가지고 있어요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -919,7 +920,7 @@
             <h3>캘리포니아바다사자</h3>
             <i>Zalophus californianus</i>
             <p>부드러운 갈색 모피와 귀여운 얼굴을 가진 해양 포유류예요. 매우 지능이 높고 상호작용을 잘해요. 큰 지느러미 발로 물 위에 올라가 움직여요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -938,7 +939,7 @@
             <h3>동수구리</h3>
             <i>Enhydra lutris</i>
             <p>가장 작은 바다 포유류로, 매우 두꺼운 모피로 몸을 따뜻하게 유지해요. 돌로 조개를 까서 먹는 도구 사용 능력이 있어요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -957,7 +958,7 @@
             <h3>블라인드케이브피쉬</h3>
             <i>Astyanax mexicanus</i>
             <p>동굴에만 사는 흰색 담수 물고기로, 눈이 전혀 없어요. 음파 탐지로 주변을 감지해요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -976,7 +977,7 @@
             <h3>가든일</h3>
             <i>Hyphessobrycon</i>
             <p>작은 담수 물고기로, 화려한 색깔을 가지고 있어요. 떼를 지어 헤엄치는 모습이 아름다워요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -995,7 +996,7 @@
             <h3>흑가오리</h3>
             <i>Dasyatis matsubarai</i>
             <p>검은색 등과 하얀색 배를 가진 우아한 가오리예요. 꼬리에 독이 있는 가시가 있어 주의가 필요해요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -1022,7 +1023,7 @@
             <h3>매부리바다거북</h3>
             <i>Hawksbill Sea Turtle</i>
             <p>매의 부리를 닮은 주둥이를 가지고 있어 매부리 바다거북이라는 이름을 지녔답니다. 또한 등갑은 여러 개의 작은 등갑이 겹쳐져 있어 다른 거북이들과는 확실히 구별된답니다.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -1042,7 +1043,7 @@
             <i>Odobenus rosmarus</i>
             <p>큰 덩치와 커다란 엄니를 자랑하지만, 외모와는 다르게 온순한 성격을 가졌습니다. 큰 엄니는 자신을 지키는 든든한 무기이자, 얼음에서 미끄러지지 않도록 하는 지팡이 역할도 한답니다. 긴
               엄니의 길이로 바다코끼리의 서열이 정해진다고 합니다.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -1061,7 +1062,7 @@
             <h3>보름달물해파리</h3>
             <i>Aurelia aurita</i>
             <p>무색 투명한 몸을 가졌고, 우산 내에 특징적인 무늬가 있으며 느린 유영속도로 부유하며 플랑크톤을 잡아 먹습니다.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -1081,7 +1082,7 @@
             <i>Sand Tiger Shark</i>
             <p>무시무시한 죠스 노래가 떠오르는 샌드타이거 샤크는, 다 자라면 몸의 길이가 3m가 넘는 대형상어랍니다! 평소에는 천천히 유영하는 모습을 볼 수 있지만 먹잇감을 발견하면 겹겹이 날카로운
               이빨과 강력한 턱힘으로 사냥해요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -1101,7 +1102,7 @@
             <i>Phoca vitulina</i>
             <p>참물범은 강과 바다에 사는 물개입니다. 항상 머리를 잠수 위로 내밀고 사람을 경계하는 습성이 있습니다. 평균 몸길이는 1.5m, 몸무게는 70kg 정도이며, 먹이는 생선으로 주로 청어,
               숭어, 밴댕이 등입니다.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -1121,7 +1122,7 @@
             <i>Amphiprion percula</i>
             <p>흰색과 주황색 줄무늬를 가진 물고기입니다. 아네모네와 공생 관계를 이루며 생활합니다. 아네모네는 클라운피쉬로부터 도움을 받고, 클라운피쉬는 아네모네의 촉수에 있는 자극 세포로부터 보호를
               받습니다.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -1140,7 +1141,7 @@
             <h3>훔볼트펭귄</h3>
             <i>Spheniscus humboldti</i>
             <p>훔볼트펭귄은 남미의 페루와 칠레 해안 지역에 사는 펭귄입니다. 몸길이는 약 65cm이고 몸무게는 약 4kg입니다. 뛰어난 수영 능력으로 시간당 9km의 속도로 헤엄칠 수 있습니다.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -1159,7 +1160,7 @@
             <h3>흑가오리</h3>
             <i>Dasyatis matsubarai</i>
             <p>흑가오리는 검은색의 평탄한 몸과 하얀색 배를 가진 가오리입니다. 움직임이 우아하여 바다의 나비라고도 불립니다. 꼬리에 있는 독침으로 자신을 방어합니다.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -1181,7 +1182,7 @@
             <h3>보름달물해파리</h3>
             <i>Aurelia aurita</i>
             <p>무색 투명한 우산 모양의 몸에 특징적인 무늬가 있어요. 느리게 부유하면서 바다의 플랑크톤을 먹어요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -1200,7 +1201,7 @@
             <h3>말레이원양해파리</h3>
             <i>Mastigias papua</i>
             <p>보라색과 분홍색이 어우러진 아름다운 해파리예요. 긴 촉수로 먹이를 감지하고 잡아챕니다.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -1219,7 +1220,7 @@
             <h3>닥터피쉬</h3>
             <i>Garra rufa</i>
             <p>각질을 먹어주는 독특한 습성으로 유명한 물고기예요. 사람 발에 달라붙어 각질을 깨끗이 제거해줍니다.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -1238,7 +1239,7 @@
             <h3>샌드타이거샤크</h3>
             <i>Carcharias taurus</i>
             <p>입안 가득 날카로운 이빨이 무시무시하게 돋아나 있어요. 이빨이 입 안쪽을 향해 휘어져 한 번 물면 절대 놓치지 않아요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -1257,7 +1258,7 @@
             <h3>얼룩매가오리</h3>
             <i>Aetobatus narinari</i>
             <p>하얀색 배에 검은 반점이 있고, 검은색 등에 흰 점들이 있는 아름다운 가오리예요. 우아한 날개 모양의 지느러미로 헤엄쳐요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -1276,7 +1277,7 @@
             <h3>플랩노즈레이</h3>
             <i>Rhinobatos productus</i>
             <p>코 부분이 넓게 퍼진 독특한 형태의 가오리예요. 모래 속에 숨어 먹이를 기다리는 습성을 가지고 있어요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -1295,7 +1296,7 @@
             <h3>흑가오리</h3>
             <i>Dasyatis matsubarai</i>
             <p>검은색 등과 하얀색 배를 가진 우아한 가오리예요. 꼬리에 독이 있는 가시가 있어 주의가 필요해요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -1314,7 +1315,7 @@
             <h3>퍼큘라클라운피쉬</h3>
             <i>Amphiprion percula</i>
             <p>주황색 몸에 하얀 줄무늬가 있는 물고기로, 아네모네와 공생 관계를 유지해요. 기생충을 제거해주고 먹이 찌꺼기를 나눠 받아요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -1333,7 +1334,7 @@
             <h3>포테이토그루퍼</h3>
             <i>Epinephelus tukula</i>
             <p>감자처럼 둥글고 통통한 몸이 특징인 바위고기예요. 암수 성별이 바뀌는 특이한 습성을 가지고 있어요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -1352,7 +1353,7 @@
             <h3>피라루크</h3>
             <i>Arapaima gigas</i>
             <p>세계에서 가장 큰 민물고기 중 하나로, 몸길이가 4m까지 자라요. 아마존 강의 왕이라고 불리는 거대한 생물이에요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -1371,7 +1372,7 @@
             <h3>매부리바다거북</h3>
             <i>Eretmochelys imbricata</i>
             <p>좁고 뾰족한 부리 모양의 주둥이가 특징인 바다거북이에요. 산호초 근처에서 해면동물을 주로 먹어요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -1390,7 +1391,7 @@
             <h3>참물범</h3>
             <i>Phoca vitulina</i>
             <p>동글동글 동자승과 같은 머리를 가진 귀여운 물범이에요. 온 몸에 거친 털이 빽빽하게 나 있고, 참깨를 흩뿌린 듯 반점이 많아요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -1409,7 +1410,7 @@
             <h3>바다코끼리</h3>
             <i>Odobenus rosmarus</i>
             <p>두 개의 긴 엄니와 두꺼운 피부가 특징인 대형 해양 포유류예요. 엄니를 이용해 얼음 위로 올라가고 짝을 찾을 때도 써요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -1431,7 +1432,7 @@
             <i>Spheniscus demersus</i>
             <p>따뜻한 지방인 아프리카에 사는 펭귄입니다. 펭귄은 털이 2중으로 되어있습니다. 안쪽 털은 보온역할을, 바깥쪽 털은 방수역할을 해줍니다. 새끼는 머리 부분에 검은 털이 나고, 자라면서 몇
               번의 털갈이를 한 뒤 하얀 줄무늬를 갖게 됩니다.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -1451,7 +1452,7 @@
             <i>Lemur catta</i>
             <p>알락꼬리여우원숭이의 가장 특징적인 부분은 검은색과 흰색으로 이루어진 줄무늬 꼬리입니다. 긴 꼬리는 나뭇가지를 잡을 때나 몸의 균형을 잡을 때 사용됩니다. 수컷의 꼬리 가장자리에 향선이 있어
               자신의 영역임을 표시합니다.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -1471,7 +1472,7 @@
             <i>Ara glaucogularis</i>
             <p>푸른목금강앵무는 검은색 몸과 푸른색 목이 특징인 앵무새입니다. 큰 부리는 매우 강력하여 나무껍질을 벗기고 씨앗을 깨물 수 있습니다. 매우 지능이 높아 인간처럼 도구를 사용하기도 합니다.
             </p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -1490,7 +1491,7 @@
             <h3>홍금강앵무</h3>
             <i>Ara chloropterus</i>
             <p>홍금강앵무는 빨간색과 노란색, 파란색의 화려한 색상으로 자신의 감정을 표현합니다. 부부지간의 유대가 매우 강하고 한 번 짝짓기를 하면 평생을 함께 합니다.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -1510,12 +1511,13 @@
             <i>Anodorhynchus hyacinthinus</i>
             <p>히야신스금강앵무는 세계에서 가장 큰 앵무새입니다. 몸길이가 1m가 넘고 몸무게는 1.5kg 정도입니다. 아름다운 파란색 깃털로 유명하며, 강력한 부리로 단단한 야자열매도 쉽게 깨물 수
               있습니다. 현재 멸종위기종으로 보호되고 있습니다.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
       </div>
 
+      <!-- ── 여수 리스트 ── -->
       <div class="of-detail-list" data-list="yeosu">
 
         <article class="of-detail-card">
@@ -1533,7 +1535,7 @@
             <h3>골든트레발리</h3>
             <i>Gnathanodon speciosus</i>
             <p>황금빛 바탕에 검은 줄무늬가 있으며, 큰 물고기에 붙어 다니거나 여럿이 같이 헤엄치는 것을 좋아해요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -1552,7 +1554,7 @@
             <h3>괴도라치</h3>
             <i>Chirolophis japonicus</i>
             <p>생김새가 괴물을 닮아서 '괴도라치'라고 불리지만 실제로는 숨는 것을 좋아하는 부끄럼쟁이랍니다.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -1571,7 +1573,7 @@
             <h3>등꼬리치</h3>
             <i>Aeoliscus strigatus</i>
             <p>물구나무 서서 헤엄쳐요. 면도날처럼 날씬한 몸으로 긴가시성게의 독가시 사이에 숨어 공격을 피한답니다.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -1591,7 +1593,7 @@
             <i>Lepidochelys olivacea</i>
             <p>다른 바다거북들보다 작은 체구를 지닌 친구랍니다. 예쁜 하트 모양의 올리브색 등갑을 가지고 있어요. 서식지 파괴와 남획으로 개체수가 줄어들어 멸종위기종(CITES Ⅰ)으로 지정되어 보호받고
               있어요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -1610,7 +1612,7 @@
             <h3>뱅가이카디날</h3>
             <i>Pterapogon kauderni</i>
             <p>뱅가이 군도에서만 살아요. 화려하게 장식된 지느러미가 인상적이랍니다.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -1629,7 +1631,7 @@
             <h3>부채제비할치</h3>
             <i>Platax orbicularis</i>
             <p>옆으로 납작한 몸이 마치 부채를 활짝 펼친 것 같아요. 은빛 비늘 위 흑갈색 줄무늬가 인상적인 물고기랍니다.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -1648,7 +1650,7 @@
             <h3>블랙백나비고기</h3>
             <i>Chaetodon melannotus</i>
             <p>몸통을 가로지르는 까만 줄무늬는 포식자의 눈을 금빛 꼬리로 혼란스럽게 하기 위한 위장이랍니다.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -1667,7 +1669,7 @@
             <h3>블로치드판테일레이</h3>
             <i>Taeniura meyeni</i>
             <p>다 자라면 너비가 1.8m, 무게가 120kg이나 나가는 큰 몸집을 자랑해요. 몸 전체에 퍼져있는 검은색과 회색의 반점들이 특징이에요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -1686,7 +1688,7 @@
             <h3>블루탱</h3>
             <i>Paracanthurus hepatus</i>
             <p>새파란 바탕에 노란 꼬리와 검정색 무늬가 섞인 그림같은 물고기예요. 어여쁜 외모와 달리 성격이 무척 예민하고 공격적이에요. 지느러미에는 독샘을 지닌 날카로운 가시가 있어요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -1705,7 +1707,7 @@
             <h3>샌드타이거샤크</h3>
             <i>Carcharias taurus</i>
             <p>다 자라면 몸의 길이가 3m가 넘는 대형상어랍니다. 평소에는 천천히 유영하는 모습을 볼 수 있지만 먹잇감을 발견하면 날카로운 이빨과 강력한 턱힘으로 사냥해요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -1724,7 +1726,7 @@
             <h3>얼룩매가오리</h3>
             <i>Aetobatus narinari</i>
             <p>머리의 모양이 매처럼 생겨서 '매가오리'라고 불려요. 모랫바닥을 흘으며 활발하게 먹이를 찾아다닌답니다.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -1743,7 +1745,7 @@
             <h3>카우노즈레이</h3>
             <i>Rhinoptera bonasus</i>
             <p>머리뼈가 옴폭 들어가 있으며, 소의 얼굴을 닮은 가오리랍니다.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -1762,7 +1764,7 @@
             <h3>남아메리카바다사자</h3>
             <i>Otaria flavescens</i>
             <p>암수의 생김새가 많이 달라요. 수컷은 암컷보다 덩치가 크고, 몸무게도 두 배 이상 많이 나가요. 머리도 훨씬 크고, 사자처럼 목덜미에 갈기가 발달되어 있지요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -1781,7 +1783,7 @@
             <h3>물총고기</h3>
             <i>Toxotes jaculatrix</i>
             <p>물고기세계의 스나이퍼인 물총고기는 뛰어난 시력과 독특한 구강구조를 가지고 있어 수면 위의 먹잇감을 정확히 겨냥하여 입으로 물을 쏘아 떨어뜨린 후 잡아 먹습니다.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -1800,7 +1802,7 @@
             <h3>바이칼물범</h3>
             <i>Pusa sibirica</i>
             <p>강아지를 닮은 순한 얼굴과 아담한 체구를 가진 귀여운 물범이에요. 주로 물고기를 잡아 먹고, 한 번 잠수하면 20분 정도 물 속에서 머물 수 있어요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -1819,7 +1821,7 @@
             <h3>아프리칸펭귄</h3>
             <i>Spheniscus demersus</i>
             <p>아담한 키에 뒤뚱뒤뚱 걷는 모습이 사랑스럽죠? 울음소리가 당나귀와 비슷해 '자카스펭귄'이라고 부르기도 해요. 새까만 발에는 핑크빛 무늬가 있고, 발톱도 까맣답니다.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -1839,7 +1841,7 @@
             <i>Aonyx cinereus</i>
             <p>물 속 날쌘돌이 사냥꾼 '수영의 달인' 수달은 몸을 위아래로 흔들면서 빠르게 물살을 가르며 헤엄쳐요. 수염이 예민하게 발달해서 사냥감을 귀신같이 찾아냅니다. 입으로 바로 물지 않고 앞발을
               이용해서 먹이를 잡아요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -1859,7 +1861,7 @@
             <i>Phoca vitulina</i>
             <p>동글동글 동자승과 같은 머리를 가진 귀여운 참물범이에요. 온 몸에 거친 털이 빽빽하게 나 있고, 참깨를 흩뿌린 듯 반점이 많아요. 안타깝게도 무분별한 포획과 서식지 파괴로 수가 빠르게
               줄어들고 있답니다.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -1878,7 +1880,7 @@
             <h3>흰고래(벨루가)</h3>
             <i>Delphinapterus leucas</i>
             <p>툭 튀어나온 이마, 하얗고 매끈한 몸, 항상 웃고 있는 듯한 표정이 신비로운 느낌을 주는 희귀한 고래지요. 새소리 같은 미성을 지니고 있어 '바다의 카나리아'라 불리기도 해요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -1897,7 +1899,7 @@
             <h3>디스커스</h3>
             <i>Symphysodon discus</i>
             <p>디스커스는 새끼를 정성껏 돌보기로 유명해요. 알에서 태어난 새끼는 부모의 몸에 찰싹 붙어서 포식자도 피하고, 부모의 몸에서 나오는 '밀크'라는 분비물을 먹으며 성장해요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -1916,7 +1918,7 @@
             <h3>보름달해파리</h3>
             <i>Aurelia aurita</i>
             <p>전 세계적으로 가장 널리 서식하며 우리나라 연안에서도 쉽게 만나볼 수 있는 해파리예요. 아주 작은 갑각류나 동물성 플랑크톤을 먹고 살아요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -1935,7 +1937,7 @@
             <h3>아시안아로와나</h3>
             <i>Scleropages formosus</i>
             <p>알을 입으로 품는 습성이 있습니다. 이 습성이 마치 여의주를 물고 있는 용과 같다고 하여 '용'이라는 별칭이 생기게 되었답니다.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -1954,12 +1956,13 @@
             <h3>피라니아</h3>
             <i>Pygocentrus nattereri</i>
             <p>피라니아는 '이빨이 있는 물고기'란 뜻을 가지고 있습니다. 무리를 지어 사냥을 하며, 거대한 소도 순식간에 뼈만 남겨버리는 무시무시한 물고기예요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
       </div>
 
+      <!-- ── 광교 리스트 ── -->
       <div class="of-detail-list" data-list="gwanggyo">
 
         <article class="of-detail-card">
@@ -1977,7 +1980,7 @@
             <h3>레드투스트리거</h3>
             <i>Red-Toothed Triggerfish</i>
             <p>드라큘라처럼 뾰족하고 빨간 이빨이 오싹하게 뻗어 있어요. 몸 색깔도 청록색이나 보라색으로 바꿀 수 있다니 마술을 부리는 것 같아요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -1996,7 +1999,7 @@
             <h3>리본일</h3>
             <i>Ribbon Eel</i>
             <p>어릴 때는 파란색을 띠고 수컷으로 지내다가 다 자라면 다시 노란색으로 변하면서 암컷이 되는 정말 신비로운 물고기예요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -2015,7 +2018,7 @@
             <h3>부채제비할치</h3>
             <i>Platax orbicularis</i>
             <p>옆으로 납작한 몸이 마치 부채를 활짝 펼친 것 같아요. 은빛 비늘 위 흑갈색 줄무늬가 인상적인 물고기랍니다.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -2034,7 +2037,7 @@
             <h3>블루탱</h3>
             <i>Paracanthurus hepatus</i>
             <p>새파란 바탕에 노란 꼬리와 검정색 무늬가 섞인 그림같은 물고기예요. 어여쁜 외모와 달리 성격이 무척 예민하고 공격적이에요. 지느러미에는 독샘을 지닌 날카로운 가시가 있어요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -2053,7 +2056,7 @@
             <h3>스톤피쉬</h3>
             <i>Stone Fish</i>
             <p>울퉁불퉁 돌덩이처럼 생긴 외모와 보호색으로 감쪽같이 위장할 수 있어요. 무시무시한 독침도 있으니 조심!</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -2072,7 +2075,7 @@
             <h3>옐로탱</h3>
             <i>Yellow Tang</i>
             <p>선명한 노란색이 시선을 사로잡아요. 밤이 되면 노란색이 옅어지지만 해가 뜨면 다시 선명한 노란색을 자랑해요. 채식을 좋아해서 바다거북의 등에 붙은 이끼를 먹어 청소해주기도 해요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -2091,7 +2094,7 @@
             <h3>팬더그루퍼</h3>
             <i>Panther Grouper</i>
             <p>하얀 바탕에 검은 밥풀 무늬가 콕콕 박혀있어요. 자랄수록 반점의 숫자는 많아지고, 크기는 줄어들어요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -2111,7 +2114,7 @@
             <i>Blackspotted Puffer</i>
             <p>몸에 박힌 검은 점, 꺼끌꺼끌한 피부때문에 '흑점꺼끌복'이라 불려요. 위협을 느끼면 주둥이로 물을 뿌리거나 독을 내뿜어 자신을 보호합니다. 육식을 좋아해서 이빨이 날카롭지만 이러한 이빨로
               자신을 보호하기도 한답니다.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -2130,7 +2133,7 @@
             <h3>얼룩매가오리</h3>
             <i>Aetobatus narinari</i>
             <p>까만 등에 수많은 하얀 점들이 콕콕 박혀 있어요. 볼록 튀어나온 주둥이와 무아하게 해맑아지는 모습이 마치 하늘을 나는 한 마리의 매 같아요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -2149,7 +2152,7 @@
             <h3>엠퍼러엔젤</h3>
             <i>Emperor Angelfish</i>
             <p>신기하게도 어릴 때와 어른이 된 후의 생김새가 완전히 달라요. 어릴 때에는 동그라미 곡선의 무늬를 보이지만 자라면서 검은 고급을 쓴 듯한 얼굴과 샛노란 꼬리를 갖게 된답니다.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -2168,7 +2171,7 @@
             <h3>파이어고비</h3>
             <i>Fire Goby</i>
             <p>일부일처제로 짝을 이루어 평생 함께 살아가는 잉꼬부부 같은 물고기랍니다. 위협을 느끼면 모래속으로 파고 들어가 숨어버려요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -2187,7 +2190,7 @@
             <h3>매부리바다거북</h3>
             <i>Hawksbill Sea Turtle</i>
             <p>매부리바다거북은 매의 부리를 닮은 뾰족한 주둥이를 가지고 있어요. 해면동물을 주식으로 하지만 갑각류, 해조류뿐만 아니라 독이 있는 해파리까지도 잘 먹어요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -2207,7 +2210,7 @@
             <i>Aurelia aurita</i>
             <p>동실동실 바다에 떠 수많은 보름달, 황홀하지요? 전 세계적으로 가장 널리 서식하며 우리나라 연안에서도 쉽게 만나볼 수 있는 해파리예요. 아주 작은 갑각류나, 동물성 플랑크톤을 먹고 살아요.
             </p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -2227,7 +2230,7 @@
             <i>Japanese Spider Crab</i>
             <p>몸 길이의 2배가 넘는 굵은 다리들이 갖고 있어요. 껍질은 엎대기로 몸을 감싸고, 복부에는 흰색 반점이 있지요. 주로 바닥의 동이나 바위로 이루어진 얕은 바다에 살며, 낮에는 바위에 몸을
               숨겼다가 밤에 활동을 한답니다.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -2247,7 +2250,7 @@
             <i>Carcharias taurus</i>
             <p>입안 가득 날카로운 이빨이 돋아나 있어요. 이빨이 입 안쪽을 향해 잡아있어 먹잇감을 물면 절대 놓지 않고 통째로 집어삼켜요. 하지만 평소에는 온순해서 사람과 마주치더라도 먼저 공격하는
               경우는 드물답니다.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -2266,7 +2269,7 @@
             <h3>흉상어</h3>
             <i>Carcharhinus leucas</i>
             <p>회색 등과 흰색 배를 가진 대형 상어예요. 담수에도 적응할 수 있는 드문 상어 종류로, 강 위쪽까지 올라가 사냥해요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -2286,7 +2289,7 @@
             <i>Spheniscus humboldti</i>
             <p>따뜻한 남아메리카에 사는 펭귄이에요. 눈과 가까운 부리 이쪽에 흰색 선이 있어요. 하늘을 날지는 못하지만 앞 날개를 동반하고 물속을 빠른 속도로 헤엄칠 수 있는 다양한 능력이 있답니다.
             </p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -2306,7 +2309,7 @@
             <i>Ambystoma mexicanum</i>
             <p>뽀얀 피부를 가진 우파루파는 신체의 일부가 잘려도 쉽게 재생되는 신기한 동물이에요! 일반적인 도롱뇽과 달리 올챙이 모습 그대로 성장하기 때문에 성체가 되어서도 갈 아가미와 지느러미 모양의
               꼬리를 가지고 있어요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -2326,7 +2329,7 @@
             <i>Gymnothorax javanicus</i>
             <p>다 자라면 몸길이가 3m나 되는 큰 곰치에요. 이빨이 날카롭고, 사나워 다이버를 공격하기도 합니다. 물고기나 갑각류 먹이를 좋아하지만 가끔 커다란 문어와 씨움을 벌여 잡아먹기도 해요.
             </p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -2346,7 +2349,7 @@
             <i>Aonyx cinereus</i>
             <p>'수영의 달인' 수달은 몸을 위아래로 흔들면서 빠르게 물살을 가르며 헤엄칩니다. 수염이 예민하게 발달해서 사냥감을 귀신같이 찾아냅니다. 입으로 바로 물지 않고 앞발을 이용해서 먹이를
               잡아요. 이빨이 날카롭고 단단해서 딱딱한 껍질도 잘 깨부술 수 있어요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -2366,7 +2369,7 @@
             <i>Amphiprion ocellaris</i>
             <p>'니모'로 유명한 퍼큘라클라운피쉬는 겁이 없어서 말미잘과 함께 살아가요. 말미잘은 퍼큘라클라운피쉬가 잡아 먹히지 않도록 포식자로부터 보호해주고, 퍼큘라클라운피쉬는 말미잘의 먹이를 유인해주는
               사이좋은 친구들이랍니다.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -2385,7 +2388,7 @@
             <h3>푸른바다거북</h3>
             <i>Chelonia mydas</i>
             <p>전 세계의 따뜻한 바다에 서식하며 우리나라 연안에서도 가끔 만나볼 수 있는 손님이에요. 어린 때는 물고기나 갑각류를 먹고 살지만 성장하면서 해조류로 식성이 바뀌는 초식성 거북이에요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -2404,7 +2407,7 @@
             <h3>피라니아</h3>
             <i>Pygocentrus nattereri</i>
             <p>피라니아는 '이빨이 있는 물고기'란 뜻을 가지고 있습니다. 무리를 지어 사냥을 하며, 거대한 소도 순식간에 뼈만 남겨버리는 무시무시한 물고기예요.</p>
-            <a class="of-more" href="#">자세히 보기</a>
+            <a class="of-more" href="javascript:void(0)">자세히 보기</a>
           </div>
         </article>
 
@@ -2416,42 +2419,43 @@
 
 
   <footer id="footer" class="footer">
-    <div class="footer__inner">
-      <nav class="footer__nav" aria-label="Footer menu">
-        <a href="program.html" class="footer__link">Program</a>
-        <a href="Oceanfriends.html" class="footer__link">Ocean friends</a>
-        <a href="location.html" class="footer__link">About us</a>
-        <a href="location.html" class="footer__link">Location</a>
-        <a href="ticket.html" class="footer__link">Ticket</a>
-      </nav>
-      <div class="footer__brand">
-        <div class="footer__socials" aria-label="Social links">
-          <a href="https://www.instagram.com/aquaplanet_official" class="footer__social" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <rect x="4" y="4" width="16" height="16" rx="5"></rect>
-              <circle cx="12" cy="12" r="3.4"></circle>
-              <circle cx="17.2" cy="6.8" r="1"></circle>
-            </svg>
-          </a>
-          <a href="https://www.youtube.com/@aquaplanetstory" class="footer__social" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M5.2 7.2C5.6 6.5 6.3 6 7.1 5.9C8.4 5.7 10.5 5.6 12 5.6C13.5 5.6 15.6 5.7 16.9 5.9C17.7 6 18.4 6.5 18.8 7.2C19.2 8.1 19.4 10.2 19.4 12C19.4 13.8 19.2 15.9 18.8 16.8C18.4 17.5 17.7 18 16.9 18.1C15.6 18.3 13.5 18.4 12 18.4C10.5 18.4 8.4 18.3 7.1 18.1C6.3 18 5.6 17.5 5.2 16.8C4.8 15.9 4.6 13.8 4.6 12C4.6 10.2 4.8 8.1 5.2 7.2Z"></path>
-              <path d="M10.4 9.3L14.7 12L10.4 14.7V9.3Z" class="footer__social-play"></path>
-            </svg>
-          </a>
-          <a href="https://www.aquaplanet.co.kr/index.html" class="footer__social" target="_blank" rel="noopener noreferrer" aria-label="Google">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M19.6 12.2C19.6 11.6 19.5 11.1 19.4 10.6H12.2V13.5H16.3C16.1 14.5 15.5 15.3 14.7 15.8V17.7H17.2C18.7 16.4 19.6 14.5 19.6 12.2Z"></path>
-              <path d="M12.2 19.7C14.3 19.7 16.1 19 17.2 17.7L14.7 15.8C14 16.3 13.1 16.6 12.2 16.6C10.2 16.6 8.5 15.2 7.9 13.4H5.3V15.3C6.5 17.9 9.1 19.7 12.2 19.7Z"></path>
-              <path d="M7.9 13.4C7.7 12.9 7.6 12.5 7.6 12C7.6 11.5 7.7 11.1 7.9 10.6V8.7H5.3C4.8 9.7 4.5 10.8 4.5 12C4.5 13.2 4.8 14.3 5.3 15.3L7.9 13.4Z"></path>
-              <path d="M12.2 7.4C13.3 7.4 14.4 7.8 15.2 8.6L17.3 6.5C16 5.3 14.3 4.6 12.2 4.6C9.1 4.6 6.5 6.3 5.3 8.7L7.9 10.6C8.5 8.8 10.2 7.4 12.2 7.4Z"></path>
-            </svg>
-          </a>
+        <div class="footer__inner">
+            <nav class="footer__nav" aria-label="푸터 메뉴">
+                <a href="program.html" class="footer__link">Program</a>
+                <a href="Oceanfriends.html" class="footer__link">Ocean friends</a>
+                <a href="location.html" class="footer__link">About us</a>
+                <a href="location.html" class="footer__link">Location</a>
+                <a href="ticket.html" class="footer__link">Ticket</a>
+            </nav>
+            <div class="footer__brand">
+                <div class="footer__socials" aria-label="소셜 링크">
+                    <a href="https://www.instagram.com/aquaplanet_official" class="footer__social" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <rect x="4" y="4" width="16" height="16" rx="5"></rect>
+                        <circle cx="12" cy="12" r="3.4"></circle>
+                        <circle cx="17.2" cy="6.8" r="1"></circle>
+                        </svg>
+                    </a>
+                    <a href="https://www.youtube.com/@aquaplanetstory" class="footer__social" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M5.2 7.2C5.6 6.5 6.3 6 7.1 5.9C8.4 5.7 10.5 5.6 12 5.6C13.5 5.6 15.6 5.7 16.9 5.9C17.7 6 18.4 6.5 18.8 7.2C19.2 8.1 19.4 10.2 19.4 12C19.4 13.8 19.2 15.9 18.8 16.8C18.4 17.5 17.7 18 16.9 18.1C15.6 18.3 13.5 18.4 12 18.4C10.5 18.4 8.4 18.3 7.1 18.1C6.3 18 5.6 17.5 5.2 16.8C4.8 15.9 4.6 13.8 4.6 12C4.6 10.2 4.8 8.1 5.2 7.2Z"></path>
+                        <path d="M10.4 9.3L14.7 12L10.4 14.7V9.3Z" class="footer__social-play"></path>
+                        </svg>
+                    </a>
+                    <a href="https://www.aquaplanet.co.kr/index.html" class="footer__social" target="_blank" rel="noopener noreferrer" aria-label="Google">
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M19.6 12.2C19.6 11.6 19.5 11.1 19.4 10.6H12.2V13.5H16.3C16.1 14.5 15.5 15.3 14.7 15.8V17.7H17.2C18.7 16.4 19.6 14.5 19.6 12.2Z"></path>
+                        <path d="M12.2 19.7C14.3 19.7 16.1 19 17.2 17.7L14.7 15.8C14 16.3 13.1 16.6 12.2 16.6C10.2 16.6 8.5 15.2 7.9 13.4H5.3V15.3C6.5 17.9 9.1 19.7 12.2 19.7Z"></path>
+                        <path d="M7.9 13.4C7.7 12.9 7.6 12.5 7.6 12C7.6 11.5 7.7 11.1 7.9 10.6V8.7H5.3C4.8 9.7 4.5 10.8 4.5 12C4.5 13.2 4.8 14.3 5.3 15.3L7.9 13.4Z"></path>
+                        <path d="M12.2 7.4C13.3 7.4 14.4 7.8 15.2 8.6L17.3 6.5C16 5.3 14.3 4.6 12.2 4.6C9.1 4.6 6.5 6.3 5.3 8.7L7.9 10.6C8.5 8.8 10.2 7.4 12.2 7.4Z"></path>
+                        </svg>
+                    </a>
+                </div>
+                <p class="footer__copy">Aqua Planet. ©2026 All rights reserved.</p>
+            </div>
         </div>
-        <p class="footer__copy">Aqua Planet. &copy;2026 All rights reserved.</p>
-      </div>
-    </div>
-  </footer>
+    </footer>
+
 
   <script src="js/gnb-scroll.js"></script>
   <script>
@@ -2608,6 +2612,9 @@
         });
         pager.appendChild(btn);
       }
+
+      /* 모바일(≤768px)은 CSS 가로 스크롤로 처리 — JS 캐러셀 불필요 */
+      if (window.matchMedia('(max-width: 768px)').matches) return;
 
       const originals = Array.from(track.querySelectorAll('.species-card'));
       const originalCount = originals.length;
