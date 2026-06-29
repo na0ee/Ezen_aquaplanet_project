@@ -15,6 +15,7 @@
     rel="stylesheet" />
   <link rel="stylesheet" href="css/marinlab.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Observer.min.js"></script>
 </head>
 
@@ -153,14 +154,15 @@
     </section>
 
     <section class="rescue" id="rescue" aria-label="Rescue and Care">
-      <header class="section-head">
-        <h2><em>Rescue <span class="amp">&amp;</span> Care</em> <span>Activities</span></h2>
-        <p>아쿠아플라넷은 <strong>해양수산부 지정 해양동물전문구조·치료기관</strong>으로서 <strong>부상 및 조난 해양생물을 구조하고 치료</strong>합니다<br>전문 인력의 보호와 재활
-          과정을 거쳐 건강하게 바다로 돌아갈 수 있도록 지원합니다</p>
-      </header>
-
       <div class="activity-scroll" data-activity-section>
-        <div class="activity-stack" data-activity-stack>
+        <div class="activity-pin-wrapper">
+          <header class="section-head">
+            <h2><em>Rescue <span class="amp">&amp;</span> Care</em> <span>Activities</span></h2>
+            <p>아쿠아플라넷은 <strong>해양수산부 지정 해양동물전문구조·치료기관</strong>으로서 <strong>부상 및 조난 해양생물을 구조하고 치료</strong>합니다<br>전문 인력의 보호와 재활
+              과정을 거쳐 건강하게 바다로 돌아갈 수 있도록 지원합니다</p>
+          </header>
+
+          <div class="activity-stack" data-activity-stack>
           <article class="activity-card is-active" data-slide="0">
             <div class="activity-card__image">
               <img src="assets/images/marinlab_rescue/figma-rescue-care-01.avif" alt="구조 및 응급 처치 활동">
@@ -233,6 +235,7 @@
               </div>
             </div>
           </article>
+        </div>
         </div>
       </div>
 
