@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" class="oceanfriends-root">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#2686E7" />
   <title>Ocean Friends — aqua planet</title>
 
   <link rel="stylesheet"
@@ -38,6 +39,11 @@
 
   <header id="gnb" class="gnb">
     <div class="gnb__inner">
+      <!-- 모바일 전용 햄버거 버튼 -->
+      <button class="gnb__hamburger" type="button" aria-label="메뉴 열기" aria-expanded="false" aria-controls="mobile-menu">
+        <img src="assets/images/hamburgermenu_icon.svg" alt="">
+      </button>
+
       <nav class="gnb__nav" aria-label="메인 메뉴">
         <div class="gnb__nav-item" data-nav="location">
           <a href="location.html" class="gnb__link">Location</a>
@@ -113,70 +119,70 @@
           <div class="of-species-list signature-gallery-track">
             <article class="of-species-card species-card" data-species="beluga">
               <picture>
-                <source srcset="assets/images/avif/oceanfriends_01.avif" type="image/avif">
+                <source srcset="assets/images/oceanfriends/avif/oceanfriends_01.avif" type="image/avif">
                 <img src="assets/images/oceanfriends/oceanfriends_01.png" alt="벨루가">
               </picture>
               <div class="of-species-card__text"><strong>Beluga</strong><span>벨루가</span></div>
             </article>
             <article class="of-species-card species-card" data-species="walrus">
               <picture>
-                <source srcset="assets/images/avif/oceanfriends_02.avif" type="image/avif">
+                <source srcset="assets/images/oceanfriends/avif/oceanfriends_02.avif" type="image/avif">
                 <img src="assets/images/oceanfriends/oceanfriends_02.png" alt="바다코끼리">
               </picture>
               <div class="of-species-card__text"><strong>Walrus</strong><span>바다코끼리</span></div>
             </article>
             <article class="of-species-card species-card" data-species="penguin">
               <picture>
-                <source srcset="assets/images/avif/oceanfriends_03.avif" type="image/avif">
+                <source srcset="assets/images/oceanfriends/avif/oceanfriends_03.avif" type="image/avif">
                 <img src="assets/images/oceanfriends/oceanfriends_03.png" alt="펭귄">
               </picture>
               <div class="of-species-card__text"><strong>Penguin</strong><span>아프리칸 펭귄</span></div>
             </article>
             <article class="of-species-card species-card" data-species="shark">
               <picture>
-                <source srcset="assets/images/avif/oceanfriends_04.avif" type="image/avif">
+                <source srcset="assets/images/oceanfriends/avif/oceanfriends_04.avif" type="image/avif">
                 <img src="assets/images/oceanfriends/oceanfriends_04.png" alt="상어">
               </picture>
               <div class="of-species-card__text"><strong>Sand Tiger Shark</strong><span>샌드타이거샤크</span></div>
             </article>
             <article class="of-species-card species-card" data-species="ray">
               <picture>
-                <source srcset="assets/images/avif/oceanfriends_05.avif" type="image/avif">
+                <source srcset="assets/images/oceanfriends/avif/oceanfriends_05.avif" type="image/avif">
                 <img src="assets/images/oceanfriends/oceanfriends_05.png" alt="가오리">
               </picture>
               <div class="of-species-card__text"><strong>Black Ray</strong><span>흑가오리</span></div>
             </article>
             <article class="of-species-card species-card" data-species="otter">
               <picture>
-                <source srcset="assets/images/avif/oceanfriends_06.avif" type="image/avif">
+                <source srcset="assets/images/oceanfriends/avif/oceanfriends_06.avif" type="image/avif">
                 <img src="assets/images/oceanfriends/oceanfriends_06.png" alt="수달">
               </picture>
               <div class="of-species-card__text"><strong>Asian Small-Clawed Otter</strong><span>작은발톱수달</span></div>
             </article>
             <article class="of-species-card species-card" data-species="sea-turtle">
               <picture>
-                <source srcset="assets/images/avif/oceanfriends_07.avif" type="image/avif">
+                <source srcset="assets/images/oceanfriends/avif/oceanfriends_07.avif" type="image/avif">
                 <img src="assets/images/oceanfriends/oceanfriends_07.png" alt="바다거북">
               </picture>
               <div class="of-species-card__text"><strong>Sea Turtle</strong><span>바다거북</span></div>
             </article>
             <article class="of-species-card species-card" data-species="harbor-seal">
               <picture>
-                <source srcset="assets/images/avif/oceanfriends_08.avif" type="image/avif">
+                <source srcset="assets/images/oceanfriends/avif/oceanfriends_08.avif" type="image/avif">
                 <img src="assets/images/oceanfriends/oceanfriends_08.png" alt="참물범">
               </picture>
               <div class="of-species-card__text"><strong>Harbor Seal</strong><span>참물범</span></div>
             </article>
             <article class="of-species-card species-card" data-species="jellyfish">
               <picture>
-                <source srcset="assets/images/avif/oceanfriends_09.avif" type="image/avif">
+                <source srcset="assets/images/oceanfriends/avif/oceanfriends_09.avif" type="image/avif">
                 <img src="assets/images/oceanfriends/oceanfriends_09.png" alt="보름달물해파리">
               </picture>
               <div class="of-species-card__text"><strong>Moon Jellyfish</strong><span>보름달물해파리</span></div>
             </article>
             <article class="of-species-card species-card" data-species="clownfish">
               <picture>
-                <source srcset="assets/images/avif/oceanfriends_10.avif" type="image/avif">
+                <source srcset="assets/images/oceanfriends/avif/oceanfriends_10.avif" type="image/avif">
                 <img src="assets/images/oceanfriends/oceanfriends_10.png" alt="흰동가리">
               </picture>
               <div class="of-species-card__text"><strong>Clownfish</strong><span>퍼큘라클라운피쉬</span></div>
@@ -217,7 +223,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/부채제비활치.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/부채제비활치.avif" type="image/avif">
               <img src="assets/images/oceanfriends/부채제비활치.png" alt="부채제비활치">
             </picture>
           </div>
@@ -236,7 +242,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/참물범.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/참물범.avif" type="image/avif">
               <img src="assets/images/oceanfriends/참물범.png" alt="참물범">
             </picture>
           </div>
@@ -255,7 +261,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/아프리칸펭귄.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/아프리칸펭귄.avif" type="image/avif">
               <img src="assets/images/oceanfriends/아프리칸펭귄.png" alt="아프리칸펭귄">
             </picture>
           </div>
@@ -274,7 +280,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/바이칼물범.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/바이칼물범.avif" type="image/avif">
               <img src="assets/images/oceanfriends/바이칼물범.png" alt="바이칼물범">
             </picture>
           </div>
@@ -293,7 +299,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/샌드타이거샤크.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/샌드타이거샤크.avif" type="image/avif">
               <img src="assets/images/oceanfriends/샌드타이거샤크.png" alt="샌드타이거샤크">
             </picture>
           </div>
@@ -312,7 +318,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/골든트레벌리.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/골든트레벌리.avif" type="image/avif">
               <img src="assets/images/oceanfriends/골든트레벌리.png" alt="골든트레벌리">
             </picture>
           </div>
@@ -331,7 +337,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/퍼큘라클라운피쉬.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/퍼큘라클라운피쉬.avif" type="image/avif">
               <img src="assets/images/oceanfriends/퍼큘라클라운피쉬.png" alt="퍼큘라클라운피쉬">
             </picture>
           </div>
@@ -350,7 +356,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/물총고기.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/물총고기.avif" type="image/avif">
               <img src="assets/images/oceanfriends/물총고기.png" alt="물총고기">
             </picture>
           </div>
@@ -369,7 +375,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/얼룩매가오리.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/얼룩매가오리.avif" type="image/avif">
               <img src="assets/images/oceanfriends/얼룩매가오리.png" alt="얼룩매가오리">
             </picture>
           </div>
@@ -388,7 +394,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/보름달물해파리.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/보름달물해파리.avif" type="image/avif">
               <img src="assets/images/oceanfriends/보름달물해파리.png" alt="보름달물해파리">
             </picture>
           </div>
@@ -407,7 +413,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/우파루파.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/우파루파.avif" type="image/avif">
               <img src="assets/images/oceanfriends/우파루파.png" alt="우파루파">
             </picture>
           </div>
@@ -426,7 +432,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/플라워혼.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/플라워혼.avif" type="image/avif">
               <img src="assets/images/oceanfriends/플라워혼.jpg" alt="플라워혼">
             </picture>
           </div>
@@ -445,7 +451,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/푸른바다거북.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/푸른바다거북.avif" type="image/avif">
               <img src="assets/images/oceanfriends/푸른바다거북.png" alt="푸른바다거북">
             </picture>
           </div>
@@ -464,7 +470,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/디스커스.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/디스커스.avif" type="image/avif">
               <img src="assets/images/oceanfriends/디스커스.png" alt="디스커스">
             </picture>
           </div>
@@ -483,7 +489,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/흑점꺼끌복.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/흑점꺼끌복.avif" type="image/avif">
               <img src="assets/images/oceanfriends/흑점꺼끌복.png" alt="흑점꺼끌복">
             </picture>
           </div>
@@ -502,7 +508,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/작은발톱수달.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/작은발톱수달.avif" type="image/avif">
               <img src="assets/images/oceanfriends/작은발톱수달.png" alt="작은발톱수달">
             </picture>
           </div>
@@ -521,7 +527,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/빅벨리드해마.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/빅벨리드해마.avif" type="image/avif">
               <img src="assets/images/oceanfriends/빅벨리드해마.png" alt="빅벨리드해마">
             </picture>
           </div>
@@ -540,7 +546,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/베일드카멜레온.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/베일드카멜레온.avif" type="image/avif">
               <img src="assets/images/oceanfriends/베일드카멜레온.png" alt="베일드카멜레온">
             </picture>
           </div>
@@ -559,7 +565,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/등꼬리치.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/등꼬리치.avif" type="image/avif">
               <img src="assets/images/oceanfriends/등꼬리치.png" alt="등꼬리치">
             </picture>
           </div>
@@ -578,7 +584,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/철갑상어.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/철갑상어.avif" type="image/avif">
               <img src="assets/images/oceanfriends/철갑상어.jpg" alt="철갑상어">
             </picture>
           </div>
@@ -597,7 +603,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/흉상어.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/흉상어.avif" type="image/avif">
               <img src="assets/images/oceanfriends/흉상어.jpg" alt="흉상어">
             </picture>
           </div>
@@ -616,7 +622,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/블랙백나비고기.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/블랙백나비고기.avif" type="image/avif">
               <img src="assets/images/oceanfriends/블랙백나비고기.png" alt="블랙백나비고기">
             </picture>
           </div>
@@ -635,7 +641,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/스톤피쉬 (Stone fish).avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/스톤피쉬 (Stone fish).avif" type="image/avif">
               <img src="assets/images/oceanfriends/스톤피쉬 (Stone fish).jpg" alt="스톤피쉬">
             </picture>
           </div>
@@ -654,7 +660,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/아이스블루시클리드.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/아이스블루시클리드.avif" type="image/avif">
               <img src="assets/images/oceanfriends/아이스블루시클리드.png" alt="아이스블루시클리드">
             </picture>
           </div>
@@ -673,7 +679,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/고스트스콜피온피쉬.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/고스트스콜피온피쉬.avif" type="image/avif">
               <img src="assets/images/oceanfriends/고스트스콜피온피쉬.png" alt="고스트스콜피온피쉬">
             </picture>
           </div>
@@ -692,7 +698,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/알비노무지개송어.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/알비노무지개송어.avif" type="image/avif">
               <img src="assets/images/oceanfriends/알비노무지개송어.png" alt="알비노무지개송어">
             </picture>
           </div>
@@ -711,7 +717,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/자이언트모레이.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/자이언트모레이.avif" type="image/avif">
               <img src="assets/images/oceanfriends/자이언트모레이.png" alt="자이언트모레이">
             </picture>
           </div>
@@ -730,7 +736,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/자이언트그루퍼.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/자이언트그루퍼.avif" type="image/avif">
               <img src="assets/images/oceanfriends/자이언트그루퍼.png" alt="자이언트그루퍼">
             </picture>
           </div>
@@ -749,7 +755,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/대문어.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/대문어.avif" type="image/avif">
               <img src="assets/images/oceanfriends/대문어.png" alt="대문어">
             </picture>
           </div>
@@ -768,7 +774,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/다람쥐.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/다람쥐.avif" type="image/avif">
               <img src="assets/images/oceanfriends/다람쥐.png" alt="다람쥐">
             </picture>
           </div>
@@ -787,7 +793,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/철갑둥어.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/철갑둥어.avif" type="image/avif">
               <img src="assets/images/oceanfriends/철갑둥어.png" alt="철갑둥어">
             </picture>
           </div>
@@ -806,7 +812,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/뱀목거북 (Eastern snake-necked turtle).avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/뱀목거북 (Eastern snake-necked turtle).avif" type="image/avif">
               <img src="assets/images/oceanfriends/뱀목거북 (Eastern snake-necked turtle).jpg" alt="뱀목거북">
             </picture>
           </div>
@@ -825,7 +831,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/큰돌고래.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/큰돌고래.avif" type="image/avif">
               <img src="assets/images/oceanfriends/큰돌고래.jpg" alt="큰돌고래">
             </picture>
           </div>
@@ -844,7 +850,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/뿔닭새우.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/뿔닭새우.avif" type="image/avif">
               <img src="assets/images/oceanfriends/뿔닭새우.png" alt="뿔닭새우">
             </picture>
           </div>
@@ -863,7 +869,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/훔볼트펭귄.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/훔볼트펭귄.avif" type="image/avif">
               <img src="assets/images/oceanfriends/훔볼트펭귄.png" alt="훔볼트 펭귄">
             </picture>
           </div>
@@ -882,7 +888,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/점쏠베감펭.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/점쏠베감펭.avif" type="image/avif">
               <img src="assets/images/oceanfriends/점쏠베감펭.png" alt="점쏠배감펭">
             </picture>
           </div>
@@ -901,7 +907,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/캘리포니아바다사자.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/캘리포니아바다사자.avif" type="image/avif">
               <img src="assets/images/oceanfriends/캘리포니아바다사자.jpg" alt="캘리포니아바다사자">
             </picture>
           </div>
@@ -920,7 +926,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/동수구리.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/동수구리.avif" type="image/avif">
               <img src="assets/images/oceanfriends/동수구리.png" alt="동수구리">
             </picture>
           </div>
@@ -939,7 +945,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/블라인드케이브피쉬.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/블라인드케이브피쉬.avif" type="image/avif">
               <img src="assets/images/oceanfriends/블라인드케이브피쉬.png" alt="블라인드케이브피쉬">
             </picture>
           </div>
@@ -958,7 +964,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/가든일.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/가든일.avif" type="image/avif">
               <img src="assets/images/oceanfriends/가든일.png" alt="가든일">
             </picture>
           </div>
@@ -977,7 +983,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/흑가오리.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/흑가오리.avif" type="image/avif">
               <img src="assets/images/oceanfriends/흑가오리.jpg" alt="흑가오리">
             </picture>
           </div>
@@ -1004,7 +1010,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/매부리바다거북.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/매부리바다거북.avif" type="image/avif">
               <img src="assets/images/oceanfriends/매부리바다거북.jpg" alt="매부리바다거북">
             </picture>
           </div>
@@ -1023,7 +1029,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/바다코끼리.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/바다코끼리.avif" type="image/avif">
               <img src="assets/images/oceanfriends/바다코끼리.jpg" alt="바다코끼리">
             </picture>
           </div>
@@ -1043,7 +1049,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/보름달물해파리.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/보름달물해파리.avif" type="image/avif">
               <img src="assets/images/oceanfriends/보름달물해파리.png" alt="보름달물해파리">
             </picture>
           </div>
@@ -1062,7 +1068,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/샌드타이거샤크.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/샌드타이거샤크.avif" type="image/avif">
               <img src="assets/images/oceanfriends/샌드타이거샤크.png" alt="샌드타이거샤크">
             </picture>
           </div>
@@ -1082,7 +1088,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/참물범.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/참물범.avif" type="image/avif">
               <img src="assets/images/oceanfriends/참물범.png" alt="참물범">
             </picture>
           </div>
@@ -1102,7 +1108,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/퍼큘라클라운피쉬.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/퍼큘라클라운피쉬.avif" type="image/avif">
               <img src="assets/images/oceanfriends/퍼큘라클라운피쉬.png" alt="퍼큘라클라운피쉬">
             </picture>
           </div>
@@ -1122,7 +1128,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/훔볼트펭귄.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/훔볼트펭귄.avif" type="image/avif">
               <img src="assets/images/oceanfriends/훔볼트펭귄.png" alt="훔볼트펭귄">
             </picture>
           </div>
@@ -1141,7 +1147,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/흑가오리.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/흑가오리.avif" type="image/avif">
               <img src="assets/images/oceanfriends/흑가오리.jpg" alt="흑가오리">
             </picture>
           </div>
@@ -1163,7 +1169,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/보름달물해파리.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/보름달물해파리.avif" type="image/avif">
               <img src="assets/images/oceanfriends/보름달물해파리.png" alt="보름달물해파리">
             </picture>
           </div>
@@ -1182,7 +1188,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/말레이원양해파리.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/말레이원양해파리.avif" type="image/avif">
               <img src="assets/images/oceanfriends/말레이원양해파리.jpg" alt="말레이원양해파리">
             </picture>
           </div>
@@ -1201,7 +1207,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/닥터피쉬.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/닥터피쉬.avif" type="image/avif">
               <img src="assets/images/oceanfriends/닥터피쉬.jpg" alt="닥터피쉬">
             </picture>
           </div>
@@ -1220,7 +1226,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/샌드타이거샤크.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/샌드타이거샤크.avif" type="image/avif">
               <img src="assets/images/oceanfriends/샌드타이거샤크.png" alt="샌드타이거샤크">
             </picture>
           </div>
@@ -1239,7 +1245,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/얼룩매가오리.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/얼룩매가오리.avif" type="image/avif">
               <img src="assets/images/oceanfriends/얼룩매가오리.png" alt="얼룩매가오리">
             </picture>
           </div>
@@ -1258,7 +1264,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/플랩노즈레이.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/플랩노즈레이.avif" type="image/avif">
               <img src="assets/images/oceanfriends/플랩노즈레이.jpg" alt="플랩노즈레이">
             </picture>
           </div>
@@ -1277,7 +1283,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/흑가오리.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/흑가오리.avif" type="image/avif">
               <img src="assets/images/oceanfriends/흑가오리.jpg" alt="흑가오리">
             </picture>
           </div>
@@ -1296,7 +1302,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/퍼큘라클라운피쉬.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/퍼큘라클라운피쉬.avif" type="image/avif">
               <img src="assets/images/oceanfriends/퍼큘라클라운피쉬.png" alt="퍼큘라클라운피쉬">
             </picture>
           </div>
@@ -1315,7 +1321,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/포테이토 그루퍼.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/포테이토 그루퍼.avif" type="image/avif">
               <img src="assets/images/oceanfriends/포테이토 그루퍼.jpg" alt="포테이토그루퍼">
             </picture>
           </div>
@@ -1334,7 +1340,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/피라루크.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/피라루크.avif" type="image/avif">
               <img src="assets/images/oceanfriends/피라루크.jpg" alt="피라루크">
             </picture>
           </div>
@@ -1353,7 +1359,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/매부리바다거북.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/매부리바다거북.avif" type="image/avif">
               <img src="assets/images/oceanfriends/매부리바다거북.jpg" alt="매부리바다거북">
             </picture>
           </div>
@@ -1372,7 +1378,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/참물범.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/참물범.avif" type="image/avif">
               <img src="assets/images/oceanfriends/참물범.png" alt="참물범">
             </picture>
           </div>
@@ -1391,7 +1397,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/바다코끼리.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/바다코끼리.avif" type="image/avif">
               <img src="assets/images/oceanfriends/바다코끼리.jpg" alt="바다코끼리">
             </picture>
           </div>
@@ -1412,7 +1418,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/아프리칸펭귄.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/아프리칸펭귄.avif" type="image/avif">
               <img src="assets/images/oceanfriends/아프리칸펭귄.png" alt="아프리칸펭귄">
             </picture>
           </div>
@@ -1432,7 +1438,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/알락꼬리여우원숭이.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/알락꼬리여우원숭이.avif" type="image/avif">
               <img src="assets/images/oceanfriends/알락꼬리여우원숭이.png" alt="알락꼬리여우원숭이">
             </picture>
           </div>
@@ -1452,7 +1458,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/푸른목금강앵무.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/푸른목금강앵무.avif" type="image/avif">
               <img src="assets/images/oceanfriends/푸른목금강앵무.jpg" alt="푸른목금강앵무">
             </picture>
           </div>
@@ -1472,7 +1478,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/홍금강앵무.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/홍금강앵무.avif" type="image/avif">
               <img src="assets/images/oceanfriends/홍금강앵무.jpg" alt="홍금강앵무">
             </picture>
           </div>
@@ -1491,7 +1497,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/히야신스금강앵무.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/히야신스금강앵무.avif" type="image/avif">
               <img src="assets/images/oceanfriends/히야신스금강앵무.jpg" alt="히야신스금강앵무">
             </picture>
           </div>
@@ -1515,7 +1521,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/골든트레벌리.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/골든트레벌리.avif" type="image/avif">
               <img src="assets/images/oceanfriends/골든트레벌리.png" alt="골든트레발리">
             </picture>
           </div>
@@ -1534,7 +1540,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/괴도라치.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/괴도라치.avif" type="image/avif">
               <img src="assets/images/oceanfriends/괴도라치.png" alt="괴도라치">
             </picture>
           </div>
@@ -1553,7 +1559,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/등꼬리치.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/등꼬리치.avif" type="image/avif">
               <img src="assets/images/oceanfriends/등꼬리치.png" alt="등꼬리치">
             </picture>
           </div>
@@ -1572,7 +1578,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/올리브바다거북.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/올리브바다거북.avif" type="image/avif">
               <img src="assets/images/oceanfriends/올리브바다거북.png" alt="올리브바다거북">
             </picture>
           </div>
@@ -1592,7 +1598,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/뱅가이카디날.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/뱅가이카디날.avif" type="image/avif">
               <img src="assets/images/oceanfriends/뱅가이카디날.jpg" alt="뱅가이카디날">
             </picture>
           </div>
@@ -1611,7 +1617,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/부채제비활치.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/부채제비활치.avif" type="image/avif">
               <img src="assets/images/oceanfriends/부채제비활치.png" alt="부채제비할치">
             </picture>
           </div>
@@ -1630,7 +1636,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/블랙백나비고기.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/블랙백나비고기.avif" type="image/avif">
               <img src="assets/images/oceanfriends/블랙백나비고기.png" alt="블랙백나비고기">
             </picture>
           </div>
@@ -1649,7 +1655,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/블로치드팬테일레이.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/블로치드팬테일레이.avif" type="image/avif">
               <img src="assets/images/oceanfriends/블로치드팬테일레이.jpg" alt="블로치드판테일레이">
             </picture>
           </div>
@@ -1668,7 +1674,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/블루탱.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/블루탱.avif" type="image/avif">
               <img src="assets/images/oceanfriends/블루탱.jpg" alt="블루탱">
             </picture>
           </div>
@@ -1687,7 +1693,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/샌드타이거샤크.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/샌드타이거샤크.avif" type="image/avif">
               <img src="assets/images/oceanfriends/샌드타이거샤크.png" alt="샌드타이거샤크">
             </picture>
           </div>
@@ -1706,7 +1712,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/얼룩매가오리.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/얼룩매가오리.avif" type="image/avif">
               <img src="assets/images/oceanfriends/얼룩매가오리.png" alt="얼룩매가오리">
             </picture>
           </div>
@@ -1725,7 +1731,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/카우노즈레이.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/카우노즈레이.avif" type="image/avif">
               <img src="assets/images/oceanfriends/카우노즈레이.jpg" alt="카우노즈레이">
             </picture>
           </div>
@@ -1744,7 +1750,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/남아메리카바다사자.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/남아메리카바다사자.avif" type="image/avif">
               <img src="assets/images/oceanfriends/남아메리카바다사자.png" alt="남아메리카바다사자">
             </picture>
           </div>
@@ -1763,7 +1769,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/물총고기.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/물총고기.avif" type="image/avif">
               <img src="assets/images/oceanfriends/물총고기.png" alt="물총고기">
             </picture>
           </div>
@@ -1782,7 +1788,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/바이칼물범.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/바이칼물범.avif" type="image/avif">
               <img src="assets/images/oceanfriends/바이칼물범.png" alt="바이칼물범">
             </picture>
           </div>
@@ -1801,7 +1807,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/아프리칸펭귄.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/아프리칸펭귄.avif" type="image/avif">
               <img src="assets/images/oceanfriends/아프리칸펭귄.png" alt="아프리칸펭귄">
             </picture>
           </div>
@@ -1820,7 +1826,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/작은발톱수달.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/작은발톱수달.avif" type="image/avif">
               <img src="assets/images/oceanfriends/작은발톱수달.png" alt="작은발톱수달">
             </picture>
           </div>
@@ -1840,7 +1846,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/참물범.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/참물범.avif" type="image/avif">
               <img src="assets/images/oceanfriends/참물범.png" alt="참물범">
             </picture>
           </div>
@@ -1860,7 +1866,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/벨루가(흰고래).avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/벨루가(흰고래).avif" type="image/avif">
               <img src="assets/images/oceanfriends/벨루가(흰고래).jpg" alt="흰고래(벨루가)">
             </picture>
           </div>
@@ -1879,7 +1885,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/디스커스.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/디스커스.avif" type="image/avif">
               <img src="assets/images/oceanfriends/디스커스.png" alt="디스커스">
             </picture>
           </div>
@@ -1898,7 +1904,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/보름달물해파리.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/보름달물해파리.avif" type="image/avif">
               <img src="assets/images/oceanfriends/보름달물해파리.png" alt="보름달해파리">
             </picture>
           </div>
@@ -1917,7 +1923,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/아시안아로와나.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/아시안아로와나.avif" type="image/avif">
               <img src="assets/images/oceanfriends/아시안아로와나.png" alt="아시안아로와나">
             </picture>
           </div>
@@ -1936,7 +1942,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/피라니아.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/피라니아.avif" type="image/avif">
               <img src="assets/images/oceanfriends/피라니아.jpg" alt="피라니아">
             </picture>
           </div>
@@ -1959,7 +1965,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/레드투스트리거.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/레드투스트리거.avif" type="image/avif">
               <img src="assets/images/oceanfriends/레드투스트리거.png" alt="레드투스트리거">
             </picture>
           </div>
@@ -1978,7 +1984,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/리본일.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/리본일.avif" type="image/avif">
               <img src="assets/images/oceanfriends/리본일.png" alt="리본일">
             </picture>
           </div>
@@ -1997,7 +2003,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/부채제비활치.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/부채제비활치.avif" type="image/avif">
               <img src="assets/images/oceanfriends/부채제비활치.png" alt="부채제비할치">
             </picture>
           </div>
@@ -2016,7 +2022,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/블루탱.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/블루탱.avif" type="image/avif">
               <img src="assets/images/oceanfriends/블루탱.jpg" alt="블루탱">
             </picture>
           </div>
@@ -2035,7 +2041,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/스톤피쉬 (Stone fish).avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/스톤피쉬 (Stone fish).avif" type="image/avif">
               <img src="assets/images/oceanfriends/스톤피쉬 (Stone fish).jpg" alt="스톤피쉬">
             </picture>
           </div>
@@ -2054,7 +2060,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/옐로탱.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/옐로탱.avif" type="image/avif">
               <img src="assets/images/oceanfriends/옐로탱.png" alt="옐로탱">
             </picture>
           </div>
@@ -2073,7 +2079,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/팬더그루퍼.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/팬더그루퍼.avif" type="image/avif">
               <img src="assets/images/oceanfriends/팬더그루퍼.jpg" alt="팬더그루퍼">
             </picture>
           </div>
@@ -2092,7 +2098,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/흑점꺼끌복.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/흑점꺼끌복.avif" type="image/avif">
               <img src="assets/images/oceanfriends/흑점꺼끌복.png" alt="흑점꺼끌복">
             </picture>
           </div>
@@ -2112,7 +2118,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/얼룩매가오리.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/얼룩매가오리.avif" type="image/avif">
               <img src="assets/images/oceanfriends/얼룩매가오리.png" alt="얼룩매가오리">
             </picture>
           </div>
@@ -2131,7 +2137,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/엠퍼러엔젤.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/엠퍼러엔젤.avif" type="image/avif">
               <img src="assets/images/oceanfriends/엠퍼러엔젤.png" alt="엠퍼러엔젤">
             </picture>
           </div>
@@ -2150,7 +2156,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/파이어고비.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/파이어고비.avif" type="image/avif">
               <img src="assets/images/oceanfriends/파이어고비.jpg" alt="파이어고비">
             </picture>
           </div>
@@ -2169,7 +2175,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/매부리바다거북.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/매부리바다거북.avif" type="image/avif">
               <img src="assets/images/oceanfriends/매부리바다거북.jpg" alt="매부리바다거북">
             </picture>
           </div>
@@ -2188,7 +2194,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/보름달물해파리.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/보름달물해파리.avif" type="image/avif">
               <img src="assets/images/oceanfriends/보름달물해파리.png" alt="보름달물해파리">
             </picture>
           </div>
@@ -2208,7 +2214,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/뿔닭새우.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/뿔닭새우.avif" type="image/avif">
               <img src="assets/images/oceanfriends/뿔닭새우.png" alt="뿔닭새우">
             </picture>
           </div>
@@ -2228,7 +2234,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/샌드타이거샤크.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/샌드타이거샤크.avif" type="image/avif">
               <img src="assets/images/oceanfriends/샌드타이거샤크.png" alt="샌드타이거샤크">
             </picture>
           </div>
@@ -2248,7 +2254,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/흉상어.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/흉상어.avif" type="image/avif">
               <img src="assets/images/oceanfriends/흉상어.jpg" alt="흉상어">
             </picture>
           </div>
@@ -2267,7 +2273,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/훔볼트펭귄.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/훔볼트펭귄.avif" type="image/avif">
               <img src="assets/images/oceanfriends/훔볼트펭귄.png" alt="훔볼트펭귄">
             </picture>
           </div>
@@ -2287,7 +2293,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/우파루파.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/우파루파.avif" type="image/avif">
               <img src="assets/images/oceanfriends/우파루파.png" alt="우파루파">
             </picture>
           </div>
@@ -2307,7 +2313,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/자이언트모레이.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/자이언트모레이.avif" type="image/avif">
               <img src="assets/images/oceanfriends/자이언트모레이.png" alt="자이언트모레이">
             </picture>
           </div>
@@ -2327,7 +2333,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/작은발톱수달.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/작은발톱수달.avif" type="image/avif">
               <img src="assets/images/oceanfriends/작은발톱수달.png" alt="작은발톱수달">
             </picture>
           </div>
@@ -2347,7 +2353,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/퍼큘라클라운피쉬.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/퍼큘라클라운피쉬.avif" type="image/avif">
               <img src="assets/images/oceanfriends/퍼큘라클라운피쉬.png" alt="퍼큘라클라운피쉬">
             </picture>
           </div>
@@ -2367,7 +2373,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/푸른바다거북.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/푸른바다거북.avif" type="image/avif">
               <img src="assets/images/oceanfriends/푸른바다거북.png" alt="푸른바다거북">
             </picture>
           </div>
@@ -2386,7 +2392,7 @@
         <article class="of-detail-card">
           <div class="of-detail-card__media">
             <picture>
-              <source srcset="assets/images/avif/피라니아.avif" type="image/avif">
+              <source srcset="assets/images/oceanfriends/avif/피라니아.avif" type="image/avif">
               <img src="assets/images/oceanfriends/피라니아.jpg" alt="피라니아">
             </picture>
           </div>
@@ -2408,6 +2414,44 @@
 
   </main>
 
+
+  <footer id="footer" class="footer">
+    <div class="footer__inner">
+      <nav class="footer__nav" aria-label="Footer menu">
+        <a href="program.html" class="footer__link">Program</a>
+        <a href="Oceanfriends.html" class="footer__link">Ocean friends</a>
+        <a href="location.html" class="footer__link">About us</a>
+        <a href="location.html" class="footer__link">Location</a>
+        <a href="ticket.html" class="footer__link">Ticket</a>
+      </nav>
+      <div class="footer__brand">
+        <div class="footer__socials" aria-label="Social links">
+          <a href="https://www.instagram.com/aquaplanet_official" class="footer__social" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="4" y="4" width="16" height="16" rx="5"></rect>
+              <circle cx="12" cy="12" r="3.4"></circle>
+              <circle cx="17.2" cy="6.8" r="1"></circle>
+            </svg>
+          </a>
+          <a href="https://www.youtube.com/@aquaplanetstory" class="footer__social" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5.2 7.2C5.6 6.5 6.3 6 7.1 5.9C8.4 5.7 10.5 5.6 12 5.6C13.5 5.6 15.6 5.7 16.9 5.9C17.7 6 18.4 6.5 18.8 7.2C19.2 8.1 19.4 10.2 19.4 12C19.4 13.8 19.2 15.9 18.8 16.8C18.4 17.5 17.7 18 16.9 18.1C15.6 18.3 13.5 18.4 12 18.4C10.5 18.4 8.4 18.3 7.1 18.1C6.3 18 5.6 17.5 5.2 16.8C4.8 15.9 4.6 13.8 4.6 12C4.6 10.2 4.8 8.1 5.2 7.2Z"></path>
+              <path d="M10.4 9.3L14.7 12L10.4 14.7V9.3Z" class="footer__social-play"></path>
+            </svg>
+          </a>
+          <a href="https://www.aquaplanet.co.kr/index.html" class="footer__social" target="_blank" rel="noopener noreferrer" aria-label="Google">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M19.6 12.2C19.6 11.6 19.5 11.1 19.4 10.6H12.2V13.5H16.3C16.1 14.5 15.5 15.3 14.7 15.8V17.7H17.2C18.7 16.4 19.6 14.5 19.6 12.2Z"></path>
+              <path d="M12.2 19.7C14.3 19.7 16.1 19 17.2 17.7L14.7 15.8C14 16.3 13.1 16.6 12.2 16.6C10.2 16.6 8.5 15.2 7.9 13.4H5.3V15.3C6.5 17.9 9.1 19.7 12.2 19.7Z"></path>
+              <path d="M7.9 13.4C7.7 12.9 7.6 12.5 7.6 12C7.6 11.5 7.7 11.1 7.9 10.6V8.7H5.3C4.8 9.7 4.5 10.8 4.5 12C4.5 13.2 4.8 14.3 5.3 15.3L7.9 13.4Z"></path>
+              <path d="M12.2 7.4C13.3 7.4 14.4 7.8 15.2 8.6L17.3 6.5C16 5.3 14.3 4.6 12.2 4.6C9.1 4.6 6.5 6.3 5.3 8.7L7.9 10.6C8.5 8.8 10.2 7.4 12.2 7.4Z"></path>
+            </svg>
+          </a>
+        </div>
+        <p class="footer__copy">Aqua Planet. &copy;2026 All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
 
   <script src="js/gnb-scroll.js"></script>
   <script>
@@ -2845,7 +2889,7 @@
       });
 
       /* 데스크탑: 카드 캐러셀을 섹션 스크롤에 고정(pin)해 한 바퀴 돌린 뒤에만
-         다음 섹션으로 내려가도록 한다. 모바일은 기존처럼 자유 드래그만 사용. */
+         다음 섹션으로 내려가도록 한다. 모바일 및 태블릿은 기본 페이지 스크롤 허용. */
       function setupScrollTrigger() {
         if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
         gsap.registerPlugin(ScrollTrigger);
@@ -2853,7 +2897,7 @@
         let pinTrigger = null;
 
         ScrollTrigger.matchMedia({
-          '(min-width: 761px)': function () {
+          '(min-width: 1025px)': function () {
             pinTrigger = ScrollTrigger.create({
               trigger: section,
               start: 'top top',

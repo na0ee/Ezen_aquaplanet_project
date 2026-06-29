@@ -29,6 +29,8 @@
   var targetCarouselPosition = 0;
   var pinOriginalParent = null;
   var pinOriginalNextSibling = null;
+  var isOpeningCard = false;
+  var cardOpenTimer = null;
 
   function clamp01(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
   function lerp(a, b, t) { return a + (b - a) * t; }
@@ -40,12 +42,12 @@
 
   function getOrbitFactor() {
     if (window.innerWidth <= 760) return 0.42;
-    return window.innerWidth <= 1280 ? 0.78 : 1;
+    return window.innerWidth <= 1440 ? 0.78 : 1;
   }
 
   function getSizeFactor() {
     if (window.innerWidth <= 760) return 0.4;
-    return window.innerWidth <= 1280 ? 0.84 : 1;
+    return window.innerWidth <= 1440 ? 0.84 : 1;
   }
 
   function isMobileStatic() {
@@ -53,7 +55,7 @@
   }
 
   function isTabletLayout() {
-    return window.matchMedia && window.matchMedia('(min-width: 761px) and (max-width: 1280px)').matches;
+    return window.matchMedia && window.matchMedia('(min-width: 761px) and (max-width: 1440px)').matches;
   }
 
   function getPinOffsetY() {
@@ -65,6 +67,7 @@
     var stage1 = document.getElementById('cons-orbit-stage-1');
     var stage2 = document.getElementById('cons-orbit-stage-2');
     var hint = document.getElementById('cons-orbit-hint');
+    var finalGrid = document.getElementById('cons-final-grid');
 
     if (pin) {
       pin.style.visibility = '';
@@ -76,6 +79,12 @@
     [stage1, stage2, hint].forEach(function (node) {
       if (node) node.style.transform = '';
     });
+
+    if (finalGrid) {
+      finalGrid.style.opacity = '';
+      finalGrid.style.transform = '';
+      finalGrid.classList.remove('is-visible');
+    }
 
     orbEls.forEach(function (orb) {
       orb.el.style.transform = '';
@@ -99,6 +108,51 @@
     }
 
     document.body.classList.toggle('is-cons-content', isContent);
+  }
+
+  function random(min, max) {
+    return Math.random() * (max - min) + min;
+  }
+
+  function clearConservationBubbles() {
+    Array.prototype.forEach.call(document.querySelectorAll('[data-cons-bubble-side]'), function (side) {
+      side.replaceChildren();
+    });
+  }
+
+  function buildConservationBubbles() {
+    var root = document.querySelector('[data-cons-bubble-root]');
+    if (!root) return;
+    clearConservationBubbles();
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    var rootHeight = Math.max(root.offsetHeight, window.innerHeight);
+    var powerSaving = window.devicePixelRatio > 2 || (navigator.deviceMemory && navigator.deviceMemory < 4);
+    var bubblesPerSide = Math.min(powerSaving ? 14 : 30, Math.max(powerSaving ? 10 : 16, Math.round(rootHeight / (powerSaving ? 360 : 260))));
+
+    Array.prototype.forEach.call(root.querySelectorAll('[data-cons-bubble-side]'), function (side) {
+      var sideWidth = Math.max(side.clientWidth, 72);
+
+      for (var i = 0; i < bubblesPerSide; i += 1) {
+        var bubble = document.createElement('span');
+        var size = random(14, 54);
+        var maxX = Math.max(4, sideWidth - size - 8);
+        var duration = random(15, 30);
+
+        bubble.className = 'm-cons-glass-bubble';
+        bubble.style.setProperty('--bubble-size', size.toFixed(1) + 'px');
+        bubble.style.setProperty('--bubble-x', random(4, maxX).toFixed(1) + 'px');
+        bubble.style.setProperty('--bubble-y', random(0, rootHeight + window.innerHeight * 0.35).toFixed(1) + 'px');
+        bubble.style.setProperty('--bubble-duration', duration.toFixed(2) + 's');
+        bubble.style.setProperty('--bubble-delay', random(-duration, 4).toFixed(2) + 's');
+        bubble.style.setProperty('--bubble-drift', random(-34, 34).toFixed(1) + 'px');
+        bubble.style.setProperty('--bubble-sway', random(6, 22).toFixed(1) + 'px');
+        bubble.style.setProperty('--bubble-sway-duration', random(3.8, 7.8).toFixed(2) + 's');
+        bubble.style.setProperty('--bubble-opacity', random(0.16, 0.42).toFixed(2));
+
+        side.appendChild(bubble);
+      }
+    });
   }
 
   function attachFixedPin(pin) {
@@ -136,6 +190,19 @@
   function wrapDistance(value, period) {
     var half = period / 2;
     return ((value + half) % period + period) % period - half;
+  }
+
+  function steppedCarouselPosition(progress) {
+    var totalSteps = N * 2;
+    var raw = progress * totalSteps;
+    var step = Math.floor(raw);
+    var phase = raw - step;
+    var holdRatio = 0.58;
+
+    if (step >= totalSteps) return totalSteps;
+    if (phase < holdRatio) return step;
+
+    return step + easeInOut((phase - holdRatio) / (1 - holdRatio));
   }
 
   function slotPose(s) {
@@ -177,6 +244,7 @@
     var stage1 = document.getElementById('cons-orbit-stage-1');
     var stage2 = document.getElementById('cons-orbit-stage-2');
     var hint = document.getElementById('cons-orbit-hint');
+    var finalGrid = document.getElementById('cons-final-grid');
 
     var textOut = easeInOut(clamp01((progress - 0.08) / 0.04));
     if (stage1) {
@@ -189,9 +257,17 @@
     }
     if (hint) hint.classList.remove('is-visible');
 
-    var toCarousel = easeInOut(clamp01((progress - 0.32) / 0.12));
+    var finalGridIn = isTabletLayout() ? easeInOut(clamp01((progress - 0.30) / 0.08)) : 0;
+    var toCarousel = easeInOut(clamp01((progress - 0.32) / 0.12)) * (1 - finalGridIn);
     var featuredOrb = null;
     var featuredScore = -1;
+
+    if (finalGrid) {
+      var finalDrop = (1 - finalGridIn) * -90;
+      finalGrid.style.opacity = finalGridIn.toFixed(3);
+      finalGrid.style.transform = 'translate3d(calc(-50% + var(--cons-final-offset-x, 0px)), -50%, 0) translate3d(0, ' + finalDrop.toFixed(2) + 'px, 0) scale(' + (0.94 + finalGridIn * 0.06).toFixed(3) + ')';
+      finalGrid.classList.toggle('is-visible', finalGridIn > 0.82);
+    }
 
     orbEls.forEach(function (orb, index) {
       var intro = introPose(index, progress);
@@ -201,7 +277,7 @@
       var x = lerp(intro.x, slot.x, toCarousel);
       var y = lerp(intro.y, slot.y, toCarousel);
       var size = lerp(baseSize, slot.size, toCarousel);
-      var opacity = lerp(1, slot.opacity, toCarousel);
+      var opacity = lerp(1, slot.opacity, toCarousel) * (1 - finalGridIn);
       var centerScore = toCarousel > 0.92 ? slot.centerWeight : 0;
 
       if (centerScore > featuredScore) {
@@ -217,7 +293,7 @@
       orb.el.classList.remove('is-featured');
     });
 
-    if (featuredOrb && featuredScore > 0.35) {
+    if (featuredOrb && featuredScore > 0.35 && finalGridIn < 0.2) {
       featuredOrb.el.style.opacity = '1';
       featuredOrb.el.style.pointerEvents = 'auto';
       featuredOrb.el.classList.add('is-featured');
@@ -237,15 +313,16 @@
     var vh = window.innerHeight;
     var rect = section.getBoundingClientRect();
     var travel = Math.max(1, rect.height - vh);
+    var progressTravel = isTabletLayout() ? Math.max(1, 8400 - vh) : travel;
     var shiftScreen = Math.min(Math.max(-rect.top, 0), travel);
-    targetProgress = clamp01(shiftScreen / travel);
+    targetProgress = clamp01(shiftScreen / progressTravel);
     currentProgress += (targetProgress - currentProgress) * 0.075;
     if (Math.abs(targetProgress - currentProgress) < 0.0008) {
       currentProgress = targetProgress;
     }
 
     var carouselProgress = clamp01((currentProgress - 0.44) / 0.56);
-    var targetStep = carouselProgress * N * 2;
+    var targetStep = steppedCarouselPosition(carouselProgress);
     var positionDelta = targetStep - currentCarouselPosition;
 
     targetCarouselPosition = targetStep;
@@ -256,8 +333,12 @@
 
     var isPinned = rect.top <= 0 && rect.bottom >= 0;
     var enterOpacity = isPinned ? easeInOut(clamp01(-rect.top / (vh * 0.55))) : 0;
-    var pinOffsetY = getPinOffsetY();
-    pin.style.transform = 'translateX(-50%) translateY(' + pinOffsetY.toFixed(2) + 'px) scale(' + scale.toFixed(6) + ')';
+    if (isTabletLayout()) {
+      var pinOffsetY = getPinOffsetY();
+      pin.style.transform = 'translateX(-50%) translateY(' + pinOffsetY.toFixed(2) + 'px) scale(' + scale.toFixed(6) + ')';
+    } else {
+      pin.style.transform = 'translateX(-50%) scale(' + scale.toFixed(6) + ')';
+    }
     pin.style.opacity = String(enterOpacity);
     pin.style.visibility = isPinned ? 'visible' : 'hidden';
     pin.style.pointerEvents = isPinned ? 'auto' : 'none';
@@ -280,17 +361,126 @@
   function openCard(category) {
     var overlay = document.getElementById('cons-card-overlay');
     if (!overlay || !category) return;
+    var isGroupCard = category === 'pinniped' || category === 'seahorse';
     Array.prototype.forEach.call(overlay.querySelectorAll('.m-cons-card, .m-cons-card-group'), function (card) {
       card.classList.toggle('is-active', card.getAttribute('data-card') === category);
     });
+    overlay.classList.toggle('is-single-card', !isGroupCard);
+    overlay.classList.toggle('is-group-card', isGroupCard);
+    overlay.setAttribute('data-active-card', category);
     overlay.classList.add('is-open');
     overlay.setAttribute('aria-hidden', 'false');
   }
 
+  function burstOrbThenOpen(orb, category) {
+    var circle = orb ? orb.querySelector('.m-cons-orb__circle.ticket-bubble') : null;
+    if (!circle) {
+      openCard(category);
+      return;
+    }
+
+    isOpeningCard = true;
+    circle.classList.remove('is-bursting');
+    void circle.offsetWidth;
+    circle.classList.add('is-bursting');
+    spawnOrbBubbleSparks(circle);
+    if (circle._consBurstEndHandler) {
+      circle.removeEventListener('animationend', circle._consBurstEndHandler);
+      circle._consBurstEndHandler = null;
+    }
+
+    function finishOpen() {
+      if (cardOpenTimer) {
+        window.clearTimeout(cardOpenTimer);
+        cardOpenTimer = null;
+      }
+      circle.removeEventListener('animationend', onBurstEnd);
+      circle._consBurstEndHandler = null;
+      circle.classList.remove('is-bursting');
+      isOpeningCard = false;
+      openCard(category);
+    }
+
+    function onBurstEnd(event) {
+      if (event.animationName !== 'mConsTicketBubbleBurst') return;
+      finishOpen();
+    }
+
+    circle._consBurstEndHandler = onBurstEnd;
+    circle.addEventListener('animationend', onBurstEnd);
+    cardOpenTimer = window.setTimeout(function () {
+      finishOpen();
+    }, 760);
+  }
+
+  function spawnOrbBubbleSparks(circle) {
+    var rect = circle.getBoundingClientRect();
+    var cx = rect.left + rect.width / 2;
+    var cy = rect.top + rect.height / 2;
+    var count = 20;
+
+    for (var i = 0; i < count; i += 1) {
+      var spark = document.createElement('span');
+      var size = 7 + Math.random() * 18;
+      var angle = Math.random() * Math.PI * 2;
+      var distance = rect.width * (0.42 + Math.random() * 0.62);
+      var dx = Math.cos(angle) * distance;
+      var dy = Math.sin(angle) * distance - Math.random() * 28;
+      var duration = 800 + Math.random() * 480;
+
+      spark.className = 'm-cons-bubble-spark';
+      spark.style.width = size.toFixed(1) + 'px';
+      spark.style.height = size.toFixed(1) + 'px';
+      spark.style.left = (cx - size / 2).toFixed(1) + 'px';
+      spark.style.top = (cy - size / 2).toFixed(1) + 'px';
+      document.body.appendChild(spark);
+
+      var anim = spark.animate(
+        [
+          { transform: 'translate(0,0) scale(0.2)', opacity: 0, offset: 0 },
+          { opacity: 0.9, offset: 0.18 },
+          { transform: 'translate(' + dx.toFixed(1) + 'px, ' + dy.toFixed(1) + 'px) scale(1)', opacity: 0, offset: 1 }
+        ],
+        {
+          duration: duration,
+          easing: 'cubic-bezier(.22,.61,.36,1)',
+          delay: Math.random() * 120,
+          fill: 'forwards'
+        }
+      );
+      (function (el) {
+        anim.onfinish = function () {
+          el.remove();
+        };
+      })(spark);
+    }
+  }
+
+  function clearPendingCardOpen() {
+    if (cardOpenTimer) {
+      window.clearTimeout(cardOpenTimer);
+      cardOpenTimer = null;
+    }
+    isOpeningCard = false;
+    Array.prototype.forEach.call(document.querySelectorAll('.m-cons-orb__circle.is-bursting'), function (circle) {
+      if (circle._consBurstEndHandler) {
+        circle.removeEventListener('animationend', circle._consBurstEndHandler);
+        circle._consBurstEndHandler = null;
+      }
+      circle.classList.remove('is-bursting');
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('.m-cons-bubble-spark'), function (spark) {
+      spark.remove();
+    });
+  }
+
   function closeCard() {
     var overlay = document.getElementById('cons-card-overlay');
+    clearPendingCardOpen();
     if (!overlay) return;
     overlay.classList.remove('is-open');
+    overlay.classList.remove('is-single-card', 'is-group-card');
+    overlay.removeAttribute('data-active-card');
     overlay.setAttribute('aria-hidden', 'true');
     Array.prototype.forEach.call(overlay.querySelectorAll('.m-cons-flip.is-flipped'), function (flip) {
       flip.classList.remove('is-flipped');
@@ -300,6 +490,58 @@
   function bindOnce() {
     if (bound) return;
     bound = true;
+    var draggedBubbleScroller = false;
+
+    function bindBubbleScroller() {
+      var field = document.getElementById('cons-orbit-field');
+      if (!field || field._consDragBound) return;
+      var isDragging = false;
+      var startX = 0;
+      var startScrollLeft = 0;
+      var dragDistance = 0;
+
+      field._consDragBound = true;
+
+      field.addEventListener('pointerdown', function (event) {
+        if (event.pointerType === 'mouse' && event.button !== 0) return;
+        isDragging = true;
+        dragDistance = 0;
+        startX = event.clientX;
+        startScrollLeft = field.scrollLeft;
+        field.classList.add('is-dragging');
+        if (field.setPointerCapture) field.setPointerCapture(event.pointerId);
+      });
+
+      field.addEventListener('pointermove', function (event) {
+        if (!isDragging) return;
+        var deltaX = event.clientX - startX;
+        dragDistance = Math.max(dragDistance, Math.abs(deltaX));
+        field.scrollLeft = startScrollLeft - deltaX;
+        if (dragDistance > 4) {
+          draggedBubbleScroller = true;
+          event.preventDefault();
+        }
+      });
+
+      function stopDrag(event) {
+        if (!isDragging) return;
+        isDragging = false;
+        field.classList.remove('is-dragging');
+        if (field.releasePointerCapture) {
+          try {
+            field.releasePointerCapture(event.pointerId);
+          } catch (error) {
+            // Pointer capture may already be released by the browser.
+          }
+        }
+      }
+
+      field.addEventListener('pointerup', stopDrag);
+      field.addEventListener('pointercancel', stopDrag);
+      field.addEventListener('pointerleave', stopDrag);
+    }
+
+    bindBubbleScroller();
 
     document.addEventListener('click', function (event) {
       var trigger = event.target.closest ? event.target.closest('.hero__scroll[href="#cons-orbit"]') : null;
@@ -317,10 +559,25 @@
     });
 
     document.addEventListener('click', function (event) {
+      if (draggedBubbleScroller) {
+        draggedBubbleScroller = false;
+        event.preventDefault();
+        event.stopPropagation();
+        return;
+      }
+
       var orb = event.target.closest ? event.target.closest('.m-cons-orb') : null;
       if (orb) {
-        if (!isMobileStatic() && !orb.classList.contains('is-featured')) return;
-        openCard(orb.getAttribute('data-category'));
+        if (isOpeningCard) return;
+        if (!isMobileStatic() && !isTabletLayout() && !orb.classList.contains('is-featured')) return;
+        burstOrbThenOpen(orb, orb.getAttribute('data-category'));
+        return;
+      }
+
+      var finalBubble = event.target.closest ? event.target.closest('.m-cons-final-bubble') : null;
+      if (finalBubble) {
+        if (isOpeningCard) return;
+        burstOrbThenOpen(finalBubble, finalBubble.getAttribute('data-category'));
         return;
       }
 
@@ -334,6 +591,12 @@
       }
 
       var overlay = document.getElementById('cons-card-overlay');
+      var activeSingleCard = event.target.closest ? event.target.closest('.m-cons-card.is-active') : null;
+      if (overlay && overlay.classList.contains('is-single-card') && activeSingleCard) {
+        closeCard();
+        return;
+      }
+
       if (overlay && event.target === overlay) closeCard();
     });
 
@@ -351,6 +614,7 @@
     if (!section || !pin) return;
     collectOrbs();
     bindOnce();
+    buildConservationBubbles();
     currentProgress = 0;
     targetProgress = 0;
     currentCarouselPosition = 0;
@@ -408,6 +672,7 @@
     if (section) section.classList.remove('is-static-mobile');
     restorePin(pin);
     clearInlineOrbitStyles(pin);
+    clearConservationBubbles();
     closeCard();
   }
 

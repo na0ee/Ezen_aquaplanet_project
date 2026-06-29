@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,500&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/style.css?v=20260626-06" />
 
   <!-- Three.js importmap (ES module) -->
   <script type="importmap">
@@ -226,10 +226,10 @@
                 <h3 class="creature-info__name">Walrus</h3>
                 <span class="creature-info__name-kr">: 바다코끼리</span>
               </header>
-              <dl class="creature-info__meta"></dl>
-                <div><dt>Name</dt><dd>: 메리, 바랴</dd></div>
-                <div><dt>Location</dt><dd>: 아쿠아플라넷 일산</dd></div>
-              </dl>
+              <p class="creature-info__meta">
+                <span>Name : 메리, 바랴</span>
+                <span>Location : 아쿠아플라넷 일산</span>
+              </p>
               <p class="creature-info__desc">
                 국내 유일 바다코끼리 자매, 메리와 바랴
               </p>
@@ -241,10 +241,10 @@
                 <h3 class="creature-info__name">Beluga</h3>
                 <span class="creature-info__name-kr">: 벨루가</span>
               </header>
-              <dl class="creature-info__meta">
-                <div><dt>Name</dt><dd>: 루비</dd></div>
-                <div><dt>Location</dt><dd>: 아쿠아플라넷 여수</dd></div>
-              </dl>
+              <p class="creature-info__meta">
+                <span>Name : 루비</span>
+                <span>Location : 아쿠아플라넷 여수</span>
+              </p>
               <p class="creature-info__desc">국내에 소수만 남아 있는 희귀한 흰고래</p>
             </article>
             <a href="Oceanfriends.html" class="crew-panel-btn btn-cta btn-cta--fill-white" data-index="1">보러가기</a>
@@ -254,9 +254,9 @@
                 <h3 class="creature-info__name">Sand Tiger Shark</h3>
                 <span class="creature-info__name-kr">: 모래뱀상어</span>
               </header>
-              <dl class="creature-info__meta">
-                <div><dt>Location</dt><dd>: 아쿠아플라넷 일산, 제주</dd></div>
-              </dl>
+              <p class="creature-info__meta">
+                <span>Location : 아쿠아플라넷 일산, 제주</span>
+              </p>
               <p class="creature-info__desc">메인수조를 대표하는 대형 상어</p>
             </article>
             <a href="Oceanfriends.html" class="crew-panel-btn btn-cta btn-cta--fill-white" data-index="2">보러가기</a>
@@ -266,9 +266,9 @@
                 <h3 class="creature-info__name">Green Sea Turtle</h3>
                 <span class="creature-info__name-kr">: 푸른바다거북</span>
               </header>
-              <dl class="creature-info__meta">
-                <div><dt>Location</dt><dd>: 아쿠아플라넷 여수</dd></div>
-              </dl>
+              <p class="creature-info__meta">
+                <span>Location : 아쿠아플라넷 여수</span>
+              </p>
               <p class="creature-info__desc">
                 국내 최초 인공번식 성공으로 이어진 바다거북 종보전의 상징<br>
                 아쿠아플라넷의 오랜 친구
@@ -645,12 +645,12 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script src="js/main.js"></script>
+  <script src="js/main.js?v=20260626-03"></script>
   <script type="module">
-    if (!window.matchMedia('(max-width: 768px)').matches) {
-      import('./js/crew3d.js?v=20260624-02');
+    if (!window.matchMedia('(max-width: 820px)').matches) {
+      import('./js/crew3d.js?v=20260626-03');
     }
   </script>
-  <script src="js/logo_glass.js?v=20260624-01" type="module"></script>
+  <script src="js/logo_glass.js?v=20260626-05" type="module"></script>
 </body>
 </html>
