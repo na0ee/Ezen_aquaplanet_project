@@ -124,6 +124,17 @@ function initSmoothScroll() {
   let rafId = null;
   let isSelf = false;
 
+  /* 크루 패널 스냅 상태 */
+  let crewSnapTargetPanel = 0;
+  let crewSnapLocked = false;
+  let crewSnapLockTimer = null;
+
+  /* 카드가 실제로 나타날 때 잠금 해제 (crew3d.js가 68% 입장 시점에 발생시킴) */
+  document.addEventListener('crew-card-reenter', () => {
+    clearTimeout(crewSnapLockTimer);
+    crewSnapLocked = false;
+  });
+
   const ease = 0.08;        /* 낮을수록 느리고 부드러움 (0.08 ≈ 0.5초에 90% 도달) */
   const speedScale = 0.80;  /* 휠 delta 감속 비율 */
 
@@ -160,24 +171,43 @@ function initSmoothScroll() {
     const crewScale = crewPanelActive ? 1.3 : speedScale;
     targetY = clamp(targetY + e.deltaY * crewScale);
 
-    /* 크루 패널 구간: targetY를 인접 패널 경계까지만 허용해 건너뜀 방지 */
+    /* 크루 패널 구간: 패널당 스냅 — 카드가 나타난 뒤에만 다음 패널로 이동 */
     if (crewPanelActive) {
       const crewEl = document.getElementById('sec-crew');
       if (crewEl) {
-        const crewTopAbs = window.scrollY + crewEl.getBoundingClientRect().top;
+        const crewTopAbs = crewEl.getBoundingClientRect().top + window.scrollY;
         const panelH     = window.innerHeight;
         const panelCount = crewEl.querySelectorAll('.crew-panel').length || 4;
-        const curPanel   = Math.floor((window.scrollY - crewTopAbs) / panelH);
         const dir        = e.deltaY > 0 ? 1 : -1;
-        const exitLimit  = crewTopAbs + Math.max(crewEl.offsetHeight, panelCount * panelH);
-        if (dir > 0 && curPanel >= panelCount - 1) {
-          targetY = clamp(targetY + e.deltaY);
+
+        /* 잠금 해제이거나 위로 이동 시 실제 위치 기준으로 목표 패널 동기화 */
+        if (!crewSnapLocked || dir < 0) {
+          crewSnapTargetPanel = Math.round(
+            Math.max(0, Math.min(panelCount - 1, (window.scrollY - crewTopAbs) / panelH))
+          );
         }
-        const lo = crewTopAbs + Math.max(0, curPanel + (dir < 0 ? -1 : 0)) * panelH;
-        const hi = dir > 0 && curPanel >= panelCount - 1
-          ? exitLimit
-          : crewTopAbs + Math.min(panelCount, curPanel + (dir > 0 ? 1 : 0) + 1) * panelH;
-        targetY = Math.max(lo, Math.min(hi, targetY));
+
+        if (dir > 0 && crewSnapTargetPanel >= panelCount - 1) {
+          /* 마지막 패널에서 아래 스크롤 → 섹션 탈출 */
+          targetY = clamp(crewTopAbs + panelCount * panelH);
+        } else if (crewSnapLocked && dir > 0) {
+          /* 카드 미출현 잠금 중 + 아래 방향 → 목표 고정 */
+          targetY = clamp(crewTopAbs + crewSnapTargetPanel * panelH);
+        } else {
+          /* 패널 전환 허용 */
+          crewSnapTargetPanel = Math.max(0, Math.min(panelCount - 1, crewSnapTargetPanel + dir));
+          targetY = clamp(crewTopAbs + crewSnapTargetPanel * panelH);
+          if (dir > 0) {
+            /* 아래로 이동: crew-card-reenter 이벤트가 올 때까지 잠금, 최대 3초 */
+            crewSnapLocked = true;
+            clearTimeout(crewSnapLockTimer);
+            crewSnapLockTimer = window.setTimeout(() => { crewSnapLocked = false; }, 3000);
+          } else {
+            /* 위로 이동: 즉시 잠금 해제 */
+            clearTimeout(crewSnapLockTimer);
+            crewSnapLocked = false;
+          }
+        }
       }
     }
 

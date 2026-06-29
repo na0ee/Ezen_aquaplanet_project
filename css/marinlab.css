@@ -2591,6 +2591,38 @@ body.marin-view-conservation .m-pill-tabs:not(.m-pill-tabs--cases) {
   z-index: 1;
 }
 
+.m-cons-orb__circle.ticket-bubble.is-bursting::after {
+  animation: mConsTicketBubbleBurst 0.62s ease-out forwards;
+}
+
+.m-cons-bubble-spark {
+  position: fixed;
+  z-index: 1200;
+  border-radius: 50%;
+  background: url('../assets/images/ticket/ticket-bubble.webp') center / contain no-repeat;
+  border: 1px solid rgba(255, 255, 255, 0.86);
+  box-shadow:
+    0 0 8px rgba(132, 215, 255, 0.72),
+    inset 0 0 5px rgba(255, 255, 255, 0.74);
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+@keyframes mConsTicketBubbleBurst {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  45% {
+    transform: scale(1.28);
+    opacity: 0.85;
+  }
+  100% {
+    transform: scale(1.7);
+    opacity: 0;
+  }
+}
+
 .m-cons-orb.is-featured .m-cons-orb__circle {
   box-shadow: 0 32px 90px rgba(0, 63, 122, 0.28);
 }
@@ -2617,14 +2649,14 @@ body.marin-view-conservation .m-pill-tabs:not(.m-pill-tabs--cases) {
 
 .m-cons-orb[data-category="pinniped"] .m-cons-orb__circle img {
   width: 84%;
-  height: 84%;
-  margin: 8%;
+  height: 100%;
+  margin: 5%;
 }
 
 .m-cons-orb[data-category="seahorse"] .m-cons-orb__circle img {
   width: 75%;
-  height: 75%;
-  margin: 12.5%;
+  height: 100%;
+  margin: 18%;
 }
 
 .m-cons-orb.is-featured:hover .m-cons-orb__circle img {
