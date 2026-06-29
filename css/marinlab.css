@@ -2647,6 +2647,13 @@ body.marin-view-conservation .m-pill-tabs:not(.m-pill-tabs--cases) {
   transition: transform 0.35s ease, filter 0.35s ease;
 }
 
+.m-cons-orb[data-category="whale"] .m-cons-orb__circle img,
+.m-cons-orb[data-category="shark"] .m-cons-orb__circle img {
+  width: 96%;
+  height: 96%;
+  margin: 2%;
+}
+
 .m-cons-orb[data-category="pinniped"] .m-cons-orb__circle img {
   width: 84%;
   height: 100%;

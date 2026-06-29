@@ -746,96 +746,100 @@ const clock = new THREE.Clock();
 
 (function animate() {
   requestAnimationFrame(animate);
-  const dt = clock.getDelta();
+  try {
+    const dt = clock.getDelta();
 
-  const crewState = getCrewScrollState();
-  const forceEntryNow = performance.now() < forceCrewEntryUntil;
-
-
-  if (!crewInView && !entryActive && !exitActive && !forceEntryNow) {
-    if (crewCanvas.style.opacity !== '0' || currentIdx >= 0) hideCrewCanvas();
-    return;
-  }
+    const crewState = getCrewScrollState();
+    const forceEntryNow = performance.now() < forceCrewEntryUntil;
 
 
-  models.forEach(m => m?.mixer?.update(dt));
-
-
-  if (entryActive && entryModel) {
-    entryT = Math.min(entryT + dt / ENTRY_DUR, 1);
-    const t = 1 - Math.pow(1 - entryT, 3);
-    const rotSign = -1;
-    const rotT = easeInOutCubic(entryT);
-    const settle = smoothstep(0.48, 0.96, entryT);
-    const swimFade = 1 - settle;
-    const swim = Math.sin(entryT * Math.PI * 3.2);
-    const glide = entryCurve.getPoint(t);
-
-    entryModel.position.copy(glide);
-    entryModel.position.y += swim * ENTRY_SWIM_Y * swimFade;
-    entryModel.position.z += Math.cos(entryT * Math.PI * 2.4) * ENTRY_SWIM_Z * swimFade;
-
-    entryModel.rotation.y = (1 - rotT) * ENTRY_SIDE_ROT * rotSign + rotT * SETTLED_ROT_Y + swim * 0.1 * swimFade * rotSign;
-    entryModel.rotation.x = Math.sin(entryT * Math.PI * 2.2) * ENTRY_PITCH * swimFade + settle * SETTLED_ROT_X;
-    entryModel.rotation.z = -swim * ENTRY_ROLL * rotSign * swimFade;
-    if (entryT >= 0.52 && !crewInfoVisible) {
-      setCrewInfoVisible(true);
+    if (!crewInView && !entryActive && !exitActive && !forceEntryNow) {
+      if (crewCanvas.style.opacity !== '0' || currentIdx >= 0) hideCrewCanvas();
+      return;
     }
-    if (entryT >= 1) {
-      entryModel.rotation.set(SETTLED_ROT_X, SETTLED_ROT_Y, 0);
-      entryActive = false;
-      entryModel  = null;
-      currentSettled = true;
-      enableControls();
-      revealCrewInfo(80);
-    }
-  }
 
 
-  if (exitActive && exitModel) {
-    exitT = Math.min(exitT + dt / EXIT_DUR, 1);
-    const t       = exitT * exitT;
-    const rotSign = (exitEndPos.x < 0) ? -1 : 1;
-    exitModel.position.lerpVectors(exitStartPos, exitEndPos, t);
-    exitModel.rotation.y = exitStartRotY * (1 - t) + t * 0.8 * rotSign;
-    exitModel.rotation.x = exitStartRotX * (1 - t);
-    if (exitT >= 1) {
-      exitModel.visible    = false;
-      exitModel.rotation.set(0, 0, 0);
-      exitActive = false;
-      exitModel  = null;
-      if (hideCanvasAfterExit) {
-        hideCanvasAfterExit = false;
-        crewCanvas.style.opacity = '0';
-        setCrewInfoVisible(false);
-        document.dispatchEvent(new CustomEvent('crew-tail-exit-complete'));
-      } else if (crewWaveExiting) {
-        hideCrewCanvas();
+    models.forEach(m => m?.mixer?.update(dt));
+
+
+    if (entryActive && entryModel) {
+      entryT = Math.min(entryT + dt / ENTRY_DUR, 1);
+      const t = 1 - Math.pow(1 - entryT, 3);
+      const rotSign = -1;
+      const rotT = easeInOutCubic(entryT);
+      const settle = smoothstep(0.48, 0.96, entryT);
+      const swimFade = 1 - settle;
+      const swim = Math.sin(entryT * Math.PI * 3.2);
+      const glide = entryCurve.getPoint(t);
+
+      entryModel.position.copy(glide);
+      entryModel.position.y += swim * ENTRY_SWIM_Y * swimFade;
+      entryModel.position.z += Math.cos(entryT * Math.PI * 2.4) * ENTRY_SWIM_Z * swimFade;
+
+      entryModel.rotation.y = (1 - rotT) * ENTRY_SIDE_ROT * rotSign + rotT * SETTLED_ROT_Y + swim * 0.1 * swimFade * rotSign;
+      entryModel.rotation.x = Math.sin(entryT * Math.PI * 2.2) * ENTRY_PITCH * swimFade + settle * SETTLED_ROT_X;
+      entryModel.rotation.z = -swim * ENTRY_ROLL * rotSign * swimFade;
+      if (entryT >= 0.52 && !crewInfoVisible) {
+        setCrewInfoVisible(true);
+      }
+      if (entryT >= 1) {
+        entryModel.rotation.set(SETTLED_ROT_X, SETTLED_ROT_Y, 0);
+        entryActive = false;
+        entryModel  = null;
+        currentSettled = true;
+        enableControls();
+        revealCrewInfo(80);
       }
     }
+
+
+    if (exitActive && exitModel) {
+      exitT = Math.min(exitT + dt / EXIT_DUR, 1);
+      const t       = exitT * exitT;
+      const rotSign = (exitEndPos.x < 0) ? -1 : 1;
+      exitModel.position.lerpVectors(exitStartPos, exitEndPos, t);
+      exitModel.rotation.y = exitStartRotY * (1 - t) + t * 0.8 * rotSign;
+      exitModel.rotation.x = exitStartRotX * (1 - t);
+      if (exitT >= 1) {
+        exitModel.visible    = false;
+        exitModel.rotation.set(0, 0, 0);
+        exitActive = false;
+        exitModel  = null;
+        if (hideCanvasAfterExit) {
+          hideCanvasAfterExit = false;
+          crewCanvas.style.opacity = '0';
+          setCrewInfoVisible(false);
+          document.dispatchEvent(new CustomEvent('crew-tail-exit-complete'));
+        } else if (crewWaveExiting) {
+          hideCrewCanvas();
+        }
+      }
+    }
+
+    if (!crewState.inPanelRange && !entryActive && !exitActive && !forceEntryNow) {
+      hideCrewCanvas();
+      return;
+    }
+
+
+    clampCanvasToSticky();
+
+    if (controlsActive && currentSettled) {
+      camera.position.x = getCrewCamX();
+      camera.position.y = getCrewCamY();
+      camera.position.z = 8;
+    } else {
+      const cameraBobFade = entryActive ? 1 - smoothstep(0.62, 1, entryT) : 1;
+
+      camera.position.x = getCrewCamX();
+      camera.position.y = getCrewCamY() + Math.sin(clock.elapsedTime * 0.38) * 0.08 * cameraBobFade;
+      camera.position.z = 8.0 + Math.sin(clock.elapsedTime * 0.22) * 0.12 * cameraBobFade;
+    }
+
+    renderer.render(scene, camera);
+  } catch (e) {
+    console.error('[crew3d] 렌더 오류:', e);
   }
-
-  if (!crewState.inPanelRange && !entryActive && !exitActive && !forceEntryNow) {
-    hideCrewCanvas();
-    return;
-  }
-
-
-  clampCanvasToSticky();
-
-  if (controlsActive && currentSettled) {
-    camera.position.x = getCrewCamX();
-    camera.position.y = getCrewCamY();
-    camera.position.z = 8;
-  } else {
-    const cameraBobFade = entryActive ? 1 - smoothstep(0.62, 1, entryT) : 1;
-
-    camera.position.x = getCrewCamX();
-    camera.position.y = getCrewCamY() + Math.sin(clock.elapsedTime * 0.38) * 0.08 * cameraBobFade;
-    camera.position.z = 8.0 + Math.sin(clock.elapsedTime * 0.22) * 0.12 * cameraBobFade;
-  }
-
-  renderer.render(scene, camera);
 }());
 
 

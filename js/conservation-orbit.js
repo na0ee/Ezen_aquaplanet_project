@@ -221,7 +221,7 @@
     return {
       x: CAROUSEL_ORBIT.x * orbitFactor + Math.cos(angle) * CAROUSEL_ORBIT.rx * orbitFactor,
       y: CAROUSEL_ORBIT.y * orbitFactor + Math.sin(angle) * CAROUSEL_ORBIT.ry * orbitFactor,
-      size: (170 + centerWeight * 290 + edgeWeight * 50) * sizeFactor,
+      size: (150 + centerWeight * 230 + edgeWeight * 30) * sizeFactor,
       opacity: Math.max(centerWeight, edgeWeight * 0.42) * farFade,
       centerWeight: centerWeight
     };

@@ -1056,6 +1056,7 @@
       let cooldownUntil = 0;
       let activeLayer = imageA;
       let idleLayer = imageB;
+      let caseScrollTrigger = null;
 
       function getCurrentCases() {
         return caseGroups[activeCategory] || dolphinCases;
@@ -1240,6 +1241,9 @@
         updateCaseTabs();
         preloadAround(0);
         renderInstant(getCurrentCases()[currentIndex]);
+        if (caseScrollTrigger && typeof ScrollTrigger !== 'undefined') {
+          ScrollTrigger.refresh();
+        }
         spotlight.setAttribute('aria-label', (category === 'seaTurtle' ? 'SeaTurtle' : 'Dolphin') + ' 구조일지');
         return true;
       }
@@ -1273,12 +1277,13 @@
         let mm = gsap.matchMedia();
 
         mm.add("all", () => {
-          ScrollTrigger.create({
+          caseScrollTrigger = ScrollTrigger.create({
             trigger: spotlight,
             start: 'center center+=51',
-            end: '+=60%',
+            end: () => '+=' + (Math.max(1, getTotal() - 1) * window.innerHeight),
             pin: spotlight,
             pinSpacing: true,
+            invalidateOnRefresh: true,
             onEnter: () => { casePinActive = true; },
             onEnterBack: () => { casePinActive = true; },
             onLeave: () => { casePinActive = false; },
@@ -1309,7 +1314,30 @@
         requestStep(direction, event);
       }
 
-      spotlight.addEventListener('wheel', handleCaseWheel, { passive: false });
+      let lastCaseTouchY = null;
+
+      function handleCaseTouchStart(event) {
+        if (!event.touches || event.touches.length !== 1) return;
+        lastCaseTouchY = event.touches[0].clientY;
+      }
+
+      function handleCaseTouchMove(event) {
+        if (!casePinActive) return;
+        if (document.body.classList.contains('marin-view-conservation')) return;
+        if (!event.touches || event.touches.length !== 1 || lastCaseTouchY === null) return;
+
+        const currentY = event.touches[0].clientY;
+        const deltaY = lastCaseTouchY - currentY;
+        if (Math.abs(deltaY) < 12) return;
+
+        const direction = deltaY > 0 ? 1 : -1;
+        requestStep(direction, event);
+        lastCaseTouchY = currentY;
+      }
+
+      window.addEventListener('wheel', handleCaseWheel, { passive: false });
+      window.addEventListener('touchstart', handleCaseTouchStart, { passive: true });
+      window.addEventListener('touchmove', handleCaseTouchMove, { passive: false });
     })();
   </script>
 </body>

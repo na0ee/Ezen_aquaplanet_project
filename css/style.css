@@ -944,7 +944,7 @@ body.is-logo-at-header .gnb__logo {
 /* ---- 3D 로고 캔버스 래퍼 — 화면 중앙 고정, 내부 심볼만 스크롤로 이동 ---- */
 .logo3d-wrap {
   position: fixed;
-  top: 50%;
+  top: 48%;
   left: 50%;
   width: var(--logo3d-size);
   height: var(--logo3d-size);
@@ -969,6 +969,12 @@ body.is-logo-at-header .gnb__logo {
   display: block;
   width: 100% !important;
   height: 100% !important;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.logo3d-wrap.is-backdrop-ready canvas {
+  opacity: 1;
 }
 
 /* ---- 로고 뒤로 헤엄쳐 지나가는 물고기 떼 (비디오 위 z:0, 로고 캔버스 z:1490 아래) ---- */

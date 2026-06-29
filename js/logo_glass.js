@@ -168,7 +168,10 @@ function heuristicTier() {
 
 async function detectTier() {
   try {
-    const mod = await import('https://esm.sh/detect-gpu@5');
+    const timeout = new Promise((_, reject) =>
+      setTimeout(() => reject(new Error('detect-gpu timeout')), 3000)
+    );
+    const mod = await Promise.race([import('https://esm.sh/detect-gpu@5'), timeout]);
     const g = await mod.getGPUTier();
     return { tier: g.tier ?? 2, isMobile: !!g.isMobile };
   } catch {
@@ -636,24 +639,24 @@ async function initLogo3D() {
   const progress = { v: reduceMotion ? 1 : 0 };  // 스크롤 단일 소스
 
   // 굴절 모드: 전용 매핑 비디오를 VideoTexture 로 받아 셰이더 굴절에 사용 (GLB 로드 전에 준비).
+  let backdropVideoEl = null;
   if (STYLE.refract) {
-    const videoEl = document.createElement('video');
-    videoEl.src = REFRACT_VIDEO_SRC;
+    /* HTML에 미리 삽입된 #logo-bg-video를 재사용 → 페이지 파싱 시점부터 로딩 시작 */
+    const videoEl = document.getElementById('logo-bg-video') || document.createElement('video');
+    if (!videoEl.src) videoEl.src = REFRACT_VIDEO_SRC;
     videoEl.muted = true;
     videoEl.loop = true;
     videoEl.playsInline = true;
     videoEl.preload = 'auto';
     videoEl.autoplay = true;
     videoEl.setAttribute('aria-hidden', 'true');
-    videoEl.className = 'logo-bg-video';
-    if (videoEl) {
-      REFRACT.tex = new THREE.VideoTexture(videoEl);
-      REFRACT.tex.colorSpace = THREE.SRGBColorSpace;
-      const setVA = () => { if (videoEl.videoWidth) REFRACT.videoAspect = videoEl.videoWidth / videoEl.videoHeight; };
-      setVA();
-      videoEl.addEventListener('loadedmetadata', setVA);
-      videoEl.play().catch((e) => console.warn('[logo3d] 매핑 비디오 재생 실패:', e));
-    }
+    REFRACT.tex = new THREE.VideoTexture(videoEl);
+    REFRACT.tex.colorSpace = THREE.SRGBColorSpace;
+    const setVA = () => { if (videoEl.videoWidth) REFRACT.videoAspect = videoEl.videoWidth / videoEl.videoHeight; };
+    setVA();
+    videoEl.addEventListener('loadedmetadata', setVA);
+    videoEl.play().catch((e) => console.warn('[logo3d] 매핑 비디오 재생 실패:', e));
+    backdropVideoEl = videoEl;
   }
 
   const footerVideo = document.querySelector('.footer__video-bg');
@@ -721,7 +724,10 @@ async function initLogo3D() {
   camera.lookAt(0, 0, 0);
   setupSceneEnv(scene, renderer);
   const symbolBackdrop = makeVideoBackdrop(REFRACT.tex, () => REFRACT.videoAspect, footerTexture, () => footerVideoAspect);
-  if (symbolBackdrop) scene.add(symbolBackdrop);
+  if (symbolBackdrop) {
+    scene.add(symbolBackdrop);
+    symbolBackdrop.visible = false;
+  }
   const footerBackdrop = null;
 
   const logoGroup = new THREE.Group();
@@ -741,8 +747,28 @@ async function initLogo3D() {
   let footerHold = false;        // footer 애니메이션 종료 후에도 로고 유지
   let needsRender = true;
   let renderRAF = null;
+  let backdropShown = false;
   const scheduleRender = () => { if (!renderRAF) renderRAF = requestAnimationFrame(tick); };
   const requestRender = () => { needsRender = true; scheduleRender(); };
+
+  if (backdropVideoEl && symbolBackdrop) {
+    const showBackdrop = () => {
+      if (backdropShown) return;
+      backdropShown = true;
+      symbolBackdrop.visible = true;
+      wrap.classList.add('is-backdrop-ready');
+      requestRender();
+    };
+    /* 이미 재생 가능 상태면 즉시 표시 */
+    if (backdropVideoEl.readyState >= 3) {
+      showBackdrop();
+    } else {
+      backdropVideoEl.addEventListener('canplay', showBackdrop, { once: true });
+      backdropVideoEl.addEventListener('playing', showBackdrop, { once: true });
+      setTimeout(showBackdrop, 2500);
+    }
+  }
+
   let symbolSize = null;
   let textSize = null;
   let footerEl = null;
@@ -893,7 +919,7 @@ async function initLogo3D() {
 
   function updateObjectLayout() {
     if (symbolBackdrop) {
-      symbolBackdrop.visible = true;
+      symbolBackdrop.visible = backdropShown;
       setBackdropMix(symbolBackdrop, isFooterMode() ? 1 : 0);
     }
     if (footerBackdrop) {
