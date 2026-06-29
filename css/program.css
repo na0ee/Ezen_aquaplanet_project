@@ -71,6 +71,10 @@ img {
   max-width: 100%;
 }
 
+html {
+  overflow-x: hidden;
+}
+
 /* Base Styles */
 ::selection {
   background: transparent;
@@ -83,6 +87,7 @@ body {
   padding-top: 102px;
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
 .container {
@@ -587,6 +592,7 @@ body {
 /* Schedule Table */
 .schedule-table {
   width: 100%;
+  max-width: 100%;
   margin-bottom: 40px;
   position: relative; /* 커스텀 스크롤바(absolute 오버레이) 기준 */
   padding-bottom: 44px; /* 스크롤바 오버레이 공간 */
@@ -662,6 +668,8 @@ body {
   display: flex;
   margin-top: 6px;
   align-items: flex-start;
+  max-width: 100%;
+  min-width: 0;
 }
 
 .schedule-section__labels {
@@ -689,6 +697,8 @@ body {
   display: flex;
   flex-direction: column;
   flex: 1;
+  min-width: 0;
+  max-width: 100%;
   overflow-x: auto;
   scrollbar-width: none; /* 네이티브 스크롤바 숨김 (커스텀 오버레이 사용) */
 }
@@ -1848,7 +1858,7 @@ body {
   position: relative;
   display: flex;
   align-items: center;
-  overflow: visible;
+  overflow: clip;
   clip-path: inset(-24px 0);
   margin-top: 0px;
   margin-bottom: 80px;
@@ -1856,7 +1866,7 @@ body {
 
 /* SW=49: 사이드 카드가 테두리에 딱 맞음 */
 .program-preview[data-sw="49"] {
-  overflow: visible;
+  overflow: clip;
   clip-path: inset(-24px 0);
 }
 

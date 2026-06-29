@@ -26,6 +26,12 @@ document.addEventListener('DOMContentLoaded', () => {
   initCursorWave();
 });
 
+/* bfcache 복원 시 강제 새로고침 — WebGL 컨텍스트가 소멸한 채 복원되면
+   3D 렌더러가 에러를 쏟아내므로 페이지를 즉시 리로드한다. */
+window.addEventListener('pageshow', (e) => {
+  if (e.persisted) window.location.reload();
+});
+
 function isMobileViewport() {
   return window.matchMedia('(max-width: 768px)').matches;
 }
@@ -129,10 +135,23 @@ function initSmoothScroll() {
   let crewSnapLocked = false;
   let crewSnapLockTimer = null;
 
-  /* 카드가 실제로 나타날 때 잠금 해제 (crew3d.js가 68% 입장 시점에 발생시킴) */
+  /* 카드 opacity 전환 완료(transitionend)를 직접 감지해 즉시 잠금 해제.
+     opacity >= 0.99 조건으로 카드가 나타나는 방향(0→1)일 때만 해제한다 (숨겨지는 방향 무시). */
+  const crewInfoWrapEl = document.querySelector('.crew-info-wrap');
+  if (crewInfoWrapEl) {
+    crewInfoWrapEl.addEventListener('transitionend', (e) => {
+      if (e.propertyName !== 'opacity' || !crewSnapLocked) return;
+      if (parseFloat(getComputedStyle(crewInfoWrapEl).opacity) >= 0.99) {
+        clearTimeout(crewSnapLockTimer);
+        crewSnapLocked = false;
+      }
+    });
+  }
+
+  /* crew-card-reenter는 transitionend 폴백: 전환이 시작되면 600ms 타이머 설정 */
   document.addEventListener('crew-card-reenter', () => {
     clearTimeout(crewSnapLockTimer);
-    crewSnapLocked = false;
+    crewSnapLockTimer = window.setTimeout(() => { crewSnapLocked = false; }, 600);
   });
 
   const ease = 0.08;        /* 낮을수록 느리고 부드러움 (0.08 ≈ 0.5초에 90% 도달) */
@@ -198,10 +217,10 @@ function initSmoothScroll() {
           crewSnapTargetPanel = Math.max(0, Math.min(panelCount - 1, crewSnapTargetPanel + dir));
           targetY = clamp(crewTopAbs + crewSnapTargetPanel * panelH);
           if (dir > 0) {
-            /* 아래로 이동: crew-card-reenter 이벤트가 올 때까지 잠금, 최대 3초 */
+            /* 아래로 이동: transitionend 또는 crew-card-reenter+600ms 폴백까지 잠금 */
             crewSnapLocked = true;
             clearTimeout(crewSnapLockTimer);
-            crewSnapLockTimer = window.setTimeout(() => { crewSnapLocked = false; }, 3000);
+            crewSnapLockTimer = window.setTimeout(() => { crewSnapLocked = false; }, 2000);
           } else {
             /* 위로 이동: 즉시 잠금 해제 */
             clearTimeout(crewSnapLockTimer);
@@ -563,6 +582,9 @@ function initLogoScrollGate() {
   const enterBtn = document.querySelector('.logo-scroll');
   if (!intro || !enterBtn) return;
 
+  let scrollCount = 0;
+  let gateOpen    = false;
+
   enterBtn.addEventListener('click', (e) => {
     e.preventDefault();
     e.stopImmediatePropagation();
@@ -600,8 +622,14 @@ function initIntroReveal() {
   ScrollTrigger.create({
     trigger: '#sec-logo',
     start: '70% top',
-    onEnter: () => introContent.classList.add('is-visible'),
-    onLeaveBack: () => introContent.classList.add('is-visible'),
+    onEnter: () => {
+      introContent.classList.add('is-visible');
+      window.__logoTransitionComplete = true;
+    },
+    onLeaveBack: () => {
+      introContent.classList.add('is-visible');
+      window.__logoTransitionComplete = false;
+    },
     once: false,
   });
 }
@@ -616,14 +644,13 @@ function initHeroFadeIn() {
   const section = document.getElementById('sec-intro');
   if (!section) return;
 
+  const activate = () => {
+    section.classList.add('hero-active');
+    observer.disconnect();
+  };
   const observer = new IntersectionObserver(
-    ([entry]) => {
-      if (entry.isIntersecting) {
-        section.classList.add('hero-active');
-        observer.disconnect();
-      }
-    },
-    { threshold: 0.3 }
+    ([entry]) => { if (entry.isIntersecting) activate(); },
+    { threshold: 0.05 }
   );
   observer.observe(section);
 }
@@ -636,6 +663,7 @@ let diveActive = false;
 let isTransitioning = false;
 let crewScrollUnlocked = false;
 let crewPanelActive = false;
+let diveResetTimer = 0;
 
 function initIntroScrollGate() {
   const intro = document.getElementById('sec-intro');
@@ -671,6 +699,10 @@ function initIntroScrollGate() {
 
   function isAfterLogoTransition() {
     if (!logo) return true;
+    /* ScrollTrigger가 세팅한 플래그가 있으면 우선 사용 (pin spacer 삽입 전/후 측정 오차 방지) */
+    if (window.__logoTransitionComplete === true) return true;
+    if (window.__logoTransitionComplete === false) return false;
+    /* 플래그가 없으면 (ScrollTrigger 아직 미초기화) 위치로 fallback */
     const logoEnd = sectionTop(logo) + logo.offsetHeight;
     return window.scrollY >= logoEnd - 4;
   }
@@ -684,6 +716,8 @@ function initIntroScrollGate() {
   }
 
   function updateIntroPinState() {
+    /* wave 전환 중에는 갱신 건너뜀 — 아래 triggerDive()의 filter 버그 해설 참고 */
+    if (diveActive || isTransitioning) return;
     const y = window.scrollY;
     const introTop = getIntroTop();
     const introEnd = getIntroEnd();
@@ -728,7 +762,9 @@ function initIntroScrollGate() {
     window.clearTimeout(introDiveTimer);
     introDiveTimer = window.setTimeout(() => {
       introDivePending = false;
-      if (!diveActive && !isTransitioning && !crewScrollUnlocked && isBeforeCrew()) {
+      /* 100ms 지난 뒤 실제 위치를 재검증해 엉뚱한 타이밍에 전환 발동 방지 */
+      if (!diveActive && !isTransitioning && !crewScrollUnlocked &&
+          isAfterLogoTransition() && isAtOrAfterIntro() && isPastIntroHoldPoint() && isBeforeCrew()) {
         triggerDive();
       }
     }, INTRO_DIVE_DELAY_MS);
@@ -950,6 +986,7 @@ function useSectionTransitionRippleLegacy({ from, to, onPeak, onDone } = {}) {
   const turbEl = document.getElementById('dive-turbulence');
   const mainEl = document.getElementById('main');
   const overlay = document.getElementById('dive-overlay');
+  const vignette = document.getElementById('dive-vignette');
 
   if (!dispMap || !turbEl || !vignette || !mainEl || !overlay || !from || !to) return null;
 
@@ -1527,6 +1564,22 @@ function triggerDive() {
 
   if (!fromEl || !toEl) { diveActive = false; return; }
 
+  /* useSectionTransitionLegacy()는 #main에 filter:url(#dive-warp)를 즉시 적용한다.
+     CSS filter가 있는 조상은 position:fixed 자손의 containing block이 되어버리므로,
+     is-intro-pinned(position:fixed;inset:0)가 살아있으면 hero가 문서 최상단(y=0)으로 튀어
+     화면에서 사라진다("텍스트 사라짐·위에서 일렁임" 버그).
+     filter 적용 전에 먼저 fixed를 sticky로 환원한다 — sticky는 조상 filter 영향을 받지 않는다. */
+  fromEl.classList.remove('is-intro-pinned', 'is-intro-after');
+
+  /* GSAP 타임라인이 kill되면 onComplete가 안 불려 diveActive가 영원히 true로 남을 수 있음 — 안전망 */
+  window.clearTimeout(diveResetTimer);
+  diveResetTimer = window.setTimeout(() => {
+    if (diveActive) {
+      diveActive = false;
+      isTransitioning = false;
+      document.body.classList.remove('is-transitioning');
+    }
+  }, 3500);
 
   const transition = useSectionTransitionLegacy({
     from:   fromEl,
@@ -1551,6 +1604,7 @@ function triggerDive() {
       document.dispatchEvent(new CustomEvent('crew-force-enter'));
     },
     onDone: () => {
+      window.clearTimeout(diveResetTimer);
       diveActive = false;
     },
   });
