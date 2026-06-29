@@ -146,7 +146,7 @@ body {
 
 .gnb__link,
 .gnb__item {
-  color: #ffffff;
+  color: rgba(255, 255, 255, 0.5);
   font-family: "Poppins", sans-serif;
   font-size: 18px;
   font-weight: 400;
@@ -161,7 +161,7 @@ body {
 .gnb__link.gnb__link--active,
 .gnb__item.gnb__item--active {
   color: #ffffff;
-  font-family: "EB Garamond", serif;
+  font-family: "Poppins", sans-serif;
   font-size: 20px;
   font-weight: 400;
   letter-spacing: -1.12px;
@@ -255,9 +255,9 @@ body {
 .gnb__dropdown-item:hover {
   background-color: #ffffff;
   color: #22b2ea;
-  font-family: "EB Garamond";
-  font-size: 18px;
-  letter-spacing: -0.72px;
+  font-family: "Poppins", sans-serif;
+  font-size: 16px;
+  letter-spacing: -0.64px;
   font-weight: 500;
 }
 
@@ -448,6 +448,10 @@ body {
   flex-shrink: 0;
 }
 
+.time-block .tag {
+  min-width: 62px;
+}
+
 .tag--performance {
   background-color: #22B2EA;
 }
@@ -467,6 +471,10 @@ body {
   padding: 160px 0;
 }
 
+.section--schedule {
+  padding-top: 0px;
+}
+
 /* 지역 탭으로 선택되지 않은 섹션 숨김 */
 .section.is-hidden {
   display: none;
@@ -474,6 +482,7 @@ body {
 
 .section__header {
   text-align: center;
+  margin-top: 160px;
 }
 
 .section__title {
@@ -514,6 +523,79 @@ body {
 }
 
 .mo-only { display: none; }
+
+/* Location Tabs */
+.cartegory-tabs-a {
+  margin-top: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0) 15%,
+    rgba(255, 255, 255, 0) 85%,
+    rgba(255, 255, 255, 0.1) 100%
+  );
+  backdrop-filter: blur(16px);
+  border: none;
+  padding: 3px;
+  border-radius: 14px;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cartegory-tabs-a::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  padding: 1.5px;
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.55) 0%,
+    rgba(255, 255, 255, 0.20) 25%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(255, 255, 255, 0.20) 75%,
+    rgba(255, 255, 255, 0.55) 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box,
+                linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  mask: linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.cartegory-tabs-a__item {
+  height: 44px;
+  padding: 0 20px;
+  border-radius: 12px;
+  font-family: "Poppins", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: -0.64px;
+  color: #ffffff;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.cartegory-tabs-a__item--active {
+  background-color: #ffffff;
+  color: var(--Brand-Primary, #22B2EA);
+  font-family: "EB Garamond", serif;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: -0.8px;
+}
 
 /* Category Tabs B */
 .cartegory-tabs-b {
@@ -1420,6 +1502,7 @@ body {
     font-size: 14px;
   }
 
+  .cartegory-tabs-a__item,
   .cartegory-tabs-b__item {
     font-size: 14px;
     height: 40px;
@@ -1427,6 +1510,12 @@ body {
   }
 
   .mo-only { display: inline; }
+
+  .cartegory-tabs-a {
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+    max-width: 100%;
+  }
 
   .cartegory-tabs-b {
     margin-bottom: 40px;
@@ -1493,7 +1582,7 @@ body {
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: 10px;
   padding: 10px 16px;
   border: none;
   border-radius: 14px;
@@ -1558,13 +1647,12 @@ body {
 .schedule-date-tab--active .schedule-date-tab__num,
 .schedule-date-tab--active .schedule-date-tab__day {
   color: #22b2ea;
-  font-weight: 600;
 }
 
 .schedule-date-tab__num {
   font-family: "Pretendard", sans-serif;
   font-size: 18px;
-  font-weight: 400;
+  font-weight: 500;
   color: #ffffff;
   letter-spacing: -0.88px;
   line-height: normal;
@@ -1573,7 +1661,7 @@ body {
 .schedule-date-tab__day {
   font-family: "Pretendard", sans-serif;
   font-size: 18px;
-  font-weight: 400;
+  font-weight: 500;
   color: #ffffff;
   letter-spacing: -0.88px;
   line-height: normal;
@@ -1721,9 +1809,8 @@ body {
   white-space: nowrap;
 }
 
-/* Tags inside time-block — 가장 긴 라벨(공연프로그램·체험프로그램, 6자) 기준 통일 너비 */
+/* Tags inside time-block */
 .time-block .tag {
-  width: 82px;
   height: 26px;
   padding: 0 10px;
   font-size: 12px;
@@ -1902,11 +1989,7 @@ body {
     inset 0 -1px 0 rgba(255, 255, 255, 0.12),
     inset 1px 0 0 rgba(255, 255, 255, 0.20),
     inset -1px 0 0 rgba(255, 255, 255, 0.08);
-  padding: clamp(8px, 2vw, 20px);
-}
-
-.program-preview__card.is-center {
-  cursor: pointer;
+  padding: 20px;
 }
 
 .program-preview__card::before {
@@ -1974,29 +2057,15 @@ body {
   z-index: 1;
 }
 
-.card-img-wrap::after {
-  content: '';
-  position: absolute;
-  inset: 70% 0 0 0;
-  background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.55));
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 60%);
-  mask-image: linear-gradient(to bottom, transparent 0%, black 60%);
-  border-radius: 0 0 12px 12px;
-  z-index: 0;
-}
-
-
 .program-preview__tag {
   display: inline-flex;
   align-items: center;
-  height: 28px;
-  padding: 0 14px;
+  height: 32px;
+  padding: 0 16px;
   border-radius: 14px;
   background: rgba(255, 255, 255, 0.12);
   font-family: "Pretendard", sans-serif;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 500;
   color: #ffffff;
   letter-spacing: -0.32px;
@@ -2009,7 +2078,7 @@ body {
 
 .program-preview__title {
   font-family: "Pretendard", sans-serif;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 500;
   color: #ffffff;
   letter-spacing: -0.8px;
@@ -2089,11 +2158,10 @@ body {
 
 .hero__title-row {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0;
+  align-items: flex-end;
+  gap: 16px;
+  white-space: nowrap;
   margin-bottom: 22px;
-  text-align: center;
 }
 
 .hero__title-main {
@@ -2103,7 +2171,6 @@ body {
   color: #ffffff;
   letter-spacing: -4px;
   line-height: normal;
-  margin-bottom: -46px;
 }
 
 .hero__title-em {
@@ -2369,14 +2436,10 @@ body {
   gap: 6px;
   margin-bottom: 14px;
 }
-.program-detail-modal__header.title-wrapped {
-  align-items: flex-start;
-}
 
 .program-detail-modal__tag {
   display: inline-block;
   flex-shrink: 0;
-  align-self: flex-start;
 }
 
 .program-detail-modal__tag.tag--education {
@@ -2395,8 +2458,8 @@ body {
 }
 
 .program-detail-modal__title {
-  font-size: 18px;
-  font-weight: 500;
+  font-size: 20px;
+  font-weight: 600;
   line-height: 1.35;
   color: #fff;
 }
@@ -2429,7 +2492,7 @@ body {
 
 .program-detail-modal__content .detail-modal__meta-row {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 12px;
   font-size: 14px;
   align-self: flex-start;
@@ -2710,36 +2773,6 @@ body {
   .time-block {
     padding: 16px;
   }
-
-  .schedule-table {
-    width: 100%;
-    max-width: 100%;
-  }
-
-  .hero__title-row {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 0;
-  }
-
-  .program-detail-modal__close {
-    width: 30px !important;
-    height: 30px !important;
-  }
-
-  .program-detail-modal__close img {
-    width: 20px;
-    height: 20px;
-  }
-
-  .program-detail-modal__title {
-    font-size: 18px;
-  }
-
-  .program-preview__card {
-    padding: 16px;
-  }
 }
 
 @media (max-width: 768px) {
@@ -2750,7 +2783,6 @@ body {
   }
   .hero__title-em {
     font-size: clamp(46px, 13vw, 76px);
-    line-height: 0.95;
   }
   .hero__welcome {
     font-size: clamp(17px, 4.8vw, 23px);
@@ -2764,10 +2796,9 @@ body {
     margin-top: 40px;
   }
   .hero__title-row {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 14px;
+    white-space: normal;
+    flex-wrap: wrap;
+    justify-content: center;
   }
   .program-preview__card {
     padding: 8px;
@@ -2811,11 +2842,11 @@ body {
   .schedule-date-tab__num,
   .schedule-date-tab__day {
     font-size: 16px;
-    font-weight: 400;
+    font-weight: 300;
   }
   .schedule-date-tab--active .schedule-date-tab__num,
   .schedule-date-tab--active .schedule-date-tab__day {
-    font-weight: 600;
+    font-weight: 500;
   }
   .schedule-time-grid {
     gap: 14px;
@@ -2869,8 +2900,8 @@ body {
 @media (max-width: 430px) {
 }
 
-/* ── GNB 햄버거 (1024px 이하) ── */
-@media (max-width: 1024px) {
+/* ── GNB 모바일 (768px 이하) ── */
+@media (max-width: 768px) {
   .gnb__inner {
     flex-direction: row;
     align-items: center;

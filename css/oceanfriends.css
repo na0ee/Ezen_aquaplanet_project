@@ -75,7 +75,7 @@ body.oceanfriends-page {
 .oceanfriends-page .gnb__link.gnb__link--active,
 .oceanfriends-page .gnb__item.gnb__item--active {
   color: #ffffff;
-  font-family: "EB Garamond", serif;
+  font-family: "Poppins", sans-serif;
   font-size: 20px;
   font-weight: 400;
   letter-spacing: -1.12px;
@@ -108,7 +108,7 @@ body.oceanfriends-page {
 
 .oceanfriends-page .gnb__dropdown {
   position: absolute;
-  top: 48px;
+  top: 60px;
   left: 0;
   transform: none;
   display: flex;
@@ -188,9 +188,9 @@ body.oceanfriends-page {
 .oceanfriends-page .gnb__dropdown-item:hover {
   background-color: #ffffff;
   color: #22b2ea;
-  font-family: "EB Garamond";
-  font-size: 18px;
-  letter-spacing: -0.72px;
+  font-family: "Poppins", sans-serif;
+  font-size: 16px;
+  letter-spacing: -0.64px;
   font-weight: 500;
 }
 
