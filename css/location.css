@@ -213,7 +213,8 @@ body {
   top: 50%;
   /* 중앙 정렬 + 초기 40px 아래 오프셋 (JS 페이드인 시 올라옴) */
   transform: translate(-50%, calc(-50% + 40px));
-  width: 428px;
+  width: var(--intro-card-w, 428px);
+  max-width: calc(100vw - 80px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -239,6 +240,11 @@ body {
   will-change: opacity, transform;
   z-index: 2;
 }
+
+body[data-location="jeju"] { --intro-card-w: 560px; }
+body[data-location="yeosu"] { --intro-card-w: 620px; }
+body[data-location="ilsan"] { --intro-card-w: 740px; }
+body[data-location="gwanggyo"] { --intro-card-w: 700px; }
 
 .loc-intro__content::before {
   content: '';
@@ -321,6 +327,7 @@ body {
 
 .loc-intro__address p {
   margin: 0;
+  white-space: nowrap;
 }
 
 /* 인용문 (Figma: Frame 320, Pretendard, 24px, white, tracking=-0.48px) */
@@ -343,6 +350,7 @@ body {
 
 .loc-intro__quote p {
   margin: 0;
+  white-space: nowrap;
 }
 
 .loc-intro__quote strong {
@@ -372,6 +380,7 @@ body {
   line-height: 1.4;
   text-align: center;
   width: 100%;
+  white-space: nowrap;
 }
 
 /* ================================================================
