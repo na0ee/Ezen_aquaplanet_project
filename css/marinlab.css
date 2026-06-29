@@ -2463,6 +2463,10 @@ body.marin-view-conservation .m-pill-tabs:not(.m-pill-tabs--cases) {
   box-shadow: 0 32px 90px rgba(0, 63, 122, 0.28);
 }
 
+.m-cons-orb.is-featured {
+  pointer-events: auto !important;
+}
+
 .m-cons-orb.is-featured:hover .m-cons-orb__circle {
   box-shadow: 0 32px 90px rgba(0, 63, 122, 0.28);
 }
@@ -2994,6 +2998,7 @@ body.marin-view-conservation .m-pill-tabs:not(.m-pill-tabs--cases) {
 ================================ */
 
 @media (min-width: 761px) and (max-width: 1280px) {
+
   :root {
     --cons-tablet-hero-height: max(100vh, 120vw);
     --cons-tablet-orbit-height: 5200px;
@@ -3395,6 +3400,4 @@ body.marin-view-conservation .m-pill-tabs:not(.m-pill-tabs--cases) {
 
   body.marin-view-conservation .m-cons-flip {
     height: min(58vh, 420px);
-    border-radius: 12px;
-  }
-}
+    border-radius: 12px;}

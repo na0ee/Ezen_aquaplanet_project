@@ -1,19 +1,11 @@
-/* =============================================================
-  AQUA PLANET — crew3d.js
-  Three.js GLB 로더 + 스크롤 드리븐 동물 전환
-   ============================================================= */
+
 
 import * as THREE from 'three';
 import { GLTFLoader }    from 'three/addons/loaders/GLTFLoader.js';
 import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
 
 
-/* ---------------------------------------------------------------
-  동물 설정
-  scale: 정규화 배율 (1.0 = 뷰포트 기준 2단위 크기)
-  y:     수직 오프셋 (모델 중심 보정)
-  rotY:  기본 회전각 (rad)
---------------------------------------------------------------- */
+
 const CREATURES = [
   { key: 'walrus',  src: 'assets/models/walrus_animated.glb',     scale: 0.78, y: -0.3, rotY:  0.2 },
   { key: 'beluga',  src: 'assets/models/whiteWhale_animated.glb',  scale: 0.84, y:  0.0, rotY: -0.2 },
@@ -36,16 +28,16 @@ function isCrewGlbDisabled() {
 }
 
 function getCrewViewportScale() {
-  if (CREW_MOBILE_QUERY.matches) return 0.70; /* 모바일: 카드와 겹치지 않도록 모델 축소 */
+  if (CREW_MOBILE_QUERY.matches) return 0.70; 
   return CREW_TABLET_QUERY.matches ? 0.70 : 1;
 }
 
 function getCrewCamX() {
-  if (CREW_MOBILE_QUERY.matches) return -1.62; /* 모바일: settled X 맞춰 화면 중앙 */
+  if (CREW_MOBILE_QUERY.matches) return -1.62; 
   return CREW_TABLET_QUERY.matches ? -0.4 : 0;
 }
 
-/* 모바일: 카메라를 아래로 내려 모델이 화면 상단에 위치 → 카드와 분리 */
+
 function getCrewCamY() {
   return CREW_MOBILE_QUERY.matches ? -0.5 : 0.3;
 }
@@ -57,37 +49,33 @@ function applyCrewViewportScale() {
   });
 }
 
-/* 진입 곡선: 브라우저 창 밖에서 헤엄쳐 들어옴
-    FWD = 오른쪽 밖 → 중앙,  BWD = 왼쪽 밖 → 중앙
-   카메라 z=8, FOV 42 기준 화면 가장자리 ≈ ±5.5 → 시작점 ±18 */
+
 const ENTRY_FWD = new THREE.CatmullRomCurve3([
   new THREE.Vector3( 18, -0.7,  0.9),
   new THREE.Vector3( 10,  0.45, -0.6),
   new THREE.Vector3(  3, -0.15,  0.35),
-  new THREE.Vector3( -1.1, 0.1,  -0.1),
-  new THREE.Vector3( -1.62, 0.42,  0),
+  new THREE.Vector3( -1.7, 0.1,  -0.1),
+  new THREE.Vector3( -1.70, 0.20,  0),
 ]);
 const ENTRY_BWD = new THREE.CatmullRomCurve3([
   new THREE.Vector3(-18, -0.7,  0.9),
   new THREE.Vector3(-12,  0.45, -0.7),
   new THREE.Vector3( -7, -0.15,  0.35),
-  new THREE.Vector3( -4,  0.1,  -0.1),
-  new THREE.Vector3( -1.62, 0.42,  0),
+  new THREE.Vector3( -4.6,  0.1,  -0.1),
+  new THREE.Vector3( -1.70, 0.20,  0),
 ]);
-/* 퇴장: 반대 방향 창 밖으로 */
 const EXIT_FWD = new THREE.Vector3(-18, -0.4, 0.3);
 const EXIT_BWD = new THREE.Vector3( 18, -0.4, 0.3);
 
-const ENTRY_DUR  = 2.0;  /* 진입 시간 (초) */
-const EXIT_DUR   = 0.8;   /* 퇴장 시간 (초) */
-const ENTRY_SIDE_ROT = Math.PI * 0.5;
+const ENTRY_DUR  = 1.85; 
+const EXIT_DUR   = 0.8;  
+const ENTRY_SIDE_ROT = Math.PI * 0.25;
 const ENTRY_SWIM_Y = 0.18;
 const ENTRY_SWIM_Z = 0.12;
 const ENTRY_ROLL = 0.16;
 const ENTRY_PITCH = 0.08;
-/* 정착 각도 — 이미지처럼 3/4 측면에서 약간 위에서 내려다보는 앵글 */
-const SETTLED_ROT_Y = -0.52;  /* ≈ -30° 옆 각도 (반대 방향) */
-const SETTLED_ROT_X = 0.10;   /* ≈ 6°  위에서 내려다보는 각도 */
+const SETTLED_ROT_Y = Math.PI * 0.14; 
+const SETTLED_ROT_X = 0.10; 
 
 function easeInOutCubic(t) {
   return t < 0.5
@@ -100,10 +88,7 @@ function smoothstep(edge0, edge1, x) {
   return t * t * (3 - 2 * t);
 }
 
-/* ---------------------------------------------------------------
-   씬 초기화 — 캔버스를 body에 position:fixed 전체화면으로 부착
-   동물이 브라우저 창 밖에서 진짜 헤엄쳐 들어옴
---------------------------------------------------------------- */
+
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1;
@@ -118,7 +103,7 @@ if (THREE.SRGBColorSpace !== undefined) {
   renderer.outputEncoding = THREE.sRGBEncoding;
 }
 
-/* 캔버스를 전체화면 fixed overlay로 */
+
 const crewCanvas = renderer.domElement;
 crewCanvas.id = 'crew-3d-canvas';
 Object.assign(crewCanvas.style, {
@@ -134,7 +119,7 @@ Object.assign(crewCanvas.style, {
 });
 document.body.appendChild(crewCanvas);
 
-/* 크루 섹션 뷰포트 진입 시 표시, 이탈 시 페이드 아웃 */
+
 const crewSection      = document.getElementById('sec-crew');
 const crewSticky       = crewSection?.querySelector('.crew-sticky');
 const totalPanelCount  = crewSection?.querySelectorAll('.crew-panel').length || 4;
@@ -192,8 +177,7 @@ function hideCrewCanvas() {
   setCrewInfoVisible(false);
 }
 
-/* 캔버스를 crew-sticky 가시 영역으로 clip.
-   퇴장 구간: 다운 스크롤 → translateY로 위로 올라가게, 업 스크롤 → 즉시 숨김 */
+
 function clampCanvasToSticky() {
   if (!crewSticky || !crewSection) return;
   const sr   = crewSticky.getBoundingClientRect();
@@ -235,7 +219,7 @@ function clampCanvasToSticky() {
     }
   }
 
-  /* sticky 가시 영역 클립 */
+
   const visTop = Math.max(0, sr.top);
   const visBtm = Math.min(vh, sr.bottom);
   crewCanvas.style.clipPath = (visBtm > visTop)
@@ -244,14 +228,28 @@ function clampCanvasToSticky() {
 }
 
 function setCrewInfoVisible(visible) {
+  if (!visible) clearTimeout(crewContentTimer);
   const wasVisible = crewInfoVisible;
   crewInfoVisible = visible;
   crewSection?.classList.remove('is-creature-moving');
+  crewSection?.classList.toggle('is-creature-settled', visible);
+  crewSection?.classList.toggle('is-card-revealed', visible);
   if (visible && !wasVisible) {
     document.dispatchEvent(new CustomEvent('crew-card-reenter', {
       detail: { idx: currentIdx }
     }));
   }
+}
+
+function revealCrewInfo(delay = 0) {
+  clearTimeout(crewContentTimer);
+  if (delay > 0) {
+    crewContentTimer = setTimeout(() => {
+      if (crewInView && currentSettled) setCrewInfoVisible(true);
+    }, delay);
+    return;
+  }
+  if (crewInView && currentSettled) setCrewInfoVisible(true);
 }
 
 function setCrewTitleVisible(visible) {
@@ -277,7 +275,7 @@ setCrewInfoVisible(false);
 setCrewTitleVisible(false);
 if (crewSection) {
   new IntersectionObserver(([e]) => {
-    /* force-enter 기간 중 지연된 leave 콜백은 crewInView도 건드리지 않음 */
+
     if (!e.isIntersecting && performance.now() < forceCrewEntryUntil) {
       syncControls();
       return;
@@ -302,12 +300,7 @@ const camera = new THREE.PerspectiveCamera(
 );
 camera.position.set(getCrewCamX(), getCrewCamY(), 8);
 
-/* ---------------------------------------------------------------
-   생물 영역(화면 왼쪽 44%)에만 올라가는 히트존 div.
-   오른쪽 인포카드·스크롤은 그대로 작동.
-   진입 애니메이션 중: 비활성화 + 카메라 출렁임
-   착지 후: 모델 자체를 드래그 회전
---------------------------------------------------------------- */
+
 const orbitHit = document.createElement('div');
 orbitHit.id = 'crew-orbit-hit-area';
 orbitHit.setAttribute('aria-hidden', 'true');
@@ -366,7 +359,6 @@ function disableControls() {
   isDraggingModel              = false;
   activePointerId              = null;
   syncControls();
-  /* 카메라를 기본 위치로 복원해 bob 애니메이션이 올바르게 재개 */
   camera.position.set(getCrewCamX(), getCrewCamY(), 8);
 }
 
@@ -411,7 +403,6 @@ function stopModelDrag(e) {
 orbitHit.addEventListener('pointerup', stopModelDrag);
 orbitHit.addEventListener('pointercancel', stopModelDrag);
 
-/* --- 조명 (수중 분위기) --- */
 scene.add(new THREE.AmbientLight(0x6ab8d4, 1.4));
 
 const sunLight = new THREE.DirectionalLight(0xffffff, 2.2);
@@ -433,7 +424,7 @@ const loader    = new GLTFLoader();
 loader.setMeshoptDecoder(MeshoptDecoder);
 const models    = new Array(CREATURES.length).fill(null);
 let   loadedN   = 0;
-let   pendingIdx = -1;  /* 로드 완료 전 스크롤된 인덱스 보관 */
+let   pendingIdx = -1;
 
 CREATURES.forEach((cfg, idx) => {
   loader.load(
@@ -441,21 +432,20 @@ CREATURES.forEach((cfg, idx) => {
     (gltf) => {
       const mesh = gltf.scene;
 
-      /* 크기 자동 정규화 */
+
       const box    = new THREE.Box3().setFromObject(mesh);
       const size   = box.getSize(new THREE.Vector3());
       const maxDim = Math.max(size.x, size.y, size.z);
       const s      = (3.22 / maxDim) * cfg.scale;
       mesh.scale.setScalar(s);
 
-      /* 중심 정렬 */
       box.setFromObject(mesh);
       const center = box.getCenter(new THREE.Vector3());
       mesh.position.sub(center);
       mesh.position.y += cfg.y;
       mesh.rotation.y  = cfg.rotY;
 
-      /* pivot — 이동/페이드 제어 */
+
       const pivot = new THREE.Group();
       pivot.add(mesh);
       pivot.scale.setScalar(getCrewViewportScale());
@@ -463,7 +453,6 @@ CREATURES.forEach((cfg, idx) => {
       pivot.visible = false;
       scene.add(pivot);
 
-      /* 내장 애니메이션 재생 */
       const mixer = new THREE.AnimationMixer(mesh);
       gltf.animations.forEach(clip => mixer.clipAction(clip).play());
 
@@ -473,27 +462,25 @@ CREATURES.forEach((cfg, idx) => {
     },
     undefined,
     (err) => {
-      console.warn(`[crew3d] ${cfg.src} 로드 실패:`, err);
-      loadedN++;  /* 실패한 모델도 카운트해서 나머지가 계속 동작하도록 */
+      console.warn(`[crew3d] ${cfg.src} 로드 ?�패:`, err);
+      loadedN++; 
       if (loadedN === CREATURES.length) onAllLoaded();
     }
   );
 });
 
 function onAllLoaded() {
-  /* 로딩 폴백 placeholder 숨기기 */
+
   const ph = document.getElementById('crew-placeholder');
   if (ph) ph.classList.add('is-hidden');
 
-  /* 로드 전 스크롤된 인덱스가 있으면 그 위치로, 없으면 0번 */
+
   if (crewInView) {
     scheduleCreatureEntry(true);
   }
 }
 
-/* ---------------------------------------------------------------
-   전환 상태
---------------------------------------------------------------- */
+
 let currentIdx   = -1;
 let entryModel   = null;
 let entryCurve   = ENTRY_FWD;
@@ -515,7 +502,7 @@ function enterCrewSection() {
   crewCanvas.style.opacity    = '1';
 
   setCrewTitleVisible(true);
-  setCrewInfoVisible(true);
+  setCrewInfoVisible(false);
   hideCanvasAfterExit = false;
   clearTimeout(crewContentTimer);
   clearTimeout(crewFishTopTimer);
@@ -531,13 +518,13 @@ function enterCrewSection() {
 
 function leaveCrewSection() {
   clearTimeout(crewContentTimer);
-  /* force-enter 기간 중 IO의 지연 leave 콜백 무시 */
+
   if (performance.now() < forceCrewEntryUntil) return;
   if (isCrewPanelRangeActive()) {
     enterCrewSection();
     return;
   }
-  /* exit zone 다운 스크롤 중: translateY가 GLB를 위로 밀어내므로 수영 애니메이션 불필요 */
+
   if (exitZoneActive) return;
   clearTimeout(crewEntryTimer);
   clearTimeout(crewFishTopTimer);
@@ -606,7 +593,6 @@ function showCreature(idx, immediate = false) {
 
   if (idx === currentIdx) {
     crewCanvas.style.opacity = '1';
-    setCrewInfoVisible(true);
     if (models[idx]?.pivot) {
       if (exitActive && exitModel === models[idx].pivot) {
         exitActive = false;
@@ -620,19 +606,30 @@ function showCreature(idx, immediate = false) {
         models[idx].pivot.rotation.set(SETTLED_ROT_X, SETTLED_ROT_Y, 0);
         currentSettled = true;
         enableControls();
+        revealCrewInfo();
+      } else if (currentSettled) {
+        revealCrewInfo();
       }
     }
     return;
   }
 
   hideCanvasAfterExit = false;
-  crewCanvas.style.opacity = '1';
+  const isInitialCreature = currentIdx === -1;
+  if (isInitialCreature) {
+    crewCanvas.style.transition = 'none';
+    crewCanvas.style.opacity = '0';
+  } else {
+    crewCanvas.style.transition = 'opacity 0.35s ease';
+    crewCanvas.style.opacity = '1';
+  }
   currentSettled = false;
+  setCrewInfoVisible(false);
   disableControls();
 
   const forward = idx > currentIdx || currentIdx === -1;
 
-  /* 진행 중인 진입 애니메이션 → 즉시 목표 위치로 스냅 */
+
   if (entryActive && entryModel) {
     entryModel.position.copy(entryCurve.getPoint(1));
     entryModel.rotation.set(SETTLED_ROT_X, SETTLED_ROT_Y, 0);
@@ -640,7 +637,7 @@ function showCreature(idx, immediate = false) {
     entryModel  = null;
   }
 
-  /* 진행 중인 퇴장 애니메이션 → 즉시 숨김 */
+
   if (exitActive && exitModel) {
     exitModel.visible   = false;
     exitModel.rotation.set(0, 0, 0);
@@ -648,7 +645,7 @@ function showCreature(idx, immediate = false) {
     exitModel  = null;
   }
 
-  /* 현재 모델 퇴장 시작 */
+
   if (currentIdx >= 0 && models[currentIdx]) {
     const prev = models[currentIdx].pivot;
     if (immediate) {
@@ -668,25 +665,35 @@ function showCreature(idx, immediate = false) {
 
   currentIdx = idx;
   if (!models[idx]) {
-    setCrewInfoVisible(true);
+    currentSettled = true;
+    revealCrewInfo();
     return;
   }
 
   const curve = forward ? ENTRY_FWD : ENTRY_BWD;
   const m = models[idx].pivot;
   m.rotation.set(0, 0, 0);
-  if (immediate) {
+  if (immediate || isInitialCreature) {
     m.position.copy(curve.getPoint(1));
     m.rotation.y = SETTLED_ROT_Y;
     m.rotation.x = SETTLED_ROT_X;
     m.visible    = true;
     currentSettled = true;
-    setCrewInfoVisible(true);
     enableControls();
+    if (isInitialCreature) {
+      requestAnimationFrame(() => {
+        crewCanvas.style.transition = 'opacity 0.7s ease';
+        crewCanvas.style.opacity = '1';
+      });
+      revealCrewInfo(360);
+    } else {
+      revealCrewInfo();
+    }
   } else {
     m.position.copy(curve.getPoint(0));
-    m.rotation.y = (forward ? -1 : 1) * ENTRY_SIDE_ROT;  /* 옆면으로 들어오기 */
+    m.rotation.y = (forward ? -1 : 1) * ENTRY_SIDE_ROT;  /* ?�면?�로 ?�어?�기 */
     m.visible    = true;
+    m.rotation.y = -ENTRY_SIDE_ROT;
     entryModel   = m;
     entryCurve   = curve;
     entryT       = 0;
@@ -694,9 +701,7 @@ function showCreature(idx, immediate = false) {
   }
 }
 
-/* ---------------------------------------------------------------
-   렌더 루프
---------------------------------------------------------------- */
+
 function restoreCurrentCreatureAfterWaveExit() {
   clearTimeout(crewEntryTimer);
   clearTimeout(crewContentTimer);
@@ -724,7 +729,7 @@ function restoreCurrentCreatureAfterWaveExit() {
   currentIdx = idx;
   if (!active) {
     currentSettled = false;
-    setCrewInfoVisible(true);
+    setCrewInfoVisible(false);
     return;
   }
 
@@ -733,8 +738,8 @@ function restoreCurrentCreatureAfterWaveExit() {
   active.rotation.set(SETTLED_ROT_X, SETTLED_ROT_Y, 0);
   active.visible = true;
   currentSettled = true;
-  setCrewInfoVisible(true);
   enableControls();
+  revealCrewInfo(120);
 }
 
 const clock = new THREE.Clock();
@@ -746,20 +751,20 @@ const clock = new THREE.Clock();
   const crewState = getCrewScrollState();
   const forceEntryNow = performance.now() < forceCrewEntryUntil;
 
-  /* 크루 섹션 범위 밖이고 애니메이션도 없으면 믹서/렌더 전부 스킵 */
+
   if (!crewInView && !entryActive && !exitActive && !forceEntryNow) {
     if (crewCanvas.style.opacity !== '0' || currentIdx >= 0) hideCrewCanvas();
     return;
   }
 
-  /* 애니메이션 믹서 업데이트 */
+
   models.forEach(m => m?.mixer?.update(dt));
 
-  /* 진입 (곡선 따라 이동 + 방향 회전, easeOutCubic) */
+
   if (entryActive && entryModel) {
     entryT = Math.min(entryT + dt / ENTRY_DUR, 1);
     const t = 1 - Math.pow(1 - entryT, 3);
-    const rotSign = (entryCurve === ENTRY_FWD) ? -1 : 1;
+    const rotSign = -1;
     const rotT = easeInOutCubic(entryT);
     const settle = smoothstep(0.48, 0.96, entryT);
     const swimFade = 1 - settle;
@@ -773,7 +778,7 @@ const clock = new THREE.Clock();
     entryModel.rotation.y = (1 - rotT) * ENTRY_SIDE_ROT * rotSign + rotT * SETTLED_ROT_Y + swim * 0.1 * swimFade * rotSign;
     entryModel.rotation.x = Math.sin(entryT * Math.PI * 2.2) * ENTRY_PITCH * swimFade + settle * SETTLED_ROT_X;
     entryModel.rotation.z = -swim * ENTRY_ROLL * rotSign * swimFade;
-    if (entryT >= 0.55) {
+    if (entryT >= 0.68 && !crewInfoVisible) {
       setCrewInfoVisible(true);
     }
     if (entryT >= 1) {
@@ -782,10 +787,11 @@ const clock = new THREE.Clock();
       entryModel  = null;
       currentSettled = true;
       enableControls();
+      revealCrewInfo(80);
     }
   }
 
-  /* 퇴장 (반대쪽으로 헤엄쳐 나감 + 방향 회전, easeInQuad) */
+
   if (exitActive && exitModel) {
     exitT = Math.min(exitT + dt / EXIT_DUR, 1);
     const t       = exitT * exitT;
@@ -814,7 +820,7 @@ const clock = new THREE.Clock();
     return;
   }
 
-  /* 클립 경로 항상 갱신 (스크롤 복귀 대응) */
+
   clampCanvasToSticky();
 
   if (controlsActive && currentSettled) {
@@ -823,7 +829,7 @@ const clock = new THREE.Clock();
     camera.position.z = 8;
   } else {
     const cameraBobFade = entryActive ? 1 - smoothstep(0.62, 1, entryT) : 1;
-    /* 수중 카메라 출렁임 */
+
     camera.position.x = getCrewCamX();
     camera.position.y = getCrewCamY() + Math.sin(clock.elapsedTime * 0.38) * 0.08 * cameraBobFade;
     camera.position.z = 8.0 + Math.sin(clock.elapsedTime * 0.22) * 0.12 * cameraBobFade;
@@ -832,9 +838,7 @@ const clock = new THREE.Clock();
   renderer.render(scene, camera);
 }());
 
-/* ---------------------------------------------------------------
-   리사이즈 대응 — 윈도우 기준 (full-screen fixed canvas)
---------------------------------------------------------------- */
+
 window.addEventListener('resize', () => {
   const glbDisabled = applyCrewGlbDisabledState();
   const { width, height } = getViewportSize();
@@ -848,16 +852,13 @@ window.addEventListener('resize', () => {
   clampCanvasToSticky();
 });
 
-/* ---------------------------------------------------------------
-   main.js crew-switch 이벤트 수신
---------------------------------------------------------------- */
+
 document.addEventListener('crew-switch', (e) => {
   pendingIdx = e.detail.idx;
   if (!crewInView) return;
 
   if (loadedN === CREATURES.length) {
-    /* 첫 진입(currentIdx === -1)이고 immediate가 아닌 경우:
-       force-enter 다이브 전환에서 발생 — scheduleCreatureEntry 타이머에 맡김 */
+
     if (currentIdx === -1 && !e.detail.immediate) return;
     showCreature(e.detail.idx, Boolean(e.detail.immediate));
   }
@@ -870,7 +871,7 @@ document.addEventListener('crew-force-enter', () => {
 });
 
 document.addEventListener('crew-tail-visibility', (e) => {
-  /* force-enter 기간(1200ms) 중에는 어떤 숨김 동작도 차단 */
+
   if (performance.now() < forceCrewEntryUntil) return;
 
   const state = getCrewScrollState();

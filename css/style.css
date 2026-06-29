@@ -7,13 +7,8 @@
    1. DESIGN TOKENS (CSS Custom Properties)
    ------------------------------------------------------------- */
 :root {
-  /* 3D 로고 비율 — fullLogo.glb 레퍼런스 기준: 심볼 폭 ≈ 텍스트 폭의 0.61 */
-  --logo3d-size: min(100vmin, 800px);
-  /* 심볼 캔버스 (더 키움) */
-  --logo3d-text-w: min(90vmin, 860px);
-  /* 글자 캔버스 가로 */
-  --logo3d-text-h: min(21vmin, 196px);
-  /* 글자 캔버스 세로 */
+  /* 3D 심볼 로고 */
+  --logo3d-size: min(112vmin, 980px);
 
   /* Fonts */
   --font-en: "Poppins", sans-serif;
@@ -774,7 +769,7 @@ body.is-logo-at-header .gnb__logo {
 /* ---- 3D 로고 캔버스 래퍼 — 화면 중앙 고정, 내부 심볼만 스크롤로 이동 ---- */
 .logo3d-wrap {
   position: fixed;
-  top: 40%;
+  top: 50%;
   left: 50%;
   width: var(--logo3d-size);
   height: var(--logo3d-size);
@@ -795,22 +790,7 @@ body.is-logo-at-header .gnb__logo {
   filter: brightness(0) invert(1);
 }
 
-/* ---- 'aqua planet' 글자 캔버스 — 위치/크기 고정, 페이드만 (GSAP transform 없음) ---- */
-.logo3d-text {
-  position: fixed;
-  top: 80%;
-  left: 50%;
-  width: var(--logo3d-text-w);
-  height: var(--logo3d-text-h);
-  margin-left: calc(var(--logo3d-text-w) / -2);
-  margin-top: calc(var(--logo3d-text-h) / -2);
-  pointer-events: none;
-  z-index: 1490;
-  will-change: opacity;
-}
-
-.logo3d-wrap canvas,
-.logo3d-text canvas {
+.logo3d-wrap canvas {
   display: block;
   width: 100% !important;
   height: 100% !important;
@@ -989,13 +969,13 @@ body.is-logo-at-header .gnb__logo {
   letter-spacing: var(--ls-normal);
   line-height: 1.4;
   color: var(--clr-text);
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .hero__sub {
   font-family: var(--font-kr);
   font-weight: 300;
-  font-size: var(--fs-hero-sub);
+  font-size: 24px;
   letter-spacing: var(--ls-normal);
   line-height: 1.4;
   color: var(--clr-text);
@@ -1479,12 +1459,72 @@ body.is-logo-at-header .gnb__logo {
   transform: translateY(38px);
   overflow: visible;
   background-clip: padding-box, border-box;
-  transition: opacity 0.38s ease, transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: opacity 0.46s ease, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.section--crew-scroll.is-content-visible .crew-info-wrap {
+.section--crew-scroll.is-card-revealed .crew-info-wrap {
   opacity: 1;
   transform: translateY(0);
+}
+
+.crew-card-indicator {
+  position: absolute;
+  right: 100%;
+  top: 30%;
+  z-index: 2;
+  width: clamp(132px, 10vw, 168px);
+  height: 78px;
+  overflow: visible;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-12px, -50%);
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.18));
+  transition: opacity 0.22s ease, transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.section--crew-scroll.is-card-revealed .crew-card-indicator {
+  opacity: 1;
+  transform: translate(0, -50%);
+}
+
+.crew-card-indicator__line {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.68);
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 174;
+  stroke-dashoffset: 174;
+}
+
+.crew-card-indicator__end {
+  fill: rgba(255, 255, 255, 0.78);
+  opacity: 0;
+  transform: scale(0.58);
+  transform-box: fill-box;
+  transform-origin: center;
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.45));
+}
+
+.section--crew-scroll.is-card-revealed .crew-card-indicator__line {
+  animation: crewIndicatorDraw 0.46s cubic-bezier(0.16, 0.84, 0.28, 1) 0.06s both;
+}
+
+.section--crew-scroll.is-card-revealed .crew-card-indicator__end {
+  animation: crewIndicatorDotIn 0.24s cubic-bezier(0.22, 1, 0.36, 1) 0.44s both;
+}
+
+@keyframes crewIndicatorDraw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes crewIndicatorDotIn {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 .crew-info-wrap::before {
@@ -1507,6 +1547,11 @@ body.is-logo-at-header .gnb__logo {
   opacity: 0;
   transform: translateY(8px);
   pointer-events: none;
+}
+
+.section--crew-scroll.is-creature-moving .crew-card-indicator {
+  opacity: 0;
+  transform: translate(-12px, -50%);
 }
 
 /* 각 생물 패널 — 텍스트만 페이드 전환 (카드 프레임은 crew-info-wrap 고정) */
@@ -4958,9 +5003,7 @@ body.biz-page {
 @media (min-width: 769px) and (max-width: 1024px) {
   .index-page {
     --container-w: min(100% - 48px, 960px);
-    --logo3d-size: min(96vmin, 760px);
-    --logo3d-text-w: min(78vmin, 640px);
-    --logo3d-text-h: min(17vmin, 140px);
+    --logo3d-size: min(108vmin, 900px);
     --fs-hero: clamp(76px, 9vw, 104px);
     --fs-eyebrow: clamp(22px, 2.8vw, 28px);
     --fs-hero-sub: clamp(20px, 2.5vw, 24px);
@@ -5068,6 +5111,11 @@ body.biz-page {
     min-width: 0;
     min-height: 260px;
     margin-left: 0;
+  }
+
+  .index-page .crew-card-indicator {
+    right: 100%;
+    width: 118px;
   }
 
   .index-page .crew-panel {
@@ -5389,9 +5437,7 @@ body.biz-page {
     --title-top:      68px;
     --sec-gap:        24px;
     --card-gap:       10px;
-    --logo3d-size:    min(106vmin, 400px);
-    --logo3d-text-w:  min(88vmin, 340px);
-    --logo3d-text-h:  min(21vmin, 82px);
+    --logo3d-size:    min(122vmin, 480px);
   }
 
 
@@ -5409,11 +5455,6 @@ body.biz-page {
   /* 헤더 심볼 로고 축소 */
   .index-page .gnb__logo {
     width: 36px;
-  }
-
-  /* 3D 텍스트 로고 — 심볼 로고 바로 아래로 당김 (기본 80% → 72%) */
-  .index-page .logo3d-text {
-    top: 72%;
   }
 
   /* 데스크탑 nav·티켓 숨김 */
@@ -5665,6 +5706,7 @@ body.biz-page {
     margin-bottom: 8px;
     overflow: visible;
     opacity: 1 !important;
+    transform: none !important;
     pointer-events: none;
   }
 
@@ -5715,6 +5757,21 @@ body.biz-page {
     min-height: 210px;
     opacity: 1 !important;
     transform: none !important;
+  }
+
+  .index-page .crew-card-indicator {
+    left: 50%;
+    right: auto;
+    top: -34px;
+    width: 92px;
+    height: 48px;
+    transform: translate(-50%, 0) rotate(90deg);
+    opacity: 0.76;
+  }
+
+  .index-page .section--crew-scroll.is-card-revealed .crew-card-indicator,
+  .index-page .section--crew-scroll.is-creature-moving .crew-card-indicator {
+    transform: translate(-50%, 0) rotate(90deg);
   }
 
   .index-page .crew-panel {
