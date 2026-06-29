@@ -15,10 +15,11 @@
     rel="stylesheet" />
   <link rel="stylesheet" href="css/marinlab.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Observer.min.js"></script>
 </head>
 
-<body>
+<body class="marinlab-page">
   <!-- SVG Glass Refraction Filter -->
   <svg style="display:none" aria-hidden="true">
     <defs>
@@ -35,11 +36,6 @@
 
   <header id="gnb" class="gnb">
     <div class="gnb__inner">
-      <!-- 모바일 전용 햄버거 버튼 -->
-      <button class="gnb__hamburger" type="button" aria-label="메뉴 열기" aria-expanded="false" aria-controls="gnb-mobile-menu">
-        <img src="assets/images/hamburgermenu_icon.svg" alt="">
-      </button>
-
       <nav class="gnb__nav" aria-label="메인 메뉴">
         <div class="gnb__nav-item" data-nav="location">
           <a href="location.html" class="gnb__link">Location</a>
@@ -80,11 +76,16 @@
         <p>Ticket</p>
         <p class="img"><img src="assets/images/ticket_icon_white.svg" alt=""></p>
       </a>
+
+      <button class="gnb__hamburger" type="button" aria-label="메뉴 열기" aria-expanded="false" aria-controls="mobile-menu">
+        <span class="gnb__hamburger-line"></span>
+        <span class="gnb__hamburger-line"></span>
+        <span class="gnb__hamburger-line"></span>
+      </button>
     </div>
   </header>
 
-  <!-- 모바일 전용 풀스크린 메뉴 -->
-  <div class="gnb__mobile-menu" id="gnb-mobile-menu" aria-hidden="true" role="dialog" aria-label="메인 메뉴">
+  <div class="gnb__mobile-menu" id="mobile-menu" aria-hidden="true" role="dialog" aria-label="메인 메뉴">
     <nav class="gnb__mobile-nav" aria-label="모바일 메뉴">
       <div class="gnb__mobile-item">
         <button class="gnb__mobile-link gnb__mobile-link--toggle" type="button" aria-expanded="false">
@@ -97,17 +98,19 @@
           <a href="location.html?loc=Gwanggyo">Gwanggyo</a>
         </div>
       </div>
+
       <a href="Oceanfriends.html" class="gnb__mobile-link">Ocean friends</a>
-      <div class="gnb__mobile-item">
-        <button class="gnb__mobile-link gnb__mobile-link--toggle" type="button" aria-expanded="false">
+      <div class="gnb__mobile-item is-open">
+        <button class="gnb__mobile-link gnb__mobile-link--toggle" type="button" aria-expanded="true">
           About us
         </button>
         <div class="gnb__mobile-sub">
           <a href="business.html">Business</a>
-          <a href="marinlab.html?view=rescue">Rescue &amp; Care</a>
-          <a href="marinlab.html?view=conservation">Conservation</a>
+          <a href="marinlab.html?view=rescue" class="gnb__mobile-sub-active" data-marin-menu="rescue">Rescue &amp; Care</a>
+          <a href="marinlab.html?view=conservation" data-marin-menu="conservation">Conservation</a>
         </div>
       </div>
+
       <div class="gnb__mobile-item">
         <button class="gnb__mobile-link gnb__mobile-link--toggle" type="button" aria-expanded="false">
           Program
@@ -119,6 +122,11 @@
           <a href="program.html?loc=Gwanggyo">Gwanggyo</a>
         </div>
       </div>
+
+      <a href="ticket.html" class="gnb__mobile-ticket btn-pill">
+        Ticket
+        <span class="img"><img src="assets/images/ticket_icon_white.svg" alt="" aria-hidden="true"></span>
+      </a>
     </nav>
   </div>
 
@@ -133,7 +141,7 @@
           <span class="hero__eyebrow">Welcome</span>
           <h1 class="hero__title"><span>aqua planet </span><em>Rescue <span class="hero__amp">&amp;</span> Care</em>
           </h1>
-          <p class="hero__sub">바다 생명을 구조하고 돌보며 더 나은 해양의 내일을 연구합니다.</p>
+          <p class="hero__sub">바다 생명을 구조하고 돌보며 더 나은 <br class="hero__sub-break">해양의 내일을 연구합니다.</p>
         </div>
         <a class="hero__scroll" href="#rescue">
           <span class="hero__scroll-line"></span>
@@ -145,14 +153,15 @@
     </section>
 
     <section class="rescue" id="rescue" aria-label="Rescue and Care">
-      <header class="section-head">
-        <h2><em>Rescue <span class="amp">&amp;</span> Care</em> <span>Activities</span></h2>
-        <p>아쿠아플라넷은 <strong>해양수산부 지정 해양동물전문구조·치료기관</strong>으로서 <strong>부상 및 조난 해양생물을 구조하고 치료</strong>합니다<br>전문 인력의 보호와 재활
-          과정을 거쳐 건강하게 바다로 돌아갈 수 있도록 지원합니다</p>
-      </header>
-
       <div class="activity-scroll" data-activity-section>
-        <div class="activity-stack" data-activity-stack>
+        <div class="activity-pin-wrapper">
+          <header class="section-head">
+            <h2><em>Rescue <span class="amp">&amp;</span> Care</em> <span>Activities</span></h2>
+            <p>아쿠아플라넷은 <strong>해양수산부 지정 해양동물전문구조·치료기관</strong>으로서 <strong>부상 및 조난 해양생물을 구조하고 치료</strong>합니다<br>전문 인력의 보호와 재활
+              과정을 거쳐 건강하게 바다로 돌아갈 수 있도록 지원합니다</p>
+          </header>
+
+          <div class="activity-stack" data-activity-stack>
           <article class="activity-card is-active" data-slide="0">
             <div class="activity-card__image">
               <img src="assets/images/marinlab_rescue/figma-rescue-care-01.avif" alt="구조 및 응급 처치 활동">
@@ -226,12 +235,16 @@
             </div>
           </article>
         </div>
+        </div>
       </div>
 
       <section class="cases" aria-label="Rescue and Care 사례">
         <header class="section-head">
           <h2><em>Rescue <span class="amp">&amp;</span> Care</em> <span>Cases</span></h2>
           <p>제주 바다에서 구조된 <strong>돌고래</strong>들의 이야기입니다<br>구조와 치료를 거쳐 다시 바다를 향한 여정을 이어갑니다</p>
+        </header>
+
+        <div class="case-spotlight" data-case-spotlight aria-roledescription="carousel" aria-label="Dolphin 구조일지">
           <div class="case-tabs" aria-label="구조 사례 분류">
             <div class="tabs__inner">
               <button class="tab is-active" type="button" data-case-tab="dolphin">Dolphin</button>
@@ -239,9 +252,6 @@
               <button class="tab" type="button" data-case-tab="others">Others</button>
             </div>
           </div>
-        </header>
-
-        <div class="case-spotlight" data-case-spotlight aria-roledescription="carousel" aria-label="Dolphin 구조일지">
           <article class="case-card" data-case-card>
               <div class="case-card__media" data-case-media>
                 <img class="case-card__image case-card__image--a" data-case-image-a src="" alt="">
@@ -298,7 +308,7 @@
             <div class="hero__content-inner">
               <span class="hero__eyebrow">Welcome</span>
               <h1 class="hero__title"><span>aqua planet </span><em>Conservation</em></h1>
-              <p class="hero__sub">바다 생명을 구조하고 돌보며 더 나은 해양의 내일을 연구합니다.</p>
+              <p class="hero__sub">바다 생명을 구조하고 돌보며 더 나은 <br class="hero__sub-break">해양의 내일을 연구합니다.</p>
             </div>
             <a class="hero__scroll" href="#cons-orbit">
               <span class="hero__scroll-line"></span>
@@ -349,36 +359,6 @@
                     src="assets/images/sec.aboutus/marinlab/seahorse-bubble.png" alt=""></span>
               </button>
               <button class="m-cons-orb" type="button" data-category="shark" aria-label="상어류 자세히 보기">
-                <span class="m-cons-orb__circle ticket-bubble"><img src="assets/images/sec.aboutus/marinlab/shark-bubble.png"
-                    alt=""></span>
-              </button>
-            </div>
-            <div class="m-cons-final-grid" id="cons-final-grid" aria-label="Conservation featured species">
-              <button class="m-cons-final-bubble" type="button" data-category="whale" aria-label="Whale">
-                <span class="m-cons-orb__circle ticket-bubble"><img src="assets/images/sec.aboutus/marinlab/whale-bubble.png"
-                    alt=""></span>
-              </button>
-              <button class="m-cons-final-bubble" type="button" data-category="pinniped" aria-label="Pinniped">
-                <span class="m-cons-orb__circle ticket-bubble"><img src="assets/images/sec.aboutus/marinlab/walrus-bubble.png"
-                    alt=""></span>
-              </button>
-              <button class="m-cons-final-bubble" type="button" data-category="otter" aria-label="Otter">
-                <span class="m-cons-orb__circle ticket-bubble"><img src="assets/images/sec.aboutus/marinlab/otter-bubble.png"
-                    alt=""></span>
-              </button>
-              <button class="m-cons-final-bubble" type="button" data-category="penguin" aria-label="Penguin">
-                <span class="m-cons-orb__circle ticket-bubble"><img src="assets/images/sec.aboutus/marinlab/penguin-bubble.png"
-                    alt=""></span>
-              </button>
-              <button class="m-cons-final-bubble" type="button" data-category="turtle" aria-label="Sea turtle">
-                <span class="m-cons-orb__circle ticket-bubble"><img src="assets/images/sec.aboutus/marinlab/turtle-bubble.png"
-                    alt=""></span>
-              </button>
-              <button class="m-cons-final-bubble" type="button" data-category="seahorse" aria-label="Seahorse and sea dragon">
-                <span class="m-cons-orb__circle ticket-bubble"><img src="assets/images/sec.aboutus/marinlab/seahorse-bubble.png"
-                    alt=""></span>
-              </button>
-              <button class="m-cons-final-bubble" type="button" data-category="shark" aria-label="Shark">
                 <span class="m-cons-orb__circle ticket-bubble"><img src="assets/images/sec.aboutus/marinlab/shark-bubble.png"
                     alt=""></span>
               </button>
@@ -631,7 +611,10 @@
     </div>
   </div>
 
+  <div id="custom-cursor" aria-hidden="true"></div>
+
   <script src="js/conservation-orbit.js"></script>
+  <script src="js/marinlab-cursor.js"></script>
   <script>
     (function () {
       var footer = document.getElementById('marinFooter');
@@ -660,13 +643,12 @@
 
       function resizeConservation() {
         const isMobileConservation = window.matchMedia('(max-width: 760px)').matches;
-        const isTabletConservation = window.matchMedia('(min-width: 761px) and (max-width: 1440px)').matches;
+        const isTabletConservation = window.matchMedia('(min-width: 761px) and (max-width: 1280px)').matches;
         const isResponsiveConservation = isMobileConservation || isTabletConservation;
         const scale = isResponsiveConservation ? 1 : getConservationScale();
         const tabletHeroHeight = Math.max(window.innerHeight, window.innerWidth * (window.innerWidth <= 900 ? 1.44 : 1.2));
         const heroHeight = isMobileConservation ? window.innerHeight : (isTabletConservation ? tabletHeroHeight : 1080);
-        const orbitHeight = isTabletConservation ? 5200 : 8400;
-        const totalHeight = isMobileConservation ? null : heroHeight + orbitHeight;
+        const totalHeight = isMobileConservation ? null : heroHeight + 8400;
         const stage = conservationMain ? conservationMain.querySelector('.marin-stage') : null;
         const conservationView = conservationMain ? conservationMain.querySelector('.m-conservation-view') : null;
         const videoHero = conservationMain ? conservationMain.querySelector('.hero') : null;
@@ -675,24 +657,20 @@
         document.documentElement.style.setProperty('--marin-scale', scale.toFixed(6));
         document.documentElement.style.setProperty('--cons-hero-height', heroHeight + 'px');
 
-        if (isMobileConservation) {
+        if (isResponsiveConservation) {
           if (stage) stage.style.removeProperty('height');
           if (conservationView) conservationView.style.removeProperty('height');
           if (videoHero) videoHero.style.removeProperty('height');
           if (orbit) orbit.style.removeProperty('top');
-          if (conservationMain) conservationMain.style.removeProperty('height');
-        } else if (isTabletConservation) {
-          if (stage) stage.style.setProperty('height', totalHeight + 'px', 'important');
-          if (conservationView) conservationView.style.setProperty('height', totalHeight + 'px', 'important');
-          if (videoHero) videoHero.style.setProperty('height', heroHeight + 'px', 'important');
-          if (orbit) orbit.style.setProperty('top', heroHeight + 'px', 'important');
-          if (conservationMain) conservationMain.style.setProperty('height', totalHeight + 'px', 'important');
         } else {
           if (stage) stage.style.setProperty('height', totalHeight + 'px', 'important');
           if (conservationView) conservationView.style.setProperty('height', totalHeight + 'px', 'important');
           if (videoHero) videoHero.style.setProperty('height', heroHeight + 'px', 'important');
           if (orbit) orbit.style.setProperty('top', heroHeight + 'px', 'important');
-          if (conservationMain) conservationMain.style.height = (totalHeight * scale) + 'px';
+        }
+
+        if (conservationMain) {
+          conservationMain.style.height = (isResponsiveConservation ? totalHeight : totalHeight * scale) + 'px';
         }
       }
 
@@ -710,11 +688,13 @@
         if (rescueMain) rescueMain.hidden = isConservation;
         if (conservationMain) conservationMain.hidden = !isConservation;
         document.body.classList.toggle('marin-view-conservation', isConservation);
+        document.body.classList.toggle('has-custom-cursor', isConservation);
         window.scrollTo(0, 0);
 
         menuItems.forEach((item) => {
           const active = item.getAttribute('data-marin-menu') === currentView;
           item.classList.toggle('gnb__dropdown-item--active', active);
+          item.classList.toggle('gnb__mobile-sub-active', active);
         });
 
         if (options.updateUrl !== false) updateViewUrl(currentView);
@@ -735,6 +715,62 @@
 
       const initialView = new URLSearchParams(window.location.search).get('view');
       setView(initialView, { updateUrl: false });
+    })();
+  </script>
+
+  <script>
+    (function () {
+      const hamburger = document.querySelector('.gnb__hamburger');
+      const mobileMenu = document.querySelector('.gnb__mobile-menu');
+      if (!hamburger || !mobileMenu) return;
+
+      function openMenu() {
+        hamburger.classList.add('is-active');
+        hamburger.setAttribute('aria-expanded', 'true');
+        mobileMenu.classList.add('is-open');
+        mobileMenu.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('mobile-menu-open');
+      }
+
+      function closeMenu() {
+        hamburger.classList.remove('is-active');
+        hamburger.setAttribute('aria-expanded', 'false');
+        mobileMenu.classList.remove('is-open');
+        mobileMenu.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('mobile-menu-open');
+      }
+
+      hamburger.addEventListener('click', () => {
+        if (mobileMenu.classList.contains('is-open')) closeMenu();
+        else openMenu();
+      });
+
+      mobileMenu.querySelectorAll('.gnb__mobile-link--toggle').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const item = btn.closest('.gnb__mobile-item');
+          const isOpen = item.classList.contains('is-open');
+          mobileMenu.querySelectorAll('.gnb__mobile-item.is-open').forEach((el) => {
+            el.classList.remove('is-open');
+            el.querySelector('.gnb__mobile-link--toggle').setAttribute('aria-expanded', 'false');
+          });
+          if (!isOpen) {
+            item.classList.add('is-open');
+            btn.setAttribute('aria-expanded', 'true');
+          }
+        });
+      });
+
+      mobileMenu.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', closeMenu);
+      });
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && mobileMenu.classList.contains('is-open')) closeMenu();
+      });
+
+      window.addEventListener('resize', () => {
+        if (window.innerWidth > 820 && mobileMenu.classList.contains('is-open')) closeMenu();
+      });
     })();
   </script>
 
@@ -1234,28 +1270,23 @@
 
       let casePinActive = false;
 
-      // PC(1025px~)에서만 카드 pin + wheel 인터랙션 활성화.
-      // 태블릿/모바일에서는 pin을 만들지 않고, 페이지 세로 스크롤을 우선한다.
       if (hasGsap && !prefersReducedMotion && typeof ScrollTrigger !== 'undefined') {
         gsap.registerPlugin(ScrollTrigger);
 
-        ScrollTrigger.matchMedia({
-          '(min-width: 1025px)': function () {
-            ScrollTrigger.create({
-              trigger: spotlight,
-              start: 'center center+=51',
-              end: '+=60%',
-              pin: spotlight,
-              pinSpacing: true,
-              onEnter: () => { casePinActive = true; },
-              onEnterBack: () => { casePinActive = true; },
-              onLeave: () => { casePinActive = false; },
-              onLeaveBack: () => { casePinActive = false; },
-              onRefreshInit: () => { casePinActive = false; }
-            });
+        let mm = gsap.matchMedia();
 
-            return () => { casePinActive = false; };
-          }
+        mm.add("all", () => {
+          ScrollTrigger.create({
+            trigger: spotlight,
+            start: 'center center+=51',
+            end: '+=60%',
+            pin: spotlight,
+            pinSpacing: true,
+            onEnter: () => { casePinActive = true; },
+            onEnterBack: () => { casePinActive = true; },
+            onLeave: () => { casePinActive = false; },
+            onLeaveBack: () => { casePinActive = false; }
+          });
         });
       }
 
@@ -1272,10 +1303,7 @@
         return direction > 0 ? next() : prev();
       }
 
-      const isDesktopViewport = () => window.matchMedia('(min-width: 1025px)').matches;
-
       function handleCaseWheel(event) {
-        if (!isDesktopViewport()) return; // 태블릿/모바일: 페이지 스크롤을 막지 않음
         if (!casePinActive) return; // outside the pinned zone: let the page scroll normally
         if (document.body.classList.contains('marin-view-conservation')) return; // conservation 뷰에서는 스크롤 차단 안 함
         if (Math.abs(event.deltaY) < 1) return; // ignore near-zero scroll noise only
@@ -1284,65 +1312,7 @@
         requestStep(direction, event);
       }
 
-      // 항상 등록하되, handleCaseWheel 내부에서 PC 여부를 매번 다시 확인한다.
-      // (리사이즈로 태블릿/모바일 ↔ PC 경계를 넘어가도 항상 정확하게 동작)
       spotlight.addEventListener('wheel', handleCaseWheel, { passive: false });
-    })();
-  </script>
-
-  <!-- 모바일 GNB 햄버거 메뉴 -->
-  <script>
-    (function () {
-      var hamburger  = document.querySelector('.gnb__hamburger');
-      var mobileMenu = document.getElementById('gnb-mobile-menu');
-      if (!hamburger || !mobileMenu) return;
-
-      function openMenu() {
-        hamburger.classList.add('is-active');
-        hamburger.setAttribute('aria-expanded', 'true');
-        mobileMenu.classList.add('is-open');
-        mobileMenu.setAttribute('aria-hidden', 'false');
-        document.body.classList.add('mobile-menu-open');
-      }
-
-      function closeMenu() {
-        hamburger.classList.remove('is-active');
-        hamburger.setAttribute('aria-expanded', 'false');
-        mobileMenu.classList.remove('is-open');
-        mobileMenu.setAttribute('aria-hidden', 'true');
-        document.body.classList.remove('mobile-menu-open');
-      }
-
-      hamburger.addEventListener('click', function () {
-        hamburger.getAttribute('aria-expanded') === 'true' ? closeMenu() : openMenu();
-      });
-
-      mobileMenu.querySelectorAll('.gnb__mobile-link--toggle').forEach(function (btn) {
-        btn.addEventListener('click', function () {
-          var item = btn.closest('.gnb__mobile-item');
-          var isOpen = item.classList.contains('is-open');
-          mobileMenu.querySelectorAll('.gnb__mobile-item.is-open').forEach(function (el) {
-            el.classList.remove('is-open');
-            el.querySelector('.gnb__mobile-link--toggle').setAttribute('aria-expanded', 'false');
-          });
-          if (!isOpen) {
-            item.classList.add('is-open');
-            btn.setAttribute('aria-expanded', 'true');
-          }
-        });
-      });
-
-      mobileMenu.querySelectorAll('a').forEach(function (a) {
-        a.addEventListener('click', closeMenu);
-      });
-
-      document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape' && mobileMenu.classList.contains('is-open')) closeMenu();
-      });
-
-      window.addEventListener('resize', function () {
-        if (window.innerWidth > 768) closeMenu();
-      });
     })();
   </script>
 </body>

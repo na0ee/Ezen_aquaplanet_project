@@ -39,11 +39,6 @@
 
   <header id="gnb" class="gnb">
     <div class="gnb__inner">
-      <!-- 모바일 전용 햄버거 버튼 -->
-      <button class="gnb__hamburger" type="button" aria-label="메뉴 열기" aria-expanded="false" aria-controls="mobile-menu">
-        <img src="assets/images/hamburgermenu_icon.svg" alt="">
-      </button>
-
       <nav class="gnb__nav" aria-label="메인 메뉴">
         <div class="gnb__nav-item" data-nav="location">
           <a href="location.html" class="gnb__link">Location</a>
@@ -86,6 +81,7 @@
   </header>
 
   <main class="of-main">
+
     <div class="of-visual-stage">
       <div class="friends-bg" aria-hidden="true"></div>
       <!-- 인트로 콘텐츠 -->
@@ -93,7 +89,7 @@
         <div class="intro__content-inner">
           <span class="of-eyebrow">Welcome</span>
           <h1 class="of-title"><span>aqua planet </span><em>Friends</em></h1>
-          <p class="intro__lead">
+          <p class="of-hero__lead">
             아쿠아플라넷의 다양한 해양생물들을 만나보세요
           </p>
         </div>
@@ -105,7 +101,9 @@
         </a>
       </section>
 
-
+      <!-- 히어로 -->
+      <section class="of-hero" aria-label="Ocean Friends 소개">
+      </section>
 
       <!-- 시그니처 생물 캐러셀 -->
       <section id="signature" class="of-signature" aria-label="시그니처 생물">
@@ -2540,6 +2538,35 @@
       });
     })();
 
+    /* ── 커스텀 커서 ── */
+    (function () {
+      if (window.matchMedia('(hover: none)').matches) return;
+      const el = document.getElementById('custom-cursor');
+      if (!el) return;
+      const HALF = 17;
+      const LIGHT_SELS = '.of-detail, .of-filter, .of-detail-card';
+      let tx = -200, ty = -200, cx = -200, cy = -200, firstMove = false;
+      window.addEventListener('mousemove', function (e) {
+        tx = e.clientX; ty = e.clientY;
+        if (!firstMove) { firstMove = true; cx = tx; cy = ty; el.style.opacity = '1'; }
+        const hit = document.elementFromPoint(e.clientX, e.clientY);
+        el.classList.toggle('is-over-light', !!(hit && hit.closest(LIGHT_SELS)));
+      }, { passive: true });
+      document.addEventListener('mouseleave', function () { el.style.opacity = '0'; });
+      document.addEventListener('mouseenter', function () { if (firstMove) el.style.opacity = '1'; });
+      document.addEventListener('mousedown', function () { el.classList.add('is-clicking'); });
+      document.addEventListener('mouseup', function () { el.classList.remove('is-clicking'); });
+      document.addEventListener('mouseover', function (e) {
+        const over = e.target.closest('a, button, [role="button"]');
+        el.classList.toggle('is-hovering', !!over);
+      });
+      (function loop() {
+        cx += (tx - cx) * 0.2;
+        cy += (ty - cy) * 0.2;
+        el.style.transform = 'translate(' + (cx - HALF).toFixed(1) + 'px,' + (cy - HALF).toFixed(1) + 'px)';
+        requestAnimationFrame(loop);
+      })();
+    })();
   </script>
 
   <!-- 필터 칩 활성화 + 리스트 전환 + 검색 -->
@@ -2896,7 +2923,7 @@
       });
 
       /* 데스크탑: 카드 캐러셀을 섹션 스크롤에 고정(pin)해 한 바퀴 돌린 뒤에만
-         다음 섹션으로 내려가도록 한다. 모바일 및 태블릿은 기본 페이지 스크롤 허용. */
+         다음 섹션으로 내려가도록 한다. 모바일은 기존처럼 자유 드래그만 사용. */
       function setupScrollTrigger() {
         if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
         gsap.registerPlugin(ScrollTrigger);
@@ -2904,7 +2931,7 @@
         let pinTrigger = null;
 
         ScrollTrigger.matchMedia({
-          '(min-width: 1025px)': function () {
+          '(min-width: 761px)': function () {
             pinTrigger = ScrollTrigger.create({
               trigger: section,
               start: 'top top',

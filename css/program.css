@@ -443,10 +443,6 @@ body {
   flex-shrink: 0;
 }
 
-.time-block .tag {
-  min-width: 62px;
-}
-
 .tag--performance {
   background-color: #22B2EA;
 }
@@ -1795,8 +1791,9 @@ body {
   white-space: nowrap;
 }
 
-/* Tags inside time-block */
+/* Tags inside time-block — 가장 긴 라벨(공연프로그램·체험프로그램, 6자) 기준 통일 너비 */
 .time-block .tag {
+  width: 82px;
   height: 26px;
   padding: 0 10px;
   font-size: 12px;
