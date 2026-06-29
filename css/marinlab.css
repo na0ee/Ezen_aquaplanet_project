@@ -2573,6 +2573,10 @@ body.marin-view-conservation .m-pill-tabs:not(.m-pill-tabs--cases) {
   box-shadow: 0 32px 90px rgba(0, 63, 122, 0.28);
 }
 
+.m-cons-orb.is-featured {
+  pointer-events: auto !important;
+}
+
 .m-cons-orb.is-featured:hover .m-cons-orb__circle {
   box-shadow: 0 32px 90px rgba(0, 63, 122, 0.28);
 }
@@ -3154,10 +3158,10 @@ body.marin-view-conservation #marinFooter {
 
 /* ================================
    Marin Lab Tablet Responsive
-   (761px ~ 1440px — 모바일 760px 블록과 충돌 방지를 위해 min-width 사용)
+   (761px ~ 1023px — 모바일 760px 블록과 충돌 방지를 위해 min-width 사용)
 ================================ */
 
-@media (min-width: 761px) and (max-width: 1440px) {
+@media (min-width: 761px) and (max-width: 1023px) {
   :root {
     --cons-tablet-hero-height: max(100vh, 120vw);
     --cons-tablet-orbit-height: 5200px;
@@ -3757,5 +3761,72 @@ body.marin-view-conservation #marinFooter {
     opacity: 1;
     transform: none;
     visibility: visible;
+  }
+}
+
+/* -------------------------------------------------------------
+   Custom cursor — landing interaction reused on Conservation
+   ------------------------------------------------------------- */
+body.has-custom-cursor,
+body.has-custom-cursor * {
+  cursor: none !important;
+}
+
+#custom-cursor {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 1);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+  pointer-events: none;
+  z-index: 99999;
+  opacity: 0;
+  transition:
+    width 0.22s ease,
+    height 0.22s ease,
+    border-color 0.22s ease,
+    background 0.22s ease,
+    opacity 0.25s ease;
+}
+
+body.has-custom-cursor #custom-cursor {
+  display: block;
+}
+
+#custom-cursor.is-hovering {
+  width: 58px;
+  height: 58px;
+  border-color: rgba(255, 255, 255, 1);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+#custom-cursor.is-clicking {
+  width: 24px;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 1);
+}
+
+.marin-cursor-wave {
+  display: none;
+}
+
+body.has-custom-cursor .marin-cursor-wave {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  body.has-custom-cursor,
+  body.has-custom-cursor * {
+    cursor: auto !important;
+  }
+
+  body.has-custom-cursor #custom-cursor,
+  body.has-custom-cursor .marin-cursor-wave {
+    display: none !important;
   }
 }

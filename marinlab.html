@@ -631,7 +631,10 @@
     </div>
   </div>
 
+  <div id="custom-cursor" aria-hidden="true"></div>
+
   <script src="js/conservation-orbit.js"></script>
+  <script src="js/marinlab-cursor.js"></script>
   <script>
     (function () {
       var footer = document.getElementById('marinFooter');
@@ -660,7 +663,7 @@
 
       function resizeConservation() {
         const isMobileConservation = window.matchMedia('(max-width: 760px)').matches;
-        const isTabletConservation = window.matchMedia('(min-width: 761px) and (max-width: 1440px)').matches;
+        const isTabletConservation = window.matchMedia('(min-width: 761px) and (max-width: 1023px)').matches;
         const isResponsiveConservation = isMobileConservation || isTabletConservation;
         const scale = isResponsiveConservation ? 1 : getConservationScale();
         const tabletHeroHeight = Math.max(window.innerHeight, window.innerWidth * (window.innerWidth <= 900 ? 1.44 : 1.2));
@@ -710,6 +713,7 @@
         if (rescueMain) rescueMain.hidden = isConservation;
         if (conservationMain) conservationMain.hidden = !isConservation;
         document.body.classList.toggle('marin-view-conservation', isConservation);
+        document.body.classList.toggle('has-custom-cursor', isConservation);
         window.scrollTo(0, 0);
 
         menuItems.forEach((item) => {
