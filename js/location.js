@@ -620,14 +620,14 @@
   /* 모든 층의 버블 위치·크기는 이 설정만 공유합니다.
      x: hover 맵 우측(x≈1261) 기준 ~180px 간격, 피그마 그룹 left=1444 참고
      y: 수직 중심 section-y=1011 (뷰포트 중앙) 기준 대칭 */
-  /* leftOffset: 맵 우측 기준 상대값 (slot2=0, slot1/3=+120, slot0/4=+270)
-     hover 맵 우측 = innerWidth/2 + 294, Figma 기준 gap = 190px */
+  /* 버블 원의 중심 좌표 기준.
+     실제 left/top은 size의 절반을 빼서 계산하므로 크기가 달라도 간격이 안정적으로 보입니다. */
   var BUBBLE_LAYOUT = [
-    { leftOffset: 174, top: 510,  size: 108 },
-    { leftOffset:  70, top: 649,  size: 130 },
-    { leftOffset:   0, top: 844,  size: 155 },
-    { leftOffset:  70, top: 1039, size: 130 },
-    { leftOffset: 174, top: 1188, size: 108 }
+    { centerX: 228, centerY:  94, size: 108 },
+    { centerX: 135, centerY: 243, size: 130 },
+    { centerX:  98, centerY: 434, size: 155 },
+    { centerX: 135, centerY: 626, size: 130 },
+    { centerX: 228, centerY: 773, size: 108 }
   ];
 
   /* 뷰포트 너비 기준 맵 스케일 계산
@@ -657,11 +657,11 @@
   function getBubbleLayout(index) {
     var s   = getMapScale();
     var rel = BUBBLE_LAYOUT[index];
-    /* 버블 좌표계: .loc-exhibits__bubble-side 기준 (top-left = 0,0)
-       leftOffset: 버블 컬럼 내 x, top - 470: 컬럼 상단(슬롯0 위치) 기준 y */
+    /* 버블 좌표계: .loc-exhibits__bubble-side 기준.
+       BUBBLE_LAYOUT은 원의 중심, CSS left/top은 버블 박스의 좌상단입니다. */
     return {
-      left: Math.round(rel.leftOffset * s),
-      top:  Math.round((rel.top - 470) * s),
+      left: Math.round((rel.centerX - rel.size / 2) * s),
+      top:  Math.round((rel.centerY - rel.size / 2) * s),
       size: Math.round(rel.size * s)
     };
   }
