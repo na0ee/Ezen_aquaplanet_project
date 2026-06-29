@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,500&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="css/style.css?v=20260626-06" />
+  <link rel="stylesheet" href="css/style.css?v=20260629-06" />
 
   <!-- Three.js importmap (ES module) -->
   <script type="importmap">
@@ -136,8 +136,6 @@
 
   <!-- 3D 심볼 로고 캔버스 — 화면 중앙 고정, 스크롤 시 헤더 슬롯으로 이동/축소 (logo_glass.js) -->
   <div class="logo3d-wrap" aria-hidden="true"></div>
-  <!-- 'aqua planet' 글자 캔버스 — 위치/크기 고정, 트랜지션 중 페이드아웃만 (logo_glass.js) -->
-  <div class="logo3d-text" aria-hidden="true"></div>
 
   <main id="main">
 
@@ -211,6 +209,10 @@
 
           <!-- 생물 정보 패널 -->
           <div class="crew-info-wrap">
+            <svg class="crew-card-indicator" viewBox="0 0 168 78" aria-hidden="true" focusable="false">
+              <polyline class="crew-card-indicator__line" points="168 18 92 18 34 58"></polyline>
+              <circle class="crew-card-indicator__end" cx="34" cy="58" r="4.5"></circle>
+            </svg>
             <div class="crew-rotate-hint" aria-hidden="true">
               <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
                 <path d="M4 14C4 8.477 8.477 4 14 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
@@ -648,9 +650,9 @@
   <script src="js/main.js?v=20260626-03"></script>
   <script type="module">
     if (!window.matchMedia('(max-width: 820px)').matches) {
-      import('./js/crew3d.js?v=20260626-03');
+      import('./js/crew3d.js?v=20260629-09');
     }
   </script>
-  <script src="js/logo_glass.js?v=20260626-05" type="module"></script>
+  <script src="js/logo_glass.js?v=20260629-01" type="module"></script>
 </body>
 </html>

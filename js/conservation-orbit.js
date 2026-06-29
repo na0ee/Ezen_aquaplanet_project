@@ -42,12 +42,12 @@
 
   function getOrbitFactor() {
     if (window.innerWidth <= 760) return 0.42;
-    return window.innerWidth <= 1440 ? 0.78 : 1;
+    return window.innerWidth <= 1023 ? 0.78 : 1;
   }
 
   function getSizeFactor() {
     if (window.innerWidth <= 760) return 0.4;
-    return window.innerWidth <= 1440 ? 0.84 : 1;
+    return window.innerWidth <= 1023 ? 0.84 : 1;
   }
 
   function isMobileStatic() {
@@ -55,7 +55,7 @@
   }
 
   function isTabletLayout() {
-    return window.matchMedia && window.matchMedia('(min-width: 761px) and (max-width: 1440px)').matches;
+    return window.matchMedia && window.matchMedia('(min-width: 761px) and (max-width: 1023px)').matches;
   }
 
   function getPinOffsetY() {
@@ -221,7 +221,7 @@
     return {
       x: CAROUSEL_ORBIT.x * orbitFactor + Math.cos(angle) * CAROUSEL_ORBIT.rx * orbitFactor,
       y: CAROUSEL_ORBIT.y * orbitFactor + Math.sin(angle) * CAROUSEL_ORBIT.ry * orbitFactor,
-      size: (210 + centerWeight * 350 + edgeWeight * 90) * sizeFactor,
+      size: (170 + centerWeight * 290 + edgeWeight * 50) * sizeFactor,
       opacity: Math.max(centerWeight, edgeWeight * 0.42) * farFade,
       centerWeight: centerWeight
     };
@@ -297,6 +297,13 @@
       featuredOrb.el.style.opacity = '1';
       featuredOrb.el.style.pointerEvents = 'auto';
       featuredOrb.el.classList.add('is-featured');
+    }
+
+    if (!isMobileStatic() && !isTabletLayout()) {
+      orbEls.forEach(function (orb) {
+        var visible = Number(orb.el.style.opacity) > 0.28;
+        orb.el.style.pointerEvents = visible ? 'auto' : 'none';
+      });
     }
   }
 
@@ -492,6 +499,22 @@
     bound = true;
     var draggedBubbleScroller = false;
 
+    function handleBubbleButtonClick(event) {
+      if (draggedBubbleScroller) {
+        draggedBubbleScroller = false;
+        event.preventDefault();
+        event.stopPropagation();
+        return;
+      }
+
+      var button = event.currentTarget;
+      var category = button ? button.getAttribute('data-category') : '';
+      event.preventDefault();
+      event.stopPropagation();
+      if (isOpeningCard || !category) return;
+      burstOrbThenOpen(button, category);
+    }
+
     function bindBubbleScroller() {
       var field = document.getElementById('cons-orbit-field');
       if (!field || field._consDragBound) return;
@@ -503,6 +526,7 @@
       field._consDragBound = true;
 
       field.addEventListener('pointerdown', function (event) {
+        if (!isMobileStatic() && !isTabletLayout()) return;
         if (event.pointerType === 'mouse' && event.button !== 0) return;
         isDragging = true;
         dragDistance = 0;
@@ -543,6 +567,12 @@
 
     bindBubbleScroller();
 
+    Array.prototype.forEach.call(document.querySelectorAll('.m-cons-orb, .m-cons-final-bubble'), function (button) {
+      if (button._consBubbleClickBound) return;
+      button._consBubbleClickBound = true;
+      button.addEventListener('click', handleBubbleButtonClick);
+    });
+
     document.addEventListener('click', function (event) {
       var trigger = event.target.closest ? event.target.closest('.hero__scroll[href="#cons-orbit"]') : null;
       if (!trigger) return;
@@ -568,9 +598,10 @@
 
       var orb = event.target.closest ? event.target.closest('.m-cons-orb') : null;
       if (orb) {
+        var category = orb.getAttribute('data-category');
         if (isOpeningCard) return;
-        if (!isMobileStatic() && !isTabletLayout() && !orb.classList.contains('is-featured')) return;
-        burstOrbThenOpen(orb, orb.getAttribute('data-category'));
+        if (!category) return;
+        burstOrbThenOpen(orb, category);
         return;
       }
 

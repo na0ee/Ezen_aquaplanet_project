@@ -27,7 +27,6 @@ if (gsap && ScrollTrigger) gsap.registerPlugin(ScrollTrigger);
    튜닝 상수 — 시각 확인하며 조정
 --------------------------------------------------------------- */
 const SYMBOL_SRC    = 'assets/models/new_logo_symbol.glb?v=20260617-02';
-const TEXT_SRC      = 'assets/models/logoTxt_ani.glb';
 const REFRACT_VIDEO_SRC = 'assets/images/index/sky_mov.mp4';
 const SCATTER_PAD   = 1.52;   // 코드 scatter/swim까지 보이도록 카메라 여백 확보
 const TEXT_PADDING  = 1.02;   // 유리 두께/하이라이트가 잘리지 않도록 내부 카메라 여백 확보
@@ -81,12 +80,12 @@ const TEXT_LINE_REPEAT = 5.5;
 const TEXT_AURORA_STRENGTH = 0.75;
 const TEXT_AURORA_SPEED = 0.035;
 const PHYSICAL_SYMBOL_GLASS = {
-  color: 0xf2fcff,
+  color: 0xeef8ff,
   roughness: 0.08,
   transmission: 1.1,
   thickness: 13,
   ior: 1.62,
-  attenuationColor: 0xbfeeff,
+  attenuationColor: 0xcaedff,
   attenuationDistance: 2.4,
   envMapIntensity: 1.45,
   clearcoat: 1.0,
@@ -623,7 +622,6 @@ async function initLogo3D() {
   const slot = document.querySelector('.gnb__logo');
   const hero = document.getElementById('sec-logo');
   if (!wrap || !slot || !hero) return;
-  const textEl = document.querySelector('.logo3d-text');
 
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const lowPowerMode = reduceMotion || window.devicePixelRatio > 2 || (navigator.deviceMemory && navigator.deviceMemory < 4);
@@ -672,15 +670,6 @@ async function initLogo3D() {
     footerVideo.play().catch((e) => console.warn('[logo3d] footer 매핑 비디오 재생 실패:', e));
   }
 
-  function syncTextBoxToHeroTitle() {
-    const title = document.querySelector('.hero__title');
-    if (!textEl || !title) return;
-    const rect = title.getBoundingClientRect();
-    if (rect.width <= 0 || rect.height <= 0) return;
-    textEl.style.setProperty('--logo3d-text-w', `${Math.ceil(rect.width * 1.34)}px`);
-    textEl.style.setProperty('--logo3d-text-h', `${Math.ceil(rect.height * 1.29)}px`);
-  }
-
   function measureOriginalSymbolRect() {
     const probe = document.createElement('div');
     probe.className = 'logo3d-wrap';
@@ -694,7 +683,6 @@ async function initLogo3D() {
     return rect;
   }
 
-  syncTextBoxToHeroTitle();
   const initialSymbolRect = wrap.getBoundingClientRect();
 
   Object.assign(wrap.style, {
@@ -712,11 +700,6 @@ async function initLogo3D() {
     opacity: '1',
     filter: 'none',
   });
-  if (textEl) {
-    textEl.style.pointerEvents = 'none';
-    textEl.style.opacity = '0';
-  }
-
   /* =============================================================
      풀스크린 단일 캔버스 — 심볼/텍스트/배경 plane 모두 같은 Three scene
   ============================================================= */
@@ -875,10 +858,8 @@ async function initLogo3D() {
   }
 
   function measureLayout() {
-    syncTextBoxToHeroTitle();
     layout.startSymbolRect = measureOriginalSymbolRect();
     if (!layout.startSymbolRect.width) layout.startSymbolRect = initialSymbolRect;
-    layout.textRect = textEl ? textEl.getBoundingClientRect() : null;
     layout.slotRect = slot.getBoundingClientRect();
   }
 
@@ -931,15 +912,6 @@ async function initLogo3D() {
       // 자기장 오프셋 — 커서 방향으로 그룹 전체를 살짝 이동
       symGroup.position.x += hoverMagX;
       symGroup.position.y += hoverMagY;
-    }
-    if (layout.textRect) {
-      const textRect = {
-        left:   layout.textRect.left,
-        top:    layout.textRect.top + layout.textRect.height * TEXT_Y_OFFSET_RATIO,
-        width:  layout.textRect.width,
-        height: layout.textRect.height,
-      };
-      fitGroupToRect(txtGroup, textSize, textRect, TEXT_PADDING);
     }
     applyTextFade();
   }
@@ -1059,29 +1031,18 @@ async function initLogo3D() {
     updateObjectLayout();
   }
 
-  Promise.all([
-    loader.loadAsync(SYMBOL_SRC),
-    loader.loadAsync(TEXT_SRC),
-  ]).then(([symbolGltf, textGltf]) => {
+  loader.loadAsync(SYMBOL_SRC).then((symbolGltf) => {
     const symbol = symbolGltf.scene;
-    const text = textGltf.scene;
 
     symGroup.add(symbol);
-    txtGroup.add(text);
 
     symbol.traverse((o) => {
       if (!o.isMesh) return;
       o.material = makePhysicalGlass(PHYSICAL_SYMBOL_GLASS);
       o.geometry.computeVertexNormals();
     });
-    text.traverse((o) => {
-      if (!o.isMesh) return;
-      o.material = applyTextGlassLook(makePhysicalGlass(PHYSICAL_TEXT_GLASS, { doubleSide: true }));
-      o.geometry.computeVertexNormals();
-    });
 
     symbolSize = centerModel(symbol, symGroup, { flipY: false });
-    textSize = centerModel(text, txtGroup);
 
     mixer = new THREE.AnimationMixer(symbol);
     symbolGltf.animations.forEach((clip) => {
@@ -1156,21 +1117,7 @@ async function initLogo3D() {
   }
   scheduleRender();
 
-  /* =============================================================
-     ② 글자 캔버스 (.logo3d-text) — 위치/크기 고정, 정적 1회 렌더 + 페이드
-  ============================================================= */
-  if (textEl) {
-    syncTextBoxToHeroTitle();
-    if (document.fonts?.ready) {
-      document.fonts.ready.then(() => {
-        measureLayout();
-        updateObjectLayout();
-        requestRender();
-      });
-    }
-  }
-
-  /* progress → 글자 불투명도 (위치/크기는 CSS 고정, 페이드만) */
+  /* progress 글자 페이드: 타이포 로고 제거 상태에서는 no-op */
   applyTextFade();
 
   /* =============================================================
