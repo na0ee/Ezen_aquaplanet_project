@@ -778,7 +778,7 @@ const clock = new THREE.Clock();
     entryModel.rotation.y = (1 - rotT) * ENTRY_SIDE_ROT * rotSign + rotT * SETTLED_ROT_Y + swim * 0.1 * swimFade * rotSign;
     entryModel.rotation.x = Math.sin(entryT * Math.PI * 2.2) * ENTRY_PITCH * swimFade + settle * SETTLED_ROT_X;
     entryModel.rotation.z = -swim * ENTRY_ROLL * rotSign * swimFade;
-    if (entryT >= 0.68 && !crewInfoVisible) {
+    if (entryT >= 0.52 && !crewInfoVisible) {
       setCrewInfoVisible(true);
     }
     if (entryT >= 1) {

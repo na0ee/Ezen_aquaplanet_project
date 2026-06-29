@@ -603,6 +603,182 @@ button {
   color: #ffffff;
 }
 
+/* index-page GNB — program.css 완전 동일 적용 */
+
+/* GNB 배경 글라스 (로고 모드 중에는 숨김) */
+.index-page .gnb::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  background: linear-gradient(180deg, rgba(10, 30, 80, 0.35) 0%, rgba(10, 30, 80, 0.0) 100%);
+  -webkit-mask-image: linear-gradient(180deg, black 60%, transparent 100%);
+  mask-image: linear-gradient(180deg, black 60%, transparent 100%);
+  opacity: 1;
+  transition: opacity 0.35s ease;
+}
+
+.index-page .gnb.gnb--logo-mode::before {
+  opacity: 0;
+}
+
+/* 네비 링크 */
+.index-page .gnb__link,
+.index-page .gnb__item {
+  color: #ffffff;
+  font-size: 18px;
+  letter-spacing: -0.96px;
+  transition: color 0.2s ease, transform 0.2s ease;
+  display: inline-block;
+}
+
+.index-page .gnb__link:hover,
+.index-page .gnb__item:hover {
+  color: #ffffff;
+  transform: scale(1.06);
+}
+
+.index-page .gnb__link.gnb__link--active {
+  font-family: "EB Garamond", serif;
+  font-size: 20px;
+  letter-spacing: -1.12px;
+  color: #ffffff;
+}
+
+/* 티켓 버튼 — position:relative 필수 (::before 기준점) */
+.index-page .gnb__ticket {
+  position: relative;
+  height: 42px;
+  padding: 0 14px 0 18px;
+  gap: 6px;
+  font-size: 18px;
+  letter-spacing: -0.48px;
+  color: #ffffff;
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    rgba(255, 255, 255, 0.01) 45%,
+    rgba(255, 255, 255, 0.04) 100%
+  );
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.75),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.12),
+    inset 1px 0 0 rgba(255, 255, 255, 0.20),
+    inset -1px 0 0 rgba(255, 255, 255, 0.08);
+}
+
+.index-page .gnb__ticket::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 100px;
+  padding: 1.5px;
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.55) 0%,
+    rgba(255, 255, 255, 0.20) 25%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(255, 255, 255, 0.20) 75%,
+    rgba(255, 255, 255, 0.55) 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.index-page .gnb__ticket .img {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+}
+
+.index-page .gnb__ticket .img img {
+  width: 100%;
+}
+
+/* 드롭다운 — hover bridge 유지, program.css 비주얼 적용 */
+.index-page .gnb__dropdown {
+  top: 100%;
+  left: 0;
+  transform: translateY(-6px);
+  /* 위 23px = 투명 hover bridge, 아래 3px = 패널 내부 여백 */
+  padding: 23px 3px 3px;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: none;
+}
+
+/* ::before 제거 (gradient border는 ::after가 담당) */
+.index-page .gnb__dropdown::before {
+  display: none;
+}
+
+/* ::after — program.css 스타일 글라스 패널 (hover bridge 아래부터 시작) */
+.index-page .gnb__dropdown::after {
+  display: block;
+  inset: 20px 0 0 0;
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    rgba(255, 255, 255, 0.01) 45%,
+    rgba(255, 255, 255, 0.04) 100%
+  );
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border-radius: 14px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.75),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.12),
+    inset 1px 0 0 rgba(255, 255, 255, 0.20),
+    inset -1px 0 0 rgba(255, 255, 255, 0.08);
+  border: none;
+}
+
+.index-page .gnb__nav-item:hover .gnb__dropdown {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.index-page .gnb__dropdown:hover {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.index-page .gnb__dropdown-item {
+  color: #ffffff;
+  font-family: "Poppins", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: -0.64px;
+  transition: all 0.2s ease;
+}
+
+.index-page .gnb__dropdown-item:hover {
+  background-color: #ffffff;
+  color: #22b2ea;
+  font-family: "EB Garamond", serif;
+  font-size: 18px;
+  letter-spacing: -0.72px;
+  font-weight: 500;
+}
+
+.index-page .gnb__dropdown:hover .gnb__dropdown-item:not(:hover) {
+  background-color: transparent;
+  color: #ffffff;
+  font-family: "Poppins", sans-serif;
+  font-size: 16px;
+  letter-spacing: -0.64px;
+}
+
 .gnb__inner {
   position: relative;
   display: flex;
@@ -1507,11 +1683,11 @@ body.is-logo-at-header .gnb__logo {
 }
 
 .section--crew-scroll.is-card-revealed .crew-card-indicator__line {
-  animation: crewIndicatorDraw 0.46s cubic-bezier(0.16, 0.84, 0.28, 1) 0.06s both;
+  animation: crewIndicatorDraw 0.34s cubic-bezier(0.16, 0.84, 0.28, 1) 0.04s both;
 }
 
 .section--crew-scroll.is-card-revealed .crew-card-indicator__end {
-  animation: crewIndicatorDotIn 0.24s cubic-bezier(0.22, 1, 0.36, 1) 0.44s both;
+  animation: crewIndicatorDotIn 0.20s cubic-bezier(0.22, 1, 0.36, 1) 0.28s both;
 }
 
 @keyframes crewIndicatorDraw {
@@ -2158,6 +2334,7 @@ body.is-logo-at-header .gnb__logo {
   font-family: var(--font-kr);
   font-size: 12px;
   font-weight: 300;
+  letter-spacing: -0.5px;
   color: #f2f2f2;
   text-align: center;
   line-height: 1.6;
@@ -5045,19 +5222,21 @@ body.biz-page {
     gap: 8px;
   }
 
-  .index-page .gnb__ticket svg {
+  .index-page .gnb__ticket .img {
     width: 20px;
     height: 20px;
   }
 
   .index-page .gnb__dropdown {
-    top: calc(100% + 12px);
+    top: calc(100% + 8px);
     min-width: 138px;
-    padding: 14px 16px;
+    padding: 3px;
   }
 
   .index-page .gnb__dropdown-item {
     font-size: 14px;
+    width: 132px;
+    height: 42px;
   }
 
   .index-page #sec-intro .hero {
