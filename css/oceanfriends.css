@@ -1,8 +1,14 @@
 /* ── 기본 ── */
+.oceanfriends-root {
+  background: #2686E7;
+  overflow-x: hidden;
+}
+
 body.oceanfriends-page {
   background: #ffffff;
   color: #111;
   background-image: none;
+  overflow-x: hidden;
 }
 
 /* program.html 기준 GNB (구조/스타일 통일) */
@@ -445,6 +451,7 @@ body.oceanfriends-page {
   overflow-x: clip;
   overflow-y: visible;
   background: #2686E7;
+  max-width: 100%;
 }
 
 .of-visual-stage {
@@ -920,6 +927,7 @@ body.oceanfriends-page {
   padding: 210px 0 clamp(220px, 18vh, 320px);
   background: #2686E7;
   color: #ffffff;
+  overflow-x: clip;
 }
 
 .of-detail__sticky {
@@ -1590,7 +1598,8 @@ body.oceanfriends-page {
   main,
   .of-main {
     min-height: 100%;
-    overflow: visible;
+    overflow-x: clip;
+    overflow-y: visible;
   }
 
   .of-visual-stage {
@@ -1802,7 +1811,10 @@ body.oceanfriends-page {
     grid-template-columns: 1fr;
     gap: 24px;
     min-height: 0;
+    width: 100%;
+    max-width: 100%;
     padding-bottom: 34px;
+    overflow: hidden;
   }
 
   .of-detail-card:nth-child(even) .of-detail-card__media {
@@ -1875,82 +1887,84 @@ body.oceanfriends-page {
   }
 }
 
-.of-detail {
-  padding-top: 132px;
-  padding-bottom: 160px;
-}
+@media (max-width: 768px) {
+  .of-detail {
+    padding-top: 132px;
+    padding-bottom: 160px;
+  }
 
-.of-detail__sticky {
-  padding: 22px 0 18px;
-  margin-top: -22px;
-  margin-bottom: 48px;
-}
+  .of-detail__sticky {
+    padding: 22px 0 18px;
+    margin-top: -22px;
+    margin-bottom: 48px;
+  }
 
-.of-detail__sticky .of-section-head {
-  margin-bottom: 20px;
-}
+  .of-detail__sticky .of-section-head {
+    margin-bottom: 20px;
+  }
 
-.of-filter {
-  gap: 14px;
-  margin: 0 auto;
-  width: calc(100% - 32px);
-}
+  .of-filter {
+    gap: 14px;
+    margin: 0 auto;
+    width: calc(100% - 32px);
+  }
 
-.of-search {
-  width: min(360px, 100%);
-  height: 54px;
-}
+  .of-search {
+    width: min(360px, 100%);
+    height: 54px;
+  }
 
-.cartegory-tabs-a {
-  max-width: 100%;
-  overflow-x: auto;
-  scrollbar-width: none;
-}
+  .cartegory-tabs-a {
+    max-width: 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
 
-.cartegory-tabs-a::-webkit-scrollbar {
-  display: none;
-}
+  .cartegory-tabs-a::-webkit-scrollbar {
+    display: none;
+  }
 
-.of-detail-card,
-.of-detail-card:nth-child(even) {
-  grid-template-columns: 1fr;
-  gap: 24px;
-  min-height: 0;
-  padding-bottom: 34px;
-}
+  .of-detail-card,
+  .of-detail-card:nth-child(even) {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    min-height: 0;
+    padding-bottom: 34px;
+  }
 
-.of-detail-card:nth-child(even) .of-detail-card__media {
-  order: 0;
-}
+  .of-detail-card:nth-child(even) .of-detail-card__media {
+    order: 0;
+  }
 
-.of-detail-card__media {
-  height: clamp(280px, 70vw, 390px);
-  min-height: 0;
-}
+  .of-detail-card__media {
+    height: clamp(280px, 70vw, 390px);
+    min-height: 0;
+  }
 
-.of-detail-card__media,
-.of-detail-card__media img,
-.of-detail-card:nth-child(even) .of-detail-card__media,
-.of-detail-card:nth-child(even) .of-detail-card__media img {
-  border-radius: 14px;
-}
+  .of-detail-card__media,
+  .of-detail-card__media img,
+  .of-detail-card:nth-child(even) .of-detail-card__media,
+  .of-detail-card:nth-child(even) .of-detail-card__media img {
+    border-radius: 14px;
+  }
 
-.of-detail-card__body {
-  width: min(100% - 48px, 548px);
-  padding: 0;
-}
+  .of-detail-card__body {
+    width: min(100% - 48px, 548px);
+    padding: 0;
+  }
 
-.of-detail-list.is-visible {
-  gap: 68px;
-}
+  .of-detail-list.is-visible {
+    gap: 68px;
+  }
 
-.of-brand {
-  min-height: 760px;
-  padding-bottom: 44px;
-}
+  .of-brand {
+    min-height: 760px;
+    padding-bottom: 44px;
+  }
 
-.of-meet,
-.of-footer-note {
-  flex-direction: column;
-  align-items: center;
+  .of-meet,
+  .of-footer-note {
+    flex-direction: column;
+    align-items: center;
+  }
 }

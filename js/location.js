@@ -323,6 +323,7 @@
   var mapSection  = document.querySelector('.loc-map--exhibits');
   var soloSection = document.querySelector('.loc-map--solo');
   var soloWrapEl  = document.querySelector('.loc-map-wrap--solo');
+  var exhibitsWrapEl = document.querySelector('.loc-map-wrap--exhibits');
   var soloImg     = document.getElementById('loc-map-img-solo');
   var soloMarkersEl = document.getElementById('loc-map-markers-solo');
   var mapImg      = document.getElementById('loc-map-img');
@@ -803,7 +804,9 @@
         marker.setAttribute('aria-label', (labels[position.zone] || position.zone) + '구역 보기');
         marker.addEventListener('click', function () {
           renderZone(position.zone, false);
-          if (soloWrapEl) {
+          if (window.matchMedia('(max-width: 820px)').matches) {
+            revealExhibitsMap();
+          } else if (soloWrapEl) {
             var targetY = soloWrapEl.offsetTop + soloWrapEl.offsetHeight - window.innerHeight;
             window.scrollTo({ top: targetY, behavior: 'smooth' });
           }
@@ -862,7 +865,7 @@
     /* 모바일 전용: sticky 해제된 상태에서 exhibits를 일반 섹션으로 노출 */
     if (!mapSection) return;
     if (window.matchMedia('(max-width: 820px)').matches) {
-      mapSection.classList.add('is-visible');
+      if (!exhibitsWrapEl || !exhibitsWrapEl.classList.contains('is-revealed')) mapSection.classList.remove('is-visible', 'has-detail');
     }
   }
 
@@ -888,6 +891,23 @@
     mapSection.classList.add('is-visible');
   }
 
+  function revealExhibitsMap() {
+    if (!mapSection || !exhibitsWrapEl) return;
+    clearSoloAutoTimer();
+    soloAutoTransition = true;
+    exhibitsWrapEl.classList.add('is-revealed');
+    mapSection.classList.add('is-visible');
+    mapSection.style.opacity = '';
+    mapSection.style.pointerEvents = '';
+    if (soloSection) {
+      soloSection.style.opacity = '';
+      soloSection.style.pointerEvents = '';
+    }
+    window.requestAnimationFrame(function () {
+      exhibitsWrapEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  }
+
   function scrollToExhibitsMap() {
     if (!soloWrapEl || soloAutoScrolled) return;
     soloAutoScrolled = true;
@@ -906,7 +926,11 @@
       if (soloStageEl) soloStageEl.style.transform = '';
       mapSection.style.opacity        = '';
       mapSection.style.pointerEvents  = '';
-      mapSection.classList.add('is-visible');
+      if (!exhibitsWrapEl || !exhibitsWrapEl.classList.contains('is-revealed')) {
+        mapSection.classList.remove('is-visible', 'has-detail');
+      } else {
+        mapSection.classList.add('is-visible');
+      }
       return;
     }
 
