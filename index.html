@@ -31,6 +31,11 @@
   ================================================ -->
   <header id="gnb" class="gnb gnb--logo-mode gnb--glass">
     <div class="gnb__inner">
+      <!-- 모바일 전용 햄버거 버튼 -->
+      <button class="gnb__hamburger" type="button" aria-label="메뉴 열기" aria-expanded="false" aria-controls="mobile-menu">
+        <img src="assets/images/hamburgermenu_icon.svg" alt="">
+      </button>
+
       <nav class="gnb__nav" aria-label="메인 메뉴">
         <div class="gnb__nav-item" data-nav="location">
           <a href="location.html" class="gnb__link">Location</a>
@@ -66,19 +71,9 @@
       </a>
 
       <a class="gnb__ticket btn-pill" href="ticket.html" aria-label="티켓 예매">
-        Ticket
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M7 17L17 7M17 7H7M17 7V17" stroke="white" stroke-width="1.5"
-                stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
+        <p>Ticket</p>
+        <p class="img"><img src="assets/images/ticket_icon_white.svg" alt=""></p>
       </a>
-
-      <!-- 모바일 전용 햄버거 버튼 -->
-      <button class="gnb__hamburger" type="button" aria-label="메뉴 열기" aria-expanded="false" aria-controls="mobile-menu">
-        <span class="gnb__hamburger-line"></span>
-        <span class="gnb__hamburger-line"></span>
-        <span class="gnb__hamburger-line"></span>
-      </button>
     </div>
   </header>
 
@@ -363,7 +358,7 @@
             <div class="program-card__body">
               <p class="program-card__caption">오션라이프 만찬- 대형 메인 수조 피딩</p>
               <div class="program-card__hover-info">
-                <p class="program-card__desc">약 60여종 3000여 마리가 함께 생활하고 있는 대형 메인수조! 크기와 모양이 각기 다른 이 친구들은 밥을 어떻게 먹을까요?!</p>
+                <p class="program-card__desc">약 60여종 3000여 마리가 함께 생활하고 있는 대형 메인수조! <br> 크기와 모양이 각기 다른 이 친구들은 밥을 어떻게 먹을까요?!</p>
                 <div class="program-card__meta">
                   <div class="program-card__meta-labels">
                     <span>진행시간</span><span>소요시간</span><span>관람장소</span><span>유의사항</span>
@@ -384,7 +379,7 @@
             <div class="program-card__body">
               <p class="program-card__caption">해녀의 이야기를 담은 아쿠아플라넷 제주 대표 공연</p>
               <div class="program-card__hover-info">
-                <p class="program-card__desc">아쿠아마린쇼 (해녀, 망사리의 모험) 아찔하게 펼쳐지는 다이나믹 수중 퍼포먼스를 즐겨보세요!</p>
+                <p class="program-card__desc">아쿠아마린쇼 (해녀, 망사리의 모험) 아찔하게 펼쳐지는 다이나믹 수중 퍼포먼스를<br> 즐겨보세요!</p>
                 <div class="program-card__meta">
                   <div class="program-card__meta-labels">
                     <span>진행시간</span><span>소요시간</span><span>관람장소</span><span>유의사항</span>

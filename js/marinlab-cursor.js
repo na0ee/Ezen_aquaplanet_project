@@ -162,7 +162,7 @@
       waveRafId = window.requestAnimationFrame(tick);
 
       var spd = Math.hypot(mx - pmx, my - pmy);
-      if (document.body.classList.contains('has-custom-cursor') && spd > 0.5) {
+      if (spd > 0.5) {
         distAccum += spd;
         pmx = mx;
         pmy = my;
