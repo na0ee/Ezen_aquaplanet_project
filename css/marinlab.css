@@ -801,16 +801,23 @@ button {
 
 .activity-scroll {
   position: relative;
-  height: 2140px;
-  margin-top: 166px;
+  height: 2500px;
+}
+
+.activity-pin-wrapper {
+  position: sticky;
+  top: calc(50vh - 337px);
+}
+
+.activity-pin-wrapper > .section-head {
+  margin-top: 0;
 }
 
 .activity-stack {
-  position: sticky;
-  top: calc(50vh - 208px);
+  position: relative;
   width: min(1320px, calc(100% - 72px));
   height: 415.055px;
-  margin: 0 auto;
+  margin: 100px auto 0;
   overflow: hidden;
   pointer-events: none;
 }
@@ -1348,7 +1355,7 @@ button {
     min-height: 0;
     padding-bottom: 160px;
   }
-  
+
   .cases {
     padding-top: 200px;
   }
@@ -1414,12 +1421,13 @@ button {
     gap: 0;
     line-height: 1;
   }
-  
+
   .hero__title span {
     font-size: clamp(60px, 8vw, 90px);
     margin-bottom: -30px;
     letter-spacing: -3px;
   }
+
   .hero__title em {
     font-size: clamp(76px, 10vw, 116px);
     line-height: 0.98;
@@ -1449,15 +1457,20 @@ button {
   .hero__scroll-text {
     font-size: clamp(24px, 3vw, 30px);
   }
-  
+
   .activity-scroll {
-    height: 1500px;
+    height: 1800px;
   }
+
+  .activity-pin-wrapper {
+    top: calc(50vh - 280px);
+  }
+
   .activity-stack {
-    top: calc(50vh - (clamp(300px, 36vw, 360px) / 2));
     width: min(calc(100% - 48px), 900px);
     height: clamp(300px, 36vw, 360px);
     max-height: none;
+    margin: 60px auto 0;
   }
 
   .activity-card {
@@ -1486,7 +1499,6 @@ button {
 
   /* PC 60px -> 태블릿 36px (모바일 24px보다 크게) */
   .activity-card__num {
-    top: 26px;
     font-size: clamp(28px, 3.2vw, 36px);
     letter-spacing: -0.04em;
   }
@@ -1507,7 +1519,7 @@ button {
   }
 
   /* PC 20px -> 태블릿 17px (모바일 13px보다 크게) */
-  .activity-card .activity-card__body > p {
+  .activity-card .activity-card__body>p {
     height: auto;
     margin-top: 10px;
     font-size: clamp(15px, 1.6vw, 17px);
@@ -1594,6 +1606,7 @@ button {
     margin-bottom: -16px;
     letter-spacing: -1.6px;
   }
+
   .hero__title em {
     font-size: clamp(46px, 13vw, 72px);
     display: block;
@@ -1680,11 +1693,16 @@ button {
     margin-top: 24px;
   }
 
+  .activity-pin-wrapper {
+    position: sticky;
+    top: calc(50vh - 295px);
+  }
+
   .activity-stack {
-    top: calc(50vh - (clamp(350px, 100vw, 400px) / 2));
     width: min(calc(100% - 40px), 560px);
     height: clamp(350px, 100vw, 400px);
     max-height: none;
+    margin: 40px auto 0;
   }
 
   .activity-card {
@@ -1721,6 +1739,7 @@ button {
 
   /* PC 60px -> 모바일 24px */
   .activity-card__num {
+    top: 8px;
     font-size: clamp(18px, 5vw, 24px);
     letter-spacing: -0.04em;
   }
@@ -1733,7 +1752,7 @@ button {
   }
 
   /* PC 20px -> 모바일 13px */
-  .activity-card .activity-card__body > p {
+  .activity-card .activity-card__body>p {
     height: auto;
     margin-top: 4px;
     font-size: clamp(12px, 3.2vw, 13px);
@@ -3381,73 +3400,4 @@ body.marin-view-conservation .m-pill-tabs:not(.m-pill-tabs--cases) {
 
   body.marin-view-conservation .m-cons-flip {
     height: min(58vh, 420px);
-    border-radius: 12px;
-  }
-}
-
-/* -------------------------------------------------------------
-   Custom cursor — landing interaction reused on Conservation
-   ------------------------------------------------------------- */
-body.has-custom-cursor,
-body.has-custom-cursor * {
-  cursor: none !important;
-}
-
-#custom-cursor {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  border: 2px solid rgba(255, 255, 255, 1);
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(0, 0, 0, 0.1);
-  pointer-events: none;
-  z-index: 99999;
-  opacity: 0;
-  transition:
-    width 0.22s ease,
-    height 0.22s ease,
-    border-color 0.22s ease,
-    background 0.22s ease,
-    opacity 0.25s ease;
-}
-
-body.has-custom-cursor #custom-cursor {
-  display: block;
-}
-
-#custom-cursor.is-hovering {
-  width: 58px;
-  height: 58px;
-  border-color: rgba(255, 255, 255, 1);
-  background: rgba(255, 255, 255, 0.06);
-}
-
-#custom-cursor.is-clicking {
-  width: 24px;
-  height: 24px;
-  background: rgba(255, 255, 255, 0.2);
-  border-color: rgba(255, 255, 255, 1);
-}
-
-.marin-cursor-wave {
-  display: none;
-}
-
-body.has-custom-cursor .marin-cursor-wave {
-  display: block;
-}
-
-@media (max-width: 768px) {
-  body.has-custom-cursor,
-  body.has-custom-cursor * {
-    cursor: auto !important;
-  }
-
-  body.has-custom-cursor #custom-cursor,
-  body.has-custom-cursor .marin-cursor-wave {
-    display: none !important;
-  }
-}
+    border-radius: 12px;}
