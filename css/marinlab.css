@@ -304,6 +304,58 @@ button {
   }
 }
 
+/* ----------------------------------------------------------------
+   Rescue & Care reveal sequence
+   Title fades up first, then the content follows.
+---------------------------------------------------------------- */
+.marin-reveal-title,
+.marin-reveal-content {
+  opacity: 0;
+  transform: translateY(var(--marin-reveal-y, 84px));
+  will-change: opacity, transform;
+  pointer-events: none;
+  backface-visibility: hidden;
+}
+
+.marin-reveal-title {
+  --marin-reveal-y: 84px;
+  transition:
+    opacity 0.72s ease,
+    transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.marin-reveal-content {
+  --marin-reveal-y: 104px;
+  transition:
+    opacity 0.78s ease 0.16s,
+    transform 1s cubic-bezier(0.16, 1, 0.3, 1) 0.18s;
+}
+
+.marin-reveal-title.is-marin-reveal-active,
+.marin-reveal-content.is-marin-reveal-active {
+  pointer-events: auto;
+}
+
+.marin-reveal-title.is-marin-reveal-visible,
+.marin-reveal-content.is-marin-reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.marin-reveal-title.is-marin-reveal-done,
+.marin-reveal-content.is-marin-reveal-done {
+  will-change: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marin-reveal-title,
+  .marin-reveal-content {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
+}
+
 @media (max-width: 768px) {
   .gnb {
     height: auto;
@@ -2944,6 +2996,46 @@ body.marin-view-conservation .m-pill-tabs:not(.m-pill-tabs--cases) {
   bottom: 0;
   height: 45%;
   background: linear-gradient(180deg, rgba(26, 26, 26, 0), rgba(26, 26, 26, 0.62));
+}
+
+.m-cons-flip__hint {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 82px;
+  height: 34px;
+  padding: 0 18px;
+  border: 1px solid rgba(255, 255, 255, 0.46);
+  border-radius: 999px;
+  background: rgba(5, 26, 42, 0.22);
+  color: #ffffff;
+  font-family: var(--font-en);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1;
+  opacity: 0.68;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.28);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.32),
+    0 10px 22px rgba(0, 35, 65, 0.16);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transform: translate(-50%, -50%);
+  transition: opacity 0.25s ease, transform 0.25s ease, background 0.25s ease, border-color 0.25s ease;
+  pointer-events: none;
+}
+
+.m-cons-flip:hover .m-cons-flip__hint,
+.m-cons-flip:focus-visible .m-cons-flip__hint {
+  opacity: 0.84;
+  background: rgba(34, 178, 234, 0.34);
+  border-color: rgba(255, 255, 255, 0.64);
+  transform: translate(-50%, -50%) scale(1.06);
 }
 
 .m-cons-flip__face--back .m-cons-flip__shade {

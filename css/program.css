@@ -3101,3 +3101,55 @@ body {
     z-index: 3300;
   }
 }
+
+/* ----------------------------------------------------------------
+   Section reveal sequence
+   Title fades up first, then schedule content follows.
+---------------------------------------------------------------- */
+.program-reveal-title,
+.program-reveal-content {
+  opacity: 0;
+  transform: translateY(var(--program-reveal-y, 84px));
+  will-change: opacity, transform;
+  pointer-events: none;
+  backface-visibility: hidden;
+}
+
+.program-reveal-title {
+  --program-reveal-y: 84px;
+  transition:
+    opacity 0.72s ease,
+    transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.program-reveal-content {
+  --program-reveal-y: 104px;
+  transition:
+    opacity 0.78s ease 0.16s,
+    transform 1s cubic-bezier(0.16, 1, 0.3, 1) 0.18s;
+}
+
+.program-reveal-title.is-program-reveal-active,
+.program-reveal-content.is-program-reveal-active {
+  pointer-events: auto;
+}
+
+.program-reveal-title.is-program-reveal-visible,
+.program-reveal-content.is-program-reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.program-reveal-title.is-program-reveal-done,
+.program-reveal-content.is-program-reveal-done {
+  will-change: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .program-reveal-title,
+  .program-reveal-content {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
+}
