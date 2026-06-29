@@ -1607,12 +1607,6 @@ body[data-location="gwanggyo"] .loc-map {
   .location-page .gnb__nav {
     gap: clamp(14px, 2vw, 28px);
   }
-  .location-page .gnb__ticket {
-    height: 46px;
-    padding: 0 16px 0 18px;
-    gap: 8px;
-  }
-
   /* Hero 폰트 */
   .location-page .loc-hero__title-main {
     font-size: clamp(64px, 8vw, 96px);
@@ -2835,7 +2829,7 @@ body.location-page .gnb__link {
 }
 
 body.location-page .gnb__link.gnb__link--active {
-  font-family: "EB Garamond", serif;
+  font-family: "Poppins", sans-serif;
   font-size: 20px;
   font-weight: 400;
   letter-spacing: -1.12px;
@@ -2921,10 +2915,10 @@ body.location-page .gnb__dropdown-item {
 
 body.location-page .gnb__dropdown-item--active,
 body.location-page .gnb__dropdown-item:hover {
-  font-family: "EB Garamond", serif;
-  font-size: 18px;
+  font-family: "Poppins", sans-serif;
+  font-size: 16px;
   font-weight: 500;
-  letter-spacing: -0.72px;
+  letter-spacing: -0.64px;
   background-color: #ffffff;
   color: #22b2ea !important;
 }

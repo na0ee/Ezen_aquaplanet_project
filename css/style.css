@@ -540,6 +540,88 @@ button {
   border-color: rgba(255, 255, 255, 0.44);
 }
 
+/* GNB 티켓 버튼 — program 페이지 스타일을 공통 기준으로 사용 */
+.gnb__ticket {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 42px;
+  padding: 0 14px 0 18px;
+  border-radius: 100px;
+  font-family: "Poppins", sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: -0.48px;
+  color: #ffffff;
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    rgba(255, 255, 255, 0.01) 45%,
+    rgba(255, 255, 255, 0.04) 100%
+  );
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.75),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.12),
+    inset 1px 0 0 rgba(255, 255, 255, 0.20),
+    inset -1px 0 0 rgba(255, 255, 255, 0.08);
+  border: none;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.gnb__ticket p {
+  margin: 0;
+}
+
+.gnb__ticket::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 100px;
+  padding: 1.5px;
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.55) 0%,
+    rgba(255, 255, 255, 0.20) 25%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(255, 255, 255, 0.20) 75%,
+    rgba(255, 255, 255, 0.55) 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.gnb__ticket .img {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+}
+
+.gnb__ticket .img img,
+.gnb__ticket svg {
+  width: 100%;
+}
+
+@media (max-width: 1024px) {
+  .gnb__ticket {
+    height: 34px;
+    font-size: 14px;
+    padding: 0 10px 0 12px;
+    gap: 4px;
+  }
+
+  .gnb__ticket .img {
+    width: 18px;
+    height: 18px;
+  }
+}
+
 
 /* -------------------------------------------------------------
    7. GNB — Global Navigation Bar
@@ -789,6 +871,7 @@ button {
 .gnb__nav {
   display: flex;
   align-items: center;
+  height: 54px;
   gap: 44px;
 }
 
@@ -799,20 +882,20 @@ button {
 }
 
 .gnb__link {
-  font-family: var(--font-en);
+  font-family: "Poppins", sans-serif;
   font-weight: 400;
-  font-size: var(--fs-nav);
-  letter-spacing: var(--ls-tight);
+  font-size: 18px;
+  letter-spacing: -0.96px;
   color: var(--clr-text-muted);
   transition: color var(--tr-base);
   white-space: nowrap;
 }
 
 .gnb__item {
-  font-family: var(--font-en);
+  font-family: "Poppins", sans-serif;
   font-weight: 400;
-  font-size: var(--fs-nav);
-  letter-spacing: var(--ls-tight);
+  font-size: 18px;
+  letter-spacing: -0.96px;
   color: var(--clr-text-muted);
   transition: color var(--tr-base);
   white-space: nowrap;
@@ -828,16 +911,18 @@ button {
 }
 
 .gnb__link.gnb__link--active {
-  font-family: var(--font-serif);
-  font-size: var(--fs-nav-active);
+  font-family: "Poppins", sans-serif;
+  font-size: 20px;
   font-weight: 400;
+  letter-spacing: -1.12px;
   color: var(--clr-text);
 }
 
 .gnb__item.gnb__item--active {
-  font-family: var(--font-serif);
-  font-size: var(--fs-nav-active);
+  font-family: "Poppins", sans-serif;
+  font-size: 20px;
   font-weight: 400;
+  letter-spacing: -1.12px;
   color: var(--clr-text);
 }
 
@@ -3823,6 +3908,7 @@ body.has-custom-cursor #custom-cursor {
 .gnb__nav-item {
   position: relative;
   display: inline-flex;
+  height: 54px;
   align-items: center;
 }
 
@@ -3830,55 +3916,85 @@ body.has-custom-cursor #custom-cursor {
   cursor: default;
 }
 
-/* 드롭다운 패널 */
-.gnb__dropdown {
+.gnb__nav-item::after {
+  content: "";
   position: absolute;
   top: 100%;
-  left: 50%;
-  transform: translateX(-50%) translateY(-6px);
-  padding-top: 14px;
-  /* 트리거와의 시각적 간격 — hover 영역 유지 */
-  background: transparent;
+  left: -12px;
+  right: -12px;
+  height: 12px;
+}
+
+/* 드롭다운 패널 — location 기준 디자인 통일 */
+.gnb__dropdown {
+  position: absolute;
+  top: 60px;
+  left: 0;
+  transform: none;
   display: flex;
   flex-direction: column;
-  /* 위쪽 23px는 트리거와 패널을 잇는 투명 호버 다리 (마우스 이동 중 hover 유지) */
-  padding: 23px 3px 3px;
-  /* 기본: 숨김 */
+  align-items: center;
+  padding: 3px;
+  border-radius: 14px;
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    rgba(255, 255, 255, 0.01) 45%,
+    rgba(255, 255, 255, 0.04) 100%
+  );
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.75),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.12),
+    inset 1px 0 0 rgba(255, 255, 255, 0.20),
+    inset -1px 0 0 rgba(255, 255, 255, 0.08);
   opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.22s ease, transform 0.22s ease;
+  visibility: hidden;
+  pointer-events: auto;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
   z-index: 1001;
 }
 
-/* 실제 패널 시각 스타일을 내부 래퍼에 적용 */
-.gnb__dropdown::after {
+.gnb__dropdown::before {
   content: '';
   position: absolute;
-  inset: 20px 0 0 0;
-  background: rgba(255, 255, 255, 0.14);
-  backdrop-filter: blur(24px) saturate(1.2);
-  -webkit-backdrop-filter: blur(24px) saturate(1.2);
-  border: 1px solid rgba(255, 255, 255, 0.26);
+  inset: 0;
   border-radius: 14px;
-  box-shadow:
-    0 8px 32px rgba(0, 20, 60, 0.22),
-    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  padding: 1.5px;
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.55) 0%,
+    rgba(255, 255, 255, 0.20) 25%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(255, 255, 255, 0.20) 75%,
+    rgba(255, 255, 255, 0.55) 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
   pointer-events: none;
-  z-index: -1;
+}
+
+.gnb__dropdown::after {
+  content: none;
 }
 
 /* About us 호버 시 드롭다운 표시 */
 .gnb__nav-item:hover .gnb__dropdown {
   opacity: 1;
+  visibility: visible;
   pointer-events: auto;
-  transform: translateX(-50%) translateY(0);
+  transform: none;
 }
 
 /* 드롭다운 자체에 호버해도 유지 */
 .gnb__dropdown:hover {
   opacity: 1;
+  visibility: visible;
   pointer-events: auto;
-  transform: translateX(-50%) translateY(0);
+  transform: none;
 }
 
 .gnb__dropdown-item {
@@ -3888,36 +4004,33 @@ body.has-custom-cursor #custom-cursor {
   height: 48px;
   width: 153px;
   border-radius: 12px;
-  font-family: var(--font-en);
-  font-size: var(--fs-body);
-  letter-spacing: var(--ls-tight);
-  color: var(--clr-text-muted);
-  transition: background var(--tr-base), color var(--tr-base), box-shadow var(--tr-base);
+  font-family: "Poppins", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: -0.64px;
+  color: #ffffff;
+  transition: all 0.2s ease;
   white-space: nowrap;
   text-decoration: none;
 }
 
+.gnb__dropdown-item--active,
 .gnb__dropdown-item:hover {
-  background: #ffffff;
-  color: var(--clr-primary);
-  font-family: var(--font-serif);
-  font-weight: 400;
-  font-size: 18px;
-  letter-spacing: -0.72px;
+  background-color: #ffffff;
+  color: #22b2ea !important;
+  font-family: "Poppins", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: -0.64px;
 }
 
-.gnb__dropdown-item--active {
-  background: transparent;
-  font-family: var(--font-serif);
+.gnb__dropdown:hover .gnb__dropdown-item:not(:hover) {
+  background-color: transparent;
+  color: #ffffff !important;
+  font-family: "Poppins", sans-serif;
+  font-size: 16px;
   font-weight: 400;
-  font-size: 18px;
-  letter-spacing: -0.72px;
-  color: var(--clr-text-muted) !important;
-}
-
-.gnb__dropdown-item--active:hover {
-  background: #ffffff;
-  color: var(--clr-primary) !important;
+  letter-spacing: -0.64px;
 }
 
 

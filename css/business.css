@@ -21,6 +21,10 @@ body.biz-page.mobile-menu-open .gnb {
 }
 
 .biz-page .gnb {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 3000;
   box-sizing: border-box;
   width: 100%;
   height: 102px;
@@ -56,13 +60,14 @@ body.biz-page.mobile-menu-open .gnb {
 
 .biz-page .gnb__nav {
   display: flex;
+  height: 54px;
   gap: 44px;
   align-items: center;
 }
 
 .biz-page .gnb__link {
   display: inline-block;
-  color: #fff;
+  color: rgba(255, 255, 255, 0.5);
   font-family: "Poppins", sans-serif;
   font-size: 18px;
   font-weight: 400;
@@ -75,7 +80,7 @@ body.biz-page.mobile-menu-open .gnb {
 
 .biz-page .gnb__link.gnb__link--active {
   color: #fff;
-  font-family: "EB Garamond", serif;
+  font-family: "Poppins", sans-serif;
   font-size: 20px;
   font-weight: 400;
   letter-spacing: -1.12px;
@@ -90,13 +95,23 @@ body.biz-page.mobile-menu-open .gnb {
 .biz-page .gnb__nav-item {
   position: relative;
   display: flex;
+  height: 54px;
   align-items: center;
   cursor: pointer;
 }
 
+.biz-page .gnb__nav-item::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: -12px;
+  right: -12px;
+  height: 12px;
+}
+
 .biz-page .gnb__dropdown {
   position: absolute;
-  top: 48px;
+  top: 60px;
   left: 0;
   display: flex;
   flex-direction: column;
@@ -112,7 +127,6 @@ body.biz-page.mobile-menu-open .gnb {
     inset 1px 0 0 rgba(255, 255, 255, 0.2),
     inset -1px 0 0 rgba(255, 255, 255, 0.08);
   opacity: 0;
-  pointer-events: none;
   transform: none;
   visibility: hidden;
   transition: opacity 0.25s ease, visibility 0.25s ease;
@@ -139,7 +153,6 @@ body.biz-page.mobile-menu-open .gnb {
 .biz-page .gnb__nav-item:hover .gnb__dropdown,
 .biz-page .gnb__dropdown:hover {
   opacity: 1;
-  pointer-events: auto;
   transform: none;
   visibility: visible;
 }
@@ -165,10 +178,10 @@ body.biz-page.mobile-menu-open .gnb {
 .biz-page .gnb__dropdown-item:hover {
   background-color: #fff;
   color: #22b2ea !important;
-  font-family: "EB Garamond", serif;
-  font-size: 18px;
+  font-family: "Poppins", sans-serif;
+  font-size: 16px;
   font-weight: 500;
-  letter-spacing: -0.72px;
+  letter-spacing: -0.64px;
 }
 
 .biz-page .gnb__dropdown:hover .gnb__dropdown-item:not(:hover) {
@@ -182,6 +195,7 @@ body.biz-page.mobile-menu-open .gnb {
 .biz-page .gnb__logo-wrap {
   position: absolute;
   left: 50%;
+  top: auto;
   z-index: 10;
   display: flex;
   width: 60px;
@@ -192,11 +206,17 @@ body.biz-page.mobile-menu-open .gnb {
 }
 
 .biz-page .gnb__logo {
-  display: block;
+  position: absolute;
+  left: 50%;
+  top: auto;
+  display: flex;
   width: 60px;
   height: 60px;
-  object-fit: contain;
+  align-items: center;
+  justify-content: center;
   opacity: 0.8;
+  transform: translateX(-50%);
+  z-index: 10;
 }
 
 .biz-page .gnb__ticket {
@@ -263,6 +283,12 @@ body.biz-page.mobile-menu-open .gnb {
 .biz-page .gnb.gnb--scrolled,
 .biz-page .gnb.is-scrolled {
   background: transparent;
+}
+
+.biz-page .gnb.gnb--hidden .gnb__logo-wrap,
+.biz-page .gnb.gnb--hidden .gnb__logo {
+  opacity: 0;
+  visibility: hidden;
 }
 
 .biz-page .gnb.gnb--scrolled .gnb__link,
@@ -356,27 +382,34 @@ body.biz-page.mobile-menu-open .gnb {
 
 .biz-hero__figma-title {
   position: relative;
-  top: auto;
+  top: 102px;
   left: auto;
   display: flex;
-  width: auto;
+  align-self: flex-start;
+  width: 100%;
+  height: 100vh;
   transform: none;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 16px;
   color: #fff;
   text-align: center;
   z-index: 1;
-  margin-top: 84px;
+  margin-top: 0;
+  padding-top: 0;
 }
 
 .biz-hero__copy {
   display: flex;
-  width: 100%;
+  width: fit-content;
+  max-width: calc(100% - 48px);
   flex-direction: column;
   align-items: center;
   gap: 0;
   overflow: hidden;
+  margin: 0 auto;
+  margin-top: 84px;
 }
 
 .biz-hero__welcome {
@@ -391,19 +424,18 @@ body.biz-page.mobile-menu-open .gnb {
 }
 
 .biz-hero__title {
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  gap: 16px;
+  display: block;
   margin: 0;
+  font-family: "Poppins", sans-serif;
+  font-size: clamp(66px, 5.65vw, 108px);
+  font-weight: 200;
   color: #fff;
-  font-weight: 400;
   line-height: normal;
   white-space: nowrap;
 }
 
 .biz-hero__brand {
-  display: block;
+  display: inline;
   font-family: "Poppins", sans-serif;
   font-size: 100px;
   font-weight: 200;
@@ -412,7 +444,7 @@ body.biz-page.mobile-menu-open .gnb {
 }
 
 .biz-hero__title em {
-  display: block;
+  display: inline;
   margin: 0;
   font-family: "EB Garamond", serif;
   font-size: 128px;
@@ -486,7 +518,7 @@ body.biz-page.mobile-menu-open .gnb {
 
 @media (max-width: 1024px) {
   .biz-hero__figma-title {
-    width: min(978px, calc(100vw - 48px));
+    width: 100%;
   }
 
   .biz-hero__brand {
@@ -605,7 +637,7 @@ body.biz-page.mobile-menu-open .gnb {
   height: auto;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 20px;
   color: #fff;
   text-align: center;
   transition: opacity 0.25s ease, visibility 0.25s ease;
@@ -665,7 +697,7 @@ body.biz-page.mobile-menu-open .gnb {
 
 .biz-blue-stack {
   position: absolute;
-  top: clamp(590px, calc(52vh + 160px), 721px);
+  top: clamp(590px, calc(52vh + 160px), 1000px);
   left: 0;
   z-index: 3;
   width: 100%;
@@ -1522,9 +1554,20 @@ body.biz-page.mobile-menu-open .gnb {
     height: 48px !important;
   }
 
-  .biz-page .gnb__nav,
-  .biz-page .gnb__ticket {
+  .biz-page .gnb__nav {
     display: none !important;
+  }
+
+  .biz-page .gnb__ticket {
+    height: 34px !important;
+    font-size: 14px !important;
+    padding: 0 10px 0 12px !important;
+    gap: 4px !important;
+  }
+
+  .biz-page .gnb__ticket .img {
+    width: 18px !important;
+    height: 18px !important;
   }
 
   .biz-page .gnb__hamburger {
@@ -1665,42 +1708,53 @@ body.biz-page.mobile-menu-open .gnb {
   }
 
   .biz-page .biz-hero__figma-title {
-    position: absolute !important;
-    top: 50% !important;
-    left: 50% !important;
-    width: min(calc(100% - 64px), 900px) !important;
+    position: relative !important;
+    top: 88px !important;
+    left: auto !important;
+    align-self: flex-start !important;
+    width: 100% !important;
+    height: 100vh !important;
     margin-top: 0 !important;
     gap: 14px !important;
-    transform: translate(-50%, -42%) !important;
+    transform: none !important;
   }
 
   .biz-page .biz-hero__copy {
-    gap: 16px !important;
+    gap: 0 !important;
+    max-width: calc(100% - 56px) !important;
+    margin-top: 60px !important;
   }
 
   .biz-page .biz-hero__welcome {
-    margin-bottom: -12px !important;
+    margin-bottom: -14px !important;
     font-size: clamp(22px, 2.8vw, 28px) !important;
   }
 
   .biz-page .biz-hero__title {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
     max-width: 100% !important;
-    gap: 12px !important;
+    gap: 0 !important;
     justify-content: center !important;
+    line-height: 1 !important;
   }
 
   .biz-page .biz-hero__brand {
-    font-size: clamp(54px, 7.3vw, 74px) !important;
-    letter-spacing: -0.04em !important;
+    font-size: clamp(60px, 8vw, 90px) !important;
+    margin-bottom: -30px !important;
+    letter-spacing: -3px !important;
   }
 
   .biz-page .biz-hero__title em {
-    font-size: clamp(62px, 8.4vw, 88px) !important;
-    letter-spacing: -0.02em !important;
+    font-size: clamp(76px, 10vw, 116px) !important;
+    line-height: 0.98 !important;
+    letter-spacing: -2.6px !important;
   }
 
   .biz-page .biz-hero__desc {
-    font-size: clamp(18px, 2.2vw, 22px) !important;
+    margin-top: 18px !important;
+    font-size: 20px !important;
     white-space: normal !important;
   }
 
@@ -2005,9 +2059,20 @@ body.biz-page.mobile-menu-open .gnb {
     height: 40px !important;
   }
 
-  .biz-page .gnb__nav,
-  .biz-page .gnb__ticket {
+  .biz-page .gnb__nav {
     display: none !important;
+  }
+
+  .biz-page .gnb__ticket {
+    height: 34px !important;
+    font-size: 14px !important;
+    padding: 0 10px 0 12px !important;
+    gap: 4px !important;
+  }
+
+  .biz-page .gnb__ticket .img {
+    width: 18px !important;
+    height: 18px !important;
   }
 
   .biz-page .gnb__hamburger {
@@ -2177,47 +2242,61 @@ body.biz-page.mobile-menu-open .gnb {
   }
 
   .biz-page .biz-hero__figma-title {
-    position: absolute !important;
-    top: 50% !important;
-    left: 50% !important;
-    width: min(calc(100% - 32px), 680px) !important;
+    position: relative !important;
+    top: 80px !important;
+    left: auto !important;
+    align-self: flex-start !important;
+    width: 100% !important;
+    height: 100vh !important;
     margin-top: 0 !important;
-    transform: translate(-50%, -40%) !important;
+    transform: none !important;
   }
 
   .biz-page .biz-hero__copy {
-    gap: 12px !important;
+    gap: 0 !important;
+    max-width: calc(100% - 32px) !important;
+    margin-top: 40px !important;
     overflow: visible !important;
   }
 
   .biz-page .biz-hero__welcome {
-    margin-bottom: -6px !important;
-    font-size: clamp(18px, 4.6vw, 26px) !important;
+    margin-bottom: -10px !important;
+    font-size: clamp(17px, 4.8vw, 23px) !important;
   }
 
   .biz-page .biz-hero__title {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
     width: 100% !important;
     max-width: 100% !important;
-    gap: 8px !important;
+    gap: 0 !important;
     justify-content: center !important;
     white-space: nowrap !important;
   }
 
   .biz-page .biz-hero__brand {
-    font-size: clamp(40px, 9vw, 64px) !important;
-    letter-spacing: -0.05em !important;
+    font-size: clamp(36px, 10vw, 56px) !important;
+    margin-bottom: -16px !important;
+    letter-spacing: -1.6px !important;
   }
 
   .biz-page .biz-hero__title em {
-    font-size: clamp(48px, 10.8vw, 76px) !important;
-    letter-spacing: -0.03em !important;
+    display: block !important;
+    margin-top: 0 !important;
+    font-size: clamp(46px, 13vw, 72px) !important;
+    line-height: 0.96 !important;
+    letter-spacing: -1.8px !important;
   }
 
   .biz-page .biz-hero__desc {
     width: 100% !important;
-    font-size: clamp(14px, 3.5vw, 20px) !important;
+    max-width: min(360px, calc(100% - 24px)) !important;
+    margin-top: 14px !important;
+    font-size: clamp(13px, 3.8vw, 16px) !important;
     line-height: 1.45 !important;
     white-space: normal !important;
+    word-break: keep-all !important;
   }
 
   .biz-page .biz-hero__scroll-line {
@@ -2912,7 +2991,12 @@ body.biz-page.mobile-menu-open .gnb {
   }
 
   .biz-hero__figma-title {
-    top: auto;
+    left: auto;
+    align-self: flex-start;
+    width: 100%;
+    height: 100vh;
+    margin-top: 0;
+    top: 80px;
     transform: none;
   }
 
