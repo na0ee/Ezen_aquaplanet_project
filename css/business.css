@@ -1591,18 +1591,18 @@ body.biz-page.mobile-menu-open .gnb {
 
   .biz-page .biz-blue-stack {
     top: calc(50vh + 180px - clamp(150px, 18vw, 174px)) !important;
-    height: clamp(440px, 48vw, 500px) !important;
+    height: clamp(390px, 44vw, 450px) !important;
   }
 
   .biz-page .biz-blue-card {
     width: var(--biz-tablet-container) !important;
-    height: clamp(440px, 48vw, 500px) !important;
+    height: clamp(390px, 44vw, 450px) !important;
     gap: 24px !important;
   }
 
   .biz-page .biz-blue-card__image {
     width: clamp(330px, 39vw, 400px) !important;
-    height: clamp(390px, 43vw, 460px) !important;
+    height: clamp(300px, 36vw, 360px) !important;
     flex-basis: clamp(330px, 39vw, 400px) !important;
   }
 
