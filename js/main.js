@@ -1695,7 +1695,7 @@ function initCrewScroll() {
 
   if (!panels.length || !sticky) return;
 
-  const creatures  = ['walrus', 'beluga', 'whaleshark', 'turtle'];
+  const creatures  = ['walrus', 'beluga', 'shark', 'turtle'];
   const totalPanels = panels.length;
   let currentIndex  = -1;
   let displayedIndex = -1;
@@ -1923,8 +1923,11 @@ function initCrewScroll() {
   document.addEventListener('crew-card-reenter', (e) => {
     const idx = Number(e.detail?.idx);
     const nextIndex = Number.isInteger(idx) && idx >= 0 ? idx : currentIndex;
-    showCard(Math.min(Math.max(nextIndex, 0), totalPanels - 1), true);
-    if (!diveActive) playCrewCardWave();
+    const clampedIndex = Math.min(Math.max(nextIndex, 0), totalPanels - 1);
+    if (clampedIndex !== displayedIndex) {
+      showCard(clampedIndex, true);
+      if (!diveActive) playCrewCardWave();
+    }
   });
 
   dots.forEach((dot, i) => {
