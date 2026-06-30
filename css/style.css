@@ -1677,7 +1677,7 @@ body.is-logo-at-header .gnb__logo {
   border-color: rgba(100, 200, 240, 0.28);
 }
 
-.crew-canvas__placeholder[data-creature="whaleshark"] .crew-canvas__shape {
+.crew-canvas__placeholder[data-creature="shark"] .crew-canvas__shape {
   background: radial-gradient(circle at 38% 34%, rgba(15, 160, 210, 0.22), rgba(15, 160, 210, 0.04));
   border-color: rgba(15, 160, 210, 0.28);
 }
@@ -2885,7 +2885,7 @@ body.is-logo-at-header .gnb__logo {
 }
 
 .location-hover-card__img[src*="Frame 22"] {
-  object-position: 55% center;
+  object-position: left center;
 }
 
 .location-hover-card.is-switching .location-hover-card__copy {
@@ -6326,7 +6326,7 @@ body.biz-page {
       radial-gradient(circle at 38% 34%, rgba(100, 200, 240, 0.22), rgba(100, 200, 240, 0.04));
   }
 
-  .index-page .crew-canvas__placeholder[data-creature="whaleshark"] .crew-canvas__shape {
+  .index-page .crew-canvas__placeholder[data-creature="shark"] .crew-canvas__shape {
     background:
       url('../assets/images/index/mobile_shark.avif') center / contain no-repeat,
       radial-gradient(circle at 38% 34%, rgba(15, 160, 210, 0.22), rgba(15, 160, 210, 0.04));

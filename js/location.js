@@ -415,6 +415,7 @@
     var introImage = document.querySelector('.loc-intro__bg-img');
     if (heroImage) {
       heroImage.src = page.heroVideo;
+      heroImage.poster = page.introImage;
       if (heroImage.tagName && heroImage.tagName.toLowerCase() === 'video') {
         heroImage.load();
         heroImage.play().catch(function () {});
