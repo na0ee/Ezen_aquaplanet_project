@@ -449,7 +449,7 @@ body {
 }
 
 .time-block .tag {
-  min-width: 62px;
+  width: 76px;
 }
 
 .tag--performance {
@@ -482,7 +482,7 @@ body {
 
 .section__header {
   text-align: center;
-  margin-top: 160px;
+  margin-top: 210px;
 }
 
 .section__title {
@@ -526,8 +526,8 @@ body {
 
 /* Location Tabs */
 .cartegory-tabs-a {
+  display: none;
   margin-top: 140px;
-  display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
@@ -599,7 +599,7 @@ body {
 
 /* Category Tabs B */
 .cartegory-tabs-b {
-  margin: 140px 0 60px;
+  margin-top: 140px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1428,10 +1428,6 @@ body {
     padding: 0 24px;
   }
 
-  .section {
-    padding: 120px 0;
-  }
-
   .section__title {
     font-size: 36px;
     letter-spacing: -1.44px;
@@ -1471,12 +1467,9 @@ body {
     padding: 0 16px;
   }
 
-  .section {
-    padding: 80px 0;
-  }
-
   .section__header {
     margin-bottom: 40px;
+    margin-top: 80px;
   }
 
   .section__title {
@@ -1512,7 +1505,7 @@ body {
   .mo-only { display: inline; }
 
   .cartegory-tabs-a {
-    margin-bottom: 40px;
+    display: flex;
     flex-wrap: wrap;
     max-width: 100%;
   }
@@ -1955,6 +1948,8 @@ body {
 .program-preview[data-sw="49"] {
   overflow: clip;
   clip-path: inset(-24px 0);
+  padding-top: 60px;
+  padding-bottom: 60px;
 }
 
 /* 센터 카드 비율로 컨테이너 높이 확보 */
@@ -2869,9 +2864,8 @@ body {
   .program-detail-modal {
     flex-direction: column;
     width: 100%;
-    height: auto;
-    max-height: calc(100dvh - 48px);
-    overflow-y: auto;
+    height: calc(100dvh - 48px);
+    overflow-y: hidden;
     scrollbar-width: none;
   }
   .program-detail-modal::-webkit-scrollbar {
@@ -2885,9 +2879,10 @@ body {
     border-radius: 14px 14px 0 0;
   }
   .program-detail-modal__body {
-    flex: none;
+    flex: 1;
+    min-height: 0;
     order: 2;
-    overflow-y: visible;
+    overflow-y: auto;
   }
   .program-detail-modal__close {
     width: 20px !important;
