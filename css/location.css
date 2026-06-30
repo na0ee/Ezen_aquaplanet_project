@@ -3082,8 +3082,99 @@ body.location-page .gnb__ticket .img img {
     pointer-events: auto;
   }
 
+  body.location-page .gnb__mobile-nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    width: 100%;
+    max-width: 380px;
+    padding: 0 32px;
+  }
+
+  body.location-page .gnb__mobile-item {
+    width: 100%;
+    text-align: center;
+  }
+
+  body.location-page .gnb__mobile-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    font-family: var(--font-en);
+    font-weight: 300;
+    font-size: clamp(24px, 7vw, 32px);
+    letter-spacing: -0.04em;
+    color: rgba(255, 255, 255, 0.65);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px 0;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  body.location-page .gnb__mobile-link:hover,
+  body.location-page .gnb__mobile-link:focus-visible {
+    color: #fff;
+  }
+
   body.location-page .gnb__mobile-link--toggle {
     gap: 14px;
+  }
+
+  body.location-page .gnb__mobile-link--toggle::after {
+    content: '';
+    display: block;
+    width: 9px;
+    height: 9px;
+    border-right: 1.5px solid currentColor;
+    border-bottom: 1.5px solid currentColor;
+    transform: rotate(45deg) translateY(-2px);
+    transition: transform 0.25s ease;
+    flex-shrink: 0;
+  }
+
+  body.location-page .gnb__mobile-item.is-open .gnb__mobile-link--toggle::after {
+    transform: rotate(-135deg) translateY(-2px);
+  }
+
+  body.location-page .gnb__mobile-sub {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.35s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  body.location-page .gnb__mobile-item.is-open .gnb__mobile-sub {
+    max-height: 260px;
+  }
+
+  body.location-page .gnb__mobile-sub a {
+    display: block;
+    font-family: var(--font-en);
+    font-weight: 300;
+    font-size: 17px;
+    letter-spacing: -0.02em;
+    color: rgba(255, 255, 255, 0.42);
+    padding: 7px 0;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  body.location-page .gnb__mobile-sub a:hover {
+    color: var(--clr-primary);
+  }
+
+  body.mobile-menu-open {
+    overflow: hidden;
+  }
+
+  body.mobile-menu-open .gnb {
+    z-index: 3300;
   }
 }
 
@@ -3218,49 +3309,4 @@ body.location-page .loc-hours__notice.loc-reveal-content {
   }
 }
 
-/* Program page header alignment: tablet keeps desktop nav, mobile keeps compact menu. */
-@media (min-width: 769px) and (max-width: 1024px) {
-  body.location-page .gnb {
-    padding: 20px 24px;
-  }
-
-  body.location-page .gnb__inner {
-    height: 48px;
-  }
-
-  body.location-page .gnb__nav {
-    display: flex;
-    gap: clamp(14px, 2vw, 28px);
-  }
-
-  body.location-page .gnb__link {
-    font-size: clamp(15px, 1.7vw, 17px);
-  }
-
-  body.location-page .gnb__link.gnb__link--active {
-    font-size: clamp(18px, 2vw, 20px);
-  }
-
-  body.location-page .gnb__logo-wrap,
-  body.location-page .gnb__logo {
-    width: 52px;
-    height: 52px;
-  }
-
-  body.location-page .gnb__ticket {
-    display: inline-flex;
-    height: 46px;
-    padding: 0 16px 0 18px;
-    gap: 8px;
-  }
-
-  body.location-page .gnb__ticket .img {
-    width: 20px;
-    height: 20px;
-  }
-
-  body.location-page .gnb__hamburger,
-  body.location-page .gnb__mobile-menu {
-    display: none;
-  }
-}
+/* 태블릿도 모바일과 동일한 햄버거 헤더를 사용 (위 @media (max-width: 1024px) 블록이 처리) */

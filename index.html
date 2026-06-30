@@ -14,6 +14,9 @@
 
   <link rel="stylesheet" href="css/style.css?v=20260629-06" />
 
+  <!-- importmap 미지원 브라우저(구형 인앱 브라우저 등) 폴리필 — 네이티브 지원 시 자동 무시됨 -->
+  <script async src="https://cdn.jsdelivr.net/npm/es-module-shims@1.10.0/dist/es-module-shims.js"></script>
+
   <!-- Three.js importmap (ES module) -->
   <script type="importmap">
   {
@@ -560,6 +563,9 @@
     <video class="footer__video-bg" autoplay muted loop playsinline aria-hidden="true">
       <source src="assets/images/index/KakaoTalk_Video_2026-06-13-21-54-21.mp4" type="video/mp4">
     </video>
+
+    <!-- 모바일 전용 — 풋터 상단 여백, 데스크탑에서 3D 로고가 도킹하던 자리에 정적 로고 표시 -->
+    <img class="footer__logo-banner" src="assets/images/index/mobileLogo.png" alt="" aria-hidden="true">
     <div class="footer__inner">
       <nav class="footer__nav" aria-label="푸터 메뉴">
         <a href="program.html" class="footer__link">Program</a>
@@ -649,8 +655,8 @@
   <script type="module">
     if (!window.matchMedia('(max-width: 820px)').matches) {
       import('./js/crew3d.js?v=20260629-09');
+      import('./js/logo_glass.js?v=20260629-01');
     }
   </script>
-  <script src="js/logo_glass.js?v=20260629-01" type="module"></script>
 </body>
 </html>
