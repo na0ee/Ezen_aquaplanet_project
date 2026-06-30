@@ -119,13 +119,23 @@ button {
 .gnb__nav-item {
   position: relative;
   display: flex;
+  height: 54px;
   align-items: center;
   cursor: pointer;
 }
 
+.gnb__nav-item::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: -12px;
+  right: -12px;
+  height: 12px;
+}
+
 .gnb__dropdown {
   position: absolute;
-  top: 48px;
+  top: 57px;
   left: 0;
   display: flex;
   flex-direction: column;
@@ -145,7 +155,9 @@ button {
     inset -1px 0 0 rgba(255, 255, 255, 0.08);
   opacity: 0;
   visibility: hidden;
+  pointer-events: none;
   transition: opacity 0.25s ease, visibility 0.25s ease;
+  z-index: 1001;
 }
 
 .gnb__dropdown::before {
@@ -170,6 +182,13 @@ button {
 .gnb__nav-item:hover .gnb__dropdown {
   opacity: 1;
   visibility: visible;
+  pointer-events: auto;
+}
+
+.gnb__dropdown:hover {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
 }
 
 .gnb__dropdown-item {
@@ -1322,10 +1341,10 @@ button {
   margin-left: auto;
   align-items: flex-end;
   gap: 28px;
-  color: #fff;
-  font-family: var(--font-en);
-  font-size: 170px;
-  font-weight: 800;
+  color: rgba(255, 255, 255, 0.7);
+  font-family: "EB Garamond", serif;
+  font-size: 100px;
+  font-weight: 400;
   line-height: 0.84;
   letter-spacing: 0.02em;
   text-shadow: 0 4px 5px rgba(0, 0, 0, 0.10);
@@ -1632,7 +1651,7 @@ button {
     width: auto;
     margin: 0;
     justify-content: flex-end;
-    font-size: clamp(56px, 9vw, 120px);
+    font-size: 100px;
     gap: 18px;
   }
 
@@ -1917,7 +1936,7 @@ button {
     margin: 0;
     justify-content: flex-end;
     gap: 6px;
-    font-size: clamp(22px, 7vw, 30px);
+    font-size: 100px;
   }
 
   .case-card__info {
@@ -3897,5 +3916,21 @@ body.marin-view-conservation .m-pill-tabs:not(.m-pill-tabs--cases) {
 
   .marinlab-page .gnb__inner {
     height: 44px;
+  }
+}
+
+/* Mobile GNB hamburger parity */
+@media (max-width: 1024px) {
+  .marinlab-page .gnb__hamburger {
+    justify-content: center;
+    align-items: center;
+    width: 26px;
+    height: 26px;
+  }
+
+  .marinlab-page .gnb__hamburger img {
+    display: block;
+    width: 24px;
+    height: 24px;
   }
 }

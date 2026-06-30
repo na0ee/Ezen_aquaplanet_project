@@ -155,10 +155,10 @@ function initSmoothScroll() {
   /* crew-card-reenter는 transitionend 폴백: 전환이 시작되면 600ms 타이머 설정 */
   document.addEventListener('crew-card-reenter', () => {
     clearTimeout(crewSnapLockTimer);
-    crewSnapLockTimer = window.setTimeout(() => { crewSnapLocked = false; }, 600);
+    crewSnapLockTimer = window.setTimeout(() => { crewSnapLocked = false; }, 480);
   });
 
-  const ease = 0.08;        /* 낮을수록 느리고 부드러움 (0.08 ≈ 0.5초에 90% 도달) */
+  const ease = 0.095;       /* 낮을수록 느리고 부드러움 (0.08 ≈ 0.5초에 90% 도달) */
   const speedScale = 0.80;  /* 휠 delta 감속 비율 */
 
   function clamp(v) {
@@ -191,7 +191,7 @@ function initSmoothScroll() {
 
     e.preventDefault();
 
-    const crewScale = crewPanelActive ? 1.3 : speedScale;
+    const crewScale = crewPanelActive ? 1.4 : speedScale;
     targetY = clamp(targetY + e.deltaY * crewScale);
 
     /* 크루 패널 구간: 패널당 스냅 — 카드가 나타난 뒤에만 다음 패널로 이동 */
@@ -226,7 +226,7 @@ function initSmoothScroll() {
             /* Panel move: lock until transitionend or the crew-card-reenter fallback releases it. */
             crewSnapLocked = true;
             clearTimeout(crewSnapLockTimer);
-            crewSnapLockTimer = window.setTimeout(() => { crewSnapLocked = false; }, 2000);
+            crewSnapLockTimer = window.setTimeout(() => { crewSnapLocked = false; }, 1300);
           } else {
             /* 위로 이동: 즉시 잠금 해제 */
             clearTimeout(crewSnapLockTimer);
@@ -1820,7 +1820,7 @@ function initCrewScroll() {
     if (placeholder) placeholder.dataset.creature = creatures[idx] ?? '';
 
     const isPanelChange = prevIndex >= 0 && prevIndex !== idx;
-    scheduleShowCard(idx, !force && isPanelChange ? 340 : 0, force || prevIndex < 0);
+    scheduleShowCard(idx, !force && isPanelChange ? 260 : 0, force || prevIndex < 0);
 
     if (!force && isPanelChange && !diveActive) {
       playCrewCardWave();
@@ -1929,10 +1929,56 @@ function initCrewScroll() {
 
   dots.forEach((dot, i) => {
     dot.addEventListener('click', () => {
+      /* 모바일: 고정 스크롤 구간이 없으므로 스크롤 이동 대신 즉시 전환 */
+      if (isMobileViewport()) {
+        setActive(i);
+        return;
+      }
       const sTop = window.scrollY + section.getBoundingClientRect().top;
       window.scrollTo({ top: sTop + i * window.innerHeight, behavior: 'smooth' });
     });
   });
+
+  /* 모바일: 카드 영역을 옆으로 드래그하면 이전/다음 생물로 전환 */
+  const main = section.querySelector('.crew-main');
+  if (main) {
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touchDeltaX = 0;
+    let swiping = false;
+
+    main.addEventListener('touchstart', (e) => {
+      if (!isMobileViewport()) return;
+      const t = e.touches[0];
+      touchStartX = t.clientX;
+      touchStartY = t.clientY;
+      touchDeltaX = 0;
+      swiping = false;
+    }, { passive: true });
+
+    main.addEventListener('touchmove', (e) => {
+      if (!isMobileViewport()) return;
+      const t = e.touches[0];
+      touchDeltaX = t.clientX - touchStartX;
+      const deltaY = t.clientY - touchStartY;
+      if (!swiping && Math.abs(touchDeltaX) > 12 && Math.abs(touchDeltaX) > Math.abs(deltaY)) {
+        swiping = true;
+      }
+      if (swiping && e.cancelable) e.preventDefault();
+    }, { passive: false });
+
+    main.addEventListener('touchend', () => {
+      if (!isMobileViewport() || !swiping) return;
+      const threshold = 40;
+      if (touchDeltaX <= -threshold) {
+        setActive(Math.min(currentIndex + 1, totalPanels - 1));
+      } else if (touchDeltaX >= threshold) {
+        setActive(Math.max(currentIndex - 1, 0));
+      }
+      swiping = false;
+      touchDeltaX = 0;
+    }, { passive: true });
+  }
 
   onScroll();
 }

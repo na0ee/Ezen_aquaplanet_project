@@ -2898,7 +2898,7 @@ body.location-page .gnb__link.gnb__link--active {
 
 body.location-page .gnb__dropdown {
   position: absolute;
-  top: 60px;
+  top: 57px;
   left: 0;
   transform: none;
   display: flex;
@@ -4745,5 +4745,23 @@ body.location-page .loc-map--exhibits.is-bubble-open .loc-map__title {
 
   body.location-page .loc-hours__notice-row {
     grid-template-columns: 1fr;
+  }
+}
+
+/* Mobile GNB hamburger parity */
+@media (max-width: 1024px) {
+  .location-page .gnb__hamburger,
+  body.location-page .gnb__hamburger {
+    justify-content: center;
+    align-items: center;
+    width: 26px;
+    height: 26px;
+  }
+
+  .location-page .gnb__hamburger img,
+  body.location-page .gnb__hamburger img {
+    display: block;
+    width: 24px;
+    height: 24px;
   }
 }
