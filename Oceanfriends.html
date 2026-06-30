@@ -40,6 +40,12 @@
 
   <header id="gnb" class="gnb">
     <div class="gnb__inner">
+      <button class="gnb__hamburger" type="button" aria-label="메뉴 열기" aria-expanded="false" aria-controls="mobile-menu">
+        <span class="gnb__hamburger-line"></span>
+        <span class="gnb__hamburger-line"></span>
+        <span class="gnb__hamburger-line"></span>
+      </button>
+
       <nav class="gnb__nav" aria-label="메인 메뉴">
         <div class="gnb__nav-item" data-nav="location">
           <a href="location.html" class="gnb__link">Location</a>
@@ -80,6 +86,47 @@
       </a>
     </div>
   </header>
+
+  <div class="gnb__mobile-menu" id="mobile-menu" aria-hidden="true" role="dialog" aria-label="메인 메뉴">
+    <nav class="gnb__mobile-nav" aria-label="모바일 메뉴">
+      <div class="gnb__mobile-item">
+        <button class="gnb__mobile-link gnb__mobile-link--toggle" type="button" aria-expanded="false">
+          Location
+        </button>
+        <div class="gnb__mobile-sub">
+          <a href="location.html?loc=Jeju">Jeju</a>
+          <a href="location.html?loc=Yeosu">Yeosu</a>
+          <a href="location.html?loc=Ilsan">Ilsan</a>
+          <a href="location.html?loc=Gwanggyo">Gwanggyo</a>
+        </div>
+      </div>
+
+      <a href="Oceanfriends.html" class="gnb__mobile-link">Ocean friends</a>
+
+      <div class="gnb__mobile-item">
+        <button class="gnb__mobile-link gnb__mobile-link--toggle" type="button" aria-expanded="false">
+          About us
+        </button>
+        <div class="gnb__mobile-sub">
+          <a href="business.html">Business</a>
+          <a href="marinlab.html?view=rescue">Rescue &amp; Care</a>
+          <a href="marinlab.html?view=conservation">Conservation</a>
+        </div>
+      </div>
+
+      <div class="gnb__mobile-item">
+        <button class="gnb__mobile-link gnb__mobile-link--toggle" type="button" aria-expanded="false">
+          Program
+        </button>
+        <div class="gnb__mobile-sub">
+          <a href="program.html?loc=Jeju">Jeju</a>
+          <a href="program.html?loc=Yeosu">Yeosu</a>
+          <a href="program.html?loc=Ilsan">Ilsan</a>
+          <a href="program.html?loc=Gwanggyo">Gwanggyo</a>
+        </div>
+      </div>
+    </nav>
+  </div>
 
   <main class="of-main">
 
@@ -2459,6 +2506,56 @@
   <script src="js/gnb-scroll.js"></script>
   <script src="js/marinlab-cursor.js"></script>
   <script src="js/detail-bubbles.js"></script>
+  <script>
+    (function () {
+      const hamburger = document.querySelector('.gnb__hamburger');
+      const mobileMenu = document.querySelector('.gnb__mobile-menu');
+      if (!hamburger || !mobileMenu) return;
+
+      function openMenu() {
+        hamburger.classList.add('is-active');
+        hamburger.setAttribute('aria-expanded', 'true');
+        mobileMenu.classList.add('is-open');
+        mobileMenu.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('mobile-menu-open');
+      }
+
+      function closeMenu() {
+        hamburger.classList.remove('is-active');
+        hamburger.setAttribute('aria-expanded', 'false');
+        mobileMenu.classList.remove('is-open');
+        mobileMenu.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('mobile-menu-open');
+      }
+
+      hamburger.addEventListener('click', function () {
+        mobileMenu.classList.contains('is-open') ? closeMenu() : openMenu();
+      });
+
+      mobileMenu.querySelectorAll('.gnb__mobile-link--toggle').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          const item = btn.closest('.gnb__mobile-item');
+          const isOpen = item.classList.contains('is-open');
+          mobileMenu.querySelectorAll('.gnb__mobile-item.is-open').forEach(function (openItem) {
+            openItem.classList.remove('is-open');
+            openItem.querySelector('.gnb__mobile-link--toggle')?.setAttribute('aria-expanded', 'false');
+          });
+          if (!isOpen) {
+            item.classList.add('is-open');
+            btn.setAttribute('aria-expanded', 'true');
+          }
+        });
+      });
+
+      mobileMenu.querySelectorAll('a').forEach(function (link) {
+        link.addEventListener('click', closeMenu);
+      });
+
+      document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape' && mobileMenu.classList.contains('is-open')) closeMenu();
+      });
+    })();
+  </script>
   <script>
     /* ── 섹션 타이틀/콘텐츠 순차 페이드인 ── */
     (function () {

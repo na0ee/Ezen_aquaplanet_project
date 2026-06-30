@@ -419,11 +419,11 @@ body[data-location="gwanggyo"] { --intro-card-w: 700px; }
   left: 50%;
   transform: translateX(-50%);
   top: 230px;                  /* Figma: y=160 */
+  width: min(1280px, calc(100% - 48px));
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 14px;                   /* Figma: gap=14 */
-  white-space: nowrap;
 }
 
 /* "Main Programs" 타이틀 */
@@ -431,6 +431,7 @@ body[data-location="gwanggyo"] { --intro-card-w: 700px; }
   margin: 0;
   line-height: 0;
   letter-spacing: -2.24px;
+  white-space: nowrap;
 }
 
 /* "Main" — Poppins Light */
@@ -455,6 +456,7 @@ body[data-location="gwanggyo"] { --intro-card-w: 700px; }
 /* 서브텍스트 */
 .loc-programs__sub {
   margin: 0;
+  max-width: 920px;
   font-family: var(--font-kr);
   font-weight: 200;
   font-size: 16px;
@@ -3213,5 +3215,52 @@ body.location-page .loc-hours__notice.loc-reveal-content {
     opacity: 1;
     transform: none !important;
     pointer-events: auto;
+  }
+}
+
+/* Program page header alignment: tablet keeps desktop nav, mobile keeps compact menu. */
+@media (min-width: 769px) and (max-width: 1024px) {
+  body.location-page .gnb {
+    padding: 20px 24px;
+  }
+
+  body.location-page .gnb__inner {
+    height: 48px;
+  }
+
+  body.location-page .gnb__nav {
+    display: flex;
+    gap: clamp(14px, 2vw, 28px);
+  }
+
+  body.location-page .gnb__link {
+    font-size: clamp(15px, 1.7vw, 17px);
+  }
+
+  body.location-page .gnb__link.gnb__link--active {
+    font-size: clamp(18px, 2vw, 20px);
+  }
+
+  body.location-page .gnb__logo-wrap,
+  body.location-page .gnb__logo {
+    width: 52px;
+    height: 52px;
+  }
+
+  body.location-page .gnb__ticket {
+    display: inline-flex;
+    height: 46px;
+    padding: 0 16px 0 18px;
+    gap: 8px;
+  }
+
+  body.location-page .gnb__ticket .img {
+    width: 20px;
+    height: 20px;
+  }
+
+  body.location-page .gnb__hamburger,
+  body.location-page .gnb__mobile-menu {
+    display: none;
   }
 }
