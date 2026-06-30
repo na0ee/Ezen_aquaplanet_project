@@ -4120,3 +4120,85 @@ body.biz-page.mobile-menu-open .gnb {
     height: 21px;
   }
 }
+
+/* Program page header alignment */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .biz-page .gnb {
+    height: 88px !important;
+    padding: 20px 24px !important;
+  }
+
+  .biz-page .gnb__inner {
+    height: 48px !important;
+  }
+
+  .biz-page .gnb__nav {
+    display: flex !important;
+    gap: clamp(14px, 2vw, 28px) !important;
+  }
+
+  .biz-page .gnb__link {
+    font-size: clamp(15px, 1.7vw, 17px) !important;
+  }
+
+  .biz-page .gnb__link.gnb__link--active {
+    font-size: clamp(18px, 2vw, 20px) !important;
+  }
+
+  .biz-page .gnb__logo-wrap,
+  .biz-page .gnb__logo {
+    width: 52px !important;
+    height: 52px !important;
+  }
+
+  .biz-page .gnb__ticket {
+    display: inline-flex !important;
+    height: 46px !important;
+    padding: 0 16px 0 18px !important;
+    gap: 8px !important;
+  }
+
+  .biz-page .gnb__ticket .img {
+    width: 20px !important;
+    height: 20px !important;
+  }
+
+  .biz-page .gnb__hamburger,
+  .biz-page .gnb__mobile-menu {
+    display: none !important;
+  }
+}
+
+@media (min-width: 390px) and (max-width: 768px) {
+  .biz-page .gnb {
+    height: auto !important;
+    padding: 12px 16px !important;
+  }
+
+  .biz-page .gnb__inner {
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 44px !important;
+  }
+
+  .biz-page .gnb__logo-wrap,
+  .biz-page .gnb__logo {
+    width: 36px !important;
+    height: 36px !important;
+  }
+
+  .biz-page .gnb__hamburger {
+    justify-content: center !important;
+    align-items: center !important;
+    width: 26px !important;
+    height: 26px !important;
+    order: -1 !important;
+  }
+
+  .biz-page .gnb__mobile-link--toggle {
+    gap: 14px !important;
+  }
+}

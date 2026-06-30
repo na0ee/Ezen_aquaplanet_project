@@ -533,10 +533,6 @@
       item.classList.add('is-loc-reveal-active', 'is-loc-reveal-visible');
     }
 
-    function hideRevealItem(item) {
-      item.classList.remove('is-loc-reveal-active', 'is-loc-reveal-visible', 'is-loc-reveal-done');
-    }
-
     if (reduceMotion || !('IntersectionObserver' in window)) {
       revealItems.forEach(function (item) {
         showRevealItem(item);
@@ -549,8 +545,7 @@
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {
           showRevealItem(entry.target);
-        } else {
-          hideRevealItem(entry.target);
+          revealObserver.unobserve(entry.target);
         }
       });
     }, {

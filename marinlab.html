@@ -682,14 +682,6 @@
         });
       }
 
-      function resetGroup(group) {
-        group.titles.concat(group.contents).forEach(function (el) {
-          if (!el) return;
-          window.clearTimeout(el._marinRevealTimer);
-          el.classList.remove('is-marin-reveal-active', 'is-marin-reveal-visible', 'is-marin-reveal-done');
-        });
-      }
-
       var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
       if (reduceMotion.matches || !('IntersectionObserver' in window)) {
         groups.forEach(showGroup);
@@ -700,8 +692,10 @@
         entries.forEach(function (entry) {
           var group = groups.find(function (item) { return item.section === entry.target; });
           if (!group) return;
-          if (entry.isIntersecting) showGroup(group);
-          else resetGroup(group);
+          if (entry.isIntersecting) {
+            showGroup(group);
+            observer.unobserve(entry.target);
+          }
         });
       }, {
         threshold: 0.08,

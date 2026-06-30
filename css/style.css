@@ -6465,3 +6465,41 @@ body.biz-page {
     font-size: 11px;
   }
 }
+
+/* Program page header alignment: tablet keeps desktop nav, mobile uses the same compact GNB. */
+@media (max-width: 768px) {
+  .index-page .gnb__inner {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .index-page .gnb__logo-wrap,
+  .index-page .gnb__logo {
+    width: 36px;
+    height: 36px;
+  }
+
+  .index-page .gnb__ticket {
+    display: inline-flex;
+    height: 34px;
+    padding: 0 10px 0 12px;
+    gap: 4px;
+    font-size: 14px;
+  }
+
+  .index-page .gnb__ticket .img {
+    width: 18px;
+    height: 18px;
+  }
+
+  .index-page .gnb__hamburger {
+    justify-content: center;
+    align-items: center;
+    width: 26px;
+    height: 26px;
+    order: -1;
+  }
+}

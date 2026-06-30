@@ -3710,9 +3710,75 @@ body.marin-view-conservation .m-pill-tabs:not(.m-pill-tabs--cases) {
 
   body.marin-view-conservation .m-cons-flip {
     height: min(58vh, 420px);
-<<<<<<< HEAD
     border-radius: 12px;
-=======
-    border-radius: 12px;}
->>>>>>> origin/main
   }
+}
+
+/* Program page header alignment */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .marinlab-page .gnb {
+    height: 88px;
+    padding: 20px 24px;
+  }
+
+  .marinlab-page .gnb__inner {
+    height: 48px;
+  }
+
+  .marinlab-page .gnb__nav {
+    display: flex;
+    gap: clamp(14px, 2vw, 28px);
+  }
+
+  .marinlab-page .gnb__link {
+    font-size: clamp(15px, 1.7vw, 17px);
+  }
+
+  .marinlab-page .gnb__link.gnb__link--active {
+    font-size: clamp(18px, 2vw, 20px);
+  }
+
+  .marinlab-page .gnb__logo-wrap,
+  .marinlab-page .gnb__logo {
+    width: 52px;
+    height: 52px;
+  }
+
+  .marinlab-page .gnb__ticket {
+    display: inline-flex;
+    height: 46px;
+    padding: 0 16px 0 18px;
+    gap: 8px;
+  }
+
+  .marinlab-page .gnb__ticket .img {
+    width: 20px;
+    height: 20px;
+  }
+
+  .marinlab-page .gnb__hamburger,
+  .marinlab-page .gnb__mobile-menu {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .marinlab-page .gnb {
+    padding: 12px 16px;
+  }
+
+  .marinlab-page .gnb__inner {
+    max-width: 100%;
+    height: 44px;
+  }
+
+  .marinlab-page .gnb__hamburger {
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+  }
+
+  .marinlab-page .gnb__mobile-link--toggle {
+    gap: 14px;
+  }
+}
