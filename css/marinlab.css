@@ -755,14 +755,40 @@ button {
 }
 
 .hero__scroll-text {
-  font-family: "EB Garamond", serif;
-  font-style: italic;
-  font-weight: 500;
+  position: relative;
+  font-family: "Poppins", sans-serif;
+  font-weight: 300;
   font-size: 32px;
   letter-spacing: -0.64px;
   text-align: center;
   line-height: 1.4;
   color: #ffffff;
+  padding-bottom: 3px;
+  transition: transform 0.3s ease, text-shadow 0.3s ease;
+}
+
+.hero__scroll-text::after {
+  content: '';
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  bottom: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.95), transparent);
+  transform: scaleX(0);
+  transform-origin: center;
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.hero__scroll:hover .hero__scroll-text {
+  transform: translateY(-3px);
+  text-shadow: 0 10px 22px rgba(255, 255, 255, 0.26);
+}
+
+.hero__scroll:hover .hero__scroll-text::after {
+  transform: scaleX(1);
+  opacity: 1;
 }
 
 .hero__scroll-lets {
@@ -774,7 +800,8 @@ button {
 
 .hero__scroll-explore {
   font-family: "EB Garamond", serif;
-  font-style: normal;
+  font-style: italic;
+  font-weight: 500;
 }
 
 .rescue {

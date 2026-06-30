@@ -67,8 +67,8 @@ const ENTRY_BWD = new THREE.CatmullRomCurve3([
 const EXIT_FWD = new THREE.Vector3(-18, -0.4, 0.3);
 const EXIT_BWD = new THREE.Vector3( 18, -0.4, 0.3);
 
-const ENTRY_DUR  = 1.55; 
-const EXIT_DUR   = 0.7;  
+const ENTRY_DUR  = 1.8;
+const EXIT_DUR   = 0.85;
 const ENTRY_SIDE_ROT = Math.PI * 0.25;
 const ENTRY_SWIM_Y = 0.18;
 const ENTRY_SWIM_Z = 0.12;
@@ -122,7 +122,7 @@ document.body.appendChild(crewCanvas);
 
 const crewSection      = document.getElementById('sec-crew');
 const crewSticky       = crewSection?.querySelector('.crew-sticky');
-const totalPanelCount  = crewSection?.querySelectorAll('.crew-panel').length || 4;
+const crewMain         = crewSection?.querySelector('.crew-main');
 let crewInView = false;
 let crewEntryTimer = null;
 let crewContentTimer = null;
@@ -133,6 +133,7 @@ let forceCrewEntryUntil = 0;
 let exitZoneActive = false;
 let prevExcess = 0;
 let crewWaveExiting = false;
+let canvasHiddenByScroll = false;
 
 function getCrewScrollState() {
   if (!crewSection) {
@@ -141,7 +142,7 @@ function getCrewScrollState() {
 
   const secR = crewSection.getBoundingClientRect();
   const scrolled = -secR.top;
-  const exitStart = totalPanelCount * window.innerHeight;
+  const exitStart = window.innerHeight;
 
   return {
     scrolled,
@@ -159,6 +160,7 @@ function hideCrewCanvas() {
   clearTimeout(crewContentTimer);
   crewWaveExiting = false;
   exitZoneActive = false;
+  canvasHiddenByScroll = false;
   crewCanvas.style.opacity = '0';
   crewCanvas.style.transform = '';
   crewCanvas.style.filter = '';
@@ -185,7 +187,7 @@ function clampCanvasToSticky() {
   const vh   = window.innerHeight;
 
   const scrolled     = -secR.top;
-  const excess       = Math.max(0, scrolled - totalPanelCount * vh);
+  const excess       = Math.max(0, scrolled - vh);
   prevExcess = excess;
   const forceEntry = performance.now() < forceCrewEntryUntil;
 
@@ -200,25 +202,28 @@ function clampCanvasToSticky() {
     return;
   }
 
-  if (excess > 0) {
-    exitZoneActive = true;
-    crewCanvas.style.transition = 'none';
-    crewCanvas.style.opacity   = '0';
-    crewCanvas.style.transform = '';
-    crewCanvas.style.clipPath  = 'inset(0px 0px 100vh 0px)';
+  exitZoneActive = excess > 0;
+
+  /* 카드/타이틀은 일반 콘텐츠라 스크롤되어 화면 밖으로 나가지만, 캔버스는 고정 오버레이라
+     따로 맞춰줘야 함 — 카드(.crew-main)가 화면을 벗어나는 순간 생물도 바로 사라지게 함 */
+  const mainRect = crewMain ? crewMain.getBoundingClientRect() : sr;
+  const cardGone = mainRect.bottom <= 0 || mainRect.top >= vh;
+
+  if (cardGone) {
+    if (!canvasHiddenByScroll) {
+      canvasHiddenByScroll = true;
+      crewCanvas.style.transition = 'none';
+      crewCanvas.style.opacity = '0';
+      crewCanvas.style.transform = '';
+    }
     return;
   }
 
-  if (exitZoneActive) {
-    exitZoneActive = false;
-    prevExcess = 0;
-    crewCanvas.style.transform = '';
-    if (crewInView) {
-      crewCanvas.style.transition = 'opacity 0.6s ease';
-      crewCanvas.style.opacity    = crewWaveExiting ? '0' : '1';
-    }
+  if (canvasHiddenByScroll) {
+    canvasHiddenByScroll = false;
+    crewCanvas.style.transition = 'opacity 0.3s ease';
+    crewCanvas.style.opacity = '1';
   }
-
 
   const visTop = Math.max(0, sr.top);
   const visBtm = Math.min(vh, sr.bottom);
@@ -377,6 +382,7 @@ orbitHit.addEventListener('pointerdown', (e) => {
 
   orbitHit.setPointerCapture(e.pointerId);
   orbitHit.style.cursor = 'grabbing';
+  document.dispatchEvent(new CustomEvent('crew-drag-start'));
   e.preventDefault();
 });
 
@@ -392,12 +398,14 @@ orbitHit.addEventListener('pointermove', (e) => {
 });
 
 function stopModelDrag(e) {
+  if (!isDraggingModel) return;
   if (activePointerId !== null && e?.pointerId === activePointerId) {
     orbitHit.releasePointerCapture(activePointerId);
   }
   isDraggingModel = false;
   activePointerId = null;
   if (controlsActive && currentSettled) orbitHit.style.cursor = 'grab';
+  document.dispatchEvent(new CustomEvent('crew-drag-end'));
 }
 
 orbitHit.addEventListener('pointerup', stopModelDrag);

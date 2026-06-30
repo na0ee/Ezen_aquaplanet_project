@@ -199,6 +199,7 @@ body {
 
 /* "Let's Explore"  (Figma: Poppins Light + EB Garamond Medium Italic, 32px) */
 .loc-scroll__text {
+  position: relative;
   font-family: var(--font-en); /* Poppins — "Let's" */
   font-weight: 300;            /* Light */
   font-size: 32px;             /* Figma: 32px */
@@ -207,7 +208,35 @@ body {
   line-height: 1.4;
   text-align: center;
   margin: 0;
+  padding: 0 4px 3px;
   white-space: nowrap;
+  transition: transform 0.3s ease, text-shadow 0.3s ease;
+}
+
+.loc-scroll__text::after {
+  content: '';
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  bottom: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.95), transparent);
+  transform: scaleX(0);
+  transform-origin: center;
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.loc-scroll:hover .loc-scroll__text,
+.loc-scroll:focus-visible .loc-scroll__text {
+  transform: translateY(-3px);
+  text-shadow: 0 10px 22px rgba(255, 255, 255, 0.26);
+}
+
+.loc-scroll:hover .loc-scroll__text::after,
+.loc-scroll:focus-visible .loc-scroll__text::after {
+  transform: scaleX(1);
+  opacity: 1;
 }
 
 /* "Explore"  (Figma: EB Garamond Medium Italic) */

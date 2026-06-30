@@ -134,31 +134,6 @@ function initSmoothScroll() {
   let rafId = null;
   let isSelf = false;
 
-  /* 크루 패널 스냅 상태 */
-  let crewSnapTargetPanel = 0;
-  let crewSnapLocked = false;
-  let crewSnapLockTimer = null;
-  let crewFirstPanelWheelAccum = 0;
-
-  /* 카드 opacity 전환 완료(transitionend)를 직접 감지해 즉시 잠금 해제.
-     opacity >= 0.99 조건으로 카드가 나타나는 방향(0→1)일 때만 해제한다 (숨겨지는 방향 무시). */
-  const crewInfoWrapEl = document.querySelector('.crew-info-wrap');
-  if (crewInfoWrapEl) {
-    crewInfoWrapEl.addEventListener('transitionend', (e) => {
-      if (e.propertyName !== 'opacity' || !crewSnapLocked) return;
-      if (parseFloat(getComputedStyle(crewInfoWrapEl).opacity) >= 0.99) {
-        clearTimeout(crewSnapLockTimer);
-        crewSnapLocked = false;
-      }
-    });
-  }
-
-  /* crew-card-reenter는 transitionend 폴백: 전환이 시작되면 600ms 타이머 설정 */
-  document.addEventListener('crew-card-reenter', () => {
-    clearTimeout(crewSnapLockTimer);
-    crewSnapLockTimer = window.setTimeout(() => { crewSnapLocked = false; }, 480);
-  });
-
   const ease = 0.095;       /* 낮을수록 느리고 부드러움 (0.08 ≈ 0.5초에 90% 도달) */
   const speedScale = 0.80;  /* 휠 delta 감속 비율 */
 
@@ -183,17 +158,6 @@ function initSmoothScroll() {
     rafId = requestAnimationFrame(tick);
   }
 
-  function resetCrewFirstPanelWheel() {
-    crewFirstPanelWheelAccum = 0;
-  }
-
-  /* deltaMode별로 단위가 다른 deltaY를 픽셀 기준으로 환산 (마우스/트랙패드 간 편차 보정) */
-  function normalizeWheelMagnitude(e) {
-    if (e.deltaMode === 1) return Math.abs(e.deltaY) * 16;        /* DOM_DELTA_LINE */
-    if (e.deltaMode === 2) return Math.abs(e.deltaY) * window.innerHeight; /* DOM_DELTA_PAGE */
-    return Math.abs(e.deltaY);                                    /* DOM_DELTA_PIXEL */
-  }
-
   window.addEventListener('wheel', (e) => {
     if (diveActive || isTransitioning) {
       e.preventDefault();
@@ -203,68 +167,7 @@ function initSmoothScroll() {
 
     e.preventDefault();
 
-    const crewScale = crewPanelActive ? 1.4 : speedScale;
-    targetY = clamp(targetY + e.deltaY * crewScale);
-
-    /* 크루 패널 구간: 패널당 스냅 — 카드가 나타난 뒤에만 다음 패널로 이동 */
-    if (crewPanelActive) {
-      const crewEl = document.getElementById('sec-crew');
-      if (crewEl) {
-        const crewTopAbs = crewEl.getBoundingClientRect().top + window.scrollY;
-        const panelH     = window.innerHeight;
-        const panelCount = crewEl.querySelectorAll('.crew-panel').length || 4;
-        const dir        = e.deltaY > 0 ? 1 : -1;
-
-        /* Sync from the real scroll position only when panel snapping is unlocked. */
-        if (!crewSnapLocked) {
-          crewSnapTargetPanel = Math.floor(
-            Math.max(0, Math.min(panelCount - 1, (window.scrollY - crewTopAbs) / panelH))
-          );
-        }
-
-        const firstPanelDown = dir > 0 && crewSnapTargetPanel === 0;
-        if (firstPanelDown) {
-          /* 시간 창으로 리셋하지 않고, 아래 방향으로 스크롤하는 동안은 계속 누적
-             (느린 휠/터치패드처럼 이벤트 간격이 벌어지는 기기에서도 결국 임계치에 도달하도록) */
-          crewFirstPanelWheelAccum += normalizeWheelMagnitude(e);
-        } else {
-          resetCrewFirstPanelWheel();
-        }
-
-        if (firstPanelDown && crewFirstPanelWheelAccum >= 80) {
-          crewSnapTargetPanel = 1;
-          targetY = clamp(crewTopAbs + panelH);
-          resetCrewFirstPanelWheel();
-          if (!crewSnapLocked) {
-            crewSnapLocked = true;
-            clearTimeout(crewSnapLockTimer);
-            crewSnapLockTimer = window.setTimeout(() => { crewSnapLocked = false; }, 1300);
-          }
-        } else if (!crewSnapLocked && dir > 0 && crewSnapTargetPanel >= panelCount - 1) {
-          /* 마지막 패널에서 아래 스크롤 → 섹션 탈출 */
-          targetY = clamp(crewTopAbs + panelCount * panelH);
-        } else if (crewSnapLocked) {
-          /* While a card is re-entering, hold both scroll directions on the target panel. */
-          targetY = clamp(crewTopAbs + crewSnapTargetPanel * panelH);
-        } else {
-          /* 패널 전환 허용 */
-          const nextPanel = Math.max(0, Math.min(panelCount - 1, crewSnapTargetPanel + dir));
-          const changedPanel = nextPanel !== crewSnapTargetPanel;
-          crewSnapTargetPanel = nextPanel;
-          targetY = clamp(crewTopAbs + crewSnapTargetPanel * panelH);
-          if (changedPanel) {
-            /* Panel move: lock until transitionend or the crew-card-reenter fallback releases it. */
-            crewSnapLocked = true;
-            clearTimeout(crewSnapLockTimer);
-            crewSnapLockTimer = window.setTimeout(() => { crewSnapLocked = false; }, 1300);
-          } else {
-            /* 위로 이동: 즉시 잠금 해제 */
-            clearTimeout(crewSnapLockTimer);
-            crewSnapLocked = false;
-          }
-        }
-      }
-    }
+    targetY = clamp(targetY + e.deltaY * speedScale);
 
     if (Math.abs(currentY - window.scrollY) > 80) currentY = window.scrollY;
     if (!rafId) rafId = requestAnimationFrame(tick);
@@ -286,8 +189,6 @@ function initSmoothScroll() {
       rafId = null;
     }
   };
-
-  window.__isCrewSnapLocked = () => crewSnapLocked;
 
   window.addEventListener('resize', () => {
     targetY = clamp(window.scrollY);
@@ -789,8 +690,9 @@ function initIntroScrollGate() {
   }
 
   function isNearCrewStart() {
+    /* 크루 섹션이 거의 완전히 다시 보이는(원래 위치로 거의 다 돌아온) 상태에서만 인트로로 복귀 허용 */
     const crewTop = sectionTop(crew);
-    return window.scrollY >= crewTop - 4 && window.scrollY <= crewTop + window.innerHeight * 0.45;
+    return window.scrollY >= crewTop - 4 && window.scrollY <= crewTop + 4;
   }
 
   function requestIntroDive() {
@@ -814,7 +716,7 @@ function initIntroScrollGate() {
   }
 
   function shouldBlockUp() {
-    return crewScrollUnlocked && !window.__isCrewSnapLocked?.() && !diveActive && !isTransitioning && isNearCrewStart();
+    return crewScrollUnlocked && !diveActive && !isTransitioning && isNearCrewStart();
   }
 
   window.addEventListener('wheel', (e) => {
@@ -1737,6 +1639,21 @@ function initCrewScroll() {
   let crewCardSwapTimer = 0;
   let crewEnterTimer = 0;
   let crewSequencedEnterUntil = 0;
+  let crewAutoplayTimer = null;
+  let crewAutoplayPaused = false;
+
+  function stopCrewAutoplay() {
+    clearInterval(crewAutoplayTimer);
+    crewAutoplayTimer = null;
+  }
+
+  function startCrewAutoplay() {
+    if (crewAutoplayTimer || isMobileViewport()) return;
+    crewAutoplayTimer = setInterval(() => {
+      if (crewAutoplayPaused || diveActive || !crewPanelActive) return;
+      setActive((currentIndex + 1) % totalPanels);
+    }, 3000);
+  }
 
   function resetCrewExitState() {
     if (
@@ -1851,7 +1768,7 @@ function initCrewScroll() {
     if (placeholder) placeholder.dataset.creature = creatures[idx] ?? '';
 
     const isPanelChange = prevIndex >= 0 && prevIndex !== idx;
-    scheduleShowCard(idx, !force && isPanelChange ? 260 : 0, force || prevIndex < 0);
+    scheduleShowCard(idx, !force && isPanelChange ? 360 : 0, force || prevIndex < 0);
 
     if (!force && isPanelChange && !diveActive) {
       playCrewCardWave();
@@ -1865,7 +1782,7 @@ function initCrewScroll() {
     const rect    = section.getBoundingClientRect();
     const scrolled = -rect.top; /* 섹션 상단으로부터 스크롤된 px */
     const panelHeight = window.innerHeight;
-    const exitStart = totalPanels * panelHeight;
+    const exitStart = panelHeight; /* 섹션이 1화면 높이이므로 그 한 화면을 지나면 퇴장 */
 
     if (!crewScrollUnlocked && !diveActive && scrolled >= -10) {
       crewScrollUnlocked = true;
@@ -1874,6 +1791,7 @@ function initCrewScroll() {
 
     if (!crewScrollUnlocked && !diveActive) {
       crewPanelActive = false;
+      stopCrewAutoplay();
       window.clearTimeout(crewEnterTimer);
       if (exitWavePlayed) {
         document.dispatchEvent(new CustomEvent('crew-wave-exit-reset'));
@@ -1887,6 +1805,7 @@ function initCrewScroll() {
 
     if (scrolled < -10) {
       crewPanelActive = false;
+      stopCrewAutoplay();
       window.clearTimeout(crewEnterTimer);
       if (exitWavePlayed) {
         document.dispatchEvent(new CustomEvent('crew-wave-exit-reset'));
@@ -1902,6 +1821,7 @@ function initCrewScroll() {
     const pastLastPanel = scrolled >= exitStart;
     if (pastLastPanel) {
       crewPanelActive = false;
+      stopCrewAutoplay();
       if (!tailHidden) {
         tailHidden = true;
         document.dispatchEvent(new CustomEvent('crew-tail-visibility', { detail: { hidden: true } }));
@@ -1923,19 +1843,16 @@ function initCrewScroll() {
       document.dispatchEvent(new CustomEvent('crew-tail-visibility', { detail: { hidden: false } }));
     }
 
-    /* 각 패널은 100vh(= innerHeight)씩 차지 */
+    /* 패널 전환은 스크롤 위치가 아니라 자동 재생 타이머가 담당 */
     const wasContentVisible = section.classList.contains('is-content-visible');
     section.classList.add('is-title-visible');
     if (performance.now() >= crewSequencedEnterUntil) {
       section.classList.add('is-content-visible');
     }
 
-    const idx = Math.min(
-      Math.floor(scrolled / panelHeight),
-      totalPanels - 1
-    );
     const canForceInitial = currentIndex < 0 || (!wasContentVisible && performance.now() >= crewSequencedEnterUntil);
-    setActive(Math.max(idx, 0), canForceInitial);
+    setActive(currentIndex < 0 ? 0 : currentIndex, canForceInitial);
+    startCrewAutoplay();
   }
 
   window.addEventListener('scroll', onScroll, { passive: true });
@@ -1947,10 +1864,9 @@ function initCrewScroll() {
     tailHidden = false;
     exitWavePlayed = false;
     setActive(0, false);
+    startCrewAutoplay();
   });
   // 3D 생물이 다시 보이는 타이밍에 카드 텍스트를 교체합니다.
-
-  /* 점 클릭 → 해당 패널 위치로 스크롤 */
   document.addEventListener('crew-card-reenter', (e) => {
     const idx = Number(e.detail?.idx);
     const nextIndex = Number.isInteger(idx) && idx >= 0 ? idx : currentIndex;
@@ -1963,15 +1879,21 @@ function initCrewScroll() {
 
   dots.forEach((dot, i) => {
     dot.addEventListener('click', () => {
-      /* 모바일: 고정 스크롤 구간이 없으므로 스크롤 이동 대신 즉시 전환 */
-      if (isMobileViewport()) {
-        setActive(i);
-        return;
+      setActive(i);
+      if (!isMobileViewport()) {
+        stopCrewAutoplay();
+        startCrewAutoplay();
       }
-      const sTop = window.scrollY + section.getBoundingClientRect().top;
-      window.scrollTo({ top: sTop + i * window.innerHeight, behavior: 'smooth' });
     });
   });
+
+  /* 보러가기 버튼에 마우스가 있거나 GLB 생물을 드래그로 돌리는 동안은 자동 전환 일시정지 */
+  section.querySelectorAll('.crew-panel-btn').forEach((btn) => {
+    btn.addEventListener('mouseenter', () => { crewAutoplayPaused = true; });
+    btn.addEventListener('mouseleave', () => { crewAutoplayPaused = false; });
+  });
+  document.addEventListener('crew-drag-start', () => { crewAutoplayPaused = true; });
+  document.addEventListener('crew-drag-end', () => { crewAutoplayPaused = false; });
 
   /* 모바일: 카드 영역을 옆으로 드래그하면 이전/다음 생물로 전환 */
   const main = section.querySelector('.crew-main');

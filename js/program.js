@@ -1424,6 +1424,22 @@
     }, { passive: true });
   })();
 
+  // ── Hero: Let's Explore 클릭 시 다음 섹션으로 스크롤 ──
+  (function() {
+    const trigger = document.querySelector('.hero__scroll');
+    if (!trigger) return;
+
+    trigger.addEventListener('click', function(e) {
+      e.preventDefault();
+      const target = document.querySelector('.section--schedule:not(.is-hidden)') || document.querySelector('.section--schedule');
+      if (!target) return;
+      const gnb = document.getElementById('gnb');
+      const offset = gnb ? gnb.offsetHeight : 0;
+      const top = target.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({ top, behavior: 'smooth' });
+    });
+  })();
+
   // ── GNB 모바일 메뉴 ──
   (function initMobileMenu() {
     const hamburger  = document.querySelector('.gnb__hamburger');

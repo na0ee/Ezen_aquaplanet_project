@@ -475,13 +475,6 @@ body.biz-page.mobile-menu-open .gnb {
   color: #fff;
   text-decoration: none;
   cursor: pointer;
-  transition: opacity 0.2s ease, transform 0.2s ease;
-}
-
-.biz-hero__scroll:hover,
-.biz-hero__scroll:focus-visible {
-  opacity: 0.82;
-  transform: translateY(4px);
 }
 
 .biz-hero__scroll:focus-visible {
@@ -498,6 +491,7 @@ body.biz-page.mobile-menu-open .gnb {
 }
 
 .biz-hero__scroll-text {
+  position: relative;
   width: 180px;
   margin: 0;
   color: #fff;
@@ -508,6 +502,34 @@ body.biz-page.mobile-menu-open .gnb {
   line-height: 1.4;
   letter-spacing: -0.64px;
   text-align: center;
+  padding-bottom: 3px;
+  transition: transform 0.3s ease, text-shadow 0.3s ease;
+}
+
+.biz-hero__scroll-text::after {
+  content: '';
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  bottom: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.95), transparent);
+  transform: scaleX(0);
+  transform-origin: center;
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.biz-hero__scroll:hover .biz-hero__scroll-text,
+.biz-hero__scroll:focus-visible .biz-hero__scroll-text {
+  transform: translateY(-3px);
+  text-shadow: 0 10px 22px rgba(255, 255, 255, 0.26);
+}
+
+.biz-hero__scroll:hover .biz-hero__scroll-text::after,
+.biz-hero__scroll:focus-visible .biz-hero__scroll-text::after {
+  transform: scaleX(1);
+  opacity: 1;
 }
 
 .biz-hero__scroll-text span {

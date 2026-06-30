@@ -1464,10 +1464,9 @@ body.is-logo-at-header .gnb__logo {
    9. CREW SCROLL SECTION — 스크롤 드리븐 단일 섹션
    ------------------------------------------------------------- */
 
-/* 섹션 컨테이너: 생물 4종 × 100vh + 퇴장 고정 구간 100vh + 여백 100vh */
+/* 섹션 컨테이너: 1화면 높이 — 패널(생물) 전환은 스크롤이 아니라 자동 재생 타이머가 담당 */
 .section--crew-scroll {
-  /* 4 panels * 100vh + fixed exit/scroll-out buffer */
-  height: 500vh;
+  height: 100vh;
   min-height: unset;
   display: block;
   overflow: visible;
@@ -1629,7 +1628,7 @@ body.is-logo-at-header .gnb__logo {
   position: relative;
   opacity: 0;
   transform: translateY(34px);
-  transition: opacity 0.42s ease, transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: opacity 0.65s ease, transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
   transition-delay: 0s;
 }
 
@@ -1760,7 +1759,7 @@ body.is-logo-at-header .gnb__logo {
   transform: translateY(38px);
   overflow: visible;
   background-clip: padding-box, border-box;
-  transition: opacity 0.38s ease, transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: opacity 0.58s ease, transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .section--crew-scroll.is-card-revealed .crew-info-wrap {
@@ -1780,7 +1779,7 @@ body.is-logo-at-header .gnb__logo {
   opacity: 0;
   transform: translate(-12px, -50%);
   filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.18));
-  transition: opacity 0.22s ease, transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: opacity 0.34s ease, transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .section--crew-scroll.is-card-revealed .crew-card-indicator {
@@ -1808,11 +1807,11 @@ body.is-logo-at-header .gnb__logo {
 }
 
 .section--crew-scroll.is-card-revealed .crew-card-indicator__line {
-  animation: crewIndicatorDraw 0.34s cubic-bezier(0.16, 0.84, 0.28, 1) 0.04s both;
+  animation: crewIndicatorDraw 0.5s cubic-bezier(0.16, 0.84, 0.28, 1) 0.06s both;
 }
 
 .section--crew-scroll.is-card-revealed .crew-card-indicator__end {
-  animation: crewIndicatorDotIn 0.20s cubic-bezier(0.22, 1, 0.36, 1) 0.28s both;
+  animation: crewIndicatorDotIn 0.3s cubic-bezier(0.22, 1, 0.36, 1) 0.56s both;
 }
 
 @keyframes crewIndicatorDraw {
@@ -1869,7 +1868,7 @@ body.is-logo-at-header .gnb__logo {
   justify-content: center;
   overflow: visible;
   opacity: 0;
-  transition: opacity 0.28s ease;
+  transition: opacity 0.4s ease;
   pointer-events: none;
   z-index: 1;
 }
