@@ -257,7 +257,7 @@
     }
     if (hint) hint.classList.remove('is-visible');
 
-    var finalGridIn = isTabletLayout() ? easeInOut(clamp01((progress - 0.30) / 0.08)) : 0;
+    var finalGridIn = (finalGrid && isTabletLayout()) ? easeInOut(clamp01((progress - 0.30) / 0.08)) : 0;
     var toCarousel = easeInOut(clamp01((progress - 0.32) / 0.12)) * (1 - finalGridIn);
     var featuredOrb = null;
     var featuredScore = -1;
@@ -526,7 +526,7 @@
       field._consDragBound = true;
 
       field.addEventListener('pointerdown', function (event) {
-        if (!isMobileStatic() && !isTabletLayout()) return;
+        if (!isTabletLayout()) return;
         if (event.pointerType === 'mouse' && event.button !== 0) return;
         isDragging = true;
         dragDistance = 0;

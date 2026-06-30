@@ -80,9 +80,7 @@
       </a>
 
       <button class="gnb__hamburger" type="button" aria-label="메뉴 열기" aria-expanded="false" aria-controls="mobile-menu">
-        <span class="gnb__hamburger-line"></span>
-        <span class="gnb__hamburger-line"></span>
-        <span class="gnb__hamburger-line"></span>
+        <img src="assets/images/hamburgermenu_icon.svg" alt="">
       </button>
     </div>
   </header>
@@ -769,8 +767,11 @@
 
         menuItems.forEach((item) => {
           const active = item.getAttribute('data-marin-menu') === currentView;
-          item.classList.toggle('gnb__dropdown-item--active', active);
-          item.classList.toggle('gnb__mobile-sub-active', active);
+          if (item.closest('.gnb__mobile-sub')) {
+            item.classList.toggle('gnb__mobile-sub-active', active);
+          } else {
+            item.classList.toggle('gnb__dropdown-item--active', active);
+          }
         });
 
         if (options.updateUrl !== false) updateViewUrl(currentView);
