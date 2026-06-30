@@ -178,13 +178,23 @@ body {
 .gnb__nav-item {
   position: relative;
   display: flex;
+  height: 54px;
   align-items: center;
   cursor: pointer;
 }
 
+.gnb__nav-item::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: -12px;
+  right: -12px;
+  height: 12px;
+}
+
 .gnb__dropdown {
   position: absolute;
-  top: 48px;
+  top: 57px;
   left: 0;
   display: flex;
   flex-direction: column;
@@ -206,7 +216,9 @@ body {
     inset -1px 0 0 rgba(255, 255, 255, 0.08);
   opacity: 0;
   visibility: hidden;
+  pointer-events: none;
   transition: opacity 0.25s ease, visibility 0.25s ease;
+  z-index: 1001;
 }
 
 .gnb__dropdown::before {
@@ -233,6 +245,13 @@ body {
 .gnb__nav-item:hover .gnb__dropdown {
   opacity: 1;
   visibility: visible;
+  pointer-events: auto;
+}
+
+.gnb__dropdown:hover {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
 }
 
 .gnb__dropdown-item {
@@ -3171,5 +3190,21 @@ body {
     opacity: 1;
     transform: none;
     pointer-events: auto;
+  }
+}
+
+/* Mobile GNB hamburger parity */
+@media (max-width: 1024px) {
+  .gnb__hamburger {
+    justify-content: center;
+    align-items: center;
+    width: 26px;
+    height: 26px;
+  }
+
+  .gnb__hamburger img {
+    display: block;
+    width: 24px;
+    height: 24px;
   }
 }

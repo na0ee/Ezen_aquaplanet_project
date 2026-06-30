@@ -108,7 +108,7 @@ body.oceanfriends-page {
 
 .oceanfriends-page .gnb__dropdown {
   position: absolute;
-  top: 60px;
+  top: 57px;
   left: 0;
   transform: none;
   display: flex;
@@ -2270,5 +2270,21 @@ body.oceanfriends-page {
     font-size: clamp(18px, 2.2vw, 22px);
   }
 }
+  }
+}
+
+/* Mobile GNB hamburger parity */
+@media (max-width: 1024px) {
+  .oceanfriends-page .gnb__hamburger {
+    justify-content: center;
+    align-items: center;
+    width: 26px;
+    height: 26px;
+  }
+
+  .oceanfriends-page .gnb__hamburger img {
+    display: block;
+    width: 24px;
+    height: 24px;
   }
 }

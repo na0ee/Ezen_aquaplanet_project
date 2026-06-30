@@ -67,8 +67,8 @@ const ENTRY_BWD = new THREE.CatmullRomCurve3([
 const EXIT_FWD = new THREE.Vector3(-18, -0.4, 0.3);
 const EXIT_BWD = new THREE.Vector3( 18, -0.4, 0.3);
 
-const ENTRY_DUR  = 1.85; 
-const EXIT_DUR   = 0.8;  
+const ENTRY_DUR  = 1.55; 
+const EXIT_DUR   = 0.7;  
 const ENTRY_SIDE_ROT = Math.PI * 0.25;
 const ENTRY_SWIM_Y = 0.18;
 const ENTRY_SWIM_Z = 0.12;
@@ -268,7 +268,7 @@ function scheduleCreatureEntry(immediate = false) {
   crewEntryTimer = setTimeout(() => {
     if (!crewInView) return;
     showCreature(pendingIdx >= 0 ? pendingIdx : 0);
-  }, 400);
+  }, 300);
 }
 
 setCrewInfoVisible(false);
@@ -739,7 +739,7 @@ function restoreCurrentCreatureAfterWaveExit() {
   active.visible = true;
   currentSettled = true;
   enableControls();
-  revealCrewInfo(120);
+  revealCrewInfo(95);
 }
 
 const clock = new THREE.Clock();
@@ -779,7 +779,7 @@ const clock = new THREE.Clock();
       entryModel.rotation.y = (1 - rotT) * ENTRY_SIDE_ROT * rotSign + rotT * SETTLED_ROT_Y + swim * 0.1 * swimFade * rotSign;
       entryModel.rotation.x = Math.sin(entryT * Math.PI * 2.2) * ENTRY_PITCH * swimFade + settle * SETTLED_ROT_X;
       entryModel.rotation.z = -swim * ENTRY_ROLL * rotSign * swimFade;
-      if (entryT >= 0.52 && !crewInfoVisible) {
+      if (entryT >= 0.46 && !crewInfoVisible) {
         setCrewInfoVisible(true);
       }
       if (entryT >= 1) {
@@ -788,7 +788,7 @@ const clock = new THREE.Clock();
         entryModel  = null;
         currentSettled = true;
         enableControls();
-        revealCrewInfo(80);
+        revealCrewInfo(60);
       }
     }
 

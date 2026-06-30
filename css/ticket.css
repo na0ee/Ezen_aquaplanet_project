@@ -324,29 +324,11 @@ body.ticket-open {
 
 /* 드롭다운 — hover bridge 유지, program.css 비주얼 적용 */
 .ticket-page .gnb__dropdown {
-  top: 100%;
+  top: 57px;
   left: 0;
-  transform: translateY(-6px);
-  /* 위 23px = 투명 hover bridge, 아래 3px = 패널 내부 여백 */
-  padding: 23px 3px 3px;
-  background: transparent;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-  box-shadow: none;
-  isolation: isolate;
-}
-
-/* ::before 제거 (gradient border는 ::after가 담당) */
-.ticket-page .gnb__dropdown::before {
-  display: none;
-}
-
-/* ::after — program.css 스타일 글라스 패널 (hover bridge 아래부터 시작) */
-.ticket-page .gnb__dropdown::after {
-  content: "";
-  position: absolute;
-  display: block;
-  inset: 20px 0 0 0;
+  transform: none;
+  /* 위 6px = 투명 hover bridge, 아래 3px = 패널 내부 여백 */
+  padding: 3px;
   background: linear-gradient(
     160deg,
     rgba(255, 255, 255, 0.06) 0%,
@@ -355,15 +337,39 @@ body.ticket-open {
   );
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
-  border-radius: 14px;
-  pointer-events: none;
-  z-index: 0;
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.75),
     inset 0 -1px 0 rgba(255, 255, 255, 0.12),
     inset 1px 0 0 rgba(255, 255, 255, 0.20),
     inset -1px 0 0 rgba(255, 255, 255, 0.08);
-  border: none;
+  z-index: auto;
+}
+
+/* ::before 제거 (gradient border는 ::after가 담당) */
+.ticket-page .gnb__dropdown::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  padding: 1.5px;
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.55) 0%,
+    rgba(255, 255, 255, 0.20) 25%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(255, 255, 255, 0.20) 75%,
+    rgba(255, 255, 255, 0.55) 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* ::after — program.css 스타일 글라스 패널 (hover bridge 아래부터 시작) */
+.ticket-page .gnb__dropdown::after {
+  content: none;
 }
 
 .ticket-page .gnb__dropdown-item {
@@ -379,22 +385,21 @@ body.ticket-open {
 
 .ticket-page .gnb__nav-item:hover .gnb__dropdown {
   opacity: 1;
+  visibility: visible;
   pointer-events: auto;
-  transform: translateY(0);
+  transform: none;
 }
 
 .ticket-page .gnb__dropdown:hover {
   opacity: 1;
+  visibility: visible;
   pointer-events: auto;
-  transform: translateY(0);
+  transform: none;
 }
 
 .ticket-page .gnb__dropdown-item:hover {
   background-color: #ffffff;
   color: #22b2ea;
-  font-family: "EB Garamond", serif;
-  font-size: 18px;
-  letter-spacing: -0.72px;
   font-weight: 500;
 }
 
@@ -403,6 +408,7 @@ body.ticket-open {
   color: #ffffff;
   font-family: "Poppins", sans-serif;
   font-size: 16px;
+  font-weight: 400;
   letter-spacing: -0.64px;
 }
 
@@ -1336,6 +1342,16 @@ html.is-safari .ticket-page .gnb__ticket {
   .ticket.is-selected .ticket-spot.is-top.slot-3 {
     top: calc(clamp(108px, 13vh, 150px) + 20px) !important;
   }
+
+  .ticket.is-selected .ticket-spot.is-top.slot-2 {
+    left: 51% !important;
+    top: clamp(24px, 4vh, 56px) !important;
+  }
+
+  .ticket.is-selected .ticket-spot.is-top.slot-3 {
+    left: 72% !important;
+    top: clamp(64px, 8vh, 100px) !important;
+  }
 }
 
 /* ============================================================
@@ -1986,5 +2002,21 @@ html.is-safari .ticket-page .gnb__ticket {
 
   .ticket-page .gnb__inner {
     height: 44px;
+  }
+}
+
+/* Mobile GNB hamburger parity */
+@media (max-width: 1024px) {
+  .ticket-page .gnb__hamburger {
+    justify-content: center;
+    align-items: center;
+    width: 26px;
+    height: 26px;
+  }
+
+  .ticket-page .gnb__hamburger img {
+    display: block;
+    width: 24px;
+    height: 24px;
   }
 }

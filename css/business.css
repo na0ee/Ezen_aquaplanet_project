@@ -111,7 +111,7 @@ body.biz-page.mobile-menu-open .gnb {
 
 .biz-page .gnb__dropdown {
   position: absolute;
-  top: 60px;
+  top: 57px;
   left: 0;
   display: flex;
   flex-direction: column;
@@ -4520,5 +4520,21 @@ body.biz-page {
   .biz-page .biz-glass-card__pair {
     grid-template-columns: 64px 1fr;
     column-gap: 0;
+  }
+}
+
+/* Mobile GNB hamburger parity */
+@media (max-width: 1024px) {
+  .biz-page .gnb__hamburger {
+    justify-content: center !important;
+    align-items: center !important;
+    width: 26px !important;
+    height: 26px !important;
+  }
+
+  .biz-page .gnb__hamburger img {
+    display: block !important;
+    width: 24px !important;
+    height: 24px !important;
   }
 }

@@ -789,29 +789,10 @@ button {
 
 /* 드롭다운 — hover bridge 유지, program.css 비주얼 적용 */
 .index-page .gnb__dropdown {
-  top: 100%;
+  top: 57px;
   left: 0;
-  transform: translateY(-6px);
-  /* 위 23px = 투명 hover bridge, 아래 3px = 패널 내부 여백 */
-  padding: 23px 3px 3px;
-  background: transparent;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-  box-shadow: none;
-  isolation: isolate;
-}
-
-/* ::before 제거 (gradient border는 ::after가 담당) */
-.index-page .gnb__dropdown::before {
-  display: none;
-}
-
-/* ::after — program.css 스타일 글라스 패널 (hover bridge 아래부터 시작) */
-.index-page .gnb__dropdown::after {
-  content: "";
-  position: absolute;
-  display: block;
-  inset: 20px 0 0 0;
+  transform: none;
+  padding: 3px;
   background: linear-gradient(
     160deg,
     rgba(255, 255, 255, 0.06) 0%,
@@ -820,15 +801,37 @@ button {
   );
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
-  border-radius: 14px;
-  pointer-events: none;
-  z-index: 0;
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.75),
     inset 0 -1px 0 rgba(255, 255, 255, 0.12),
     inset 1px 0 0 rgba(255, 255, 255, 0.20),
     inset -1px 0 0 rgba(255, 255, 255, 0.08);
-  border: none;
+  z-index: auto;
+}
+
+.index-page .gnb__dropdown::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  padding: 1.5px;
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.55) 0%,
+    rgba(255, 255, 255, 0.20) 25%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(255, 255, 255, 0.20) 75%,
+    rgba(255, 255, 255, 0.55) 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.index-page .gnb__dropdown::after {
+  content: none;
 }
 
 .index-page .gnb__dropdown-item {
@@ -844,22 +847,21 @@ button {
 
 .index-page .gnb__nav-item:hover .gnb__dropdown {
   opacity: 1;
+  visibility: visible;
   pointer-events: auto;
-  transform: translateY(0);
+  transform: none;
 }
 
 .index-page .gnb__dropdown:hover {
   opacity: 1;
+  visibility: visible;
   pointer-events: auto;
-  transform: translateY(0);
+  transform: none;
 }
 
 .index-page .gnb__dropdown-item:hover {
   background-color: #ffffff;
   color: #22b2ea;
-  font-family: "EB Garamond", serif;
-  font-size: 18px;
-  letter-spacing: -0.72px;
   font-weight: 500;
 }
 
@@ -868,6 +870,7 @@ button {
   color: #ffffff;
   font-family: "Poppins", sans-serif;
   font-size: 16px;
+  font-weight: 400;
   letter-spacing: -0.64px;
 }
 
@@ -1601,7 +1604,7 @@ body.is-logo-at-header .gnb__logo {
   z-index: 10;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.55s ease, transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .section--crew-scroll.is-content-visible .crew-main {
@@ -1626,7 +1629,7 @@ body.is-logo-at-header .gnb__logo {
   position: relative;
   opacity: 0;
   transform: translateY(34px);
-  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: opacity 0.42s ease, transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
   transition-delay: 0s;
 }
 
@@ -1757,7 +1760,7 @@ body.is-logo-at-header .gnb__logo {
   transform: translateY(38px);
   overflow: visible;
   background-clip: padding-box, border-box;
-  transition: opacity 0.46s ease, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: opacity 0.38s ease, transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .section--crew-scroll.is-card-revealed .crew-info-wrap {
@@ -1866,7 +1869,7 @@ body.is-logo-at-header .gnb__logo {
   justify-content: center;
   overflow: visible;
   opacity: 0;
-  transition: opacity 0.32s ease;
+  transition: opacity 0.28s ease;
   pointer-events: none;
   z-index: 1;
 }
@@ -2810,34 +2813,40 @@ body.is-logo-at-header .gnb__logo {
 
 .section--location .btn-cta--fill-white,
 .section--booking .btn-cta--fill-white {
-  min-width: 92px;
-  height: 36px;
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0.08)),
-    radial-gradient(circle at 22% 18%, rgba(255, 255, 255, 0.36), transparent 34%);
-  border: 1.5px solid rgba(255, 255, 255, 0.44);
-  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: unset;
+  height: 32px;
+  padding: 0 16px;
+  border-radius: 100px;
+  background: linear-gradient(
+    315deg,
+    rgba(255, 255, 255, 0.13) 0%,
+    rgba(255, 255, 255, 0.02) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.22);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.34),
-    inset 0 -1px 0 rgba(255, 255, 255, 0.08),
-    0 14px 28px rgba(0, 34, 72, 0.18);
-  backdrop-filter: blur(14px) saturate(1.25);
-  -webkit-backdrop-filter: blur(14px) saturate(1.25);
+    inset 1px 1px 0 rgba(255, 255, 255, 0.38),
+    0 8px 28px rgba(0, 0, 0, 0.28),
+    0 0 44px rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(4px) saturate(1.8);
+  -webkit-backdrop-filter: blur(4px) saturate(1.8);
+  font-size: 16px;
+  color: #fff;
+  letter-spacing: -0.32px;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .section--location .btn-cta--fill-white:hover,
 .section--location .btn-cta--fill-white:focus-visible,
 .section--booking .btn-cta--fill-white:hover,
 .section--booking .btn-cta--fill-white:focus-visible {
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.72)),
-    radial-gradient(circle at 22% 18%, rgba(255, 255, 255, 0.95), transparent 36%);
-  border-color: rgba(255, 255, 255, 0.82);
+  background: #fff;
+  border-color: rgba(255, 255, 255, 0.22);
   color: var(--clr-primary);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.6),
-    0 16px 30px rgba(0, 34, 72, 0.22);
-  transform: translateY(-2px);
+  transform: none;
 }
 
 .location-hover-card__image {
@@ -3510,7 +3519,7 @@ body.is-logo-at-header .gnb__logo {
 .booking-card:hover .btn-cta--white,
 .booking-card .btn-cta--white:hover {
   opacity: 1;
-  transform: translateY(-2px);
+  transform: none;
 }
 
 
@@ -3991,7 +4000,7 @@ body.has-custom-cursor #custom-cursor {
 /* 드롭다운 패널 — location 기준 디자인 통일 */
 .gnb__dropdown {
   position: absolute;
-  top: 60px;
+  top: 57px;
   left: 0;
   transform: none;
   display: flex;
@@ -5730,8 +5739,8 @@ body.biz-page {
 
   .index-page .section--location .btn-cta--fill-white,
   .index-page .section--booking .btn-cta--fill-white {
-    min-width: 82px;
-    height: 34px;
+    min-width: unset;
+    height: 28px;
     padding-inline: 14px;
     font-size: 14px;
   }
@@ -6252,6 +6261,13 @@ body.biz-page {
   /* ═══════════════════════════════════════════════════════════
      CREW 섹션
   ═══════════════════════════════════════════════════════════ */
+  /* 고정(sticky) 스크롤 구간 제거 — 섹션을 1화면 높이로 줄여
+     .crew-sticky가 머무를 추가 스크롤 공간이 없도록 함 */
+  .index-page .section--crew-scroll {
+    height: 100vh;
+    min-height: 100vh;
+  }
+
   .index-page .crew-header {
     top: 72px;
     white-space: normal;
@@ -6646,9 +6662,9 @@ body.biz-page {
 
   .index-page .section--location .btn-cta--fill-white,
   .index-page .section--booking .btn-cta--fill-white {
-    min-width: 72px;
-    height: 30px;
-    padding-inline: 11px;
+    min-width: unset;
+    height: 24px;
+    padding-inline: 10px;
     font-size: 12px;
   }
 
@@ -6751,5 +6767,21 @@ body.biz-page {
     width: 26px;
     height: 26px;
     order: -1;
+  }
+}
+
+/* Mobile GNB hamburger parity */
+@media (max-width: 1024px) {
+  .index-page .gnb__hamburger {
+    justify-content: center;
+    align-items: center;
+    width: 26px;
+    height: 26px;
+  }
+
+  .index-page .gnb__hamburger img {
+    display: block;
+    width: 24px;
+    height: 24px;
   }
 }
