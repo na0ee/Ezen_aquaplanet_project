@@ -2052,56 +2052,7 @@ body.oceanfriends-page {
   display: none;
 }
 
-@media (min-width: 769px) and (max-width: 1024px) {
-  .oceanfriends-page .gnb {
-    padding: 20px 24px;
-  }
-
-  .oceanfriends-page .gnb__inner {
-    height: 48px;
-  }
-
-  .oceanfriends-page .gnb__nav {
-    display: flex;
-    gap: clamp(14px, 2vw, 28px);
-  }
-
-  .oceanfriends-page .gnb__link {
-    font-size: clamp(15px, 1.7vw, 17px);
-  }
-
-  .oceanfriends-page .gnb__link.gnb__link--active {
-    font-size: clamp(18px, 2vw, 20px);
-  }
-
-  .oceanfriends-page .gnb__logo-wrap,
-  .oceanfriends-page .gnb__logo {
-    width: 52px;
-    height: 52px;
-  }
-
-  .oceanfriends-page .gnb__ticket {
-    height: 46px;
-    padding: 0 16px 0 18px;
-    gap: 8px;
-  }
-
-  .oceanfriends-page .gnb__ticket .img {
-    width: 20px;
-    height: 20px;
-  }
-
-  .of-title span {
-    display: block;
-    margin-bottom: -40px;
-  }
-
-  .of-hero__lead {
-    font-size: clamp(18px, 2.2vw, 22px);
-  }
-}
-
-@media (max-width: 768px) {
+@media (min-width: 769px) and (max-width: 1024px), (max-width: 768px) {
   .oceanfriends-page .gnb {
     height: auto;
     padding: 14px 16px;
@@ -2155,6 +2106,12 @@ body.oceanfriends-page {
     z-index: 3200;
     flex-shrink: 0;
     order: -1;
+  }
+
+  .oceanfriends-page .gnb__hamburger img {
+    display: block;
+    width: 100%;
+    height: 100%;
   }
 
   .oceanfriends-page .gnb__hamburger-line {
@@ -2294,5 +2251,16 @@ body.oceanfriends-page {
 
   body.oceanfriends-page.mobile-menu-open .gnb {
     z-index: 3300;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .of-title span {
+    display: block;
+    margin-bottom: -40px;
+  }
+
+  .of-hero__lead {
+    font-size: clamp(18px, 2.2vw, 22px);
   }
 }

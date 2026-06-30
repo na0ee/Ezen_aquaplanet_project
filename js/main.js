@@ -27,9 +27,13 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /* bfcache 복원 시 강제 새로고침 — WebGL 컨텍스트가 소멸한 채 복원되면
-   3D 렌더러가 에러를 쏟아내므로 페이지를 즉시 리로드한다. */
+   3D 렌더러가 에러를 쏟아내므로 페이지를 즉시 리로드한다.
+   모바일(<=820px, index.html의 3D 로드 분기와 동일 기준)은 3D를 아예 띄우지 않으므로
+   리로드 없이 정상적으로 bfcache 복원되게 둔다. */
 window.addEventListener('pageshow', (e) => {
-  if (e.persisted) window.location.reload();
+  if (e.persisted && !window.matchMedia('(max-width: 820px)').matches) {
+    window.location.reload();
+  }
 });
 
 function isMobileViewport() {
@@ -38,7 +42,7 @@ function isMobileViewport() {
 
 function disableMobileDecorativeMedia() {
   const mediaQuery = window.matchMedia('(max-width: 768px)');
-  const videos = document.querySelectorAll('.location-fish-bg, .booking-bg-video');
+  const videos = document.querySelectorAll('.location-fish-bg, .booking-bg-video, #logo-bg-video');
   if (!videos.length) return;
 
   function disableVideo(video) {
