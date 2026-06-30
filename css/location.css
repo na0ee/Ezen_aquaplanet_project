@@ -1379,6 +1379,22 @@ body[data-location="gwanggyo"] .loc-map {
   height: 30px;
 }
 
+/* 태블릿: 푸터 텍스트(링크/카피)도 program 페이지와 통일 */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .location-page .footer__link {
+    font-size: 18px;
+    color: #ffffff;
+    text-shadow: none;
+  }
+
+  .location-page .footer__copy {
+    font-size: 14px;
+    font-weight: 200;
+    color: #ffffff;
+    text-shadow: none;
+  }
+}
+
 @media (max-width: 768px) {
   .location-page .footer__inner {
     width: min(100% - 40px, 520px);
@@ -3425,6 +3441,20 @@ body.location-page .loc-hours__notice.loc-reveal-content {
     pointer-events: auto;
   }
 }
+
+/* 태블릿 GNB 높이를 다른 페이지(68px)와 통일 */
+@media (min-width: 769px) and (max-width: 1024px) {
+  body.location-page .gnb {
+    height: auto;
+    padding: 12px 20px;
+  }
+
+  body.location-page .gnb__inner {
+    height: 44px;
+  }
+}
+
+/* 태블릿도 모바일과 동일한 햄버거 헤더를 사용 (위 @media (max-width: 1024px) 블록이 처리) */
 
 /* 태블릿도 모바일과 동일한 햄버거 헤더를 사용
    위쪽에 있는 @media (max-width: 1024px) GNB 공통 반응형 블록이 처리함.

@@ -1977,3 +1977,14 @@ html.is-safari .ticket-page .gnb__ticket {
     z-index: 3300;
   }
 }
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .ticket-page .gnb {
+    height: auto;
+    padding: 12px 20px;
+  }
+
+  .ticket-page .gnb__inner {
+    height: 44px;
+  }
+}

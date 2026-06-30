@@ -2366,6 +2366,11 @@ function initMapMarkers() {
     },
   };
 
+  Object.values(branchInfo).forEach(info => {
+    const preloadImg = new Image();
+    preloadImg.src = info.img;
+  });
+
   const cardImg = hoverCard?.querySelector('.location-hover-card__img');
   const branchEl = hoverCard?.querySelector('.location-hover-card__branch');
   const metaPs   = hoverCard?.querySelectorAll('.location-hover-card__meta p');

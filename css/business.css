@@ -1541,7 +1541,7 @@ body.biz-page.mobile-menu-open .gnb {
 
   .biz-page .gnb {
     height: auto !important;
-    padding: 12px 16px !important;
+    padding: 12px 20px !important;
   }
 
   .biz-page .gnb__inner {
@@ -1821,7 +1821,7 @@ body.biz-page.mobile-menu-open .gnb {
   }
 
   .biz-page .biz-overview-head {
-    top: clamp(116px, 16vh, 150px) !important;
+    top: clamp(276px, calc(16vh + 160px), 310px) !important;
     width: min(620px, calc(100vw - 64px)) !important;
   }
 
@@ -1839,6 +1839,7 @@ body.biz-page.mobile-menu-open .gnb {
   }
 
   .biz-page .biz-area-vision-label {
+
     top: clamp(330px, 40vh, 430px) !important;
   }
 
@@ -4120,6 +4121,235 @@ body.biz-page.mobile-menu-open .gnb {
   }
 }
 
+@media (max-width: 768px) {
+  .biz-page .biz-areas {
+    height: 380svh !important;
+    padding: 0 !important;
+    overflow: visible !important;
+  }
+
+  .biz-page .biz-figma-panel {
+    position: sticky !important;
+    top: 0 !important;
+    height: 100svh !important;
+    min-height: 640px !important;
+    overflow: hidden !important;
+  }
+
+  .biz-page .biz-overview-head {
+    position: absolute !important;
+    top: clamp(92px, 13svh, 124px) !important;
+    left: 50% !important;
+    width: min(calc(100vw - 36px), 620px) !important;
+    max-height: var(--biz-overview-max-height, 180px) !important;
+    margin: 0 !important;
+    opacity: var(--biz-overview-opacity, 1) !important;
+    transform: translateX(-50%) translateY(var(--biz-overview-y, 0px)) !important;
+  }
+
+  .biz-page .biz-area-vision-label {
+    position: absolute !important;
+    top: clamp(228px, calc(50svh - 132px), 280px) !important;
+    left: 50% !important;
+    width: min(calc(100vw - 32px), 620px) !important;
+    margin: 0 !important;
+    transform: translateX(-50%) translateY(var(--biz-overview-label-y, 0px)) !important;
+  }
+
+  .biz-page .biz-blue-stack {
+    position: absolute !important;
+    top: calc(50svh + 220px - (clamp(560px, 74svh, 640px) / 2)) !important;
+    left: 0 !important;
+    display: block !important;
+    width: 100% !important;
+    height: clamp(560px, 74svh, 640px) !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+    pointer-events: none !important;
+    transform: translateY(var(--biz-overview-stack-y, 0px)) !important;
+  }
+
+  .biz-page .biz-blue-card {
+    position: absolute !important;
+    top: 0 !important;
+    left: 50% !important;
+    width: min(calc(100vw - 40px), 560px) !important;
+    height: 100% !important;
+    margin: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 18px !important;
+    opacity: 0 !important;
+    transform: translateX(-50%) translateY(28px) !important;
+    pointer-events: none !important;
+  }
+
+  .biz-page .biz-blue-card.is-active {
+    opacity: 1 !important;
+    transform: translateX(-50%) translateY(0) !important;
+    pointer-events: auto !important;
+  }
+
+  .biz-page .biz-blue-card.is-prev {
+    opacity: 0 !important;
+    transform: translateX(-50%) translateY(-28px) !important;
+  }
+
+  .biz-page .biz-blue-card__image {
+    width: 100% !important;
+    height: clamp(190px, 32svh, 250px) !important;
+    flex: 0 0 auto !important;
+  }
+
+  .biz-page .biz-blue-card__content,
+  .biz-page .biz-blue-card__content--wide,
+  .biz-page .biz-blue-card--acquisition .biz-blue-card__content {
+    position: relative !important;
+    width: 100% !important;
+    height: auto !important;
+    flex: 0 0 auto !important;
+    margin-top: 0 !important;
+    padding: 0 2px !important;
+  }
+
+  .biz-page .biz-blue-card__num {
+    position: static !important;
+    margin: 0 0 8px !important;
+  }
+
+  .biz-page .biz-blue-card__body,
+  .biz-page .biz-blue-card--acquisition .biz-blue-card__body {
+    position: static !important;
+    width: 100% !important;
+  }
+}
+
+
+/* Program page footer social alignment */
+.biz-page .footer {
+  min-height: 40vh;
+  background: #2686E7;
+}
+
+.biz-page .footer__inner {
+  width: calc(100% - 96px);
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 64px;
+  padding: 0 0 60px;
+}
+
+.biz-page .footer__link {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.2;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.biz-page .footer__brand {
+  align-items: flex-end;
+  gap: 28px;
+  margin-right: 0;
+}
+
+.biz-page .footer__socials {
+  gap: 24px;
+}
+
+.biz-page .footer__social {
+  width: 50px;
+  height: 50px;
+}
+
+.biz-page .footer__social svg {
+  width: 30px;
+  height: 30px;
+}
+
+.biz-page .footer__copy {
+  font-family: "Pretendard", sans-serif;
+  font-size: 14px;
+  font-weight: 200;
+  color: #ffffff;
+  text-align: right;
+  text-shadow: none;
+}
+
+@media (max-width: 768px) {
+  .biz-page .footer__inner {
+    width: min(100% - 40px, 520px);
+    flex-direction: column;
+    align-items: center;
+    gap: 26px;
+    padding-bottom: 52px;
+  }
+
+  .biz-page .footer__brand {
+    align-items: center;
+    gap: 14px;
+    margin-right: 0;
+  }
+
+  .biz-page .footer__social {
+    width: 42px;
+    height: 42px;
+  }
+
+  .biz-page .footer__social svg {
+    width: 21px;
+    height: 21px;
+  }
+
+  .biz-page .footer__copy {
+    text-align: center;
+  }
+}
+
+/* 태블릿도 모바일과 동일한 햄버거 헤더를 사용 (아래 @media (min-width: 769px) and (max-width: 1024px) 블록에서 처리) */
+
+@media (min-width: 390px) and (max-width: 768px) {
+  .biz-page .gnb {
+    height: auto !important;
+    padding: 12px 16px !important;
+  }
+
+  .biz-page .gnb__inner {
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 44px !important;
+  }
+
+  .biz-page .gnb__logo-wrap,
+  .biz-page .gnb__logo {
+    width: 36px !important;
+    height: 36px !important;
+  }
+
+  .biz-page .gnb__hamburger {
+    justify-content: center !important;
+    align-items: center !important;
+    width: 26px !important;
+    height: 26px !important;
+    order: -1 !important;
+  }
+
+  .biz-page .gnb__hamburger img {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  .biz-page .gnb__mobile-link--toggle {
+    gap: 14px !important;
+  }
+}
+
 /* ================================================================
    Business Overview — 실기기 모바일(390~430px) 보정
    PC 430px 시안 분위기는 유지하고, 실제 휴대폰에서 줄바꿈/버튼 배치가
@@ -4278,16 +4508,6 @@ body.biz-page {
     font-size: clamp(15px, 5.4vw, 20px);
     white-space: normal;
     word-break: keep-all;
-  }
-
-  .biz-page .gnb__hamburger img {
-    display: block !important;
-    width: 100% !important;
-    height: 100% !important;
-  }
-
-  .biz-page .gnb__mobile-link--toggle {
-    gap: 14px !important;
   }
 
   .biz-page .biz-glass-card strong,
