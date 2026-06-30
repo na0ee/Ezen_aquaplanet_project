@@ -975,6 +975,9 @@
     bubble.style.left = layout.left + 'px';
     bubble.style.top = layout.top + 'px';
     bubble.style.width = layout.size + 'px';
+    bubble.style.setProperty('--bubble-left', layout.left + 'px');
+    bubble.style.setProperty('--bubble-top', layout.top + 'px');
+    bubble.style.setProperty('--bubble-size', layout.size + 'px');
     bubble.style.setProperty('--bubble-index', index);
 
     var circle = document.createElement('div');
@@ -1356,6 +1359,9 @@
       bubble.style.left  = layout.left + 'px';
       bubble.style.top   = layout.top  + 'px';
       bubble.style.width = layout.size + 'px';
+      bubble.style.setProperty('--bubble-left', layout.left + 'px');
+      bubble.style.setProperty('--bubble-top', layout.top + 'px');
+      bubble.style.setProperty('--bubble-size', layout.size + 'px');
     });
   }
 
