@@ -13,7 +13,7 @@
   <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Poppins:wght@200;300;400;500&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="css/location.css?v=20260629-13" />
+  <link rel="stylesheet" href="css/location.css?v=20260630-16" />
   <link rel="stylesheet" href="css/detail-hero-interaction.css" />
 
   <!-- Three.js importmap (footer_logo.js 용) -->
@@ -296,15 +296,11 @@
     </section><!-- /.loc-programs -->
 
     <!-- ================================================
-         Guide Map — scroll-driven transition
+         Guide Map
     ================================================ -->
     <div class="loc-map-transition" id="guidemap">
-
-    <!-- ================================================
-         Guide Map — Solo (맵만 표시, 스크롤 중 sticky)
-    ================================================ -->
-    <div class="loc-map-wrap loc-map-wrap--solo">
-    <section class="loc-map loc-map--solo" aria-label="가이드맵">
+    <div class="loc-map-wrap loc-map-wrap--exhibits">
+    <section class="loc-map loc-map--exhibits" aria-label="전시관 안내">
       <div class="bubble-layer location-bubble-layer" data-bubble-root aria-hidden="true">
         <div class="bubble-side bubble-side--left" data-bubble-side="left"></div>
         <div class="bubble-side bubble-side--right" data-bubble-side="right"></div>
@@ -321,48 +317,6 @@
         </div>
       </div>
 
-      <div class="loc-map__stage">
-        <div class="loc-map__img-wrap">
-          <img
-            src="assets/images/location/jeju1f.svg"
-            alt="아쿠아플라넷 가이드 맵 1F"
-            class="loc-map__img"
-            id="loc-map-img-solo"
-          >
-          <div class="loc-map__markers" id="loc-map-markers-solo"></div>
-        </div>
-      </div>
-
-      <p class="loc-map__hint">
-        <svg class="loc-map__hint-icon" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-          <circle cx="7" cy="7" r="6" stroke="white" stroke-width="1.2"/>
-          <line x1="7" y1="5" x2="7" y2="7" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
-          <circle cx="7" cy="10" r="0.8" fill="white"/>
-        </svg>
-        해당 전시관을 클릭하시면 해당 전시의 상세 정보를 확인하실 수 있습니다
-      </p>
-
-    </section><!-- /.loc-map--solo -->
-    </div><!-- /.loc-map-wrap--solo -->
-
-    <!-- ================================================
-         Guide Map — Exhibits (맵 + 버블 2열 레이아웃)
-    ================================================ -->
-    <div class="loc-map-wrap loc-map-wrap--exhibits">
-    <section class="loc-map loc-map--exhibits" aria-label="전시관 안내">
-      <div class="bubble-layer location-bubble-layer" data-bubble-root aria-hidden="true">
-        <div class="bubble-side bubble-side--left" data-bubble-side="left"></div>
-        <div class="bubble-side bubble-side--right" data-bubble-side="right"></div>
-      </div>
-
-      <div class="loc-map__header">
-        <div class="loc-map__floor-tabs cartegory-tabs cartegory-tabs-a" role="tablist" aria-label="층 선택">
-          <button class="loc-map__floor-tab cartegory-tabs-a__item" role="tab" data-floor="B1F" aria-selected="false">B1F</button>
-          <button class="loc-map__floor-tab cartegory-tabs-a__item cartegory-tabs-a__item--active is-active" role="tab" data-floor="1F" aria-selected="true">1F</button>
-          <button class="loc-map__floor-tab cartegory-tabs-a__item" role="tab" data-floor="2F" aria-selected="false">2F</button>
-        </div>
-      </div>
-
       <!-- 맵(좌) + 버블(우) 2열 레이아웃 -->
       <div class="loc-exhibits__inner">
 
@@ -370,7 +324,7 @@
           <div class="loc-map__stage">
             <div class="loc-map__img-wrap">
               <img
-                src="assets/images/location/jeju1f.svg"
+                src="assets/images/location/jeju1f.svg?v=20260630-14"
                 alt="아쿠아플라넷 가이드 맵 1F"
                 class="loc-map__img"
                 id="loc-map-img"
@@ -410,7 +364,7 @@
           <line x1="7" y1="4.5" x2="7" y2="7.5" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
           <circle cx="7" cy="10" r="0.8" fill="white"/>
         </svg>
-        버블을 클릭하시면 시설정보를 확인하실 수 있습니다.
+        지도 위 알파벳을 클릭하시면 해당 구역의 버블이 표시됩니다.
       </p>
 
     </section><!-- /.loc-map--exhibits -->
@@ -531,7 +485,7 @@
 
   <script src="js/gnb-scroll.js"></script>
   <script src="js/marinlab-cursor.js"></script>
-  <script src="js/location.js?v=20260630-02"></script>
+  <script src="js/location.js?v=20260630-14"></script>
   <script type="module" src="js/footer_logo.js"></script>
 </body>
 </html>

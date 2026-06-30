@@ -2039,11 +2039,11 @@ body.biz-page.mobile-menu-open .gnb {
   }
 
   .biz-page .biz-glass-card__pair-grid {
-    gap: 24px;
+    gap: 0;
   }
 
   .biz-page .biz-glass-card__pair {
-    gap: 12px;
+    gap: 0;
   }
 
   .biz-page .biz-case {
@@ -2333,7 +2333,6 @@ body.biz-page.mobile-menu-open .gnb {
 
   .biz-page .biz-hero__desc {
     width: 100% !important;
-    max-width: min(360px, calc(100% - 24px)) !important;
     margin-top: 14px !important;
     font-size: clamp(13px, 3.8vw, 16px) !important;
     line-height: 1.45 !important;
@@ -2868,7 +2867,7 @@ body.biz-page.mobile-menu-open .gnb {
   margin: 0;
   color: #fff;
   font-family: "Pretendard", sans-serif;
-  font-size: 18px;
+  font-size: 13px;
   font-weight: 400;
   line-height: 1.4;
   letter-spacing: -0.36px;
@@ -2947,7 +2946,7 @@ body.biz-page.mobile-menu-open .gnb {
 .biz-case__caption h4 {
   margin: 0 0 12px;
   font-family: "Pretendard", sans-serif;
-  font-size: 24px;
+  font-size: 16px;
   font-weight: 600;
   line-height: 1.4;
   letter-spacing: -0.48px;
@@ -2956,7 +2955,7 @@ body.biz-page.mobile-menu-open .gnb {
 .biz-case__caption p {
   margin: 0;
   font-family: "Pretendard", sans-serif;
-  font-size: 18px;
+  font-size: 12px;
   font-weight: 300;
   line-height: 1.6;
   letter-spacing: -0.36px;
@@ -3023,7 +3022,7 @@ body.biz-page.mobile-menu-open .gnb {
   }
 
   .biz-case__caption p {
-    font-size: 15px;
+    font-size: 12px;
   }
 
   .biz-hero {
@@ -3458,6 +3457,8 @@ body.biz-page.mobile-menu-open .gnb {
   color: #fff;
   font-family: "Pretendard", sans-serif;
   letter-spacing: 0;
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
 .biz-vision-title p {
@@ -3801,7 +3802,6 @@ body.biz-page.mobile-menu-open .gnb {
 }
 
 .biz-vision .biz-glass-card strong {
-  margin-bottom: 7px;
   font-size: 16px;
   font-weight: 500;
   letter-spacing: -0.02em;
@@ -3817,8 +3817,8 @@ body.biz-page.mobile-menu-open .gnb {
 .biz-glass-card__pair-grid {
   display: grid;
   grid-template-columns: 190px 1fr;
-  column-gap: 20px;
-  row-gap: 12px;
+  column-gap: 0;
+  row-gap: 10px;
   align-items: flex-start;
   justify-content: flex-start;
   width: 100%;
@@ -3827,13 +3827,13 @@ body.biz-page.mobile-menu-open .gnb {
 .biz-glass-card__pair-column {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 
 .biz-glass-card__pair {
   display: grid;
   grid-template-columns: 82px 1fr;
-  column-gap: 16px;
+  column-gap: 0;
   align-items: center;
   white-space: nowrap;
 }
@@ -3851,7 +3851,7 @@ body.biz-page.mobile-menu-open .gnb {
 
 .biz-glass-card--goal .biz-glass-card__pair-grid {
   grid-template-columns: 176px 1fr;
-  column-gap: 20px;
+  column-gap: 0;
 }
 
 .biz-glass-card--goal .biz-glass-card__pair {
@@ -3948,7 +3948,7 @@ body.biz-page.mobile-menu-open .gnb {
   .biz-page .biz-vision .biz-glass-card,
   .biz-page .biz-vision-column:first-child .biz-glass-card {
     width: 100%;
-    min-height: 76px;
+    min-height: 65px;
     padding: 18px clamp(36px, 7vw, 52px);
     border-radius: 18px;
   }
@@ -3982,7 +3982,7 @@ body.biz-page.mobile-menu-open .gnb {
   }
 
   .biz-page .biz-vision .biz-glass-card p {
-    font-size: 14px;
+    font-size: 12px;
     line-height: 1.45;
   }
 
@@ -3999,7 +3999,7 @@ body.biz-page.mobile-menu-open .gnb {
   .biz-page .biz-glass-card__pair,
   .biz-page .biz-glass-card--goal .biz-glass-card__pair {
     grid-template-columns: 72px 1fr;
-    column-gap: 12px;
+    column-gap: 0;
     white-space: normal;
   }
 
@@ -4112,86 +4112,180 @@ body.biz-page.mobile-menu-open .gnb {
   }
 }
 
-/* Program page footer social alignment */
-.biz-page .footer {
-  min-height: 40vh;
-}
-
-.biz-page .footer__inner {
-  padding-bottom: 60px;
-}
-
-.biz-page .footer__brand {
-  align-items: flex-end;
-  gap: 28px;
-  margin-right: 0;
-}
-
-.biz-page .footer__socials {
-  gap: 24px;
-}
-
-.biz-page .footer__social {
-  width: 50px;
-  height: 50px;
-}
-
-.biz-page .footer__social svg {
-  width: 30px;
-  height: 30px;
-}
-
-@media (max-width: 768px) {
-  .biz-page .footer__inner {
-    padding-bottom: 52px;
-  }
-
-  .biz-page .footer__brand {
-    align-items: center;
-    gap: 14px;
-    margin-right: 0;
-  }
-
-  .biz-page .footer__social {
-    width: 42px;
-    height: 42px;
-  }
-
-  .biz-page .footer__social svg {
-    width: 21px;
-    height: 21px;
-  }
-}
-
-/* 태블릿도 모바일과 동일한 햄버거 헤더를 사용 (아래 @media (min-width: 769px) and (max-width: 1024px) 블록에서 처리) */
-
-@media (min-width: 390px) and (max-width: 768px) {
-  .biz-page .gnb {
-    height: auto !important;
-    padding: 12px 16px !important;
-  }
-
-  .biz-page .gnb__inner {
-    flex-direction: row !important;
-    align-items: center !important;
-    justify-content: space-between !important;
+/* ================================================================
+   Business Overview — 실기기 모바일(390~430px) 보정
+   PC 430px 시안 분위기는 유지하고, 실제 휴대폰에서 줄바꿈/버튼 배치가
+   깨지는 부분만 보정한다. 위쪽 max-width:768px 블록보다 뒤에 위치해야
+   같은 우선순위(!important)에서 캐스케이드로 덮어쓸 수 있다.
+   ================================================================ */
+@media (max-width: 430px) {
+  .biz-page .biz-overview-head__desc {
     width: 100% !important;
-    max-width: 100% !important;
-    height: 44px !important;
+    max-width: 340px !important;
+    margin: 0 auto !important;
+    white-space: normal !important;
+    word-break: keep-all !important;
+    overflow-wrap: break-word !important;
   }
 
-  .biz-page .gnb__logo-wrap,
-  .biz-page .gnb__logo {
-    width: 36px !important;
-    height: 36px !important;
+  .biz-page .biz-overview-head__title em {
+    font-size: clamp(30px, 9vw, 40px) !important;
   }
 
-  .biz-page .gnb__hamburger {
-    justify-content: center !important;
-    align-items: center !important;
-    width: 26px !important;
-    height: 26px !important;
-    order: -1 !important;
+  .biz-page .biz-overview-head__title span {
+    font-size: clamp(28px, 8.4vw, 36px) !important;
+  }
+
+  .biz-page .biz-area-vision-label p em {
+    font-size: clamp(26px, 8.6vw, 38px) !important;
+  }
+
+  .biz-page .biz-area-vision-label p span {
+    font-size: clamp(24px, 8vw, 34px) !important;
+  }
+
+  .biz-page .biz-blue-card__image {
+    height: 240px !important;
+  }
+
+  .biz-page .biz-blue-card__image img {
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+
+  /* PLANNING 카드(01)의 4개 버튼 — 한 줄 4개 대신 2x2 그리드 */
+  .biz-page .biz-blue-card__tags--glass {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    width: 100% !important;
+    height: auto !important;
+    gap: 10px !important;
+  }
+
+  .biz-page .biz-blue-card__tags--glass li {
+    width: 100% !important;
+    height: 40px !important;
+  }
+}
+
+/* 태블릿도 모바일과 동일한 햄버거 헤더를 사용
+   GNB 공통 반응형 블록(@media max-width: 1024px)에서 처리함.
+   business 페이지에서는 별도 tablet desktop nav 코드를 추가하지 않음.
+*/
+
+@media (max-width: 390px) {
+  .biz-page .biz-overview-head__desc {
+    max-width: 350px !important;
+    font-size: clamp(13px, 3.6vw, 13px) !important;
+  }
+
+  .biz-page .biz-overview-head__title em {
+    font-size: clamp(26px, 8.4vw, 34px) !important;
+  }
+
+  .biz-page .biz-overview-head__title span {
+    font-size: clamp(24px, 7.8vw, 32px) !important;
+  }
+
+  .biz-page .biz-blue-card__image {
+    height: 220px !important;
+  }
+}
+
+/* ================================================================
+   가로 스크롤 방지 — business.html 전용 안전장치
+   business.css 는 business.html 에서만 로드되므로 다른 페이지에는 영향 없음
+   ================================================================ */
+body.biz-page {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.biz-page img,
+.biz-page video,
+.biz-page picture {
+  max-width: 100%;
+}
+
+/* ================================================================
+   물방울 장식(detail-bubble-layer)은 콘텐츠 뒤로,
+   Vision & Capabilities 콘텐츠는 그 위로 — business.html 한정
+   ================================================================ */
+.biz-page .detail-bubble-layer {
+  z-index: 1;
+}
+
+.biz-page .biz-vision-shell {
+  position: relative;
+  z-index: 2;
+}
+
+/* ================================================================
+   Our Vision & Capabilities — 실기기 모바일(480px 이하) 보정
+   PC 디자인은 그대로 두고, 좁은 화면에서 카드 padding 과다, 텍스트
+   줄바꿈, 가로 오버플로우만 보정한다.
+   ================================================================ */
+@media (max-width: 480px) {
+  .biz-page .biz-vision {
+    padding: 80px 16px 72px;
+  }
+
+  .biz-page .biz-vision-shell {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .biz-page .biz-vision-title h2 {
+    font-size: clamp(28px, 8.2vw, 36px);
+  }
+
+  .biz-page .biz-vision-title p {
+    width: 100%;
+    max-width: 350px;
+    margin: 0 auto;
+    font-size: clamp(13px, 3.6vw, 13px);
+    line-height: 1.5;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+
+  /* 카드 컨테이너 padding을 줄여 콘텐츠 폭을 확보 */
+  .biz-page .biz-vision-column,
+  .biz-page .biz-vision-column--caps {
+    padding: 18px 14px 20px !important;
+  }
+}
+
+  .biz-page .biz-vision-group-head p {
+    max-width: 280px;
+    margin: 0 auto;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+
+  /* MISSION/VISION STATEMENT 등 글래스 카드 padding 과다 보정 */
+  .biz-page .biz-vision .biz-glass-card,
+  .biz-page .biz-vision-column:first-child .biz-glass-card {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 16px 18px;
+  }
+
+  .biz-page .biz-vision .biz-glass-card:hover,
+  .biz-page .biz-vision .biz-glass-card.is-expanded,
+  .biz-page .biz-vision .biz-glass-card:focus-visible,
+  .biz-page .biz-vision-column:first-child .biz-glass-card:hover,
+  .biz-page .biz-vision-column:first-child .biz-glass-card.is-expanded,
+  .biz-page .biz-vision-column:first-child .biz-glass-card:focus-visible {
+    padding: 18px 18px;
+  }
+
+  .biz-page .biz-glass-card h4 {
+    font-size: clamp(15px, 5.4vw, 20px);
+    white-space: normal;
+    word-break: keep-all;
   }
 
   .biz-page .gnb__hamburger img {
@@ -4202,5 +4296,17 @@ body.biz-page.mobile-menu-open .gnb {
 
   .biz-page .gnb__mobile-link--toggle {
     gap: 14px !important;
+  }
+
+  .biz-page .biz-glass-card strong,
+  .biz-page .biz-glass-card p {
+    word-break: keep-all;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+  }
+
+  .biz-page .biz-glass-card__pair {
+    grid-template-columns: 64px 1fr;
+    column-gap: 0;
   }
 }
