@@ -5,6 +5,11 @@ const container = document.getElementById('light-rays');
 // 맥(Safari/wide-gamut)에서 screen 블렌드 광선이 너무 하얗게 합성돼 GNB 로고를 덮음
 // → 맥에서만 광선 밝기를 낮춰 윈도우와 비슷하게 보이도록 함
 const isMac = /Mac/i.test(navigator.platform) || /Macintosh/i.test(navigator.userAgent);
+const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
+if (isSafari) {
+  document.documentElement.classList.add('is-safari');
+}
 
 initLightRays(container, {
   raysOrigin: 'top-center',
@@ -18,7 +23,7 @@ initLightRays(container, {
   distortion: 0.05,
   fadeDistance: 0.9,
   saturation: 1.2,
-  intensity: isMac ? 0.55 : 1   // 맥에서만 빛 강도 낮춤 (값 조절 가능)
+  intensity: isSafari ? 0.18 : (isMac ? 0.45 : 1)   // Safari/wide-gamut 합성 보정
 });
 
 // ============================================================
