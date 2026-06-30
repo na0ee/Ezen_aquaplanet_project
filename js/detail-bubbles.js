@@ -24,9 +24,20 @@
 
   function initDetailBubbles() {
     var root = ensureBubbleLayer();
+    var hero = document.querySelector('.biz-hero, .of-visual-stage, .ticket, body:not(.marin-view-conservation) > main[data-marin-rescue] > .hero, body:not(.marin-view-conservation) > .hero');
     var motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
     var powerSaving = motionQuery.matches || window.devicePixelRatio > 2 || (navigator.deviceMemory && navigator.deviceMemory < 4);
     var resizeTimer = null;
+
+    function getHeroBottom() {
+      if (!hero) return 0;
+      return hero.getBoundingClientRect().top + window.pageYOffset + hero.offsetHeight;
+    }
+
+    function syncHeroVisibility() {
+      var threshold = Math.max(0, getHeroBottom() - 2);
+      root.classList.toggle('is-detail-bubble-visible', !hero || window.pageYOffset >= threshold);
+    }
 
     function buildBubbles() {
       var sides = root.querySelectorAll('[data-detail-bubble-side]');
@@ -71,7 +82,10 @@
     }
 
     buildBubbles();
+    syncHeroVisibility();
     window.addEventListener('resize', scheduleBuild, { passive: true });
+    window.addEventListener('resize', syncHeroVisibility, { passive: true });
+    window.addEventListener('scroll', syncHeroVisibility, { passive: true });
 
     if (typeof motionQuery.addEventListener === 'function') {
       motionQuery.addEventListener('change', buildBubbles);

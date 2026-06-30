@@ -2059,6 +2059,10 @@ body {
   max-width: none;
 }
 
+.hero__bg video:first-child {
+  display: block;
+}
+
 .hero__content {
   position: relative;
   z-index: 1;

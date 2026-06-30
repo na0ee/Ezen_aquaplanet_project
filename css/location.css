@@ -1133,8 +1133,8 @@ body[data-location="gwanggyo"] .loc-map {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 80%;
-  height: 80%;
+  width: 88%;
+  height: 88%;
   transform: translate(-50%, -50%);
   object-fit: cover;
   border-radius: 100%;
