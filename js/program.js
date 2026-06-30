@@ -805,7 +805,11 @@
     });
 
     detailOverlay.classList.add('program-detail-overlay--open');
+    const scrollY = window.scrollY;
     document.body.style.overflow = 'hidden';
+    document.body.style.position = 'fixed';
+    document.body.style.top = '-' + scrollY + 'px';
+    document.body.style.width = '100%';
 
     const modalHeader = detailOverlay.querySelector('.program-detail-modal__header');
     requestAnimationFrame(() => {
@@ -817,7 +821,12 @@
   function closeDetailModal() {
     if (_detailImgInterval) { clearInterval(_detailImgInterval); _detailImgInterval = null; }
     detailOverlay.classList.remove('program-detail-overlay--open');
+    const scrollY = parseInt(document.body.style.top || '0') * -1;
     document.body.style.overflow = '';
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.width = '';
+    window.scrollTo(0, scrollY);
   }
 
   detailOverlay.addEventListener('click', e => {
