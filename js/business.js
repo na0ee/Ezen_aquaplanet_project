@@ -322,25 +322,25 @@
       key: 'mission',
       title: 'MISSION',
       text: '해양생물의 소중함을 공유하고, 이를 지키고 보전하며<br>인간과 자연이 공생하며 느낄 수 있는 최고의 즐거움을 제공하는 기업',
-      image: 'assets/images/sec.aboutus/business/figma-image-152.png',
+      image: 'assets/images/sec.aboutus/business/figma-image-152.avif',
     },
     {
       key: 'vision',
       title: 'VISION',
       text: '지속성장 기반을 갖춘 Global Aquarium 전문 기업을<br>목표로 오늘도 힘찬 도전',
-      image: 'assets/images/sec.aboutus/business/figma-image-153-large.png',
+      image: 'assets/images/sec.aboutus/business/figma-image-153-large.avif',
     },
     {
       key: 'goal',
       title: 'GOAL',
       text: 'No.1 NETWORK POWER · ECO COMPANY<br>No.1 BRAND POWER · MARKET SHARE · TECHNICAL SKILLS',
-      image: 'assets/images/sec.aboutus/business/figma-image-153-small.png',
+      image: 'assets/images/sec.aboutus/business/figma-image-153-small.avif',
     },
     {
       key: 'core',
       title: 'CORE VALUE',
       text: '고객중심 · 해양보존 · 창조의힘 · 사회책임<br>사람과 자연이 함께하는 미래를 만듭니다.',
-      image: 'assets/images/sec.aboutus/business/figma-image-152.png',
+      image: 'assets/images/sec.aboutus/business/figma-image-152.avif',
     },
   ];
   let activeMediaIndex = -1;

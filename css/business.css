@@ -3547,7 +3547,7 @@ body.biz-page.mobile-menu-open .gnb {
   min-height: 140px;
   padding: 24px 64px;
   background: linear-gradient(rgba(38, 134, 231, 0.48), rgba(38, 134, 231, 0.48)),
-    url("../assets/images/sec.aboutus/business/figma-image-152.png") center / cover no-repeat;
+    url("../assets/images/sec.aboutus/business/figma-image-152.avif") center / cover no-repeat;
   box-shadow: inset 0 0 0 8px rgba(255, 255, 255, 0.12),
     inset 0 1px 0 rgba(255, 255, 255, 0.24);
 }
@@ -3642,46 +3642,46 @@ body.biz-page.mobile-menu-open .gnb {
 }
 
 .biz-glass-card--mission {
-  --biz-hover-image: url("../assets/images/sec.aboutus/business/figma-hover-assets/vision-mission-figma-240-787.png");
+  --biz-hover-image: url("../assets/images/sec.aboutus/business/figma-hover-assets/vision-mission-figma-240-787.avif");
   --biz-hover-position: center;
 }
 
 .biz-glass-card--statement {
-  --biz-hover-image: url("../assets/images/sec.aboutus/business/figma-hover-assets/vision-image-157.png");
+  --biz-hover-image: url("../assets/images/sec.aboutus/business/figma-hover-assets/vision-image-157.avif");
   --biz-hover-position: center 40%;
 }
 
 .biz-glass-card--core {
-  --biz-hover-image: url("../assets/images/sec.aboutus/business/figma-hover-assets/vision-image-156.png");
+  --biz-hover-image: url("../assets/images/sec.aboutus/business/figma-hover-assets/vision-image-156.avif");
   --biz-hover-position: center top;
 }
 
 .biz-glass-card--goal {
-  --biz-hover-image: url("../assets/images/sec.aboutus/business/figma-hover-assets/vision-image-158.png");
+  --biz-hover-image: url("../assets/images/sec.aboutus/business/figma-hover-assets/vision-image-158.avif");
 }
 
 .biz-glass-card--creative {
-  --biz-hover-image: url("../assets/images/sec.aboutus/business/figma-hover-assets/vision-caps-creative-node-216-1166.png");
+  --biz-hover-image: url("../assets/images/sec.aboutus/business/figma-hover-assets/vision-caps-creative-node-216-1166.avif");
   --biz-hover-position: center;
 }
 
 .biz-glass-card--responsible {
-  --biz-hover-image: url("../assets/images/sec.aboutus/business/figma-hover-assets/vision-caps-responsible-node-198-1095.png");
+  --biz-hover-image: url("../assets/images/sec.aboutus/business/figma-hover-assets/vision-caps-responsible-node-198-1095.avif");
   --biz-hover-position: center;
 }
 
 .biz-glass-card--tech {
-  --biz-hover-image: url("../assets/images/sec.aboutus/business/figma-hover-assets/vision-caps-tech-node-198-1103.png");
+  --biz-hover-image: url("../assets/images/sec.aboutus/business/figma-hover-assets/vision-caps-tech-node-198-1103.avif");
   --biz-hover-position: center;
 }
 
 .biz-glass-card--staff {
-  --biz-hover-image: url("../assets/images/sec.aboutus/business/figma-hover-assets/vision-caps-staff-node-198-1111.png");
+  --biz-hover-image: url("../assets/images/sec.aboutus/business/figma-hover-assets/vision-caps-staff-node-198-1111.avif");
   --biz-hover-position: center;
 }
 
 .biz-glass-card--network {
-  --biz-hover-image: url("../assets/images/sec.aboutus/business/figma-hover-assets/vision-caps-network-node-193-897.png");
+  --biz-hover-image: url("../assets/images/sec.aboutus/business/figma-hover-assets/vision-caps-network-node-193-897.avif");
   --biz-hover-position: center;
 }
 
@@ -4067,5 +4067,56 @@ body.biz-page.mobile-menu-open .gnb {
   .biz-page .biz-blue-card--acquisition .biz-blue-card__body {
     position: static !important;
     width: 100% !important;
+  }
+}
+
+/* Program page footer social alignment */
+.biz-page .footer {
+  min-height: 40vh;
+}
+
+.biz-page .footer__inner {
+  padding-bottom: 60px;
+}
+
+.biz-page .footer__brand {
+  align-items: flex-end;
+  gap: 28px;
+  margin-right: 0;
+}
+
+.biz-page .footer__socials {
+  gap: 24px;
+}
+
+.biz-page .footer__social {
+  width: 50px;
+  height: 50px;
+}
+
+.biz-page .footer__social svg {
+  width: 30px;
+  height: 30px;
+}
+
+@media (max-width: 768px) {
+  .biz-page .footer__inner {
+    padding-bottom: 52px;
+  }
+
+  .biz-page .footer__brand {
+    align-items: center;
+    gap: 14px;
+    margin-right: 0;
+  }
+
+  .biz-page .footer__social {
+    width: 42px;
+    height: 42px;
+  }
+
+  .biz-page .footer__social svg {
+    width: 21px;
+    height: 21px;
   }
 }

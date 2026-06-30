@@ -3094,7 +3094,7 @@ body.marin-view-conservation .m-pill-tabs:not(.m-pill-tabs--cases) {
 #marinFooter {
   display: flex;
   position: relative;
-  min-height: unset;
+  min-height: 40vh;
   overflow: hidden;
   background: #2686E7;
   align-items: flex-end;
@@ -3109,7 +3109,7 @@ body.marin-view-conservation .m-pill-tabs:not(.m-pill-tabs--cases) {
   align-items: flex-end;
   justify-content: space-between;
   gap: 64px;
-  padding: 0 0 82px;
+  padding: 0 0 60px;
   opacity: 0;
   transform: translateY(28px);
   transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s,
@@ -3186,6 +3186,9 @@ body.marin-view-conservation .m-pill-tabs:not(.m-pill-tabs--cases) {
   color: #fff;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18);
   text-decoration: none;
   transition: background 0.22s ease, border-color 0.22s ease, transform 0.22s ease;
 }
