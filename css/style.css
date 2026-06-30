@@ -1587,6 +1587,10 @@ body.is-logo-at-header .gnb__logo {
   opacity: 1;
 }
 
+.section--crew-scroll.is-content-visible .crew-rotate-hint {
+  animation: hintBlink 2.2s ease-in-out infinite;
+}
+
 /* 3D GLB 마운트 포인트 */
 .crew-canvas-wrap {
   flex: 0 0 430px;
@@ -1815,6 +1819,10 @@ body.is-logo-at-header .gnb__logo {
   pointer-events: none;
 }
 
+.section--crew-scroll.is-creature-moving .crew-rotate-hint {
+  animation: none;
+}
+
 .section--crew-scroll.is-creature-moving .crew-card-indicator {
   opacity: 0;
   transform: translate(-12px, -50%);
@@ -1935,21 +1943,28 @@ body.is-logo-at-header .gnb__logo {
   right: calc(100% + 65px);
   transform: none;
   display: flex;
-  z-index: 2;
   flex-direction: column;
   align-items: center;
-  gap: 5px;
-  color: var(--clr-text-muted);
-  z-index: 10;
+  gap: 6px;
+  color: #fff;
+  text-shadow: 0 1px 8px rgba(0, 17, 37, 0.68);
+  z-index: 20;
   opacity: 0;
   pointer-events: none;
-  animation: hintBlink 2.2s ease-in-out infinite;
+  animation: none;
   transition: opacity 0.24s ease;
+}
+
+.crew-rotate-hint svg {
+  width: 32px;
+  height: 32px;
+  filter: drop-shadow(0 0 8px rgba(113, 225, 255, 0.42));
 }
 
 .crew-rotate-hint span {
   font-family: var(--font-en);
-  font-size: 10px;
+  font-size: 11px;
+  font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
@@ -1958,11 +1973,11 @@ body.is-logo-at-header .gnb__logo {
 
   0%,
   100% {
-    opacity: 0.35;
+    opacity: 0.66;
   }
 
   50% {
-    opacity: 0.75;
+    opacity: 1;
   }
 }
 

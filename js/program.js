@@ -1,5 +1,23 @@
 ﻿document.addEventListener('DOMContentLoaded', function() {
   const LOCATIONS = ['Jeju', 'Yeosu', 'Ilsan', 'Gwanggyo'];
+  const preloadedMedia = new Set();
+
+  function preloadImage(src) {
+    if (!src || preloadedMedia.has(src)) return;
+    preloadedMedia.add(src);
+    const img = new Image();
+    img.decoding = 'async';
+    img.src = src;
+  }
+
+  function warmProgramHeroVideos() {
+    document.querySelectorAll('.hero__bg video').forEach(video => {
+      video.preload = 'auto';
+      video.load();
+    });
+  }
+
+  warmProgramHeroVideos();
 
 
   // 각 지역의 일정표(.schedule-table)를 독립적으로 초기화한다.
@@ -859,9 +877,9 @@
 
     if (programs.length < 2) return;
 
-    // 모든 프로그램 이미지 미리 캐시
+    // 모든 상세 이미지를 미리 캐시해 모달을 열 때 빈 이미지가 보이지 않게 한다.
     programs.forEach(prog => {
-      if (prog.imgSrc) { const img = new Image(); img.src = prog.imgSrc; }
+      (prog.imgSrcs && prog.imgSrcs.length ? prog.imgSrcs : [prog.imgSrc]).forEach(preloadImage);
     });
 
     previewEls.forEach(previewEl => {

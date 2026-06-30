@@ -355,6 +355,41 @@
     }
   };
 
+  var preloadedMedia = {};
+
+  function preloadLocationImage(src) {
+    if (!src || preloadedMedia[src]) return;
+    preloadedMedia[src] = true;
+    var image = new Image();
+    image.decoding = 'async';
+    image.src = src;
+  }
+
+  function preloadLocationVideo(src) {
+    if (!src || preloadedMedia[src]) return;
+    preloadedMedia[src] = true;
+    var video = document.createElement('video');
+    video.muted = true;
+    video.playsInline = true;
+    video.preload = 'auto';
+    video.src = src;
+    video.load();
+  }
+
+  function warmLocationMedia() {
+    preloadLocationVideo('assets/video/program_Jeju_hero.webm');
+    Object.keys(LOCATION_PAGES).forEach(function (key) {
+      var page = LOCATION_PAGES[key];
+      preloadLocationVideo(page.heroVideo);
+      preloadLocationImage(page.introImage);
+      (page.programs || []).forEach(function (program) {
+        preloadLocationImage(program.image);
+      });
+    });
+  }
+
+  warmLocationMedia();
+
   function setText(selector, value) {
     var element = document.querySelector(selector);
     if (element) element.textContent = value;
