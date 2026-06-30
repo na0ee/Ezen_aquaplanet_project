@@ -354,7 +354,7 @@ body.oceanfriends-page {
 .friends-bg {
   position: absolute;
   inset: 0;
-  background: url("../assets/images/oceanfriends/oceanfriends.png") center top / cover no-repeat;
+  background: url("../assets/images/oceanfriends/oceanfriends.avif") center top / cover no-repeat;
   background-attachment: fixed;
   z-index: 0;
   will-change: background-position;
@@ -1985,4 +1985,63 @@ body.oceanfriends-page {
   .footer__social svg { width: 21px; height: 21px; }
   .footer__brand { align-items: center; gap: 14px; margin-right: 0; }
   .footer__copy { text-align: center; }
+}
+
+/* Program page footer social alignment */
+.oceanfriends-page .footer {
+  min-height: 40vh;
+}
+
+.oceanfriends-page .footer__inner {
+  width: calc(100% - 96px);
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 64px;
+  padding-bottom: 60px;
+}
+
+.oceanfriends-page .footer__brand {
+  align-items: flex-end;
+  gap: 28px;
+  margin-right: 0;
+}
+
+.oceanfriends-page .footer__socials {
+  gap: 24px;
+}
+
+.oceanfriends-page .footer__social {
+  width: 50px;
+  height: 50px;
+}
+
+.oceanfriends-page .footer__social svg {
+  width: 30px;
+  height: 30px;
+}
+
+@media (max-width: 768px) {
+  .oceanfriends-page .footer__inner {
+    width: min(100% - 40px, 520px);
+    flex-direction: column;
+    align-items: center;
+    gap: 26px;
+    padding-bottom: 52px;
+  }
+
+  .oceanfriends-page .footer__brand {
+    align-items: center;
+    gap: 14px;
+    margin-right: 0;
+  }
+
+  .oceanfriends-page .footer__social {
+    width: 42px;
+    height: 42px;
+  }
+
+  .oceanfriends-page .footer__social svg {
+    width: 21px;
+    height: 21px;
+  }
 }

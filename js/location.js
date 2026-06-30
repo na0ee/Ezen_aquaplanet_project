@@ -272,7 +272,7 @@
       address: '전라남도 여수시 오동도로 61-11',
       tel: '1833-7001',
       heroVideo: 'assets/video/program_Yeosu_hero.webm',
-      introImage: 'assets/images/locationYeosu_intro_bg_1.jpg',
+      introImage: 'assets/images/locationYeosu_intro_bg_1.avif',
       quote: '<p><span class="loc-intro__qm">&quot;</span>국내 유일 <strong>벨루가 고래</strong>와 함께하는</p><p>특별한 해양 체험을 만나보세요<span class="loc-intro__qm">&quot;</span></p>',
       description: [
         '아쿠아플라넷 여수는 GS칼텍스 예울마루 옆에 위치한 대규모 복합 해양문화시설로, <br> 국내 유일의 벨루가(흰 고래)를 보유하고 있습니다.',
@@ -301,7 +301,7 @@
       address: '경기도 고양시 일산동구 장항동 838',
       tel: '1833-7001',
       heroVideo: 'assets/video/program_Ilsan_hero.webm',
-      introImage: 'assets/images/locationIlsan_intro_bg_1.jpg',
+      introImage: 'assets/images/locationIlsan_intro_bg_1.avif',
       quote: '<p><span class="loc-intro__qm">&quot;</span>국내에서 처음으로 실내동물원이 결합된</p><p><strong>컨버전스 아쿠아리움</strong>을 만나보세요<span class="loc-intro__qm">&quot;</span></p>',
       description: [
         '초대형 규모(연면적 1만 4660m², 수조량 4300톤)를 자랑하며 <br> 최대 규모 2000톤에 달하는 대형수조를 비롯해 수조 44개, 동물사 9개와 조류방사장 등 <br> 관람과 체험을 동시에 즐길 수 있는 도심 속 체험형 복합관람시설입니다.'
@@ -309,7 +309,7 @@
       programDescription: '도심 가까이에서 바다를 경험할 수 있는 수도권 대표 아쿠아리움입니다<br><strong>국내 유일 바다코끼리</strong>와 다양한 생물 전시를 통해 교육과 체험이 결합된 해양문화공간을 제공합니다',
       programs: [
         { image: 'assets/images/image 136.png', title: '국내 유일! 바다코끼리 자매 메리&바랴 생태설명회' },
-        { image: 'assets/images/programIL.png', title: '메인수조 투명보트 탑승 체험' }
+        { image: 'assets/images/programIL.avif', title: '메인수조 투명보트 탑승 체험' }
       ],
       floors: ['B1F', '1F', '2F', '3F', '5F'],
       defaultFloor: '2F',
@@ -331,7 +331,7 @@
       address: '경기도 수원시 영통구 광교호수공원로 300 포레나 광교 B1F',
       tel: '1833-7001',
       heroVideo: 'assets/video/program_Gwanggyo_hero.webm',
-      introImage: 'assets/images/locationGwanggyo_intro_bg_1.jpg',
+      introImage: 'assets/images/locationGwanggyo_intro_bg_1.avif',
       quote: '<p><span class="loc-intro__qm">&quot;</span>다양한 교육&amp;체험 프로그램과 다양한 공연 등</p><p><strong>환상적인 콘텐츠</strong>를 365일 체험해보세요<span class="loc-intro__qm">&quot;</span></p>',
       description: [
         '지금까지 경험해보지 못한 Funny한 체험과 Fantasy한 바닷속 세상, 아쿠아플라넷 광교입니다.',
@@ -340,7 +340,7 @@
       ],
       programDescription: '쇼핑과 문화, 체험이 결합된 도심형 아쿠아리움입니다<br><strong>생물 관람</strong>뿐 아니라 체험 콘텐츠와 다양한 테마 공간을 통해 새로운 해양문화 경험을 제공합니다',
       programs: [
-        { image: 'assets/images/gwanggyo_guide_map04.jpg', title: "아쿠아플라넷 광교의 마스코트! '펭귄' 생태설명회" },
+        { image: 'assets/images/gwanggyo_guide_map04.avif', title: "아쿠아플라넷 광교의 마스코트! '펭귄' 생태설명회" },
         { image: 'assets/images/program/Gwanggyo_program_e.avif', title: '머메이드쇼' }
       ],
       floors: ['B2F', 'B1F'],
@@ -520,6 +520,55 @@
   /* ================================================================
      사이드 내비게이션 스크롤 연동
      ================================================================ */
+  /* ================================================================
+     Section content fade-in
+     ================================================================ */
+  function initLocationReveal() {
+    var revealItems = Array.from(document.querySelectorAll('.loc-reveal-title, .loc-reveal-content'));
+    if (!revealItems.length) return;
+
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function showRevealItem(item) {
+      item.classList.add('is-loc-reveal-active', 'is-loc-reveal-visible');
+    }
+
+    function hideRevealItem(item) {
+      item.classList.remove('is-loc-reveal-active', 'is-loc-reveal-visible', 'is-loc-reveal-done');
+    }
+
+    if (reduceMotion || !('IntersectionObserver' in window)) {
+      revealItems.forEach(function (item) {
+        showRevealItem(item);
+        item.classList.add('is-loc-reveal-done');
+      });
+      return;
+    }
+
+    var revealObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          showRevealItem(entry.target);
+        } else {
+          hideRevealItem(entry.target);
+        }
+      });
+    }, {
+      rootMargin: '0px 0px -18% 0px',
+      threshold: 0.12
+    });
+
+    revealItems.forEach(function (item) {
+      item.addEventListener('transitionend', function (event) {
+        if (event.propertyName !== 'opacity') return;
+        item.classList.add('is-loc-reveal-done');
+      });
+      revealObserver.observe(item);
+    });
+  }
+
+  initLocationReveal();
+
   const sideNav  = document.querySelector('.loc-side-nav');
   const navItems = Array.from(document.querySelectorAll('.loc-side-nav__item'));
 
@@ -611,8 +660,8 @@
 
   var JEJU_EXHIBITS = {
     '2F': [
-      { key: 'haenyeo', zone: 'A', name: '해녀전시', floor: '2F', thumb: 'assets/images/jeju_guide_thum47 1.png', image: 'assets/images/jeju_guide_map47.jpg', desc: '"물 그리고 숨 : 제주 해녀의 바다"\n해녀의 삶을 다양한 작품을 통해 만나보세요.' },
-      { key: 'special-artshop', zone: 'A', name: '특별전시관 아트샵', floor: '2F', thumb: 'assets/images/jeju_guide_thum34.jpg', image: 'assets/images/jeju_guide_map34.jpg', desc: '특별전시와 연계된 아트 상품을 만나볼 수 있습니다.' },
+      { key: 'haenyeo', zone: 'A', name: '해녀전시', floor: '2F', thumb: 'assets/images/jeju_guide_thum47 1.png', image: 'assets/images/jeju_guide_map47.avif', desc: '"물 그리고 숨 : 제주 해녀의 바다"\n해녀의 삶을 다양한 작품을 통해 만나보세요.' },
+      { key: 'special-artshop', zone: 'A', name: '특별전시관 아트샵', floor: '2F', thumb: 'assets/images/jeju_guide_thum34.avif', image: 'assets/images/jeju_guide_map34.avif', desc: '특별전시와 연계된 아트 상품을 만나볼 수 있습니다.' },
       { key: 'gs25', zone: 'B', name: 'GS25', floor: '2F', thumb: 'assets/images/jeju_guide_thum18 1.png', image: 'assets/images/jeju_guide_thum18 1.png', desc: '관람 중 필요한 물품을 편리하게 구매할 수 있습니다.' },
       { key: 'weeny-beeny', zone: 'B', name: '위니비니', floor: '2F', thumb: 'assets/images/location/location_jeju_2f_guideImg02.avif', image: 'assets/images/location/location_jeju_2f_guideImg02.avif', desc: '달콤한 사탕과 다양한 과자를 만나볼 수 있는 캔디샵입니다.' },
       { key: 'munseom', zone: 'C', name: '문섬', floor: '2F', thumb: 'assets/images/location/location_jeju_guideImg02.avif', image: 'assets/images/location/location_jeju_guideImg02.avif', desc: '제주 앞 바다의 문섬이 화려한 산호초와 열대어로 여러분을 맞이합니다.' },
@@ -638,7 +687,7 @@
       { key: 'aquacafe', zone: 'F', name: '아쿠아카페', floor: 'B1F', thumb: 'assets/images/location/location_ilsan_2f_guideImg02.avif', image: 'assets/images/location/location_ilsan_2f_guideImg02.avif', desc: '관람 중 편안하게 쉬며 음료와 간식을 즐겨보세요.' },
       { key: 'jeju-sea-vr', zone: 'G', name: '메인수조 : 제주의 바다', floor: 'B1F', thumb: 'assets/images/location/location_jeju_b1f_guideImg03.avif', image: 'assets/images/location/location_jeju_b1f_guideImg03.avif', desc: '국내 최대 규모의 메인수조를 VR로 생생하게 체험해보세요.' },
       { key: 'under-ocean-arena', zone: 'G', name: '언더 오션 아레나', floor: 'B1F', thumb: 'assets/images/location/location_ilsan_3f_guideImg02.avif', image: 'assets/images/location/location_ilsan_3f_guideImg02.avif', desc: '오션 아레나 아래에서 펼쳐지는 특별한 해양 공간입니다.' },
-      { key: 'therapy-dome', zone: 'G', name: '테라피 돔', floor: 'B1F', thumb: 'assets/images/jeju_guide_thum32.jpg', image: 'assets/images/jeju_guide_map32.jpg', desc: '바다의 빛과 움직임을 편안하게 감상하는 공간입니다.' },
+      { key: 'therapy-dome', zone: 'G', name: '테라피 돔', floor: 'B1F', thumb: 'assets/images/jeju_guide_thum32.avif', image: 'assets/images/jeju_guide_map32.avif', desc: '바다의 빛과 움직임을 편안하게 감상하는 공간입니다.' },
       { key: 'ocean-arena', zone: 'H', name: '오션아레나', floor: 'B1F', thumb: 'assets/images/location/location_ilsan_3f_guideImg02.avif', image: 'assets/images/location/location_ilsan_3f_guideImg02.avif', desc: '대형 공연장에서 펼쳐지는 화려한 퍼포먼스를 즐겨보세요.' }
     ]
   };
@@ -1171,8 +1220,8 @@
     soloAutoTimer = null;
   }
 
-  var MAP_TRANSITION_START = 0.06;
-  var MAP_TRANSITION_LENGTH = 0.36;
+  var MAP_TRANSITION_START = 0.02;
+  var MAP_TRANSITION_LENGTH = 0.16;
 
   function showExhibitsMap() {
     soloSection.style.opacity = '1';
@@ -1295,14 +1344,14 @@
     } else {
       /* 전환 중: 실제 맵은 solo stage 하나만 유지하고 UI만 페이드인 */
       var mapProg = Math.max(0, Math.min(1, progress / 0.45));
-      var exProg = Math.max(0, Math.min(1, (progress - 0.16) / 0.84));
+      var exProg = Math.max(0, Math.min(1, progress / 0.28));
       soloSection.style.opacity      = '1';
       soloSection.style.pointerEvents = 'none';
       applySingleMapTransition(mapProg);
       updateSoloChrome(mapProg);
 
       mapSection.style.opacity       = exProg.toFixed(3);
-      mapSection.style.pointerEvents = exProg > 0.85 ? '' : 'none';
+      mapSection.style.pointerEvents = exProg > 0.35 ? '' : 'none';
       mapSection.classList.add('is-visible');
       mapSection.classList.remove('has-detail');
       if (mapTransitionEl) mapTransitionEl.classList.remove('has-detail');
