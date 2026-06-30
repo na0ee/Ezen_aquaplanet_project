@@ -2876,7 +2876,7 @@ body.is-logo-at-header .gnb__logo {
 }
 
 .location-hover-card__img[src*="Frame 22"] {
-  object-position: left center;
+  object-position: 55% center;
 }
 
 .location-hover-card.is-switching .location-hover-card__copy {
@@ -5584,14 +5584,14 @@ body.biz-page {
   }
 
   .index-page .location-map-wrap {
-    display: grid;
-    grid-template-columns: minmax(300px, 0.95fr) minmax(300px, 1fr);
+    display: flex;
+    justify-content: center;
     align-items: center;
     width: min(calc(100% - 48px), 900px);
-    height: auto;
+    height: clamp(520px, 58vw, 620px);
     margin-top: 24px;
     margin-inline: auto;
-    gap: 20px;
+    gap: 0;
   }
 
   .index-page .location-map-wrap.is-hovering,
@@ -5600,7 +5600,7 @@ body.biz-page {
   }
 
   .index-page .location-map {
-    width: 100%;
+    width: min(50vw, 430px);
     max-width: 430px;
     height: auto;
     aspect-ratio: 640 / 660;
@@ -5609,7 +5609,7 @@ body.biz-page {
 
   .index-page .location-map-wrap.is-hovering .location-map,
   .index-page .location-map-wrap:focus-within .location-map {
-    transform: none;
+    transform: translateX(clamp(-220px, -24vw, -170px));
   }
 
   .index-page .map-marker {
@@ -5623,24 +5623,24 @@ body.biz-page {
   }
 
   .index-page .location-hover-card {
-    position: relative;
-    left: auto;
-    top: auto;
-    width: 100%;
+    position: absolute;
+    left: calc(50% + 12px);
+    top: 50%;
+    width: min(42vw, 400px);
     min-width: 0;
     min-height: 318px;
     padding: 10px;
-    transform: none;
+    transform: translate(24px, -50%);
     justify-self: stretch;
   }
 
   .index-page .location-map-wrap.is-hovering .location-hover-card,
   .index-page .location-map-wrap:focus-within .location-hover-card {
-    transform: none;
+    transform: translate(0, -50%);
   }
 
   .index-page .location-indicator {
-    display: none;
+    display: block;
   }
 
   .index-page .location-hover-card__body {
@@ -5784,7 +5784,8 @@ body.biz-page {
    ============================================================= */
 @media (min-width: 769px) and (max-width: 1024px) {
   .index-page .gnb {
-    padding: 14px 20px;
+    height: auto;
+    padding: 12px 20px;
   }
 
   .index-page .gnb__inner {

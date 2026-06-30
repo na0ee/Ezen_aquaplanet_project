@@ -1541,7 +1541,7 @@ body.biz-page.mobile-menu-open .gnb {
 
   .biz-page .gnb {
     height: auto !important;
-    padding: 12px 16px !important;
+    padding: 12px 20px !important;
   }
 
   .biz-page .gnb__inner {
@@ -1821,7 +1821,7 @@ body.biz-page.mobile-menu-open .gnb {
   }
 
   .biz-page .biz-overview-head {
-    top: clamp(116px, 16vh, 150px) !important;
+    top: clamp(276px, calc(16vh + 160px), 310px) !important;
     width: min(620px, calc(100vw - 64px)) !important;
   }
 
@@ -1839,7 +1839,7 @@ body.biz-page.mobile-menu-open .gnb {
   }
 
   .biz-page .biz-area-vision-label {
-    top: clamp(390px, 44vh, 430px) !important;
+    top: clamp(550px, calc(44vh + 160px), 590px) !important;
   }
 
   .biz-page .biz-area-vision-label p {
@@ -1859,7 +1859,7 @@ body.biz-page.mobile-menu-open .gnb {
   }
 
   .biz-page .biz-blue-stack {
-    top: calc(50vh + 150px - clamp(150px, 18vw, 174px)) !important;
+    top: calc(50vh + 310px - clamp(150px, 18vw, 174px)) !important;
     height: clamp(390px, 44vw, 430px) !important;
   }
 
@@ -4115,10 +4115,24 @@ body.biz-page.mobile-menu-open .gnb {
 /* Program page footer social alignment */
 .biz-page .footer {
   min-height: 40vh;
+  background: #2686E7;
 }
 
 .biz-page .footer__inner {
-  padding-bottom: 60px;
+  width: calc(100% - 96px);
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 64px;
+  padding: 0 0 60px;
+}
+
+.biz-page .footer__link {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.2;
+  color: #ffffff;
+  text-decoration: none;
 }
 
 .biz-page .footer__brand {
@@ -4141,8 +4155,21 @@ body.biz-page.mobile-menu-open .gnb {
   height: 30px;
 }
 
+.biz-page .footer__copy {
+  font-family: "Pretendard", sans-serif;
+  font-size: 14px;
+  font-weight: 200;
+  color: #ffffff;
+  text-align: right;
+  text-shadow: none;
+}
+
 @media (max-width: 768px) {
   .biz-page .footer__inner {
+    width: min(100% - 40px, 520px);
+    flex-direction: column;
+    align-items: center;
+    gap: 26px;
     padding-bottom: 52px;
   }
 
@@ -4160,6 +4187,10 @@ body.biz-page.mobile-menu-open .gnb {
   .biz-page .footer__social svg {
     width: 21px;
     height: 21px;
+  }
+
+  .biz-page .footer__copy {
+    text-align: center;
   }
 }
 

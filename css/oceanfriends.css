@@ -2253,3 +2253,11 @@ body.oceanfriends-page {
     z-index: 3300;
   }
 }
+
+/* 태블릿 GNB 높이를 다른 페이지(68px)와 통일 */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .oceanfriends-page .gnb {
+    height: auto;
+    padding: 12px 20px;
+  }
+}

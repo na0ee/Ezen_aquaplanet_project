@@ -3245,6 +3245,17 @@ body.marin-view-conservation .m-pill-tabs:not(.m-pill-tabs--cases) {
   margin: 0;
 }
 
+/* 태블릿: 푸터 텍스트(링크/카피)도 program 페이지와 통일 */
+@media (min-width: 769px) and (max-width: 1024px) {
+  #marinFooter .footer__link {
+    color: #ffffff;
+  }
+
+  #marinFooter .footer__copy {
+    color: #ffffff;
+  }
+}
+
 @media (max-width: 768px) {
   #marinFooter .footer__inner {
     width: min(100% - 40px, 520px);
@@ -3875,5 +3886,16 @@ body.marin-view-conservation .m-pill-tabs:not(.m-pill-tabs--cases) {
 
   .marinlab-page .gnb__mobile-link--toggle {
     gap: 14px;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .marinlab-page .gnb {
+    height: auto;
+    padding: 12px 20px;
+  }
+
+  .marinlab-page .gnb__inner {
+    height: 44px;
   }
 }

@@ -3110,6 +3110,18 @@ body {
   }
 }
 
+/* 태블릿 GNB 높이를 다른 페이지(68px)와 통일 */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .gnb {
+    height: auto;
+    padding: 12px 20px;
+  }
+
+  .gnb__inner {
+    height: 44px;
+  }
+}
+
 /* ----------------------------------------------------------------
    Section reveal sequence
    Title fades up first, then schedule content follows.
