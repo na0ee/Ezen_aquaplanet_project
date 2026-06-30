@@ -4,3 +4,4 @@ node_modules/
 assets/models/logo_symbol_ver2.glb
 assets/models/logo_symbol_ver2_1.glb
 assets/models/*_orig.glb
+.vercel
