@@ -2709,8 +2709,6 @@
         pager.appendChild(btn);
       }
 
-      /* 모바일(≤768px)은 CSS 가로 스크롤로 처리 — JS 캐러셀 불필요 */
-      if (window.matchMedia('(max-width: 768px)').matches) return;
 
       const originals = Array.from(track.querySelectorAll('.species-card'));
       const originalCount = originals.length;
@@ -2999,22 +2997,16 @@
 
         let pinTrigger = null;
 
-        ScrollTrigger.matchMedia({
-          '(min-width: 761px)': function () {
-            pinTrigger = ScrollTrigger.create({
-              trigger: section,
-              start: 'top top',
-              end: () => '+=' + Math.max(singleSetWidth, window.innerHeight),
-              pin: true,
-              scrub: true,
-              anticipatePin: 1,
-              invalidateOnRefresh: true,
-              onUpdate: self => {
-                target = baseCurrent - self.progress * singleSetWidth;
-              }
-            });
-
-            return () => { pinTrigger.kill(); pinTrigger = null; };
+        pinTrigger = ScrollTrigger.create({
+          trigger: section,
+          start: 'top top',
+          end: () => '+=' + Math.max(singleSetWidth, window.innerHeight),
+          pin: true,
+          scrub: true,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+          onUpdate: self => {
+            target = baseCurrent - self.progress * singleSetWidth;
           }
         });
 
@@ -3088,6 +3080,12 @@
 
       window.addEventListener('resize', () => {
         window.cancelAnimationFrame(rafId);
+        track.style.transform = '';
+        Array.from(track.querySelectorAll('.species-card')).forEach(c => {
+          c.style.transform = '';
+          c.style.opacity = '';
+          c.style.filter = '';
+        });
         measure();
         rafId = requestAnimationFrame(animate);
         if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
