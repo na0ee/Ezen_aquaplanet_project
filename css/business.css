@@ -2085,7 +2085,7 @@ body.biz-page.mobile-menu-open .gnb {
   }
 }
 
-@media (min-width: 390px) and (max-width: 768px) {
+@media (max-width: 767px) {
   .biz-page .gnb {
     height: 72px !important;
     padding: 14px 20px !important;
@@ -2349,26 +2349,31 @@ body.biz-page.mobile-menu-open .gnb {
   }
 
   .biz-page .biz-areas {
-    height: auto !important;
-    padding: 96px 20px 120px !important;
-  }
-
-  .biz-page .biz-figma-panel {
-    position: relative !important;
-    height: auto !important;
-    min-height: 0 !important;
+    height: 380svh !important;
+    padding: 0 !important;
     overflow: visible !important;
   }
 
+  .biz-page .biz-figma-panel {
+    position: sticky !important;
+    top: 0 !important;
+    height: 100svh !important;
+    min-height: 720px !important;
+    padding-bottom: calc(64px + env(safe-area-inset-bottom)) !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+  }
+
   .biz-page .biz-overview-head {
-    position: relative !important;
-    top: auto !important;
-    left: auto !important;
+    position: absolute !important;
+    top: clamp(80px, 11svh, 108px) !important;
+    left: 50% !important;
     width: min(calc(100vw - 32px), 620px) !important;
-    margin: 0 auto !important;
+    max-height: var(--biz-overview-max-height, 180px) !important;
+    margin: 0 !important;
     gap: 12px !important;
-    opacity: 1 !important;
-    transform: none !important;
+    opacity: var(--biz-overview-opacity, 1) !important;
+    transform: translateX(-50%) translateY(var(--biz-overview-y, 0px)) !important;
   }
 
   .biz-page .biz-overview-head__title em {
@@ -2390,12 +2395,12 @@ body.biz-page.mobile-menu-open .gnb {
   }
 
   .biz-page .biz-area-vision-label {
-    position: relative !important;
-    top: auto !important;
-    left: auto !important;
+    position: absolute !important;
+    top: clamp(192px, calc(38svh), 240px) !important;
+    left: 50% !important;
     width: min(calc(100vw - 32px), 620px) !important;
-    margin: 160px auto 0 !important;
-    transform: none !important;
+    margin: 0 !important;
+    transform: translateX(-50%) translateY(var(--biz-overview-label-y, 0px)) !important;
   }
 
   .biz-page .biz-area-vision-label p {
@@ -2423,37 +2428,48 @@ body.biz-page.mobile-menu-open .gnb {
   }
 
   .biz-page .biz-blue-stack {
-    position: relative !important;
-    top: auto !important;
-    left: auto !important;
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 72px !important;
-    height: auto !important;
-    margin: 140px auto 0 !important;
-    overflow: visible !important;
-    pointer-events: auto !important;
+    position: absolute !important;
+    top: clamp(296px, calc(48svh), 360px) !important;
+    left: 0 !important;
+    display: block !important;
+    width: 100% !important;
+    height: clamp(620px, 78svh, 780px) !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+    pointer-events: none !important;
+    transform: translateY(var(--biz-overview-stack-y, 0px)) !important;
   }
 
   .biz-page .biz-blue-card {
-    position: relative !important;
-    top: auto !important;
-    left: auto !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 50% !important;
     width: min(calc(100vw - 40px), 560px) !important;
-    height: auto !important;
-    min-height: 0 !important;
-    margin: 0 auto !important;
+    height: 100% !important;
+    margin: 0 !important;
+    display: flex !important;
     flex-direction: column !important;
     align-items: stretch !important;
-    gap: 18px !important;
+    gap: 14px !important;
+    opacity: 0 !important;
+    transform: translateX(-50%) translateY(28px) !important;
+    pointer-events: none !important;
+  }
+
+  .biz-page .biz-blue-card.is-active {
     opacity: 1 !important;
-    transform: none !important;
+    transform: translateX(-50%) translateY(0) !important;
     pointer-events: auto !important;
+  }
+
+  .biz-page .biz-blue-card.is-prev {
+    opacity: 0 !important;
+    transform: translateX(-50%) translateY(-28px) !important;
   }
 
   .biz-page .biz-blue-card__image {
     width: 100% !important;
-    height: clamp(218px, 52vw, 300px) !important;
+    height: clamp(180px, 30svh, 230px) !important;
     flex: 0 0 auto !important;
   }
 
@@ -2475,8 +2491,8 @@ body.biz-page.mobile-menu-open .gnb {
     position: static !important;
     width: auto !important;
     height: auto !important;
-    margin: 0 0 14px !important;
-    font-size: clamp(48px, 10.8vw, 60px) !important;
+    margin: 0 0 8px !important;
+    font-size: clamp(42px, 9.4vw, 54px) !important;
     line-height: 1 !important;
     letter-spacing: -0.04em !important;
   }
@@ -2497,7 +2513,7 @@ body.biz-page.mobile-menu-open .gnb {
     width: 100% !important;
     height: auto !important;
     margin: 0 !important;
-    font-size: clamp(34px, 8.8vw, 58px) !important;
+    font-size: clamp(28px, 7.2vw, 44px) !important;
     line-height: 0.95 !important;
     letter-spacing: -0.05em !important;
     white-space: nowrap !important;
@@ -2508,25 +2524,25 @@ body.biz-page.mobile-menu-open .gnb {
   .biz-page .biz-blue-card--acquisition .biz-blue-card__body > p {
     width: 100% !important;
     height: auto !important;
-    margin-top: 10px !important;
-    font-size: clamp(14px, 3.25vw, 18px) !important;
-    line-height: 1.45 !important;
+    margin-top: 8px !important;
+    font-size: clamp(13px, 3vw, 16px) !important;
+    line-height: 1.4 !important;
     text-align: left !important;
     white-space: normal !important;
   }
 
   .biz-page .biz-blue-card__tags,
   .biz-page .biz-blue-card--acquisition .biz-blue-card__tags {
-    gap: 10px !important;
+    gap: 8px !important;
     height: auto !important;
-    margin-top: 24px !important;
+    margin-top: 14px !important;
     justify-content: flex-start !important;
     flex-wrap: wrap !important;
     overflow: visible !important;
   }
 
   .biz-page .biz-blue-card__tags li {
-    height: 38px !important;
+    height: 34px !important;
     min-width: max-content !important;
     padding: 0 16px !important;
     font-size: clamp(14px, 3.35vw, 17px) !important;
@@ -3982,7 +3998,7 @@ body.biz-page.mobile-menu-open .gnb {
   }
 
   .biz-page .biz-vision .biz-glass-card p {
-    font-size: 12px;
+    font-size: 14px;
     line-height: 1.45;
   }
 
@@ -4005,110 +4021,6 @@ body.biz-page.mobile-menu-open .gnb {
 
   .biz-page .biz-glass-card__pair span {
     font-size: 14px;
-  }
-}
-
-@media (max-width: 768px) {
-  .biz-page .biz-areas {
-    height: 380svh !important;
-    padding: 0 !important;
-    overflow: visible !important;
-  }
-
-  .biz-page .biz-figma-panel {
-    position: sticky !important;
-    top: 0 !important;
-    height: 100svh !important;
-    min-height: 640px !important;
-    overflow: hidden !important;
-  }
-
-  .biz-page .biz-overview-head {
-    position: absolute !important;
-    top: clamp(92px, 13svh, 124px) !important;
-    left: 50% !important;
-    width: min(calc(100vw - 36px), 620px) !important;
-    max-height: var(--biz-overview-max-height, 180px) !important;
-    margin: 0 !important;
-    opacity: var(--biz-overview-opacity, 1) !important;
-    transform: translateX(-50%) translateY(var(--biz-overview-y, 0px)) !important;
-  }
-
-  .biz-page .biz-area-vision-label {
-    position: absolute !important;
-    top: clamp(228px, calc(50svh - 132px), 280px) !important;
-    left: 50% !important;
-    width: min(calc(100vw - 32px), 620px) !important;
-    margin: 0 !important;
-    transform: translateX(-50%) translateY(var(--biz-overview-label-y, 0px)) !important;
-  }
-
-  .biz-page .biz-blue-stack {
-    position: absolute !important;
-    top: calc(50svh + 220px - (clamp(560px, 74svh, 640px) / 2)) !important;
-    left: 0 !important;
-    display: block !important;
-    width: 100% !important;
-    height: clamp(560px, 74svh, 640px) !important;
-    margin: 0 !important;
-    overflow: hidden !important;
-    pointer-events: none !important;
-    transform: translateY(var(--biz-overview-stack-y, 0px)) !important;
-  }
-
-  .biz-page .biz-blue-card {
-    position: absolute !important;
-    top: 0 !important;
-    left: 50% !important;
-    width: min(calc(100vw - 40px), 560px) !important;
-    height: 100% !important;
-    margin: 0 !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: stretch !important;
-    gap: 18px !important;
-    opacity: 0 !important;
-    transform: translateX(-50%) translateY(28px) !important;
-    pointer-events: none !important;
-  }
-
-  .biz-page .biz-blue-card.is-active {
-    opacity: 1 !important;
-    transform: translateX(-50%) translateY(0) !important;
-    pointer-events: auto !important;
-  }
-
-  .biz-page .biz-blue-card.is-prev {
-    opacity: 0 !important;
-    transform: translateX(-50%) translateY(-28px) !important;
-  }
-
-  .biz-page .biz-blue-card__image {
-    width: 100% !important;
-    height: clamp(190px, 32svh, 250px) !important;
-    flex: 0 0 auto !important;
-  }
-
-  .biz-page .biz-blue-card__content,
-  .biz-page .biz-blue-card__content--wide,
-  .biz-page .biz-blue-card--acquisition .biz-blue-card__content {
-    position: relative !important;
-    width: 100% !important;
-    height: auto !important;
-    flex: 0 0 auto !important;
-    margin-top: 0 !important;
-    padding: 0 2px !important;
-  }
-
-  .biz-page .biz-blue-card__num {
-    position: static !important;
-    margin: 0 0 8px !important;
-  }
-
-  .biz-page .biz-blue-card__body,
-  .biz-page .biz-blue-card--acquisition .biz-blue-card__body {
-    position: static !important;
-    width: 100% !important;
   }
 }
 
@@ -4152,20 +4064,6 @@ body.biz-page.mobile-menu-open .gnb {
     height: 100% !important;
     object-fit: cover !important;
   }
-
-  /* PLANNING 카드(01)의 4개 버튼 — 한 줄 4개 대신 2x2 그리드 */
-  .biz-page .biz-blue-card__tags--glass {
-    display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
-    width: 100% !important;
-    height: auto !important;
-    gap: 10px !important;
-  }
-
-  .biz-page .biz-blue-card__tags--glass li {
-    width: 100% !important;
-    height: 40px !important;
-  }
 }
 
 /* 태블릿도 모바일과 동일한 햄버거 헤더를 사용
@@ -4175,8 +4073,8 @@ body.biz-page.mobile-menu-open .gnb {
 
 @media (max-width: 390px) {
   .biz-page .biz-overview-head__desc {
-    max-width: 350px !important;
-    font-size: clamp(13px, 3.6vw, 13px) !important;
+    max-width: 390px !important;
+    font-size: clamp(14px, 3.6vw, 14px) !important;
   }
 
   .biz-page .biz-overview-head__title em {
@@ -4244,7 +4142,7 @@ body.biz-page {
     width: 100%;
     max-width: 350px;
     margin: 0 auto;
-    font-size: clamp(13px, 3.6vw, 13px);
+    font-size: clamp(14px, 3.6vw, 14px);
     line-height: 1.5;
     word-break: keep-all;
     overflow-wrap: break-word;
