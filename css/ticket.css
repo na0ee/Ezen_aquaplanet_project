@@ -80,43 +80,487 @@ body.ticket-open {
   mix-blend-mode: screen;
 }
 
-/* Ticket uses a very bright underwater stage. Keep the shared GNB readable
-   even when Safari/wide-gamut compositing makes the light rays brighter. */
-.ticket-page .gnb {
-  transform: translateZ(0) !important;
-  opacity: 1 !important;
+/* GNB 티켓 버튼 — program 페이지 스타일을 공통 기준으로 사용 */
+.gnb__ticket {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 42px;
+  padding: 0 14px 0 18px;
+  border-radius: 100px;
+  font-family: "Poppins", sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: -0.48px;
+  color: #ffffff;
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    rgba(255, 255, 255, 0.01) 45%,
+    rgba(255, 255, 255, 0.04) 100%
+  );
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.75),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.12),
+    inset 1px 0 0 rgba(255, 255, 255, 0.20),
+    inset -1px 0 0 rgba(255, 255, 255, 0.08);
+  border: none;
+  white-space: nowrap;
+  text-decoration: none;
 }
 
-.ticket-page .gnb.gnb--hidden {
+.gnb__ticket p {
+  margin: 0;
+}
+
+.gnb__ticket::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 100px;
+  padding: 1.5px;
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.55) 0%,
+    rgba(255, 255, 255, 0.20) 25%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(255, 255, 255, 0.20) 75%,
+    rgba(255, 255, 255, 0.55) 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.gnb__ticket .img {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+}
+
+.gnb__ticket .img img,
+.gnb__ticket svg {
+  width: 100%;
+}
+
+@media (max-width: 1024px) {
+  .gnb__ticket {
+    height: 34px;
+    font-size: 14px;
+    padding: 0 10px 0 12px;
+    gap: 4px;
+  }
+
+  .gnb__ticket .img {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+/* -------------------------------------------------------------
+   7. GNB — Global Navigation Bar
+   ------------------------------------------------------------- */
+.gnb {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 3000;
+  padding: 24px 32px;
+  transition: background var(--tr-base), backdrop-filter var(--tr-base), transform 0.35s ease, opacity 0.6s ease;
+  /* logo_glass.js의 풀스크린 WebGL 캔버스(.logo3d-wrap z:1500)보다 위에 둔다. */
+  transform: translateZ(0);
+}
+
+/* 로고 섹션 진행 중 — 스크롤로 숨겨지지 않도록 transform 고정, GNB 자체는 표시
+   (translateZ(0)는 유지 — 합성 레이어 승격이 풀리지 않도록) */
+.gnb--logo-mode {
   transform: translateZ(0) !important;
 }
 
+/* 스크롤 시 상단→투명 그라디언트 */
+.gnb.is-scrolled {
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.gnb.is-hidden {
+  transform: translateY(-100%);
+}
+
+.gnb.gnb--hidden {
+  transform: translateY(-100%);
+}
+
+.gnb.gnb--glass,
+.gnb.gnb--light-bg,
+.gnb.gnb--scrolled {
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.gnb.gnb--logo-mode.gnb--glass {
+  background: transparent;
+}
+
+.gnb--logo-mode .gnb__link,
+.gnb--logo-mode .gnb__item {
+  color: #ffffff;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.45);
+}
+
+.gnb--logo-mode .gnb__link:hover,
+.gnb--logo-mode .gnb__item:hover,
+.gnb--logo-mode .gnb__link.gnb__link--active,
+.gnb--logo-mode .gnb__item.gnb__item--active {
+  color: #ffffff;
+}
+
+/* index-page GNB — program.css 완전 동일 적용 */
+
+/* GNB 배경 글라스 (로고 모드 중에는 숨김) */
 .ticket-page .gnb::before {
   content: '';
   position: absolute;
   inset: 0;
-  z-index: -1;
   pointer-events: none;
-  background: linear-gradient(180deg, rgba(5, 34, 62, 0.42) 0%, rgba(5, 34, 62, 0) 100%);
-  -webkit-mask-image: linear-gradient(180deg, #000 62%, transparent 100%);
-  mask-image: linear-gradient(180deg, #000 62%, transparent 100%);
+  z-index: -1;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  background: linear-gradient(180deg, rgba(10, 30, 80, 0.35) 0%, rgba(10, 30, 80, 0.0) 100%);
+  -webkit-mask-image: linear-gradient(180deg, black 60%, transparent 100%);
+  mask-image: linear-gradient(180deg, black 60%, transparent 100%);
+  opacity: 1;
+  transition: opacity 0.35s ease;
 }
 
+.ticket-page .gnb.gnb--logo-mode::before {
+  opacity: 0;
+}
+
+/* 네비 링크 */
 .ticket-page .gnb__link,
-.ticket-page .gnb__nav-item > .gnb__link {
-  color: rgba(255, 255, 255, 0.86);
-  text-shadow: 0 2px 10px rgba(0, 40, 80, 0.42);
+.ticket-page .gnb__item {
+  color: #ffffff;
+  font-size: 18px;
+  letter-spacing: -0.96px;
+  transition: color 0.2s ease, transform 0.2s ease;
+  display: inline-block;
 }
 
 .ticket-page .gnb__link:hover,
-.ticket-page .gnb__nav-item:hover > .gnb__link {
-  color: #fff;
+.ticket-page .gnb__item:hover {
+  color: #ffffff;
+  transform: scale(1.06);
 }
 
-.ticket-page .gnb__logo {
-  opacity: 1;
-  filter: drop-shadow(0 2px 10px rgba(0, 40, 80, 0.22));
+.ticket-page .gnb__link.gnb__link--active {
+  font-family: "EB Garamond", serif;
+  font-size: 20px;
+  letter-spacing: -1.12px;
+  color: #ffffff;
 }
+
+/* 티켓 버튼 — position:relative 필수 (::before 기준점) */
+.ticket-page .gnb__ticket {
+  position: relative;
+  height: 42px;
+  padding: 0 14px 0 18px;
+  gap: 6px;
+  font-size: 18px;
+  letter-spacing: -0.48px;
+  color: #ffffff;
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    rgba(255, 255, 255, 0.01) 45%,
+    rgba(255, 255, 255, 0.04) 100%
+  );
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.75),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.12),
+    inset 1px 0 0 rgba(255, 255, 255, 0.20),
+    inset -1px 0 0 rgba(255, 255, 255, 0.08);
+}
+
+.ticket-page .gnb__ticket::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 100px;
+  padding: 1.5px;
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.55) 0%,
+    rgba(255, 255, 255, 0.20) 25%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(255, 255, 255, 0.20) 75%,
+    rgba(255, 255, 255, 0.55) 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.ticket-page .gnb__ticket .img {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+}
+
+.ticket-page .gnb__ticket .img img {
+  width: 100%;
+}
+
+/* 드롭다운 — hover bridge 유지, program.css 비주얼 적용 */
+.ticket-page .gnb__dropdown {
+  top: 100%;
+  left: 0;
+  transform: translateY(-6px);
+  /* 위 23px = 투명 hover bridge, 아래 3px = 패널 내부 여백 */
+  padding: 23px 3px 3px;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: none;
+  isolation: isolate;
+}
+
+/* ::before 제거 (gradient border는 ::after가 담당) */
+.ticket-page .gnb__dropdown::before {
+  display: none;
+}
+
+/* ::after — program.css 스타일 글라스 패널 (hover bridge 아래부터 시작) */
+.ticket-page .gnb__dropdown::after {
+  content: "";
+  position: absolute;
+  display: block;
+  inset: 20px 0 0 0;
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    rgba(255, 255, 255, 0.01) 45%,
+    rgba(255, 255, 255, 0.04) 100%
+  );
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border-radius: 14px;
+  pointer-events: none;
+  z-index: 0;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.75),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.12),
+    inset 1px 0 0 rgba(255, 255, 255, 0.20),
+    inset -1px 0 0 rgba(255, 255, 255, 0.08);
+  border: none;
+}
+
+.ticket-page .gnb__dropdown-item {
+  position: relative;
+  z-index: 1;
+  color: #ffffff;
+  font-family: "Poppins", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: -0.64px;
+  transition: all 0.2s ease;
+}
+
+.ticket-page .gnb__nav-item:hover .gnb__dropdown {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.ticket-page .gnb__dropdown:hover {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.ticket-page .gnb__dropdown-item:hover {
+  background-color: #ffffff;
+  color: #22b2ea;
+  font-family: "EB Garamond", serif;
+  font-size: 18px;
+  letter-spacing: -0.72px;
+  font-weight: 500;
+}
+
+.ticket-page .gnb__dropdown:hover .gnb__dropdown-item:not(:hover) {
+  background-color: transparent;
+  color: #ffffff;
+  font-family: "Poppins", sans-serif;
+  font-size: 16px;
+  letter-spacing: -0.64px;
+}
+
+.gnb__inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 54px;
+}
+
+.gnb__nav {
+  display: flex;
+  align-items: center;
+  height: 54px;
+  gap: 44px;
+}
+
+.gnb__category {
+  display: flex;
+  align-items: center;
+  gap: 44px;
+}
+
+.gnb__link {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  letter-spacing: -0.96px;
+  color: var(--clr-text-muted);
+  transition: color var(--tr-base);
+  white-space: nowrap;
+}
+
+.gnb__item {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  letter-spacing: -0.96px;
+  color: var(--clr-text-muted);
+  transition: color var(--tr-base);
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.gnb__link:hover {
+  color: var(--clr-text);
+}
+
+.gnb__item:hover {
+  color: var(--clr-text);
+}
+
+.gnb__link.gnb__link--active {
+  font-family: "Poppins", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  letter-spacing: -1.12px;
+  color: var(--clr-text);
+}
+
+.gnb__item.gnb__item--active {
+  font-family: "Poppins", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  letter-spacing: -1.12px;
+  color: var(--clr-text);
+}
+
+
+.btn--ticket {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 44px;
+  padding: 0 14px 0 20px;
+  border-radius: var(--radius-btn-pill);
+  color: var(--clr-text);
+  background: var(--clr-glass-02);
+  border: 1px solid var(--clr-glass-10);
+  text-decoration: none;
+  transition: background var(--tr-base), border-color var(--tr-base);
+}
+
+.btn--ticket:hover {
+  background: var(--clr-glass-10);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.btn--ticket p {
+  margin: 0;
+  font-family: var(--font-en);
+  font-weight: 400;
+  font-size: var(--fs-nav);
+  letter-spacing: var(--ls-tight);
+  color: inherit;
+}
+
+.btn--ticket .btn__icon {
+  display: inline-flex;
+  width: 24px;
+  height: 24px;
+}
+
+.btn--ticket .btn__icon img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.gnb.gnb--scrolled .btn--ticket,
+.gnb.gnb--light-bg .btn--ticket {
+  color: var(--clr-primary);
+  background: rgba(255, 255, 255, 0.72);
+  border-color: rgba(34, 178, 234, 0.18);
+}
+
+.gnb.gnb--scrolled .btn--ticket:hover,
+.gnb.gnb--light-bg .btn--ticket:hover {
+  background: #ffffff;
+  border-color: rgba(34, 178, 234, 0.34);
+}
+
+/* 중앙 로고 — 절대 중앙 배치 */
+.gnb__logo-wrap {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* 햄버거 + 모바일 메뉴 — 모바일에서만 표시 */
+.gnb__hamburger,
+.gnb__mobile-menu {
+  display: none;
+}
+
+.gnb__logo-center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.gnb__logo-center a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gnb__logo-center img {
+  width: 60px;
+  height: auto;
+  object-fit: contain;
+}
+
+
+/* 빛일렁임 */
 
 html.is-safari #light-rays {
   height: 460px;
@@ -703,8 +1147,10 @@ html.is-safari .ticket-page .gnb__ticket {
   box-shadow: 0 12px 28px rgba(0, 40, 70, 0.22);
   /* 항목 4개 높이로 고정하고 넘치면 스크롤 (행 약 33.4px × 4 + 상하 padding) */
   max-height: 144px;
-  overflow-y: auto;
+  overflow-x: hidden;            /* 가로 움직임 차단 */
+  overflow-y: auto;             /* 위아래로만 스크롤 */
   overscroll-behavior: contain;
+  touch-action: pan-y;          /* 터치도 세로 패닝만 (가로 흔들림 방지) */
 }
 
 /* 드롭다운 스크롤바 — 얇고 은은하게 */
@@ -1080,6 +1526,16 @@ html.is-safari .ticket-page .gnb__ticket {
    ============================================================ */
 @media (min-width: 390px) and (max-width: 768px) {
 
+  /* 지점 선택 시 퍼지는 버블 파티클 숨김 */
+  .bubble-spark {
+    display: none !important;
+  }
+
+  /* 할인 항목 3개만 보이고 나머지는 스크롤 (행 약 33.4px × 3 + 패딩) */
+  .ticket-discount__body {
+    max-height: 110px;
+  }
+
   /* 카드 gap 10px (가이드 모바일 카드 gap) */
   .ticket-discount-list {
     gap: 10px;
@@ -1179,7 +1635,7 @@ html.is-safari .ticket-page .gnb__ticket {
     left: auto !important;
     top: auto !important;
     transform: translateY(12px) !important;
-    width: 60vw;
+    width: 70vw;
     margin-top: 8px;
     opacity: 0;
     transition: opacity 0.4s ease, transform 0.4s ease;
@@ -1321,13 +1777,13 @@ html.is-safari .ticket-page .gnb__ticket {
   .ticket.is-selected .ticket-spot--ilsan.is-top    .ticket-spot__label { top: 30%; left: 50%; }
   .ticket.is-selected .ticket-spot--yeosu.is-top    .ticket-spot__label { top: 30%; left: 48%; }
   .ticket.is-selected .ticket-spot--jeju.is-top     .ticket-spot__label { top: 30%; left: 55%; }
-  .ticket.is-selected .ticket-spot--gwanggyo.is-top .ticket-spot__label { top: 35%; left: 70%; }
+  .ticket.is-selected .ticket-spot--gwanggyo.is-top .ticket-spot__label { top: 25%; left: 50%; }
 
   /* ── 아래로 내려온 '선택된' 상태일 때: 그 지점이 클릭된 경우 ── */
   .ticket.is-selected .ticket-spot--ilsan.is-selected    .ticket-spot__label { top: 28%; left: 40%; }
-  .ticket.is-selected .ticket-spot--yeosu.is-selected    .ticket-spot__label { top: 25%; left: 50%; }
+  .ticket.is-selected .ticket-spot--yeosu.is-selected    .ticket-spot__label { top: 28%; left: 50%; }
   .ticket.is-selected .ticket-spot--jeju.is-selected     .ticket-spot__label { top: 35%; left: 70%; }
-  .ticket.is-selected .ticket-spot--gwanggyo.is-selected .ticket-spot__label { top: 30%; left: 80%; }
+  .ticket.is-selected .ticket-spot--gwanggyo.is-selected .ticket-spot__label { top: 32%; left: 77%; }
 }
 
 /* Program page header alignment */
@@ -1432,19 +1888,6 @@ html.is-safari .ticket-page .gnb__ticket {
     transition: transform 0.3s ease, opacity 0.25s ease;
   }
 
-  .ticket-page .gnb__hamburger.is-active .gnb__hamburger-line:nth-child(1) {
-    transform: translateY(8.25px) rotate(45deg);
-  }
-
-  .ticket-page .gnb__hamburger.is-active .gnb__hamburger-line:nth-child(2) {
-    opacity: 0;
-    transform: scaleX(0);
-  }
-
-  .ticket-page .gnb__hamburger.is-active .gnb__hamburger-line:nth-child(3) {
-    transform: translateY(-8.25px) rotate(-45deg);
-  }
-
   .ticket-page .gnb__mobile-menu {
     position: fixed;
     inset: 0;
@@ -1464,5 +1907,96 @@ html.is-safari .ticket-page .gnb__ticket {
   .ticket-page .gnb__mobile-menu.is-open {
     opacity: 1;
     pointer-events: auto;
+  }
+
+  /* ── 모바일 메뉴 내부 (index/program 동일 스타일) ── */
+  .ticket-page .gnb__mobile-nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    width: 100%;
+    max-width: 380px;
+    padding: 0 32px;
+  }
+
+  .ticket-page .gnb__mobile-item {
+    width: 100%;
+    text-align: center;
+  }
+
+  /* 공통 링크·버튼 */
+  .ticket-page .gnb__mobile-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    font-family: var(--font-en);
+    font-weight: 300;
+    font-size: clamp(24px, 7vw, 32px);
+    letter-spacing: -0.04em;
+    color: rgba(255, 255, 255, 0.65);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px 0;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .ticket-page .gnb__mobile-link:hover,
+  .ticket-page .gnb__mobile-link:focus-visible {
+    color: #fff;
+  }
+
+  /* 드롭다운 토글 화살표 */
+  .ticket-page .gnb__mobile-link--toggle {
+    gap: 10px;
+  }
+
+  .ticket-page .gnb__mobile-link--toggle::after {
+    content: '';
+    display: block;
+    width: 9px;
+    height: 9px;
+    border-right: 1.5px solid currentColor;
+    border-bottom: 1.5px solid currentColor;
+    transform: rotate(45deg) translateY(-2px);
+    transition: transform 0.25s ease;
+    flex-shrink: 0;
+  }
+
+  .ticket-page .gnb__mobile-item.is-open .gnb__mobile-link--toggle::after {
+    transform: rotate(-135deg) translateY(-2px);
+  }
+
+  /* 서브 메뉴 아코디언 (기본 접힘 → 토글 시 펼침) */
+  .ticket-page .gnb__mobile-sub {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.35s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .ticket-page .gnb__mobile-item.is-open .gnb__mobile-sub {
+    max-height: 260px;
+  }
+
+  .ticket-page .gnb__mobile-sub a {
+    display: block;
+    font-family: var(--font-en);
+    font-weight: 300;
+    font-size: 17px;
+    letter-spacing: -0.02em;
+    color: rgba(255, 255, 255, 0.42);
+    padding: 7px 0;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .ticket-page .gnb__mobile-sub a:hover {
+    color: var(--clr-primary);
   }
 }
