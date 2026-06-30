@@ -83,7 +83,7 @@ button {
 
 .gnb__link,
 .gnb__item {
-  color: #ffffff;
+  color: rgba(255, 255, 255, 0.5);
   font-family: "Poppins", sans-serif;
   font-size: 18px;
   font-weight: 400;
@@ -98,7 +98,7 @@ button {
 .gnb__link.gnb__link--active,
 .gnb__item.gnb__item--active {
   color: #ffffff;
-  font-family: "EB Garamond", serif;
+  font-family: "Poppins", sans-serif;
   font-size: 20px;
   font-weight: 400;
   letter-spacing: -1.12px;
@@ -188,9 +188,9 @@ button {
 .gnb__dropdown-item:hover {
   background-color: #ffffff;
   color: #22b2ea;
-  font-family: "EB Garamond";
-  font-size: 18px;
-  letter-spacing: -0.72px;
+  font-family: "Poppins", sans-serif;
+  font-size: 16px;
+  letter-spacing: -0.64px;
   font-weight: 500;
 }
 
@@ -2262,6 +2262,16 @@ body.marin-view-conservation .m-pill-tabs:not(.m-pill-tabs--cases) {
 /* .marin-stage 전체가 1920px 캔버스를 --marin-scale로 축소하기 때문에,
        hero 텍스트만 역스케일을 곱해 Rescue&Care 히어로와 동일한 실제 렌더링 크기로 되돌린다. */
 .marin-shell--conservation .hero__content {
+  height: calc(100vh / var(--marin-scale, 1));
+  gap: calc(16px / var(--marin-scale, 1));
+  transform: none;
+}
+
+.marin-shell--conservation .hero__content-inner {
+  margin-top: calc(84px / var(--marin-scale, 1));
+}
+
+.marin-shell--conservation .hero__content > * {
   transform: scale(calc(1 / var(--marin-scale, 1)));
 }
 
@@ -3304,6 +3314,20 @@ body.marin-view-conservation .m-pill-tabs:not(.m-pill-tabs--cases) {
     min-height: 100vh;
   }
 
+  body.marin-view-conservation .marin-shell--conservation .hero__content {
+    height: 100vh;
+    gap: 14px;
+  }
+
+  body.marin-view-conservation .marin-shell--conservation .hero__content-inner {
+    margin-top: 60px;
+    max-width: calc(100% - 56px);
+  }
+
+  body.marin-view-conservation .marin-shell--conservation .hero__content > * {
+    transform: none;
+  }
+
   body.marin-view-conservation .m-cons-orbit {
     top: var(--cons-tablet-hero-height) !important;
     width: 100%;
@@ -3492,6 +3516,20 @@ body.marin-view-conservation .m-pill-tabs:not(.m-pill-tabs--cases) {
     width: 100%;
     height: var(--cons-mobile-hero-height) !important;
     min-height: 640px;
+  }
+
+  body.marin-view-conservation .marin-shell--conservation .hero__content {
+    height: 100vh;
+    gap: 12px;
+  }
+
+  body.marin-view-conservation .marin-shell--conservation .hero__content-inner {
+    margin-top: 40px;
+    max-width: calc(100% - 32px);
+  }
+
+  body.marin-view-conservation .marin-shell--conservation .hero__content > * {
+    transform: none;
   }
 
   body.marin-view-conservation .m-cons-orbit {

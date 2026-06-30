@@ -770,3 +770,24 @@ initCustomCursor();
     if (window.innerWidth > 768) closeMenu();
   });
 })();
+
+/* =============================================================
+   배경 영상 — 브라우저 autoplay 정책으로 재생이 막힐 경우를 대비해
+   로드/가시성/첫 사용자 입력 시점마다 재생을 재시도한다.
+   ============================================================= */
+(function initTicketBgVideo() {
+  const video = document.querySelector('.ticket-bg__video');
+  if (!video) return;
+
+  const tryPlay = () => video.play().catch(() => {});
+
+  tryPlay();
+  video.addEventListener('loadeddata', tryPlay);
+  video.addEventListener('canplay', tryPlay);
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) tryPlay();
+  });
+  ['pointerdown', 'keydown', 'touchstart'].forEach(evt => {
+    document.addEventListener(evt, tryPlay, { once: true, passive: true });
+  });
+})();
