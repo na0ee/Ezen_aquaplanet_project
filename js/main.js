@@ -138,6 +138,7 @@ function initSmoothScroll() {
   let crewSnapTargetPanel = 0;
   let crewSnapLocked = false;
   let crewSnapLockTimer = null;
+  let crewFirstPanelWheelAccum = 0;
 
   /* 카드 opacity 전환 완료(transitionend)를 직접 감지해 즉시 잠금 해제.
      opacity >= 0.99 조건으로 카드가 나타나는 방향(0→1)일 때만 해제한다 (숨겨지는 방향 무시). */
@@ -182,6 +183,17 @@ function initSmoothScroll() {
     rafId = requestAnimationFrame(tick);
   }
 
+  function resetCrewFirstPanelWheel() {
+    crewFirstPanelWheelAccum = 0;
+  }
+
+  /* deltaMode별로 단위가 다른 deltaY를 픽셀 기준으로 환산 (마우스/트랙패드 간 편차 보정) */
+  function normalizeWheelMagnitude(e) {
+    if (e.deltaMode === 1) return Math.abs(e.deltaY) * 16;        /* DOM_DELTA_LINE */
+    if (e.deltaMode === 2) return Math.abs(e.deltaY) * window.innerHeight; /* DOM_DELTA_PAGE */
+    return Math.abs(e.deltaY);                                    /* DOM_DELTA_PIXEL */
+  }
+
   window.addEventListener('wheel', (e) => {
     if (diveActive || isTransitioning) {
       e.preventDefault();
@@ -210,7 +222,25 @@ function initSmoothScroll() {
           );
         }
 
-        if (!crewSnapLocked && dir > 0 && crewSnapTargetPanel >= panelCount - 1) {
+        const firstPanelDown = dir > 0 && crewSnapTargetPanel === 0;
+        if (firstPanelDown) {
+          /* 시간 창으로 리셋하지 않고, 아래 방향으로 스크롤하는 동안은 계속 누적
+             (느린 휠/터치패드처럼 이벤트 간격이 벌어지는 기기에서도 결국 임계치에 도달하도록) */
+          crewFirstPanelWheelAccum += normalizeWheelMagnitude(e);
+        } else {
+          resetCrewFirstPanelWheel();
+        }
+
+        if (firstPanelDown && crewFirstPanelWheelAccum >= 80) {
+          crewSnapTargetPanel = 1;
+          targetY = clamp(crewTopAbs + panelH);
+          resetCrewFirstPanelWheel();
+          if (!crewSnapLocked) {
+            crewSnapLocked = true;
+            clearTimeout(crewSnapLockTimer);
+            crewSnapLockTimer = window.setTimeout(() => { crewSnapLocked = false; }, 1300);
+          }
+        } else if (!crewSnapLocked && dir > 0 && crewSnapTargetPanel >= panelCount - 1) {
           /* 마지막 패널에서 아래 스크롤 → 섹션 탈출 */
           targetY = clamp(crewTopAbs + panelCount * panelH);
         } else if (crewSnapLocked) {
@@ -747,8 +777,9 @@ function initIntroScrollGate() {
   }
 
   function scrollIntroBy(deltaY) {
-    const maxStep = 90;
-    const step = Math.sign(deltaY) * Math.min(Math.abs(deltaY), maxStep);
+    const maxStep = 120;
+    const minStep = 18;
+    const step = Math.sign(deltaY) * Math.min(Math.max(Math.abs(deltaY), minStep), maxStep);
     const nextY = Math.max(
       getIntroTop(),
       Math.min(getIntroEnd(), window.scrollY + step)
