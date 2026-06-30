@@ -452,7 +452,7 @@
       if (link) link.href = 'program.html?loc=' + page.en;
     });
 
-    /* guide map floor-tabs 갱신 */
+    /* solo + exhibits 두 섹션의 floor-tabs 모두 갱신 */
     document.querySelectorAll('.loc-map__floor-tabs').forEach(function (tabs) {
       tabs.classList.add('cartegory-tabs', 'cartegory-tabs-a');
       tabs.innerHTML = page.floors.map(function (floor) {
@@ -617,10 +617,12 @@
      ================================================================ */
   /* exhibits 섹션을 기준으로 모든 인터랙션 처리 */
   var mapSection  = document.querySelector('.loc-map--exhibits');
-  var soloSection = null;
+  var soloSection = document.querySelector('.loc-map--solo');
   var mapTransitionEl = document.querySelector('.loc-map-transition');
-  var soloWrapEl = null;
+  var soloWrapEl  = document.querySelector('.loc-map-wrap--solo');
   var exhibitsWrapEl = document.querySelector('.loc-map-wrap--exhibits');
+  var soloImg     = document.getElementById('loc-map-img-solo');
+  var soloMarkersEl = document.getElementById('loc-map-markers-solo');
   var mapImg      = document.getElementById('loc-map-img');
   var markerWrap  = mapSection ? mapSection.querySelector('.loc-map__markers') : null;
   var bubbleWrap  = mapSection ? mapSection.querySelector('.loc-map__bubbles')  : null;
@@ -645,12 +647,6 @@
     '1F':  'assets/images/location/jeju1f.svg',
     'B1F': 'assets/images/location/jejuB1f.svg'
   };
-  var MAP_ASSET_VERSION = '20260630-14';
-  function withMapVersion(src) {
-    if (!src) return src;
-    return src + (src.indexOf('?') === -1 ? '?v=' : '&v=') + MAP_ASSET_VERSION;
-  }
-
   var ACTIVE_MAPS = isIlsan     ? LOCATION_PAGES.ilsan.maps
                  : isYeosu    ? LOCATION_PAGES.yeosu.maps
                  : isGwanggyo ? LOCATION_PAGES.gwanggyo.maps
@@ -938,17 +934,18 @@
   function updateMapScale() {
     var s = getMapScale().toFixed(4);
     if (mapSection)  mapSection.style.setProperty('--map-s', s);
+    if (soloSection) soloSection.style.setProperty('--map-s', s);
   }
 
   function getMapOffsetY() {
-    if (!mapSection) return 0;
-    var value = window.getComputedStyle(mapSection).getPropertyValue('--map-offset-y');
+    if (!soloSection) return 0;
+    var value = window.getComputedStyle(soloSection).getPropertyValue('--map-offset-y');
     return parseFloat(value) || 0;
   }
 
   function getSoloMapScale() {
-    if (!mapSection) return 0.56;
-    var value = window.getComputedStyle(mapSection).getPropertyValue('--solo-map-scale');
+    if (!soloSection) return 0.56;
+    var value = window.getComputedStyle(soloSection).getPropertyValue('--solo-map-scale');
     return parseFloat(value) || 0.56;
   }
 
@@ -1013,11 +1010,16 @@
     }
   }
 
+  function isResponsiveMapLayout() {
+    return window.matchMedia('(max-width: 1180px)').matches;
+  }
+
   /* 중앙 → 위쪽 인접 → 아래쪽 인접 → 양 끝 순서로 우선 배치 */
   var BUBBLE_SLOT_PRIORITY = [2, 1, 3, 0, 4];
 
   function getPriorityBubbles(zone, advance) {
     var zoneItems = currentExhibits.filter(function (exhibit) { return exhibit.zone === zone; });
+    var otherItems = currentExhibits.filter(function (exhibit) { return exhibit.zone !== zone; });
 
     if (advance && activeZone === zone && zoneItems.length > 5) {
       zoneCursor = (zoneCursor + 1) % zoneItems.length;
@@ -1029,6 +1031,10 @@
     var priorityCount = Math.min(zoneItems.length, 5);
     for (var i = 0; i < priorityCount; i += 1) {
       prioritized.push(zoneItems[(zoneCursor + i) % zoneItems.length]);
+    }
+
+    for (var j = 0; prioritized.length < 5 && j < otherItems.length; j += 1) {
+      prioritized.push(otherItems[j]);
     }
 
     return prioritized.map(function (exhibit, priorityIndex) {
@@ -1054,9 +1060,9 @@
         parts.forEach(function (part) {
           if (!part.animate) return;
           part.animate([
-            { transform: 'translateY(' + (dir * 34) + 'px) scale(0.94)' },
-            { transform: 'translateY(' + (dir * -9) + 'px) scale(1.035)', offset: 0.72 },
-            { transform: 'translateY(0) scale(1)' }
+            { transform: 'translateX(' + (dir * 34) + 'px) scale(0.94)' },
+            { transform: 'translateX(' + (dir * -9) + 'px) scale(1.035)', offset: 0.72 },
+            { transform: 'translateX(0) scale(1)' }
           ], {
             duration: 520,
             delay: index * 42,
@@ -1070,11 +1076,16 @@
 
   function renderZone(zone, advance, reason) {
     var visible = getPriorityBubbles(zone, advance);
+    var isMarkerReason = reason === 'marker' || reason === 'solo-marker';
+    var shouldKeepScroll = isResponsiveMapLayout() && isMarkerReason;
+    var keepScrollX = shouldKeepScroll ? window.scrollX : 0;
+    var keepScrollY = shouldKeepScroll ? window.scrollY : 0;
     renderVersion += 1;
     isOrbiting = false;
     mapSection.classList.remove('has-detail');
-    mapSection.classList.toggle('is-bubble-open', reason === 'marker');
-    mapSection.classList.toggle('is-visible', reason === 'marker');
+    mapSection.classList.toggle('is-bubble-open', isMarkerReason);
+    mapSection.classList.toggle('is-visible', isMarkerReason);
+    mapSection.classList.toggle('is-solo-picked', reason === 'solo-marker');
     if (mapTransitionEl) mapTransitionEl.classList.remove('has-detail');
     bubbleWrap.replaceChildren();
     visible.forEach(function (item) {
@@ -1086,13 +1097,18 @@
     centerBubbleRail();
     animateBubbleEntrance(reason || (advance ? 'marker' : 'zone'));
 
-    var shouldHighlightMarker = reason === 'marker';
-    [markerWrap].forEach(function (wrap) {
+    [markerWrap, soloMarkersEl].forEach(function (wrap) {
       if (!wrap) return;
       wrap.querySelectorAll('.loc-map__marker').forEach(function (marker) {
-        marker.classList.toggle('is-active', shouldHighlightMarker && marker.dataset.zone === zone);
+        marker.classList.toggle('is-active', marker.dataset.zone === zone);
       });
     });
+
+    if (shouldKeepScroll) {
+      window.requestAnimationFrame(function () {
+        window.scrollTo(keepScrollX, keepScrollY);
+      });
+    }
   }
 
   function renderMarkers(floor) {
@@ -1121,21 +1137,52 @@
       position.top = position.top / position.count;
     });
 
+    /* Exhibits 마커: 클릭 시 해당 존 버블 표시 */
     if (markerWrap) {
       markerWrap.replaceChildren();
-      groupedPositions.forEach(function (position) {
+      var responsive = isResponsiveMapLayout();
+      var exhibitPositions = responsive ? groupedPositions : positions;
+      exhibitPositions.forEach(function (position) {
         var marker = document.createElement('button');
         marker.type = 'button';
         marker.className = 'loc-map__marker';
         marker.dataset.zone = position.zone;
-        marker.style.left = (position.left / 1320 * 100).toFixed(4) + '%';
-        marker.style.top = (position.top / 790 * 100).toFixed(4) + '%';
+        marker.style.left = responsive ? (position.left / 1320 * 100).toFixed(4) + '%' : position.left + 'px';
+        marker.style.top = responsive ? (position.top / 790 * 100).toFixed(4) + '%' : position.top + 'px';
         marker.textContent = position.zone;
         marker.setAttribute('aria-label', position.zone + '구역 ' + (labels[position.zone] || '') + ' 보기');
-        marker.addEventListener('click', function () {
+        marker.addEventListener('pointerdown', function (event) {
+          if (isResponsiveMapLayout()) event.preventDefault();
+        });
+        marker.addEventListener('click', function (event) {
+          if (isResponsiveMapLayout()) event.preventDefault();
           renderZone(position.zone, true, 'marker');
         });
         markerWrap.appendChild(marker);
+      });
+    }
+
+    /* Solo 마커: 클릭 시 해당 존 선택 후 exhibits 섹션으로 스크롤 */
+    if (soloMarkersEl) {
+      soloMarkersEl.replaceChildren();
+      positions.forEach(function (position) {
+        var marker = document.createElement('button');
+        marker.type = 'button';
+        marker.className = 'loc-map__marker';
+        marker.dataset.zone = position.zone;
+        marker.style.left = position.left + 'px';
+        marker.style.top = position.top + 'px';
+        marker.textContent = position.zone;
+        marker.setAttribute('aria-label', (labels[position.zone] || position.zone) + '구역 보기');
+        marker.addEventListener('click', function () {
+          renderZone(position.zone, false, 'solo-marker');
+          if (window.matchMedia('(max-width: 820px)').matches) {
+            revealExhibitsMap();
+          } else {
+            scrollToExhibitsMap();
+          }
+        });
+        soloMarkersEl.appendChild(marker);
       });
     }
   }
@@ -1152,10 +1199,6 @@
     currentExhibits = exhibits;
     activeZone = '';
     zoneCursor = 0;
-    if (mapSection) {
-      mapSection.classList.remove('is-bubble-open', 'is-visible', 'has-detail');
-    }
-    if (mapTransitionEl) mapTransitionEl.classList.remove('has-detail');
     currentDataByKey = {};
     exhibits.forEach(function (exhibit) { currentDataByKey[exhibit.key] = exhibit; });
 
@@ -1169,11 +1212,18 @@
 
     var locationName = isIlsan ? '일산' : isYeosu ? '여수' : isGwanggyo ? '광교' : '제주';
     if (mapImg) {
-      mapImg.src = withMapVersion(ACTIVE_MAPS[floor]);
+      mapImg.src = ACTIVE_MAPS[floor];
       mapImg.alt = '아쿠아플라넷 ' + locationName + ' 가이드 맵 ' + floor;
       mapImg.style.transform = (isGwanggyo && floor === 'B2F') ? 'rotate(180deg)' : '';
     }
+    /* Solo 섹션 맵 이미지도 동기화 */
+    if (soloImg) {
+      soloImg.src = ACTIVE_MAPS[floor];
+      soloImg.alt = '아쿠아플라넷 ' + locationName + ' 가이드 맵 ' + floor;
+      soloImg.style.transform = (isGwanggyo && floor === 'B2F') ? 'rotate(180deg)' : '';
+    }
     if (mapSection)  mapSection.dataset.floor  = floor;
+    if (soloSection) soloSection.dataset.floor = floor;
     floorTabs.forEach(function (tab) {
       var active = tab.dataset.floor === floor;
       tab.classList.toggle('is-active', active);
@@ -1192,6 +1242,7 @@
   var soloHeaderEl = soloSection ? soloSection.querySelector('.loc-map__header') : null;
   var soloHintEl = soloSection ? soloSection.querySelector('.loc-map__hint') : null;
   var soloAutoTimer = null;
+  var mapScrollRaf = null;
   var soloAutoTransition = false;
   var soloAutoScrolled = false;
 
@@ -1202,7 +1253,8 @@
   }
 
   var MAP_TRANSITION_START = 0.02;
-  var MAP_TRANSITION_LENGTH = 0.16;
+  var MAP_TRANSITION_LENGTH = 0.3;
+  var MAP_SCROLL_DURATION = 1400;
 
   function showExhibitsMap() {
     soloSection.style.opacity = '1';
@@ -1240,13 +1292,42 @@
     });
   }
 
+  function easeInOutCubic(t) {
+    return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  }
+
+  function animateMapScrollTo(targetY) {
+    if (mapScrollRaf) window.cancelAnimationFrame(mapScrollRaf);
+    var startY = window.scrollY || window.pageYOffset || 0;
+    var deltaY = targetY - startY;
+    var startedAt = window.performance.now();
+
+    if (Math.abs(deltaY) < 2) {
+      window.scrollTo(0, targetY);
+      return;
+    }
+
+    function step(now) {
+      var progress = Math.min(1, (now - startedAt) / MAP_SCROLL_DURATION);
+      var eased = easeInOutCubic(progress);
+      window.scrollTo(0, startY + deltaY * eased);
+      if (progress < 1) {
+        mapScrollRaf = window.requestAnimationFrame(step);
+      } else {
+        mapScrollRaf = null;
+      }
+    }
+
+    mapScrollRaf = window.requestAnimationFrame(step);
+  }
+
   function scrollToExhibitsMap() {
     var transitionEl = mapTransitionEl || soloWrapEl;
     if (!transitionEl || soloAutoScrolled) return;
     soloAutoScrolled = true;
     var scrollSpan = Math.max(1, transitionEl.offsetHeight - window.innerHeight);
     var targetY = transitionEl.offsetTop + scrollSpan * (MAP_TRANSITION_START + MAP_TRANSITION_LENGTH);
-    window.scrollTo({ top: targetY, behavior: 'smooth' });
+    animateMapScrollTo(targetY);
   }
 
   function getExhibitsMapScale() {
@@ -1258,13 +1339,18 @@
     return -235 * scale;
   }
 
+  function easeMapTransition(progress) {
+    return progress * progress * (3 - 2 * progress);
+  }
+
   function applySingleMapTransition(progress) {
     if (!soloStageEl) return;
+    var easedProgress = easeMapTransition(progress);
     var s = getMapScale();
     var startScale = getSoloMapScale();
     var endScale = getExhibitsMapScale();
-    var sc = (startScale + (endScale - startScale) * progress) * s;
-    var xOff = (getExhibitsMapXOffset(s) * progress).toFixed(2);
+    var sc = (startScale + (endScale - startScale) * easedProgress) * s;
+    var xOff = (getExhibitsMapXOffset(s) * easedProgress).toFixed(2);
     var yOff = getMapOffsetY().toFixed(2);
     soloStageEl.style.transform =
       'translate(calc(-50% + ' + xOff + 'px), calc(-50% + ' + yOff + 'px)) scale(' + sc.toFixed(4) + ')';
@@ -1314,9 +1400,16 @@
       soloSection.style.pointerEvents = '';
       if (soloStageEl) soloStageEl.style.transform = '';
       updateSoloChrome(0);
-      mapSection.style.opacity       = '0';
-      mapSection.style.pointerEvents = 'none';
-      mapSection.classList.remove('is-visible', 'has-detail');
+      if (mapSection.classList.contains('is-bubble-open')) {
+        mapSection.style.opacity       = '1';
+        mapSection.style.pointerEvents = '';
+        mapSection.classList.add('is-visible');
+        mapSection.classList.remove('has-detail');
+      } else {
+        mapSection.style.opacity       = '0';
+        mapSection.style.pointerEvents = 'none';
+        mapSection.classList.remove('is-visible', 'has-detail');
+      }
 
     } else if (progress >= 1) {
       /* 전환 완료: solo 숨김, exhibits 완전 표시 */
@@ -1324,8 +1417,8 @@
 
     } else {
       /* 전환 중: 실제 맵은 solo stage 하나만 유지하고 UI만 페이드인 */
-      var mapProg = Math.max(0, Math.min(1, progress / 0.45));
-      var exProg = Math.max(0, Math.min(1, progress / 0.28));
+      var mapProg = Math.max(0, Math.min(1, progress / 0.9));
+      var exProg = Math.max(0, Math.min(1, progress / 0.72));
       soloSection.style.opacity      = '1';
       soloSection.style.pointerEvents = 'none';
       applySingleMapTransition(mapProg);
@@ -1537,26 +1630,38 @@
       });
     };
 
-    /* 닫기 버튼 — 회전된 비선택 버블들을 원래 자리로 복귀 후 상태 해제 */
+    function closeMapDetail() {
+      if (!mapSection.classList.contains('has-detail')) return;
+      /* 비선택 버블: 회전된 위치 → 원래 자리로 트랜지션 */
+      mapBubbles.forEach(function (b) {
+        b.style.transition = 'transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1)';
+      });
+      /* reflow 강제 후 transform 제거 → CSS scale(1) 으로 귀환 */
+      void mapSection.offsetHeight;
+      mapBubbles.forEach(function (b) {
+        b.style.transform = '';
+        b.classList.remove('is-selected');
+      });
+      mapSection.classList.remove('has-detail');
+      if (mapTransitionEl) mapTransitionEl.classList.remove('has-detail');
+      setTimeout(function () {
+        mapBubbles.forEach(function (b) { b.style.transition = ''; });
+      }, 560);
+    }
+
     if (closeBtn) {
-      closeBtn.addEventListener('click', function () {
-        /* 비선택 버블: 회전된 위치 → 원래 자리로 트랜지션 */
-        mapBubbles.forEach(function (b) {
-          b.style.transition = 'transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1)';
-        });
-        /* reflow 강제 후 transform 제거 → CSS scale(1) 으로 귀환 */
-        void mapSection.offsetHeight;
-        mapBubbles.forEach(function (b) {
-          b.style.transform = '';
-          b.classList.remove('is-selected');
-        });
-        mapSection.classList.remove('has-detail');
-        if (mapTransitionEl) mapTransitionEl.classList.remove('has-detail');
-        setTimeout(function () {
-          mapBubbles.forEach(function (b) { b.style.transition = ''; });
-        }, 560);
+      closeBtn.addEventListener('click', function (event) {
+        event.stopPropagation();
+        closeMapDetail();
       });
     }
+
+    mapSection.addEventListener('click', function (event) {
+      if (!mapSection.classList.contains('has-detail')) return;
+      if (detailEl && detailEl.contains(event.target)) return;
+      if (event.target.closest('.loc-map__bubble')) return;
+      closeMapDetail();
+    });
 
     floorTabs.forEach(function (tab) {
       tab.addEventListener('click', function () {

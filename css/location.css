@@ -611,7 +611,7 @@ body[data-location="gwanggyo"] { --intro-card-w: 700px; }
 
 .loc-map-transition {
   position: relative;
-  min-height: 100vh;
+  height: calc(100vh + 1200px);
   background: var(--bg-detail);
   margin-bottom: 120px;
 }
@@ -625,8 +625,9 @@ body[data-location="gwanggyo"] { --intro-card-w: 700px; }
 
 /* ── Exhibits 래퍼: solo와 같은 sticky 구간에 겹침 ── */
 .loc-map-wrap--exhibits {
-  position: relative;
-  min-height: 100vh;
+  position: absolute;
+  inset: 0;
+  height: 100%;
   margin-top: 0;
 }
 
@@ -663,8 +664,8 @@ body[data-location="gwanggyo"] .loc-map {
 /* Exhibits: solo 위에 렌더, JS로 opacity 제어 */
 .loc-map--exhibits {
   z-index: 2;
-  opacity: 1;
-  pointer-events: auto;
+  opacity: 0;
+  pointer-events: none;
 }
 
 /* Solo 헤더: 타이틀↔탭 24px */
@@ -777,7 +778,9 @@ body[data-location="gwanggyo"] .loc-map {
 }
 
 /* 버블 노출 시 맵 중심(x=780) 상단 중앙으로 이동 */
-.loc-map.is-hovering .loc-map__floor-tabs { transform: none; }
+.loc-map.is-hovering .loc-map__floor-tabs {
+  transform: translate(50px, 310px);
+}
 
 /* 상세 카드 노출 시 지도와 함께 층 탭 숨김 */
 .loc-map.has-detail .loc-map__floor-tabs {
@@ -851,7 +854,7 @@ body[data-location="gwanggyo"] .loc-map {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0;
+  gap: calc(80px * var(--map-s, 1));
 }
 
 /* 맵 컬럼 — 스테이지를 top-left 기준 scale로 담는 컨테이너 */
@@ -886,39 +889,22 @@ body[data-location="gwanggyo"] .loc-map {
 
 /* 버블 컬럼 — 버블 절대 좌표의 기준점 */
 .loc-exhibits__bubble-side {
-  position: absolute;
-  left: 50%;
-  bottom: 78px;
-  z-index: 35;
-  width: min(100% - 64px, 920px);
-  height: auto;
-  transform: translate(-50%, 130%);
-  opacity: 0;
-  pointer-events: none;
-  transition: transform 0.58s cubic-bezier(0.2, 0.9, 0.2, 1),
-              opacity 0.28s ease;
+  position: relative;
+  flex-shrink: 0;
+  width:  calc(390px  * var(--map-s, 1));
+  height: calc(880px * var(--map-s, 1));
 }
 
 .loc-exhibits__bubble-side .loc-map__bubbles {
-  position: relative;
-  inset: auto;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  gap: clamp(18px, 4vw, 44px);
-  pointer-events: auto;
-}
-
-.loc-map--exhibits.is-bubble-open .loc-exhibits__bubble-side {
-  transform: translate(-50%, 0);
-  opacity: 1;
-  pointer-events: auto;
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
 }
 
 .loc-map__bubble-hint {
   position: absolute;
   left: 50%;
-  bottom: 46px;
+  bottom: 116px;
   transform: translateX(-50%);
   z-index: 31;
   display: flex;
@@ -1083,13 +1069,13 @@ body[data-location="gwanggyo"] .loc-map {
 }
 
 .loc-map__bubble {
-  position: relative;
+  position: absolute;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 10px;
   opacity: 0;
-  transform: translateY(22px) scale(0.86);
+  transform: scale(0.4);
   transform-origin: center center;
   z-index: 1;
   transition: opacity  0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
@@ -1100,16 +1086,9 @@ body[data-location="gwanggyo"] .loc-map {
 /* Exhibits — is-visible 시 버블 팝인, 클릭 가능 */
 .loc-map--exhibits.is-visible .loc-map__bubble {
   opacity: 1;
-  transform: translateY(0) scale(1);
+  transform: scale(1);
   pointer-events: auto;
   cursor: pointer;
-}
-
-.loc-exhibits__bubble-side .loc-map__bubble {
-  left: auto !important;
-  top: auto !important;
-  width: clamp(92px, 9vw, 126px) !important;
-  flex: 0 0 clamp(92px, 9vw, 126px);
 }
 
 /* Exhibits — is-visible 시 마커 클릭 가능 */
@@ -3508,6 +3487,11 @@ body.location-page .loc-hours__notice.loc-reveal-content {
     margin: 0 !important;
   }
 
+  body.location-page .loc-map-wrap--solo,
+  body.location-page .loc-map--solo {
+    display: none !important;
+  }
+
   body.location-page .loc-map--exhibits {
     position: relative !important;
     top: auto !important;
@@ -3909,7 +3893,7 @@ body.location-page .loc-map--exhibits .loc-exhibits__bubble-side {
   opacity: 0;
   pointer-events: none;
   transform: translateY(34px) !important;
-  transition: opacity 0.28s ease, transform 0.46s cubic-bezier(0.2, 0.9, 0.2, 1);
+  transition: opacity 0.45s ease, transform 0.78s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 body.location-page .loc-map--exhibits.is-bubble-open .loc-exhibits__bubble-side {
@@ -3939,12 +3923,12 @@ body.location-page .loc-map--exhibits .loc-map__bubble {
   width: clamp(90px, 8vw, 126px) !important;
   flex: 0 0 clamp(90px, 8vw, 126px);
   opacity: 0;
-  transform: translateY(18px) scale(0.92) !important;
+  transform: translateY(18px) scale(0.92);
 }
 
 body.location-page .loc-map--exhibits.is-visible .loc-map__bubble {
   opacity: 1;
-  transform: translateY(0) scale(1) !important;
+  transform: translateY(0) scale(1);
 }
 
 body.location-page .loc-map--exhibits .loc-map__bubble-circle {
@@ -3988,17 +3972,103 @@ body.location-page .loc-map--exhibits.has-detail .loc-map__detail {
 }
 
 @media (min-width: 1181px) {
+  body.location-page .loc-map-transition {
+    position: relative !important;
+    height: calc(100vh + 1200px) !important;
+    min-height: 0 !important;
+    margin-bottom: 120px !important;
+  }
+
+  body.location-page .loc-map-wrap--solo,
+  body.location-page .loc-map-wrap--exhibits {
+    position: absolute !important;
+    inset: 0 !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+  }
+
+  body.location-page .loc-map--solo,
   body.location-page .loc-map--exhibits {
+    position: sticky !important;
+    top: 0 !important;
+    height: 100vh !important;
     min-height: 100vh;
-    padding: clamp(112px, 12vh, 150px) 0 clamp(84px, 10vh, 130px);
+    padding: 0 !important;
+  }
+
+  body.location-page .loc-map--exhibits {
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  body.location-page .loc-map--exhibits.is-visible {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+
+  body.location-page .loc-map--exhibits.is-solo-picked {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+
+  body.location-page .loc-map--solo .loc-map__header,
+  body.location-page .loc-map--exhibits .loc-map__header {
+    position: absolute !important;
+    left: 50% !important;
+    top: 160px !important;
+    transform: translateX(-50%) !important;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    margin: 0 !important;
+    pointer-events: none;
+  }
+
+  body.location-page .loc-map--solo .loc-map__floor-tabs,
+  body.location-page .loc-map--exhibits .loc-map__floor-tabs {
+    pointer-events: auto;
+  }
+
+  body.location-page .loc-map--solo .loc-map__title-light,
+  body.location-page .loc-map--exhibits .loc-map__title-light {
+    font-size: 58px;
+  }
+
+  body.location-page .loc-map--solo .loc-map__title-serif,
+  body.location-page .loc-map--exhibits .loc-map__title-serif {
+    font-size: 56px;
+  }
+
+  body.location-page .loc-map--solo .loc-map__stage {
+    position: absolute !important;
+    left: 50% !important;
+    top: 50% !important;
+    width: 1320px !important;
+    height: 790px !important;
+    transform: translate(-50%, calc(-50% + var(--map-offset-y, 0px))) scale(calc(var(--map-s, 1) * var(--solo-map-scale, 0.56))) !important;
+    transform-origin: 50% 50%;
+  }
+
+  body.location-page .loc-map--solo .loc-map__hint {
+    position: absolute !important;
+    left: 50% !important;
+    top: calc(50% + calc(var(--solo-map-half-h, 221px) * var(--map-s, 1)) + var(--map-offset-y, 0px) + 12px) !important;
+    transform: translateX(-50%) !important;
+    margin: 0 !important;
   }
 
   body.location-page .loc-map--exhibits .loc-exhibits__inner {
+    position: absolute !important;
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    width: min(100% - 80px, 1394px);
-    gap: 80px;
+    width: auto;
+    margin: 0 !important;
+    gap: calc(80px * var(--map-s, 1));
   }
 
   body.location-page .loc-map--exhibits .loc-exhibits__map-side {
@@ -4022,17 +4092,13 @@ body.location-page .loc-map--exhibits.has-detail .loc-map__detail {
     position: relative !important;
     left: auto !important;
     bottom: auto !important;
-    flex: 0 0 calc(330px * var(--map-s, 1));
-    width: calc(330px * var(--map-s, 1)) !important;
-    height: calc(870px * var(--map-s, 1)) !important;
+    flex: 0 0 calc(390px * var(--map-s, 1));
+    width: calc(390px * var(--map-s, 1)) !important;
+    height: calc(880px * var(--map-s, 1)) !important;
     margin: 0 !important;
-    opacity: 0;
-    transform: translateX(28px) !important;
-  }
-
-  body.location-page .loc-map--exhibits.is-bubble-open .loc-exhibits__bubble-side {
-    opacity: 1;
-    transform: translateX(0) !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    transform: none !important;
   }
 
   body.location-page .loc-map--exhibits .loc-map__bubbles {
@@ -4063,6 +4129,15 @@ body.location-page .loc-map--exhibits.has-detail .loc-map__detail {
 
   body.location-page .loc-map--exhibits .loc-map__bubble-name {
     white-space: nowrap;
+  }
+
+  body.location-page .loc-map--exhibits .loc-map__bubble-hint {
+    position: absolute !important;
+    left: 50% !important;
+    bottom: 116px !important;
+    transform: translateX(-50%) !important;
+    width: min(100% - 40px, 520px);
+    margin: 0 !important;
   }
 }
 
@@ -4320,7 +4395,9 @@ body.location-page .loc-map--exhibits .loc-map__marker:hover::after {
     padding: 20px 20px 8px !important;
     overflow-x: hidden !important;
     overflow-y: visible !important;
-    scroll-padding-inline: 20px !important;
+    -webkit-overflow-scrolling: auto !important;
+    scroll-padding-inline: 0 !important;
+    touch-action: pan-y;
   }
 
   body.location-page .loc-map--exhibits .loc-map__bubbles {
@@ -4374,6 +4451,133 @@ body.location-page .loc-map--exhibits .loc-map__marker:hover::after {
     box-shadow:
       0 0 0 3px rgba(255, 255, 255, 0.22),
       0 0 0 6px rgba(34, 178, 234, 0.24) !important;
+  }
+}
+
+@media (max-width: 1180px) {
+  body.location-page .loc-map-transition,
+  body.location-page .loc-map-wrap,
+  body.location-page .loc-map-wrap--exhibits,
+  body.location-page .loc-map--exhibits,
+  body.location-page .loc-map--exhibits .loc-exhibits__inner,
+  body.location-page .loc-map--exhibits .loc-exhibits__map-side,
+  body.location-page .loc-map--exhibits .loc-exhibits__bubble-side {
+    overflow-anchor: none;
+    overflow: visible !important;
+  }
+
+  body.location-page .loc-map--exhibits {
+    overscroll-behavior: auto;
+  }
+
+  body.location-page .loc-map--exhibits .loc-map__marker.is-active,
+  body.location-page .loc-map--exhibits .loc-map__marker.is-active:hover {
+    background: #fff !important;
+    border-color: #fff !important;
+    color: var(--clr-primary, #22B2EA) !important;
+    box-shadow:
+      0 0 0 4px rgba(255, 255, 255, 0.24),
+      0 0 0 8px rgba(255, 255, 255, 0.18) !important;
+  }
+}
+
+@media (max-width: 820px) {
+  body.location-page .loc-map--exhibits .loc-map__detail {
+    width: min(70vw, 320px) !important;
+    max-height: none !important;
+    overflow: visible !important;
+    padding: 8px !important;
+  }
+
+  body.location-page .loc-map--exhibits .loc-map__detail-img-wrap {
+    aspect-ratio: 16 / 7.2 !important;
+    margin-bottom: 10px !important;
+  }
+
+  body.location-page .loc-map--exhibits .loc-map__detail-header {
+    gap: 10px !important;
+    margin-bottom: 10px !important;
+  }
+}
+
+body.location-page .loc-map--exhibits.has-detail .loc-map__stage {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+body.location-page .loc-map--exhibits.has-detail .loc-map__detail {
+  overflow: visible !important;
+}
+
+body.location-page .loc-map--exhibits.has-detail .loc-map__floor-tabs {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+body.location-page .loc-map--exhibits.has-detail .loc-map__header {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+body.location-page .loc-map--exhibits .loc-map__detail-close {
+  z-index: 30 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+}
+
+body.location-page .loc-map--exhibits.is-bubble-open .loc-map__title {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+@media (min-width: 1181px) {
+  body.location-page .loc-map--exhibits .loc-map__marker,
+  body.location-page .loc-map--exhibits .loc-map__marker:hover,
+  body.location-page .loc-map--exhibits .loc-map__marker.is-active {
+    width: 52px !important;
+    height: 52px !important;
+    border-width: 2px !important;
+    font-size: 24px !important;
+    box-shadow: none !important;
+    transform: none !important;
+  }
+
+  body.location-page .loc-map--exhibits .loc-map__marker:hover {
+    transform: scale(1.1) !important;
+  }
+
+  body.location-page .loc-map--exhibits .loc-map__marker.is-active,
+  body.location-page .loc-map--exhibits .loc-map__marker.is-active:hover {
+    background: #fff !important;
+    border-color: #fff !important;
+    color: var(--clr-primary, #22B2EA) !important;
+    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.22) !important;
+  }
+
+  body.location-page .loc-map--exhibits .loc-map__marker::after,
+  body.location-page .loc-map--exhibits .loc-map__marker.is-active::after,
+  body.location-page .loc-map--exhibits .loc-map__marker:hover::after {
+    content: '' !important;
+    display: block !important;
+    position: absolute;
+    inset: -8px;
+    border-radius: 50%;
+    border: 2px solid rgba(34, 178, 234, 0.45);
+    background: rgba(34, 178, 234, 0.12);
+    z-index: -1;
+    pointer-events: none;
+    animation: loc-marker-pulse 1.7s ease-in-out infinite;
+  }
+
+  body.location-page .loc-map--exhibits .loc-map__marker:hover::after,
+  body.location-page .loc-map--exhibits .loc-map__marker.is-active::after {
+    border-color: rgba(255, 255, 255, 0.75);
+    background: rgba(255, 255, 255, 0.18);
   }
 }
 
