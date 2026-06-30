@@ -1758,7 +1758,7 @@ button {
   .section-head p {
     max-width: calc(100% - 40px);
     margin: 12px auto 40px;
-    font-size: 14px;
+    font-size: 13px;
     line-height: 1.55;
     word-break: keep-all;
   }
@@ -1896,7 +1896,7 @@ button {
   }
 
   .case-card {
-    height: min(620px, calc(100vh - 120px));
+    height: min(640px, calc(100svh - 96px));
     min-height: 520px;
   }
 
@@ -1904,7 +1904,7 @@ button {
     top: 18px;
     left: 18px;
     right: 18px;
-    bottom: 18px;
+    bottom: calc(18px + env(safe-area-inset-bottom));
     gap: 24px;
     flex-direction: column;
     align-items: flex-start;

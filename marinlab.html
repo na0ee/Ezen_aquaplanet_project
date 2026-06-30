@@ -1363,10 +1363,14 @@
 
         let mm = gsap.matchMedia();
 
-        mm.add("all", () => {
+        mm.add({
+          isDesktop: '(min-width: 769px)',
+          isMobile: '(max-width: 768px)'
+        }, (context) => {
+          const { isMobile } = context.conditions;
           caseScrollTrigger = ScrollTrigger.create({
             trigger: spotlight,
-            start: 'center center+=51',
+            start: isMobile ? 'top top+=85' : 'center center+=51',
             end: () => '+=' + (Math.max(1, getTotal() - 1) * window.innerHeight),
             pin: spotlight,
             pinSpacing: true,
