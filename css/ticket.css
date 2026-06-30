@@ -80,6 +80,84 @@ body.ticket-open {
   mix-blend-mode: screen;
 }
 
+/* Ticket uses a very bright underwater stage. Keep the shared GNB readable
+   even when Safari/wide-gamut compositing makes the light rays brighter. */
+.ticket-page .gnb {
+  transform: translateZ(0) !important;
+  opacity: 1 !important;
+}
+
+.ticket-page .gnb.gnb--hidden {
+  transform: translateZ(0) !important;
+}
+
+.ticket-page .gnb::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(5, 34, 62, 0.42) 0%, rgba(5, 34, 62, 0) 100%);
+  -webkit-mask-image: linear-gradient(180deg, #000 62%, transparent 100%);
+  mask-image: linear-gradient(180deg, #000 62%, transparent 100%);
+}
+
+.ticket-page .gnb__link,
+.ticket-page .gnb__nav-item > .gnb__link {
+  color: rgba(255, 255, 255, 0.86);
+  text-shadow: 0 2px 10px rgba(0, 40, 80, 0.42);
+}
+
+.ticket-page .gnb__link:hover,
+.ticket-page .gnb__nav-item:hover > .gnb__link {
+  color: #fff;
+}
+
+.ticket-page .gnb__logo {
+  opacity: 1;
+  filter: drop-shadow(0 2px 10px rgba(0, 40, 80, 0.22));
+}
+
+html.is-safari #light-rays {
+  height: 460px;
+  opacity: 0.28;
+  background: transparent;
+}
+
+html.is-safari #light-rays canvas {
+  opacity: 0.35;
+  mix-blend-mode: normal;
+}
+
+html.is-safari .ticket-bg::after {
+  background:
+    linear-gradient(180deg, rgba(34, 178, 234, 0.34) 0%, rgba(34, 178, 234, 0.16) 48%, rgba(255, 255, 255, 0.18) 100%),
+    radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.08), transparent 38%);
+}
+
+html.is-safari .ticket-page .gnb::before {
+  background: linear-gradient(180deg, rgba(4, 28, 54, 0.72) 0%, rgba(4, 28, 54, 0.30) 58%, rgba(4, 28, 54, 0) 100%);
+}
+
+html.is-safari .ticket-page .gnb__link,
+html.is-safari .ticket-page .gnb__nav-item > .gnb__link {
+  color: #fff;
+  text-shadow:
+    0 1px 2px rgba(0, 20, 40, 0.72),
+    0 0 14px rgba(0, 45, 90, 0.72);
+}
+
+html.is-safari .ticket-page .gnb__ticket {
+  background: rgba(9, 64, 102, 0.58);
+  box-shadow: 0 8px 26px rgba(0, 45, 80, 0.22);
+}
+
+@supports (-webkit-hyphens: none) {
+  #light-rays canvas {
+    mix-blend-mode: normal;
+  }
+}
+
 
 /* --- 타이틀 --- */
 .ticket__title {
