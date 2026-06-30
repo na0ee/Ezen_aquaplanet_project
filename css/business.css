@@ -4074,7 +4074,7 @@ body.biz-page.mobile-menu-open .gnb {
 @media (max-width: 390px) {
   .biz-page .biz-overview-head__desc {
     max-width: 390px !important;
-    font-size: clamp(14px, 3.6vw, 14px) !important;
+    font-size: clamp(13px, 3.6vw, 13px) !important;
   }
 
   .biz-page .biz-overview-head__title em {
@@ -4142,7 +4142,7 @@ body.biz-page {
     width: 100%;
     max-width: 350px;
     margin: 0 auto;
-    font-size: clamp(14px, 3.6vw, 14px);
+    font-size: clamp(13px, 3.6vw, 13px);
     line-height: 1.5;
     word-break: keep-all;
     overflow-wrap: break-word;
