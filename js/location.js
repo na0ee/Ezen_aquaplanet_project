@@ -371,20 +371,22 @@
     var video = document.createElement('video');
     video.muted = true;
     video.playsInline = true;
-    video.preload = 'auto';
+    video.preload = 'metadata';
     video.src = src;
     video.load();
   }
 
   function warmLocationMedia() {
-    preloadLocationVideo('assets/video/program_Jeju_hero.webm');
-    Object.keys(LOCATION_PAGES).forEach(function (key) {
-      var page = LOCATION_PAGES[key];
-      preloadLocationVideo(page.heroVideo);
-      preloadLocationImage(page.introImage);
-      (page.programs || []).forEach(function (program) {
-        preloadLocationImage(program.image);
-      });
+    var page = isIlsan ? LOCATION_PAGES.ilsan
+             : isYeosu ? LOCATION_PAGES.yeosu
+             : isGwanggyo ? LOCATION_PAGES.gwanggyo
+             : null;
+
+    if (!page) return;
+
+    preloadLocationImage(page.introImage);
+    (page.programs || []).forEach(function (program) {
+      preloadLocationImage(program.image);
     });
   }
 
