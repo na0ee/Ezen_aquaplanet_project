@@ -1945,6 +1945,37 @@ function initCrewScroll() {
     });
   });
 
+  const prevNav = section.querySelector('.crew-nav__btn--prev');
+  const nextNav = section.querySelector('.crew-nav__btn--next');
+  const selectPrevCrew = () => {
+    const prevIndex = currentIndex < 0 ? totalPanels - 1 : (currentIndex + totalPanels - 1) % totalPanels;
+    setActive(prevIndex);
+  };
+  const selectNextCrew = () => {
+    const nextIndex = currentIndex < 0 ? 0 : (currentIndex + 1) % totalPanels;
+    setActive(nextIndex);
+  };
+
+  if (prevNav) {
+    prevNav.addEventListener('click', () => {
+      selectPrevCrew();
+      if (!isMobileViewport()) {
+        stopCrewAutoplay();
+        startCrewAutoplay();
+      }
+    });
+  }
+
+  if (nextNav) {
+    nextNav.addEventListener('click', () => {
+      selectNextCrew();
+      if (!isMobileViewport()) {
+        stopCrewAutoplay();
+        startCrewAutoplay();
+      }
+    });
+  }
+
   /* 보러가기 버튼에 마우스가 있거나 GLB 생물을 드래그로 돌리는 동안은 자동 전환 일시정지 */
   section.querySelectorAll('.crew-panel-btn').forEach((btn) => {
     btn.addEventListener('mouseenter', () => { crewAutoplayPaused = true; });

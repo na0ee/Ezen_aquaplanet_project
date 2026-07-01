@@ -1222,11 +1222,11 @@ body.oceanfriends-page {
   );
   color: #fff;
   box-shadow:
-    inset 1px 1px 0 rgba(255, 255, 255, 0.38),
-    0 8px 28px rgba(0, 0, 0, 0.28),
-    0 0 44px rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(4px) saturate(1.8);
-  -webkit-backdrop-filter: blur(4px) saturate(1.8);
+    inset 0.4px 0.4px 0 rgba(255, 255, 255, 0.2),
+    0 2px 6px rgba(0, 0, 0, 0.06),
+    0 0 5px rgba(255, 255, 255, 0.015);
+  backdrop-filter: blur(4px) saturate(1.5);
+  -webkit-backdrop-filter: blur(4px) saturate(1.5);
   font-size: 16px;
   font-weight: 500;
   text-decoration: none;

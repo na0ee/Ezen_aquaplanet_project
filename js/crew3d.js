@@ -33,8 +33,8 @@ function getCrewViewportScale() {
 }
 
 function getCrewCamX() {
-  if (CREW_MOBILE_QUERY.matches) return -1.62; 
-  return CREW_TABLET_QUERY.matches ? -0.4 : 0;
+  if (CREW_MOBILE_QUERY.matches) return -1.62;
+  return CREW_TABLET_QUERY.matches ? -0.4 : 0.4;
 }
 
 

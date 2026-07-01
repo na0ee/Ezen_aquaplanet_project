@@ -272,17 +272,31 @@
             <a href="Oceanfriends.html" class="crew-panel-btn btn-cta btn-cta--fill-white" data-index="3">보러가기</a>
 
           </div>
+          <div class="crew-nav" aria-label="Crew navigation">
+            <button class="crew-nav__btn crew-nav__btn--prev" type="button" aria-label="이전 생물">
+              <svg class="crew-nav__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <defs>
+                  <linearGradient id="crewArrowGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="rgba(255,255,255,0.96)"/>
+                    <stop offset="100%" stop-color="rgba(255,255,255,0.42)"/>
+                  </linearGradient>
+                </defs>
+                <path d="M15 6 L9 12 L15 18" fill="none" stroke="url(#crewArrowGradient)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <button class="crew-nav__btn crew-nav__btn--next" type="button" aria-label="다음 생물">
+              <svg class="crew-nav__icon crew-nav__icon--next" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <defs>
+                  <linearGradient id="crewArrowGradientNext" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="rgba(255,255,255,0.96)"/>
+                    <stop offset="100%" stop-color="rgba(255,255,255,0.42)"/>
+                  </linearGradient>
+                </defs>
+                <path d="M9 6 L15 12 L9 18" fill="none" stroke="url(#crewArrowGradientNext)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
         </div>
-
-        <!-- 진행 점 -->
-        <div class="crew-dots" role="tablist" aria-label="생물 선택">
-          <button class="crew-dot is-active" data-index="0" role="tab" aria-label="바다코끼리"></button>
-          <button class="crew-dot"           data-index="1" role="tab" aria-label="벨루가"></button>
-          <button class="crew-dot"           data-index="2" role="tab" aria-label="샌드타이거상어"></button>
-          <button class="crew-dot"           data-index="3" role="tab" aria-label="바다거북"></button>
-        </div>
-
-
       </div>
     </section>
 
