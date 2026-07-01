@@ -192,9 +192,10 @@ body {
 
 /* 수직선  (Figma: Line 1, h=80) */
 .loc-scroll__line {
+  display: block;
   width: 1px;
-  height: 80px;        /* Figma: 80px */
-  background: rgba(255, 255, 255, 0.7);
+  height: 80px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.78));
 }
 
 /* "Let's Explore"  (Figma: Poppins Light + EB Garamond Medium Italic, 32px) */

@@ -2455,6 +2455,10 @@ body {
 }
 
 @media (min-width: 769px) {
+  .cartegory-tabs-a {
+    display: none;
+  }
+
   .program-detail-modal__close {
     width: 40px;
     height: 40px;
