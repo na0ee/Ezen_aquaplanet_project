@@ -1963,7 +1963,7 @@ button {
     margin: 0;
     justify-content: flex-end;
     gap: 6px;
-    font-size: 100px;
+    font-size: clamp(44px, 13vw, 60px);
   }
 
   .case-card__info {

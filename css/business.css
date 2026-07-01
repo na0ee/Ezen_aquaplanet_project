@@ -1839,11 +1839,15 @@ body.biz-page.mobile-menu-open .gnb {
   }
 
   .biz-page .biz-figma-panel {
+    top: max(0px, calc(50svh - 440px)) !important;
+    height: 880px !important;
     min-height: 880px !important;
+    overflow: visible !important;
+    padding-bottom: 0 !important;
   }
 
   .biz-page .biz-overview-head {
-    top: clamp(276px, calc(16vh + 160px), 310px) !important;
+    top: clamp(300px, 43vh, 440px) !important;
     width: min(620px, calc(100vw - 64px)) !important;
   }
 
@@ -1861,8 +1865,7 @@ body.biz-page.mobile-menu-open .gnb {
   }
 
   .biz-page .biz-area-vision-label {
-
-    top: clamp(330px, 40vh, 430px) !important;
+    top: clamp(540px, calc(43svh + 220px), 660px) !important;
   }
 
   .biz-page .biz-area-vision-label p {
@@ -1882,7 +1885,7 @@ body.biz-page.mobile-menu-open .gnb {
   }
 
   .biz-page .biz-blue-stack {
-    top: calc(clamp(330px, 40vh, 430px) + 96px) !important;
+    top: calc(clamp(540px, calc(43svh + 220px), 660px) + 136px) !important;
     height: clamp(390px, 44vw, 430px) !important;
   }
 

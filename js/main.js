@@ -190,6 +190,13 @@ function initSmoothScroll() {
     }
   };
 
+  window.__setSmoothScrollTarget = (y) => {
+    targetY = clamp(y);
+    currentY = window.scrollY;
+    if (rafId) cancelAnimationFrame(rafId);
+    rafId = requestAnimationFrame(tick);
+  };
+
   window.addEventListener('resize', () => {
     targetY = clamp(window.scrollY);
     currentY = targetY;
@@ -615,6 +622,8 @@ function initIntroScrollGate() {
   let introDiveTimer = 0;
   const INTRO_DIVE_DELAY_MS = 100;
   const INTRO_DIVE_EDGE_OFFSET = 24;
+  let crewUpCount = 0;
+  let crewUpTimer = 0;
 
   function sectionTop(el) {
     return Math.round(window.scrollY + el.getBoundingClientRect().top);
@@ -689,11 +698,6 @@ function initIntroScrollGate() {
     window.__syncSmoothScroll?.();
   }
 
-  function isNearCrewStart() {
-    /* 크루 섹션이 거의 완전히 다시 보이는(원래 위치로 거의 다 돌아온) 상태에서만 인트로로 복귀 허용 */
-    const crewTop = sectionTop(crew);
-    return window.scrollY >= crewTop - 4 && window.scrollY <= crewTop + 4;
-  }
 
   function requestIntroDive() {
     if (introDivePending) return;
@@ -715,8 +719,15 @@ function initIntroScrollGate() {
     return !crewScrollUnlocked && !diveActive && !isTransitioning && isAfterLogoTransition() && isAtOrAfterIntro() && isPastIntroHoldPoint() && isBeforeCrew();
   }
 
-  function shouldBlockUp() {
-    return crewScrollUnlocked && !diveActive && !isTransitioning && isNearCrewStart();
+  function isAtCrewTop() {
+    const crewTop = sectionTop(crew);
+    return crewScrollUnlocked && window.scrollY >= crewTop - 4 && window.scrollY <= crewTop + 24;
+  }
+
+  function isInCrewRangeAboveTop() {
+    const crewTop = sectionTop(crew);
+    const crewHoldEnd = crewTop + Math.max(0, crew.offsetHeight - window.innerHeight);
+    return crewScrollUnlocked && window.scrollY > crewTop + 24 && window.scrollY <= crewHoldEnd + 24;
   }
 
   window.addEventListener('wheel', (e) => {
@@ -749,12 +760,35 @@ function initIntroScrollGate() {
       return;
     }
 
-    if (e.deltaY < 0 && shouldBlockUp()) {
+    /* 크루 구간 중간에서 업스크롤 → 크루 맨 위로 스냅 (크루 섹션이 보이도록) */
+    if (e.deltaY < 0 && isInCrewRangeAboveTop()) {
       e.preventDefault();
       e.stopImmediatePropagation();
-      introDivePending = false;
-      window.clearTimeout(introDiveTimer);
-      triggerDiveBack();
+      window.__setSmoothScrollTarget?.(sectionTop(crew));
+      return;
+    }
+
+    /* 크루 맨 위에서 업스크롤 2번 → wave 전환으로 인트로 복귀 */
+    if (e.deltaY < 0 && isAtCrewTop()) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      window.__syncSmoothScroll?.();
+      crewUpCount++;
+      window.clearTimeout(crewUpTimer);
+      crewUpTimer = window.setTimeout(() => { crewUpCount = 0; }, 1200);
+      if (crewUpCount >= 2) {
+        crewUpCount = 0;
+        window.clearTimeout(crewUpTimer);
+        introDivePending = false;
+        window.clearTimeout(introDiveTimer);
+        triggerDiveBack();
+      }
+      return;
+    }
+
+    if (e.deltaY > 0 && crewUpCount > 0) {
+      crewUpCount = 0;
+      window.clearTimeout(crewUpTimer);
     }
   }, { passive: false, capture: true });
 
@@ -776,7 +810,11 @@ function initIntroScrollGate() {
       e.stopImmediatePropagation();
       introDivePending = false;
       window.clearTimeout(introDiveTimer);
-    } else if (goingUp && shouldBlockUp()) {
+    } else if (goingUp && isInCrewRangeAboveTop()) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      window.__setSmoothScrollTarget?.(sectionTop(crew));
+    } else if (goingUp && isAtCrewTop()) {
       e.preventDefault();
       e.stopImmediatePropagation();
       introDivePending = false;
@@ -791,11 +829,21 @@ function initIntroScrollGate() {
     if (downKeys.includes(e.key) && (introDivePending || shouldBlockDown())) {
       e.preventDefault();
       requestIntroDive();
-    } else if (upKeys.includes(e.key) && shouldBlockUp()) {
+    } else if (upKeys.includes(e.key) && isInCrewRangeAboveTop()) {
       e.preventDefault();
-      introDivePending = false;
-      window.clearTimeout(introDiveTimer);
-      triggerDiveBack();
+      window.__setSmoothScrollTarget?.(sectionTop(crew));
+    } else if (upKeys.includes(e.key) && isAtCrewTop()) {
+      e.preventDefault();
+      crewUpCount++;
+      window.clearTimeout(crewUpTimer);
+      crewUpTimer = window.setTimeout(() => { crewUpCount = 0; }, 1200);
+      if (crewUpCount >= 2) {
+        crewUpCount = 0;
+        window.clearTimeout(crewUpTimer);
+        introDivePending = false;
+        window.clearTimeout(introDiveTimer);
+        triggerDiveBack();
+      }
     }
   });
 
@@ -805,8 +853,12 @@ function initIntroScrollGate() {
 
     const y = window.scrollY;
     const crewTop = sectionTop(crew);
-    /* 이전 위치가 이미 introTop 이상이었을 때만 clamp — 로고→인트로 진입 시 튕김 방지 */
-    if (y < crewTop - 4) crewScrollUnlocked = false;
+    if (y < crewTop - 4 && crewScrollUnlocked) {
+      crewScrollUnlocked = false;
+      crewUpCount = 0;
+      window.clearTimeout(crewUpTimer);
+      window.__syncSmoothScroll?.();
+    }
   }, { passive: true });
 
   window.addEventListener('resize', updateIntroPinState, { passive: true });
@@ -1560,6 +1612,8 @@ function triggerDive() {
 function triggerDiveBack() {
   if (diveActive || isTransitioning) return;
   diveActive = true;
+  isTransitioning = true;
+  document.body.classList.add('is-transitioning');
   window.__syncSmoothScroll?.();
 
   const introEl = document.getElementById('sec-intro');
@@ -1577,7 +1631,12 @@ function triggerDiveBack() {
     return;
   }
 
-  if (!introEl || !crewSticky) { diveActive = false; return; }
+  if (!introEl || !crewSticky) {
+    diveActive = false;
+    isTransitioning = false;
+    document.body.classList.remove('is-transitioning');
+    return;
+  }
 
   const transition = useSectionTransitionLegacy({
     from: crewSticky,
@@ -1781,8 +1840,7 @@ function initCrewScroll() {
   function onScroll() {
     const rect    = section.getBoundingClientRect();
     const scrolled = -rect.top; /* 섹션 상단으로부터 스크롤된 px */
-    const panelHeight = window.innerHeight;
-    const exitStart = panelHeight; /* 섹션이 1화면 높이이므로 그 한 화면을 지나면 퇴장 */
+    const exitStart = Math.max(0, section.offsetHeight - window.innerHeight);
 
     if (!crewScrollUnlocked && !diveActive && scrolled >= -10) {
       crewScrollUnlocked = true;

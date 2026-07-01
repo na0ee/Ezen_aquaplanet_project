@@ -280,8 +280,8 @@
       ],
       programDescription: '여수의 아름다운 바다와 함께하는 특별한 해양 문화 체험 공간입니다<br><strong>국내 유일 벨루가 고래</strong>와 다양한 해양 생물 전시를 통해 교육과 감동이 함께하는 공간을 제공합니다',
       programs: [
-        { image: 'assets/images/program/Yeosu_program_a.avif', title: '벨루가 생태설명회' },
-        { image: 'assets/images/program/Yeosu_program_f.avif', title: '바다사자 생태설명회' }
+        { image: 'assets/images/oceanfriends/avif/벨루가(흰고래).avif', title: '벨루가 생태설명회' },
+        { image: 'assets/images/program/image 319.avif', title: '바다사자 생태설명회' }
       ],
       floors: ['1F', '2F', '3F'],
       defaultFloor: '2F',
@@ -1050,7 +1050,7 @@
     if (!mapBubbles.length) return;
     if (bubbleEntranceTimer) clearTimeout(bubbleEntranceTimer);
     var actionVersion = renderVersion;
-    var delayBase = reason === 'marker' ? 220 : 40;
+    var delayBase = reason === 'marker' ? 120 : 30;
     var dir = reason === 'floor' ? -1 : 1;
 
     bubbleEntranceTimer = setTimeout(function () {
@@ -1060,13 +1060,13 @@
         parts.forEach(function (part) {
           if (!part.animate) return;
           part.animate([
-            { transform: 'translateX(' + (dir * 34) + 'px) scale(0.94)' },
-            { transform: 'translateX(' + (dir * -9) + 'px) scale(1.035)', offset: 0.72 },
-            { transform: 'translateX(0) scale(1)' }
+            { opacity: 0, transform: 'translate3d(' + (dir * 18) + 'px, 18px, 0) scale(0.94)' },
+            { opacity: 1, transform: 'translate3d(' + (dir * -4) + 'px, -3px, 0) scale(1.015)', offset: 0.76 },
+            { opacity: 1, transform: 'translate3d(0, 0, 0) scale(1)' }
           ], {
-            duration: 520,
-            delay: index * 42,
-            easing: 'cubic-bezier(0.2, 0.9, 0.2, 1)',
+            duration: 740,
+            delay: index * 58,
+            easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
             fill: 'both'
           });
         });
@@ -1187,7 +1187,8 @@
     }
   }
 
-  function renderFloor(floor) {
+  function renderFloor(floor, options) {
+    options = options || {};
     var exhibits = isIlsan     ? ILSAN_EXHIBITS[floor]
                  : isYeosu    ? YEOSU_EXHIBITS[floor]
                  : isGwanggyo ? GWANGGYO_EXHIBITS[floor]
@@ -1208,7 +1209,7 @@
                     : isYeosu    ? YEOSU_DEFAULT_ZONE[floor]
                     : isGwanggyo ? GWANGGYO_DEFAULT_ZONE[floor]
                     : DEFAULT_ZONE[floor];
-    renderZone(defaultZone, false, 'floor');
+    renderZone(defaultZone, false, options.keepBubblesOpen ? 'marker' : 'floor');
 
     var locationName = isIlsan ? '일산' : isYeosu ? '여수' : isGwanggyo ? '광교' : '제주';
     if (mapImg) {
@@ -1253,7 +1254,7 @@
   }
 
   var MAP_TRANSITION_START = 0.02;
-  var MAP_TRANSITION_LENGTH = 0.3;
+  var MAP_TRANSITION_LENGTH = 0.42;
   var MAP_SCROLL_DURATION = 1400;
 
   function showExhibitsMap() {
@@ -1340,18 +1341,25 @@
   }
 
   function easeMapTransition(progress) {
-    return progress * progress * (3 - 2 * progress);
+    return progress * progress * progress * (progress * (progress * 6 - 15) + 10);
+  }
+
+  function easeMapDrift(progress) {
+    return 0.5 - Math.cos(progress * Math.PI) / 2;
   }
 
   function applySingleMapTransition(progress) {
     if (!soloStageEl) return;
     var easedProgress = easeMapTransition(progress);
+    var driftProgress = easeMapDrift(progress);
     var s = getMapScale();
     var startScale = getSoloMapScale();
     var endScale = getExhibitsMapScale();
-    var sc = (startScale + (endScale - startScale) * easedProgress) * s;
-    var xOff = (getExhibitsMapXOffset(s) * easedProgress).toFixed(2);
-    var yOff = getMapOffsetY().toFixed(2);
+    var scaleProgress = Math.min(1, easedProgress * 1.08);
+    var sc = (startScale + (endScale - startScale) * scaleProgress) * s;
+    var xOff = (getExhibitsMapXOffset(s) * driftProgress).toFixed(2);
+    var lift = Math.sin(driftProgress * Math.PI) * -34 * s;
+    var yOff = (getMapOffsetY() + lift).toFixed(2);
     soloStageEl.style.transform =
       'translate(calc(-50% + ' + xOff + 'px), calc(-50% + ' + yOff + 'px)) scale(' + sc.toFixed(4) + ')';
   }
@@ -1515,10 +1523,12 @@
       var SY_TOP = slots[0].y - 360;
       var SY_BOT = slots[n - 1].y + 360;
 
-      var DIRECT_DUR = 680;
-      var WRAP_OUT   = 270;
-      var WRAP_PAUSE = 55;
-      var WRAP_IN    = 420;
+      var DIRECT_DUR = 820;
+      var WRAP_OUT   = 360;
+      var WRAP_PAUSE = 40;
+      var WRAP_IN    = 560;
+      var EASE_FLUID = 'cubic-bezier(0.16,1,0.3,1)';
+      var EASE_DIVE  = 'cubic-bezier(0.55,0,0.2,1)';
 
       /* 현재 층의 슬롯별 자연 너비 */
       var slotW = slots.map(function (s) { return s.w; });
@@ -1539,7 +1549,7 @@
         if (!wraps) {
           /* 직접 이동 */
           requestAnimationFrame(function () {
-            b.style.transition = 'transform ' + DIRECT_DUR + 'ms cubic-bezier(0.4,0,0.2,1)';
+            b.style.transition = 'transform ' + DIRECT_DUR + 'ms ' + EASE_FLUID;
             b.style.transform  = 'translate(' + dx.toFixed(1) + 'px,' + dy.toFixed(1) + 'px) scale(' + dstScale + ')';
           });
         } else {
@@ -1549,16 +1559,16 @@
           var entryY = (dir === +1 ? SY_TOP : SY_BOT) - src.y;
 
           requestAnimationFrame(function () {
-            b.style.transition = 'transform ' + WRAP_OUT + 'ms ease-in';
-            b.style.transform  = 'translate(' + exitX.toFixed(1) + 'px,' + exitY.toFixed(1) + 'px) scale(0.25)';
+            b.style.transition = 'transform ' + WRAP_OUT + 'ms ' + EASE_DIVE;
+            b.style.transform  = 'translate(' + exitX.toFixed(1) + 'px,' + exitY.toFixed(1) + 'px) scale(0.32)';
           });
 
           setTimeout(function () {
             b.style.transition = 'none';
-            b.style.transform  = 'translate(' + exitX.toFixed(1) + 'px,' + entryY.toFixed(1) + 'px) scale(0.25)';
+            b.style.transform  = 'translate(' + exitX.toFixed(1) + 'px,' + entryY.toFixed(1) + 'px) scale(0.32)';
             requestAnimationFrame(function () {
               requestAnimationFrame(function () {
-                b.style.transition = 'transform ' + WRAP_IN + 'ms ease-out';
+                b.style.transition = 'transform ' + WRAP_IN + 'ms ' + EASE_FLUID;
                 b.style.transform  = 'translate(' + dx.toFixed(1) + 'px,' + dy.toFixed(1) + 'px) scale(' + dstScale + ')';
               });
             });
@@ -1580,7 +1590,7 @@
         var sc = (TARGET_SIZE / sel.w).toFixed(3);
 
         /* 선택 버블: center 슬롯 위치에서 scale-up (inline 유지) */
-        clickedBubble.style.transition = 'transform 0.6s cubic-bezier(0.34,1.56,0.64,1)';
+        clickedBubble.style.transition = 'transform 0.78s cubic-bezier(0.16,1,0.3,1)';
         clickedBubble.style.transform  =
           'translate(' + dx + 'px,' + dy + 'px) scale(' + sc + ')';
 
@@ -1634,7 +1644,7 @@
       if (!mapSection.classList.contains('has-detail')) return;
       /* 비선택 버블: 회전된 위치 → 원래 자리로 트랜지션 */
       mapBubbles.forEach(function (b) {
-        b.style.transition = 'transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1)';
+        b.style.transition = 'transform 0.72s cubic-bezier(0.16, 1, 0.3, 1)';
       });
       /* reflow 강제 후 transform 제거 → CSS scale(1) 으로 귀환 */
       void mapSection.offsetHeight;
@@ -1646,7 +1656,7 @@
       if (mapTransitionEl) mapTransitionEl.classList.remove('has-detail');
       setTimeout(function () {
         mapBubbles.forEach(function (b) { b.style.transition = ''; });
-      }, 560);
+      }, 740);
     }
 
     if (closeBtn) {
@@ -1667,7 +1677,9 @@
       tab.addEventListener('click', function () {
         var floor = tab.dataset.floor;
         if (floor === currentFloor || (!isIlsan && !isYeosu && !isGwanggyo && !JEJU_EXHIBITS[floor])) return;
-        renderFloor(floor);
+        renderFloor(floor, {
+          keepBubblesOpen: !!tab.closest('.loc-map--exhibits')
+        });
       });
     });
 

@@ -89,6 +89,10 @@ function smoothstep(edge0, edge1, x) {
 }
 
 
+const crewSection      = document.getElementById('sec-crew');
+const crewSticky       = crewSection?.querySelector('.crew-sticky');
+const crewMain         = crewSection?.querySelector('.crew-main');
+
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1;
@@ -103,26 +107,41 @@ if (THREE.SRGBColorSpace !== undefined) {
   renderer.outputEncoding = THREE.sRGBEncoding;
 }
 
+/* 캔버스는 항상 풀 뷰포트 해상도로 렌더링해 카메라/엔트리 곡선 튜닝값을
+   그대로 유지하고, 화면에는 crew-3d-stage(overflow:hidden)로 위아래만
+   살짝 잘라서 보여준다 — 그러면 카드가 있는 영역에만 생물이 보이고,
+   .crew-sticky 안에 들어있으니 스크롤에도 카드와 함께 자연스럽게 움직인다. */
+const CREW_STAGE_INSET_VH = 6;
 
 const crewCanvas = renderer.domElement;
 crewCanvas.id = 'crew-3d-canvas';
 Object.assign(crewCanvas.style, {
-  position:      'fixed',
-  top:           '0',
+  position:      'absolute',
+  top:           `-${CREW_STAGE_INSET_VH}vh`,
   left:          '0',
   width:         '100%',
-  height:        '100%',
+  height:        '100vh',
   pointerEvents: 'none',
-  zIndex:        '5',
   opacity:       '0',
   transition:    'opacity 0.6s ease',
 });
-document.body.appendChild(crewCanvas);
+
+const crewStage = document.createElement('div');
+crewStage.id = 'crew-3d-stage';
+Object.assign(crewStage.style, {
+  position:      'absolute',
+  top:           `${CREW_STAGE_INSET_VH}vh`,
+  left:          '0',
+  width:         '100%',
+  height:        `${100 - CREW_STAGE_INSET_VH * 2}vh`,
+  overflow:      'hidden',
+  pointerEvents: 'none',
+  zIndex:        '5',
+});
+crewStage.appendChild(crewCanvas);
+(crewSticky ?? document.body).appendChild(crewStage);
 
 
-const crewSection      = document.getElementById('sec-crew');
-const crewSticky       = crewSection?.querySelector('.crew-sticky');
-const crewMain         = crewSection?.querySelector('.crew-main');
 let crewInView = false;
 let crewEntryTimer = null;
 let crewContentTimer = null;
@@ -142,12 +161,12 @@ function getCrewScrollState() {
 
   const secR = crewSection.getBoundingClientRect();
   const scrolled = -secR.top;
-  const exitStart = window.innerHeight;
+  const exitStart = Math.max(0, crewSection.offsetHeight - window.innerHeight);
 
   return {
     scrolled,
     exitStart,
-    inPanelRange: scrolled >= 0 && scrolled < exitStart,
+    inPanelRange: scrolled >= 0 && scrolled <= exitStart,
   };
 }
 
@@ -164,7 +183,6 @@ function hideCrewCanvas() {
   crewCanvas.style.opacity = '0';
   crewCanvas.style.transform = '';
   crewCanvas.style.filter = '';
-  crewCanvas.style.clipPath = 'inset(0px 0px 100vh 0px)';
   models.forEach((model) => {
     if (model?.pivot) model.pivot.visible = false;
   });
@@ -182,7 +200,6 @@ function hideCrewCanvas() {
 
 function clampCanvasToSticky() {
   if (!crewSticky || !crewSection) return;
-  const sr   = crewSticky.getBoundingClientRect();
   const secR = crewSection.getBoundingClientRect();
   const vh   = window.innerHeight;
 
@@ -191,22 +208,19 @@ function clampCanvasToSticky() {
   prevExcess = excess;
   const forceEntry = performance.now() < forceCrewEntryUntil;
 
-  if (forceEntry && scrolled < 0) {
-    crewCanvas.style.clipPath = 'none';
-    return;
-  }
+  if (forceEntry && scrolled < 0) return;
 
   if (crewWaveExiting) {
     if (excess > 0) exitZoneActive = true;
-    crewCanvas.style.clipPath = 'none';
     return;
   }
 
   exitZoneActive = excess > 0;
 
-  /* 카드/타이틀은 일반 콘텐츠라 스크롤되어 화면 밖으로 나가지만, 캔버스는 고정 오버레이라
-     따로 맞춰줘야 함 — 카드(.crew-main)가 화면을 벗어나는 순간 생물도 바로 사라지게 함 */
-  const mainRect = crewMain ? crewMain.getBoundingClientRect() : sr;
+  /* 캔버스는 이제 .crew-sticky 안의 일반 콘텐츠라 스크롤에 따라 같이 움직이지만,
+     카드(.crew-main)가 화면을 완전히 벗어나는 순간만큼은 바로 사라지게 해서
+     빠른 스크롤 중 생물이 어색하게 잔류해 보이는 걸 막는다 */
+  const mainRect = crewMain ? crewMain.getBoundingClientRect() : crewSticky.getBoundingClientRect();
   const cardGone = mainRect.bottom <= 0 || mainRect.top >= vh;
 
   if (cardGone) {
@@ -224,12 +238,6 @@ function clampCanvasToSticky() {
     crewCanvas.style.transition = 'opacity 0.3s ease';
     crewCanvas.style.opacity = '1';
   }
-
-  const visTop = Math.max(0, sr.top);
-  const visBtm = Math.min(vh, sr.bottom);
-  crewCanvas.style.clipPath = (visBtm > visTop)
-    ? `inset(${visTop}px 0px ${vh - visBtm}px 0px)`
-    : 'inset(0px 0px 100vh 0px)';
 }
 
 function setCrewInfoVisible(visible) {
@@ -521,7 +529,7 @@ function enterCrewSection() {
       crewSection.classList.add('is-fish-top-visible');
     }
   }, 2000);
-  scheduleCreatureEntry();
+  scheduleCreatureEntry(true);
 }
 
 function leaveCrewSection() {
@@ -693,7 +701,7 @@ function showCreature(idx, immediate = false) {
         crewCanvas.style.transition = 'opacity 0.7s ease';
         crewCanvas.style.opacity = '1';
       });
-      revealCrewInfo(360);
+      revealCrewInfo(immediate ? 80 : 360);
     } else {
       revealCrewInfo();
     }
@@ -924,7 +932,6 @@ document.addEventListener('crew-wave-exit', () => {
   crewCanvas.style.opacity   = '0';
   crewCanvas.style.transform = '';
   crewCanvas.style.filter    = '';
-  crewCanvas.style.clipPath  = 'none';
 });
 
 document.addEventListener('crew-wave-exit-reset', () => {
