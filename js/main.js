@@ -2532,7 +2532,10 @@ function initMapMarkers() {
     activeBranchKey = '';
   }
 
-  mapWrap?.addEventListener('pointerleave', deactivate);
+  mapWrap?.addEventListener('pointerleave', (event) => {
+    if (hoverCard?.contains(event.relatedTarget)) return;
+    deactivate();
+  });
   window.addEventListener('resize', () => {
     if (activeMarker) updateIndicator(activeMarker);
   });

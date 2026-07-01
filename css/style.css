@@ -1256,7 +1256,7 @@ body.is-logo-at-header .gnb__logo {
   letter-spacing: var(--ls-normal);
   line-height: 1.4;
   color: var(--clr-text);
-  margin-bottom: 4px;
+  margin-bottom: -18px;
 }
 
 .hero__title {
@@ -1266,7 +1266,7 @@ body.is-logo-at-header .gnb__logo {
   letter-spacing: var(--ls-normal);
   line-height: 1.4;
   color: var(--clr-text);
-  margin-bottom: 10px;
+  margin-bottom: 0;
 }
 
 .hero__sub {
@@ -1276,6 +1276,7 @@ body.is-logo-at-header .gnb__logo {
   letter-spacing: var(--ls-normal);
   line-height: 1.4;
   color: var(--clr-text);
+  margin-top: 22px;
 }
 
 /* hero 텍스트 순차 페이드인 */
@@ -1586,7 +1587,7 @@ body.is-logo-at-header .gnb__logo {
   font-family: var(--font-kr);
   font-size: var(--fs-sub);
   letter-spacing: var(--ls-normal);
-  color: var(--clr-text-muted);
+  color: var(--clr-text);
 }
 
 /* 메인 레이아웃: 캔버스 왼쪽 + 인포카드 오른쪽 */
@@ -2413,7 +2414,7 @@ body.is-logo-at-header .gnb__logo {
 .program-card__gradient {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0.12) 28%, transparent 62%);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.65) 0%, rgba(0, 0, 0, 0.35) 35%, transparent 65%);
   z-index: 1;
 }
 
@@ -5681,6 +5682,9 @@ body.biz-page {
 
   .index-page .location-hover-card__btn {
     margin-top: auto;
+    position: relative;
+    z-index: 4;
+    pointer-events: auto;
   }
 
   .index-page .location-hover-card__image {

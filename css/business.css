@@ -292,7 +292,10 @@ body.biz-page.mobile-menu-open .gnb {
 }
 
 .biz-page .gnb.gnb--scrolled .gnb__link,
-.biz-page .gnb.gnb--light-bg .gnb__link,
+.biz-page .gnb.gnb--light-bg .gnb__link {
+  color: rgba(255, 255, 255, 0.5);
+}
+
 .biz-page .gnb.gnb--scrolled .gnb__link.gnb__link--active,
 .biz-page .gnb.gnb--light-bg .gnb__link.gnb__link--active,
 .biz-page .gnb.gnb--scrolled .gnb__ticket,
@@ -1559,6 +1562,13 @@ body.biz-page.mobile-menu-open .gnb {
     --biz-tablet-container: min(100% - 64px, 960px);
     --biz-tablet-card-gap: 14px;
     --biz-tablet-section-gap: 34px;
+    --biz-tablet-hero-height: 100vh;
+  }
+
+  @supports (height: 100dvh) {
+    .biz-page {
+      --biz-tablet-hero-height: 100dvh;
+    }
   }
 
   .biz-page .gnb {
@@ -1765,8 +1775,8 @@ body.biz-page.mobile-menu-open .gnb {
   }
 
   .biz-page .biz-hero {
-    height: calc(100svh + 88px) !important;
-    min-height: calc(100svh + 88px) !important;
+    height: calc(var(--biz-tablet-hero-height) + 88px) !important;
+    min-height: calc(var(--biz-tablet-hero-height) + 88px) !important;
     margin-top: -88px !important;
     background-position: center !important;
   }
@@ -1777,7 +1787,7 @@ body.biz-page.mobile-menu-open .gnb {
     left: auto !important;
     align-self: flex-start !important;
     width: 100% !important;
-    height: 100vh !important;
+    height: var(--biz-tablet-hero-height) !important;
     margin-top: 0 !important;
     gap: 14px !important;
     transform: none !important;
@@ -4183,7 +4193,7 @@ body.biz-page.mobile-menu-open .gnb {
 
   .biz-page .biz-blue-stack {
     position: absolute !important;
-    top: calc(50svh + 220px - (clamp(560px, 74svh, 640px) / 2)) !important;
+    top: calc(50svh + 300px - (clamp(560px, 74svh, 640px) / 2)) !important;
     left: 0 !important;
     display: block !important;
     width: 100% !important;
@@ -4310,6 +4320,15 @@ body.biz-page.mobile-menu-open .gnb {
     align-items: center;
     gap: 26px;
     padding-bottom: 52px;
+  }
+
+  .biz-page .footer__nav {
+    justify-content: center;
+    gap: 14px 22px;
+  }
+
+  .biz-page .footer__link {
+    font-size: 15px;
   }
 
   .biz-page .footer__brand {

@@ -1213,19 +1213,35 @@ body.oceanfriends-page {
   justify-content: center;
   height: 32px;
   padding: 0 16px;
-  border-radius: 999px;
-  background: #ffffff;
-  border: 1px solid #ffffff;
-  color: #22b2ea;
+  border-radius: 100px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: linear-gradient(
+    315deg,
+    rgba(255, 255, 255, 0.13) 0%,
+    rgba(255, 255, 255, 0.02) 100%
+  );
+  color: #fff;
+  box-shadow:
+    inset 1px 1px 0 rgba(255, 255, 255, 0.38),
+    0 8px 28px rgba(0, 0, 0, 0.28),
+    0 0 44px rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(4px) saturate(1.8);
+  -webkit-backdrop-filter: blur(4px) saturate(1.8);
   font-size: 16px;
   font-weight: 500;
   text-decoration: none;
-  transition: background 0.2s, color 0.2s;
+  transition:
+    background var(--tr-base),
+    border-color var(--tr-base),
+    color var(--tr-base),
+    transform var(--tr-base);
 }
 
 .of-more:hover {
-  background: rgba(255, 255, 255, 0.88);
-  color: #118fc8;
+  background: #fff;
+  border-color: rgba(255, 255, 255, 0.22);
+  color: var(--clr-primary);
+  transform: translateY(-1px);
 }
 
 /* ── 브랜드 섹션 ── */

@@ -1707,6 +1707,14 @@ button {
   }
 }
 
+@media (min-width: 769px) and (max-width: 1024px) {
+  .case-card__date {
+    top: auto;
+    bottom: 0;
+    font-size: clamp(72px, 8.5vw, 88px);
+  }
+}
+
 @media (max-width: 768px) {
   .hero {
     min-height: 760px;
@@ -3012,6 +3020,7 @@ body.marin-view-conservation .m-pill-tabs:not(.m-pill-tabs--cases) {
   height: 100%;
   transition: transform 0.7s cubic-bezier(0.2, 0.72, 0.2, 1);
   transform-style: preserve-3d;
+  will-change: transform;
 }
 
 .m-cons-flip.is-flipped .m-cons-flip__inner {
@@ -3027,8 +3036,12 @@ body.marin-view-conservation .m-pill-tabs:not(.m-pill-tabs--cases) {
   -webkit-backface-visibility: hidden;
 }
 
+.m-cons-flip__face--front {
+  transform: rotateY(0deg) translateZ(0.1px);
+}
+
 .m-cons-flip__face--back {
-  transform: rotateY(180deg);
+  transform: rotateY(180deg) translateZ(0.1px);
   background: #103a52;
 }
 
@@ -3092,6 +3105,14 @@ body.marin-view-conservation .m-pill-tabs:not(.m-pill-tabs--cases) {
   background: rgba(34, 178, 234, 0.34);
   border-color: rgba(255, 255, 255, 0.64);
   transform: translate(-50%, -50%) scale(1.06);
+}
+
+.m-cons-flip.is-flipped .m-cons-flip__hint,
+.m-cons-flip.is-flipped:hover .m-cons-flip__hint,
+.m-cons-flip.is-flipped:focus-visible .m-cons-flip__hint {
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(-50%, -50%) scale(0.92);
 }
 
 .m-cons-flip__face--back .m-cons-flip__shade {
@@ -3349,13 +3370,13 @@ body.marin-view-conservation .m-pill-tabs:not(.m-pill-tabs--cases) {
 @media (min-width: 761px) and (max-width: 1280px) {
 
   :root {
-    --cons-tablet-hero-height: max(100vh, 120vw);
+    --cons-tablet-hero-height: 100vh;
     --cons-tablet-orbit-height: 5200px;
   }
 
-  @media (max-width: 900px) {
+  @supports (height: 100dvh) {
     :root {
-      --cons-tablet-hero-height: max(100vh, 144vw);
+      --cons-tablet-hero-height: 100dvh;
     }
   }
 
@@ -3381,11 +3402,11 @@ body.marin-view-conservation .m-pill-tabs:not(.m-pill-tabs--cases) {
     position: relative;
     width: 100%;
     height: var(--cons-tablet-hero-height) !important;
-    min-height: 100vh;
+    min-height: var(--cons-tablet-hero-height);
   }
 
   body.marin-view-conservation .marin-shell--conservation .hero__content {
-    height: 100vh;
+    height: var(--cons-tablet-hero-height);
     gap: 14px;
   }
 

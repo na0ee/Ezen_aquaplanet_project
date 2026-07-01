@@ -2855,11 +2855,24 @@ body {
    ============================================================= */
 
 @media (min-width: 769px) and (max-width: 1024px) {
+  .hero__text {
+    max-width: calc(100vw - 48px);
+  }
+  .hero__title-row {
+    max-width: 100%;
+    justify-content: center;
+    white-space: normal;
+  }
   .hero__title-main {
     font-size: clamp(60px, 8vw, 90px);
   }
   .hero__title-em {
     font-size: clamp(76px, 10vw, 116px);
+    line-height: 0.95;
+    text-align: center;
+  }
+  #hero-location {
+    display: block;
   }
   .hero__welcome {
     font-size: clamp(22px, 2.8vw, 28px);
@@ -2907,9 +2920,10 @@ body {
     padding: 8px;
   }
   .program-preview__tag {
-    font-size: 12px;
-    height: 22px;
-    padding: 0 8px;
+    font-size: 10px;
+    height: 18px;
+    padding: 0 6px;
+    letter-spacing: -0.2px;
   }
   .program-preview__title {
     font-size: 14px;

@@ -123,10 +123,6 @@
         </div>
       </div>
 
-      <a href="ticket.html" class="gnb__mobile-ticket btn-pill">
-        Ticket
-        <span class="img"><img src="assets/images/ticket_icon_white.svg" alt="" aria-hidden="true"></span>
-      </a>
     </nav>
   </div>
 
@@ -277,8 +273,8 @@
                   </dl>
                 </div>
                 <div class="case-card__date" data-case-date aria-live="polite">
-                  <span class="date-slot"><span class="date-inner" data-date-part="year"></span></span>
-                  <span class="date-slot"><span class="date-inner" data-date-part="month"></span></span>
+                  <span class="date-slot"><span class="date-inner" data-date-part="year"><span class="date-num"></span>.</span></span>
+                  <span class="date-slot"><span class="date-inner" data-date-part="month"><span class="date-num"></span>.</span></span>
                   <span class="date-slot"><span class="date-inner" data-date-part="day"></span></span>
                 </div>
               </div>
@@ -374,7 +370,7 @@
       <nav class="footer__nav" aria-label="푸터 메뉴">
         <a href="program.html" class="footer__link">Program</a>
         <a href="Oceanfriends.html" class="footer__link">Ocean friends</a>
-        <a href="location.html" class="footer__link">About us</a>
+        <a href="business.html" class="footer__link">About us</a>
         <a href="location.html" class="footer__link">Location</a>
         <a href="ticket.html" class="footer__link">Ticket</a>
       </nav>
@@ -721,7 +717,7 @@
         const isTabletConservation = window.matchMedia('(min-width: 761px) and (max-width: 1280px)').matches;
         const isResponsiveConservation = isMobileConservation || isTabletConservation;
         const scale = isResponsiveConservation ? 1 : getConservationScale();
-        const tabletHeroHeight = Math.max(window.innerHeight, window.innerWidth * (window.innerWidth <= 900 ? 1.44 : 1.2));
+        const tabletHeroHeight = window.innerHeight;
         const heroHeight = isMobileConservation ? window.innerHeight : (isTabletConservation ? tabletHeroHeight : 1080);
         const totalHeight = isMobileConservation ? null : heroHeight + 8400;
         const stage = conservationMain ? conservationMain.querySelector('.marin-stage') : null;
@@ -1208,8 +1204,8 @@
 
       function setText(item) {
         const [y, m, d] = item.date.split('.');
-        if (yearEl) yearEl.textContent = y;
-        if (monthEl) monthEl.textContent = m;
+        if (yearEl) yearEl.querySelector('.date-num').textContent = y;
+        if (monthEl) monthEl.querySelector('.date-num').textContent = m;
         if (dayEl) dayEl.textContent = d;
         if (targetEl) targetEl.textContent = item.target;
         if (locationEl) locationEl.textContent = item.location;

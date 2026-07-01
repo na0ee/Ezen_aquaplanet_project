@@ -1065,18 +1065,40 @@ html.is-safari .ticket-page .gnb__ticket {
   font-weight: 500;
 }
 
-/* 패널 — Figma node 1284:263 (glass card, 좌우 대각선 하이라이트 그라데이션) */
+/* 패널 — time-block 글래스카드와 동일한 스타일 */
 .ticket-booking__panel {
-  background-image: linear-gradient(231.21deg,
-      rgba(255, 255, 255, 0) 0%,
-      rgba(255, 255, 255, 0.2) 49.346%,
-      rgba(255, 255, 255, 0) 98.692%);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
+  position: relative;
+  border: none;
+  border-radius: 14px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.10) 0%, rgba(255, 255, 255, 0) 6%, rgba(255, 255, 255, 0) 94%, rgba(255, 255, 255, 0.10) 100%),
+    linear-gradient(90deg,  rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0) 10%, rgba(255, 255, 255, 0) 90%, rgba(255, 255, 255, 0.04) 100%);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   padding: 51px 49px 51px 47px;
-  box-shadow: 0 18px 50px rgba(0, 70, 120, 0.12);
+}
+
+.ticket-booking__panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  padding: 1.5px;
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.55) 0%,
+    rgba(255, 255, 255, 0.20) 25%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(255, 255, 255, 0.20) 75%,
+    rgba(255, 255, 255, 0.55) 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box,
+                linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  mask: linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
 }
 
 /* 제목 "Discont" — EB Garamond Medium 33px */
@@ -1238,25 +1260,37 @@ html.is-safari .ticket-page .gnb__ticket {
   width: 94px;
   height: 32px;
   padding: 6px 16px;
-  border: 1px solid rgba(255, 255, 255, 0.45);
-  border-radius: 24px;
-  background: rgba(255, 255, 255, 0.18);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  border-radius: 100px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: linear-gradient(
+    315deg,
+    rgba(255, 255, 255, 0.13) 0%,
+    rgba(255, 255, 255, 0.02) 100%
+  );
   color: #fff;
+  box-shadow:
+    inset 1px 1px 0 rgba(255, 255, 255, 0.38),
+    0 8px 28px rgba(0, 0, 0, 0.28),
+    0 0 44px rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(4px) saturate(1.8);
+  -webkit-backdrop-filter: blur(4px) saturate(1.8);
   font-family: var(--font-kr);
   font-weight: 500;
   font-size: 16px;
   letter-spacing: -0.32px;
   cursor: pointer;
-  box-shadow: 0 4px 16px rgba(0, 100, 180, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.35);
-  transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
+  transition:
+    background var(--tr-base),
+    border-color var(--tr-base),
+    color var(--tr-base),
+    transform var(--tr-base);
 }
 
 .ticket-booking__btn:hover {
-  background: rgba(255, 255, 255, 0.30);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0, 100, 180, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.45);
+  background: #fff;
+  border-color: rgba(255, 255, 255, 0.22);
+  color: var(--clr-primary);
+  transform: translateY(-1px);
 }
 
 @media (prefers-reduced-motion: reduce) {
