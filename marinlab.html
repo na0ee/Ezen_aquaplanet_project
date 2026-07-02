@@ -718,7 +718,8 @@
         const isResponsiveConservation = isMobileConservation || isTabletConservation;
         const scale = isResponsiveConservation ? 1 : getConservationScale();
         const tabletHeroHeight = window.innerHeight;
-        const heroHeight = isMobileConservation ? window.innerHeight : (isTabletConservation ? tabletHeroHeight : 1080);
+        const desktopHeroHeight = window.innerHeight / scale;
+        const heroHeight = isMobileConservation ? window.innerHeight : (isTabletConservation ? tabletHeroHeight : desktopHeroHeight);
         const totalHeight = isMobileConservation ? null : heroHeight + 8400;
         const stage = conservationMain ? conservationMain.querySelector('.marin-stage') : null;
         const conservationView = conservationMain ? conservationMain.querySelector('.m-conservation-view') : null;
